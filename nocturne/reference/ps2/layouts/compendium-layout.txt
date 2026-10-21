@@ -1,0 +1,46 @@
+Structure: fclEncycElem_PS2
+Size: 176 bytes
+Alignment: 1
+
+Layout:
+Offset | Size | Type | Name
+-------|------|------|-----
+     0 |    2 | ushort               | wId
+     2 |    2 | ushort               | wReserved0
+     4 |    2 | ushort               | wMaxhp
+     6 |    2 | ushort               | wMaxmp
+     8 |    4 | int                  | nExp
+    12 |    2 | ushort               | wLevel
+    14 |    1 | char                 | cParam0
+    15 |    1 | char                 | cParam1
+    16 |    1 | char                 | cParam2
+    17 |    1 | char                 | cParam3
+    18 |    1 | char                 | cParam4
+    19 |    1 | char                 | cParam5
+    20 |    1 | char                 | cSkillparam0
+    21 |    1 | char                 | cSkillparam1
+    22 |    1 | char                 | cSkillparam2
+    23 |    1 | char                 | cSkillparam3
+    24 |    1 | char                 | cSkillparam4
+    25 |    1 | char                 | cSkillparam5
+    26 |    2 | ushort               | wSkillcnt
+    28 |    2 | ushort               | wSkill0
+    76 |    1 | char                 | cMitamaparam0
+    77 |    1 | char                 | cMitamaparam1
+    78 |    1 | char                 | cMitamaparam2
+    79 |    1 | char                 | cMitamaparam3
+    80 |    1 | char                 | cMitamaparam4
+    81 |    1 | char                 | cMitamaparam5
+    82 |    1 | char                 | cLevelupparam0
+    83 |    1 | char                 | cLevelupparam1
+    84 |    1 | char                 | cLevelupparam2
+    85 |    1 | char                 | cLevelupparam3
+    86 |    1 | char                 | cLevelupparam4
+    87 |    1 | char                 | cLevelupparam5
+    88 |    2 | ushort               | wKeisyoskill0
+   136 |    1 | byte                 | bKeiattr0
+   160 |    2 | ushort               | wHensinmae
+   162 |    2 | ushort               | wReserved1
+   164 |    4 | uint                 | dwFlag
+   168 |    4 | uint                 | dwReserved2
+   172 |    4 | int                  | nHensinmaeexp

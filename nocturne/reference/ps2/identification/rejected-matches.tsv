@@ -1,0 +1,5 @@
+hd_va	ps2_address	hd_method	evidence
+18224bfc0	00213938	cmpTest$$cmpDbgItem	HD is a debug-menu drawing/input loop with cursor state,string formatting and rendering. PS2 is23 instructions that grant an item/Hearts and return1; matches fclMisc$$fclAddItem instead.
+18224bfc0	002096d8	cmpTest$$cmpDbgItem	PS2 selects a gift from queries4/5,grants one item/Hearts and advances state; contains no menu drawing/input loop. Sharing datAddItem is insufficient.
+1824e2c00	001c0ad8	dds3KernelCore$$dds3GetRandA	Complete PS2 body is a221-instruction/884-byte field-event dispatcher with27 calls and switch table00534D60; RNG appears only in area2 branches. Native is a small managed RNG wrapper with history/bookkeeping; shared RNG calls and ranked neighborhood are insufficient.
+18110cb40	001dea60	model_H.pibChunk_t$$GetSize	Native returns constant8; original JR RA delay slot LHU header+C returns unsigned chunk count. Fresh1024 original count cases include0/1/255/256/32767/32768/65534/65535. Supported semantic counterpart is mdlEffect$$mdlPibGetChunkCount at181C1AEC0. Similar GetSize calls in managed first-item code do not establish this identity.

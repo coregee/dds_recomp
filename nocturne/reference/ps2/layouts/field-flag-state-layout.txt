@@ -1,0 +1,9 @@
+Structure: fldFlagState_PS2
+Size: 12 bytes
+Alignment: 1
+
+Layout:
+Offset | Size | Type | Name
+-------|------|------|-----
+     0 |    4 | uint                 | dwSequence_flags
+     8 |    4 | uint                 | dwProcess_flags

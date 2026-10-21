@@ -1,0 +1,11 @@
+Structure: ps2SoftDoubleParts
+Size: 24 bytes
+Alignment: 1
+
+Layout:
+Offset | Size | Type | Name
+-------|------|------|-----
+     0 |    4 | uint                 | dwFpclass
+     4 |    4 | uint                 | dwSign
+     8 |    4 | int                  | nExponent
+    16 |    8 | ulonglong            | qwFraction

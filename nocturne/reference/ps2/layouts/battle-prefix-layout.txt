@@ -1,0 +1,8 @@
+Structure: nbMainProcessData_PS2_prefix
+Size: 100 bytes
+Alignment: 1
+
+Layout:
+Offset | Size | Type | Name
+-------|------|------|-----
+    96 |    4 | uint                 | dwFlag

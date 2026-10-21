@@ -1,0 +1,53 @@
+# Shin Megami Tensei III: Nocturne — source reconstruction
+
+The goal is a readable source-code equivalent of the US PS2 executable
+(`SLUS_209.11`) and of the game's code-like resources on disc (data tables,
+event and battle scripts): sensible modules and types, intuitive functions,
+and documentation of how the game works.
+
+## Where things are
+
+| Folder | What it is |
+|---|---|
+| [source/](source/README.md) | **The reconstruction.** C++20, original PS2 data layouts, readable code. Every function is proven equivalent to the legacy C. |
+| [legacy/](legacy/README.md) | The earlier instruction-faithful C recovery (~3,000 functions). Correct but hard to read; the raw material for `source/`. Frozen. |
+| [docs/](docs/) | How the game works and what the names mean: [glossary](docs/glossary.md), [battle mechanics](docs/battle-mechanics.md), [Ghidra notes](docs/ghidra.md), [disc and resources](docs/disc-resources.md). |
+| [reference/](reference/README.md) | Evidence: the function map, Ghidra annotation export, HD-remaster symbol dump, per-function disassembly, archived research notes. |
+| [tools/](tools/README.md) | Disc/archive extraction, Ghidra export scripts, emulator helpers. |
+| `third_party/` | Vendored PS2 FPU model (`ps2float`, LGPL) used to reproduce EE float behaviour on a PC. |
+| `ghidra/` | The Ghidra project (`Nocturne.gpr`, program `candidate`). Local only. |
+| `game/` | The extracted disc. Local only. |
+
+## Progress
+
+[reference/function-map.tsv](reference/function-map.tsv) lists all 9,065
+functions Ghidra recognises, with their state:
+
+| State | Functions | Meaning |
+|---|---:|---|
+| rewritten | 34 | readable implementation in `source/`, differential-tested |
+| legacy | 3,013 | instruction-faithful C in `legacy/src/` only |
+| named | 268 | identified and named in Ghidra, no C yet |
+| unknown | 5,750 | not yet identified |
+
+Refresh it with `tools/ghidra/export-annotations.ps1` after Ghidra work.
+
+## Setting up
+
+1. Put the US ISO in this folder (`Shin Megami Tensei - Nocturne.iso`) and run
+   `python tools/disc_extract.py`. It extracts to `game/` and checks every file
+   against `tools/disc-sha256.json`.
+2. Extract archive files as needed:
+   `python tools/dds3_archive.py all --filter .bf` (see
+   [disc and resources](docs/disc-resources.md)).
+3. Build and run the tests: `source\tests\differential\build.cmd`
+   (Visual Studio 2022 Build Tools).
+4. Optional: open `ghidra/Nocturne.gpr` in Ghidra 11 with the
+   `ghidra-emotionengine-reloaded` extension. Read [docs/ghidra.md](docs/ghidra.md) first.
+
+## How work proceeds
+
+See [AGENTS.md](AGENTS.md). In short: pick a module, find its original names,
+rewrite it into `source/` with typed records, and prove it with the
+differential test against `legacy/` (or, for code with no legacy C, against
+the original instructions).

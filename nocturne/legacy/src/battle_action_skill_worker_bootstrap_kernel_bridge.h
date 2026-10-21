@@ -1,0 +1,6 @@
+#ifndef NOCTURNE_SKILL_WORKER_BOOTSTRAP_KERNEL_BRIDGE_H
+#define NOCTURNE_SKILL_WORKER_BOOTSTRAP_KERNEL_BRIDGE_H
+#include "battle_action_skill_heap_world_kernel.h"
+#include "battle_action_skill_worker_bootstrap_kernel_v2.h"
+uint32_t nocturneSkillWorkerBootstrapLegacySessionActive(void);
+#endif

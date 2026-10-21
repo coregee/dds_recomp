@@ -1,0 +1,8 @@
+Structure: fldRuntimeFlags_PS2_prefix
+Size: 24 bytes
+Alignment: 1
+
+Layout:
+Offset | Size | Type | Name
+-------|------|------|-----
+    20 |    4 | uint                 | dwFlags

@@ -1,0 +1,17 @@
+/* Namespace-only complete original printf9 projection. No new identities. */
+#include "effect_host_bindings.h"
+#include "fusion_core.h"
+uint32_t nocturneFieldMovementRawStrlen(const char *);
+static void fieldMovementPrintfCpuWrite(unsigned r,const uint32_t q[4]){nocturneEffectHostCpuWrite(r,q);if(r==29u)nocturneFusionCoreSetStackPointer(q[0]);}
+#define nocturneEffectHostCpuWrite fieldMovementPrintfCpuWrite
+#define ps2Strlen nocturneFieldMovementRawStrlen
+#define ps2BattleActionPrintf_002D4748 nocturneFieldMovementPrintf_002D4748
+#define ps2BattleActionVfprintfStream_002D6600 nocturneFieldMovementVfprintfStream_002D6600
+#define ps2BattleActionVfprintf_002D6678 nocturneFieldMovementVfprintf_002D6678
+#define ps2BattleActionLocaleConvention_002DA340 nocturneFieldMovementLocaleConvention_002DA340
+#define ps2BattleActionLocaleRecord_002DA308 nocturneFieldMovementLocaleRecord_002DA308
+#define ps2BattleActionWidenByte_002DA4B8 nocturneFieldMovementWidenByte_002DA4B8
+#define ps2BattleActionSprint_002D6500 nocturneFieldMovementSprint_002D6500
+#define ps2BattleActionWriteVectors_002D9E00 nocturneFieldMovementWriteVectors_002D9E00
+#define ps2BattleActionMemmove_002D4454 nocturneFieldMovementMemmove_002D4454
+#include "battle_action_printf_frames.c"

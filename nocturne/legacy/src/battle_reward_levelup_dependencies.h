@@ -1,0 +1,55 @@
+#ifndef NOCTURNE_BATTLE_REWARD_LEVELUP_DEPENDENCIES_H
+#define NOCTURNE_BATTLE_REWARD_LEVELUP_DEPENDENCIES_H
+#include <stdint.h>
+/* Complete fixed native bodies. External routes must execute actual registered callees;no invented result or native clobber is permitted. */
+uint32_t nocturneBattleRewardLevelupDependencyBody(uint32_t entry);
+void nocturneBattleRewardLevelupNativeExternal(uint32_t target,uint32_t pc);
+void nocturneBattleRewardLevelupNativeIndirect(uint64_t target,uint32_t pc);
+_Noreturn void nocturneBattleRewardLevelupNativeTrap(uint32_t code,uint32_t pc);
+void nocturneBattleRewardLevelupNativeCpuRead(unsigned reg,uint32_t words[4]);
+void nocturneBattleRewardLevelupNativeCpuWrite(unsigned reg,const uint32_t words[4]);
+void nocturneBattleRewardLevelupNativeVuRead(unsigned reg,uint32_t words[4]);
+void nocturneBattleRewardLevelupNativeVuWrite(unsigned reg,const uint32_t words[4]);
+uint32_t nocturneBattleRewardLevelupNativeStackPointer(void);
+void nocturneBattleRewardLevelupNativeSetStackPointer(uint32_t address);
+uint32_t nocturneBattleRewardLevelupNativeFcsr(void);
+void *nocturneResolveBattleRewardLevelupNativeAddress(uint32_t address);
+uint64_t ps2BattleRewardLevelupDependency_0021F838(void);
+uint64_t ps2BattleRewardLevelupDependency_0021F898(void);
+uint64_t ps2BattleRewardLevelupDependency_00223628(void);
+uint64_t ps2BattleRewardLevelupDependency_00223668(void);
+uint64_t ps2BattleRewardLevelupDependency_00223728(void);
+uint64_t ps2BattleRewardLevelupDependency_00223928(void);
+uint64_t ps2BattleRewardLevelupDependency_001FEF20(void);
+uint64_t ps2BattleRewardLevelupDependency_00243C28(void);
+uint64_t ps2BattleRewardLevelupDependency_00243D28(void);
+uint64_t ps2BattleRewardLevelupDependency_00244238(void);
+uint64_t ps2BattleRewardLevelupDependency_002442E0(void);
+uint64_t ps2BattleRewardLevelupDependency_002138C0(void);
+uint64_t ps2BattleRewardLevelupDependency_001E0ED0(void);
+uint64_t ps2BattleRewardLevelupDependency_001E0F10(void);
+uint64_t ps2BattleRewardLevelupDependency_001005E8(void);
+uint64_t ps2BattleRewardLevelupDependency_00100760(void);
+uint64_t ps2BattleRewardLevelupDependency_001009A0(void);
+uint64_t ps2BattleRewardLevelupDependency_00100D70(void);
+uint64_t ps2BattleRewardLevelupDependency_00100E08(void);
+uint64_t ps2BattleRewardLevelupDependency_001015B0(void);
+uint64_t ps2BattleRewardLevelupDependency_00101738(void);
+uint64_t ps2BattleRewardLevelupDependency_00101AF8(void);
+uint64_t ps2BattleRewardLevelupDependency_00101B80(void);
+uint64_t ps2BattleRewardLevelupDependency_002452B8(void);
+uint64_t ps2BattleRewardLevelupDependency_00269318(void);
+uint64_t ps2BattleRewardLevelupDependency_0026A840(void);
+uint64_t ps2BattleRewardLevelupDependency_0026A870(void);
+uint64_t ps2BattleRewardLevelupDependency_00242AE8(void);
+uint64_t ps2BattleRewardLevelupDependency_002D1B88(void);
+uint64_t ps2BattleRewardLevelupDependency_002D1C40(void);
+uint64_t ps2BattleRewardLevelupDependency_002D34A0(void);
+uint64_t ps2BattleRewardLevelupDependency_002D3578(void);
+uint64_t ps2BattleRewardLevelupDependency_002452C8(void);
+uint64_t ps2BattleRewardLevelupDependency_00222550(void);
+uint64_t ps2BattleRewardLevelupDependency_00232880(void);
+uint64_t ps2BattleRewardLevelupDependency_002328C8(void);
+uint64_t ps2BattleRewardLevelupDependency_002224D8(void);
+uint64_t ps2BattleRewardLevelupDependency_002221D0(void);
+#endif

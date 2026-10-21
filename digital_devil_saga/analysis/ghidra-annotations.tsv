@@ -1,0 +1,119 @@
+# program	SLUS_209.74
+# executable_sha256	98c9c36c57f4d63501c31cb3c2a8151eb6e5f53b360393a230b9c56067fa9f4c
+kind	address	context	name	value
+symbol	00118570	Function	EvaluateMagicSkillFormula	Global
+symbol	00118688	Function	CalculateBaseSkillEffect	Global
+symbol	001192b0	Function	AdjustCurrentHP	Global
+symbol	001198b8	Function	AdjustCurrencyBalance	Global
+symbol	0011b878	Function	EvaluateBattleFormula	Global
+symbol	0011bd78	Function	PushActionAccuracy	Global
+symbol	0011bed0	Function	PushSkillBasePower	Global
+symbol	00194fc0	Function	InitializeTextNode	Global
+symbol	00195450	Function	SetTextNodePosition	Global
+symbol	00197a98	Function	CreatePositionedText	Global
+symbol	001a5c40	Function	CalculateHPEffectMagnitude	Global
+symbol	001a7548	Function	ResolveSkillHit	Global
+symbol	001a90b0	Function	GetSkillEffectMultiplier	Global
+symbol	001d12a0	Function	ResolveActionTargetEffects	Global
+symbol	001d2c78	Function	ApplyBattleEffect	Global
+symbol	001d2f08	Function	QueueBattleEffect	Global
+symbol	001d3238	Function	ApplySkillResourceCost	Global
+symbol	001d3338	Function	QueueSkillResourceCost	Global
+symbol	00247420	Function	ApplyShopTransaction	Global
+symbol	0026b050	Function	title_screen_initialize	Global
+symbol	0026be38	Function	title_menu_build_list	Global
+symbol	0026bed0	Function	title_menu_get_selected_item_id	Global
+symbol	0026bee8	Function	title_menu_set_selection_index	Global
+symbol	0026d510	Function	title_menu_handle_input	Global
+symbol	0027b2f8	Function	menu_list_create	Global
+symbol	0027b440	Function	menu_list_append_item	Global
+symbol	0027bbf0	Function	menu_list_move_next	Global
+symbol	0027bd48	Function	menu_list_move_previous	Global
+symbol	00290e20	Function	options_saved_flags_differ	Global
+symbol	00290e38	Function	options_snapshot_setting_flags	Global
+symbol	00290e50	Function	options_restore_setting_flags	Global
+symbol	00290e60	Function	options_toggle_setting	Global
+symbol	00290f40	Function	options_get_setting_state	Global
+symbol	00290fe0	Function	options_screen_initialize	Global
+symbol	002911b8	Function	options_screen_cleanup	Global
+symbol	00291418	Function	options_screen_update	Global
+symbol	002918f8	Function	options_menu_draw_item	Global
+signature	00118570		EvaluateMagicSkillFormula	int __stdcall EvaluateMagicSkillFormula(int skillId, void * sourceStats, void * targetStats, int resourceType)
+variable	00118570	a0_lo:4	skillId	int
+variable	00118570	a1_lo:4	sourceStats	void *
+variable	00118570	a2_lo:4	targetStats	void *
+variable	00118570	a3_lo:4	resourceType	int
+signature	00118688		CalculateBaseSkillEffect	int __stdcall CalculateBaseSkillEffect(int skillId, void * sourceStats, void * targetStats, int count, int resourceType)
+variable	00118688	a0_lo:4	skillId	int
+variable	00118688	a1_lo:4	sourceStats	void *
+variable	00118688	a2_lo:4	targetStats	void *
+variable	00118688	a3_lo:4	count	int
+variable	00118688	t0_lo:4	resourceType	int
+signature	001192b0		AdjustCurrentHP	void __stdcall AdjustCurrentHP(void * stats, int delta)
+variable	001192b0	a0_lo:4	stats	void *
+variable	001192b0	a1_lo:4	delta	int
+signature	0011b878		EvaluateBattleFormula	int __stdcall EvaluateBattleFormula(int formulaId, void * sourceStats, void * targetStats, int skillId, int resourceType)
+variable	0011b878	a0_lo:4	formulaId	int
+variable	0011b878	a1_lo:4	sourceStats	void *
+variable	0011b878	a2_lo:4	targetStats	void *
+variable	0011b878	a3_lo:4	skillId	int
+variable	0011b878	t0_lo:4	resourceType	int
+signature	001a7548		ResolveSkillHit	int __stdcall ResolveSkillHit(void * sourceActor, void * targetActor, int skillId)
+variable	001a7548	a0_lo:4	sourceActor	void *
+variable	001a7548	a1_lo:4	targetActor	void *
+variable	001a7548	a2_lo:4	skillId	int
+signature	001d2c78		ApplyBattleEffect	int __stdcall ApplyBattleEffect(void * effectRecord)
+variable	001d2c78	a0_lo:4	effectRecord	void *
+signature	001d2f08		QueueBattleEffect	void * __stdcall QueueBattleEffect(void * targetActor, void * effectData)
+variable	001d2f08	a0_lo:4	targetActor	void *
+variable	001d2f08	a1_lo:4	effectData	void *
+signature	001d3238		ApplySkillResourceCost	int __stdcall ApplySkillResourceCost(void * costRecord)
+variable	001d3238	a0_lo:4	costRecord	void *
+signature	001d3338		QueueSkillResourceCost	void * __stdcall QueueSkillResourceCost(void * actor, int skillId, int cost)
+variable	001d3338	a0_lo:4	actor	void *
+variable	001d3338	a1_lo:4	skillId	int
+variable	001d3338	a2_lo:4	cost	int
+variable	0026b050	a0_lo:4	entry_mode	undefined4
+variable	0026bee8	a0_lo:4	selection_index	undefined4
+variable	0026d510	v0_lo:4	result_code	undefined4
+variable	0026d510	HASH:79f9194a4be:1	navigation_input	undefined1
+variable	0027bbf0	a0:8	list_ptr	undefined8
+variable	0027bbf0	s0_lo:4	list_words	undefined4
+variable	0027bd48	a0:8	list_ptr	undefined8
+variable	0027bd48	s0_lo:4	list_words	undefined4
+variable	00290e60	a0:8	item_id	undefined8
+variable	00290e60	a1_lo:4	settings_bits	undefined4
+variable	0030a640	a0_lo:4	__status	int
+comment	0039daf0	EOL		End of Frame
+comment	0039daf0	PLATE		END OF FRAME
+comment	_elfProgramHeaders::00000000	EOL		PT_0x70000000
+comment	_elfProgramHeaders::00000020	EOL		PT_LOAD - Loadable segment
+comment	_elfProgramHeaders::00000040	EOL		PT_LOAD - Loadable segment
+comment	_elfSectionHeaders::00000000	EOL		SECTION0 - SHT_NULL
+comment	_elfSectionHeaders::00000028	EOL		.text - SHT_PROGBITS
+comment	_elfSectionHeaders::00000050	EOL		.vutext - SHT_PROGBITS
+comment	_elfSectionHeaders::00000078	EOL		.ctors - SHT_PROGBITS
+comment	_elfSectionHeaders::000000a0	EOL		.dtors - SHT_PROGBITS
+comment	_elfSectionHeaders::000000c8	EOL		.reginfo - SHT_0x70000006
+comment	_elfSectionHeaders::000000f0	EOL		.data - SHT_PROGBITS
+comment	_elfSectionHeaders::00000118	EOL		.eh_frame - SHT_PROGBITS
+comment	_elfSectionHeaders::00000140	EOL		.vudata - SHT_PROGBITS
+comment	_elfSectionHeaders::00000168	EOL		.rodata - SHT_PROGBITS
+comment	_elfSectionHeaders::00000190	EOL		.lit4 - SHT_PROGBITS
+comment	_elfSectionHeaders::000001b8	EOL		.sdata - SHT_PROGBITS
+comment	_elfSectionHeaders::000001e0	EOL		.sbss - SHT_NOBITS
+comment	_elfSectionHeaders::00000208	EOL		.bss - SHT_NOBITS
+comment	_elfSectionHeaders::00000230	EOL		.vubss - SHT_NOBITS
+comment	_elfSectionHeaders::00000258	EOL		.mdebug.eabi64 - SHT_PROGBITS
+comment	_elfSectionHeaders::00000280	EOL		.DVP.ovlytab - SHT_DVP_OVERLAY_TABLE
+comment	_elfSectionHeaders::000002a8	EOL		.DVP.ovlystrtab - SHT_STRTAB
+comment	_elfSectionHeaders::000002d0	EOL		.DVP.overlay..0x0.3830929603.16.0 - SHT_DVP_OVERLAY
+comment	_elfSectionHeaders::000002f8	EOL		.DVP.overlay..0x0.48712974.46.0 - SHT_DVP_OVERLAY
+comment	_elfSectionHeaders::00000320	EOL		.DVP.overlay..unknvma.3214916938.75.1 - SHT_DVP_OVERLAY
+comment	_elfSectionHeaders::00000348	EOL		.DVP.overlay..unknvma.3355168705.120.2 - SHT_DVP_OVERLAY
+comment	_elfSectionHeaders::00000370	EOL		.DVP.overlay..unknvma.3355168705.511.3 - SHT_DVP_OVERLAY
+comment	_elfSectionHeaders::00000398	EOL		.DVP.overlay..unknvma.3355168705.1034.4 - SHT_DVP_OVERLAY
+comment	_elfSectionHeaders::000003c0	EOL		.DVP.overlay..unknvma.3963728536.270.5 - SHT_DVP_OVERLAY
+comment	_elfSectionHeaders::000003e8	EOL		.DVP.overlay..unknvma.2657164303.15.6 - SHT_DVP_OVERLAY
+comment	_elfSectionHeaders::00000410	EOL		.DVP.overlay..unknvma.2657164303.410.7 - SHT_DVP_OVERLAY
+comment	_elfSectionHeaders::00000438	EOL		.shstrtab - SHT_STRTAB

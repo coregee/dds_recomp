@@ -1,0 +1,292 @@
+#include "iop_sema.h"
+#include <string.h>
+/* Fixed original words only; no instruction fetch/decode, allocator reply,
+ * system call or scheduler emulation. Pending loads commit after the next
+ * instruction reads its operands, before that instruction's explicit write. */
+uint32_t nocturneIopSemaResume(NocturneIopMachine *m,uint8_t *ram,uint32_t size,uint64_t limit,NocturneIopSif1Dispatch *device)
+{
+ uint64_t start;uint32_t pc,next,old_branch,old_target,old_load,old_value;
+ uint32_t wr,wv,nl,nv,address,value;
+ if(!m||!ram||!device||m->gpr[0]||m->load_register>31u||m->branch_pending>1u)return NOCTURNE_IOP_DOMAIN;
+ start=m->instructions;
+#define R(r) (m->gpr[(r)])
+#define D(r,v) do{wr=(r);wv=(v);}while(0)
+#define B(v) do{if(old_branch)return NOCTURNE_IOP_DOMAIN;m->branch_pending=1u;m->branch_target=(v);}while(0)
+#define READ(a) do{address=(a);if((address&3u)||size<4u||address>size-4u)return NOCTURNE_IOP_MEMORY;memcpy(&value,ram+address,4u);}while(0)
+#define WRITE(a,v) do{address=(a);value=(v);if((address&3u)||size<4u||address>size-4u)return NOCTURNE_IOP_MEMORY;memcpy(ram+address,&value,4u);}while(0)
+ for(;;){
+  if(m->instructions-start>=limit)return NOCTURNE_IOP_LIMIT;
+  pc=m->pc;next=pc+4u;old_branch=m->branch_pending;old_target=m->branch_target;
+  old_load=m->load_register;old_value=m->load_value;wr=0u;wv=0u;nl=0u;nv=0u;
+  m->branch_pending=0u;
+  switch(pc){
+  case UINT32_C(0x0000efac): /* 27bdffe0 */ D(29u,R(29u)+UINT32_C(0xffffffe0)); break;
+  case UINT32_C(0x0000efb0): /* afb00018 */ WRITE(R(29u)+UINT32_C(0x00000018),R(16u)); break;
+  case UINT32_C(0x0000efb4): /* afbf001c */ WRITE(R(29u)+UINT32_C(0x0000001c),R(31u)); break;
+  case UINT32_C(0x0000efb8): /* 0c00481c */ B(UINT32_C(0x00012070));D(31u,pc+8u); break;
+  case UINT32_C(0x0000efbc): /* 00808021 */ D(16u,R(4u)+R(0u)); break;
+  case UINT32_C(0x0000efc0): /* 14400030 */ B((R(2u)!=R(0u))?UINT32_C(0x0000f084):pc+8u); break;
+  case UINT32_C(0x0000efc4): /* 2402ff9c */ D(2u,R(0u)+UINT32_C(0xffffff9c)); break;
+  case UINT32_C(0x0000efc8): /* 0c004818 */ B(UINT32_C(0x00012060));D(31u,pc+8u); break;
+  case UINT32_C(0x0000efcc): /* 27a40010 */ D(4u,R(29u)+UINT32_C(0x00000010)); break;
+  case UINT32_C(0x0000efd0): /* 001011c2 */ D(2u,R(16u)>>7u); break;
+  case UINT32_C(0x0000efd4): /* 00022880 */ D(5u,R(2u)<<2u); break;
+  case UINT32_C(0x0000efd8): /* 94a30008 */ address=R(5u)+UINT32_C(0x00000008);if((address&1u)||size<2u||address>size-2u)return NOCTURNE_IOP_MEMORY;nl=3u;nv=(uint32_t)ram[address]|((uint32_t)ram[address+1u]<<8); break;
+  case UINT32_C(0x0000efdc): /* 24027f02 */ D(2u,R(0u)+UINT32_C(0x00007f02)); break;
+  case UINT32_C(0x0000efe0): /* 14620006 */ B((R(3u)!=R(2u))?UINT32_C(0x0000effc):pc+8u); break;
+  case UINT32_C(0x0000efe4): /* 00101043 */ D(2u,(uint32_t)((int32_t)R(16u)>>1u)); break;
+  case UINT32_C(0x0000efe8): /* 94a3000a */ address=R(5u)+UINT32_C(0x0000000a);if((address&1u)||size<2u||address>size-2u)return NOCTURNE_IOP_MEMORY;nl=3u;nv=(uint32_t)ram[address]|((uint32_t)ram[address+1u]<<8); break;
+  case UINT32_C(0x0000efec): /* 3042003f */ D(2u,R(2u)&UINT32_C(0x0000003f)); break;
+  case UINT32_C(0x0000eff0): /* 3063003f */ D(3u,R(3u)&UINT32_C(0x0000003f)); break;
+  case UINT32_C(0x0000eff4): /* 10620006 */ B((R(3u)==R(2u))?UINT32_C(0x0000f010):pc+8u); break;
+  case UINT32_C(0x0000eff8): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000effc): /* 8fa40010 */ READ(R(29u)+UINT32_C(0x00000010));nl=4u;nv=value; break;
+  case UINT32_C(0x0000f000): /* 0c00481a */ B(UINT32_C(0x00012068));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f004): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f008): /* 08003c21 */ B(UINT32_C(0x0000f084)); break;
+  case UINT32_C(0x0000f00c): /* 2402fe68 */ D(2u,R(0u)+UINT32_C(0xfffffe68)); break;
+  case UINT32_C(0x0000f010): /* 8ca20010 */ READ(R(5u)+UINT32_C(0x00000010));nl=2u;nv=value; break;
+  case UINT32_C(0x0000f014): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f018): /* 14400011 */ B((R(2u)!=R(0u))?UINT32_C(0x0000f060):pc+8u); break;
+  case UINT32_C(0x0000f01c): /* 2442ffff */ D(2u,R(2u)+UINT32_C(0xffffffff)); break;
+  case UINT32_C(0x0000f020): /* 8ca30020 */ READ(R(5u)+UINT32_C(0x00000020));nl=3u;nv=value; break;
+  case UINT32_C(0x0000f024): /* 8ca20024 */ READ(R(5u)+UINT32_C(0x00000024));nl=2u;nv=value; break;
+  case UINT32_C(0x0000f028): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f02c): /* 0062102a */ D(2u,(int32_t)R(3u)<(int32_t)R(2u)); break;
+  case UINT32_C(0x0000f030): /* 10400006 */ B((R(2u)==R(0u))?UINT32_C(0x0000f04c):pc+8u); break;
+  case UINT32_C(0x0000f034): /* 24620001 */ D(2u,R(3u)+UINT32_C(0x00000001)); break;
+  case UINT32_C(0x0000f038): /* 8fa40010 */ READ(R(29u)+UINT32_C(0x00000010));nl=4u;nv=value; break;
+  case UINT32_C(0x0000f03c): /* 0c00481a */ B(UINT32_C(0x00012068));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f040): /* aca20020 */ WRITE(R(5u)+UINT32_C(0x00000020),R(2u)); break;
+  case UINT32_C(0x0000f044): /* 08003c21 */ B(UINT32_C(0x0000f084)); break;
+  case UINT32_C(0x0000f048): /* 00001021 */ D(2u,R(0u)+R(0u)); break;
+  case UINT32_C(0x0000f04c): /* 8fa40010 */ READ(R(29u)+UINT32_C(0x00000010));nl=4u;nv=value; break;
+  case UINT32_C(0x0000f050): /* 0c00481a */ B(UINT32_C(0x00012068));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f054): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f058): /* 08003c21 */ B(UINT32_C(0x0000f084)); break;
+  case UINT32_C(0x0000f05c): /* 2402fe5c */ D(2u,R(0u)+UINT32_C(0xfffffe5c)); break;
+  case UINT32_C(0x0000f060): /* 8cb00014 */ READ(R(5u)+UINT32_C(0x00000014));nl=16u;nv=value; break;
+  case UINT32_C(0x0000f064): /* aca20010 */ WRITE(R(5u)+UINT32_C(0x00000010),R(2u)); break;
+  case UINT32_C(0x0000f068): /* 0c0046fc */ B(UINT32_C(0x00011bf0));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f06c): /* 02002021 */ D(4u,R(16u)+R(0u)); break;
+  case UINT32_C(0x0000f070): /* 24020002 */ D(2u,R(0u)+UINT32_C(0x00000002)); break;
+  case UINT32_C(0x0000f074): /* a202000c */ address=R(16u)+UINT32_C(0x0000000c);if((address&0u)||size<1u||address>size-1u)return NOCTURNE_IOP_MEMORY;ram[address]=(uint8_t)R(2u); break;
+  case UINT32_C(0x0000f078): /* 8fa50010 */ READ(R(29u)+UINT32_C(0x00000010));nl=5u;nv=value; break;
+  case UINT32_C(0x0000f07c): /* 0c002ec2 */ B(UINT32_C(0x0000bb08));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f080): /* 02002021 */ D(4u,R(16u)+R(0u)); break;
+  case UINT32_C(0x0000f084): /* 8fbf001c */ READ(R(29u)+UINT32_C(0x0000001c));nl=31u;nv=value; break;
+  case UINT32_C(0x0000f088): /* 8fb00018 */ READ(R(29u)+UINT32_C(0x00000018));nl=16u;nv=value; break;
+  case UINT32_C(0x0000f08c): /* 03e00008 */ B(R(31u)); break;
+  case UINT32_C(0x0000f090): /* 27bd0020 */ D(29u,R(29u)+UINT32_C(0x00000020)); break;
+  case UINT32_C(0x0000f094): /* 27bdffe8 */ D(29u,R(29u)+UINT32_C(0xffffffe8)); break;
+  case UINT32_C(0x0000f098): /* afb00010 */ WRITE(R(29u)+UINT32_C(0x00000010),R(16u)); break;
+  case UINT32_C(0x0000f09c): /* afbf0014 */ WRITE(R(29u)+UINT32_C(0x00000014),R(31u)); break;
+  case UINT32_C(0x0000f0a0): /* 0c00481c */ B(UINT32_C(0x00012070));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f0a4): /* 00808021 */ D(16u,R(4u)+R(0u)); break;
+  case UINT32_C(0x0000f0a8): /* 14400003 */ B((R(2u)!=R(0u))?UINT32_C(0x0000f0b8):pc+8u); break;
+  case UINT32_C(0x0000f0ac): /* 001011c2 */ D(2u,R(16u)>>7u); break;
+  case UINT32_C(0x0000f0b0): /* 08003c55 */ B(UINT32_C(0x0000f154)); break;
+  case UINT32_C(0x0000f0b4): /* 2402ff9c */ D(2u,R(0u)+UINT32_C(0xffffff9c)); break;
+  case UINT32_C(0x0000f0b8): /* 00022080 */ D(4u,R(2u)<<2u); break;
+  case UINT32_C(0x0000f0bc): /* 94830008 */ address=R(4u)+UINT32_C(0x00000008);if((address&1u)||size<2u||address>size-2u)return NOCTURNE_IOP_MEMORY;nl=3u;nv=(uint32_t)ram[address]|((uint32_t)ram[address+1u]<<8); break;
+  case UINT32_C(0x0000f0c0): /* 24027f02 */ D(2u,R(0u)+UINT32_C(0x00007f02)); break;
+  case UINT32_C(0x0000f0c4): /* 14620023 */ B((R(3u)!=R(2u))?UINT32_C(0x0000f154):pc+8u); break;
+  case UINT32_C(0x0000f0c8): /* 2402fe68 */ D(2u,R(0u)+UINT32_C(0xfffffe68)); break;
+  case UINT32_C(0x0000f0cc): /* 9483000a */ address=R(4u)+UINT32_C(0x0000000a);if((address&1u)||size<2u||address>size-2u)return NOCTURNE_IOP_MEMORY;nl=3u;nv=(uint32_t)ram[address]|((uint32_t)ram[address+1u]<<8); break;
+  case UINT32_C(0x0000f0d0): /* 00101043 */ D(2u,(uint32_t)((int32_t)R(16u)>>1u)); break;
+  case UINT32_C(0x0000f0d4): /* 3042003f */ D(2u,R(2u)&UINT32_C(0x0000003f)); break;
+  case UINT32_C(0x0000f0d8): /* 3063003f */ D(3u,R(3u)&UINT32_C(0x0000003f)); break;
+  case UINT32_C(0x0000f0dc): /* 1462001d */ B((R(3u)!=R(2u))?UINT32_C(0x0000f154):pc+8u); break;
+  case UINT32_C(0x0000f0e0): /* 2402fe68 */ D(2u,R(0u)+UINT32_C(0xfffffe68)); break;
+  case UINT32_C(0x0000f0e4): /* 8c820010 */ READ(R(4u)+UINT32_C(0x00000010));nl=2u;nv=value; break;
+  case UINT32_C(0x0000f0e8): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f0ec): /* 1440000c */ B((R(2u)!=R(0u))?UINT32_C(0x0000f120):pc+8u); break;
+  case UINT32_C(0x0000f0f0): /* 2442ffff */ D(2u,R(2u)+UINT32_C(0xffffffff)); break;
+  case UINT32_C(0x0000f0f4): /* 8c830020 */ READ(R(4u)+UINT32_C(0x00000020));nl=3u;nv=value; break;
+  case UINT32_C(0x0000f0f8): /* 8c820024 */ READ(R(4u)+UINT32_C(0x00000024));nl=2u;nv=value; break;
+  case UINT32_C(0x0000f0fc): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f100): /* 0062102a */ D(2u,(int32_t)R(3u)<(int32_t)R(2u)); break;
+  case UINT32_C(0x0000f104): /* 10400004 */ B((R(2u)==R(0u))?UINT32_C(0x0000f118):pc+8u); break;
+  case UINT32_C(0x0000f108): /* 24620001 */ D(2u,R(3u)+UINT32_C(0x00000001)); break;
+  case UINT32_C(0x0000f10c): /* ac820020 */ WRITE(R(4u)+UINT32_C(0x00000020),R(2u)); break;
+  case UINT32_C(0x0000f110): /* 08003c55 */ B(UINT32_C(0x0000f154)); break;
+  case UINT32_C(0x0000f114): /* 00001021 */ D(2u,R(0u)+R(0u)); break;
+  case UINT32_C(0x0000f118): /* 08003c55 */ B(UINT32_C(0x0000f154)); break;
+  case UINT32_C(0x0000f11c): /* 2402fe5c */ D(2u,R(0u)+UINT32_C(0xfffffe5c)); break;
+  case UINT32_C(0x0000f120): /* 8c900014 */ READ(R(4u)+UINT32_C(0x00000014));nl=16u;nv=value; break;
+  case UINT32_C(0x0000f124): /* ac820010 */ WRITE(R(4u)+UINT32_C(0x00000010),R(2u)); break;
+  case UINT32_C(0x0000f128): /* 0c0046fc */ B(UINT32_C(0x00011bf0));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f12c): /* 02002021 */ D(4u,R(16u)+R(0u)); break;
+  case UINT32_C(0x0000f130): /* 02002021 */ D(4u,R(16u)+R(0u)); break;
+  case UINT32_C(0x0000f134): /* 8c830010 */ READ(R(4u)+UINT32_C(0x00000010));nl=3u;nv=value; break;
+  case UINT32_C(0x0000f138): /* 24020002 */ D(2u,R(0u)+UINT32_C(0x00000002)); break;
+  case UINT32_C(0x0000f13c): /* a082000c */ address=R(4u)+UINT32_C(0x0000000c);if((address&0u)||size<1u||address>size-1u)return NOCTURNE_IOP_MEMORY;ram[address]=(uint8_t)R(2u); break;
+  case UINT32_C(0x0000f140): /* 0c002e73 */ B(UINT32_C(0x0000b9cc));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f144): /* ac600008 */ WRITE(R(3u)+UINT32_C(0x00000008),R(0u)); break;
+  case UINT32_C(0x0000f148): /* 00001021 */ D(2u,R(0u)+R(0u)); break;
+  case UINT32_C(0x0000f14c): /* 3c010001 */ D(1u,UINT32_C(0x00010000)); break;
+  case UINT32_C(0x0000f150): /* ac2025c4 */ WRITE(R(1u)+UINT32_C(0x000025c4),R(0u)); break;
+  case UINT32_C(0x0000f154): /* 8fbf0014 */ READ(R(29u)+UINT32_C(0x00000014));nl=31u;nv=value; break;
+  case UINT32_C(0x0000f158): /* 8fb00010 */ READ(R(29u)+UINT32_C(0x00000010));nl=16u;nv=value; break;
+  case UINT32_C(0x0000f15c): /* 03e00008 */ B(R(31u)); break;
+  case UINT32_C(0x0000f160): /* 27bd0018 */ D(29u,R(29u)+UINT32_C(0x00000018)); break;
+  case UINT32_C(0x0000f164): /* 27bdffe0 */ D(29u,R(29u)+UINT32_C(0xffffffe0)); break;
+  case UINT32_C(0x0000f168): /* afb00018 */ WRITE(R(29u)+UINT32_C(0x00000018),R(16u)); break;
+  case UINT32_C(0x0000f16c): /* afbf001c */ WRITE(R(29u)+UINT32_C(0x0000001c),R(31u)); break;
+  case UINT32_C(0x0000f170): /* 0c00481c */ B(UINT32_C(0x00012070));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f174): /* 00808021 */ D(16u,R(4u)+R(0u)); break;
+  case UINT32_C(0x0000f178): /* 14400052 */ B((R(2u)!=R(0u))?UINT32_C(0x0000f2c4):pc+8u); break;
+  case UINT32_C(0x0000f17c): /* 2402ff9c */ D(2u,R(0u)+UINT32_C(0xffffff9c)); break;
+  case UINT32_C(0x0000f180): /* 0c004818 */ B(UINT32_C(0x00012060));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f184): /* 27a40010 */ D(4u,R(29u)+UINT32_C(0x00000010)); break;
+  case UINT32_C(0x0000f188): /* 2403ff9a */ D(3u,R(0u)+UINT32_C(0xffffff9a)); break;
+  case UINT32_C(0x0000f18c): /* 1443000b */ B((R(2u)!=R(3u))?UINT32_C(0x0000f1bc):pc+8u); break;
+  case UINT32_C(0x0000f190): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f194): /* 3c020001 */ D(2u,UINT32_C(0x00010000)); break;
+  case UINT32_C(0x0000f198): /* 8c4225d8 */ READ(R(2u)+UINT32_C(0x000025d8));nl=2u;nv=value; break;
+  case UINT32_C(0x0000f19c): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f1a0): /* 30420008 */ D(2u,R(2u)&UINT32_C(0x00000008)); break;
+  case UINT32_C(0x0000f1a4): /* 10400005 */ B((R(2u)==R(0u))?UINT32_C(0x0000f1bc):pc+8u); break;
+  case UINT32_C(0x0000f1a8): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f1ac): /* 3c040001 */ D(4u,UINT32_C(0x00010000)); break;
+  case UINT32_C(0x0000f1b0): /* 248424e0 */ D(4u,R(4u)+UINT32_C(0x000024e0)); break;
+  case UINT32_C(0x0000f1b4): /* 0c004805 */ B(UINT32_C(0x00012014));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f1b8): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f1bc): /* 0c00352b */ B(UINT32_C(0x0000d4ac));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f1c0): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f1c4): /* 001011c2 */ D(2u,R(16u)>>7u); break;
+  case UINT32_C(0x0000f1c8): /* 00023080 */ D(6u,R(2u)<<2u); break;
+  case UINT32_C(0x0000f1cc): /* 94c30008 */ address=R(6u)+UINT32_C(0x00000008);if((address&1u)||size<2u||address>size-2u)return NOCTURNE_IOP_MEMORY;nl=3u;nv=(uint32_t)ram[address]|((uint32_t)ram[address+1u]<<8); break;
+  case UINT32_C(0x0000f1d0): /* 24027f02 */ D(2u,R(0u)+UINT32_C(0x00007f02)); break;
+  case UINT32_C(0x0000f1d4): /* 14620006 */ B((R(3u)!=R(2u))?UINT32_C(0x0000f1f0):pc+8u); break;
+  case UINT32_C(0x0000f1d8): /* 00101043 */ D(2u,(uint32_t)((int32_t)R(16u)>>1u)); break;
+  case UINT32_C(0x0000f1dc): /* 94c3000a */ address=R(6u)+UINT32_C(0x0000000a);if((address&1u)||size<2u||address>size-2u)return NOCTURNE_IOP_MEMORY;nl=3u;nv=(uint32_t)ram[address]|((uint32_t)ram[address+1u]<<8); break;
+  case UINT32_C(0x0000f1e0): /* 3042003f */ D(2u,R(2u)&UINT32_C(0x0000003f)); break;
+  case UINT32_C(0x0000f1e4): /* 3063003f */ D(3u,R(3u)&UINT32_C(0x0000003f)); break;
+  case UINT32_C(0x0000f1e8): /* 10620006 */ B((R(3u)==R(2u))?UINT32_C(0x0000f204):pc+8u); break;
+  case UINT32_C(0x0000f1ec): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f1f0): /* 8fa40010 */ READ(R(29u)+UINT32_C(0x00000010));nl=4u;nv=value; break;
+  case UINT32_C(0x0000f1f4): /* 0c00481a */ B(UINT32_C(0x00012068));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f1f8): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f1fc): /* 08003cb1 */ B(UINT32_C(0x0000f2c4)); break;
+  case UINT32_C(0x0000f200): /* 2402fe68 */ D(2u,R(0u)+UINT32_C(0xfffffe68)); break;
+  case UINT32_C(0x0000f204): /* 8cc20020 */ READ(R(6u)+UINT32_C(0x00000020));nl=2u;nv=value; break;
+  case UINT32_C(0x0000f208): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f20c): /* 18400006 */ B(((int32_t)R(2u)<=0)?UINT32_C(0x0000f228):pc+8u); break;
+  case UINT32_C(0x0000f210): /* 2442ffff */ D(2u,R(2u)+UINT32_C(0xffffffff)); break;
+  case UINT32_C(0x0000f214): /* 8fa40010 */ READ(R(29u)+UINT32_C(0x00000010));nl=4u;nv=value; break;
+  case UINT32_C(0x0000f218): /* 0c00481a */ B(UINT32_C(0x00012068));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f21c): /* acc20020 */ WRITE(R(6u)+UINT32_C(0x00000020),R(2u)); break;
+  case UINT32_C(0x0000f220): /* 08003cb1 */ B(UINT32_C(0x0000f2c4)); break;
+  case UINT32_C(0x0000f224): /* 00001021 */ D(2u,R(0u)+R(0u)); break;
+  case UINT32_C(0x0000f228): /* 3c030001 */ D(3u,UINT32_C(0x00010000)); break;
+  case UINT32_C(0x0000f22c): /* 246325c0 */ D(3u,R(3u)+UINT32_C(0x000025c0)); break;
+  case UINT32_C(0x0000f230): /* 8c650000 */ READ(R(3u)+UINT32_C(0x00000000));nl=5u;nv=value; break;
+  case UINT32_C(0x0000f234): /* 24020004 */ D(2u,R(0u)+UINT32_C(0x00000004)); break;
+  case UINT32_C(0x0000f238): /* a0a2000c */ address=R(5u)+UINT32_C(0x0000000c);if((address&0u)||size<1u||address>size-1u)return NOCTURNE_IOP_MEMORY;ram[address]=(uint8_t)R(2u); break;
+  case UINT32_C(0x0000f23c): /* 24020003 */ D(2u,R(0u)+UINT32_C(0x00000003)); break;
+  case UINT32_C(0x0000f240): /* a4a2001c */ address=R(5u)+UINT32_C(0x0000001c);if((address&1u)||size<2u||address>size-2u)return NOCTURNE_IOP_MEMORY;ram[address]=(uint8_t)R(2u);ram[address+1u]=(uint8_t)(R(2u)>>8); break;
+  case UINT32_C(0x0000f244): /* aca60020 */ WRITE(R(5u)+UINT32_C(0x00000020),R(6u)); break;
+  case UINT32_C(0x0000f248): /* ac600004 */ WRITE(R(3u)+UINT32_C(0x00000004),R(0u)); break;
+  case UINT32_C(0x0000f24c): /* 8cc20010 */ READ(R(6u)+UINT32_C(0x00000010));nl=2u;nv=value; break;
+  case UINT32_C(0x0000f250): /* 8cc3000c */ READ(R(6u)+UINT32_C(0x0000000c));nl=3u;nv=value; break;
+  case UINT32_C(0x0000f254): /* 24420001 */ D(2u,R(2u)+UINT32_C(0x00000001)); break;
+  case UINT32_C(0x0000f258): /* 30630001 */ D(3u,R(3u)&UINT32_C(0x00000001)); break;
+  case UINT32_C(0x0000f25c): /* 10600011 */ B((R(3u)==R(0u))?UINT32_C(0x0000f2a4):pc+8u); break;
+  case UINT32_C(0x0000f260): /* acc20010 */ WRITE(R(6u)+UINT32_C(0x00000010),R(2u)); break;
+  case UINT32_C(0x0000f264): /* 8cc40014 */ READ(R(6u)+UINT32_C(0x00000014));nl=4u;nv=value; break;
+  case UINT32_C(0x0000f268): /* 24c20014 */ D(2u,R(6u)+UINT32_C(0x00000014)); break;
+  case UINT32_C(0x0000f26c): /* 1082000e */ B((R(4u)==R(2u))?UINT32_C(0x0000f2a8):pc+8u); break;
+  case UINT32_C(0x0000f270): /* 00401821 */ D(3u,R(2u)+R(0u)); break;
+  case UINT32_C(0x0000f274): /* 84a6000e */ address=R(5u)+UINT32_C(0x0000000e);if((address&1u)||size<2u||address>size-2u)return NOCTURNE_IOP_MEMORY;nl=6u;nv=(uint32_t)ram[address]|((uint32_t)ram[address+1u]<<8);if(nv&0x8000u)nv|=0xffff0000u; break;
+  case UINT32_C(0x0000f278): /* 8482000e */ address=R(4u)+UINT32_C(0x0000000e);if((address&1u)||size<2u||address>size-2u)return NOCTURNE_IOP_MEMORY;nl=2u;nv=(uint32_t)ram[address]|((uint32_t)ram[address+1u]<<8);if(nv&0x8000u)nv|=0xffff0000u; break;
+  case UINT32_C(0x0000f27c): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f280): /* 00c2102a */ D(2u,(int32_t)R(6u)<(int32_t)R(2u)); break;
+  case UINT32_C(0x0000f284): /* 14400008 */ B((R(2u)!=R(0u))?UINT32_C(0x0000f2a8):pc+8u); break;
+  case UINT32_C(0x0000f288): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f28c): /* 8c840000 */ READ(R(4u)+UINT32_C(0x00000000));nl=4u;nv=value; break;
+  case UINT32_C(0x0000f290): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f294): /* 10830004 */ B((R(4u)==R(3u))?UINT32_C(0x0000f2a8):pc+8u); break;
+  case UINT32_C(0x0000f298): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f29c): /* 08003c9e */ B(UINT32_C(0x0000f278)); break;
+  case UINT32_C(0x0000f2a0): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f2a4): /* 24c40014 */ D(4u,R(6u)+UINT32_C(0x00000014)); break;
+  case UINT32_C(0x0000f2a8): /* 0c00470a */ B(UINT32_C(0x00011c28));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f2ac): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f2b0): /* 00002021 */ D(4u,R(0u)+R(0u)); break;
+  case UINT32_C(0x0000f2b4): /* 00802821 */ D(5u,R(4u)+R(0u)); break;
+  case UINT32_C(0x0000f2b8): /* 8fa60010 */ READ(R(29u)+UINT32_C(0x00000010));nl=6u;nv=value; break;
+  case UINT32_C(0x0000f2bc): /* 0c002e69 */ B(UINT32_C(0x0000b9a4));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f2c0): /* 24070001 */ D(7u,R(0u)+UINT32_C(0x00000001)); break;
+  case UINT32_C(0x0000f2c4): /* 8fbf001c */ READ(R(29u)+UINT32_C(0x0000001c));nl=31u;nv=value; break;
+  case UINT32_C(0x0000f2c8): /* 8fb00018 */ READ(R(29u)+UINT32_C(0x00000018));nl=16u;nv=value; break;
+  case UINT32_C(0x0000f2cc): /* 03e00008 */ B(R(31u)); break;
+  case UINT32_C(0x0000f2d0): /* 27bd0020 */ D(29u,R(29u)+UINT32_C(0x00000020)); break;
+  case UINT32_C(0x0000f2d4): /* 27bdffe0 */ D(29u,R(29u)+UINT32_C(0xffffffe0)); break;
+  case UINT32_C(0x0000f2d8): /* afb00018 */ WRITE(R(29u)+UINT32_C(0x00000018),R(16u)); break;
+  case UINT32_C(0x0000f2dc): /* afbf001c */ WRITE(R(29u)+UINT32_C(0x0000001c),R(31u)); break;
+  case UINT32_C(0x0000f2e0): /* 0c00481c */ B(UINT32_C(0x00012070));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f2e4): /* 00808021 */ D(16u,R(4u)+R(0u)); break;
+  case UINT32_C(0x0000f2e8): /* 14400020 */ B((R(2u)!=R(0u))?UINT32_C(0x0000f36c):pc+8u); break;
+  case UINT32_C(0x0000f2ec): /* 2402ff9c */ D(2u,R(0u)+UINT32_C(0xffffff9c)); break;
+  case UINT32_C(0x0000f2f0): /* 0c004818 */ B(UINT32_C(0x00012060));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f2f4): /* 27a40010 */ D(4u,R(29u)+UINT32_C(0x00000010)); break;
+  case UINT32_C(0x0000f2f8): /* 001011c2 */ D(2u,R(16u)>>7u); break;
+  case UINT32_C(0x0000f2fc): /* 00022880 */ D(5u,R(2u)<<2u); break;
+  case UINT32_C(0x0000f300): /* 94a30008 */ address=R(5u)+UINT32_C(0x00000008);if((address&1u)||size<2u||address>size-2u)return NOCTURNE_IOP_MEMORY;nl=3u;nv=(uint32_t)ram[address]|((uint32_t)ram[address+1u]<<8); break;
+  case UINT32_C(0x0000f304): /* 24027f02 */ D(2u,R(0u)+UINT32_C(0x00007f02)); break;
+  case UINT32_C(0x0000f308): /* 14620006 */ B((R(3u)!=R(2u))?UINT32_C(0x0000f324):pc+8u); break;
+  case UINT32_C(0x0000f30c): /* 00101043 */ D(2u,(uint32_t)((int32_t)R(16u)>>1u)); break;
+  case UINT32_C(0x0000f310): /* 94a3000a */ address=R(5u)+UINT32_C(0x0000000a);if((address&1u)||size<2u||address>size-2u)return NOCTURNE_IOP_MEMORY;nl=3u;nv=(uint32_t)ram[address]|((uint32_t)ram[address+1u]<<8); break;
+  case UINT32_C(0x0000f314): /* 3042003f */ D(2u,R(2u)&UINT32_C(0x0000003f)); break;
+  case UINT32_C(0x0000f318): /* 3063003f */ D(3u,R(3u)&UINT32_C(0x0000003f)); break;
+  case UINT32_C(0x0000f31c): /* 10620006 */ B((R(3u)==R(2u))?UINT32_C(0x0000f338):pc+8u); break;
+  case UINT32_C(0x0000f320): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f324): /* 8fa40010 */ READ(R(29u)+UINT32_C(0x00000010));nl=4u;nv=value; break;
+  case UINT32_C(0x0000f328): /* 0c00481a */ B(UINT32_C(0x00012068));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f32c): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f330): /* 08003cdb */ B(UINT32_C(0x0000f36c)); break;
+  case UINT32_C(0x0000f334): /* 2402fe68 */ D(2u,R(0u)+UINT32_C(0xfffffe68)); break;
+  case UINT32_C(0x0000f338): /* 8ca20020 */ READ(R(5u)+UINT32_C(0x00000020));nl=2u;nv=value; break;
+  case UINT32_C(0x0000f33c): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f340): /* 1c400006 */ B(((int32_t)R(2u)>0)?UINT32_C(0x0000f35c):pc+8u); break;
+  case UINT32_C(0x0000f344): /* 2442ffff */ D(2u,R(2u)+UINT32_C(0xffffffff)); break;
+  case UINT32_C(0x0000f348): /* 8fa40010 */ READ(R(29u)+UINT32_C(0x00000010));nl=4u;nv=value; break;
+  case UINT32_C(0x0000f34c): /* 0c00481a */ B(UINT32_C(0x00012068));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f350): /* 00000000 */ /* nop */ break;
+  case UINT32_C(0x0000f354): /* 08003cdb */ B(UINT32_C(0x0000f36c)); break;
+  case UINT32_C(0x0000f358): /* 2402fe5d */ D(2u,R(0u)+UINT32_C(0xfffffe5d)); break;
+  case UINT32_C(0x0000f35c): /* 8fa40010 */ READ(R(29u)+UINT32_C(0x00000010));nl=4u;nv=value; break;
+  case UINT32_C(0x0000f360): /* 0c00481a */ B(UINT32_C(0x00012068));D(31u,pc+8u); break;
+  case UINT32_C(0x0000f364): /* aca20020 */ WRITE(R(5u)+UINT32_C(0x00000020),R(2u)); break;
+  case UINT32_C(0x0000f368): /* 00001021 */ D(2u,R(0u)+R(0u)); break;
+  case UINT32_C(0x0000f36c): /* 8fbf001c */ READ(R(29u)+UINT32_C(0x0000001c));nl=31u;nv=value; break;
+  case UINT32_C(0x0000f370): /* 8fb00018 */ READ(R(29u)+UINT32_C(0x00000018));nl=16u;nv=value; break;
+  case UINT32_C(0x0000f374): /* 03e00008 */ B(R(31u)); break;
+  case UINT32_C(0x0000f378): /* 27bd0020 */ D(29u,R(29u)+UINT32_C(0x00000020)); break;
+  case UINT32_C(0x000d22a0): /* 08003c59 */ B(UINT32_C(0x0000f164)); break;
+  case UINT32_C(0x000d22a4): /* 24000008 */ D(0u,R(0u)+UINT32_C(0x00000008)); break;
+  default:m->branch_pending=old_branch;return NOCTURNE_IOP_TRANSFER;
+  }
+  if(old_load)m->gpr[old_load]=old_value;
+  if(wr)m->gpr[wr]=wv;
+  m->load_register=nl;m->load_value=nv;m->gpr[0]=0u;
+  m->pc=old_branch?old_target:next;++m->instructions;
+ }
+#undef R
+#undef D
+#undef B
+#undef READ
+#undef WRITE
+}
+
+uint32_t nocturneIopSemaRoute(NocturneIopMachine *m,uint8_t *ram,uint32_t n,uint64_t limit,NocturneIopSif1Dispatch *d)
+{
+ uint64_t start;uint32_t r;if(!m||!ram||!d)return NOCTURNE_IOP_DOMAIN;start=m->instructions;
+ while(m->instructions-start<limit){
+  if((m->pc>=0x0000efacu&&m->pc<0x0000f094u)||(m->pc>=0x0000f094u&&m->pc<0x0000f164u)||(m->pc>=0x0000f164u&&m->pc<0x0000f2d4u)||(m->pc>=0x0000f2d4u&&m->pc<0x0000f37cu)||(m->pc>=0x000d22a0u&&m->pc<0x000d22a8u))r=nocturneIopSemaResume(m,ram,n,1u,d);
+  else r=nocturneIopBindRoute(m,ram,n,1u,d);
+  if(r!=NOCTURNE_IOP_LIMIT)return r;
+ }
+ return NOCTURNE_IOP_LIMIT;
+}

@@ -1,0 +1,12 @@
+#ifndef NOCTURNE_NEGOTIATION_QUESTION_H
+#define NOCTURNE_NEGOTIATION_QUESTION_H
+#include <stdint.h>
+void *nocturneResolveNegotiationQuestionAddress(uint32_t address);
+uint64_t ps2NegotiationQuestionCategory_0026B7C8(uint64_t unit);
+uint64_t ps2NegotiationQuestionFlow7_1_00275DF8(uint64_t context);
+uint64_t ps2NegotiationQuestionFlow7_3_00275E20(uint64_t context);
+uint64_t ps2NegotiationQuestionFlow7_11_00275EC8(uint64_t context);
+uint64_t ps2NegotiationQuestionFlow7_15_00276018(uint64_t context);
+uint64_t ps2NegotiationQuestionFlow7_20_00276130(uint64_t context);
+uint64_t ps2NegotiationQuestionFlow7_22_00276260(uint64_t context);
+#endif

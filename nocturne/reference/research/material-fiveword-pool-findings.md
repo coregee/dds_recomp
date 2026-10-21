@@ -1,0 +1,39 @@
+# Five-word material motion and pool recovery
+
+Twenty connected PS2 functions now have compiled C and fresh original-instruction comparisons. The current checkpoint contains **305 / 8,944 recognized functions (3.41%)**, with **314,396 completely fresh cases** and 34,128 summed active original body bytes. Near-complete source recovery remains unfinished.
+
+The new group includes the five-word interpolation loop and key-pair wrapper, a 24-byte record creator, two lazy getters, two ordered setters, six material apply/blend/save callbacks, five pool routines and two interrupt wrappers. Source is in `src/material_fiveword_pool.c`; [the batch certificate](material-fiveword-pool-validation.json), [canonical comparison](behavior-validation.json) and [integrity record](checkpoint-305-integrity.json) pin the evidence.
+
+## Original behavior
+
+`002b4330` computes `SUB(1,alpha)` once, then performs five ordered `MUL(previous,inverse)`, `MUL(next,alpha)` and `ADD` operations. Each output stores before the next inputs load. Host C uses raw32 EE arithmetic providers and retains partial source/output aliases. `002b4380` loads the two original pointers and ratio before tailcalling this loop.
+
+Material raw pointers at `+38` and `+3C` are lazy. A null pointer executes the real pool allocation of24 bytes and initializes five words `0,0,1.0,1.0,0`; the final four requested bytes retain their prior contents. Setters copy five raw words sequentially and update dirtybyte `+6` with `0C` or `30` after the stores. Getters,setters and allcallbacks exercise both existing and lazy records.
+
+Apply/blend callbacks execute actual key search,interpolation and setters. Blend reads five saved words from node `+10` and uses F13. Save callbacks load two 64-bit merge pairs and the wordtail before writing 20 bytes to node `+10`,so overlapping saves have snapshot semantics. The tail LW still requires four-byte alignment; merge loads also exercise residue four modulo eight. New accessed views are separate 36-byte node,64-byte material,20-byte value,12-byte class and24-byte page views. Previous views remain intact; these extents do not establish full allocation.
+
+The pool allocator uses signed requests below 17 as classzero. Larger requests use `27-(PLZCW(size-1)&255)` and 12-byte class strides from `577EC0`. Active pages dispatch through the original allocator function pointer at page `+8`: one strategy consumes a freed-slot list; the other advances through unallocated slots. A global free-page list supplies missing active pages. Truncated counters,signed halfword arithmetic,read/store order and transitions between strategies are retained. This validates complete allocator functions with initialized pool fixtures; original pool initialization and release remain next steps.
+
+The interrupt wrappers return the prior Status.EIE bit 16. Disable executes DI/SYNC.P16 and polls until clear when needed; enable executes EI. Allocation restores the prior enabled state after obtaining its result. Descriptive aliases are used until a historical SDK identity can be independently proved.
+
+## Verification and saved checkpoint
+
+The standalone group passes 34,816 original-instruction cases: 8,192 for each interpolation helper and 1,024 for each other function. Four RAM spans totaling 8,572 bytes,256 guard bytes, return values,Status and primitive counts are compared. Real internal calls and allocator JALR execute; no game-level allocator/key/setter hook replaces them. Each original case checks all nine saved low64 GPRs,SP,RA,rawF20 and registerzero. Twelve malformed rows are rejected; canonical success,rejection and mismatch paths restore allmemory owners,bindings,status and counters.
+
+405 active original instruction words (1,620 bytes) are independently re-encoded. The allocator has one unreachable NOP between body ranges; the complete checked spans total 406 words/1,624 bytes. Function totals and summed body bytes exclude that padding. Raw-address returns and target mixed A/F argument registers are independently audited after saving and reopening `ghidra/checkpoints/305-functions/Nocturne.gpr`. Prior color, scalar, setter, key, callback, model, PIB and 46 library interfaces also pass saved audits. All 8,944 recognized functions export/decompile with zero failures.
+
+The full 305-function capture pins 169 exact inputs before/after execution,including 73 source files,79 verification inputs,16 language files and the ELF. All 314,396 rows are freshly executed; historical expected rows are not reused. DIVU/COP1 audits, 208 published FPU words and 180,000 Java/C rawword probes pass. The previous 285 checkpoint retains its 143 certified source/verifier inputs,160 original capture inputs,279,580 rows and exact host DLLs under `checkpoints/285-functions/`.
+
+## Processor prerequisite and transfer
+
+The separate [primitive audit](pool-primitive-validation.json) covers 74,880 decoded cases: 24,576 PLZCW cases,8,256 each DI/EI,32,768 MFC0.Status cases and 1,024 SYNC.P cases. It compares callback CLZ/mask calculations with independently indexed bit/status-field oracles. PLZCW checks both 32-bit lanes,sign-bit exclusion,source/destination aliases,upper64 retention and zero discard. DI/EI cover all 64 relevant permission/status combinations plus random words. MFC0 checks sign extension,upper64 retention and zero discard; SYNC.P checks register preservation only.
+
+The baseline language incorrectly allowed PLZCW and MFC0 writes to registerzero. Its 18,436 audit failures are preserved with the first standalone pass in `checkpoints/material-fiveword-first-draft/`. Two specific ignored-zero constructors fix the audited instructions in `tools/ee-pool-value-fixed/`; the previous VU language and installed extension are preserved. The corrected audit has zero failures. Instruction-value definitions use pinned primary [PCSX2 COP0](https://github.com/PCSX2/pcsx2/blob/81526d4dc7cc70e4ae75abb35a789417456c6d43/pcsx2/COP0.cpp), [Status layout](https://github.com/PCSX2/pcsx2/blob/81526d4dc7cc70e4ae75abb35a789417456c6d43/pcsx2/R5900.h) and [MMI](https://github.com/PCSX2/pcsx2/blob/81526d4dc7cc70e4ae75abb35a789417456c6d43/pcsx2/MMI.cpp) sources. No published hardware anchors were found for this new primitive audit; hardware timing,privileged traps and asynchronous interrupt scheduling are unclaimed. Existing VU arithmetic research-model limits continue to apply.
+
+Five new transfer patterns cover ordered five-word interpolation,lazy records,apply/blend/save callbacks,page-slot allocation and interrupt-state guards. The ledger has80 patterns,253 reviewed Unity pairs,46 identified library functions and49 descriptive PS2 aliases. These aliases add no direct HD identities. Each related SMT title needs fresh byte/layout/ABI/provider checks before adopting a pattern.
+
+[The next frontier](material-fiveword-next-frontier.md) pins eleven recognized routines,three original callback tables and one additional 16-byte scalar-save callback at `002b5388` absent from the current function inventory. Both 36-byte five-word node constructors are established by their tables; the adjacent 20-byte constructor belongs to packed Word18 callbacks. Unity `sdfMotion$$sdfMotGenMatNode` returns null after IL2CPP initialization and supplies no dispatch for these PS2 material branches. Original-word reconstruction remains necessary beyond fuzzy matching.
+
+Validation covers ordinary RAM and synchronous instruction values. Exhaustive inputs,full pool setup/release,private stack,console runtime,hardware flags/timing and matching-binary reconstruction remain unfinished.
+
+A broader [read-only callback-table scan](material-callback-discovery-leads.json) found 16 tables with 10 missing-entry leads. Six have the structural four-word material-save pattern; the remaining four need deeper body analysis. These are code-discovery leads, with no new inventory or C totals assigned.

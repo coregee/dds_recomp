@@ -1,0 +1,34 @@
+# Script construction, FLW0 parsing and process startup
+
+Six complete PS2 routines are recovered in `src/script_construction.c`, adding 1,096 recognized body bytes. They construct script work from separate section pointers or FLW0 data, select the first procedure, start the engine process through two wrappers and preserve the disabled diagnostic. The affected C builds with warnings treated as errors. Names and interfaces are saved and reopened in the working Ghidra project; six selected exports are updated in place.
+
+| Original entry | Recovered role | Reviewed HD reference |
+|---|---|---|
+| 0x1098E0 | scrAddScript | AddScript, 0x1826C7680 |
+| 0x109B48 | scrAddScript2 | AddScript2, 0x1826C6E70 |
+| 0x109E38 | ps2ScriptAddFirst | Descriptive PS2 alias |
+| 0x109D98 | scrStartScript2 | 0x1826C9010 |
+| 0x109DE8 | scrStartScript1a | 0x1826C8DD0 |
+| 0x1097E8 | ps2ScriptDiagnosticDisabled | Descriptive PS2 alias |
+
+The focused comparison passes 1,344 cases, executes 3,661,911 original instruction steps and reaches all 229 non-delay root instruction addresses. It also checks 236,637 independent RAM observations. Every one of the 191 indexed shipped BF files traverses five construction paths, totaling 955 actual-resource cases. These include their real signed local counts, procedure records, embedded MSG0/MSG1 resources and packed message relocation tables. Selected archive windows are extracted to ordinary `game/dds3/` asset paths and checked against the DDS3 index; the entire multi-gigabyte image is not hashed.
+
+Another 130 synthetic construction/start-delay/WAIT/completion sequences run through the real pool allocator, script constructor, message constructor when present, list insertion, process constructor, starting-list transition and VM process callback. They execute 452 actual VM callback advances and 1,164 indirect VM calls using PushI, WAIT and End handlers. Original and compiled execution agree on ordered indirect calls, each yield and completion result, surviving process ownership, stack and timers. The process remains owned after its completion sentinel. Script shutdown and release are now recovered separately in [lifetime findings](script-lifetime-findings.md), including actual process-kill callbacks. No supplied game return values or fabricated callback results substitute for these bodies.
+
+Full declared backed RAM, defined raw64 results, Status, CPU primitive counts and returning-call callee saves agree. Independent checks cover copied names, local array addresses and clears, work fields, preserved user data, script list/count, message relocation, owning process fields and diagnostic output. The original printf and formatter execute through a real bounded string-buffer FILE with capacities 0/1/8/128; physical console output is not claimed. The earlier message construction (1,472 cases), script/process bridge (1,344) and formatter (704) comparisons also pass through the affected bindings, reusing their previous original captures with current compiled source. This is a focused comparison, not a new full-suite run.
+
+## Native behavior retained
+
+AddScript first checks full raw64 nonnull header/type/procedure/code arguments, then signed64 start against the sign-extended type-table count. It allocates 0xF4 bytes through the actual pool, copies the selected procedure name bytewise and reads CP at procedure+0x18. It clears 28 type bytes and value words before publishing section pointers, message ID -1, timers, owned handles and links. **Work+0xF0 is left untouched.** The source preserves the original ordering and unchecked byte copy instead of clearing the entire object.
+
+Signed16 local integer/float counts at header+0x14/+0x16 are tested before allocating word arrays and reloaded afterward. Backed alias cases place the header over real allocator page fields: integer usage wraps from 0x7FFF to 0x8000, or the float count changes from 1 to 0. The constructor retains the allocation pointer while skipping the clearing loop after those reloads. A real bump allocator returning zero exercises the work-allocation rejection without replacing the allocator result. Local allocation failure is not guarded by the original and is outside the returning test layouts.
+
+AddScript2 checks FLW0 at data+8, scans the signed descriptor count at +0x10 and handles kinds 0..4 in 16-byte records. Later duplicate sections win. A later zero-count message section leaves the earlier message pointer intact. Unknown kinds reject immediately; zero/negative section counts eventually reject through the real constructor. The type-table pointer always uses data+0x20. This differs from the previously recovered procedure-name search, which selects the first procedure section and checks no magic.
+
+Both startup wrappers unconditionally call the recovered process bridge with the constructor result. Their successful paths register delays 1/1 and callbacks 0x10A268/0x10A210. The ninth argument of scrStartScript1a is **a 32-bit word at caller SP+0**, loaded with LW and sign-extended into T3. Its saved/reopened Ghidra interface records that stack storage. The direct wrapper sets start to zero. The disabled variadic diagnostic only spills argument/FPR words to private stack and returns; it has no output call or defined V0 result.
+
+Four named Unity semantic counterparts are reviewed. Managed arrays, decoded names, header passing, checks, allocation and work layouts differ. The HD scrStartScript1a body uses startup delay zero, while the PS2 wrapper shares the delay-one bridge with scrStartScript2. HD behavior is a naming and algorithm reference; original PS2 instructions remain authoritative.
+
+Four complete selected spans resolve uniquely in DDS: parser 0x10BA18, first-procedure wrapper 0x10BD08, StartScript2 0x10BC68 and StartScript1a 0x10BCB8. Three direct-call constraints agree. The complete constructor has no full-span match under the current relocation rules, and the disabled diagnostic has three byte-identical candidates. Those results remain explicit. Existing allocator/process/printf dependencies also resolve, and decoded jump-table, pool-class and stdout-context bases relocate consistently. Static transfer is distinct from DDS execution.
+
+Evidence is in `script-construction-validation.json`, `script-construction-assets.json`, `script-construction-matches.json`, `script-construction-transfer.json` and `script-construction-abi.json`, with one rolling fixture/vector set in `script-construction/`. Inputs are finite and backed with sufficient allocation extents and free message slots. Message cleanup and script shutdown now have the separate lifetime comparison. File-backed loading and construction now have the separate [comparison](script-file-findings.md). Full shipped command execution, physical scheduling/PS2 execution and a matching rebuilt executable remain unproved. Continue the [file-loading and release frontier](script-process-next-frontier.md).

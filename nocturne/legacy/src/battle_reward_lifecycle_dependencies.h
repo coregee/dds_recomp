@@ -1,0 +1,54 @@
+#ifndef NOCTURNE_BATTLE_REWARD_LIFECYCLE_DEPENDENCIES_H
+#define NOCTURNE_BATTLE_REWARD_LIFECYCLE_DEPENDENCIES_H
+#include <stdint.h>
+/* Complete fixed native bodies. External routes must execute actual registered callees;no invented result or native clobber is permitted. */
+uint32_t nocturneBattleRewardLifecycleDependencyBody(uint32_t entry);
+void nocturneBattleRewardLifecycleNativeExternal(uint32_t target,uint32_t pc);
+void nocturneBattleRewardLifecycleNativeIndirect(uint64_t target,uint32_t pc);
+_Noreturn void nocturneBattleRewardLifecycleNativeTrap(uint32_t code,uint32_t pc);
+void nocturneBattleRewardLifecycleNativeCpuRead(unsigned reg,uint32_t words[4]);
+void nocturneBattleRewardLifecycleNativeCpuWrite(unsigned reg,const uint32_t words[4]);
+void nocturneBattleRewardLifecycleNativeVuRead(unsigned reg,uint32_t words[4]);
+void nocturneBattleRewardLifecycleNativeVuWrite(unsigned reg,const uint32_t words[4]);
+uint32_t nocturneBattleRewardLifecycleNativeStackPointer(void);
+void nocturneBattleRewardLifecycleNativeSetStackPointer(uint32_t address);
+uint32_t nocturneBattleRewardLifecycleNativeFcsr(void);
+void *nocturneResolveBattleRewardLifecycleNativeAddress(uint32_t address);
+uint64_t ps2BattleRewardLifecycleDependency_001009E8(void);
+uint64_t ps2BattleRewardLifecycleDependency_00100A48(void);
+uint64_t ps2BattleRewardLifecycleDependency_00100C48(void);
+uint64_t ps2BattleRewardLifecycleDependency_00100D70(void);
+uint64_t ps2BattleRewardLifecycleDependency_00100E08(void);
+uint64_t ps2BattleRewardLifecycleDependency_00100E80(void);
+uint64_t ps2BattleRewardLifecycleDependency_00101AA0(void);
+uint64_t ps2BattleRewardLifecycleDependency_00105048(void);
+uint64_t ps2BattleRewardLifecycleDependency_0010DCB8(void);
+uint64_t ps2BattleRewardLifecycleDependency_0010E548(void);
+uint64_t ps2BattleRewardLifecycleDependency_0010E588(void);
+uint64_t ps2BattleRewardLifecycleDependency_0010E610(void);
+uint64_t ps2BattleRewardLifecycleDependency_001275D0(void);
+uint64_t ps2BattleRewardLifecycleDependency_00296648(void);
+uint64_t ps2BattleRewardLifecycleDependency_002966A8(void);
+uint64_t ps2BattleRewardLifecycleDependency_00296738(void);
+uint64_t ps2BattleRewardLifecycleDependency_002968F8(void);
+uint64_t ps2BattleRewardLifecycleDependency_00296B08(void);
+uint64_t ps2BattleRewardLifecycleDependency_00297460(void);
+uint64_t ps2BattleRewardLifecycleDependency_002A8BA8(void);
+uint64_t ps2BattleRewardLifecycleDependency_002A9650(void);
+uint64_t ps2BattleRewardLifecycleDependency_002A8120(void);
+uint64_t ps2BattleRewardLifecycleDependency_002A8170(void);
+uint64_t ps2BattleRewardLifecycleDependency_002BF3A8(void);
+uint64_t ps2BattleRewardLifecycleDependency_002BE5B8(void);
+uint64_t ps2BattleRewardLifecycleDependency_002BF208(void);
+uint64_t ps2BattleRewardLifecycleDependency_002BF328(void);
+uint64_t ps2BattleRewardLifecycleDependency_002BEFC0(void);
+uint64_t ps2BattleRewardLifecycleDependency_002BF8F0(void);
+uint64_t ps2BattleRewardLifecycleDependency_002BFCE8(void);
+uint64_t ps2BattleRewardLifecycleDependency_002BFD60(void);
+uint64_t ps2BattleRewardLifecycleDependency_002C2070(void);
+uint64_t ps2BattleRewardLifecycleDependency_002C6030(void);
+uint64_t ps2BattleRewardLifecycleDependency_002C6098(void);
+uint64_t ps2BattleRewardLifecycleDependency_002C60A8(void);
+uint64_t ps2BattleRewardLifecycleDependency_002D5924(void);
+uint64_t ps2BattleRewardLifecycleDependency_002D4310(void);
+#endif

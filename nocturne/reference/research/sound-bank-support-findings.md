@@ -1,0 +1,25 @@
+# Native sound-bank, cache and formatted-path prerequisites
+
+Five complete PS2 routines in `src/sound_bank_support.c` pass **1,152 original-instruction comparisons**, covering **604 recognized body bytes** and all **132 main instruction addresses**. The source builds with MSVC warnings treated as errors. Five interfaces, including the real variadic sprintf signature, are saved and independently reopened in the working Ghidra project; five current assembly/pseudocode exports are merged in place.
+
+| PS2 entry | Recovered behavior | Cases | Full DDS counterpart |
+| --- | --- | ---: | --- |
+| 002DC830 | Scan both data-cache ways over 64 indices | 256 | 0030B3B0 |
+| 002DC8D8 | Align range and preserve interrupt-enable state | 256 | 0030B458 |
+| 002C1C20 | Seven-record loaded/pending bank status | 256 | Unresolved |
+| 002262E8 | Build path with original `/sound/` prefix | 128 | 00269420 |
+| 002D5690 | Native variadic sprintf entry and terminating zero | 256 | 003014F0 |
+
+The cache scan performs the original SYNC, DXLTG and conditional DXIN instructions for indices `000..FC0`, stride `40`, and both ways. TagLo is masked by `FFFFF000`, followed by wrapped ADDU32 and sign extension. Bounds remain full-width unsigned and inclusive. The scan returns zero from its final loop-condition SLTI; it does not return the last address comparison. The wrapper aligns both full64 arguments with `FFFFFFFFFFFFFFC0` and executes the actual recovered interrupt disable/enable routines when required.
+
+The comparison supplies **98,304 finite external TagLo values** and checks their consumption and ordered instruction observations: **98,304 tag loads**, **10,103 invalidations**, and **265,966 cache SYNC operations**. Real cache instructions execute under this explicit operand model. It does not establish physical cache state, coherence or timing on PS2 hardware. Full declared RAM, defined returns, Status, primitive counts and callee saves agree over **2,252,106 original instruction steps**.
+
+Bank status extracts the signed bank ID by arithmetic shift of the sound ID's low word. It invalidates `593880..593E20`, checks seven records at `593A10`, stride eight, and returns one for loaded, two for the pending bank at `5519C0`, or zero otherwise. Cases cover every loaded slot, pending/missing banks, negative bank IDs and dirty argument high lanes. Connected filename/path preludes call the real sprintf and strcat dependencies, with independent expected strings from the original `MIDI%04X.SMG` literal at `549AA8` and eight-byte prefix at `54FD18`.
+
+Sprintf creates the native string-stream fields and invokes the actual recovered stream formatter, vector writer and numeric/string conversion routines. Its argument cursor follows six saved GP slots and then caller-stack arguments. Tests include twelve-value sequences, width/precision arguments, strings and `%n`. **Native `%lX` consumes 64 bits; `%llX` consumes the low 32 bits.** Both forms are tested with independent expected text and nonzero high lanes. Host transport uses a real variadic cursor; private host stack placement is an adaptation. Original FPR/GP saves execute in the instruction capture, but the host does not claim matching stack layout.
+
+Four complete DDS bodies resolve with five agreeing callee constraints. The sound-path helper initially has three full-body candidates. The original eight-byte literal rejects DDS model and voice builders, leaving `00269420` with equal `/sound/` bytes at `3BC590`. The formatter context global relocates `52BE28 -> 39BFD0`. Bank status has no complete DDS match under the current masks; its structure remains a transfer lead.
+
+The resource initializer at **00297890** installs **002976C0** into callback word **005519D8**. The sound-bank wait calls this resource-loader pump. The [current update graph](message-update-frontier.json) includes that target as an explicit root, exposing its request processors, callback queue, packet/list dependencies and indirect sites. At this batch publication, it contained20 unresolved bodies /4,684 bytes /three indirect sites. The subsequent [resource-loader support recovery](resource-loader-support-findings.md) closes twelve bodies and includes the three actual file-event callbacks in the remaining-work map;the current graph has nineteen unresolved bodies /5,420 bytes /two indirect sites. Bank loading `002C1CA0`, sound playback submission `002C18D8`, the installed pump and six Message update/input bodies remain open. No returning callback is substituted for the pump. Sound command `90` also contains an unwritten packet word that needs original ambient-value handling when its facade is recovered.
+
+Rolling evidence: `sound-bank-support-validation.json`, `sound-bank-support-interfaces.json`, `sound-bank-support-abi.json`, `sound-bank-support-transfer.json`, `sound-bank-support-leads.json` and `message-update-frontier.json`. Work saves in place and overwrites current captures. No checkpoint or project copy was created. Full asynchronous loading, IOP sound completion, scheduling, physical playback/rendering, PS2 runtime and a matching executable remain outstanding.

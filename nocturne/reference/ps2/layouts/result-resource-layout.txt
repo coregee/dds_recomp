@@ -1,0 +1,14 @@
+Structure: rstResourceWork_PS2
+Size: 4773 bytes
+Alignment: 1
+
+Layout:
+Offset | Size | Type | Name
+-------|------|------|-----
+    38 |    1 | char                 | cRefill_requested
+  4767 |    1 | byte                 | bParameter_delta0
+  4768 |    1 | byte                 | bParameter_delta1
+  4769 |    1 | byte                 | bParameter_delta2
+  4770 |    1 | byte                 | bParameter_delta3
+  4771 |    1 | byte                 | bParameter_delta4
+  4772 |    1 | byte                 | bParameter_delta5

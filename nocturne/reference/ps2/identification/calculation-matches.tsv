@@ -1,0 +1,26 @@
+ps2_address	pc_va	name	return_type	parameters	evidence	differences
+00242a88	181ccc980	datGetBaseMaxHp	int	work	(level + param[3]) * 6; cap 999 unless flag 0x20.	HD reads managed object fields.
+00242ae8	181ccca40	datGetBaseMaxMp	int	work	(level + param[2]) * 3; cap 999 unless flag 0x20.	PS2 computes through software floating point; HD uses integer arithmetic.
+00242b68	181ccd540	datGetNormalAtkPow	int	work	(level + param[0]) * 2; halve when (badstat & 0xFFF) == 0x40.	HD inlines parameter lookup.
+00242cb0	181ccd030	datGetMagicHitPow	int	work	param[2] * 2 + level + (param[5] + 5) / 2 + 15.	Earlier PS2 routines at 00242bc8 and 00242c48 remain unnamed.
+00242d18	181cccc10	datGetDefPow	int	work	(level + param[3]) * 2.	HD inlines parameter lookup.
+00242d50	181ccdaa0	datGetSakePow	int	work	Integer conversion of (param[4] + 5) * 1.5 + (param[5] + 5) + (level + 5).	PS2 software double arithmetic; HD rearranges arithmetic and conversion.
+00242e00	181cc73c0	GetButuriAttack	int	physical	Branch on flag 0x20 and skill zero; constants 1.33, 23.2, 0.6, 0.8; level-dependent correction.	PS2 contains unused attack/defence helper results; HD inlines helpers.
+00242fe0	181cc7670	GetButuriKaifuku	int	physical	PS2 forwards all four arguments to GetButuriAttack; HD performs the same calculation.	HD duplicates/inlines the calculation.
+00242ff8	181cc7700	GetMagicAttack	int	physical	Skill stride 0x3C; capped skill base + 2 * level * waza / 21; magic and flag corrections.	PS2 software double and HD float operations need separate precision validation.
+00243170	181cc7910	GetMagicKaifuku	int	physical	(param[2] * 4 + level + random(8)) / 10 * waza.	Same formula structure; random generator not identified here.
+00243200	181cc79f0	GetMaxHpWazaPoint	int	physical	Maximum HP / 69.6 * waza; flag 0x20 selects base HP and correction.	Floating point precision differs between platforms.
+002432d0	181cc72c0	GetAisyoRitu	float	skill3	Attribute record stride 8; -1 and 12..14 return 1; other cases multiply affinity low halfword by 0.01.	HD obtains attribute and affinity through managed tables.
+00243368	181cce1e0	datGetSkillKouka	int	effect	HP/MP selector; 16 formula cases; physical/magic dispatch; ailment mask 0xFFF; affinity scaling; signed damage/healing.	HD inlines multiple helpers; floating point behavior needs independent validation.
+00243760	181ccdb40	datGetSkillBadKouka	int	skill3	Status mask 0xFFF; mode 3 selects one of 12 bits; affinity immunity 0x170000; chance and flag 0x20 correction.	HD uses managed skill tables.
+00243998	181ccc020	datExecSkill	int	skill3	Compute HP, MP and status effects; apply/clamp; zero HP sets status 0x800; effects 8..11 set global bits 1,2,4,8.	HD inlines application helpers and includes managed checks.
+00243b98	181ccf1a0	datOverwriteBadStat	void	status	Status 0x8000 is ORed; otherwise preserve high 0xF000 and replace low 0xFFF.	HD adds status bookkeeping outside the retained core.
+00243bd0	181cd1430	datSetBadStat	void	status	Status 0x8000 is ORed; low 0xFFF is replaced only if the new value is larger.	HD adds status bookkeeping and achievement calls.
+00243c10	181cd0e20	datResetBadStat	void	status	Halfword status at work+0xE is ANDed with the complement of the supplied mask.	HD inlines this operation at several call sites.
+00243e78	181cccb00	datGetBaseParam	int	param	Signed bytes at 0x16, 0x1C and, unless flag 4, 0x7A; clamp sum to 1..40.	HD stores these values in managed arrays.
+00243ee0	181ccd5d0	datGetParam	int	param	Base parameter lookup; status 0x200 forces value 1 unless parameter index 4; minimum 1.	HD inlines base parameter lookup.
+00243f40	181ccb2a0	datCheckSyojiSkill	int	skillcheck	Flag 0x20 selects devil-format skills; otherwise count at 0x38 and halfword skills at 0x3A.	HD skill list uses managed integer arrays and a different layout.
+00243fe8	181ccc650	datGetAisyo	uint	affinity	Packed affinity word; attr -1 returns 0; 0x40-byte rows; flag 4 selects row zero; status 0x400 overrides row.	HD XOR constants resolve to 0xFFF and 0x400 from disk; table access differs.
+00244098	181ccc5e0	datGetAisyoFlag	int	affinity	Return packed affinity & 0xFFFF0000.	PS2 low-halfword wrapper 00244078 remains unnamed.
+002440c0	181ccc7b0	datGetBadStatusAttr	int	bad	Same bit-to-attribute map for statuses 1..0x400; HD encoded constants independently decoded from disk.	HD maps 0x800 to attribute 5 and gates higher statuses through cfgGetBit(9); PS2 returns -1 for 0x800.
+00244200	181ccab80	datCheckDying	int	work	Integer HP * 100 / maxHP < 25.	HD adds a null check and event-bit exclusions E80/E83.

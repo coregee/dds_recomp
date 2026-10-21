@@ -1,0 +1,48 @@
+#pragma once
+#include <stdint.h>
+void effBTLSkillSetFormationInfo(uint64_t a0, uint64_t a1);
+uint64_t effBTLSkillGetInvokeFormation(void);
+uint64_t effBTLSkillGetTargetParty(void);
+uint64_t effBTLSkillGetTargetBit(void);
+void effBTLModelGetSphereCenter(uint64_t a0);
+uint32_t effBTLModelGetHeightBits(uint64_t a0);
+void effBTLModelSetPosition(uint64_t a0, uint64_t a1);
+void effBTLModelAllPopPosition(void);
+void effBTLModelAllPopRotate(void);
+void effBTLModelShow(uint64_t a0);
+void effBTLModelHide(uint64_t a0);
+void effBTLModelAllHide(void);
+void effBTLModelTargetGroupHide(void);
+void effBTLModelTargetPartyShow(void);
+void nbCameraSetState(uint64_t a0);
+void nbCameraScriptSet1Shot(uint64_t a0);
+void nbCameraScriptSetBougai(uint64_t a0);
+void nbCameraScriptSet(uint64_t a0, uint64_t a1);
+void nbPanelAutoHide(void);
+void ps2BattlePanelHideHookA(void);
+void ps2BattlePanelHideHookB(void);
+void nbFormDispOff(uint64_t a0);
+void nbFormDispOn(uint64_t a0);
+void nbGroupFormDispOff(uint64_t a0);
+void nbGroupFormDispOn(uint64_t a0);
+void nbAllFormDispOn(void);
+void nbSetFormPos(uint64_t a0, uint64_t a1);
+void nbSetFormRot(uint64_t a0, uint64_t a1);
+uint32_t nbGetPartyDistanceBits(void);
+uint32_t sdfAtanBits(uint32_t a0);
+uint64_t nbCommand_BTL_CAM_SET(void);
+uint64_t nbCommand_BTL_CAM_1SHOT(void);
+uint64_t nbCommand_BTL_CAM_BOUGAI(void);
+uint64_t nbCommand_BTL_PNL_OFF(void);
+uint64_t nbCommand_BTL_EVENT(void);
+uint64_t nbCommand_BTL_PRESS(void);
+uint64_t nbCommand_BTL_NAKAMA(void);
+uint64_t nbCommand_BTL_FORM_ALL_ON(void);
+uint64_t nbCommand_BTL_FORM_ENE_ON(void);
+uint64_t nbCommand_BTL_AI_CHANGE_OFF(void);
+uint64_t nbCommand_BTL_AI_CHANGE_ON(void);
+void *nocturneResolveBattlePresentationAddress(uint32_t a);
+/* Native instruction/operand boundaries, not original function entries. */
+void EE_BATTLE_QMTC2_SCALE(uint32_t bits);
+uint32_t EE_BATTLE_FRAME_W(unsigned slot);
+uint32_t EE_BATTLE_VU_SQRT(uint32_t bits);

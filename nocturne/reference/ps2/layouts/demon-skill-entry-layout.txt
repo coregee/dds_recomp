@@ -1,0 +1,10 @@
+Structure: cmbDemonSkillEntry_PS2
+Size: 4 bytes
+Alignment: 1
+
+Layout:
+Offset | Size | Type | Name
+-------|------|------|-----
+     0 |    1 | char                 | cLevel
+     1 |    1 | byte                 | bType
+     2 |    2 | ushort               | wSkill

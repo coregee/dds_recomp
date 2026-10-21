@@ -1,0 +1,6 @@
+#ifndef NOCTURNE_OBJECT_ATTACHMENT_INITIALIZER_H
+#define NOCTURNE_OBJECT_ATTACHMENT_INITIALIZER_H
+#include <stdint.h>
+uint32_t nocturneObjectAttachmentInitializerBody(uint32_t entry);
+void ps2ObjectAttachmentInitializeModelResources_001DC0F8(void);
+#endif

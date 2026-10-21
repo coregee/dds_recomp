@@ -1,0 +1,23 @@
+#ifndef NOCTURNE_NEGOTIATION_PHASES_H
+#define NOCTURNE_NEGOTIATION_PHASES_H
+#include <stdint.h>
+uint64_t ps2NegotiationPhaseSpecialPair_0026BEA0(uint64_t context);
+uint64_t ps2NegotiationPhaseFlow1_03_0026CD80(uint64_t context);
+uint64_t ps2NegotiationPhaseFlow1_04_0026CDF8(uint64_t context);
+uint64_t ps2NegotiationPhaseFlow1_07_0026D028(uint64_t context);
+uint64_t ps2NegotiationPhaseFlow1_33_0026D300(uint64_t context);
+uint64_t ps2NegotiationPhaseFlow1_32_0026D3F0(uint64_t context);
+uint64_t ps2NegotiationPhaseFlow1_18_0026DAB0(uint64_t context);
+uint64_t ps2NegotiationPhaseFlow1_20_0026DC78(uint64_t context);
+uint64_t ps2NegotiationPhaseFlow1_22_0026DD88(uint64_t context);
+uint64_t ps2NegotiationPhaseFlow1_24_0026DFA8(uint64_t context);
+uint64_t ps2NegotiationPhaseFlow1_26_0026E218(uint64_t context);
+uint64_t ps2NegotiationPhaseFlow1_28_0026E338(uint64_t context);
+uint64_t ps2NegotiationPhaseFlow1_35_0026E808(uint64_t context);
+uint64_t ps2NegotiationPhaseCheckCompatibility_0026EB08(uint64_t source,uint64_t target,uint64_t mask,uint64_t flag);
+uint64_t ps2NegotiationPhaseFlow6_02_0026F1F0(uint64_t context);
+uint64_t ps2NegotiationPhaseFlow6_13_0026F980(uint64_t context);
+uint64_t ps2NegotiationPhaseFlow6_28_00270960(uint64_t context);
+uint64_t ps2NegotiationPhaseFlow6_65_00272450(uint64_t context);
+void *nocturneResolveNegotiationPhasesAddress(uint32_t address);
+#endif

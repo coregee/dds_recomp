@@ -1,0 +1,14 @@
+#ifndef NOCTURNE_MODEL_PLACEMENT_OUTER_H
+#define NOCTURNE_MODEL_PLACEMENT_OUTER_H
+#include <stdint.h>
+#ifndef NOCTURNE_PLACEMENT_OUTER_BINDING_API
+#define NOCTURNE_PLACEMENT_OUTER_BINDING_API
+#endif
+void ps2ModelPlaceMeshes(uint64_t surfaces,uint64_t root);
+NOCTURNE_PLACEMENT_OUTER_BINDING_API void *nocturneResolveModelPlacementOuterAddress(uint32_t address);
+NOCTURNE_PLACEMENT_OUTER_BINDING_API uint32_t nocturneModelPlacementOuterFrameAddress(void);
+void nocturneModelPlacementOuterSubmit(uint32_t callback,uint64_t surface,uint64_t chain);
+#if defined(NOCTURNE_MODEL_PLACEMENT_OUTER_PROFILE)
+NOCTURNE_PLACEMENT_OUTER_BINDING_API extern uint32_t g_modelPlacementOuterActive;
+#endif
+#endif

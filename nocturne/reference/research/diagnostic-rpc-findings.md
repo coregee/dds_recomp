@@ -1,0 +1,29 @@
+# Native diagnostic RPC, text transport and printf
+
+Three complete bodies in `src/diagnostic_rpc.c` and `src/diagnostic_transport.c` pass **1,024 original-instruction comparisons**, covering **900 recognized body bytes**. All **161 reachable main instruction addresses** execute. Another fifteen main addresses form an asynchronous RPC arm that is proved unreachable under the original entry guard; that arm remains in the source. Actual pool, memory-copy, formatter, SDK output, cache and SIF submission dependencies execute. Full declared RAM, defined raw64 returns, Status, callee saves and ordered kernel/cache/output/payload observations agree. The affected C builds with warnings treated as errors. Three interfaces are saved and independently reopened, including printf's variadic interface, with current exports merged in place.
+
+| PS2 entry | Recovered routine | Complete DDS counterpart |
+| --- | --- | --- |
+| 002CD418 | ps2DiagnosticRpcCall | 002F4FD8 |
+| 002BD4A8 | ps2DiagnosticTextSend | No complete span under the current comparison mask |
+| 002BD550 | ps2DiagnosticPrintf | 002E4C28 |
+
+The RPC entry rejects **every nonzero full64 mode**, before acquiring the client's semaphore at **+28** (hexadecimal). It then rejects either buffer with nonzero low six address bits. Its retained mode/alignment diagnostic strings identify this native SDK role as `sceSifMCallRpc`. The actual SDK formatter and buffered output execute on these errors; error-message output is not replaced by a returning stub.
+
+Successful alignment reaches the independent queue **599700**. The native client receives the packet pointer, packet serial, callback and caller-stack parameter. The ninth argument is read as a word from the original caller stack. Cache synchronization compares the **full64 buffer values**, then uses signed64 lengths: a shared buffer gets their signed maximum; distinct buffers get separate positive-length flushes. Tests distinguish equal buffer words with different high lanes from fully equal arguments.
+
+The synchronous path constructs the semaphore's written fields as maximum one, initial zero and option zero. It uses command **8000001A**, with the actual SIF command and DMA wrappers. Empty/exhausted pools return minus one; semaphore creation failure releases the packet and returns minus three; DMA failure releases the packet before deleting the semaphore and returns minus two. Success waits on and deletes the semaphore. The original body does not release the client's earlier lock. Fixture service values expose these paths without supplying an IOP completion callback or claiming scheduler behavior.
+
+The asynchronous arm at **002CD570..002CD5C0** cannot be entered. Mode is copied into saved register S8; the full64 zero guard dominates the later `mode & 1` branch, no instruction changes S8 before the epilogue, and the actual callees preserve saved registers. Its fifteen non-delay addresses remain explicit in the coverage report rather than being counted as executed.
+
+Text transport checks the byte at **551900**. A nonzero gate sends exactly `strlen` bytes, without the terminator, after copying them into `(SP + 4F) & -40`, a private buffer aligned to 64 bytes. It calls the actual diagnostic RPC with client **58F310** and command **2001**. An empty string skips submission. When the gate is zero, the original SDK `%s` literal at **551908** echoes the supplied text. Its callers discard V0, so the selected source interface is void; this comparison makes no claim about its leftover raw V0.
+
+Printf uses the original seven saved GP argument slots and caller-stack tail, calls the recovered vsprintf, then sends the resulting text. Its saved formatter count survives every transport outcome. Tests include strings, integer widths/precision, twelve argument slots and `%n`, plus disabled transport and pool/semaphore/DMA failures. The native copy/formatting behavior remains unbounded; selected text stays within 255 bytes. Host frame mapping transports the private buffers and the submitted bytes, without claiming a matching compiled stack layout.
+
+The captured transport submits **365 DMA payloads / 67,161 bytes** and executes **17,281 actual SDK callbacks**, including **302 kernel debug-string submissions**. Payload byte comparisons include the private aligned copies produced by TextSend and printf, rather than only their packet addresses.
+
+The new DDS evidence includes **seventeen agreeing callee constraints**, **three repeated global constraints** and four byte-equal diagnostic strings/name literals. Queue **599700** relocates to **404280**. The unique full RPC caller also disambiguates the earlier identical packet-pool copies: **002CCF68 -> 002F4B10** and **002CD010 -> 002F4BB8**. Their rolling support report now records those caller constraints. TextSend still has no full-span DDS match; it is not promoted from a partial match. No exact Unity identity is claimed for these native support bodies.
+
+The [current Message update graph](message-update-frontier.json) now contains **thirteen unresolved bodies / 4,240 bytes / two indirect sites**. Its remaining loader roots are phase processor **00297460**, pump **002976C0** and the three production file-event callbacks **00296D90**, **00296FD8** and **002972A0**. Message input/update and sound loading also remain open. PS2 runtime and a matching executable remain unproved.
+
+Current evidence: `diagnostic-rpc-validation.json`, `diagnostic-rpc-interfaces.json`, `diagnostic-rpc-abi.json`, `diagnostic-rpc-transfer.json`, the rolling `diagnostic-rpc/` capture, current function exports and the update graph. The earlier three packet/format prerequisites also pass their 768 comparisons using the current shared bindings. Work saves in place; no checkpoint or project/source/capture copy was created.

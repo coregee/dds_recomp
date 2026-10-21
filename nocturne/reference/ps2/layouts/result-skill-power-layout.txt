@@ -1,0 +1,11 @@
+Structure: rstSkillPowerWork_PS2
+Size: 368 bytes
+Alignment: 1
+
+Layout:
+Offset | Size | Type | Name
+-------|------|------|-----
+    27 |    1 | byte                 | bLevel_difference
+   116 |    1 | char                 | cSelected_slot
+   118 |    2 | ushort               | wSelected_skill
+   364 |    4 | uint                 | dwUnit_address

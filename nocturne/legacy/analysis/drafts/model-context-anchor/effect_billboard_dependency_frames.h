@@ -1,0 +1,12 @@
+#ifndef NOCTURNE_EFFECT_BILLBOARD_DEPENDENCY_FRAMES_H
+#define NOCTURNE_EFFECT_BILLBOARD_DEPENDENCY_FRAMES_H
+#include <stdint.h>
+uint64_t ps2EffectGuestMemcpy_002D43A4(uint64_t destination,uint64_t source,uint64_t count);
+uint64_t ps2EffectGuestMemset_002D4558(uint64_t destination,uint64_t byte,uint64_t count);
+uint64_t ps2EffectTextureBaseAddress_002AB010(uint64_t texture);
+uint64_t ps2EffectTexturePaletteAddress_002AAFF8(uint64_t texture);
+uint64_t ps2EffectTextureRegisterCacheCreate_002ABA78(uint64_t texture,uint64_t context);
+void ps2EffectDrawBuildTextureRegisterGroup_002AB910(uint64_t output,uint64_t width,uint64_t height,uint64_t address,uint64_t format,uint64_t palette,uint64_t paletteMode,uint64_t functionMode);
+uint64_t ps2EffectKernelDisableInterrupts_002E4070(void);
+uint64_t ps2EffectKernelEnableInterrupts_002E40B8(void);
+#endif

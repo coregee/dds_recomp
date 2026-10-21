@@ -1,0 +1,27 @@
+# Native resource-loader phase, events and pump
+
+Five complete routines in `src/resource_loader_flow.c` pass **480 original-instruction comparisons**, covering **2,320 recognized body bytes**. All **422 reachable main instruction addresses** execute. One compiler dispatch branch at **002974CC** is proved unreachable: the type is an unsigned byte, type1 has already branched away, and types2..255 take the other arm, leaving only type0 for the subsequent zero test. The working Ghidra project is saved in place; all five interfaces are independently reopened and checked, and their current exports are merged.
+
+| PS2 entry | Recovered routine | Complete DDS counterpart |
+| --- | --- | --- |
+| 00297460 | ps2ResourceProcessPhase | 00289540 |
+| 00296D90 | ps2ResourcePacFileEvent | No complete span under the current mask |
+| 00296FD8 | ps2ResourceReadFileEvent | No complete span under the current mask |
+| 002972A0 | ps2ResourceWriteFileEvent | No complete span under the current mask |
+| 002976C0 | ps2ResourcePump | 002897A0 |
+
+The processor takes the manager semaphore and dispatches the active head by type and phase. Type0 and type1 open real read jobs, installing the raw and PAC callbacks respectively; type2 opens a stream job with size **180** hexadecimal and the write callback. Submission releases the manager lock first. A raw request in phase7 tries allocation again: success acquires the pointer and submits a read, while failure formats the actual filename diagnostic and decrements the retry byte without a zero guard. Native callers discard the processor's V0; its chosen void interface makes no claim about that leftover register.
+
+The event callbacks retain the original full64 event comparisons and low-word size arithmetic. PAC event5 increments the pending byte even when decoding has already finished. When its remaining count reaches zero, it pops the active head unconditionally; raw read event5 and write event6 only pop when the sign-extended manager head equals the full64 request argument. The write callback advances its buffer pointer even on the final chunk. Completed requests enter the reusable list, close the real file job and temporarily set diagnostic tags1/2/3 around phase processing. Event7 releases a terminal job and sets phase6; raw requests with a user callback enter the separate completion chain. The callbacks preserve their different lock/release order.
+
+The pump drains raw callbacks, consumes pending PAC slots through the actual parser, and unlinks decoded requests when parsing returns minus one. It then runs phase processing and walks the PAC completion chain at manager+14, using request+6C links. Phase6 requests are unlinked before their actual callback runs; other requests remain linked. Its return value reports whether the active head is nonzero. The original slot dereference precedes its null check, and a pending non-PAC slot can spin indefinitely; recovery retains these unchecked preconditions.
+
+The comparison executes real path/job/pool allocation, enqueue, file commands, memory-handle allocation/acquire, parser/default-header/stop, list and diagnostic dependencies. It checks full declared RAM, defined raw64 results, Status, CPU primitives, saved registers and ordered syscall/cache/SDK/DMA payload observations. **218 actual completion callbacks** execute across raw and PAC queues. Callback targets are the three recovered file getters and active unlink. The parser fixtures cover stopped, skipping, terminal-header and actual stop-callback states. Broader production asset/callback integration, kernel scheduling, IOP reads and physical PS2 behavior remain unproved. Host frame context transports diagnostic buffers at native guest offsets; this is not matching compiled stack-layout evidence.
+
+Unity's retained `fileManager_H.fileCb_t` and `pacFileCb_t` fields corroborate the request roles, including allocation direction, remaining count, decoder completion, ring index and completion links. The HD metadata does not provide named counterparts for these five native bodies, so they remain descriptive PS2 aliases.
+
+The DDS comparison finds two complete root spans, **34 agreeing callee constraints** and **seven repeated global constraints**. Manager **575618** relocates to **3DC658**, and the allocation-retry diagnostic literal matches byte-for-byte. The exact phase processor also supplies installed-callback role leads: **00296D90 -> 00288E70**, **00296FD8 -> 002890B8** and **002972A0 -> 00289380**. Those three callback bodies differ under the current mask and are not promoted to complete matches. Static transfer evidence does not establish DDS runtime equivalence.
+
+The remaining Message update graph has **eight unresolved bodies / 1,920 bytes / one indirect site**: message advancement, selection input, the update manager and sound-bank loading. Static traversal stops at compared routines, so this count does not imply coverage of every production callback. Overall integrated recovery is **1,116 / 8,975 functions (12.435%)**, with **615,834 aggregated comparisons**. The last full run remains **413 functions / 462,684 cases**.
+
+Current evidence: `resource-loader-flow-validation.json`, `resource-loader-flow-interfaces.json`, `resource-loader-flow-abi.json`, `resource-loader-flow-transfer.json`, the rolling `resource-loader-flow/` capture and current function exports. No checkpoint, project copy, frozen source tree or duplicate capture was created.

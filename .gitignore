@@ -1,4 +1,15 @@
-/*.iso
-/game/
-/backups/
+# Disc images and anything extracted from them
+*.iso
+game/
+backups/
 __pycache__/
+
+# Nocturne: local databases, build output and large regenerable references
+/nocturne/ghidra/
+/nocturne/build/
+/nocturne/tools/il2cpp-dump/bin/
+/nocturne/tools/il2cpp-dump/obj/
+/nocturne/reference/hd/
+/nocturne/reference/ps2/whole-program/
+/nocturne/reference/manuals/
+/nocturne/reference/ps2/hd-corpus-matches/candidates.json

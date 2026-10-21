@@ -1,0 +1,11 @@
+#ifndef NOCTURNE_MODEL_CONTEXT_CHILD_H
+#define NOCTURNE_MODEL_CONTEXT_CHILD_H
+#include <stdint.h>
+#ifndef NOCTURNE_CONTEXT_CHILD_BINDING_API
+#define NOCTURNE_CONTEXT_CHILD_BINDING_API
+#endif
+void ps2ModelUpdateContextChildren(uint64_t context,uint64_t surfaces);
+NOCTURNE_CONTEXT_CHILD_BINDING_API void *nocturneResolveModelContextChildAddress(uint32_t address);
+NOCTURNE_CONTEXT_CHILD_BINDING_API uint32_t nocturneModelContextChildFrameAddress(void);
+void nocturneModelContextChildNoteEntry(uint32_t entry);
+#endif

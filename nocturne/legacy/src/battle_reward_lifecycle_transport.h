@@ -1,0 +1,7 @@
+#ifndef NOCTURNE_BATTLE_REWARD_LIFECYCLE_TRANSPORT_H
+#define NOCTURNE_BATTLE_REWARD_LIFECYCLE_TRANSPORT_H
+#include "battle_reward_lifecycle_native.h"
+#include "battle_reward_phase_transport.h"
+uint32_t nocturneBattleRewardLifecycleRun(uint32_t entry);
+const NocturneBattlePanelRendererStop *nocturneBattleRewardLifecycleLastStop(void);
+#endif
