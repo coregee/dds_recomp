@@ -13,10 +13,10 @@ void pb_end_message()
 {
     itfMesMngWindowType(0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* pb_mes_end */;
+    itfMesMngMessage(5) /* pb_mes_end: What!? You're giving up? You blow. */;
     itfMesMngSelectDefKey(3, 1);
     itfMesMng_SEL_SELNO(1);
-    if (itfMesMngSelect(6) == 1)
+    if (itfMesMngSelect(6) /* pb_sel01: I'm done for now. / No, I'll keep trying. */ == 1)
     {
         itfMesMngCloseWindow();
         return;

@@ -40,7 +40,7 @@ void e799_main()
     itfMesMngWindowTypeAlpha(0, 1);
     itfMesMngOpenWindow();
     COMM_117(90, 220);
-    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngMessage(2) /* MSG_003: ...by the guidance of the Great Will. */;
     itfMesMngCloseWindow();
     itfMesMngIgnoreConfig(0);
     FADEOUT_E(799, 0);
@@ -66,7 +66,7 @@ void e799_010_2()
     itfMesMngWindowTypeAlpha(0, 1);
     COMM_117(60, 220);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_002B */;
+    itfMesMngMessage(3) /* MSG_002B: The comfort of death will come, for men and demons alike... */;
     WAIT(40);
     itfMesMngCloseWindow();
     WAIT(30);

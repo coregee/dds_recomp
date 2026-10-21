@@ -64,7 +64,7 @@ void e617_010_1()
 {
     itfMesMngIgnoreConfig(1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_030_1 */;
+    itfMesMngMessage(4) /* MSG_030_1: ...This will make you a demon... */;
     WAIT(25);
     itfMesMngCloseWindow();
     itfMesMngIgnoreConfig(0);
@@ -141,18 +141,18 @@ void e617_010()
     itfMesMngWindowTypeAlpha(1, 65);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_010_1 */;
+    itfMesMngMessage(0) /* MSG_010_1: ...It is my honor to tell you that my little master has shown an inte... */;
     itfMesMngCloseWindow();
     WAIT(10);
     CAM_SEL(SEARCH_ID("cam01"));
     CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_010_2 */;
+    itfMesMngMessage(1) /* MSG_010_2: Poor human, he wants to give you a special gift. */;
     itfMesMngCloseWindow();
     WAIT(35);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_010_3 */;
+    itfMesMngMessage(2) /* MSG_010_3: It is vital that you receive this gift. */;
     itfMesMngCloseWindow();
     WAIT(10);
     MODEL_MOTION2(var5, 1, 0, 0, 2);
@@ -176,7 +176,7 @@ void e617_020()
     SCR_RUN(5, - 1);
     itfMesMngOpenWindow();
     FADEOUT_E(672, 1);
-    itfMesMngMessage(3) /* MSG_020_1 */;
+    itfMesMngMessage(3) /* MSG_020_1: ...Please do not move. */;
     itfMesMngCloseWindow();
     BGM_TRANS_E(617, 2);
     WAIT(10);

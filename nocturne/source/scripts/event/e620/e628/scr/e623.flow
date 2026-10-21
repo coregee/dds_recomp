@@ -35,7 +35,7 @@ void e623_020()
     CAM_SEL(SEARCH_ID("cam02"));
     CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_020_1 */;
+    itfMesMngMessage(0) /* MSG_020_1: [81A6][80E8][8288][8289] [83EB][83C7][8189][818D][81A2][81A7][81AA][8... */;
     itfMesMngCloseWindow();
     WAIT(5);
     MODEL_WAIT_MOT(var1, 4);
@@ -48,7 +48,7 @@ void e623_030()
     CAM_SEL(SEARCH_ID("cam03"));
     CAM_PATH_MOVE(SEARCH_ID("cam03"), SEARCH_ID("cam03_MOTION"));
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_030_1 */;
+    itfMesMngMessage(1) /* MSG_030_1: [80FB][80E4][80FE][8288][85AB][80E2][8184][80ED][81AA][81A6][8289] [8... */;
     itfMesMngCloseWindow();
     WAIT(5);
     MODEL_WAIT_MOT(var1, 6);
@@ -61,14 +61,14 @@ void e623_040()
     CAM_SEL(SEARCH_ID("cam04"));
     CAM_PATH_MOVE(SEARCH_ID("cam04"), SEARCH_ID("cam04_MOTION"));
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_040_1 */;
+    itfMesMngMessage(2) /* MSG_040_1: [8480][80F5][81AB][8288][80F1][818C][81BB][81FD][80EA][81C4][81B5][81... */;
     itfMesMngCloseWindow();
     WAIT(5);
     MODEL_WAIT_MOT(var1, 8);
     MODEL_MOTION2(var1, 7, 0, 10, 0);
     WAIT(60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_040_2 */;
+    itfMesMngMessage(3) /* MSG_040_2: [8187][80E4][80FE][80E2][8288][8289] [889A][80F5][8184][819D][80FF][8... */;
     itfMesMngCloseWindow();
     WAIT(5);
     MODEL_MOTION2(var1, 9, 0, 0, 3);

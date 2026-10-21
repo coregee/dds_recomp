@@ -69,8 +69,8 @@ void e672_main()
         CAM_PATH_MOVE(SEARCH_ID("cam09"), SEARCH_ID("cam09_MOTION"));
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(10) /* MSG_090_1 */;
-        var7 = itfMesMngSelect(11);
+        itfMesMngMessage(10) /* MSG_090_1: You understand what I'm saying, don't you? */;
+        var7 = itfMesMngSelect(11) /* YOSUGA_001: I see your point. / I understand, but I don't agree. */;
         itfMesMngCloseWindow();
         WAIT(10);
         if (var7 == 0)
@@ -129,7 +129,7 @@ void e672_020()
     WAIT(150);
     KUTI(var1, 3, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_020_1 */;
+    itfMesMngMessage(0) /* MSG_020_1: How arrogant... You misunderstand your purpose... */;
     itfMesMngCloseWindow();
     FADEOUT_E(672, 1);
     WAIT(10);
@@ -165,7 +165,7 @@ void e672_040()
     WAIT(160);
     KUTI(var1, 3, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_040_1 */;
+    itfMesMngMessage(1) /* MSG_040_1: You're so weak, yet you struggle so hard to live. */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -183,7 +183,7 @@ void e672_050()
     WAIT(90);
     KUTI(var2, 3, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_050_1 */;
+    itfMesMngMessage(2) /* MSG_050_1: ...Help us, {name 0}! */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -199,7 +199,7 @@ void e672_060()
     MODEL_EXMOTION(var1, 2, 0, 0, 10, 1);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_060_1 */;
+    itfMesMngMessage(3) /* MSG_060_1: ...... */;
     itfMesMngCloseWindow();
     if (BIT_CHK(25) == 1 || POINT_GET(1) >= 32)
     {
@@ -207,7 +207,7 @@ void e672_060()
         MODEL_MOTION2(var1, 7, 0, 10, 0);
         WAIT(10);
         itfMesMngOpenWindow();
-        itfMesMngMessage(4) /* MSG_060_2 */;
+        itfMesMngMessage(4) /* MSG_060_2: Good timing. I keep killing and killing, but there are so many of them. */;
         itfMesMngCloseWindow();
     }
     WAIT(30);
@@ -221,7 +221,7 @@ void e672_070()
     KUTI(var2, 3, 0);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_070_1 */;
+    itfMesMngMessage(5) /* MSG_070_1: You would never partake in such a brutal act, would you? */;
     itfMesMngCloseWindow();
     PATH_START(SEARCH_ID("cam07"));
     MODEL_WAIT_MOT(var2, 4);
@@ -230,7 +230,7 @@ void e672_070()
     MODEL_EXMOTION(var2, 2, 2, 0, 10, 1);
     WAIT(75);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_070_2 */;
+    itfMesMngMessage(6) /* MSG_070_2: Your heart is unlike any demon's... Is it not? */;
     itfMesMngCloseWindow();
     WAIT(45);
 }
@@ -242,15 +242,15 @@ void e672_080()
     KUTI(var1, 3, 0);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_080_1 */;
+    itfMesMngMessage(7) /* MSG_080_1: I'm sure you'll agree... */;
     MODEL_WAIT_MOT(var1, 6);
     MODEL_MOTION2(var1, 8, 0, 10, 0);
     MODEL_EXMOTION(var1, 2, 1, 0, 5, 1);
-    itfMesMngMessage(8) /* MSG_080_1B */;
+    itfMesMngMessage(8) /* MSG_080_1B: ...that only the strong should be allowed to exist in this world. */;
     itfMesMngCloseWindow();
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_080_2 */;
+    itfMesMngMessage(9) /* MSG_080_2: The weak provoke and mislead others because they can do nothing thems... */;
     itfMesMngCloseWindow();
     WAIT(5);
 }
@@ -269,7 +269,7 @@ void e672_100()
     WAIT(20);
     KUTI(var2, 3, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(14) /* MSG_100_1 */;
+    itfMesMngMessage(14) /* MSG_100_1: You too...? You will rob us of our dream...? */;
     itfMesMngCloseWindow();
     WAIT(20);
     PATH_START(SEARCH_ID("cam10"));
@@ -280,7 +280,7 @@ void e672_100()
     WAIT(40);
     KUTI(var2, 3, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(15) /* MSG_100_2 */;
+    itfMesMngMessage(15) /* MSG_100_2: No matter how much you demons threaten me, I will not yield! */;
     itfMesMngCloseWindow();
     FADEOUT_E(672, 2);
     WAIT(30);
@@ -305,7 +305,7 @@ void e672_110()
         KUTI(var1, 3, 0);
         WAIT(20);
         itfMesMngOpenWindow();
-        itfMesMngMessage(16) /* MSG_110_1 */;
+        itfMesMngMessage(16) /* MSG_110_1: ...Oh. That's too bad. I thought you were different. */;
         itfMesMngCloseWindow();
     }
     else if (BIT_CHK(25) == 0)
@@ -320,7 +320,7 @@ void e672_110()
         MODEL_MOTION2(var1, 9, 0, 10, 0);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(17) /* MSG_110_R1 */;
+        itfMesMngMessage(17) /* MSG_110_R1: ...You don't comprehend the Reason of Yosuga. */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL(SEARCH_ID("cam11"));
@@ -329,7 +329,7 @@ void e672_110()
         MODEL_LIGHT_LINK(var1, 0, SEARCH_ID("light10"));
         WAIT(20);
         itfMesMngOpenWindow();
-        itfMesMngMessage(18) /* MSG_110_R2 */;
+        itfMesMngMessage(18) /* MSG_110_R2: Why were you given a demon's body? You don't know the answer yourself... */;
         itfMesMngCloseWindow();
     }
     FADEOUT_E(672, 2);

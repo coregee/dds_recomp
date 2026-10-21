@@ -6,7 +6,7 @@ void shp_1st()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
-    itfMesMngMessage(0) /* msg_1st */;
+    itfMesMngMessage(0) /* msg_1st: Hey there, hot stuff! I have faaabulous things to sell! */;
     jump endless_loop;
 }
 
@@ -15,7 +15,7 @@ void shp_buy01()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
-    itfMesMngMessage(1) /* msg_buy01 */;
+    itfMesMngMessage(1) /* msg_buy01: What would you like? */;
     jump endless_loop;
 }
 
@@ -24,7 +24,7 @@ void shp_buy02()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
-    itfMesMngMessage(2) /* msg_buy02 */;
+    itfMesMngMessage(2) /* msg_buy02: How many will you buy? */;
     jump endless_loop;
 }
 
@@ -34,7 +34,7 @@ void shp_sell01()
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
     itfMesMngSelectDefKey(3, 1);
-    itfMesMngMessage(3) /* msg_sell01 */;
+    itfMesMngMessage(3) /* msg_sell01: What are you going to sell? */;
     jump endless_loop;
 }
 
@@ -44,7 +44,7 @@ void shp_sell02()
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
     itfMesMngSelectDefKey(3, 1);
-    itfMesMngMessage(4) /* msg_sell02 */;
+    itfMesMngMessage(4) /* msg_sell02: How many will you sell? */;
     jump endless_loop;
 }
 
@@ -53,7 +53,7 @@ void shp_err_nums_max()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(5) /* msg_err_nums_max */;
+    itfMesMngMessage(5) /* msg_err_nums_max: No, no. You can't hold anymore of that. */;
 }
 
 void shp_confirm()
@@ -65,13 +65,13 @@ void shp_confirm()
     itfMesMngSelectDefKey(3, 1);
     if (fclGetVal(7) == 0)
     {
-        itfMesMngMessage(6) /* msg_confirm */;
+        itfMesMngMessage(6) /* msg_confirm: It'll be a total of {var 3} Macca. Are you sure? */;
     }
     else
     {
-        itfMesMngMessage(7) /* msg_confirm_maka_max */;
+        itfMesMngMessage(7) /* msg_confirm_maka_max: My, you're handsome and rich! You can't hold anymore Macca. */;
     }
-    if (itfMesMngSelect(24) == 1)
+    if (itfMesMngSelect(24) /* msg_sel01: Yes. / No. */ == 1)
     {
         fclSignal(2);
     }
@@ -82,7 +82,7 @@ void shp_thanks()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(8) /* msg_thanks */;
+    itfMesMngMessage(8) /* msg_thanks: You're such a doll! Thank you! */;
 }
 
 void shp_2nd()
@@ -90,7 +90,7 @@ void shp_2nd()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
-    itfMesMngMessage(9) /* msg_2nd */;
+    itfMesMngMessage(9) /* msg_2nd: Keep it up and buy more! */;
     jump endless_loop;
 }
 
@@ -102,15 +102,15 @@ void shp_talk()
         {
             itfMesMngWindowType(2);
             itfMesMngOpenWindow();
-            itfMesMngMessage(29) /* msg_roki_item */;
-            if (itfMesMngSelect(30) == 0)
+            itfMesMngMessage(29) /* msg_roki_item: Dummy. */;
+            if (itfMesMngSelect(30) /* msg_roki_sel: Dummy. */ == 0)
             {
-                itfMesMngMessage(31) /* msg_roki_yes */;
+                itfMesMngMessage(31) /* msg_roki_yes: Dummy. */;
                 BIT_ON(1008);
             }
             else
             {
-                itfMesMngMessage(32) /* msg_roki_no */;
+                itfMesMngMessage(32) /* msg_roki_no: Dummy. */;
             }
             return;
         }
@@ -123,62 +123,62 @@ void shp_talk()
     {
         if (local0 == 1)
         {
-            itfMesMngMessage(11) /* msg_talk_sibuya_hearts_n */;
+            itfMesMngMessage(11) /* msg_talk_sibuya_hearts_n: Do you want to hear about my alternative lifestyle? */;
         }
         else if (local0 == 2)
         {
-            itfMesMngMessage(13) /* msg_talk_tikado_hearts_n */;
+            itfMesMngMessage(13) /* msg_talk_tikado_hearts_n: Do you want to hear about my alternative lifestyle? */;
         }
         else if (local0 == 3)
         {
-            itfMesMngMessage(15) /* msg_talk_ikebuk_hearts_n */;
+            itfMesMngMessage(15) /* msg_talk_ikebuk_hearts_n: ...Don't tell me... */;
         }
         else if (local0 == 4)
         {
-            itfMesMngMessage(17) /* msg_talk_asak_1_hearts_n */;
+            itfMesMngMessage(17) /* msg_talk_asak_1_hearts_n: It's so comfortable here. */;
         }
         else if (local0 == 5)
         {
-            itfMesMngMessage(19) /* msg_talk_asak_2_hearts_n */;
+            itfMesMngMessage(19) /* msg_talk_asak_2_hearts_n: This is a dummy. */;
         }
         else if (local0 == 6)
         {
-            itfMesMngMessage(21) /* msg_talk_kagutu_hearts_n */;
+            itfMesMngMessage(21) /* msg_talk_kagutu_hearts_n: My cute Magatama... */;
         }
         else
         {
-            itfMesMngMessage(10) /* msg_talk */;
+            itfMesMngMessage(10) /* msg_talk: Come to think of it, we received something interesting. */;
         }
     }
     else
     {
         if (local0 == 1)
         {
-            itfMesMngMessage(12) /* msg_talk_sibuya_hearts_a */;
+            itfMesMngMessage(12) /* msg_talk_sibuya_hearts_a: I think this was called ...a Magatama? */;
         }
         else if (local0 == 2)
         {
-            itfMesMngMessage(14) /* msg_talk_tikado_hearts_a */;
+            itfMesMngMessage(14) /* msg_talk_tikado_hearts_a: I think this was called ...a Magatama? */;
         }
         else if (local0 == 3)
         {
-            itfMesMngMessage(16) /* msg_talk_ikebuk_hearts_a */;
+            itfMesMngMessage(16) /* msg_talk_ikebuk_hearts_a: This is a dummy. */;
         }
         else if (local0 == 4)
         {
-            itfMesMngMessage(18) /* msg_talk_asak_1_hearts_a */;
+            itfMesMngMessage(18) /* msg_talk_asak_1_hearts_a: Magatama... */;
         }
         else if (local0 == 5)
         {
-            itfMesMngMessage(20) /* msg_talk_asak_2_hearts_a */;
+            itfMesMngMessage(20) /* msg_talk_asak_2_hearts_a: This is a dummy. */;
         }
         else if (local0 == 6)
         {
-            itfMesMngMessage(22) /* msg_talk_kagutu_hearts_a */;
+            itfMesMngMessage(22) /* msg_talk_kagutu_hearts_a: My Magatama... */;
         }
         else
         {
-            itfMesMngMessage(10) /* msg_talk */;
+            itfMesMngMessage(10) /* msg_talk: Come to think of it, we received something interesting. */;
         }
     }
 }
@@ -188,7 +188,7 @@ void shp_exit()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(23) /* msg_exit */;
+    itfMesMngMessage(23) /* msg_exit: Come back again! */;
 }
 
 void shp_ticket()
@@ -196,7 +196,7 @@ void shp_ticket()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(25) /* msg_ticket */;
+    itfMesMngMessage(25) /* msg_ticket: Thank you for buying sooo much! */;
 }
 
 void shp_ticket_item()
@@ -204,8 +204,8 @@ void shp_ticket_item()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(26) /* msg_ticket_item */;
-    local1 = itfMesMngSelect(28);
+    itfMesMngMessage(26) /* msg_ticket_item: Oooh, you wrangled up ten Lucky Tickets for me! */;
+    local1 = itfMesMngSelect(28) /* msg_sel02: Black box. / White box. / Pink box. */;
     if (local1 == 0)
     {
         itfMesMngSetVarScr(3, fclGetVal(4), 3);
@@ -220,7 +220,7 @@ void shp_ticket_item()
         fclSignal(5);
         itfMesMngSetVarScr(3, fclGetVal(6), 3);
     }
-    itfMesMngMessage(27) /* msg_ticket_item2 */;
+    itfMesMngMessage(27) /* msg_ticket_item2: Ah, you got a {var 3}. Good job! */;
 }
 
 void endless_loop()

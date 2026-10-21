@@ -117,11 +117,11 @@ void e681_030()
     WAIT(350);
     itfMesMngWindowTypeAlpha(1, 60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_010_1 */;
+    itfMesMngMessage(0) /* MSG_010_1: Who stirs the silence...? Who opposes the coming of the kingdom of Sh... */;
     itfMesMngCloseWindow();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_010_2 */;
+    itfMesMngMessage(1) /* MSG_010_2: It is you... */;
     itfMesMngCloseWindow();
     WAIT(10);
     MODEL_MOTION2(var1, 2, 0, 10, 2);
@@ -211,14 +211,14 @@ void e681_080()
     WAIT(85);
     itfMesMngWindowTypeAlpha(1, 60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_SIJIMA01 */;
+    itfMesMngMessage(2) /* MSG_SIJIMA01: Welcome... */;
     itfMesMngCloseWindow();
     WAIT(20);
     WAIT(30);
     CAM_PATH_WAIT(SEARCH_ID("cam03"));
     itfMesMngWindowTypeAlpha(1, 60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_SIJIMA02 */;
+    itfMesMngMessage(3) /* MSG_SIJIMA02: I shall share with you the Reason of Shijima... Let us enter the king... */;
     itfMesMngCloseWindow();
     var21 = MODEL_BE(681, 14);
     var22 = MODEL_BE(681, 13);
@@ -259,7 +259,7 @@ void e681_080()
     itfMesMngWindowTypeAlpha(1, 60);
     SE_PLAY(25);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_SIJIMA02R */;
+    itfMesMngMessage(4) /* MSG_SIJIMA02R: > You obtained the Earthstone. */;
     itfMesMngCloseWindow();
     WAIT(40);
     CAM_SEL(SEARCH_ID("cam05"));
@@ -267,7 +267,7 @@ void e681_080()
     PATH_STOP(SEARCH_ID("cam06"));
     WAIT(40);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_SIJIMA03 */;
+    itfMesMngMessage(5) /* MSG_SIJIMA03: Now, go. It is your fate to unleash the power of creation... */;
     itfMesMngCloseWindow();
     WAIT(40);
     FADE_OUT(0, 100);

@@ -64,7 +64,7 @@ void e605_020()
     KUTI(var1, 3, 2);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_020_1 */;
+    itfMesMngMessage(0) /* MSG_020_1: Oh, you're back. */;
     itfMesMngCloseWindow();
     MODEL_EXMOTION(var1, 3, 2, 0, 10, 2);
     MODEL_EXMOTION(var1, 2, 3, 0, 10, 2);
@@ -80,10 +80,10 @@ void e605_020()
     CAM_PATH_MOVE(SEARCH_ID("cam07"), SEARCH_ID("cam07_MOTION"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_020_2 */;
+    itfMesMngMessage(1) /* MSG_020_2: According to the report, there's a group of demon worshippers who cal... */;
     MODEL_WAIT_MOT(var1, 3);
     MODEL_MOTION2(var1, 7, 0, 10, 0);
-    itfMesMngMessage(2) /* MSG_020_2B */;
+    itfMesMngMessage(2) /* MSG_020_2B: In that book, it says that chaos will befall the world, */;
     itfMesMngCloseWindow();
     WAIT(30);
     MODEL_WAIT_MOT(var1, 9);
@@ -101,7 +101,7 @@ void e605_020()
     CAM_PATH_MOVE(SEARCH_ID("cam06"), SEARCH_ID("cam06_MOTION"));
     KUTI(var5, 3, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_060_1 */;
+    itfMesMngMessage(7) /* MSG_060_1: No luck finding Ms. {lastname 1}. */;
     itfMesMngCloseWindow();
     WAIT(15);
     CAM_SEL(SEARCH_ID("cam04"));
@@ -110,7 +110,7 @@ void e605_020()
     KUTI(var1, 3, 2);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_060_2 */;
+    itfMesMngMessage(8) /* MSG_060_2: *sigh* I don't think we needed to know that. */;
     itfMesMngCloseWindow();
     WAIT(15);
     MODEL_WAIT_MOT(var1, 11);
@@ -123,7 +123,7 @@ void e605_020()
     KUTI(var1, 3, 2);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_060_3 */;
+    itfMesMngMessage(9) /* MSG_060_3: Now, where were we? ...Oh yeah, read this part. */;
     itfMesMngCloseWindow();
     MODEL_POS(var5, SEARCH_ID("p04"));
     WAIT(5);
@@ -135,19 +135,19 @@ void e605_020()
     KUTI(var5, 3, 1);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* MSG_060_4 */;
+    itfMesMngMessage(10) /* MSG_060_4: Let me guess... It ends with, "More to come in our next issue," right? */;
     itfMesMngCloseWindow();
     WAIT(5);
     KUTI(var5, 3, 1);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(11) /* MSG_060_4B */;
+    itfMesMngMessage(11) /* MSG_060_4B: You know, this could be the hospital that they're referring to. */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("cam15"));
     CAM_PATH_MOVE(SEARCH_ID("cam15"), SEARCH_ID("cam15_MOTION"));
     MODEL_MOTION2(var1, 12, 0, 0, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(12) /* MSG_060_4C */;
+    itfMesMngMessage(12) /* MSG_060_4C: I've heard weird stories about this place. */;
     itfMesMngCloseWindow();
     WAIT(1);
     MODEL_WAIT_MOT(var1, 15);
@@ -159,11 +159,11 @@ void e605_020()
     KUTI(var1, 3, 2);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(13) /* MSG_060_5 */;
+    itfMesMngMessage(13) /* MSG_060_5: ...Really? */;
     itfMesMngCloseWindow();
     MODEL_EXMOTION(var1, 2, 0, 0, 10, 2);
     itfMesMngOpenWindow();
-    itfMesMngMessage(14) /* MSG_060_5B */;
+    itfMesMngMessage(14) /* MSG_060_5B: I haven't heard those things before. Maybe we shouldn't have come... */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("cam10"));
@@ -171,7 +171,7 @@ void e605_020()
     KUTI(var1, 3, 2);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(15) /* MSG_060_6 */;
+    itfMesMngMessage(15) /* MSG_060_6: I don't normally take this kind of magazine too seriously, but... */;
     itfMesMngCloseWindow();
     WAIT(5);
     CAM_SEL(SEARCH_ID("cam14"));
@@ -182,13 +182,13 @@ void e605_020()
     MODEL_WAIT_MOT(var5, 11);
     MODEL_MOTION2(var5, 10, 0, 10, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(16) /* MSG_060_7 */;
+    itfMesMngMessage(16) /* MSG_060_7: ...... */;
     itfMesMngCloseWindow();
     WAIT(30);
     KUTI(var5, 3, 3);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(17) /* MSG_060_7B */;
+    itfMesMngMessage(17) /* MSG_060_7B: I'm worried about Ms. {lastname 1}. */;
     itfMesMngCloseWindow();
     MODEL_EXMOTION(var5, 3, 2, 0, 0, 2);
     MODEL_WAIT_MOT(var5, 5);
@@ -197,7 +197,7 @@ void e605_020()
     CAM_PATH_MOVE(SEARCH_ID("cam21"), SEARCH_ID("cam21_MOTION"));
     MODEL_EXMOTION(var5, 1, 0, 0, 0, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(18) /* MSG_060_7C */;
+    itfMesMngMessage(18) /* MSG_060_7C: Hey, let's look around some more. If we don't find anything, then at... */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var5, 9);
     MODEL_MOTION2(var5, 8, 0, 10, 0);
@@ -206,8 +206,8 @@ void e605_020()
     CAM_PATH_MOVE(SEARCH_ID("cam14"), SEARCH_ID("cam14_MOTION"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(20) /* MSG_060_8 */;
-    itfMesMngMessage(19) /* MSG_060_8B */;
+    itfMesMngMessage(20) /* MSG_060_8: Here you go, {firstname 0}. You can use this to search the basement. */;
+    itfMesMngMessage(19) /* MSG_060_8B: > You obtained an ID Card. */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("cam11"));
@@ -217,14 +217,14 @@ void e605_020()
     KUTI(var1, 3, 2);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(21) /* MSG_060_9 */;
+    itfMesMngMessage(21) /* MSG_060_9: Why don't you search the basement yourself? */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var5, 3);
     MODEL_MOTION2(var5, 13, 0, 10, 0);
     KUTI(var5, 3, 1);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(22) /* MSG_060_10 */;
+    itfMesMngMessage(22) /* MSG_060_10: O-Of course not! */;
     itfMesMngCloseWindow();
     WAIT(10);
     MODEL_WAIT_MOT(var5, 5);
@@ -234,7 +234,7 @@ void e605_020()
     CAM_PATH_MOVE(SEARCH_ID("cam12"), SEARCH_ID("cam12_MOTION"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(23) /* MSG_060_10B */;
+    itfMesMngMessage(23) /* MSG_060_10B: All {firstname 0} needs to do is confirm that Ms. {lastname 1} isn't... */;
     itfMesMngCloseWindow();
     WAIT(10);
     CAM_SEL(SEARCH_ID("cam16"));
@@ -243,7 +243,7 @@ void e605_020()
     KUTI(var1, 3, 2);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(24) /* MSG_060_11 */;
+    itfMesMngMessage(24) /* MSG_060_11: *sigh* I can't believe him sometimes. */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var1, 3);
     MODEL_MOTION2(var1, 13, 0, 10, 0);
@@ -251,7 +251,7 @@ void e605_020()
     KUTI(var1, 3, 2);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(25) /* MSG_060_11B */;
+    itfMesMngMessage(25) /* MSG_060_11B: But now, I'm worried about Ms. {lastname 1}. We should make sure she'... */;
     itfMesMngCloseWindow();
 }
 

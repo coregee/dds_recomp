@@ -52,7 +52,7 @@ START:
     FADE_IN(1, 30);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_004 */;
+    itfMesMngMessage(3) /* MSG_004: > You obtained the Candelabrum of Majesty. */;
     itfMesMngCloseWindow();
     BIT_ON(993);
     BIT_ON(2333);
@@ -93,7 +93,7 @@ void e746_010()
     MODEL_MOTION2(var1, 1, 0, 0, 1);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: ...It is time to settle this, once and for all. */;
     itfMesMngCloseWindow();
     WAIT(30);
     CAM_SEL(SEARCH_ID("01cam_04"));
@@ -103,7 +103,7 @@ void e746_010()
     MODEL_MOTION2(var4, 2, 0, 0, 1);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(1) /* MSG_002: Can a human with the strength of a demon... */;
     itfMesMngCloseWindow();
     WAIT(30);
     CAM_SEL(SEARCH_ID("01cam_05"));
@@ -117,7 +117,7 @@ void e746_010()
     MODEL_MOTION2(var1, 4, 0, 0, 1);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngMessage(2) /* MSG_003: I shall pass final judgement on you! */;
     itfMesMngCloseWindow();
     WAIT(10);
     CAM_SEL(SEARCH_ID("01cam_07"));

@@ -83,19 +83,19 @@ void e615_main()
     WAIT(30);
     itfMesMngWindowTypeAlpha(0, 55);
     itfMesMngOpenWindow();
-    itfMesMngMessage(13) /* MSG_HIKAWA_070_3 */;
-    var7 = itfMesMngSelect(14);
+    itfMesMngMessage(13) /* MSG_HIKAWA_070_3: ...Do not fear. */;
+    var7 = itfMesMngSelect(14) /* HIKAWA_001: Face him. / Run away. */;
     itfMesMngCloseWindow();
     if (var7 == 0)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(15) /* TUIKA_001 */;
+        itfMesMngMessage(15) /* TUIKA_001: Fool... */;
         itfMesMngCloseWindow();
     }
     else if (var7 == 1)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(16) /* TUIKA_002 */;
+        itfMesMngMessage(16) /* TUIKA_002: What a futile attempt... */;
         itfMesMngCloseWindow();
     }
     WAIT(20);
@@ -111,7 +111,7 @@ void e615_main()
     SCR_KILL(var16);
     EFFECT_CLS(var117);
     MODEL_OFF(var6);
-    itfMesMngMessage(17) /* YUUKO_001 */;
+    itfMesMngMessage(17) /* YUUKO_001: Stop! */;
     WAIT(20);
     itfMesMngWindowTypeAlpha(0, 50);
     DIST_BLUR_OFF(15);
@@ -173,7 +173,7 @@ void e615_main()
     KUTI(var8, 3, 1);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(18) /* YUUKO_002 */;
+    itfMesMngMessage(18) /* YUUKO_002: What, can't you let one person go? */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("cam02"));
@@ -181,7 +181,7 @@ void e615_main()
     MODEL_EXMOTION(var1, 3, 1, 0, 0, 0);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(19) /* TUIKA_003 */;
+    itfMesMngMessage(19) /* TUIKA_003: The insignificance of the gesture makes no difference. I will not all... */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("cam14"));
@@ -191,7 +191,7 @@ void e615_main()
     MODEL_EXMOTION(var8, 3, 1, 0, 0, 0);
     WAIT(4);
     itfMesMngOpenWindow();
-    itfMesMngMessage(20) /* YUUKO_003 */;
+    itfMesMngMessage(20) /* YUUKO_003: If you don't save him... I'll stop cooperating with you. */;
     itfMesMngCloseWindow();
     WAIT(20);
     SCR_WAIT(SCR_RUN(7, - 1));
@@ -248,12 +248,12 @@ void e615_020()
     itfMesMngWindowTypeAlpha(0, 50);
     itfMesMngOpenWindow();
     MODEL_EXMOTION(var1, 3, 1, 0, 0, 0);
-    itfMesMngMessage(0) /* MSG_HIKAWA_020_1 */;
+    itfMesMngMessage(0) /* MSG_HIKAWA_020_1: ...Well, what do we have here? */;
     itfMesMngCloseWindow();
     SCR_RUN(4, - 1);
     itfMesMngOpenWindow();
     MODEL_EXMOTION(var1, 3, 1, 0, 0, 0);
-    itfMesMngMessage(1) /* MSG_HIKAWA_TUIKA */;
+    itfMesMngMessage(1) /* MSG_HIKAWA_TUIKA: Who dares to disrupt this stillness? */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("cam03"));
     CAM_PATH_MOVE(SEARCH_ID("cam03"), SEARCH_ID("cam03_MOTION"));
@@ -264,7 +264,7 @@ void e615_020()
     MODEL_EXMOTION(var1, 1, 3, 0, 0, 0);
     KUTI(var1, 3, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_HIKAWA_020_2 */;
+    itfMesMngMessage(2) /* MSG_HIKAWA_020_2: ...A well-known poet once said, */;
     itfMesMngCloseWindow();
     WAIT(10);
 }
@@ -288,7 +288,7 @@ void e615_030()
     itfMesMngOpenWindow();
     KUTI(var1, 3, 1);
     MODEL_EXMOTION(var1, 2, 0, 60, 80, 0);
-    itfMesMngMessage(3) /* MSG_HIKAWA_030_1 */;
+    itfMesMngMessage(3) /* MSG_HIKAWA_030_1: The way to salvation was foretold in the Scripture of Miroku, and tod... */;
     itfMesMngCloseWindow();
     MODEL_WAIT(var1);
     WAIT(10);
@@ -308,13 +308,13 @@ void e615_040()
     WAIT(40);
     itfMesMngOpenWindow();
     KUTI(var1, 3, 1);
-    itfMesMngMessage(4) /* MSG_HIKAWA_040_1 */;
+    itfMesMngMessage(4) /* MSG_HIKAWA_040_1: ...Who are you? */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("cam07"));
     CAM_PATH_MOVE(SEARCH_ID("cam07"), SEARCH_ID("cam07_MOTION"));
     itfMesMngOpenWindow();
     MODEL_EXMOTION(var1, 3, 1, 0, 0, 0);
-    itfMesMngMessage(5) /* MSG_HIKAWA_040_3 */;
+    itfMesMngMessage(5) /* MSG_HIKAWA_040_3: ...An acquaintance of Ms. {lastname 1}? */;
     itfMesMngCloseWindow();
     WAIT(30);
     WAIT(30);
@@ -324,12 +324,12 @@ void e615_040()
     CAM_PATH_MOVE(SEARCH_ID("cam07"), SEARCH_ID("cam07_MOTION"));
     MODEL_EXMOTION(var1, 3, 1, 0, 0, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* MSG_HIKAWA_070_1 */;
+    itfMesMngMessage(10) /* MSG_HIKAWA_070_1: However, even a pebble creates ripples when cast in water. */;
     itfMesMngCloseWindow();
     WAIT(20);
     MODEL_EXMOTION(var1, 3, 1, 0, 0, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(11) /* MSG_HIKAWA_070_2 */;
+    itfMesMngMessage(11) /* MSG_HIKAWA_070_2: I do feel pity for you, but... */;
     itfMesMngCloseWindow();
     WAIT(10);
     MODEL_EXMOTION(var1, 1, 0, 0, 5, 0);
@@ -341,7 +341,7 @@ void e615_040()
     WAIT(10);
     MODEL_EXMOTION(var1, 3, 1, 0, 0, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(12) /* MSG_HIKAWA_070_2B */;
+    itfMesMngMessage(12) /* MSG_HIKAWA_070_2B: ...your life ends here! */;
     WAIT(20);
     itfMesMngCloseWindow();
     MODEL_EXMOTION(var1, 1, 1, 0, 5, 1);
@@ -360,14 +360,14 @@ void e615_050()
     WAIT(10);
     MODEL_EXMOTION(var1, 2, 0, 20, 0, 2);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_HIKAWA_050_1 */;
+    itfMesMngMessage(6) /* MSG_HIKAWA_050_1: ...... */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var1, 7);
     MODEL_MOTION2(var1, 6, 0, 10, 0);
     WAIT(30);
     KUTI(var1, 3, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_HIKAWA_050_1B */;
+    itfMesMngMessage(7) /* MSG_HIKAWA_050_1B: Well... I'll leave the teaching to the teacher. */;
     itfMesMngCloseWindow();
     PATH_START(SEARCH_ID("cam05"));
     MODEL_WAIT_MOT(var1, 9);
@@ -381,12 +381,12 @@ void e615_050()
     KUTI(var8, 3, 1);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_HIKAWA_040_2 */;
+    itfMesMngMessage(8) /* MSG_HIKAWA_040_2: ...{firstname 0}, I'll be waiting on the roof. */;
     itfMesMngCloseWindow();
     MODEL_MOTION2(var3, 1, 0, 0, 1);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_HIKAWA_040_2B */;
+    itfMesMngMessage(9) /* MSG_HIKAWA_040_2B: Come, see it with your own eyes. */;
     itfMesMngCloseWindow();
     WAIT(20);
 }

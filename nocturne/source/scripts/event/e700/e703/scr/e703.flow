@@ -67,19 +67,19 @@ void e703_main()
         FADE_IN(0, 60);
         WAIT(90);
         itfMesMngOpenWindow();
-        itfMesMngMessage(0) /* MSG_010_1 */;
+        itfMesMngMessage(0) /* MSG_010_1: Oh my, a demon opened the way to Kagutsuchi. */;
         itfMesMngCloseWindow();
         WAIT(45);
         itfMesMngOpenWindow();
-        itfMesMngMessage(1) /* MSG_010_2 */;
+        itfMesMngMessage(1) /* MSG_010_2: This is quite a surprise, isn't it, my little master...? */;
         itfMesMngCloseWindow();
         WAIT(30);
         CAM_SEL(SEARCH_ID("cam02"));
         CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(2) /* MSG_010_3 */;
-        itfMesMngMessage(3) /* MSG_010_4 */;
+        itfMesMngMessage(2) /* MSG_010_3: The tower thrust down by Kagutsuchi struck the Obelisk, driving it in... */;
+        itfMesMngMessage(3) /* MSG_010_4: Those who yearn for creation will come streaming into it. */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL(SEARCH_ID("cam03"));
@@ -88,7 +88,7 @@ void e703_main()
         {
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(6) /* MSG_010_5_MANIAX */;
+            itfMesMngMessage(6) /* MSG_010_5_MANIAX: They are striving for creation. */;
             itfMesMngCloseWindow();
             WAIT(30);
         }
@@ -96,7 +96,7 @@ void e703_main()
         {
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(7) /* MSG_010_5_MANIAX02 */;
+            itfMesMngMessage(7) /* MSG_010_5_MANIAX02: So you have chosen to live as a demon... Your visit to the old gentle... */;
             itfMesMngCloseWindow();
             WAIT(30);
         }
@@ -108,7 +108,7 @@ void e703_main()
         WAIT(10);
         WAIT(20);
         itfMesMngOpenWindow();
-        itfMesMngMessage(5) /* MSG_010_6 */;
+        itfMesMngMessage(5) /* MSG_010_6: > The child and the old woman disappeared... */;
         itfMesMngCloseWindow();
         WAIT(30);
         FADE_OUT(0, 60);

@@ -101,7 +101,7 @@ void e682_050()
     {
         itfMesMngWindowTypeAlpha(1, 60);
         itfMesMngOpenWindow();
-        itfMesMngMessage(6) /* MSG_050_B1 */;
+        itfMesMngMessage(6) /* MSG_050_B1: I salute you, powerful one. */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL(SEARCH_ID("cam01"));
@@ -109,7 +109,7 @@ void e682_050()
         WAIT(20);
         itfMesMngWindowTypeAlpha(1, 60);
         itfMesMngOpenWindow();
-        itfMesMngMessage(7) /* MSG_050_B2 */;
+        itfMesMngMessage(7) /* MSG_050_B2: Our goal is to create a new kingdom-- the kingdom of Yosuga. */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL(SEARCH_ID("cam05"));
@@ -118,7 +118,7 @@ void e682_050()
         WAIT(20);
         itfMesMngWindowTypeAlpha(1, 60);
         itfMesMngOpenWindow();
-        itfMesMngMessage(8) /* MSG_050_B3 */;
+        itfMesMngMessage(8) /* MSG_050_B3: ...... */;
         itfMesMngCloseWindow();
         MODEL_MOTION2(var1, 4, 0, 10, 2);
         PATH_START(SEARCH_ID("cam05"));
@@ -127,7 +127,7 @@ void e682_050()
     {
         itfMesMngWindowTypeAlpha(1, 60);
         itfMesMngOpenWindow();
-        itfMesMngMessage(0) /* MSG_050_A1 */;
+        itfMesMngMessage(0) /* MSG_050_A1: You have done well to make it here. */;
         itfMesMngCloseWindow();
         WAIT(30);
         CAM_SEL(SEARCH_ID("cam01"));
@@ -137,27 +137,27 @@ void e682_050()
         {
             itfMesMngWindowTypeAlpha(1, 60);
             itfMesMngOpenWindow();
-            itfMesMngMessage(1) /* MSG_050_A2_SIZ */;
+            itfMesMngMessage(1) /* MSG_050_A2_SIZ: ...Our friendship dies here. */;
             itfMesMngCloseWindow();
         }
         else if (BIT_CHK(147) == 1)
         {
             itfMesMngWindowTypeAlpha(1, 60);
             itfMesMngOpenWindow();
-            itfMesMngMessage(2) /* MSG_050_A2_MUS */;
+            itfMesMngMessage(2) /* MSG_050_A2_MUS: ...Our friendship dies here. */;
             itfMesMngCloseWindow();
         }
         else
         {
             itfMesMngWindowTypeAlpha(1, 60);
             itfMesMngOpenWindow();
-            itfMesMngMessage(3) /* MSG_050_A2_NON */;
+            itfMesMngMessage(3) /* MSG_050_A2_NON: ...Our friendship dies here. */;
             itfMesMngCloseWindow();
         }
         WAIT(15);
         itfMesMngWindowTypeAlpha(1, 60);
         itfMesMngOpenWindow();
-        itfMesMngMessage(4) /* MSG_050_A3 */;
+        itfMesMngMessage(4) /* MSG_050_A3: As fate would have it, we are both beyond shedding tears. */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL(SEARCH_ID("cam05"));
@@ -166,7 +166,7 @@ void e682_050()
         WAIT(20);
         itfMesMngWindowTypeAlpha(1, 60);
         itfMesMngOpenWindow();
-        itfMesMngMessage(5) /* MSG_050_A4 */;
+        itfMesMngMessage(5) /* MSG_050_A4: So, let us now decide who is truly superior. Challenge me with all yo... */;
         itfMesMngCloseWindow();
         MODEL_MOTION2(var1, 4, 0, 10, 2);
         PATH_START(SEARCH_ID("cam05"));

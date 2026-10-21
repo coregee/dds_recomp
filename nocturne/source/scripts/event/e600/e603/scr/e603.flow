@@ -63,14 +63,14 @@ void e603_010()
     itfMesMngWindowTypeAlpha(0, 65);
     itfMesMngOpenWindow();
     MODEL_EXMOTION(var3, 2, 0, 0, 10, 0);
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: {firstname 0}, you finally made it. */;
     itfMesMngCloseWindow();
     WAIT(30);
     MODEL_EXMOTION(var3, 3, 1, 0, 0, 0);
     MODEL_EXMOTION(var3, 2, 2, 0, 10, 2);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(1) /* MSG_002: You know, this hospital... It's a little strange. */;
     itfMesMngCloseWindow();
     SCR_RUN(2, - 1);
     WAIT(30);
@@ -98,8 +98,8 @@ void e603_020()
     KUTI(var3, 3, 1);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_003 */;
-    itfMesMngMessage(4) /* MSG_005 */;
+    itfMesMngMessage(2) /* MSG_003: ...There's nobody here. Not a single person. */;
+    itfMesMngMessage(4) /* MSG_005: Isn't it creepy here? I don't like it... */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -118,15 +118,15 @@ void e603_030()
     KUTI(var3, 3, 1);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_004 */;
+    itfMesMngMessage(3) /* MSG_004: {firstname 2} is looking for Ms. {lastname 1} right now. */;
     itfMesMngCloseWindow();
     MODEL_WAIT(var3);
     WAIT(30);
     itfMesMngOpenWindow();
     SCR_RUN(6, - 1);
     WAIT(20);
-    itfMesMngMessage(6) /* MSG_007 */;
-    var4 = itfMesMngSelect(7);
+    itfMesMngMessage(6) /* MSG_007: ...Hey, what's that magazine? */;
+    var4 = itfMesMngSelect(7) /* MSG_008_0: Some guy gave it to me. / Do you want to read it? */;
     itfMesMngCloseWindow();
     WAIT(30);
     itfMesMngOpenWindow();
@@ -134,13 +134,13 @@ void e603_030()
     {
         KUTI(var3, 3, 1);
         WAIT(1);
-        itfMesMngMessage(8) /* MSG_008_1 */;
+        itfMesMngMessage(8) /* MSG_008_1: You got it from a stranger? */;
     }
     else if (var4 == 1)
     {
         KUTI(var3, 3, 1);
         WAIT(1);
-        itfMesMngMessage(9) /* MSG_008_2 */;
+        itfMesMngMessage(9) /* MSG_008_2: Knowing your taste, it probably wouldn't interest me. */;
     }
     itfMesMngCloseWindow();
 }
@@ -176,7 +176,7 @@ void e603_040()
     itfMesMngOpenWindow();
     WAIT(65);
     KUTI(var3, 3, 1);
-    itfMesMngMessage(10) /* MSG_008 */;
+    itfMesMngMessage(10) /* MSG_008: Ayakashi Monthly... I've never heard of it before. */;
     itfMesMngCloseWindow();
     MODEL_WAIT(var3);
     WAIT(15);
@@ -184,7 +184,7 @@ void e603_040()
     MODEL_WAIT_HOKAN(var3, 10, 0);
     MODEL_MOTION2(var3, 13, 0, 20, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(11) /* MSG_009 */;
+    itfMesMngMessage(11) /* MSG_009: What!? It's an occult magazine! Why would you bring something like TH... */;
     itfMesMngCloseWindow();
     MODEL_WAIT(var3);
     WAIT(10);
@@ -194,11 +194,11 @@ void e603_040()
     MODEL_EXMOTION(var3, 2, 5, 0, 10, 2);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(12) /* MSG_010 */;
+    itfMesMngMessage(12) /* MSG_010: {firstname 0}, can you go look for {firstname 2}? */;
     itfMesMngCloseWindow();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(13) /* MSG_011 */;
+    itfMesMngMessage(13) /* MSG_011: He should be on the second floor, where the patients' rooms are. */;
     itfMesMngCloseWindow();
     WAIT(40);
 }

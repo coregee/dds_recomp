@@ -37,7 +37,7 @@ void e802_main()
                 CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
                 WAIT(50);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(3) /* MSG_0021 */;
+                itfMesMngMessage(3) /* MSG_0021: Hee ho!! Welcome! */;
                 itfMesMngCloseWindow();
                 WAIT(25);
                 if (BIT_CHK(2225) == 1 && BIT_CHK(303) == 0)
@@ -45,11 +45,11 @@ void e802_main()
                     if (BIT_CHK(2226) == 1 && BIT_CHK(303) == 0)
                     {
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(8) /* MSG_200 */;
+                        itfMesMngMessage(8) /* MSG_200: Hee hum... I wonder why...? */;
                         itfMesMngCloseWindow();
                         WAIT(20);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(9) /* MSG_ITEM */;
+                        itfMesMngMessage(9) /* MSG_ITEM: > {name 0} received a present of some sort. */;
                         itfMesMngCloseWindow();
                         prm_ITEM_PLUS(44, 1);
                         BIT_ON(303);
@@ -57,11 +57,11 @@ void e802_main()
                     else if (BIT_CHK(2227) == 1 && BIT_CHK(303) == 0)
                     {
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(8) /* MSG_200 */;
+                        itfMesMngMessage(8) /* MSG_200: Hee hum... I wonder why...? */;
                         itfMesMngCloseWindow();
                         WAIT(20);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(9) /* MSG_ITEM */;
+                        itfMesMngMessage(9) /* MSG_ITEM: > {name 0} received a present of some sort. */;
                         prm_ITEM_PLUS(44, 1);
                         BIT_ON(303);
                         itfMesMngCloseWindow();
@@ -69,11 +69,11 @@ void e802_main()
                     else if (BIT_CHK(2228) == 1 && BIT_CHK(303) == 0)
                     {
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(8) /* MSG_200 */;
+                        itfMesMngMessage(8) /* MSG_200: Hee hum... I wonder why...? */;
                         itfMesMngCloseWindow();
                         WAIT(20);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(9) /* MSG_ITEM */;
+                        itfMesMngMessage(9) /* MSG_ITEM: > {name 0} received a present of some sort. */;
                         itfMesMngCloseWindow();
                         prm_ITEM_PLUS(12, 1);
                         BIT_ON(303);
@@ -81,11 +81,11 @@ void e802_main()
                     else if (BIT_CHK(2229) == 1 && BIT_CHK(303) == 0)
                     {
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(8) /* MSG_200 */;
+                        itfMesMngMessage(8) /* MSG_200: Hee hum... I wonder why...? */;
                         itfMesMngCloseWindow();
                         WAIT(20);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(9) /* MSG_ITEM */;
+                        itfMesMngMessage(9) /* MSG_ITEM: > {name 0} received a present of some sort. */;
                         itfMesMngCloseWindow();
                         prm_ITEM_PLUS(45, 1);
                         BIT_ON(303);
@@ -93,11 +93,11 @@ void e802_main()
                     else
                     {
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(8) /* MSG_200 */;
+                        itfMesMngMessage(8) /* MSG_200: Hee hum... I wonder why...? */;
                         itfMesMngCloseWindow();
                         WAIT(20);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(9) /* MSG_ITEM */;
+                        itfMesMngMessage(9) /* MSG_ITEM: > {name 0} received a present of some sort. */;
                         itfMesMngCloseWindow();
                         prm_ITEM_PLUS(46, 1);
                         BIT_ON(303);
@@ -135,7 +135,7 @@ void e802_main()
             CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
             WAIT(50);
             itfMesMngOpenWindow();
-            itfMesMngMessage(5) /* MSG_0022 */;
+            itfMesMngMessage(5) /* MSG_0022: Hmph, a customer... */;
             itfMesMngCloseWindow();
             WAIT(25);
             CAM_SEL(SEARCH_ID("cam01"));
@@ -169,7 +169,7 @@ MISE:
         CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
         WAIT(130);
         itfMesMngOpenWindow();
-        itfMesMngMessage(1) /* MSG_002 */;
+        itfMesMngMessage(1) /* MSG_002: Oh, what a cute little boy! */;
         itfMesMngCloseWindow();
         WAIT(25);
         CAM_SEL(SEARCH_ID("cam01"));
@@ -180,12 +180,12 @@ MISE:
             if (BIT_CHK(2226) == 1 && BIT_CHK(303) == 0)
             {
                 itfMesMngOpenWindow();
-                itfMesMngMessage(10) /* MSG_200_002 */;
+                itfMesMngMessage(10) /* MSG_200_002: ...We've met before, haven't we? */;
                 itfMesMngCloseWindow();
                 WAIT(20);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* MSG_ITEM */;
-                itfMesMngMessage(11) /* MSG_200_003 */;
+                itfMesMngMessage(9) /* MSG_ITEM: > {name 0} received a present of some sort. */;
+                itfMesMngMessage(11) /* MSG_200_003: I hope you like it! */;
                 itfMesMngCloseWindow();
                 prm_ITEM_PLUS(44, 1);
                 BIT_ON(303);
@@ -193,12 +193,12 @@ MISE:
             else if (BIT_CHK(2227) == 1 && BIT_CHK(303) == 0)
             {
                 itfMesMngOpenWindow();
-                itfMesMngMessage(10) /* MSG_200_002 */;
+                itfMesMngMessage(10) /* MSG_200_002: ...We've met before, haven't we? */;
                 itfMesMngCloseWindow();
                 WAIT(20);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* MSG_ITEM */;
-                itfMesMngMessage(11) /* MSG_200_003 */;
+                itfMesMngMessage(9) /* MSG_ITEM: > {name 0} received a present of some sort. */;
+                itfMesMngMessage(11) /* MSG_200_003: I hope you like it! */;
                 prm_ITEM_PLUS(44, 1);
                 BIT_ON(303);
                 itfMesMngCloseWindow();
@@ -206,12 +206,12 @@ MISE:
             else if (BIT_CHK(2228) == 1 && BIT_CHK(303) == 0)
             {
                 itfMesMngOpenWindow();
-                itfMesMngMessage(10) /* MSG_200_002 */;
+                itfMesMngMessage(10) /* MSG_200_002: ...We've met before, haven't we? */;
                 itfMesMngCloseWindow();
                 WAIT(20);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* MSG_ITEM */;
-                itfMesMngMessage(11) /* MSG_200_003 */;
+                itfMesMngMessage(9) /* MSG_ITEM: > {name 0} received a present of some sort. */;
+                itfMesMngMessage(11) /* MSG_200_003: I hope you like it! */;
                 itfMesMngCloseWindow();
                 prm_ITEM_PLUS(12, 1);
                 BIT_ON(303);
@@ -219,12 +219,12 @@ MISE:
             else if (BIT_CHK(2229) == 1 && BIT_CHK(303) == 0)
             {
                 itfMesMngOpenWindow();
-                itfMesMngMessage(10) /* MSG_200_002 */;
+                itfMesMngMessage(10) /* MSG_200_002: ...We've met before, haven't we? */;
                 itfMesMngCloseWindow();
                 WAIT(20);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* MSG_ITEM */;
-                itfMesMngMessage(11) /* MSG_200_003 */;
+                itfMesMngMessage(9) /* MSG_ITEM: > {name 0} received a present of some sort. */;
+                itfMesMngMessage(11) /* MSG_200_003: I hope you like it! */;
                 itfMesMngCloseWindow();
                 prm_ITEM_PLUS(45, 1);
                 BIT_ON(303);
@@ -232,12 +232,12 @@ MISE:
             else
             {
                 itfMesMngOpenWindow();
-                itfMesMngMessage(8) /* MSG_200 */;
+                itfMesMngMessage(8) /* MSG_200: Hee hum... I wonder why...? */;
                 itfMesMngCloseWindow();
                 WAIT(20);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* MSG_ITEM */;
-                itfMesMngMessage(11) /* MSG_200_003 */;
+                itfMesMngMessage(9) /* MSG_ITEM: > {name 0} received a present of some sort. */;
+                itfMesMngMessage(11) /* MSG_200_003: I hope you like it! */;
                 itfMesMngCloseWindow();
                 prm_ITEM_PLUS(46, 1);
                 BIT_ON(303);

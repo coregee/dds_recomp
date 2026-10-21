@@ -76,7 +76,7 @@ void e705_010()
     {
         itfMesMngWindowTypeAlpha(1, 35);
         itfMesMngOpenWindow();
-        itfMesMngMessage(6) /* MSG_001_BAD */;
+        itfMesMngMessage(6) /* MSG_001_BAD: How can you be the one standing before me...? */;
         itfMesMngCloseWindow();
         WAIT(30);
         CAM_SEL(SEARCH_ID("cam02"));
@@ -89,7 +89,7 @@ void e705_010()
         SET_SKY_A(0, - 115);
         WAIT(10);
         itfMesMngOpenWindow();
-        itfMesMngMessage(7) /* MSG_002_BAD */;
+        itfMesMngMessage(7) /* MSG_002_BAD: I came into being for the creation of a new world, */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL(SEARCH_ID("cam03"));
@@ -102,7 +102,7 @@ void e705_010()
         SET_SKY_A(0, - 110);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(24) /* MSG_003_MANIAX */;
+        itfMesMngMessage(24) /* MSG_003_MANIAX: Persuaded by the fallen angel, you destroyed the seeds of creation, d... */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL(SEARCH_ID("cam04"));
@@ -116,7 +116,7 @@ void e705_010()
         SET_SKY_A(0, - 110);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(25) /* MSG_004_MANIAX */;
+        itfMesMngMessage(25) /* MSG_004_MANIAX: Begone, accursed one! */;
         itfMesMngCloseWindow();
         WAIT(5);
         PATH_START(SEARCH_ID("cam04"));
@@ -138,7 +138,7 @@ void e705_010()
     {
         itfMesMngWindowTypeAlpha(1, 35);
         itfMesMngOpenWindow();
-        itfMesMngMessage(1) /* MSG_001_GOOD */;
+        itfMesMngMessage(1) /* MSG_001_GOOD: How can you be the one standing before me...? */;
         itfMesMngCloseWindow();
         WAIT(30);
         CAM_SEL(SEARCH_ID("cam02"));
@@ -151,7 +151,7 @@ void e705_010()
         SET_SKY_A(0, - 115);
         WAIT(10);
         itfMesMngOpenWindow();
-        itfMesMngMessage(2) /* MSG_002_GOOD */;
+        itfMesMngMessage(2) /* MSG_002_GOOD: Why have you been chosen...? */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL(SEARCH_ID("cam03"));
@@ -164,7 +164,7 @@ void e705_010()
         SET_SKY_A(0, - 110);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(3) /* MSG_003_GOOD */;
+        itfMesMngMessage(3) /* MSG_003_GOOD: Your heart longs for the kingdom of freedom, a world that has no set... */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL(SEARCH_ID("cam04"));
@@ -178,8 +178,8 @@ void e705_010()
         SET_SKY_A(0, - 110);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(4) /* MSG_004_GOOD */;
-        itfMesMngMessage(5) /* MSG_005_GOOD */;
+        itfMesMngMessage(4) /* MSG_004_GOOD: ...The Great Will once granted the world freedom, */;
+        itfMesMngMessage(5) /* MSG_005_GOOD: {firstname 0}, you have become a slave of freedom, like that fallen a... */;
         itfMesMngCloseWindow();
         WAIT(5);
         PATH_START(SEARCH_ID("cam04"));
@@ -201,7 +201,7 @@ void e705_010()
     {
         itfMesMngWindowTypeAlpha(1, 35);
         itfMesMngOpenWindow();
-        itfMesMngMessage(6) /* MSG_001_BAD */;
+        itfMesMngMessage(6) /* MSG_001_BAD: How can you be the one standing before me...? */;
         itfMesMngCloseWindow();
         WAIT(30);
         CAM_SEL(SEARCH_ID("cam02"));
@@ -214,7 +214,7 @@ void e705_010()
         SET_SKY_A(0, - 115);
         WAIT(10);
         itfMesMngOpenWindow();
-        itfMesMngMessage(7) /* MSG_002_BAD */;
+        itfMesMngMessage(7) /* MSG_002_BAD: I came into being for the creation of a new world, */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL(SEARCH_ID("cam09"));
@@ -227,7 +227,7 @@ void e705_010()
         SET_SKY_A(0, - 120);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(8) /* MSG_003_BAD */;
+        itfMesMngMessage(8) /* MSG_003_BAD: You may have sought the power of creation, */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL(SEARCH_ID("cam10"));
@@ -240,7 +240,7 @@ void e705_010()
         SET_SKY_A(0, - 120);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(9) /* MSG_004_BAD */;
+        itfMesMngMessage(9) /* MSG_004_BAD: ...Now, there is no reason for this world to exist. I shall have to w... */;
         itfMesMngCloseWindow();
         WAIT(90);
         FADE_OUT(0, 90);
@@ -254,7 +254,7 @@ void e705_010()
     }
     itfMesMngWindowTypeAlpha(1, 35);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: ...You have come at last. */;
     itfMesMngCloseWindow();
     WAIT(30);
     CAM_SEL(SEARCH_ID("cam02"));
@@ -269,7 +269,7 @@ void e705_010()
     {
         WAIT(10);
         itfMesMngOpenWindow();
-        itfMesMngMessage(10) /* MSG_002_SIZIMA */;
+        itfMesMngMessage(10) /* MSG_002_SIZIMA: So, you stand before me with the Reason of Shijima... */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL(SEARCH_ID("cam03"));
@@ -282,7 +282,7 @@ void e705_010()
         SET_SKY_A(0, - 110);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(13) /* MSG_003_SIZIMA */;
+        itfMesMngMessage(13) /* MSG_003_SIZIMA: Your heart wishes for a kingdom that will flourish in the silence of... */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL(SEARCH_ID("cam04"));
@@ -296,8 +296,8 @@ void e705_010()
         SET_SKY_A(0, - 110);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(16) /* MSG_004 */;
-        itfMesMngMessage(17) /* MSG_005 */;
+        itfMesMngMessage(16) /* MSG_004: The time of creation is upon you. */;
+        itfMesMngMessage(17) /* MSG_005: I shall now unleash my light, the power of creation! */;
         itfMesMngCloseWindow();
         WAIT(5);
         PATH_START(SEARCH_ID("cam04"));
@@ -319,7 +319,7 @@ void e705_010()
     {
         WAIT(10);
         itfMesMngOpenWindow();
-        itfMesMngMessage(11) /* MSG_002_MUSUBI */;
+        itfMesMngMessage(11) /* MSG_002_MUSUBI: So, you stand before me with the Reason of Musubi... */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL(SEARCH_ID("cam03"));
@@ -332,7 +332,7 @@ void e705_010()
         SET_SKY_A(0, - 110);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(14) /* MSG_003_MUSUBI */;
+        itfMesMngMessage(14) /* MSG_003_MUSUBI: Your heart wishes for a kingdom rooted in solitude. Very well... */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL(SEARCH_ID("cam04"));
@@ -346,7 +346,7 @@ void e705_010()
         SET_SKY_A(0, - 110);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(16) /* MSG_004 */;
+        itfMesMngMessage(16) /* MSG_004: The time of creation is upon you. */;
         itfMesMngCloseWindow();
         WAIT(5);
         PATH_START(SEARCH_ID("cam04"));
@@ -368,7 +368,7 @@ void e705_010()
     {
         WAIT(10);
         itfMesMngOpenWindow();
-        itfMesMngMessage(12) /* MSG_002_YOSUGA */;
+        itfMesMngMessage(12) /* MSG_002_YOSUGA: So, you stand before me with the Reason of Yosuga... */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL(SEARCH_ID("cam03"));
@@ -381,7 +381,7 @@ void e705_010()
         SET_SKY_A(0, - 110);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(15) /* MSG_003_YOSUGA */;
+        itfMesMngMessage(15) /* MSG_003_YOSUGA: Your heart wishes for a kingdom which rejoices in conflict. Very well... */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL(SEARCH_ID("cam04"));
@@ -395,7 +395,7 @@ void e705_010()
         SET_SKY_A(0, - 110);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(16) /* MSG_004 */;
+        itfMesMngMessage(16) /* MSG_004: The time of creation is upon you. */;
         itfMesMngCloseWindow();
         WAIT(5);
         PATH_START(SEARCH_ID("cam04"));
@@ -440,21 +440,21 @@ START2:
     if (BIT_CHK(294) == 1)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(26) /* MSG_005_MANIAX */;
+        itfMesMngMessage(26) /* MSG_005_MANIAX: How foolish... */;
         itfMesMngCloseWindow();
     }
     else if (BIT_CHK(149) == 1)
     {
         itfMesMngWindowTypeAlpha(1, 35);
         itfMesMngOpenWindow();
-        itfMesMngMessage(21) /* MSG_006_GOOD */;
+        itfMesMngMessage(21) /* MSG_006_GOOD: How absurd... */;
         itfMesMngCloseWindow();
     }
     else
     {
         itfMesMngWindowTypeAlpha(1, 35);
         itfMesMngOpenWindow();
-        itfMesMngMessage(18) /* MSG_006 */;
+        itfMesMngMessage(18) /* MSG_006: You have shown me your strength... Undoubtedly, you are capable of cr... */;
         itfMesMngCloseWindow();
     }
     WAIT(40);
@@ -470,19 +470,19 @@ START2:
     if (BIT_CHK(294) == 1)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(27) /* MSG_006_MANIAX */;
+        itfMesMngMessage(27) /* MSG_006_MANIAX: ...The final hour is imminent. Darkness shall face justice in the las... */;
         itfMesMngCloseWindow();
     }
     else if (BIT_CHK(149) == 1)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(22) /* MSG_007_GOOD */;
+        itfMesMngMessage(22) /* MSG_007_GOOD: The kingdom you would create promises nothing but suffering... */;
         itfMesMngCloseWindow();
     }
     else
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(19) /* MSG_007 */;
+        itfMesMngMessage(19) /* MSG_007: However, the true battle still awaits you. */;
         itfMesMngCloseWindow();
     }
     WAIT(20);
@@ -503,13 +503,13 @@ START2:
     else if (BIT_CHK(149) == 1)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(23) /* MSG_008_GOOD */;
+        itfMesMngMessage(23) /* MSG_008_GOOD: Demon... Human... */;
         itfMesMngCloseWindow();
     }
     else
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(20) /* MSG_008 */;
+        itfMesMngMessage(20) /* MSG_008: Creation is a battle without an enemy. */;
         itfMesMngCloseWindow();
     }
 MANI:

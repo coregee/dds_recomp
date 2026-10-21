@@ -53,7 +53,7 @@ START:
     FADE_IN(1, 30);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_004 */;
+    itfMesMngMessage(9) /* MSG_004: > You obtained the Candelabrum of Beauty. */;
     itfMesMngCloseWindow();
     BIT_ON(998);
     BIT_ON(2340);
@@ -93,11 +93,11 @@ void e747_010()
     MODEL_MOTION2(var4, 1, 0, 0, 1);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: Hohohoho... You worked so hard to get the Yahirono Himorogi, and you... */;
     itfMesMngCloseWindow();
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(1) /* MSG_002: I guess it's understandable, since your heart is set on chaos rather... */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("01cam_04"));
@@ -118,7 +118,7 @@ void e747_010()
     EFFECT_ON(var14);
     WAIT(68);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngMessage(2) /* MSG_003: ...and that's me--the Mother Harlot, subjugator of the most fearsome... */;
     itfMesMngCloseWindow();
     CAM_PATH_WAIT(SEARCH_ID("01cam_04"));
     CAM_SEL(SEARCH_ID("01cam_05"));
@@ -127,8 +127,8 @@ void e747_010()
     MODEL_MOTION2(var2, 1, 0, 0, 1);
     MODEL_MOTION2(var4, 3, 0, 0, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_005 */;
-    var7 = itfMesMngSelect(4);
+    itfMesMngMessage(3) /* MSG_005: ...YOU WHO WERE ONCE HUMAN AND NOW POSSESS A DEMON'S BODY... */;
+    var7 = itfMesMngSelect(4) /* KAIWA_SEL: Yes. / No. */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("01cam_06"));
     CAM_PATH_MOVE(SEARCH_ID("01cam_06"), SEARCH_ID("01cam_06_MOTION"));
@@ -140,7 +140,7 @@ void e747_010()
         FADEOUT_E(747, 0);
         WAIT(100);
         itfMesMngOpenWindow();
-        itfMesMngMessage(5) /* MSG_006 */;
+        itfMesMngMessage(5) /* MSG_006: Then, show me the darkness within your heart... */;
         itfMesMngCloseWindow();
         WAIT(10);
     }
@@ -149,7 +149,7 @@ void e747_010()
         FADEOUT_E(747, 0);
         WAIT(100);
         itfMesMngOpenWindow();
-        itfMesMngMessage(6) /* MSG_007 */;
+        itfMesMngMessage(6) /* MSG_007: You're no longer human, but you refuse to become a demon... Will you... */;
         itfMesMngCloseWindow();
         WAIT(10);
     }
@@ -160,7 +160,7 @@ void e747_010()
     MODEL_MOTION2(var1, 4, 0, 0, 0);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_008 */;
+    itfMesMngMessage(7) /* MSG_008: Let's indulge ourselves... */;
     itfMesMngCloseWindow();
     WAIT(10);
     CAM_SEL(SEARCH_ID("01cam_08"));
@@ -170,7 +170,7 @@ void e747_010()
     SE_PLAY_E(747, 33);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_009 */;
+    itfMesMngMessage(8) /* MSG_009: in the ecstasy of death... shall we? */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("01cam_09"));
     CAM_PATH_MOVE(SEARCH_ID("01cam_09"), SEARCH_ID("01cam_09_MOTION"));

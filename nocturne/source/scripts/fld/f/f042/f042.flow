@@ -13,7 +13,7 @@ void takarasagasi_label()
     itfMesMngSetVarScr(1, local1, 0);
     itfMesMngSetVarScr(2, local2, 1);
     FLD_SE_PLAY(43);
-    itfMesMngMessage(77) /* TAKARASAGASI */;
+    itfMesMngMessage(77) /* TAKARASAGASI: > {var 2} found something. */;
     prm_ITEM_PLUS(local0, local1);
     itfMesMngCloseWindow();
     PAD_ENABLE();
@@ -25,7 +25,7 @@ void hirakenai_label()
     PAD_DISABLE();
     itfMesMngOpenWindow();
     SET_ALLPANEL(6);
-    itfMesMngMessage(78) /* COMP_OPENERROR */;
+    itfMesMngMessage(78) /* COMP_OPENERROR: > It can't be used here. */;
     itfMesMngCloseWindow();
     PAD_ENABLE();
     SET_ALLPANEL(7);
@@ -38,19 +38,19 @@ void kireta_label()
     SET_ALLPANEL(6);
     if (FLD_GET_KIRETA(0) == 1)
     {
-        itfMesMngMessage(79) /* COMP_LIGHTMAEND */;
+        itfMesMngMessage(79) /* COMP_LIGHTMAEND: > The effect of Light wore off. */;
     }
     if (FLD_GET_KIRETA(1) == 1)
     {
-        itfMesMngMessage(82) /* COMP_REFUTOMAEND */;
+        itfMesMngMessage(82) /* COMP_REFUTOMAEND: > The effect of Levitation wore off. */;
     }
     if (FLD_GET_KIRETA(2) == 1)
     {
-        itfMesMngMessage(81) /* COMP_REBERAMAEND */;
+        itfMesMngMessage(81) /* COMP_REBERAMAEND: > The effect of Attract wore off. */;
     }
     if (FLD_GET_KIRETA(3) == 1)
     {
-        itfMesMngMessage(80) /* COMP_ESTOMAEND */;
+        itfMesMngMessage(80) /* COMP_ESTOMAEND: > The effect of Repel wore off. */;
     }
     itfMesMngCloseWindow();
     PAD_ENABLE();
@@ -68,7 +68,7 @@ void itembox_label()
             SET_ALLPANEL(6);
             if (FLD_CHK_TAKARA_OPEN())
             {
-                itfMesMngMessage(71) /* TAKARA_STILLGET */;
+                itfMesMngMessage(71) /* TAKARA_STILLGET: > It's empty. */;
             }
             else
             {
@@ -79,20 +79,20 @@ void itembox_label()
                 local7 = FLD_GET_TAKARA_TBL(4);
                 if (local3 == 1)
                 {
-                    itfMesMngMessage(64) /* HOSEKI */;
+                    itfMesMngMessage(64) /* HOSEKI: > There is a Mystical Chest. Will you open it? */;
                 }
                 else
                 {
-                    itfMesMngMessage(68) /* TAKARA */;
+                    itfMesMngMessage(68) /* TAKARA: > You see a Cache Cube. Will you open it? */;
                 }
                 itfMesMngSelectDefKey(3, 1);
                 if (local3 == 1)
                 {
-                    local8 = itfMesMngSelect(65);
+                    local8 = itfMesMngSelect(65) /* HOSEKI_SEL: Yes. / No. */;
                 }
                 else
                 {
-                    local8 = itfMesMngSelect(69);
+                    local8 = itfMesMngSelect(69) /* TAKARA_SEL: Yes. / No. */;
                 }
                 if (local8 == 0)
                 {
@@ -110,7 +110,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 15);
                         PAD_ACT(1, 100, 15);
                         prm_PARTY_DAMAGE(1);
-                        itfMesMngMessage(75) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(75) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 3)
                     {
@@ -120,7 +120,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(2);
-                        itfMesMngMessage(75) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(75) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 4)
                     {
@@ -130,7 +130,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(4);
-                        itfMesMngMessage(75) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(75) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 5)
                     {
@@ -140,7 +140,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(5);
-                        itfMesMngMessage(75) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(75) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 6)
                     {
@@ -150,7 +150,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(6);
-                        itfMesMngMessage(75) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(75) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else
                     {
@@ -159,14 +159,14 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             if (local4 == 0)
                             {
-                                itfMesMngMessage(76) /* TAKARA_KARAGET */;
+                                itfMesMngMessage(76) /* TAKARA_KARAGET: > It's empty. */;
                             }
                             else
                             {
                                 FLD_SE_PLAY(32);
                                 itfMesMngSetVarScr(0, local4, 3);
                                 itfMesMngSetVarScr(1, local5, 0);
-                                itfMesMngMessage(72) /* TAKARA_GET */;
+                                itfMesMngMessage(72) /* TAKARA_GET: > You obtained {var 0} x {var 1}. */;
                                 prm_ITEM_PLUS(local4, local5);
                             }
                         }
@@ -175,7 +175,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             if (local4 == 0)
                             {
-                                itfMesMngMessage(76) /* TAKARA_KARAGET */;
+                                itfMesMngMessage(76) /* TAKARA_KARAGET: > It's empty. */;
                             }
                             else
                             {
@@ -187,7 +187,7 @@ void itembox_label()
                                 FLD_SE_PLAY(33);
                                 itfMesMngSetVarScr(0, local4, 3);
                                 itfMesMngSetVarScr(1, local5, 0);
-                                itfMesMngMessage(67) /* HOSEKI_GET */;
+                                itfMesMngMessage(67) /* HOSEKI_GET: > You obtained {var 0} x {var 1}. */;
                                 prm_ITEM_PLUS(local4, local5);
                             }
                         }
@@ -196,7 +196,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             FLD_SE_PLAY(32);
                             itfMesMngSetVarScr(0, local4, 9);
-                            itfMesMngMessage(73) /* TAKARA_DH_GET */;
+                            itfMesMngMessage(73) /* TAKARA_DH_GET: > You obtained the Magatama {var 0}. */;
                             prm_DH_PLUS(local4);
                         }
                         else if (local3 == 3)
@@ -204,7 +204,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             FLD_SE_PLAY(32);
                             itfMesMngSetVarScr(0, local7, 0);
-                            itfMesMngMessage(74) /* TAKARA_MAKA_GET */;
+                            itfMesMngMessage(74) /* TAKARA_MAKA_GET: > You obtained {var 0} Macca. */;
                             COMM_139(local7);
                         }
                     }
@@ -213,11 +213,11 @@ void itembox_label()
                 {
                     if (local3 == 1)
                     {
-                        itfMesMngMessage(66) /* HOSEKI_NOGET */;
+                        itfMesMngMessage(66) /* HOSEKI_NOGET: > You did not open the Mystical Chest. */;
                     }
                     else
                     {
-                        itfMesMngMessage(70) /* TAKARA_NOGET */;
+                        itfMesMngMessage(70) /* TAKARA_NOGET: > You did not open the Cache Cube. */;
                     }
                 }
             }
@@ -289,9 +289,9 @@ void dexitwarp_label()
             SET_ALLPANEL(6);
             FLD_EXIT_CAMERA();
             itfMesMngOpenWindow();
-            itfMesMngMessage(62) /* EXITWARP */;
+            itfMesMngMessage(62) /* EXITWARP: > Will you leave the area? */;
             itfMesMngSelectDefKey(3, 1);
-            if (itfMesMngSelect(63) == 0)
+            if (itfMesMngSelect(63) /* EXITWARP_SEL: Yes. / No. */ == 0)
             {
                 itfMesMngCloseWindow();
             }
@@ -623,12 +623,12 @@ void elvstart_label()
     FADE_IN(0, 15);
     FLD_ELV_FLOORSTART(local33, local33);
     itfMesMngOpenWindow();
-    itfMesMngMessage(83) /* WARP_ELV_MSG */;
+    itfMesMngMessage(83) /* WARP_ELV_MSG: > Select a floor. */;
     if (local26 == 1)
     {
         itfMesMngSetVarScr(0, local27, 4);
         itfMesMngSelectDefKey(3, 1);
-        local24 = itfMesMngSelect(84);
+        local24 = itfMesMngSelect(84) /* WARP_ELV_SEL1: {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 2)
     {
@@ -636,7 +636,7 @@ void elvstart_label()
         itfMesMngSetVarScr(1, local28, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 2);
-        local24 = itfMesMngSelect(85);
+        local24 = itfMesMngSelect(85) /* WARP_ELV_SEL2: {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 3)
     {
@@ -645,7 +645,7 @@ void elvstart_label()
         itfMesMngSetVarScr(2, local29, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 3);
-        local24 = itfMesMngSelect(86);
+        local24 = itfMesMngSelect(86) /* WARP_ELV_SEL3: {var 2}[80EA] / {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 4)
     {
@@ -655,7 +655,7 @@ void elvstart_label()
         itfMesMngSetVarScr(3, local30, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 4);
-        local24 = itfMesMngSelect(87);
+        local24 = itfMesMngSelect(87) /* WARP_ELV_SEL4: {var 3}[80EA] / {var 2}[80EA] / {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 5)
     {
@@ -666,7 +666,7 @@ void elvstart_label()
         itfMesMngSetVarScr(4, local31, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 5);
-        local24 = itfMesMngSelect(88);
+        local24 = itfMesMngSelect(88) /* WARP_ELV_SEL5: {var 4}[80EA] / {var 3}[80EA] / {var 2}[80EA] / {var 1}[80EA] / {var... */;
     }
     else if (local26 == 6)
     {
@@ -678,7 +678,7 @@ void elvstart_label()
         itfMesMngSetVarScr(5, local32, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 6);
-        local24 = itfMesMngSelect(89);
+        local24 = itfMesMngSelect(89) /* WARP_ELV_SEL6: {var 5}[80EA] / {var 4}[80EA] / {var 3}[80EA] / {var 2}[80EA] / {var... */;
     }
     itfMesMngCloseWindow();
     if (local24 == local26)
@@ -737,8 +737,8 @@ void 001_01eve_test()
         {
             PAD_DISABLE();
             itfMesMngOpenWindow();
-            itfMesMngMessage(1) /* F042_DEBBUG */;
-            local35 = itfMesMngSelect(2);
+            itfMesMngMessage(1) /* F042_DEBBUG: > Add which candelabrum to inventory? */;
+            local35 = itfMesMngSelect(2) /* F042_DEBBUG_SEL: Dignity / Eternity / Both / Nothing */;
             if (local35 == 0)
             {
                 BIT_ON(1000);
@@ -821,17 +821,17 @@ void 001_01eve_01()
                 WAIT(15);
                 WAIT(15);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(5) /* MSG_001 */;
+                itfMesMngMessage(5) /* MSG_001: > There is a huge pedestal. */;
                 if (BIT_CHK(1000) == 0 && BIT_CHK(999) == 0)
                 {
-                    itfMesMngMessage(6) /* MSG_001_2 */;
+                    itfMesMngMessage(6) /* MSG_001_2: > You do not have a candelabrum for this pedestal... */;
                 }
                 itfMesMngCloseWindow();
                 if (BIT_CHK(1921) == 0 && BIT_CHK(1000))
                 {
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(7) /* MSG_002_IGEN */;
-                    local36 = itfMesMngSelect(9);
+                    itfMesMngMessage(7) /* MSG_002_IGEN: > Will you light the Candelabrum of Dignity? */;
+                    local36 = itfMesMngSelect(9) /* STOKERE_SEL: Yes. / No. */;
                     itfMesMngCloseWindow();
                     if (local36 == 0)
                     {
@@ -855,7 +855,7 @@ void 001_01eve_01()
                         }
                         BIT_OFF(1000);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(10) /* MSG_003_IGEN */;
+                        itfMesMngMessage(10) /* MSG_003_IGEN: > You lit the Candelabrum of Dignity. */;
                         itfMesMngCloseWindow();
                     }
                     else
@@ -875,8 +875,8 @@ void 001_01eve_01()
                 if (BIT_CHK(1922) == 0 && BIT_CHK(999))
                 {
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(8) /* MSG_002_EIEN */;
-                    local36 = itfMesMngSelect(9);
+                    itfMesMngMessage(8) /* MSG_002_EIEN: > Will you light the Candelabrum of Eternity? */;
+                    local36 = itfMesMngSelect(9) /* STOKERE_SEL: Yes. / No. */;
                     itfMesMngCloseWindow();
                     if (local36 == 0)
                     {
@@ -900,7 +900,7 @@ void 001_01eve_01()
                         }
                         BIT_OFF(999);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(11) /* MSG_003_EIEN */;
+                        itfMesMngMessage(11) /* MSG_003_EIEN: > You lit the Candelabrum of Eternity. */;
                         itfMesMngCloseWindow();
                     }
                     else
@@ -925,7 +925,7 @@ void 001_01eve_01()
                     FADE_IN(0, 10);
                     WAIT(10);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(13) /* MSG_003B */;
+                    itfMesMngMessage(13) /* MSG_003B: > All of the candelabra have been lit... */;
                     itfMesMngCloseWindow();
                     DIST_BLUR_PARA(2, 1000, 0, 0.05f, 0, - 1.0f, 1);
                     DIST_BLUR_RGBA(250, 220, 200, 50);
@@ -987,7 +987,7 @@ void 001_01eve_01()
                 FADE_IN(0, 15);
                 WAIT(15);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(15) /* MSG_006 */;
+                itfMesMngMessage(15) /* MSG_006: > The flames illuminate the passage beyond. */;
                 itfMesMngCloseWindow();
                 FADE_OUT(0, 15);
                 WAIT(15);
@@ -1015,7 +1015,7 @@ void 001_01eve_04()
         WAIT(10);
         itfMesMngWindowTypeAlpha(1, 75);
         itfMesMngOpenWindow();
-        itfMesMngMessage(45) /* META_VOICE_SYSTEM_01 */;
+        itfMesMngMessage(45) /* META_VOICE_SYSTEM_01: > A voice rings out of nowhere... */;
         itfMesMngCloseWindow();
         FADE_OUT(0, 15);
         WAIT(15);
@@ -1030,8 +1030,8 @@ void 001_01eve_04()
         WAIT(15);
         CAM_PATH_MOVE(SEARCH_ID("01cam_12"), SEARCH_ID("01cam_12_MOTION"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(46) /* META_VOICE_01 */;
-        itfMesMngMessage(47) /* META_VOICE_02 */;
+        itfMesMngMessage(46) /* META_VOICE_01: ...Fiend, accomplice to the fallen angel... */;
+        itfMesMngMessage(47) /* META_VOICE_02: ...Do you know what cause you serve? */;
         itfMesMngCloseWindow();
         FADE_OUT(1, 5);
         WAIT(5);
@@ -1048,8 +1048,8 @@ void 001_01eve_04()
         CAM_PATH_MOVE(SEARCH_ID("01cam_13"), SEARCH_ID("01cam_13_MOTION"));
         itfMesMngWindowTypeAlpha(1, 50);
         itfMesMngOpenWindow();
-        itfMesMngMessage(48) /* META_VOICE_03 */;
-        local38 = itfMesMngSelect(0);
+        itfMesMngMessage(48) /* META_VOICE_03: I have watched your every move from above. */;
+        local38 = itfMesMngSelect(0) /* YN_SEL: Yes. / No. */;
         itfMesMngCloseWindow();
         FADE_OUT(0, 15);
         WAIT(15);
@@ -1065,12 +1065,12 @@ void 001_01eve_04()
         itfMesMngOpenWindow();
         if (local38 == 0)
         {
-            itfMesMngMessage(49) /* META_VOICE_YES */;
+            itfMesMngMessage(49) /* META_VOICE_YES: ...May you be blessed by the light. */;
             BIT_ON(296);
         }
         else
         {
-            itfMesMngMessage(50) /* META_VOICE_NO */;
+            itfMesMngMessage(50) /* META_VOICE_NO: ...Woe unto you, for you can no longer discern good from evil... */;
         }
         itfMesMngCloseWindow();
         FLD_BGM_FADE();
@@ -1085,7 +1085,7 @@ void 001_01eve_04()
         FADE_IN(1, 5);
         WAIT(25);
         itfMesMngOpenWindow();
-        itfMesMngMessage(51) /* META_VOICE_SYSTEM_02 */;
+        itfMesMngMessage(51) /* META_VOICE_SYSTEM_02: > The voice could no longer be heard. */;
         itfMesMngCloseWindow();
         FLD_BGM_PLAY(1);
         BIT_ON(1930);
@@ -1111,8 +1111,8 @@ void 002_01eve_01()
             FADE_IN(0, 15);
             WAIT(15);
             itfMesMngOpenWindow();
-            itfMesMngMessage(16) /* MSG_ANA010 */;
-            local39 = itfMesMngSelect(0);
+            itfMesMngMessage(16) /* MSG_ANA010: > There is a peephole... */;
+            local39 = itfMesMngSelect(0) /* YN_SEL: Yes. / No. */;
             itfMesMngCloseWindow();
             if (local39 == 0)
             {
@@ -1187,8 +1187,8 @@ void 001_01eve_02()
             MODEL_SHADOW_OFF(var0);
             CAM_SEL(SEARCH_ID("01cam_07"));
             itfMesMngOpenWindow();
-            itfMesMngMessage(24) /* F042_SHAFT_UP */;
-            if (itfMesMngSelect(0) == 0)
+            itfMesMngMessage(24) /* F042_SHAFT_UP: > Return to the previous Kalpa? */;
+            if (itfMesMngSelect(0) /* YN_SEL: Yes. / No. */ == 0)
             {
                 FADE_OUT(0, 15);
                 WAIT(15);
@@ -1230,8 +1230,8 @@ void 001_01eve_03()
             MODEL_SHADOW_OFF(var0);
             CAM_SEL(SEARCH_ID("01cam_09"));
             itfMesMngOpenWindow();
-            itfMesMngMessage(23) /* F042_SHAFT_ENT */;
-            if (itfMesMngSelect(0) == 0)
+            itfMesMngMessage(23) /* F042_SHAFT_ENT: > Return to the entrance of the Labyrinth? */;
+            if (itfMesMngSelect(0) /* YN_SEL: Yes. / No. */ == 0)
             {
                 FADE_OUT(0, 15);
                 WAIT(15);
@@ -1273,8 +1273,8 @@ void 002_01eve_02()
             MODEL_SHADOW_OFF(var0);
             CAM_SEL(SEARCH_ID("01cam_03"));
             itfMesMngOpenWindow();
-            itfMesMngMessage(22) /* F042_SHAFT_Q */;
-            if (itfMesMngSelect(0) == 0)
+            itfMesMngMessage(22) /* F042_SHAFT_Q: > There is a shaft leading downward. */;
+            if (itfMesMngSelect(0) /* YN_SEL: Yes. / No. */ == 0)
             {
                 FADE_OUT(0, 15);
                 WAIT(15);
@@ -1312,9 +1312,9 @@ void 028_01eve_test()
         {
             PAD_DISABLE();
             itfMesMngOpenWindow();
-            itfMesMngMessage(3) /* F042_DEBBUG2 */;
+            itfMesMngMessage(3) /* F042_DEBBUG2: What do you want to do? */;
             itfMesMngCloseWindow();
-            local40 = itfMesMngSelect(4);
+            local40 = itfMesMngSelect(4) /* F042_DEBBUG2_SEL: Black Visor flag on / Kaiwan flag on / Ose flag on / Moirae Sisters f... */;
             if (local40 == 0)
             {
                 BIT_ON(1006);
@@ -1357,9 +1357,9 @@ void 028_01eve_test2()
         {
             PAD_DISABLE();
             itfMesMngOpenWindow();
-            itfMesMngMessage(3) /* F042_DEBBUG2 */;
+            itfMesMngMessage(3) /* F042_DEBBUG2: What do you want to do? */;
             itfMesMngCloseWindow();
-            local41 = itfMesMngSelect(4);
+            local41 = itfMesMngSelect(4) /* F042_DEBBUG2_SEL: Black Visor flag on / Kaiwan flag on / Ose flag on / Moirae Sisters f... */;
             if (local41 == 0)
             {
                 BIT_ON(1006);
@@ -1465,18 +1465,18 @@ void 028_01eve_01()
             {
                 if (var250 <= var251)
                 {
-                    itfMesMngMessage(30) /* KIUN_BEST_SCORE_R */;
+                    itfMesMngMessage(30) /* KIUN_BEST_SCORE_R: > "Record of Kaiwan: Defeated in {var 0} turn(s)." */;
                 }
                 else
                 {
-                    itfMesMngMessage(29) /* KIUN_BEST_SCORE */;
+                    itfMesMngMessage(29) /* KIUN_BEST_SCORE: > "Record of Kaiwan: Defeated in {var 0} turn(s)." */;
                 }
             }
             else
             {
                 if (BIT_CHK(1750) == 0)
                 {
-                    itfMesMngMessage(25) /* NO_NAME */;
+                    itfMesMngMessage(25) /* NO_NAME: > There is a tombstone without a name on it... */;
                     itfMesMngCloseWindow();
                     FADE_OUT(0, 15);
                     WAIT(15);
@@ -1492,16 +1492,16 @@ void 028_01eve_01()
                 {
                     if (var250 <= var251)
                     {
-                        itfMesMngMessage(30) /* KIUN_BEST_SCORE_R */;
+                        itfMesMngMessage(30) /* KIUN_BEST_SCORE_R: > "Record of Kaiwan: Defeated in {var 0} turn(s)." */;
                     }
                     else
                     {
-                        itfMesMngMessage(29) /* KIUN_BEST_SCORE */;
+                        itfMesMngMessage(29) /* KIUN_BEST_SCORE: > "Record of Kaiwan: Defeated in {var 0} turn(s)." */;
                     }
                 }
                 else
                 {
-                    itfMesMngMessage(31) /* KIUN_BOHI */;
+                    itfMesMngMessage(31) /* KIUN_BOHI: > It is inscribed, "Here lies Kaiwan." */;
                 }
                 if (BIT_CHK(1006) == 0)
                 {
@@ -1518,8 +1518,8 @@ void 028_01eve_01()
                 }
             }
             BIT_ON(2568);
-            itfMesMngMessage(26) /* VISER_USE */;
-            if (itfMesMngSelect(0))
+            itfMesMngMessage(26) /* VISER_USE: > Will you put on the Black Visor? */;
+            if (itfMesMngSelect(0) /* YN_SEL: Yes. / No. */)
             {
                 itfMesMngCloseWindow();
                 FADE_OUT(0, 15);
@@ -1532,7 +1532,7 @@ void 028_01eve_01()
                 PAD_ENABLE();
                 return;
             }
-            itfMesMngMessage(32) /* KIUN_REMEMBER */;
+            itfMesMngMessage(32) /* KIUN_REMEMBER: > You recall the battle against Kaiwan... */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 30);
             WAIT(30);
@@ -1560,7 +1560,7 @@ void 010_kiun_after()
         MODEL_SHADOW_OFF(var0);
         CAM_SEL(SEARCH_ID("01cam_01"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(27) /* LETTER_CHANGE */;
+        itfMesMngMessage(27) /* LETTER_CHANGE: > The inscription on the tombstone changed. */;
         itfMesMngCloseWindow();
         FLD_SE_PLAY(101);
         MUL_BLUR_PARA(0, 0.9f, 0);
@@ -1579,11 +1579,11 @@ void 010_kiun_after()
         if (var250 <= var251)
         {
             BIT_ON(2569);
-            itfMesMngMessage(30) /* KIUN_BEST_SCORE_R */;
+            itfMesMngMessage(30) /* KIUN_BEST_SCORE_R: > "Record of Kaiwan: Defeated in {var 0} turn(s)." */;
         }
         else
         {
-            itfMesMngMessage(29) /* KIUN_BEST_SCORE */;
+            itfMesMngMessage(29) /* KIUN_BEST_SCORE: > "Record of Kaiwan: Defeated in {var 0} turn(s)." */;
         }
         itfMesMngCloseWindow();
         FADE_OUT(0, 15);
@@ -1597,7 +1597,7 @@ void 010_kiun_after()
     else
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(28) /* LETTER_NOCHANGE */;
+        itfMesMngMessage(28) /* LETTER_NOCHANGE: > The inscription on the tombstone remained the same. */;
         itfMesMngCloseWindow();
     }
     PAD_ENABLE();
@@ -1622,18 +1622,18 @@ void 028_01eve_02()
             {
                 if (var250 <= var251)
                 {
-                    itfMesMngMessage(34) /* OSE_BEST_SCORE_R */;
+                    itfMesMngMessage(34) /* OSE_BEST_SCORE_R: > "Record of Ose: Defeated in {var 0} turn(s)." */;
                 }
                 else
                 {
-                    itfMesMngMessage(33) /* OSE_BEST_SCORE */;
+                    itfMesMngMessage(33) /* OSE_BEST_SCORE: > "Record of Ose: Defeated in {var 0} turn(s)." */;
                 }
             }
             else
             {
                 if (BIT_CHK(22) == 0)
                 {
-                    itfMesMngMessage(25) /* NO_NAME */;
+                    itfMesMngMessage(25) /* NO_NAME: > There is a tombstone without a name on it... */;
                     itfMesMngCloseWindow();
                     FADE_OUT(0, 15);
                     WAIT(15);
@@ -1649,16 +1649,16 @@ void 028_01eve_02()
                 {
                     if (var250 <= var251)
                     {
-                        itfMesMngMessage(34) /* OSE_BEST_SCORE_R */;
+                        itfMesMngMessage(34) /* OSE_BEST_SCORE_R: > "Record of Ose: Defeated in {var 0} turn(s)." */;
                     }
                     else
                     {
-                        itfMesMngMessage(33) /* OSE_BEST_SCORE */;
+                        itfMesMngMessage(33) /* OSE_BEST_SCORE: > "Record of Ose: Defeated in {var 0} turn(s)." */;
                     }
                 }
                 else
                 {
-                    itfMesMngMessage(35) /* OSE_BOHI */;
+                    itfMesMngMessage(35) /* OSE_BOHI: > It is inscribed, "Here lies Ose." */;
                 }
                 if (BIT_CHK(1006) == 0)
                 {
@@ -1675,8 +1675,8 @@ void 028_01eve_02()
                 }
             }
             BIT_ON(2570);
-            itfMesMngMessage(26) /* VISER_USE */;
-            if (itfMesMngSelect(0))
+            itfMesMngMessage(26) /* VISER_USE: > Will you put on the Black Visor? */;
+            if (itfMesMngSelect(0) /* YN_SEL: Yes. / No. */)
             {
                 itfMesMngCloseWindow();
                 FADE_OUT(0, 15);
@@ -1689,7 +1689,7 @@ void 028_01eve_02()
                 PAD_ENABLE();
                 return;
             }
-            itfMesMngMessage(36) /* OSE_REMEMBER */;
+            itfMesMngMessage(36) /* OSE_REMEMBER: > You recall the battle against Ose... */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 30);
             WAIT(30);
@@ -1717,7 +1717,7 @@ void 028_ose_after()
         MODEL_SHADOW_OFF(var0);
         CAM_SEL(SEARCH_ID("01cam_02"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(27) /* LETTER_CHANGE */;
+        itfMesMngMessage(27) /* LETTER_CHANGE: > The inscription on the tombstone changed. */;
         itfMesMngCloseWindow();
         FLD_SE_PLAY(101);
         MUL_BLUR_PARA(0, 0.9f, 0);
@@ -1736,11 +1736,11 @@ void 028_ose_after()
         if (var250 <= var251)
         {
             BIT_ON(2571);
-            itfMesMngMessage(34) /* OSE_BEST_SCORE_R */;
+            itfMesMngMessage(34) /* OSE_BEST_SCORE_R: > "Record of Ose: Defeated in {var 0} turn(s)." */;
         }
         else
         {
-            itfMesMngMessage(33) /* OSE_BEST_SCORE */;
+            itfMesMngMessage(33) /* OSE_BEST_SCORE: > "Record of Ose: Defeated in {var 0} turn(s)." */;
         }
         itfMesMngCloseWindow();
         FADE_OUT(0, 15);
@@ -1754,7 +1754,7 @@ void 028_ose_after()
     else
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(28) /* LETTER_NOCHANGE */;
+        itfMesMngMessage(28) /* LETTER_NOCHANGE: > The inscription on the tombstone remained the same. */;
         itfMesMngCloseWindow();
     }
     PAD_ENABLE();
@@ -1779,18 +1779,18 @@ void 028_01eve_03()
             {
                 if (var250 <= var251)
                 {
-                    itfMesMngMessage(38) /* SIMAI_BEST_SCORE_R */;
+                    itfMesMngMessage(38) /* SIMAI_BEST_SCORE_R: > "Record of the Moirae Sisters: Defeated in {var 0} turn(s)." */;
                 }
                 else
                 {
-                    itfMesMngMessage(37) /* SIMAI_BEST_SCORE */;
+                    itfMesMngMessage(37) /* SIMAI_BEST_SCORE: > "Record of the Moirae Sisters: Defeated in {var 0} turn(s)." */;
                 }
             }
             else
             {
                 if (BIT_CHK(1602) == 0)
                 {
-                    itfMesMngMessage(25) /* NO_NAME */;
+                    itfMesMngMessage(25) /* NO_NAME: > There is a tombstone without a name on it... */;
                     itfMesMngCloseWindow();
                     FADE_OUT(0, 15);
                     WAIT(15);
@@ -1806,16 +1806,16 @@ void 028_01eve_03()
                 {
                     if (var250 <= var251)
                     {
-                        itfMesMngMessage(38) /* SIMAI_BEST_SCORE_R */;
+                        itfMesMngMessage(38) /* SIMAI_BEST_SCORE_R: > "Record of the Moirae Sisters: Defeated in {var 0} turn(s)." */;
                     }
                     else
                     {
-                        itfMesMngMessage(37) /* SIMAI_BEST_SCORE */;
+                        itfMesMngMessage(37) /* SIMAI_BEST_SCORE: > "Record of the Moirae Sisters: Defeated in {var 0} turn(s)." */;
                     }
                 }
                 else
                 {
-                    itfMesMngMessage(39) /* SIMAI_BOHI */;
+                    itfMesMngMessage(39) /* SIMAI_BOHI: > It is inscribed, "Here lie the Moirae Sisters." */;
                 }
                 if (BIT_CHK(1006) == 0)
                 {
@@ -1832,8 +1832,8 @@ void 028_01eve_03()
                 }
             }
             BIT_ON(2572);
-            itfMesMngMessage(26) /* VISER_USE */;
-            if (itfMesMngSelect(0))
+            itfMesMngMessage(26) /* VISER_USE: > Will you put on the Black Visor? */;
+            if (itfMesMngSelect(0) /* YN_SEL: Yes. / No. */)
             {
                 itfMesMngCloseWindow();
                 FADE_OUT(0, 15);
@@ -1846,7 +1846,7 @@ void 028_01eve_03()
                 PAD_ENABLE();
                 return;
             }
-            itfMesMngMessage(40) /* SIMAI_REMEMBER */;
+            itfMesMngMessage(40) /* SIMAI_REMEMBER: > You recall the battle against the Moirae Sisters... */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 30);
             WAIT(30);
@@ -1874,7 +1874,7 @@ void 013_sima_after()
         MODEL_SHADOW_OFF(var0);
         CAM_SEL(SEARCH_ID("01cam_03"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(27) /* LETTER_CHANGE */;
+        itfMesMngMessage(27) /* LETTER_CHANGE: > The inscription on the tombstone changed. */;
         itfMesMngCloseWindow();
         FLD_SE_PLAY(101);
         MUL_BLUR_PARA(0, 0.9f, 0);
@@ -1893,11 +1893,11 @@ void 013_sima_after()
         if (var250 <= var251)
         {
             BIT_ON(2573);
-            itfMesMngMessage(38) /* SIMAI_BEST_SCORE_R */;
+            itfMesMngMessage(38) /* SIMAI_BEST_SCORE_R: > "Record of the Moirae Sisters: Defeated in {var 0} turn(s)." */;
         }
         else
         {
-            itfMesMngMessage(37) /* SIMAI_BEST_SCORE */;
+            itfMesMngMessage(37) /* SIMAI_BEST_SCORE: > "Record of the Moirae Sisters: Defeated in {var 0} turn(s)." */;
         }
         itfMesMngCloseWindow();
         FADE_OUT(0, 15);
@@ -1911,7 +1911,7 @@ void 013_sima_after()
     else
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(28) /* LETTER_NOCHANGE */;
+        itfMesMngMessage(28) /* LETTER_NOCHANGE: > The inscription on the tombstone remained the same. */;
         itfMesMngCloseWindow();
     }
     PAD_ENABLE();
@@ -1936,18 +1936,18 @@ void 028_01eve_04()
             {
                 if (var250 <= var251)
                 {
-                    itfMesMngMessage(42) /* MIZ_BEST_SCORE_R */;
+                    itfMesMngMessage(42) /* MIZ_BEST_SCORE_R: > "Record of Mizuchi: Defeated in {var 0} turn(s)." */;
                 }
                 else
                 {
-                    itfMesMngMessage(41) /* MIZ_BEST_SCORE */;
+                    itfMesMngMessage(41) /* MIZ_BEST_SCORE: > "Record of Mizuchi: Defeated in {var 0} turn(s)." */;
                 }
             }
             else
             {
                 if (BIT_CHK(1429) == 0)
                 {
-                    itfMesMngMessage(25) /* NO_NAME */;
+                    itfMesMngMessage(25) /* NO_NAME: > There is a tombstone without a name on it... */;
                     itfMesMngCloseWindow();
                     FADE_OUT(0, 15);
                     WAIT(15);
@@ -1963,16 +1963,16 @@ void 028_01eve_04()
                 {
                     if (var250 <= var251)
                     {
-                        itfMesMngMessage(42) /* MIZ_BEST_SCORE_R */;
+                        itfMesMngMessage(42) /* MIZ_BEST_SCORE_R: > "Record of Mizuchi: Defeated in {var 0} turn(s)." */;
                     }
                     else
                     {
-                        itfMesMngMessage(41) /* MIZ_BEST_SCORE */;
+                        itfMesMngMessage(41) /* MIZ_BEST_SCORE: > "Record of Mizuchi: Defeated in {var 0} turn(s)." */;
                     }
                 }
                 else
                 {
-                    itfMesMngMessage(43) /* MIZ_BOHI */;
+                    itfMesMngMessage(43) /* MIZ_BOHI: > It is inscribed, "Here lies Mizuchi." */;
                 }
                 if (BIT_CHK(1006) == 0)
                 {
@@ -1989,8 +1989,8 @@ void 028_01eve_04()
                 }
             }
             BIT_ON(2574);
-            itfMesMngMessage(26) /* VISER_USE */;
-            if (itfMesMngSelect(0))
+            itfMesMngMessage(26) /* VISER_USE: > Will you put on the Black Visor? */;
+            if (itfMesMngSelect(0) /* YN_SEL: Yes. / No. */)
             {
                 itfMesMngCloseWindow();
                 FADE_OUT(0, 15);
@@ -2003,7 +2003,7 @@ void 028_01eve_04()
                 PAD_ENABLE();
                 return;
             }
-            itfMesMngMessage(44) /* MIZ_REMEMBER */;
+            itfMesMngMessage(44) /* MIZ_REMEMBER: > You recall the battle against Mizuchi... */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 30);
             WAIT(30);
@@ -2031,7 +2031,7 @@ void 028_miz_after()
         MODEL_SHADOW_OFF(var0);
         CAM_SEL(SEARCH_ID("01cam_04"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(27) /* LETTER_CHANGE */;
+        itfMesMngMessage(27) /* LETTER_CHANGE: > The inscription on the tombstone changed. */;
         itfMesMngCloseWindow();
         FLD_SE_PLAY(101);
         MUL_BLUR_PARA(0, 0.9f, 0);
@@ -2050,11 +2050,11 @@ void 028_miz_after()
         if (var250 <= var251)
         {
             BIT_ON(2575);
-            itfMesMngMessage(42) /* MIZ_BEST_SCORE_R */;
+            itfMesMngMessage(42) /* MIZ_BEST_SCORE_R: > "Record of Mizuchi: Defeated in {var 0} turn(s)." */;
         }
         else
         {
-            itfMesMngMessage(41) /* MIZ_BEST_SCORE */;
+            itfMesMngMessage(41) /* MIZ_BEST_SCORE: > "Record of Mizuchi: Defeated in {var 0} turn(s)." */;
         }
         itfMesMngCloseWindow();
         FADE_OUT(0, 15);
@@ -2068,7 +2068,7 @@ void 028_miz_after()
     else
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(28) /* LETTER_NOCHANGE */;
+        itfMesMngMessage(28) /* LETTER_NOCHANGE: > The inscription on the tombstone remained the same. */;
         itfMesMngCloseWindow();
     }
     PAD_ENABLE();
@@ -2086,10 +2086,10 @@ void 012_01npc_01()
             FLD_BGM_FADE();
             FLD_BGM_PLAY(134);
             itfMesMngOpenWindow();
-            itfMesMngMessage(120) /* F041_AREA9_KUROJAKU */;
-            if (itfMesMngSelect(121) == 0)
+            itfMesMngMessage(120) /* F041_AREA9_KUROJAKU: It's natural for every living thing to die... Treatment, therefore, c... */;
+            if (itfMesMngSelect(121) /* F041_AREA9_DR_SEL: No. / Yes. */ == 0)
             {
-                itfMesMngMessage(122) /* F041_AREA9_KUROJAKU_YES */;
+                itfMesMngMessage(122) /* F041_AREA9_KUROJAKU_YES: Good. One lives, one dies... That's the way it should be. */;
             }
             else
             {
@@ -2114,21 +2114,21 @@ void 012_01npc_01()
                     local42 = 2000;
                 }
                 itfMesMngSetVarScr(0, local42, 0);
-                itfMesMngMessage(123) /* F041_AREA9_KUROJAKU_KAIH */;
-                if (itfMesMngSelect(121) == 0)
+                itfMesMngMessage(123) /* F041_AREA9_KUROJAKU_KAIH: ...I am a doctor, after all. I'll treat your wounds. */;
+                if (itfMesMngSelect(121) /* F041_AREA9_DR_SEL: No. / Yes. */ == 0)
                 {
-                    itfMesMngMessage(122) /* F041_AREA9_KUROJAKU_YES */;
+                    itfMesMngMessage(122) /* F041_AREA9_KUROJAKU_YES: Good. One lives, one dies... That's the way it should be. */;
                 }
                 else
                 {
                     if (prm_MAKA_CHECK(local42) == 0)
                     {
-                        itfMesMngMessage(125) /* F041_AREA9_KUROJAKU_NOMO */;
+                        itfMesMngMessage(125) /* F041_AREA9_KUROJAKU_NOMO: ...... */;
                     }
                     else
                     {
                         prm_PARTY_KAIFUKU();
-                        itfMesMngMessage(124) /* F041_AREA9_KUROJAKU_KAIH */;
+                        itfMesMngMessage(124) /* F041_AREA9_KUROJAKU_KAIH: > ...... */;
                         COMM_139(-local42);
                     }
                 }
@@ -2156,41 +2156,41 @@ void 022_01npc_01()
             FLD_BGM_FADE();
             FLD_BGM_PLAY(130);
             itfMesMngOpenWindow();
-            itfMesMngMessage(52) /* BOTTAKURI_01 */;
-            if (itfMesMngSelect(0))
+            itfMesMngMessage(52) /* BOTTAKURI_01: Gee, you look worn out. */;
+            if (itfMesMngSelect(0) /* YN_SEL: Yes. / No. */)
             {
-                itfMesMngMessage(53) /* BOTTAKURI_NO */;
+                itfMesMngMessage(53) /* BOTTAKURI_NO: Oh... Well, please come again! */;
             }
             else
             {
                 if (prm_MAKA_CHECK(500) == 0)
                 {
-                    itfMesMngMessage(54) /* BOTTAKURI_NOMONEY */;
+                    itfMesMngMessage(54) /* BOTTAKURI_NOMONEY: Oh, you don't have enough Macca... Come back when you do. */;
                 }
                 else
                 {
                     COMM_139(- 500);
-                    itfMesMngMessage(55) /* BOTTAKURI_YES_01 */;
+                    itfMesMngMessage(55) /* BOTTAKURI_YES_01: You must be thirsty. Here, have a drink... */;
                     prm_PARTY_KAIFUKU();
-                    itfMesMngMessage(56) /* BOTTAKURI_YES_02 */;
-                    itfMesMngMessage(57) /* BOTTAKURI_YES_03 */;
+                    itfMesMngMessage(56) /* BOTTAKURI_YES_02: > Your party recovered. */;
+                    itfMesMngMessage(57) /* BOTTAKURI_YES_03: Go ahead, have some more... */;
                     DIST_BLUR_PARA(60, 96, 15, 0.222f, 0.005f, 0.13f, 0);
                     DIST_BLUR_RGBA(132, 132, 132, 101);
                     DIST_BLUR_AREA(256, 0, 0);
                     DIST_BLUR_ON(30);
-                    itfMesMngMessage(58) /* BOTTAKURI_YES_04 */;
+                    itfMesMngMessage(58) /* BOTTAKURI_YES_04: Are you feeling better? Here's some more... */;
                     prm_PARTY_KAIFUKU();
                     WAIT(10);
                     prm_PARTY_KAIFUKU();
-                    itfMesMngMessage(59) /* BOTTAKURI_YES_05 */;
+                    itfMesMngMessage(59) /* BOTTAKURI_YES_05: > Your party recovered some more. */;
                     DIST_BLUR_PARA(60, 176, 15, 0.222f, 0.005f, 0.13f, 0);
                     DIST_BLUR_RGBA(132, 132, 132, 101);
                     DIST_BLUR_AREA(256, 0, 0);
                     COMM_128(30);
                     WAIT(30);
-                    itfMesMngMessage(60) /* BOTTAKURI_YES_06 */;
+                    itfMesMngMessage(60) /* BOTTAKURI_YES_06: ...Have... another... drink... */;
                     WAIT(30);
-                    itfMesMngMessage(60) /* BOTTAKURI_YES_06 */;
+                    itfMesMngMessage(60) /* BOTTAKURI_YES_06: ...Have... another... drink... */;
                     COMM_139(- 3000);
                     FADE_OUT(1, 30);
                     WAIT(30);
@@ -2200,7 +2200,7 @@ void 022_01npc_01()
                     FADE_IN(0, 10);
                     WAIT(10);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(61) /* BOTTAKURI_YES_07 */;
+                    itfMesMngMessage(61) /* BOTTAKURI_YES_07: > Your wallet feels really light... */;
                     itfMesMngCloseWindow();
                     FADE_OUT(0, 30);
                     WAIT(30);
@@ -2242,23 +2242,23 @@ void 013_01npc_02()
                     {
                         local44 = 30000;
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(135) /* F041_SINEN_LEV001 */;
+                        itfMesMngMessage(135) /* F041_SINEN_LEV001: ...You're pretty strong. */;
                         if (prm_DV_CHECK(124) == 0)
                         {
-                            itfMesMngMessage(138) /* F041_SINEN_LEV003 */;
-                            if (itfMesMngSelect(139) == 0)
+                            itfMesMngMessage(138) /* F041_SINEN_LEV003: Here's what I'm selling... */;
+                            if (itfMesMngSelect(139) /* F041_SINEN_LEV003_SEL: Alright, I'll buy it. / No thanks. */ == 0)
                             {
                                 local44 = 30000;
                                 if (prm_MAKA_CHECK(local44) == 0)
                                 {
-                                    itfMesMngMessage(145) /* F041_SINEN_KANE */;
+                                    itfMesMngMessage(145) /* F041_SINEN_KANE: Hey-hey-hey, you don't have enough Macca! */;
                                     itfMesMngCloseWindow();
                                     goto END;
                                 }
                                 else
                                 {
-                                    itfMesMngMessage(140) /* F041_SINEN_LEV004 */;
-                                    itfMesMngMessage(141) /* F041_SINEN_LEV005 */;
+                                    itfMesMngMessage(140) /* F041_SINEN_LEV004: Excellent choice! */;
+                                    itfMesMngMessage(141) /* F041_SINEN_LEV005: > You purchased a demon from the Shady Broker. */;
                                     itfMesMngCloseWindow();
                                     prm_DV_PLUS(124, 2, 0);
                                     prm_DV_COPY_PARAM(124, 209);
@@ -2268,19 +2268,19 @@ void 013_01npc_02()
                                 }
                                 WAIT(1);
                             }
-                            itfMesMngMessage(144) /* F041_SINEN_LEVIRANAI */;
+                            itfMesMngMessage(144) /* F041_SINEN_LEVIRANAI: That's fine. If you change your mind, feel free to come back anytime. */;
                             itfMesMngCloseWindow();
                             goto END;
                         }
                         WAIT(1);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(136) /* F041_SINEN_DAM */;
+                        itfMesMngMessage(136) /* F041_SINEN_DAM: ...On second thought, forget what I just said. */;
                         itfMesMngCloseWindow();
                         goto END;
                         WAIT(1);
                     }
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(137) /* F041_SINEN_LEV002 */;
+                    itfMesMngMessage(137) /* F041_SINEN_LEV002: ...You're pretty strong. */;
                     itfMesMngCloseWindow();
                     goto END;
                 }
@@ -2289,13 +2289,13 @@ void 013_01npc_02()
             if (BIT_CHK(308) == 0)
             {
                 itfMesMngOpenWindow();
-                itfMesMngMessage(133) /* F041_SINEN_X */;
+                itfMesMngMessage(133) /* F041_SINEN_X: ...I'm glad you made it here. */;
                 itfMesMngCloseWindow();
             }
             else
             {
                 itfMesMngOpenWindow();
-                itfMesMngMessage(134) /* F041_SINEN_X2 */;
+                itfMesMngMessage(134) /* F041_SINEN_X2: ...I've got nothing else to sell you. ...Hey, don't worry. */;
                 itfMesMngCloseWindow();
             }
         END:
@@ -2321,41 +2321,41 @@ void 012_01npc_02()
             FLD_BGM_FADE();
             FLD_BGM_PLAY(130);
             itfMesMngOpenWindow();
-            itfMesMngMessage(52) /* BOTTAKURI_01 */;
-            if (itfMesMngSelect(0))
+            itfMesMngMessage(52) /* BOTTAKURI_01: Gee, you look worn out. */;
+            if (itfMesMngSelect(0) /* YN_SEL: Yes. / No. */)
             {
-                itfMesMngMessage(53) /* BOTTAKURI_NO */;
+                itfMesMngMessage(53) /* BOTTAKURI_NO: Oh... Well, please come again! */;
             }
             else
             {
                 if (prm_MAKA_CHECK(500) == 0)
                 {
-                    itfMesMngMessage(54) /* BOTTAKURI_NOMONEY */;
+                    itfMesMngMessage(54) /* BOTTAKURI_NOMONEY: Oh, you don't have enough Macca... Come back when you do. */;
                 }
                 else
                 {
                     COMM_139(- 500);
-                    itfMesMngMessage(55) /* BOTTAKURI_YES_01 */;
+                    itfMesMngMessage(55) /* BOTTAKURI_YES_01: You must be thirsty. Here, have a drink... */;
                     prm_PARTY_KAIFUKU();
-                    itfMesMngMessage(56) /* BOTTAKURI_YES_02 */;
-                    itfMesMngMessage(57) /* BOTTAKURI_YES_03 */;
+                    itfMesMngMessage(56) /* BOTTAKURI_YES_02: > Your party recovered. */;
+                    itfMesMngMessage(57) /* BOTTAKURI_YES_03: Go ahead, have some more... */;
                     DIST_BLUR_PARA(60, 96, 15, 0.222f, 0.005f, 0.13f, 0);
                     DIST_BLUR_RGBA(132, 132, 132, 101);
                     DIST_BLUR_AREA(256, 0, 0);
                     DIST_BLUR_ON(30);
-                    itfMesMngMessage(58) /* BOTTAKURI_YES_04 */;
+                    itfMesMngMessage(58) /* BOTTAKURI_YES_04: Are you feeling better? Here's some more... */;
                     prm_PARTY_KAIFUKU();
                     WAIT(10);
                     prm_PARTY_KAIFUKU();
-                    itfMesMngMessage(59) /* BOTTAKURI_YES_05 */;
+                    itfMesMngMessage(59) /* BOTTAKURI_YES_05: > Your party recovered some more. */;
                     DIST_BLUR_PARA(60, 176, 15, 0.222f, 0.005f, 0.13f, 0);
                     DIST_BLUR_RGBA(132, 132, 132, 101);
                     DIST_BLUR_AREA(256, 0, 0);
                     COMM_128(30);
                     WAIT(30);
-                    itfMesMngMessage(60) /* BOTTAKURI_YES_06 */;
+                    itfMesMngMessage(60) /* BOTTAKURI_YES_06: ...Have... another... drink... */;
                     WAIT(30);
-                    itfMesMngMessage(60) /* BOTTAKURI_YES_06 */;
+                    itfMesMngMessage(60) /* BOTTAKURI_YES_06: ...Have... another... drink... */;
                     COMM_139(- 3000);
                     FADE_OUT(1, 30);
                     WAIT(30);
@@ -2365,7 +2365,7 @@ void 012_01npc_02()
                     FADE_IN(0, 10);
                     WAIT(10);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(61) /* BOTTAKURI_YES_07 */;
+                    itfMesMngMessage(61) /* BOTTAKURI_YES_07: > Your wallet feels really light... */;
                     itfMesMngCloseWindow();
                     FADE_OUT(0, 30);
                     WAIT(30);

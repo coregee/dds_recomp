@@ -89,7 +89,7 @@ void e623_020()
     MODEL_LIGHT_LINK(var2, 0, SEARCH_ID("light01"));
     MODEL_MOTION2(var2, 0, 0, 10, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_020_1 */;
+    itfMesMngMessage(0) /* MSG_020_1: Hey... Is that really you? */;
     itfMesMngCloseWindow();
     WAIT(5);
     MODEL_WAIT(var1);
@@ -108,7 +108,7 @@ void e623_030()
     FADEOUT_E(623, 1);
     BGM_PLAY_E(623, 2);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_030_1 */;
+    itfMesMngMessage(1) /* MSG_030_1: I came here a little while ago... */;
     itfMesMngCloseWindow();
     WAIT(5);
     MODEL_WAIT_MOT(var1, 6);
@@ -123,7 +123,7 @@ void e623_040()
     CAM_PATH_MOVE(SEARCH_ID("cam04"), SEARCH_ID("cam04_MOTION"));
     itfMesMngWindowTypeAlpha(1, 60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_040_1 */;
+    itfMesMngMessage(2) /* MSG_040_1: These are connected to each other by a strange passageway. */;
     itfMesMngCloseWindow();
     WAIT(5);
     MODEL_WAIT_MOT(var1, 8);
@@ -143,8 +143,8 @@ void e623_050()
     MODEL_EXMOTION(var1, 3, 1, 0, 0, 0);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_050_1 */;
-    itfMesMngMessage(4) /* MSG_050_2 */;
+    itfMesMngMessage(3) /* MSG_050_1: Hey, wanna work together? */;
+    itfMesMngMessage(4) /* MSG_050_2: If we're gonna have any hope of getting out of this mess, then we've... */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("cam08"));
     CAM_PATH_MOVE(SEARCH_ID("cam08"), SEARCH_ID("cam08_MOTION"));
@@ -152,11 +152,11 @@ void e623_050()
     MODEL_EXMOTION(var1, 2, 1, 0, 0, 2);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_050_3 */;
+    itfMesMngMessage(5) /* MSG_050_3: That leader's gotta be Hikawa. */;
     itfMesMngCloseWindow();
     MODEL_MOTION2(var1, 6, 0, 10, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_050_WADA */;
+    itfMesMngMessage(6) /* MSG_050_WADA: I'll use this device to send you to Ginza. */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var1, 8);
     MODEL_MOTION2(var1, 7, 0, 10, 0);
@@ -167,7 +167,7 @@ void e623_050()
     MODEL_EXMOTION(var1, 2, 0, 0, 5, 2);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_050_4 */;
+    itfMesMngMessage(7) /* MSG_050_4: ...Well, what do you say? */;
     itfMesMngCloseWindow();
     WAIT(5);
     MODEL_MOTION2(var1, 9, 0, 10, 3);
@@ -189,8 +189,8 @@ TERMINAL:
         MODEL_WAIT_MOT(var1, 12);
         MODEL_MOTION2(var1, 11, 0, 10, 0);
         itfMesMngOpenWindow();
-        itfMesMngMessage(13) /* MSG_TRM_1 */;
-        var3 = itfMesMngSelect(14);
+        itfMesMngMessage(13) /* MSG_TRM_1: So, did you decide to enter the Amala Network? */;
+        var3 = itfMesMngSelect(14) /* MSG_TRM_2: Yes. / No. */;
         itfMesMngCloseWindow();
         if (var3 == 0)
         {
@@ -198,7 +198,7 @@ TERMINAL:
             CAM_PATH_MOVE(SEARCH_ID("cam06"), SEARCH_ID("cam06_MOTION"));
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(15) /* MSG_TRM_3 */;
+            itfMesMngMessage(15) /* MSG_TRM_3: ...Alright. */;
             itfMesMngCloseWindow();
             BIT_ON(13);
             BGM_STOP();
@@ -220,7 +220,7 @@ TERMINAL:
         {
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(16) /* MSG_TRM_4 */;
+            itfMesMngMessage(16) /* MSG_TRM_4: Tell me when you're ready. */;
             itfMesMngCloseWindow();
             MODEL_WAIT_MOT(var1, 10);
             MODEL_MOTION2(var1, 13, 0, 10, 0);

@@ -111,7 +111,7 @@ void e674_010()
     WAIT(60);
     WAIT(15);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_010_1 */;
+    itfMesMngMessage(0) /* MSG_010_1: ...Do you still not understand? */;
     itfMesMngCloseWindow();
     WAIT(20);
 }
@@ -123,7 +123,7 @@ void e674_020()
     itfMesMngWindowTypeAlpha(1, 60);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_020_1 */;
+    itfMesMngMessage(1) /* MSG_020_1: Freedom? Possibility? If you truly believe in them, then why do you s... */;
     itfMesMngCloseWindow();
     BGM_PLAY_E(674, 1);
     WAIT(15);
@@ -141,7 +141,7 @@ void e674_030()
     WAIT(20);
     KUTI(var2, 3, 2);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_030_1 */;
+    itfMesMngMessage(2) /* MSG_030_1: I-I... */;
     itfMesMngCloseWindow();
     WAIT(30);
     CAM_SEL(SEARCH_ID("cam04"));
@@ -149,7 +149,7 @@ void e674_030()
     WAIT(30);
     itfMesMngOpenWindow();
     KUTI(var1, 2, 1);
-    itfMesMngMessage(3) /* MSG_030_2 */;
+    itfMesMngMessage(3) /* MSG_030_2: The same is true for you. What did you expect to achieve by sending y... */;
     itfMesMngCloseWindow();
     WAIT(5);
     CAM_SEL(SEARCH_ID("cam14"));
@@ -159,7 +159,7 @@ void e674_030()
     MODEL_EXMOTION(var2, 2, 3, 0, 3, 2);
     WAIT(40);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_030_3 */;
+    itfMesMngMessage(4) /* MSG_030_3: Do you know why you've been unable to obtain your Reason? */;
     itfMesMngCloseWindow();
     WAIT(10);
 }
@@ -178,7 +178,7 @@ void e674_040()
     WAIT(30);
     itfMesMngOpenWindow();
     KUTI(var1, 2, 1);
-    itfMesMngMessage(5) /* MSG_040_1 */;
+    itfMesMngMessage(5) /* MSG_040_1: All this time, you've just been running away... trying to leave every... */;
     itfMesMngCloseWindow();
     WAIT(10);
     MODEL_WAIT_MOT(var2, 3);
@@ -325,7 +325,7 @@ void e674_060()
     WAIT(85);
     itfMesMngOpenWindow();
     KUTI(var1, 2, 1);
-    itfMesMngMessage(6) /* MSG_060_1 */;
+    itfMesMngMessage(6) /* MSG_060_1: Tell me the truth... Do you really believe in freedom? */;
     itfMesMngCloseWindow();
     WAIT(1);
     MODEL_WAIT_MOT(var1, 3);
@@ -382,7 +382,7 @@ void e674_070()
     BGM_PLAY_E(674, 2);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_070_1 */;
+    itfMesMngMessage(7) /* MSG_070_1: Your choice to believe in Shijima, human, is a type of freedom itself. */;
     itfMesMngCloseWindow();
     WAIT(30);
 BLR_CHK:
@@ -410,7 +410,7 @@ void e674_080()
     WAIT(30);
     itfMesMngOpenWindow();
     KUTI(var1, 2, 1);
-    itfMesMngMessage(8) /* MSG_080_1 */;
+    itfMesMngMessage(8) /* MSG_080_1: Aradia... */;
     itfMesMngCloseWindow();
     WAIT(30);
     PATH_START(SEARCH_ID("cam08"));
@@ -538,7 +538,7 @@ void e674_090()
     MODEL_CLS(var6);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* MSG_090_1 */;
+    itfMesMngMessage(10) /* MSG_090_1: ...This land will be no more. */;
     itfMesMngCloseWindow();
     WAIT(30);
     PATH_START(SEARCH_ID("cam09a"));
@@ -547,7 +547,7 @@ void e674_090()
     WAIT(40);
     itfMesMngOpenWindow();
     KUTI(var2, 3, 2);
-    itfMesMngMessage(11) /* MSG_090_2 */;
+    itfMesMngMessage(11) /* MSG_090_2: No... I won't go. */;
     itfMesMngCloseWindow();
     WAIT(30);
     CAM_SEL(SEARCH_ID("cam09c"));
@@ -555,7 +555,7 @@ void e674_090()
     SCR_RUN(29, - 1);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(12) /* MSG_090_3 */;
+    itfMesMngMessage(12) /* MSG_090_3: I shall await you there, woman. Remember that hope is the way. */;
     itfMesMngCloseWindow();
     WAIT(30);
     SCR_RUN(31, - 1);
@@ -585,7 +585,7 @@ void e674_090()
     WAIT(20);
     itfMesMngOpenWindow();
     KUTI(var1, 2, 1);
-    itfMesMngMessage(13) /* MSG_090_4 */;
+    itfMesMngMessage(13) /* MSG_090_4: How pitiful... Deceived, and now abandoned by a false god. */;
     itfMesMngCloseWindow();
     WAIT(20);
     BIT_OFF(112);
@@ -595,18 +595,18 @@ void e674_090()
     CAM_PATH_MOVE(SEARCH_ID("cam09b"), SEARCH_ID("cam09b_MOTION"));
     WAIT(15);
     itfMesMngOpenWindow();
-    itfMesMngMessage(14) /* MSG_090_4_P0 */;
+    itfMesMngMessage(14) /* MSG_090_4_P0: ...!! */;
     MODEL_WAIT_MOT(var1, 8);
     MODEL_MOTION2(var1, 12, 0, 10, 0);
     MODEL_EXMOTION(var1, 1, 1, 5, 0, 0);
     KUTI(var1, 2, 1);
-    itfMesMngMessage(15) /* MSG_090_4_P1 */;
+    itfMesMngMessage(15) /* MSG_090_4_P1: Who disturbs us!? */;
     itfMesMngCloseWindow();
     MODEL_EXMOTION(var1, 1, 2, 5, 0, 2);
     WAIT(60);
     itfMesMngOpenWindow();
     KUTI(var1, 2, 1);
-    itfMesMngMessage(16) /* MSG_090_4_P2 */;
+    itfMesMngMessage(16) /* MSG_090_4_P2: It's quite a surprise to see you here, Demi-fiend. */;
     itfMesMngCloseWindow();
     WAIT(10);
     CAM_SEL(SEARCH_ID("cam09b"));
@@ -614,11 +614,11 @@ void e674_090()
     WAIT(20);
     itfMesMngOpenWindow();
     KUTI(var1, 2, 1);
-    itfMesMngMessage(17) /* MSG_090_4_P3 */;
+    itfMesMngMessage(17) /* MSG_090_4_P3: I don't know what you were thinking, but... */;
     MODEL_EXMOTION(var1, 1, 0, 5, 0, 1);
-    itfMesMngMessage(18) /* MSG_090_4_P4 */;
-    itfMesMngMessage(19) /* MSG_090_5 */;
-    var15 = itfMesMngSelect(20);
+    itfMesMngMessage(18) /* MSG_090_4_P4: I have no intention of fighting you. */;
+    itfMesMngMessage(19) /* MSG_090_5: Now, I'd appreciate it if you'd stand aside and cease with the interr... */;
+    var15 = itfMesMngSelect(20) /* MSG_090_6: ...Alright. / No, I won't. */;
     if (var15 == 0)
     {
         BIT_ON(112);
@@ -630,7 +630,7 @@ void e674_090()
         WAIT(20);
         BIT_ON(113);
         KUTI(var1, 2, 1);
-        itfMesMngMessage(21) /* MSG_090_7 */;
+        itfMesMngMessage(21) /* MSG_090_7: I am deeply disappointed in you. How can you allow yourself to be swa... */;
         itfMesMngCloseWindow();
     }
     WAIT(20);
@@ -863,12 +863,12 @@ void e674_110()
     if (BIT_CHK(113) == 1)
     {
         KUTI(var1, 2, 1);
-        itfMesMngMessage(24) /* MSG_110_2 */;
+        itfMesMngMessage(24) /* MSG_110_2: You defeated Samael? Your prowess is simply astounding. */;
     }
     else if (BIT_CHK(113) == 0)
     {
         KUTI(var1, 2, 1);
-        itfMesMngMessage(23) /* MSG_110_1 */;
+        itfMesMngMessage(23) /* MSG_110_1: I'm glad that you understand. */;
     }
     itfMesMngCloseWindow();
     WAIT(10);
@@ -952,8 +952,8 @@ void e674_130()
     WAIT(270);
     itfMesMngOpenWindow();
     KUTI(var11, 2, 1);
-    itfMesMngMessage(25) /* MSG_130_1 */;
-    itfMesMngMessage(26) /* MSG_130_2 */;
+    itfMesMngMessage(25) /* MSG_130_1: Behold... I wield the power of Ahriman, god of the void. */;
+    itfMesMngMessage(26) /* MSG_130_2: Guided by the wisdom of god, I shall create a new world, the kingdom... */;
     itfMesMngCloseWindow();
     SCR_RUN(42, - 1);
     WAIT(30);
@@ -1035,23 +1035,23 @@ void e674_200()
     itfMesMngWindowTypeAlpha(1, 45);
     itfMesMngOpenWindow();
     KUTI(var13, 2, 1);
-    itfMesMngMessage(27) /* MSG_200_1 */;
-    itfMesMngMessage(28) /* MSG_200_2 */;
-    itfMesMngMessage(29) /* MSG_200_3 */;
+    itfMesMngMessage(27) /* MSG_200_1: {firstname 0}... */;
+    itfMesMngMessage(28) /* MSG_200_2: All possibility has dried up in this world... */;
+    itfMesMngMessage(29) /* MSG_200_3: I wasn't strong enough, but... it seems your will is greater. */;
     itfMesMngCloseWindow();
     WAIT(50);
     MODEL_WAIT_MOT(var13, 3);
     MODEL_MOTION2(var13, 2, 0, 10, 0);
     WAIT(60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(30) /* MSG_200_4 */;
-    itfMesMngMessage(31) /* MSG_200_6 */;
+    itfMesMngMessage(30) /* MSG_200_4: ...Use this, and create the world that you want... */;
+    itfMesMngMessage(31) /* MSG_200_6: This will show you the way to Kagutsuchi... */;
     itfMesMngCloseWindow();
     WAIT(20);
     MODEL_EXMOTION(var13, 3, 1, 0, 0, 2);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(32) /* MSG_200_5 */;
+    itfMesMngMessage(32) /* MSG_200_5: > You obtained the Yahirono Himorogi. */;
     itfMesMngCloseWindow();
     WAIT(10);
     PATH_START(SEARCH_ID("cam25"));

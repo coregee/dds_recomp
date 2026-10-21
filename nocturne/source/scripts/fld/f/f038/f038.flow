@@ -13,7 +13,7 @@ void takarasagasi_label()
     itfMesMngSetVarScr(1, local1, 0);
     itfMesMngSetVarScr(2, local2, 1);
     FLD_SE_PLAY(43);
-    itfMesMngMessage(57) /* TAKARASAGASI */;
+    itfMesMngMessage(57) /* TAKARASAGASI: > {var 2} found something. */;
     prm_ITEM_PLUS(local0, local1);
     itfMesMngCloseWindow();
     PAD_ENABLE();
@@ -25,7 +25,7 @@ void hirakenai_label()
     PAD_DISABLE();
     itfMesMngOpenWindow();
     SET_ALLPANEL(6);
-    itfMesMngMessage(58) /* COMP_OPENERROR */;
+    itfMesMngMessage(58) /* COMP_OPENERROR: > It can't be used here. */;
     itfMesMngCloseWindow();
     PAD_ENABLE();
     SET_ALLPANEL(7);
@@ -38,19 +38,19 @@ void kireta_label()
     SET_ALLPANEL(6);
     if (FLD_GET_KIRETA(0) == 1)
     {
-        itfMesMngMessage(59) /* COMP_LIGHTMAEND */;
+        itfMesMngMessage(59) /* COMP_LIGHTMAEND: > The effect of Light wore off. */;
     }
     if (FLD_GET_KIRETA(1) == 1)
     {
-        itfMesMngMessage(62) /* COMP_REFUTOMAEND */;
+        itfMesMngMessage(62) /* COMP_REFUTOMAEND: > The effect of Levitation wore off. */;
     }
     if (FLD_GET_KIRETA(2) == 1)
     {
-        itfMesMngMessage(61) /* COMP_REBERAMAEND */;
+        itfMesMngMessage(61) /* COMP_REBERAMAEND: > The effect of Attract wore off. */;
     }
     if (FLD_GET_KIRETA(3) == 1)
     {
-        itfMesMngMessage(60) /* COMP_ESTOMAEND */;
+        itfMesMngMessage(60) /* COMP_ESTOMAEND: > The effect of Repel wore off. */;
     }
     itfMesMngCloseWindow();
     PAD_ENABLE();
@@ -68,7 +68,7 @@ void itembox_label()
             SET_ALLPANEL(6);
             if (FLD_CHK_TAKARA_OPEN())
             {
-                itfMesMngMessage(51) /* TAKARA_STILLGET */;
+                itfMesMngMessage(51) /* TAKARA_STILLGET: > It's empty. */;
             }
             else
             {
@@ -79,20 +79,20 @@ void itembox_label()
                 local7 = FLD_GET_TAKARA_TBL(4);
                 if (local3 == 1)
                 {
-                    itfMesMngMessage(44) /* HOSEKI */;
+                    itfMesMngMessage(44) /* HOSEKI: > There is a Mystical Chest. Will you open it? */;
                 }
                 else
                 {
-                    itfMesMngMessage(48) /* TAKARA */;
+                    itfMesMngMessage(48) /* TAKARA: > You see a Cache Cube. Will you open it? */;
                 }
                 itfMesMngSelectDefKey(3, 1);
                 if (local3 == 1)
                 {
-                    local8 = itfMesMngSelect(45);
+                    local8 = itfMesMngSelect(45) /* HOSEKI_SEL: Yes. / No. */;
                 }
                 else
                 {
-                    local8 = itfMesMngSelect(49);
+                    local8 = itfMesMngSelect(49) /* TAKARA_SEL: Yes. / No. */;
                 }
                 if (local8 == 0)
                 {
@@ -110,7 +110,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 15);
                         PAD_ACT(1, 100, 15);
                         prm_PARTY_DAMAGE(1);
-                        itfMesMngMessage(55) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(55) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 3)
                     {
@@ -120,7 +120,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(2);
-                        itfMesMngMessage(55) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(55) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 4)
                     {
@@ -130,7 +130,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(4);
-                        itfMesMngMessage(55) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(55) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 5)
                     {
@@ -140,7 +140,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(5);
-                        itfMesMngMessage(55) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(55) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 6)
                     {
@@ -150,7 +150,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(6);
-                        itfMesMngMessage(55) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(55) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else
                     {
@@ -159,14 +159,14 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             if (local4 == 0)
                             {
-                                itfMesMngMessage(56) /* TAKARA_KARAGET */;
+                                itfMesMngMessage(56) /* TAKARA_KARAGET: > It's empty. */;
                             }
                             else
                             {
                                 FLD_SE_PLAY(32);
                                 itfMesMngSetVarScr(0, local4, 3);
                                 itfMesMngSetVarScr(1, local5, 0);
-                                itfMesMngMessage(52) /* TAKARA_GET */;
+                                itfMesMngMessage(52) /* TAKARA_GET: > You obtained {var 0} x {var 1}. */;
                                 prm_ITEM_PLUS(local4, local5);
                             }
                         }
@@ -175,7 +175,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             if (local4 == 0)
                             {
-                                itfMesMngMessage(56) /* TAKARA_KARAGET */;
+                                itfMesMngMessage(56) /* TAKARA_KARAGET: > It's empty. */;
                             }
                             else
                             {
@@ -187,7 +187,7 @@ void itembox_label()
                                 FLD_SE_PLAY(33);
                                 itfMesMngSetVarScr(0, local4, 3);
                                 itfMesMngSetVarScr(1, local5, 0);
-                                itfMesMngMessage(47) /* HOSEKI_GET */;
+                                itfMesMngMessage(47) /* HOSEKI_GET: > You obtained {var 0} x {var 1}. */;
                                 prm_ITEM_PLUS(local4, local5);
                             }
                         }
@@ -196,7 +196,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             FLD_SE_PLAY(32);
                             itfMesMngSetVarScr(0, local4, 9);
-                            itfMesMngMessage(53) /* TAKARA_DH_GET */;
+                            itfMesMngMessage(53) /* TAKARA_DH_GET: > You obtained the Magatama {var 0}. */;
                             prm_DH_PLUS(local4);
                         }
                         else if (local3 == 3)
@@ -204,7 +204,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             FLD_SE_PLAY(32);
                             itfMesMngSetVarScr(0, local7, 0);
-                            itfMesMngMessage(54) /* TAKARA_MAKA_GET */;
+                            itfMesMngMessage(54) /* TAKARA_MAKA_GET: > You obtained {var 0} Macca. */;
                             COMM_139(local7);
                         }
                     }
@@ -213,11 +213,11 @@ void itembox_label()
                 {
                     if (local3 == 1)
                     {
-                        itfMesMngMessage(46) /* HOSEKI_NOGET */;
+                        itfMesMngMessage(46) /* HOSEKI_NOGET: > You did not open the Mystical Chest. */;
                     }
                     else
                     {
-                        itfMesMngMessage(50) /* TAKARA_NOGET */;
+                        itfMesMngMessage(50) /* TAKARA_NOGET: > You did not open the Cache Cube. */;
                     }
                 }
             }
@@ -289,9 +289,9 @@ void dexitwarp_label()
             SET_ALLPANEL(6);
             FLD_EXIT_CAMERA();
             itfMesMngOpenWindow();
-            itfMesMngMessage(42) /* EXITWARP */;
+            itfMesMngMessage(42) /* EXITWARP: > Will you leave the area? */;
             itfMesMngSelectDefKey(3, 1);
-            if (itfMesMngSelect(43) == 0)
+            if (itfMesMngSelect(43) /* EXITWARP_SEL: Yes. / No. */ == 0)
             {
                 itfMesMngCloseWindow();
             }
@@ -623,12 +623,12 @@ void elvstart_label()
     FADE_IN(0, 15);
     FLD_ELV_FLOORSTART(local33, local33);
     itfMesMngOpenWindow();
-    itfMesMngMessage(63) /* WARP_ELV_MSG */;
+    itfMesMngMessage(63) /* WARP_ELV_MSG: > Select a floor. */;
     if (local26 == 1)
     {
         itfMesMngSetVarScr(0, local27, 4);
         itfMesMngSelectDefKey(3, 1);
-        local24 = itfMesMngSelect(64);
+        local24 = itfMesMngSelect(64) /* WARP_ELV_SEL1: {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 2)
     {
@@ -636,7 +636,7 @@ void elvstart_label()
         itfMesMngSetVarScr(1, local28, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 2);
-        local24 = itfMesMngSelect(65);
+        local24 = itfMesMngSelect(65) /* WARP_ELV_SEL2: {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 3)
     {
@@ -645,7 +645,7 @@ void elvstart_label()
         itfMesMngSetVarScr(2, local29, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 3);
-        local24 = itfMesMngSelect(66);
+        local24 = itfMesMngSelect(66) /* WARP_ELV_SEL3: {var 2}[80EA] / {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 4)
     {
@@ -655,7 +655,7 @@ void elvstart_label()
         itfMesMngSetVarScr(3, local30, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 4);
-        local24 = itfMesMngSelect(67);
+        local24 = itfMesMngSelect(67) /* WARP_ELV_SEL4: {var 3}[80EA] / {var 2}[80EA] / {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 5)
     {
@@ -666,7 +666,7 @@ void elvstart_label()
         itfMesMngSetVarScr(4, local31, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 5);
-        local24 = itfMesMngSelect(68);
+        local24 = itfMesMngSelect(68) /* WARP_ELV_SEL5: {var 4}[80EA] / {var 3}[80EA] / {var 2}[80EA] / {var 1}[80EA] / {var... */;
     }
     else if (local26 == 6)
     {
@@ -678,7 +678,7 @@ void elvstart_label()
         itfMesMngSetVarScr(5, local32, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 6);
-        local24 = itfMesMngSelect(69);
+        local24 = itfMesMngSelect(69) /* WARP_ELV_SEL6: {var 5}[80EA] / {var 4}[80EA] / {var 3}[80EA] / {var 2}[80EA] / {var... */;
     }
     itfMesMngCloseWindow();
     if (local24 == local26)
@@ -855,14 +855,14 @@ void 001_01eve_10()
                 if (BIT_CHK(1811))
                 {
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(6) /* HASHIRA3 */;
+                    itfMesMngMessage(6) /* HASHIRA3: > The pillar has already been lowered. */;
                 }
                 else
                 {
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(0) /* HASHIRA1 */;
-                    itfMesMngMessage(1) /* HASHIRA2 */;
-                    local37 = itfMesMngSelect(2);
+                    itfMesMngMessage(0) /* HASHIRA1: > There is a pillar. */;
+                    itfMesMngMessage(1) /* HASHIRA2: > Will you lower the pillar? */;
+                    local37 = itfMesMngSelect(2) /* HASHIRA_SEL: Yes. / No. */;
                     if (local37 == 0)
                     {
                         itfMesMngCloseWindow();
@@ -912,10 +912,10 @@ void 001_01eve_10()
                         FLD_BGM_PLAY(128);
                         WAIT(110);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(30) /* HASHIRA_BOSS_S */;
-                        itfMesMngMessage(31) /* HASHIRA_BOSS_S1 */;
+                        itfMesMngMessage(30) /* HASHIRA_BOSS_S: Are you attempting to lower this pillar? */;
+                        itfMesMngMessage(31) /* HASHIRA_BOSS_S1: If you plan on entering the shrine, overcome my ordeal! */;
                         MODEL_MOTION2(local35, 3, 10, 10, 1);
-                        itfMesMngMessage(32) /* HASHIRA_BOSS_S2 */;
+                        itfMesMngMessage(32) /* HASHIRA_BOSS_S2: Let us begin! */;
                         WAIT(20);
                         COMM_217(59);
                         WAIT(10);
@@ -957,14 +957,14 @@ void 001_01eve_11()
                 if (BIT_CHK(1812))
                 {
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(6) /* HASHIRA3 */;
+                    itfMesMngMessage(6) /* HASHIRA3: > The pillar has already been lowered. */;
                 }
                 else
                 {
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(0) /* HASHIRA1 */;
-                    itfMesMngMessage(1) /* HASHIRA2 */;
-                    local40 = itfMesMngSelect(2);
+                    itfMesMngMessage(0) /* HASHIRA1: > There is a pillar. */;
+                    itfMesMngMessage(1) /* HASHIRA2: > Will you lower the pillar? */;
+                    local40 = itfMesMngSelect(2) /* HASHIRA_SEL: Yes. / No. */;
                     if (local40 == 0)
                     {
                         itfMesMngCloseWindow();
@@ -1014,10 +1014,10 @@ void 001_01eve_11()
                         FLD_BGM_PLAY(128);
                         WAIT(110);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(33) /* HASHIRA_BOSS_E */;
-                        itfMesMngMessage(34) /* HASHIRA_BOSS_E1 */;
+                        itfMesMngMessage(33) /* HASHIRA_BOSS_E: Are you attempting to lower this pillar? */;
+                        itfMesMngMessage(34) /* HASHIRA_BOSS_E1: If you plan on entering the shrine, you must defeat me! */;
                         MODEL_MOTION2(local38, 3, 10, 10, 1);
-                        itfMesMngMessage(35) /* HASHIRA_BOSS_E2 */;
+                        itfMesMngMessage(35) /* HASHIRA_BOSS_E2: Now, let us fight! */;
                         WAIT(20);
                         COMM_217(60);
                         WAIT(10);
@@ -1059,14 +1059,14 @@ void 001_01eve_12()
                 if (BIT_CHK(1810))
                 {
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(6) /* HASHIRA3 */;
+                    itfMesMngMessage(6) /* HASHIRA3: > The pillar has already been lowered. */;
                 }
                 else
                 {
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(0) /* HASHIRA1 */;
-                    itfMesMngMessage(1) /* HASHIRA2 */;
-                    local43 = itfMesMngSelect(2);
+                    itfMesMngMessage(0) /* HASHIRA1: > There is a pillar. */;
+                    itfMesMngMessage(1) /* HASHIRA2: > Will you lower the pillar? */;
+                    local43 = itfMesMngSelect(2) /* HASHIRA_SEL: Yes. / No. */;
                     if (local43 == 0)
                     {
                         itfMesMngCloseWindow();
@@ -1117,10 +1117,10 @@ void 001_01eve_12()
                         FLD_BGM_PLAY(128);
                         WAIT(110);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(36) /* HASHIRA_BOSS_W */;
-                        itfMesMngMessage(37) /* HASHIRA_BOSS_W1 */;
+                        itfMesMngMessage(36) /* HASHIRA_BOSS_W: Are you attempting to lower this pillar? */;
+                        itfMesMngMessage(37) /* HASHIRA_BOSS_W1: Let us find out if this battle is an ordeal, or divine retribution! */;
                         MODEL_MOTION2(local41, 3, 10, 10, 1);
-                        itfMesMngMessage(38) /* HASHIRA_BOSS_W2 */;
+                        itfMesMngMessage(38) /* HASHIRA_BOSS_W2: Prepare yourself! */;
                         WAIT(18);
                         COMM_217(61);
                         WAIT(12);
@@ -1162,14 +1162,14 @@ void 001_01eve_13()
                 if (BIT_CHK(1809))
                 {
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(6) /* HASHIRA3 */;
+                    itfMesMngMessage(6) /* HASHIRA3: > The pillar has already been lowered. */;
                 }
                 else
                 {
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(0) /* HASHIRA1 */;
-                    itfMesMngMessage(1) /* HASHIRA2 */;
-                    local46 = itfMesMngSelect(2);
+                    itfMesMngMessage(0) /* HASHIRA1: > There is a pillar. */;
+                    itfMesMngMessage(1) /* HASHIRA2: > Will you lower the pillar? */;
+                    local46 = itfMesMngSelect(2) /* HASHIRA_SEL: Yes. / No. */;
                     if (local46 == 0)
                     {
                         itfMesMngCloseWindow();
@@ -1219,9 +1219,9 @@ void 001_01eve_13()
                         FLD_BGM_PLAY(128);
                         WAIT(110);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(39) /* HASHIRA_BOSS_N */;
-                        itfMesMngMessage(40) /* HASHIRA_BOSS_N1 */;
-                        itfMesMngMessage(41) /* HASHIRA_BOSS_N2 */;
+                        itfMesMngMessage(39) /* HASHIRA_BOSS_N: I was wondering what warrior was strong enough to enter here... Well,... */;
+                        itfMesMngMessage(40) /* HASHIRA_BOSS_N1: Then, you should already know that you must defeat me, or the path sh... */;
+                        itfMesMngMessage(41) /* HASHIRA_BOSS_N2: Let us begin, {firstname 0}! */;
                         MODEL_MOTION2(local44, 4, 10, 10, 1);
                         WAIT(32);
                         COMM_217(58);
@@ -1263,7 +1263,7 @@ void BATTLE_AFTER()
                     if (BIT_CHK(1809))
                     {
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(7) /* HASHIRA4 */;
+                        itfMesMngMessage(7) /* HASHIRA4: > All the pillars have been lowered. */;
                         itfMesMngCloseWindow();
                         QUAKE_ON(70, 100);
                         PAD_ACT(1, 70, 300);
@@ -1326,11 +1326,11 @@ void 001_01eve_16()
                 itfMesMngOpenWindow();
                 if (BIT_CHK(1813))
                 {
-                    itfMesMngMessage(9) /* GAIAN2 */;
+                    itfMesMngMessage(9) /* GAIAN2: I can't believe it! */;
                 }
                 else
                 {
-                    itfMesMngMessage(8) /* GAIAN */;
+                    itfMesMngMessage(8) /* GAIAN: The shrine you can see from the entrance is His Lordship's resting pl... */;
                 }
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
@@ -1353,7 +1353,7 @@ void 001_01eve_17()
                 ENCOUNT_OFF();
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(10) /* CHUUOU */;
+                itfMesMngMessage(10) /* CHUUOU: Right above here! */;
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
                 ENCOUNT_ON();
@@ -1377,9 +1377,9 @@ void 001_01eve_22()
                 MODEL_OFF(var0);
                 CAM_SEL_FOVY(SEARCH_ID("01cam_15"));
                 itfMesMngOpenWindow();
-                itfMesMngMessage(11) /* BOSS */;
+                itfMesMngMessage(11) /* BOSS: > Will you open the door? */;
                 local47 = 0;
-                local47 = itfMesMngSelect(12);
+                local47 = itfMesMngSelect(12) /* BOSS_SEL: Yes. / No. */;
                 itfMesMngCloseWindow();
                 if (local47 == 0)
                 {
@@ -1429,7 +1429,7 @@ void 002_start()
             PAD_ACT(1, 70, 300);
             WAIT(85);
             itfMesMngOpenWindow();
-            itfMesMngMessage(13) /* BOSS2 */;
+            itfMesMngMessage(13) /* BOSS2: Who doth awaken me from my slumber? */;
             itfMesMngCloseWindow();
             FADE_IN(0, 15);
             CAM_SEL_FOVY(SEARCH_ID("01cam_05"));
@@ -1449,29 +1449,29 @@ void 002_start()
             WAIT(90);
             FLD_SE_STOP(97);
             itfMesMngOpenWindow();
-            itfMesMngMessage(14) /* BOSS2_2 */;
-            itfMesMngMessage(15) /* BOSS2_3 */;
+            itfMesMngMessage(14) /* BOSS2_2: ............ */;
+            itfMesMngMessage(15) /* BOSS2_3: ............ */;
             itfMesMngCloseWindow();
             FADE_IN(0, 15);
             CAM_SEL_FOVY(SEARCH_ID("01cam_06"));
             WAIT(15);
             itfMesMngOpenWindow();
             local51 = 0;
-            itfMesMngMessage(16) /* BOSS2_4 */;
-            local51 = itfMesMngSelect(17);
+            itfMesMngMessage(16) /* BOSS2_4: {firstname 0}... */;
+            local51 = itfMesMngSelect(17) /* BOSS_SEL3: Lend me your power. / Give me something. / I wanted to say "hi". */;
             if (local51 == 0)
             {
-                itfMesMngMessage(18) /* BOSS3 */;
+                itfMesMngMessage(18) /* BOSS3: So, thou hast come for mine assistance... */;
             }
             else if (local51 == 1)
             {
-                itfMesMngMessage(19) /* BOSS3_2 */;
+                itfMesMngMessage(19) /* BOSS3_2: Thou art direct and to the point... */;
             }
             else if (local51 == 2)
             {
-                itfMesMngMessage(20) /* BOSS3_3 */;
+                itfMesMngMessage(20) /* BOSS3_3: I see... Thou hast defeated the four Devas out of sport... */;
             }
-            itfMesMngMessage(25) /* BOSS7 */;
+            itfMesMngMessage(25) /* BOSS7: Let me ask thee a question... */;
         }
         else
         {
@@ -1488,13 +1488,13 @@ void 002_start()
             FADE_IN(1, 30);
             WAIT(60);
             itfMesMngOpenWindow();
-            itfMesMngMessage(21) /* BOSS4 */;
+            itfMesMngMessage(21) /* BOSS4: Let me ask thee a question... */;
         }
-        if (itfMesMngSelect(24) == 0)
+        if (itfMesMngSelect(24) /* BOSS_SEL2: Yes. / No. */ == 0)
         {
-            itfMesMngMessage(26) /* BOSS8 */;
-            itfMesMngMessage(27) /* BOSS9 */;
-            itfMesMngMessage(28) /* BOSS10 */;
+            itfMesMngMessage(26) /* BOSS8: Then, I shall lend thee my power. */;
+            itfMesMngMessage(27) /* BOSS9: > You obtained the Magatama Masakados. */;
+            itfMesMngMessage(28) /* BOSS10: ............ */;
             itfMesMngCloseWindow();
             prm_DH_PLUS(25);
             FADE_OUT(0, 30);
@@ -1505,7 +1505,7 @@ void 002_start()
         }
         else
         {
-            itfMesMngMessage(23) /* BOSS6 */;
+            itfMesMngMessage(23) /* BOSS6: I see... */;
             itfMesMngCloseWindow();
             FADE_OUT(0, 30);
             WAIT(30);
@@ -1527,7 +1527,7 @@ void 002_start()
     FADE_IN(1, 30);
     WAIT(60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(29) /* BOSS11 */;
+    itfMesMngMessage(29) /* BOSS11: I look forward to thy world, conqueror. May you prove victorious in y... */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 30);
     WAIT(30);

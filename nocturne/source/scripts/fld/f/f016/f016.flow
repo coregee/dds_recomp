@@ -13,7 +13,7 @@ void takarasagasi_label()
     itfMesMngSetVarScr(1, local1, 0);
     itfMesMngSetVarScr(2, local2, 1);
     FLD_SE_PLAY(43);
-    itfMesMngMessage(98) /* TAKARASAGASI */;
+    itfMesMngMessage(98) /* TAKARASAGASI: > {var 2} found something. */;
     prm_ITEM_PLUS(local0, local1);
     itfMesMngCloseWindow();
     PAD_ENABLE();
@@ -25,7 +25,7 @@ void hirakenai_label()
     PAD_DISABLE();
     itfMesMngOpenWindow();
     SET_ALLPANEL(6);
-    itfMesMngMessage(99) /* COMP_OPENERROR */;
+    itfMesMngMessage(99) /* COMP_OPENERROR: > It can't be used here. */;
     itfMesMngCloseWindow();
     PAD_ENABLE();
     SET_ALLPANEL(7);
@@ -38,19 +38,19 @@ void kireta_label()
     SET_ALLPANEL(6);
     if (FLD_GET_KIRETA(0) == 1)
     {
-        itfMesMngMessage(100) /* COMP_LIGHTMAEND */;
+        itfMesMngMessage(100) /* COMP_LIGHTMAEND: > The effect of Light wore off. */;
     }
     if (FLD_GET_KIRETA(1) == 1)
     {
-        itfMesMngMessage(103) /* COMP_REFUTOMAEND */;
+        itfMesMngMessage(103) /* COMP_REFUTOMAEND: > The effect of Levitation wore off. */;
     }
     if (FLD_GET_KIRETA(2) == 1)
     {
-        itfMesMngMessage(102) /* COMP_REBERAMAEND */;
+        itfMesMngMessage(102) /* COMP_REBERAMAEND: > The effect of Attract wore off. */;
     }
     if (FLD_GET_KIRETA(3) == 1)
     {
-        itfMesMngMessage(101) /* COMP_ESTOMAEND */;
+        itfMesMngMessage(101) /* COMP_ESTOMAEND: > The effect of Repel wore off. */;
     }
     itfMesMngCloseWindow();
     PAD_ENABLE();
@@ -68,7 +68,7 @@ void itembox_label()
             SET_ALLPANEL(6);
             if (FLD_CHK_TAKARA_OPEN())
             {
-                itfMesMngMessage(92) /* TAKARA_STILLGET */;
+                itfMesMngMessage(92) /* TAKARA_STILLGET: > It's empty. */;
             }
             else
             {
@@ -79,20 +79,20 @@ void itembox_label()
                 local7 = FLD_GET_TAKARA_TBL(4);
                 if (local3 == 1)
                 {
-                    itfMesMngMessage(85) /* HOSEKI */;
+                    itfMesMngMessage(85) /* HOSEKI: > There is a Mystical Chest. Will you open it? */;
                 }
                 else
                 {
-                    itfMesMngMessage(89) /* TAKARA */;
+                    itfMesMngMessage(89) /* TAKARA: > You see a Cache Cube. Will you open it? */;
                 }
                 itfMesMngSelectDefKey(3, 1);
                 if (local3 == 1)
                 {
-                    local8 = itfMesMngSelect(86);
+                    local8 = itfMesMngSelect(86) /* HOSEKI_SEL: Yes. / No. */;
                 }
                 else
                 {
-                    local8 = itfMesMngSelect(90);
+                    local8 = itfMesMngSelect(90) /* TAKARA_SEL: Yes. / No. */;
                 }
                 if (local8 == 0)
                 {
@@ -110,7 +110,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 15);
                         PAD_ACT(1, 100, 15);
                         prm_PARTY_DAMAGE(1);
-                        itfMesMngMessage(96) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(96) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 3)
                     {
@@ -120,7 +120,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(2);
-                        itfMesMngMessage(96) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(96) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 4)
                     {
@@ -130,7 +130,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(4);
-                        itfMesMngMessage(96) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(96) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 5)
                     {
@@ -140,7 +140,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(5);
-                        itfMesMngMessage(96) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(96) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 6)
                     {
@@ -150,7 +150,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(6);
-                        itfMesMngMessage(96) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(96) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else
                     {
@@ -159,14 +159,14 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             if (local4 == 0)
                             {
-                                itfMesMngMessage(97) /* TAKARA_KARAGET */;
+                                itfMesMngMessage(97) /* TAKARA_KARAGET: > It's empty. */;
                             }
                             else
                             {
                                 FLD_SE_PLAY(32);
                                 itfMesMngSetVarScr(0, local4, 3);
                                 itfMesMngSetVarScr(1, local5, 0);
-                                itfMesMngMessage(93) /* TAKARA_GET */;
+                                itfMesMngMessage(93) /* TAKARA_GET: > You obtained {var 0} x {var 1}. */;
                                 prm_ITEM_PLUS(local4, local5);
                             }
                         }
@@ -175,7 +175,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             if (local4 == 0)
                             {
-                                itfMesMngMessage(97) /* TAKARA_KARAGET */;
+                                itfMesMngMessage(97) /* TAKARA_KARAGET: > It's empty. */;
                             }
                             else
                             {
@@ -187,7 +187,7 @@ void itembox_label()
                                 FLD_SE_PLAY(33);
                                 itfMesMngSetVarScr(0, local4, 3);
                                 itfMesMngSetVarScr(1, local5, 0);
-                                itfMesMngMessage(88) /* HOSEKI_GET */;
+                                itfMesMngMessage(88) /* HOSEKI_GET: > You obtained {var 0} x {var 1}. */;
                                 prm_ITEM_PLUS(local4, local5);
                             }
                         }
@@ -196,7 +196,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             FLD_SE_PLAY(32);
                             itfMesMngSetVarScr(0, local4, 9);
-                            itfMesMngMessage(94) /* TAKARA_DH_GET */;
+                            itfMesMngMessage(94) /* TAKARA_DH_GET: > You obtained the Magatama {var 0}. */;
                             prm_DH_PLUS(local4);
                         }
                         else if (local3 == 3)
@@ -204,7 +204,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             FLD_SE_PLAY(32);
                             itfMesMngSetVarScr(0, local7, 0);
-                            itfMesMngMessage(95) /* TAKARA_MAKA_GET */;
+                            itfMesMngMessage(95) /* TAKARA_MAKA_GET: > You obtained {var 0} Macca. */;
                             COMM_139(local7);
                         }
                     }
@@ -213,11 +213,11 @@ void itembox_label()
                 {
                     if (local3 == 1)
                     {
-                        itfMesMngMessage(87) /* HOSEKI_NOGET */;
+                        itfMesMngMessage(87) /* HOSEKI_NOGET: > You did not open the Mystical Chest. */;
                     }
                     else
                     {
-                        itfMesMngMessage(91) /* TAKARA_NOGET */;
+                        itfMesMngMessage(91) /* TAKARA_NOGET: > You did not open the Cache Cube. */;
                     }
                 }
             }
@@ -289,9 +289,9 @@ void dexitwarp_label()
             SET_ALLPANEL(6);
             FLD_EXIT_CAMERA();
             itfMesMngOpenWindow();
-            itfMesMngMessage(83) /* EXITWARP */;
+            itfMesMngMessage(83) /* EXITWARP: > Will you leave the area? */;
             itfMesMngSelectDefKey(3, 1);
-            if (itfMesMngSelect(84) == 0)
+            if (itfMesMngSelect(84) /* EXITWARP_SEL: Yes. / No. */ == 0)
             {
                 itfMesMngCloseWindow();
             }
@@ -623,12 +623,12 @@ void elvstart_label()
     FADE_IN(0, 15);
     FLD_ELV_FLOORSTART(local33, local33);
     itfMesMngOpenWindow();
-    itfMesMngMessage(104) /* WARP_ELV_MSG */;
+    itfMesMngMessage(104) /* WARP_ELV_MSG: > Select a floor. */;
     if (local26 == 1)
     {
         itfMesMngSetVarScr(0, local27, 4);
         itfMesMngSelectDefKey(3, 1);
-        local24 = itfMesMngSelect(105);
+        local24 = itfMesMngSelect(105) /* WARP_ELV_SEL1: {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 2)
     {
@@ -636,7 +636,7 @@ void elvstart_label()
         itfMesMngSetVarScr(1, local28, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 2);
-        local24 = itfMesMngSelect(106);
+        local24 = itfMesMngSelect(106) /* WARP_ELV_SEL2: {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 3)
     {
@@ -645,7 +645,7 @@ void elvstart_label()
         itfMesMngSetVarScr(2, local29, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 3);
-        local24 = itfMesMngSelect(107);
+        local24 = itfMesMngSelect(107) /* WARP_ELV_SEL3: {var 2}[80EA] / {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 4)
     {
@@ -655,7 +655,7 @@ void elvstart_label()
         itfMesMngSetVarScr(3, local30, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 4);
-        local24 = itfMesMngSelect(108);
+        local24 = itfMesMngSelect(108) /* WARP_ELV_SEL4: {var 3}[80EA] / {var 2}[80EA] / {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 5)
     {
@@ -666,7 +666,7 @@ void elvstart_label()
         itfMesMngSetVarScr(4, local31, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 5);
-        local24 = itfMesMngSelect(109);
+        local24 = itfMesMngSelect(109) /* WARP_ELV_SEL5: {var 4}[80EA] / {var 3}[80EA] / {var 2}[80EA] / {var 1}[80EA] / {var... */;
     }
     else if (local26 == 6)
     {
@@ -678,7 +678,7 @@ void elvstart_label()
         itfMesMngSetVarScr(5, local32, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 6);
-        local24 = itfMesMngSelect(110);
+        local24 = itfMesMngSelect(110) /* WARP_ELV_SEL6: {var 5}[80EA] / {var 4}[80EA] / {var 3}[80EA] / {var 2}[80EA] / {var... */;
     }
     itfMesMngCloseWindow();
     if (local24 == local26)
@@ -752,16 +752,16 @@ void 001_01eve_02()
             ENCOUNT_OFF();
             PAD_DISABLE();
             itfMesMngOpenWindow();
-            itfMesMngMessage(34) /* EREA_6_NPC */;
-            if (itfMesMngSelect(35) == 0)
+            itfMesMngMessage(34) /* EREA_6_NPC: You know? */;
+            if (itfMesMngSelect(35) /* TAKASINE_SEL: Yes, I do. / No, I don't. */ == 0)
             {
-                itfMesMngMessage(36) /* EREA_6_NPC_NO */;
+                itfMesMngMessage(36) /* EREA_6_NPC_NO: Sure you do. */;
             }
             else
             {
-                itfMesMngMessage(37) /* EREA_6_NPC_YES */;
-                itfMesMngMessage(38) /* EREA_6_NPC_YES_1 */;
-                itfMesMngMessage(39) /* EREA_6_NPC_YES_2 */;
+                itfMesMngMessage(37) /* EREA_6_NPC_YES: Then, I'll tell you... This was a communications tower construction s... */;
+                itfMesMngMessage(38) /* EREA_6_NPC_YES_1: And those lights on the bridges are Pixies. */;
+                itfMesMngMessage(39) /* EREA_6_NPC_YES_2: Avoid Pixies at all costs. They'll just cause you trouble. */;
                 itfMesMngCloseWindow();
             }
             PAD_ENABLE();
@@ -829,7 +829,7 @@ void 003_01eve_01()
             ENCOUNT_OFF();
             PAD_DISABLE();
             itfMesMngOpenWindow();
-            itfMesMngMessage(40) /* EREA_3_NPC */;
+            itfMesMngMessage(40) /* EREA_3_NPC: I was watching the Pixies, and I noticed something... */;
             itfMesMngCloseWindow();
             PAD_ENABLE();
             ENCOUNT_ON();
@@ -867,14 +867,14 @@ void 006_01eve_01()
     local37 = MODEL_DSP(6, 61);
     MODEL_POS(local37, SEARCH_ID("01pos_53"));
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* ER1_RAN_1 */;
+    itfMesMngMessage(0) /* ER1_RAN_1: Well, look who we have here... A weak-looking demon. */;
     itfMesMngCloseWindow();
     CAM_PATH_MOVE(SEARCH_ID("01cam_12"), SEARCH_ID("01cam_12_MOTION"));
     WAIT(60);
     CAM_SEL_FOVY(SEARCH_ID("01cam_13"));
     FLD_MSE_STOP2(71, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* ER1_PIKU_1 */;
+    itfMesMngMessage(1) /* ER1_PIKU_1: *giggle* Look who's here! */;
     itfMesMngCloseWindow();
     MODEL_MOTION2(local36, 3, 0, 0, 0);
     MODEL_MOTION2(local37, 3, 0, 0, 0);
@@ -921,19 +921,19 @@ void 006_01eve_02()
         local39 = RND(4);
         if (local39 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local39 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local39 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local39 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -975,19 +975,19 @@ void 006_01eve_03()
         local41 = RND(4);
         if (local41 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local41 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local41 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local41 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1029,19 +1029,19 @@ void 006_01eve_04()
         local43 = RND(4);
         if (local43 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local43 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local43 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local43 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1083,19 +1083,19 @@ void 006_01eve_05()
         local45 = RND(4);
         if (local45 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local45 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local45 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local45 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1137,19 +1137,19 @@ void 007_01eve_01()
         local47 = RND(4);
         if (local47 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local47 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local47 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local47 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1190,19 +1190,19 @@ void 007_01eve_02()
         local49 = RND(4);
         if (local49 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local49 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local49 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local49 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1243,19 +1243,19 @@ void 008_01eve_01()
         local51 = RND(4);
         if (local51 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local51 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local51 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local51 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1290,19 +1290,19 @@ void 008_01eve_02()
         local53 = RND(4);
         if (local53 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local53 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local53 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local53 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1337,19 +1337,19 @@ void 008_01eve_03()
         local55 = RND(4);
         if (local55 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local55 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local55 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local55 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1384,19 +1384,19 @@ void 008_01eve_04()
         local57 = RND(4);
         if (local57 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local57 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local57 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local57 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1431,19 +1431,19 @@ void 009_01eve_01()
         local59 = RND(4);
         if (local59 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local59 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local59 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local59 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1478,19 +1478,19 @@ void 009_01eve_02()
         local61 = RND(4);
         if (local61 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local61 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local61 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local61 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1525,19 +1525,19 @@ void 009_01eve_03()
         local63 = RND(4);
         if (local63 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local63 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local63 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local63 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1572,19 +1572,19 @@ void 009_01eve_04()
         local65 = RND(4);
         if (local65 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local65 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local65 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local65 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1619,19 +1619,19 @@ void 010_01eve_01()
         local67 = RND(4);
         if (local67 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local67 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local67 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local67 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1666,19 +1666,19 @@ void 010_01eve_02()
         local69 = RND(4);
         if (local69 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local69 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local69 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local69 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1713,19 +1713,19 @@ void 010_01eve_03()
         local71 = RND(4);
         if (local71 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local71 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local71 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local71 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1760,19 +1760,19 @@ void 010_01eve_04()
         local73 = RND(4);
         if (local73 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local73 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local73 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local73 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1807,19 +1807,19 @@ void 010_01eve_05()
         local75 = RND(4);
         if (local75 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local75 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local75 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local75 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1854,19 +1854,19 @@ void 010_01eve_06()
         local77 = RND(4);
         if (local77 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local77 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local77 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local77 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1901,19 +1901,19 @@ void 010_01eve_07()
         local79 = RND(4);
         if (local79 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local79 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local79 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local79 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -1954,19 +1954,19 @@ void 010_01eve_08()
         local81 = RND(4);
         if (local81 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local81 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local81 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local81 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -2007,19 +2007,19 @@ void 010_01eve_09()
         local83 = RND(4);
         if (local83 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local83 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local83 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local83 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -2054,19 +2054,19 @@ void 010_01eve_10()
         local85 = RND(4);
         if (local85 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local85 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local85 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local85 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -2105,12 +2105,12 @@ void 010_01eve_12()
     CAM_SEL_FOVY(SEARCH_ID("01cam_12"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* ER2_TITA_1 */;
+    itfMesMngMessage(2) /* ER2_TITA_1: And here I was wondering what kind of demon was trespassing... Why, y... */;
     itfMesMngCloseWindow();
     CAM_SEL_FOVY(SEARCH_ID("01cam_13"));
     MODEL_OFF(var0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* ER2_TITA_2 */;
+    itfMesMngMessage(3) /* ER2_TITA_2: You cannot pass through here by luck alone. */;
     itfMesMngCloseWindow();
     CAM_PATH_MOVE(SEARCH_ID("01cam_13"), SEARCH_ID("01cam_13_MOTION"));
     WAIT(10);
@@ -2133,7 +2133,7 @@ void 010_01eve_12()
     MODEL_WAIT(local92);
     MODEL_CLS(local88);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* ER2_PIKU_1 */;
+    itfMesMngMessage(4) /* ER2_PIKU_1: Peace out, pervert! */;
     itfMesMngCloseWindow();
     MODEL_MOTION2(local89, 3, 5, 5, 3);
     MODEL_MOTION2(local90, 3, 5, 5, 3);
@@ -2183,19 +2183,19 @@ void 011_01eve_01()
         local94 = RND(4);
         if (local94 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local94 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local94 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local94 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         itfMesMngCloseWindow();
         FADE_OUT(1, 30);
@@ -2236,19 +2236,19 @@ void 011_01eve_02()
         local96 = RND(4);
         if (local96 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local96 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local96 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local96 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         itfMesMngCloseWindow();
         FADE_OUT(1, 30);
@@ -2283,19 +2283,19 @@ void 011_01eve_04()
         local98 = RND(4);
         if (local98 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local98 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local98 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local98 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -2336,19 +2336,19 @@ void 011_01eve_05()
         local100 = RND(4);
         if (local100 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local100 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local100 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local100 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -2384,11 +2384,11 @@ void 012_pikusikaiten()
     MODEL_MOVE(var244, SEARCH_ID("01pos_19"), 0, 150, 5);
     if (BIT_CHK(1123) == 0)
     {
-        itfMesMngMessage(26) /* PIXIE6 */;
+        itfMesMngMessage(26) /* PIXIE6: Ugh! He passed again! */;
     }
     else
     {
-        itfMesMngMessage(24) /* PIXIE5 */;
+        itfMesMngMessage(24) /* PIXIE5: What a sneaky, little creep... He got past us! */;
     }
     FLD_MSE_PLAY2(74, 0);
     MODEL_MOVE(var247, SEARCH_ID("01pos_20"), 0, 150, 5);
@@ -2397,11 +2397,11 @@ void 012_pikusikaiten()
     MODEL_MOVE(var244, SEARCH_ID("01pos_22"), 0, 150, 5);
     if (BIT_CHK(1123) == 0)
     {
-        itfMesMngMessage(27) /* PIXIE6_2 */;
+        itfMesMngMessage(27) /* PIXIE6_2: Okay, girls! X-formation! */;
     }
     else
     {
-        itfMesMngMessage(25) /* PIXIE5_2 */;
+        itfMesMngMessage(25) /* PIXIE5_2: Alright! This time, let's try the cross-formation! */;
     }
     itfMesMngCloseWindow();
     SET_CHASE_CAMERA();
@@ -2494,19 +2494,19 @@ void 012_01eve_01()
                 local102 = RND(4);
                 if (local102 == 1)
                 {
-                    itfMesMngMessage(20) /* HIPIXIE1 */;
+                    itfMesMngMessage(20) /* HIPIXIE1: Get outta here! */;
                 }
                 else if (local102 == 2)
                 {
-                    itfMesMngMessage(21) /* HIPIXIE2 */;
+                    itfMesMngMessage(21) /* HIPIXIE2: Go somewhere else! */;
                 }
                 else if (local102 == 3)
                 {
-                    itfMesMngMessage(22) /* HIPIXIE3 */;
+                    itfMesMngMessage(22) /* HIPIXIE3: Get lost! */;
                 }
                 else if (local102 == 4)
                 {
-                    itfMesMngMessage(23) /* HIPIXIE4 */;
+                    itfMesMngMessage(23) /* HIPIXIE4: Leave! */;
                 }
                 FADE_OUT(1, 30);
                 FLD_SE_PLAY(56);
@@ -2554,19 +2554,19 @@ void 012_01eve_01()
                 local102 = RND(4);
                 if (local102 == 1)
                 {
-                    itfMesMngMessage(20) /* HIPIXIE1 */;
+                    itfMesMngMessage(20) /* HIPIXIE1: Get outta here! */;
                 }
                 else if (local102 == 2)
                 {
-                    itfMesMngMessage(21) /* HIPIXIE2 */;
+                    itfMesMngMessage(21) /* HIPIXIE2: Go somewhere else! */;
                 }
                 else if (local102 == 3)
                 {
-                    itfMesMngMessage(22) /* HIPIXIE3 */;
+                    itfMesMngMessage(22) /* HIPIXIE3: Get lost! */;
                 }
                 else if (local102 == 4)
                 {
-                    itfMesMngMessage(23) /* HIPIXIE4 */;
+                    itfMesMngMessage(23) /* HIPIXIE4: Leave! */;
                 }
                 FADE_OUT(1, 30);
                 FLD_SE_PLAY(56);
@@ -2621,19 +2621,19 @@ void 012_01eve_02()
                 local104 = RND(4);
                 if (local104 == 1)
                 {
-                    itfMesMngMessage(20) /* HIPIXIE1 */;
+                    itfMesMngMessage(20) /* HIPIXIE1: Get outta here! */;
                 }
                 else if (local104 == 2)
                 {
-                    itfMesMngMessage(21) /* HIPIXIE2 */;
+                    itfMesMngMessage(21) /* HIPIXIE2: Go somewhere else! */;
                 }
                 else if (local104 == 3)
                 {
-                    itfMesMngMessage(22) /* HIPIXIE3 */;
+                    itfMesMngMessage(22) /* HIPIXIE3: Get lost! */;
                 }
                 else if (local104 == 4)
                 {
-                    itfMesMngMessage(23) /* HIPIXIE4 */;
+                    itfMesMngMessage(23) /* HIPIXIE4: Leave! */;
                 }
                 FADE_OUT(1, 30);
                 FLD_SE_PLAY(56);
@@ -2687,19 +2687,19 @@ void 012_01eve_02()
                 local104 = RND(4);
                 if (local104 == 1)
                 {
-                    itfMesMngMessage(20) /* HIPIXIE1 */;
+                    itfMesMngMessage(20) /* HIPIXIE1: Get outta here! */;
                 }
                 else if (local104 == 2)
                 {
-                    itfMesMngMessage(21) /* HIPIXIE2 */;
+                    itfMesMngMessage(21) /* HIPIXIE2: Go somewhere else! */;
                 }
                 else if (local104 == 3)
                 {
-                    itfMesMngMessage(22) /* HIPIXIE3 */;
+                    itfMesMngMessage(22) /* HIPIXIE3: Get lost! */;
                 }
                 else if (local104 == 4)
                 {
-                    itfMesMngMessage(23) /* HIPIXIE4 */;
+                    itfMesMngMessage(23) /* HIPIXIE4: Leave! */;
                 }
                 FADE_OUT(1, 30);
                 FLD_SE_PLAY(56);
@@ -2761,19 +2761,19 @@ void 012_01eve_03()
                 local106 = RND(4);
                 if (local106 == 1)
                 {
-                    itfMesMngMessage(20) /* HIPIXIE1 */;
+                    itfMesMngMessage(20) /* HIPIXIE1: Get outta here! */;
                 }
                 else if (local106 == 2)
                 {
-                    itfMesMngMessage(21) /* HIPIXIE2 */;
+                    itfMesMngMessage(21) /* HIPIXIE2: Go somewhere else! */;
                 }
                 else if (local106 == 3)
                 {
-                    itfMesMngMessage(22) /* HIPIXIE3 */;
+                    itfMesMngMessage(22) /* HIPIXIE3: Get lost! */;
                 }
                 else if (local106 == 4)
                 {
-                    itfMesMngMessage(23) /* HIPIXIE4 */;
+                    itfMesMngMessage(23) /* HIPIXIE4: Leave! */;
                 }
                 FADE_OUT(1, 30);
                 FLD_SE_PLAY(56);
@@ -2827,19 +2827,19 @@ void 012_01eve_03()
                 local106 = RND(4);
                 if (local106 == 1)
                 {
-                    itfMesMngMessage(20) /* HIPIXIE1 */;
+                    itfMesMngMessage(20) /* HIPIXIE1: Get outta here! */;
                 }
                 else if (local106 == 2)
                 {
-                    itfMesMngMessage(21) /* HIPIXIE2 */;
+                    itfMesMngMessage(21) /* HIPIXIE2: Go somewhere else! */;
                 }
                 else if (local106 == 3)
                 {
-                    itfMesMngMessage(22) /* HIPIXIE3 */;
+                    itfMesMngMessage(22) /* HIPIXIE3: Get lost! */;
                 }
                 else if (local106 == 4)
                 {
-                    itfMesMngMessage(23) /* HIPIXIE4 */;
+                    itfMesMngMessage(23) /* HIPIXIE4: Leave! */;
                 }
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 30);
@@ -2901,19 +2901,19 @@ void 012_01eve_04()
                 local108 = RND(4);
                 if (local108 == 1)
                 {
-                    itfMesMngMessage(20) /* HIPIXIE1 */;
+                    itfMesMngMessage(20) /* HIPIXIE1: Get outta here! */;
                 }
                 else if (local108 == 2)
                 {
-                    itfMesMngMessage(21) /* HIPIXIE2 */;
+                    itfMesMngMessage(21) /* HIPIXIE2: Go somewhere else! */;
                 }
                 else if (local108 == 3)
                 {
-                    itfMesMngMessage(22) /* HIPIXIE3 */;
+                    itfMesMngMessage(22) /* HIPIXIE3: Get lost! */;
                 }
                 else if (local108 == 4)
                 {
-                    itfMesMngMessage(23) /* HIPIXIE4 */;
+                    itfMesMngMessage(23) /* HIPIXIE4: Leave! */;
                 }
                 FADE_OUT(1, 30);
                 FLD_SE_PLAY(56);
@@ -2961,19 +2961,19 @@ void 012_01eve_04()
                 local108 = RND(4);
                 if (local108 == 1)
                 {
-                    itfMesMngMessage(20) /* HIPIXIE1 */;
+                    itfMesMngMessage(20) /* HIPIXIE1: Get outta here! */;
                 }
                 else if (local108 == 2)
                 {
-                    itfMesMngMessage(21) /* HIPIXIE2 */;
+                    itfMesMngMessage(21) /* HIPIXIE2: Go somewhere else! */;
                 }
                 else if (local108 == 3)
                 {
-                    itfMesMngMessage(22) /* HIPIXIE3 */;
+                    itfMesMngMessage(22) /* HIPIXIE3: Get lost! */;
                 }
                 else if (local108 == 4)
                 {
-                    itfMesMngMessage(23) /* HIPIXIE4 */;
+                    itfMesMngMessage(23) /* HIPIXIE4: Leave! */;
                 }
                 FADE_OUT(1, 30);
                 FLD_SE_PLAY(56);
@@ -3028,19 +3028,19 @@ void 012_01eve_05()
                 local110 = RND(4);
                 if (local110 == 1)
                 {
-                    itfMesMngMessage(20) /* HIPIXIE1 */;
+                    itfMesMngMessage(20) /* HIPIXIE1: Get outta here! */;
                 }
                 else if (local110 == 2)
                 {
-                    itfMesMngMessage(21) /* HIPIXIE2 */;
+                    itfMesMngMessage(21) /* HIPIXIE2: Go somewhere else! */;
                 }
                 else if (local110 == 3)
                 {
-                    itfMesMngMessage(22) /* HIPIXIE3 */;
+                    itfMesMngMessage(22) /* HIPIXIE3: Get lost! */;
                 }
                 else if (local110 == 4)
                 {
-                    itfMesMngMessage(23) /* HIPIXIE4 */;
+                    itfMesMngMessage(23) /* HIPIXIE4: Leave! */;
                 }
                 FADE_OUT(1, 30);
                 FLD_SE_PLAY(56);
@@ -3088,19 +3088,19 @@ void 012_01eve_05()
                 local110 = RND(4);
                 if (local110 == 1)
                 {
-                    itfMesMngMessage(20) /* HIPIXIE1 */;
+                    itfMesMngMessage(20) /* HIPIXIE1: Get outta here! */;
                 }
                 else if (local110 == 2)
                 {
-                    itfMesMngMessage(21) /* HIPIXIE2 */;
+                    itfMesMngMessage(21) /* HIPIXIE2: Go somewhere else! */;
                 }
                 else if (local110 == 3)
                 {
-                    itfMesMngMessage(22) /* HIPIXIE3 */;
+                    itfMesMngMessage(22) /* HIPIXIE3: Get lost! */;
                 }
                 else if (local110 == 4)
                 {
-                    itfMesMngMessage(23) /* HIPIXIE4 */;
+                    itfMesMngMessage(23) /* HIPIXIE4: Leave! */;
                 }
                 FADE_OUT(1, 30);
                 FLD_SE_PLAY(56);
@@ -3155,19 +3155,19 @@ void 012_01eve_06()
                 local112 = RND(4);
                 if (local112 == 1)
                 {
-                    itfMesMngMessage(20) /* HIPIXIE1 */;
+                    itfMesMngMessage(20) /* HIPIXIE1: Get outta here! */;
                 }
                 else if (local112 == 2)
                 {
-                    itfMesMngMessage(21) /* HIPIXIE2 */;
+                    itfMesMngMessage(21) /* HIPIXIE2: Go somewhere else! */;
                 }
                 else if (local112 == 3)
                 {
-                    itfMesMngMessage(22) /* HIPIXIE3 */;
+                    itfMesMngMessage(22) /* HIPIXIE3: Get lost! */;
                 }
                 else if (local112 == 4)
                 {
-                    itfMesMngMessage(23) /* HIPIXIE4 */;
+                    itfMesMngMessage(23) /* HIPIXIE4: Leave! */;
                 }
                 FADE_OUT(1, 30);
                 FLD_SE_PLAY(56);
@@ -3221,19 +3221,19 @@ void 012_01eve_06()
                 local112 = RND(4);
                 if (local112 == 1)
                 {
-                    itfMesMngMessage(20) /* HIPIXIE1 */;
+                    itfMesMngMessage(20) /* HIPIXIE1: Get outta here! */;
                 }
                 else if (local112 == 2)
                 {
-                    itfMesMngMessage(21) /* HIPIXIE2 */;
+                    itfMesMngMessage(21) /* HIPIXIE2: Go somewhere else! */;
                 }
                 else if (local112 == 3)
                 {
-                    itfMesMngMessage(22) /* HIPIXIE3 */;
+                    itfMesMngMessage(22) /* HIPIXIE3: Get lost! */;
                 }
                 else if (local112 == 4)
                 {
-                    itfMesMngMessage(23) /* HIPIXIE4 */;
+                    itfMesMngMessage(23) /* HIPIXIE4: Leave! */;
                 }
                 FADE_OUT(1, 30);
                 FLD_SE_PLAY(56);
@@ -3302,19 +3302,19 @@ void 012_01eve_08()
     CAM_SEL_FOVY(SEARCH_ID("01cam_25"));
     WAIT(40);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* ER3_OBE_1 */;
+    itfMesMngMessage(5) /* ER3_OBE_1: You have done well coming this far. Though, I do not know if I should... */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL_FOVY(SEARCH_ID("01cam_26"));
     MODEL_OFF(var0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* ER3_OBE_2 */;
+    itfMesMngMessage(6) /* ER3_OBE_2: But, your luck ends here. How now, mad spirit! */;
     itfMesMngCloseWindow();
     MODEL_MOVE2(local114, SEARCH_ID("01path_51"), 1, 0, 0, 80, 32);
     MODEL_MOVE2(local115, SEARCH_ID("01path_52"), 1, 0, 0, 80, 32);
     WAIT(70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* ER3_OBE_3 */;
+    itfMesMngMessage(7) /* ER3_OBE_3: Enjoy the waltz and pageantry the High Pixies of our kingdom are fame... */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 30);
     WAIT(30);
@@ -3362,19 +3362,19 @@ void 014_01eve_01()
                 local117 = RND(4);
                 if (local117 == 1)
                 {
-                    itfMesMngMessage(20) /* HIPIXIE1 */;
+                    itfMesMngMessage(20) /* HIPIXIE1: Get outta here! */;
                 }
                 else if (local117 == 2)
                 {
-                    itfMesMngMessage(21) /* HIPIXIE2 */;
+                    itfMesMngMessage(21) /* HIPIXIE2: Go somewhere else! */;
                 }
                 else if (local117 == 3)
                 {
-                    itfMesMngMessage(22) /* HIPIXIE3 */;
+                    itfMesMngMessage(22) /* HIPIXIE3: Get lost! */;
                 }
                 else if (local117 == 4)
                 {
-                    itfMesMngMessage(23) /* HIPIXIE4 */;
+                    itfMesMngMessage(23) /* HIPIXIE4: Leave! */;
                 }
                 FADE_OUT(1, 30);
                 FLD_SE_PLAY(56);
@@ -3422,19 +3422,19 @@ void 014_01eve_01()
                 local117 = RND(4);
                 if (local117 == 1)
                 {
-                    itfMesMngMessage(20) /* HIPIXIE1 */;
+                    itfMesMngMessage(20) /* HIPIXIE1: Get outta here! */;
                 }
                 else if (local117 == 2)
                 {
-                    itfMesMngMessage(21) /* HIPIXIE2 */;
+                    itfMesMngMessage(21) /* HIPIXIE2: Go somewhere else! */;
                 }
                 else if (local117 == 3)
                 {
-                    itfMesMngMessage(22) /* HIPIXIE3 */;
+                    itfMesMngMessage(22) /* HIPIXIE3: Get lost! */;
                 }
                 else if (local117 == 4)
                 {
-                    itfMesMngMessage(23) /* HIPIXIE4 */;
+                    itfMesMngMessage(23) /* HIPIXIE4: Leave! */;
                 }
                 FADE_OUT(1, 30);
                 FLD_SE_PLAY(56);
@@ -3489,19 +3489,19 @@ void 014_01eve_02()
                 local119 = RND(4);
                 if (local119 == 1)
                 {
-                    itfMesMngMessage(20) /* HIPIXIE1 */;
+                    itfMesMngMessage(20) /* HIPIXIE1: Get outta here! */;
                 }
                 else if (local119 == 2)
                 {
-                    itfMesMngMessage(21) /* HIPIXIE2 */;
+                    itfMesMngMessage(21) /* HIPIXIE2: Go somewhere else! */;
                 }
                 else if (local119 == 3)
                 {
-                    itfMesMngMessage(22) /* HIPIXIE3 */;
+                    itfMesMngMessage(22) /* HIPIXIE3: Get lost! */;
                 }
                 else if (local119 == 4)
                 {
-                    itfMesMngMessage(23) /* HIPIXIE4 */;
+                    itfMesMngMessage(23) /* HIPIXIE4: Leave! */;
                 }
                 FADE_OUT(1, 30);
                 FLD_SE_PLAY(56);
@@ -3549,19 +3549,19 @@ void 014_01eve_02()
                 local119 = RND(4);
                 if (local119 == 1)
                 {
-                    itfMesMngMessage(20) /* HIPIXIE1 */;
+                    itfMesMngMessage(20) /* HIPIXIE1: Get outta here! */;
                 }
                 else if (local119 == 2)
                 {
-                    itfMesMngMessage(21) /* HIPIXIE2 */;
+                    itfMesMngMessage(21) /* HIPIXIE2: Go somewhere else! */;
                 }
                 else if (local119 == 3)
                 {
-                    itfMesMngMessage(22) /* HIPIXIE3 */;
+                    itfMesMngMessage(22) /* HIPIXIE3: Get lost! */;
                 }
                 else if (local119 == 4)
                 {
-                    itfMesMngMessage(23) /* HIPIXIE4 */;
+                    itfMesMngMessage(23) /* HIPIXIE4: Leave! */;
                 }
                 FADE_OUT(1, 30);
                 FLD_SE_PLAY(56);
@@ -3649,7 +3649,7 @@ void 015_01eve_01()
         WAIT(80);
         CAM_SEL_FOVY(SEARCH_ID("01cam_08"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(64) /* END_HIPIKU1 */;
+        itfMesMngMessage(64) /* END_HIPIKU1: Huh...? What was I doing...? */;
         itfMesMngCloseWindow();
         FADE_OUT(0, 10);
         WAIT(10);
@@ -3664,9 +3664,9 @@ void 015_01eve_01()
         WAIT(60);
         CAM_SEL_FOVY(SEARCH_ID("01cam_04"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(65) /* END_TORO1 */;
-        itfMesMngMessage(66) /* END_RAN1 */;
-        itfMesMngMessage(67) /* END_TITA1 */;
+        itfMesMngMessage(65) /* END_TORO1: *yawn* I had a weird dream... */;
+        itfMesMngMessage(66) /* END_RAN1: In my dream, I was a bad demon, hee ho! */;
+        itfMesMngMessage(67) /* END_TITA1: No, it was not a dream. */;
         itfMesMngCloseWindow();
         FADE_OUT(0, 10);
         WAIT(10);
@@ -3680,22 +3680,22 @@ void 015_01eve_01()
         FADE_IN(0, 10);
         WAIT(10);
         itfMesMngOpenWindow();
-        itfMesMngMessage(68) /* END_TITA2 */;
+        itfMesMngMessage(68) /* END_TITA2: It was all Sakahagi's doing. */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL_FOVY(SEARCH_ID("01cam_06"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(69) /* END_OBE1 */;
+        itfMesMngMessage(69) /* END_OBE1: We had been cursed by Sakahagi and were reduced to our primitive nature. */;
         itfMesMngCloseWindow();
         MODEL_MOTION2(local125, 14, 5, 5, 0);
         WAIT(60);
         itfMesMngOpenWindow();
-        itfMesMngMessage(70) /* END_OBE2 */;
+        itfMesMngMessage(70) /* END_OBE2: You may take the Yahirono Himorogi as you please. It is a sign of our... */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL_FOVY(SEARCH_ID("01cam_05"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(71) /* END_OBE3 */;
+        itfMesMngMessage(71) /* END_OBE3: ...Oh, excuse me. That was completely irrelevant. */;
         itfMesMngCloseWindow();
         FLD_SE_PLAY(56);
         FADE_OUT(1, 20);
@@ -3714,7 +3714,7 @@ void 015_01eve_01()
         FADE_IN(1, 20);
         WAIT(40);
         itfMesMngOpenWindow();
-        itfMesMngMessage(73) /* END_SYS */;
+        itfMesMngMessage(73) /* END_SYS: > The fairies disappeared... */;
         itfMesMngCloseWindow();
         FLD_BGM_FADE();
         FLD_BGM_PLAY(2);
@@ -3742,7 +3742,7 @@ void 015_01eve_02()
         WAIT(80);
         CAM_SEL_FOVY(SEARCH_ID("01cam_08"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(64) /* END_HIPIKU1 */;
+        itfMesMngMessage(64) /* END_HIPIKU1: Huh...? What was I doing...? */;
         itfMesMngCloseWindow();
         FADE_OUT(0, 10);
         WAIT(10);
@@ -3757,9 +3757,9 @@ void 015_01eve_02()
         WAIT(60);
         CAM_SEL_FOVY(SEARCH_ID("01cam_04"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(65) /* END_TORO1 */;
-        itfMesMngMessage(66) /* END_RAN1 */;
-        itfMesMngMessage(67) /* END_TITA1 */;
+        itfMesMngMessage(65) /* END_TORO1: *yawn* I had a weird dream... */;
+        itfMesMngMessage(66) /* END_RAN1: In my dream, I was a bad demon, hee ho! */;
+        itfMesMngMessage(67) /* END_TITA1: No, it was not a dream. */;
         itfMesMngCloseWindow();
         FADE_OUT(0, 10);
         WAIT(10);
@@ -3773,22 +3773,22 @@ void 015_01eve_02()
         FADE_IN(0, 10);
         WAIT(10);
         itfMesMngOpenWindow();
-        itfMesMngMessage(68) /* END_TITA2 */;
+        itfMesMngMessage(68) /* END_TITA2: It was all Sakahagi's doing. */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL_FOVY(SEARCH_ID("01cam_06"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(69) /* END_OBE1 */;
+        itfMesMngMessage(69) /* END_OBE1: We had been cursed by Sakahagi and were reduced to our primitive nature. */;
         itfMesMngCloseWindow();
         MODEL_MOTION2(local133, 14, 5, 5, 0);
         WAIT(60);
         itfMesMngOpenWindow();
-        itfMesMngMessage(70) /* END_OBE2 */;
+        itfMesMngMessage(70) /* END_OBE2: You may take the Yahirono Himorogi as you please. It is a sign of our... */;
         itfMesMngCloseWindow();
         WAIT(20);
         CAM_SEL_FOVY(SEARCH_ID("01cam_05"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(71) /* END_OBE3 */;
+        itfMesMngMessage(71) /* END_OBE3: ...Oh, excuse me. That was completely irrelevant. */;
         itfMesMngCloseWindow();
         FLD_SE_PLAY(56);
         FADE_OUT(1, 20);
@@ -3807,7 +3807,7 @@ void 015_01eve_02()
         FADE_IN(1, 20);
         WAIT(40);
         itfMesMngOpenWindow();
-        itfMesMngMessage(73) /* END_SYS */;
+        itfMesMngMessage(73) /* END_SYS: > The fairies disappeared... */;
         itfMesMngCloseWindow();
         FLD_BGM_FADE();
         FLD_BGM_PLAY(2);
@@ -3830,23 +3830,23 @@ void 016_01eve_11()
     FLD_MSE_PLAY2(73, 0);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* ER4_OBE_1 */;
+    itfMesMngMessage(8) /* ER4_OBE_1: Curse you! How have you made it past all of that unscathed? */;
     itfMesMngCloseWindow();
     CAM_SEL_FOVY(SEARCH_ID("01cam_02"));
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* ER4_OBE_3 */;
+    itfMesMngMessage(9) /* ER4_OBE_3: But, you shall fall into despair this time... */;
     itfMesMngCloseWindow();
     WAIT(30);
     FLD_MSE_STOP2(73, 0);
     CAM_SEL_FOVY(SEARCH_ID("01cam_03"));
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* ER4_TORO_1 */;
+    itfMesMngMessage(10) /* ER4_TORO_1: I trashed the platform... Trashed! Har har har! */;
     itfMesMngCloseWindow();
     WAIT(30);
     FLD_MSE_PLAY2(73, 0);
     CAM_SEL_FOVY(SEARCH_ID("01cam_02"));
     itfMesMngOpenWindow();
-    itfMesMngMessage(11) /* ER4_OBE_4 */;
+    itfMesMngMessage(11) /* ER4_OBE_4: And not just that... An entire legion of my best troops awaits you! */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 30);
     WAIT(30);
@@ -3874,7 +3874,7 @@ void 016_01eve_10()
             ENCOUNT_OFF();
             PAD_DISABLE();
             itfMesMngOpenWindow();
-            itfMesMngMessage(63) /* EREA_16_NPC */;
+            itfMesMngMessage(63) /* EREA_16_NPC: > The platform has been destroyed. */;
             itfMesMngCloseWindow();
             PAD_ENABLE();
             ENCOUNT_ON();
@@ -3907,19 +3907,19 @@ void 017_01eve_01()
         local139 = RND(4);
         if (local139 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local139 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local139 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local139 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         itfMesMngCloseWindow();
         FADE_OUT(1, 30);
@@ -3962,19 +3962,19 @@ void 017_01eve_03()
             local141 = RND(4);
             if (local141 == 1)
             {
-                itfMesMngMessage(16) /* PIXIE1 */;
+                itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
             }
             else if (local141 == 2)
             {
-                itfMesMngMessage(17) /* PIXIE2 */;
+                itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
             }
             else if (local141 == 3)
             {
-                itfMesMngMessage(18) /* PIXIE3 */;
+                itfMesMngMessage(18) /* PIXIE3: Get lost! */;
             }
             else if (local141 == 4)
             {
-                itfMesMngMessage(19) /* PIXIE4 */;
+                itfMesMngMessage(19) /* PIXIE4: Leave! */;
             }
             FADE_OUT(1, 30);
             FLD_SE_PLAY(56);
@@ -4005,19 +4005,19 @@ void 017_01eve_03()
             local141 = RND(4);
             if (local141 == 1)
             {
-                itfMesMngMessage(16) /* PIXIE1 */;
+                itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
             }
             else if (local141 == 2)
             {
-                itfMesMngMessage(17) /* PIXIE2 */;
+                itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
             }
             else if (local141 == 3)
             {
-                itfMesMngMessage(18) /* PIXIE3 */;
+                itfMesMngMessage(18) /* PIXIE3: Get lost! */;
             }
             else if (local141 == 4)
             {
-                itfMesMngMessage(19) /* PIXIE4 */;
+                itfMesMngMessage(19) /* PIXIE4: Leave! */;
             }
             FADE_OUT(1, 30);
             FLD_SE_PLAY(56);
@@ -4053,19 +4053,19 @@ void 017_01eve_04()
         local143 = RND(4);
         if (local143 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local143 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local143 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local143 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -4102,19 +4102,19 @@ void 017_01eve_05()
             local145 = RND(4);
             if (local145 == 1)
             {
-                itfMesMngMessage(16) /* PIXIE1 */;
+                itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
             }
             else if (local145 == 2)
             {
-                itfMesMngMessage(17) /* PIXIE2 */;
+                itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
             }
             else if (local145 == 3)
             {
-                itfMesMngMessage(18) /* PIXIE3 */;
+                itfMesMngMessage(18) /* PIXIE3: Get lost! */;
             }
             else if (local145 == 4)
             {
-                itfMesMngMessage(19) /* PIXIE4 */;
+                itfMesMngMessage(19) /* PIXIE4: Leave! */;
             }
             FADE_OUT(1, 30);
             FLD_SE_PLAY(56);
@@ -4151,19 +4151,19 @@ void 017_01eve_05()
             local145 = RND(4);
             if (local145 == 1)
             {
-                itfMesMngMessage(16) /* PIXIE1 */;
+                itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
             }
             else if (local145 == 2)
             {
-                itfMesMngMessage(17) /* PIXIE2 */;
+                itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
             }
             else if (local145 == 3)
             {
-                itfMesMngMessage(18) /* PIXIE3 */;
+                itfMesMngMessage(18) /* PIXIE3: Get lost! */;
             }
             else if (local145 == 4)
             {
-                itfMesMngMessage(19) /* PIXIE4 */;
+                itfMesMngMessage(19) /* PIXIE4: Leave! */;
             }
             FADE_OUT(1, 30);
             FLD_SE_PLAY(56);
@@ -4208,19 +4208,19 @@ void 017_01eve_06()
             local147 = RND(4);
             if (local147 == 1)
             {
-                itfMesMngMessage(16) /* PIXIE1 */;
+                itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
             }
             else if (local147 == 2)
             {
-                itfMesMngMessage(17) /* PIXIE2 */;
+                itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
             }
             else if (local147 == 3)
             {
-                itfMesMngMessage(18) /* PIXIE3 */;
+                itfMesMngMessage(18) /* PIXIE3: Get lost! */;
             }
             else if (local147 == 4)
             {
-                itfMesMngMessage(19) /* PIXIE4 */;
+                itfMesMngMessage(19) /* PIXIE4: Leave! */;
             }
             FADE_OUT(1, 30);
             FLD_SE_PLAY(56);
@@ -4251,19 +4251,19 @@ void 017_01eve_06()
             local147 = RND(4);
             if (local147 == 1)
             {
-                itfMesMngMessage(16) /* PIXIE1 */;
+                itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
             }
             else if (local147 == 2)
             {
-                itfMesMngMessage(17) /* PIXIE2 */;
+                itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
             }
             else if (local147 == 3)
             {
-                itfMesMngMessage(18) /* PIXIE3 */;
+                itfMesMngMessage(18) /* PIXIE3: Get lost! */;
             }
             else if (local147 == 4)
             {
-                itfMesMngMessage(19) /* PIXIE4 */;
+                itfMesMngMessage(19) /* PIXIE4: Leave! */;
             }
             FADE_OUT(1, 30);
             FLD_SE_PLAY(56);
@@ -4301,19 +4301,19 @@ void 017_01eve_08()
             local149 = RND(4);
             if (local149 == 1)
             {
-                itfMesMngMessage(16) /* PIXIE1 */;
+                itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
             }
             else if (local149 == 2)
             {
-                itfMesMngMessage(17) /* PIXIE2 */;
+                itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
             }
             else if (local149 == 3)
             {
-                itfMesMngMessage(18) /* PIXIE3 */;
+                itfMesMngMessage(18) /* PIXIE3: Get lost! */;
             }
             else if (local149 == 4)
             {
-                itfMesMngMessage(19) /* PIXIE4 */;
+                itfMesMngMessage(19) /* PIXIE4: Leave! */;
             }
             FADE_OUT(1, 30);
             FLD_SE_PLAY(56);
@@ -4344,19 +4344,19 @@ void 017_01eve_08()
             local149 = RND(4);
             if (local149 == 1)
             {
-                itfMesMngMessage(16) /* PIXIE1 */;
+                itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
             }
             else if (local149 == 2)
             {
-                itfMesMngMessage(17) /* PIXIE2 */;
+                itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
             }
             else if (local149 == 3)
             {
-                itfMesMngMessage(18) /* PIXIE3 */;
+                itfMesMngMessage(18) /* PIXIE3: Get lost! */;
             }
             else if (local149 == 4)
             {
-                itfMesMngMessage(19) /* PIXIE4 */;
+                itfMesMngMessage(19) /* PIXIE4: Leave! */;
             }
             FADE_OUT(1, 30);
             FLD_SE_PLAY(56);
@@ -4392,19 +4392,19 @@ void 017_01eve_11()
         local151 = RND(4);
         if (local151 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local151 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local151 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local151 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -4439,19 +4439,19 @@ void 017_01eve_12()
         local153 = RND(4);
         if (local153 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local153 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local153 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local153 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -4488,19 +4488,19 @@ void 024_01eve_02()
             local155 = RND(4);
             if (local155 == 1)
             {
-                itfMesMngMessage(16) /* PIXIE1 */;
+                itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
             }
             else if (local155 == 2)
             {
-                itfMesMngMessage(17) /* PIXIE2 */;
+                itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
             }
             else if (local155 == 3)
             {
-                itfMesMngMessage(18) /* PIXIE3 */;
+                itfMesMngMessage(18) /* PIXIE3: Get lost! */;
             }
             else if (local155 == 4)
             {
-                itfMesMngMessage(19) /* PIXIE4 */;
+                itfMesMngMessage(19) /* PIXIE4: Leave! */;
             }
             FADE_OUT(1, 30);
             FLD_SE_PLAY(56);
@@ -4534,19 +4534,19 @@ void 024_01eve_02()
             local155 = RND(4);
             if (local155 == 1)
             {
-                itfMesMngMessage(16) /* PIXIE1 */;
+                itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
             }
             else if (local155 == 2)
             {
-                itfMesMngMessage(17) /* PIXIE2 */;
+                itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
             }
             else if (local155 == 3)
             {
-                itfMesMngMessage(18) /* PIXIE3 */;
+                itfMesMngMessage(18) /* PIXIE3: Get lost! */;
             }
             else if (local155 == 4)
             {
-                itfMesMngMessage(19) /* PIXIE4 */;
+                itfMesMngMessage(19) /* PIXIE4: Leave! */;
             }
             FADE_OUT(1, 30);
             FLD_SE_PLAY(56);
@@ -4582,19 +4582,19 @@ void 024_01eve_03()
         local157 = RND(4);
         if (local157 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local157 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local157 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local157 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -4629,19 +4629,19 @@ void 024_01eve_04()
         local159 = RND(4);
         if (local159 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local159 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local159 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local159 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -4676,19 +4676,19 @@ void 024_01eve_09()
         local161 = RND(4);
         if (local161 == 1)
         {
-            itfMesMngMessage(16) /* PIXIE1 */;
+            itfMesMngMessage(16) /* PIXIE1: Get outta here! */;
         }
         else if (local161 == 2)
         {
-            itfMesMngMessage(17) /* PIXIE2 */;
+            itfMesMngMessage(17) /* PIXIE2: Go somewhere else! */;
         }
         else if (local161 == 3)
         {
-            itfMesMngMessage(18) /* PIXIE3 */;
+            itfMesMngMessage(18) /* PIXIE3: Get lost! */;
         }
         else if (local161 == 4)
         {
-            itfMesMngMessage(19) /* PIXIE4 */;
+            itfMesMngMessage(19) /* PIXIE4: Leave! */;
         }
         FADE_OUT(1, 30);
         FLD_SE_PLAY(56);
@@ -4765,32 +4765,32 @@ void 018_start()
         FADE_IN(0, 30);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(41) /* PIX_MES_01 */;
+        itfMesMngMessage(41) /* PIX_MES_01: Yay!! We're finally here! */;
         MODEL_POS(local164, SEARCH_ID("01pos_07"));
         MODEL_ROT(local164, SEARCH_ID("01pos_07"), 10);
         CAM_SEL(SEARCH_ID("01cam_04"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(42) /* PIX_MES_02 */;
-        if (itfMesMngSelect(43) == 1)
+        itfMesMngMessage(42) /* PIX_MES_02: I guess this is goodbye? */;
+        if (itfMesMngSelect(43) /* PIX_SEL_01: Good riddance. / I hope not. */ == 1)
         {
-            itfMesMngMessage(50) /* PIX_MES_08 */;
-            if (itfMesMngSelect(51) == 0)
+            itfMesMngMessage(50) /* PIX_MES_08: We made it to Yoyogi Park, so I guess we can part ways now. */;
+            if (itfMesMngSelect(51) /* PIX_SEL_03: I need you. / Lay off the Pixie dust. */ == 0)
             {
-                itfMesMngMessage(52) /* PIX_MES_09 */;
+                itfMesMngMessage(52) /* PIX_MES_09: Mmmm... I like the way that sounds. *flirt* */;
                 itfMesMngCloseWindow();
                 prm_UDV_DELETE_OK(1);
             }
             else
             {
-                itfMesMngMessage(53) /* PIX_MES_10 */;
+                itfMesMngMessage(53) /* PIX_MES_10: What a friggin' jerk you turned out to be! */;
                 BIT_ON(2352);
-                itfMesMngMessage(47) /* DH_ANKU */;
+                itfMesMngMessage(47) /* DH_ANKU: > You obtained the Magatama Ankh. */;
                 prm_DH_PLUS(3);
                 MODEL_POS(local163, SEARCH_ID("01pos_09"));
                 MODEL_MOTION2(local164, 16, 20, 20, 1);
                 MODEL_ROT(local164, SEARCH_ID("01pos_08"), 10);
                 CAM_SEL(SEARCH_ID("01cam_05"));
-                itfMesMngMessage(54) /* PIX_MES_11 */;
+                itfMesMngMessage(54) /* PIX_MES_11: You'd better take good care of it! */;
                 if (prm_UDV_GETID(1) == 116)
                 {
                     COMM_217(70);
@@ -4807,25 +4807,25 @@ void 018_start()
         }
         else
         {
-            itfMesMngMessage(44) /* PIX_MES_03 */;
-            if (itfMesMngSelect(45) == 1)
+            itfMesMngMessage(44) /* PIX_MES_03: Whoa! Talk about harsh! */;
+            if (itfMesMngSelect(45) /* PIX_SEL_02: Heck, yeah. / I'll die without you. */ == 1)
             {
                 MODEL_ROT(local164, SEARCH_ID("01pos_07"), 10);
-                itfMesMngMessage(49) /* PIX_MES_07 */;
+                itfMesMngMessage(49) /* PIX_MES_07: Awww! I knew you wanted to be with me. */;
                 itfMesMngCloseWindow();
                 prm_UDV_DELETE_OK(1);
             }
             else
             {
-                itfMesMngMessage(46) /* PIX_MES_05 */;
+                itfMesMngMessage(46) /* PIX_MES_05: Is that so! Then, here you go. */;
                 BIT_ON(2352);
-                itfMesMngMessage(47) /* DH_ANKU */;
+                itfMesMngMessage(47) /* DH_ANKU: > You obtained the Magatama Ankh. */;
                 prm_DH_PLUS(3);
                 MODEL_POS(local163, SEARCH_ID("01pos_09"));
                 MODEL_MOTION2(local164, 16, 20, 20, 1);
                 MODEL_ROT(local164, SEARCH_ID("01pos_08"), 10);
                 CAM_SEL(SEARCH_ID("01cam_05"));
-                itfMesMngMessage(48) /* PIX_MES_06 */;
+                itfMesMngMessage(48) /* PIX_MES_06: Careful not to die out there! */;
                 if (prm_UDV_GETID(1) == 116)
                 {
                     COMM_217(70);
@@ -4907,7 +4907,7 @@ void 015_bg01()
     FADE_IN(0, 5);
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(62) /* DAREMOINAI */;
+    itfMesMngMessage(62) /* DAREMOINAI: > No one is here... */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 15);
     WAIT(15);
@@ -4931,7 +4931,7 @@ void 015_bg02()
     FADE_IN(0, 5);
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(62) /* DAREMOINAI */;
+    itfMesMngMessage(62) /* DAREMOINAI: > No one is here... */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 15);
     WAIT(15);
@@ -4958,7 +4958,7 @@ void 019_mother()
         DIST_BLUR_OFF(30);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(74) /* FIRE_YURE */;
+        itfMesMngMessage(74) /* FIRE_YURE: > The flames of the Candelabrum of Sovereignty are flickering wildly... */;
         itfMesMngCloseWindow();
         BIT_OFF(1881);
         SET_ALLPANEL(3);
@@ -4973,11 +4973,11 @@ void 019_01eve_01()
         PAD_DISABLE();
         SET_ALLPANEL(2);
         itfMesMngOpenWindow();
-        itfMesMngMessage(75) /* KEHAI */;
-        if (itfMesMngSelect(76) == 0)
+        itfMesMngMessage(75) /* KEHAI: > You can feel the presence of a terrifying demon... */;
+        if (itfMesMngSelect(76) /* YES_NO_SEL: Yes. / No. */ == 0)
         {
-            itfMesMngMessage(77) /* KEHAI2 */;
-            if (itfMesMngSelect(76) == 0)
+            itfMesMngMessage(77) /* KEHAI2: > Are you sure? */;
+            if (itfMesMngSelect(76) /* YES_NO_SEL: Yes. / No. */ == 0)
             {
                 itfMesMngCloseWindow();
                 FADE_OUT(0, 15);
@@ -4998,19 +4998,19 @@ void 019_01eve_01()
                 return;
             }
         }
-        itfMesMngMessage(78) /* TRY_RUNAWAY */;
+        itfMesMngMessage(78) /* TRY_RUNAWAY: > ............ */;
         if (GET_MOON16() == 8)
         {
-            itfMesMngMessage(80) /* SIPPAI */;
-            itfMesMngMessage(82) /* SIPPAI_KOTEN */;
+            itfMesMngMessage(80) /* SIPPAI: > It looks like you won't be able to escape... */;
+            itfMesMngMessage(82) /* SIPPAI_KOTEN: The flames of the Candelabrum burn passionately! You won't escape! */;
         }
         else if (RND(100) > 60)
         {
-            itfMesMngMessage(80) /* SIPPAI */;
+            itfMesMngMessage(80) /* SIPPAI: > It looks like you won't be able to escape... */;
         }
         else
         {
-            itfMesMngMessage(79) /* RUNAWAY */;
+            itfMesMngMessage(79) /* RUNAWAY: > It looks like you'll be able to get away. */;
             itfMesMngCloseWindow();
             SET_ALLPANEL(3);
             BIT_ON(1881);

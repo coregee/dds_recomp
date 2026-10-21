@@ -11,24 +11,24 @@ void itembox_label()
             itfMesMngOpenWindow();
             if (FLD_CHK_TAKARA_OPEN())
             {
-                itfMesMngMessage(45) /* TAKARA_STILLGET */;
+                itfMesMngMessage(45) /* TAKARA_STILLGET: [809E][80F7][8185][8189][83FF][86DB][818D][84F8][8181][819B][80FE][8289] */;
             }
             else
             {
-                itfMesMngMessage(42) /* TAKARA */;
-                if (itfMesMngSelect(43) == 0)
+                itfMesMngMessage(42) /* TAKARA: [809E][84BE][88F4][80EA][80E0][81A8][819C][80F7][8289] [8AB2][80EF][8... */;
+                if (itfMesMngSelect(43) /* TAKARA_SEL: [818D][80E2] / [80E2][80E2][80E6] */ == 0)
                 {
                     local0 = FLD_GET_TAKARA_TBL(1);
                     local1 = FLD_GET_TAKARA_TBL(2);
                     itfMesMngSetVarScr(0, local0, 3);
                     itfMesMngSetVarScr(1, local1, 0);
-                    itfMesMngMessage(46) /* TAKARA_GET */;
+                    itfMesMngMessage(46) /* TAKARA_GET: [809E][85B2][83F4][8A82][818D] {var 0}[8080][81B0]{var 1}[85A2][84A8]... */;
                     prm_ITEM_PLUS(local0, local1);
                     FLD_SET_TAKARA_OPEN();
                 }
                 else
                 {
-                    itfMesMngMessage(44) /* TAKARA_NOGET */;
+                    itfMesMngMessage(44) /* TAKARA_NOGET: [809E][85B2][83F4][8A82][818D] [84BE][88F4][81B0][80E0][80EB][81A7][8... */;
                 }
             }
             itfMesMngCloseWindow();
@@ -285,24 +285,24 @@ void elvstart_label()
     CAM_SEL(local16);
     FADE_IN(0, 15);
     itfMesMngOpenWindow();
-    itfMesMngMessage(47) /* WARP_ELV_MSG */;
+    itfMesMngMessage(47) /* WARP_ELV_MSG: [809E][80F2][88BD][849E][8CA2][84AB][81B0][83EC][81B1][8185][85CA][80... */;
     if (local17 == 1)
     {
         itfMesMngSetVarScr(0, local18, 4);
-        local14 = itfMesMngSelect(48);
+        local14 = itfMesMngSelect(48) /* WARP_ELV_SEL1: {var 0}[8080] / [81A2][819F][81A9] */;
     }
     else if (local17 == 2)
     {
         itfMesMngSetVarScr(0, local18, 4);
         itfMesMngSetVarScr(1, local19, 4);
-        local14 = itfMesMngSelect(49);
+        local14 = itfMesMngSelect(49) /* WARP_ELV_SEL2: {var 1}[8080] / {var 0}[8080] / [81A2][819F][81A9] */;
     }
     else if (local17 == 3)
     {
         itfMesMngSetVarScr(0, local18, 4);
         itfMesMngSetVarScr(1, local19, 4);
         itfMesMngSetVarScr(2, local20, 4);
-        local14 = itfMesMngSelect(50);
+        local14 = itfMesMngSelect(50) /* WARP_ELV_SEL3: {var 2}[8080] / {var 1}[8080] / {var 0}[8080] / [81A2][819F][81A9] */;
     }
     else if (local17 == 4)
     {
@@ -310,7 +310,7 @@ void elvstart_label()
         itfMesMngSetVarScr(1, local19, 4);
         itfMesMngSetVarScr(2, local20, 4);
         itfMesMngSetVarScr(3, local21, 4);
-        local14 = itfMesMngSelect(51);
+        local14 = itfMesMngSelect(51) /* WARP_ELV_SEL4: {var 3}[8080] / {var 2}[8080] / {var 1}[8080] / {var 0}[8080] / [81A2... */;
     }
     else if (local17 == 5)
     {
@@ -319,7 +319,7 @@ void elvstart_label()
         itfMesMngSetVarScr(2, local20, 4);
         itfMesMngSetVarScr(3, local21, 4);
         itfMesMngSetVarScr(4, local22, 4);
-        local14 = itfMesMngSelect(52);
+        local14 = itfMesMngSelect(52) /* WARP_ELV_SEL5: {var 4}[8080] / {var 3}[8080] / {var 2}[8080] / {var 1}[8080] / {var... */;
     }
     else if (local17 == 6)
     {
@@ -329,7 +329,7 @@ void elvstart_label()
         itfMesMngSetVarScr(3, local21, 4);
         itfMesMngSetVarScr(4, local22, 4);
         itfMesMngSetVarScr(5, local23, 4);
-        local14 = itfMesMngSelect(53);
+        local14 = itfMesMngSelect(53) /* WARP_ELV_SEL6: {var 5}[8080] / {var 4}[8080] / {var 3}[8080] / {var 2}[8080] / {var... */;
     }
     itfMesMngCloseWindow();
     if (local14 == local17)
@@ -380,7 +380,7 @@ void 003_bigterm()
                 FADE_IN(0, 15);
                 WAIT(15);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(0) /* BIG_TERM */;
+                itfMesMngMessage(0) /* BIG_TERM: [80F1][80F1][818D][8288][84AA][81D0][8299][81F0][81DB][81FC][869C][86... */;
                 itfMesMngCloseWindow();
                 FADE_OUT(0, 15);
                 WAIT(15);
@@ -415,8 +415,8 @@ void 006_smallterm()
                 FADE_IN(0, 15);
                 WAIT(15);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(1) /* SMALL_TERM */;
-                if (itfMesMngSelect(2) == 0)
+                itfMesMngMessage(1) /* SMALL_TERM: [80F1][80F1][818D][8288][85CB][81D0][8299][81F0][81DB][81FC][869C][86... */;
+                if (itfMesMngSelect(2) /* SMALL_TERM_SEL: [818D][80E2] / [80E2][80E2][80E6] */ == 0)
                 {
                     itfMesMngCloseWindow();
                     CALL_FIELD2(3, "01pos_14");
@@ -456,8 +456,8 @@ void 011_smallterm()
                 FADE_IN(0, 15);
                 WAIT(15);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(1) /* SMALL_TERM */;
-                if (itfMesMngSelect(2) == 0)
+                itfMesMngMessage(1) /* SMALL_TERM: [80F1][80F1][818D][8288][85CB][81D0][8299][81F0][81DB][81FC][869C][86... */;
+                if (itfMesMngSelect(2) /* SMALL_TERM_SEL: [818D][80E2] / [80E2][80E2][80E6] */ == 0)
                 {
                     itfMesMngCloseWindow();
                     CALL_FIELD2(3, "01pos_14");
@@ -502,7 +502,7 @@ void 001_01npc_01()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(4) /* F26_AREA1_NPC1 */;
+                itfMesMngMessage(4) /* F26_AREA1_NPC1: [80F1][818C][89D0][8DCC][818D][8288] [81B3][81C6][81C0][81C6][8189][8... */;
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
                 return;
@@ -522,7 +522,7 @@ void 001_01npc_02()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(5) /* F26_AREA1_NPC2 */;
+                itfMesMngMessage(5) /* F26_AREA1_NPC2: [8480][80FE][81A6][8081][8081] */;
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
                 return;
@@ -542,7 +542,7 @@ void 001_01npc_03()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(6) /* F26_AREA1_NPC3 */;
+                itfMesMngMessage(6) /* F26_AREA1_NPC3: [8480][8185][81A0][80F1][818C][89D0][8DCC][8189][818D][8288] [83DD][8... */;
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
                 return;
@@ -562,7 +562,7 @@ void 002_01npc_01()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(7) /* F26_AREA2_NPC1 */;
+                itfMesMngMessage(7) /* F26_AREA2_NPC1: [80E8][80E2][8288][80EB][819D][8181][8081][8081] [80E0][8194][8188][8... */;
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
                 return;
@@ -582,7 +582,7 @@ void 002_01npc_02()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(8) /* F26_AREA2_NPC2 */;
+                itfMesMngMessage(8) /* F26_AREA2_NPC2: [80ED][80FB][8181][8081][8081] */;
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
                 return;
@@ -602,7 +602,7 @@ void 002_01npc_03()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* F26_AREA2_NPC3 */;
+                itfMesMngMessage(9) /* F26_AREA2_NPC3: [83DD][818D][8DCC][89D0][818C] [89AF][818C][83FB][8189][83F6][81B1][8... */;
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
                 return;
@@ -622,7 +622,7 @@ void 002_01npc_04()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(10) /* F26_AREA2_NPC4 */;
+                itfMesMngMessage(10) /* F26_AREA2_NPC4: [80EB][819D][81A0][8288][81B3][81C6][81C0][81C6][83EA][8BF5][80F5][81... */;
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
                 return;
@@ -642,7 +642,7 @@ void 009_01npc_01()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(11) /* F26_AREA9_NPC1 */;
+                itfMesMngMessage(11) /* F26_AREA9_NPC1: [85DD][8181][8184][81A9][80E9][809F] */;
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
                 return;
@@ -663,7 +663,7 @@ void 011_01eve_04()
                 ENCOUNT_OFF();
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(3) /* CLOSE */;
+                itfMesMngMessage(3) /* CLOSE: [809E][80F1][80FF][81A7][848C][80E9][81A7][818D][8288][8AB2][80E9][81... */;
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
                 ENCOUNT_ON();
@@ -698,7 +698,7 @@ void 012_01npc_01()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(12) /* F26_AREA12_NPC1 */;
+                itfMesMngMessage(12) /* F26_AREA12_NPC1: [81B5][81C2][81E7][81C0][81FE][80E9][81A7][848D][80FD][8181][8184][809F] */;
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
                 return;
@@ -718,7 +718,7 @@ void 012_01npc_02()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(13) /* F26_AREA12_NPC2 */;
+                itfMesMngMessage(13) /* F26_AREA12_NPC2: [80F1][818C][81EC][8299][81F1][818C][88B8][8185][81A0][8288] [86C2][8... */;
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
                 return;
@@ -738,7 +738,7 @@ void 013_01npc_01()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* F26_AREA13_NPC1 */;
+                itfMesMngMessage(14) /* F26_AREA13_NPC1: [84D3][86D1][81B0][84B2][819E][8186][8288] [81B3][81C6][81C0][81C6][8... */;
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
                 return;
@@ -758,7 +758,7 @@ void 013_01npc_02()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(15) /* F26_AREA13_NPC2 */;
+                itfMesMngMessage(15) /* F26_AREA13_NPC2: [80FB][80E4][80E2][80E6][818E][81B3][81C6][81C0][81C6][8185][8288] [8... */;
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
                 return;
@@ -793,10 +793,10 @@ void 014_01eve_02()
         if (BIT_CHK(87))
         {
             itfMesMngOpenWindow();
-            itfMesMngMessage(25) /* F26_SUIKI_2ND */;
-            if (itfMesMngSelect(22) == 0)
+            itfMesMngMessage(25) /* F26_SUIKI_2ND: [829D][829D][81A6][80F5][8289] */;
+            if (itfMesMngSelect(22) /* F26_SUIKI_SEL: [818D][80E2] / [80E2][80E2][80E6] */ == 0)
             {
-                itfMesMngMessage(26) /* F26_SUIKI_2ND_YES */;
+                itfMesMngMessage(26) /* F26_SUIKI_2ND_YES: [80E0][8181][8288][80FF][81A5][8181][8186][84E6][8181][8184][8289] */;
                 itfMesMngCloseWindow();
                 FADE_OUT(0, 15);
                 WAIT(15);
@@ -807,7 +807,7 @@ void 014_01eve_02()
             }
             else
             {
-                itfMesMngMessage(23) /* F26_SUIKI_NO */;
+                itfMesMngMessage(23) /* F26_SUIKI_NO: [80E0][80DF][80DF][80DF][80DF][80DF][809F][8081] */;
                 itfMesMngCloseWindow();
                 BIT_ON(86);
                 CALL_BATTLE(386);
@@ -816,11 +816,11 @@ void 014_01eve_02()
         else
         {
             itfMesMngOpenWindow();
-            itfMesMngMessage(21) /* F26_SUIKI */;
+            itfMesMngMessage(21) /* F26_SUIKI: [81A2][80E0][8288] [8980][818D][83CF][83DD][81CA][81B5][81BE][8289] */;
             BIT_ON(87);
-            if (itfMesMngSelect(22) == 0)
+            if (itfMesMngSelect(22) /* F26_SUIKI_SEL: [818D][80E2] / [80E2][80E2][80E6] */ == 0)
             {
-                itfMesMngMessage(24) /* F26_SUIKI_YES */;
+                itfMesMngMessage(24) /* F26_SUIKI_YES: [81B5][81B5][818B][80E5][8081][8081] [8980][8288][83C8][86FB][8188][8... */;
                 itfMesMngCloseWindow();
                 FADE_OUT(0, 15);
                 WAIT(15);
@@ -831,7 +831,7 @@ void 014_01eve_02()
             }
             else
             {
-                itfMesMngMessage(23) /* F26_SUIKI_NO */;
+                itfMesMngMessage(23) /* F26_SUIKI_NO: [80E0][80DF][80DF][80DF][80DF][80DF][809F][8081] */;
                 itfMesMngCloseWindow();
                 BIT_ON(86);
                 CALL_BATTLE(386);
@@ -864,18 +864,18 @@ void 015_01eve_02()
         FADE_IN(0, 15);
         WAIT(15);
         itfMesMngOpenWindow();
-        itfMesMngMessage(16) /* F26_KINKI */;
-        itfMesMngMessage(17) /* F26_KINKI_2 */;
-        if (itfMesMngSelect(18) == 0)
+        itfMesMngMessage(16) /* F26_KINKI: [829D][829D][829D][8289] */;
+        itfMesMngMessage(17) /* F26_KINKI_2: [809E][83EB][83C7][818D][868F][81A8][83E8][80E8][80E4][8186][80F5][81... */;
+        if (itfMesMngSelect(18) /* F26_KINKI_2_SEL: [83E6][87DD][81A9] / [85AD][80FF][879E][81A9] */ == 0)
         {
-            itfMesMngMessage(20) /* F26_KINKI_NAME */;
+            itfMesMngMessage(20) /* F26_KINKI_NAME: [829D][829D][8480][80E1][809F] */;
             itfMesMngCloseWindow();
             BIT_ON(85);
             CALL_BATTLE(386);
         }
         else
         {
-            itfMesMngMessage(19) /* F26_KINKI_GO */;
+            itfMesMngMessage(19) /* F26_KINKI_GO: [829D][829D][829D][8289] */;
             itfMesMngCloseWindow();
         }
         FADE_OUT(0, 15);
@@ -911,23 +911,23 @@ void 016_01eve_02()
         FADE_IN(0, 15);
         WAIT(15);
         itfMesMngOpenWindow();
-        itfMesMngMessage(27) /* F26_FUUKI */;
-        if (itfMesMngSelect(28) == 0)
+        itfMesMngMessage(27) /* F26_FUUKI: [829D][829D][81E6][81C8][81F6][81FC][81B6][8289] */;
+        if (itfMesMngSelect(28) /* F26_FUUKI_SEL: [81EF][81D4][81BC][81B0][868C][80E4] / [84C2][80E4] */ == 0)
         {
-            itfMesMngMessage(29) /* F26_FUUKI_PAY */;
-            if (itfMesMngSelect(30) == 0)
+            itfMesMngMessage(29) /* F26_FUUKI_PAY: [8188][81A7][818E][8288][8095][8090][8090][81EF][81D4][81BC][80FE][8289] */;
+            if (itfMesMngSelect(30) /* F26_FUUKI_PAY_SEL: [868C][80E4] / [81A2][8181][818F][81A8][868C][81AD][8188][80E2] */ == 0)
             {
-                itfMesMngMessage(31) /* F26_FUUKI_PAY2 */;
-                if (itfMesMngSelect(30) == 0)
+                itfMesMngMessage(31) /* F26_FUUKI_PAY2: [81E6][81C8][81F6][81B6][829D][829D][8288][8580][81A8][81B1][8289] */;
+                if (itfMesMngSelect(30) /* F26_FUUKI_PAY_SEL: [868C][80E4] / [81A2][8181][818F][81A8][868C][81AD][8188][80E2] */ == 0)
                 {
-                    itfMesMngMessage(32) /* F26_FUUKI_PAY3 */;
-                    if (itfMesMngSelect(30) == 0)
+                    itfMesMngMessage(32) /* F26_FUUKI_PAY3: [81E6][81C8][81F6][81B6][829D][829D][8288][84EB][80EA][84A0][81AD][81... */;
+                    if (itfMesMngSelect(30) /* F26_FUUKI_PAY_SEL: [868C][80E4] / [81A2][8181][818F][81A8][868C][81AD][8188][80E2] */ == 0)
                     {
-                        itfMesMngMessage(33) /* F26_FUUKI_PAY4 */;
+                        itfMesMngMessage(33) /* F26_FUUKI_PAY4: [8190][80E2][8288][8193][80E4][8288][819D][80E2][829D][829D][8289] */;
                     }
                     else
                     {
-                        itfMesMngMessage(34) /* F26_FUUKI_BATTLE */;
+                        itfMesMngMessage(34) /* F26_FUUKI_BATTLE: [8188][81A9][8199][8187][809F] [829D][829D][8581][80E2][84C7][87FD][8... */;
                         itfMesMngCloseWindow();
                         BIT_ON(84);
                         CALL_BATTLE(386);
@@ -935,7 +935,7 @@ void 016_01eve_02()
                 }
                 else
                 {
-                    itfMesMngMessage(34) /* F26_FUUKI_BATTLE */;
+                    itfMesMngMessage(34) /* F26_FUUKI_BATTLE: [8188][81A9][8199][8187][809F] [829D][829D][8581][80E2][84C7][87FD][8... */;
                     itfMesMngCloseWindow();
                     BIT_ON(84);
                     CALL_BATTLE(386);
@@ -943,7 +943,7 @@ void 016_01eve_02()
             }
             else
             {
-                itfMesMngMessage(34) /* F26_FUUKI_BATTLE */;
+                itfMesMngMessage(34) /* F26_FUUKI_BATTLE: [8188][81A9][8199][8187][809F] [829D][829D][8581][80E2][84C7][87FD][8... */;
                 itfMesMngCloseWindow();
                 BIT_ON(84);
                 CALL_BATTLE(386);
@@ -951,7 +951,7 @@ void 016_01eve_02()
         }
         else
         {
-            itfMesMngMessage(34) /* F26_FUUKI_BATTLE */;
+            itfMesMngMessage(34) /* F26_FUUKI_BATTLE: [8188][81A9][8199][8187][809F] [829D][829D][8581][80E2][84C7][87FD][8... */;
             itfMesMngCloseWindow();
             BIT_ON(84);
             CALL_BATTLE(386);
@@ -975,7 +975,7 @@ void 017_start()
     {
         MODEL_CLS(local28);
         itfMesMngOpenWindow();
-        itfMesMngMessage(35) /* F26_FUIN_NOMAN */;
+        itfMesMngMessage(35) /* F26_FUIN_NOMAN: [809E][86AC][81A0][80E2][8188][80E2][829D][8289] */;
         itfMesMngCloseWindow();
     }
     else
@@ -985,7 +985,7 @@ void 017_start()
         {
             MODEL_CLS(local28);
             itfMesMngOpenWindow();
-            itfMesMngMessage(36) /* F26_FUIN_YOKI */;
+            itfMesMngMessage(36) /* F26_FUIN_YOKI: [809E][84EF][8A9D][80E2][83CF][84EB][81B0][8482][80F6][81A9][829D][82... */;
             itfMesMngCloseWindow();
         }
         else
@@ -993,10 +993,10 @@ void 017_start()
             CAM_SEL(SEARCH_ID("01cam_01"));
             MODEL_POS(local28, SEARCH_ID("01pos_03"));
             itfMesMngOpenWindow();
-            itfMesMngMessage(37) /* F26_ONGYO */;
-            if (itfMesMngSelect(38))
+            itfMesMngMessage(37) /* F26_ONGYO: [829D][829D][818A][818A][8288] [80E8][80E8][80E8][80E8][80E8][829D][8... */;
+            if (itfMesMngSelect(38) /* F26_ONGYO_SEL: [818D][80E2] / [80E2][80E2][80E6] */)
             {
-                itfMesMngMessage(39) /* F26_ONGYO_NO */;
+                itfMesMngMessage(39) /* F26_ONGYO_NO: [8193][80E3][80E3][818A][829D][829D][8289] */;
                 itfMesMngCloseWindow();
                 FADE_OUT(0, 15);
                 WAIT(15);
@@ -1006,9 +1006,9 @@ void 017_start()
             else
             {
                 CAM_SEL(SEARCH_ID("01cam_03"));
-                itfMesMngMessage(40) /* F26_ONGYO_YES */;
+                itfMesMngMessage(40) /* F26_ONGYO_YES: [8480][8186][829D][829D][8289] [86DB][818C][8199][8187][85DD][81A7][8... */;
                 CAM_SEL(SEARCH_ID("01cam_02"));
-                itfMesMngMessage(41) /* F26_ONGYO_YES2 */;
+                itfMesMngMessage(41) /* F26_ONGYO_YES2: [80E8][83E7][81B0][87D4][8181][8184][81A2][81A9][8081][8081] */;
                 BIT_ON(88);
                 CALL_BATTLE(386);
             }

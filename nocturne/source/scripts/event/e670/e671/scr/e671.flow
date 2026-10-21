@@ -74,7 +74,7 @@ void e671_010()
     WAIT(30);
     itfMesMngWindowTypeAlpha(0, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_010_1 */;
+    itfMesMngMessage(0) /* MSG_010_1: Perfect. */;
     itfMesMngCloseWindow();
     WAIT(20);
 }
@@ -87,7 +87,7 @@ void e671_020()
     KUTI(var2, 3, 1);
     itfMesMngWindowTypeAlpha(0, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_020_1 */;
+    itfMesMngMessage(1) /* MSG_020_1: My god will emerge from the infinite space beyond the Amala Network. */;
     itfMesMngCloseWindow();
 }
 
@@ -116,11 +116,11 @@ void e671_030()
     KUTI(var2, 3, 1);
     itfMesMngWindowTypeAlpha(0, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_030_0 */;
+    itfMesMngMessage(2) /* MSG_030_0: > The voice of {firstname 2} can be heard... */;
     itfMesMngCloseWindow();
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_030_1 */;
+    itfMesMngMessage(3) /* MSG_030_1: What do you think of my god, {firstname 0}? Awesome, huh? */;
     itfMesMngCloseWindow();
     WAIT(30);
     SCR_RUN(4, - 1);

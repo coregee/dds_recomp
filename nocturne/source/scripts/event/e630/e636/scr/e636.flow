@@ -139,7 +139,7 @@ void e636_010()
     SCR_RUN(4, - 1);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* GOZU_001 */;
+    itfMesMngMessage(0) /* GOZU_001: You have returned, mighty demon... */;
     itfMesMngCloseWindow();
     BGM_PLAY_E(636, 2);
     WAIT(10);
@@ -190,7 +190,7 @@ void e636_020()
     SET_SKY_A(0, - 30);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* GOZU_002 */;
+    itfMesMngMessage(1) /* GOZU_002: Behold... */;
     itfMesMngCloseWindow();
     BGM_TRANS_E(636, - 1);
     WAIT(30);
@@ -209,11 +209,11 @@ void e636_030()
     MODEL_MOTION2(var3, 1, 0, 10, 0);
     WAIT(95);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* GOZU_003 */;
+    itfMesMngMessage(2) /* GOZU_003: Curse you, Nihilo! */;
     itfMesMngCloseWindow();
     WAIT(25);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* GOZU_006 */;
+    itfMesMngMessage(5) /* GOZU_006: I can see... */;
     itfMesMngCloseWindow();
     WAIT(10);
     SE_STOP_E(636, 71);
@@ -228,7 +228,7 @@ void e636_040()
     COMM_0E8(SEARCH_ID("light05"));
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* GOZU_004 */;
+    itfMesMngMessage(3) /* GOZU_004: ...No! I will not die! */;
     itfMesMngCloseWindow();
     BGM_TRANS_E(636, 5);
     WAIT(10);
@@ -243,7 +243,7 @@ void e636_040()
     EFFMG2_POS(var33, SEARCH_ID("m_g_01"), SEARCH_ID("m_g_02"), SEARCH_ID("m_g_03"), SEARCH_ID("m_g_04"));
     SE_PLAY_E(636, 107);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* GOZU_005 */;
+    itfMesMngMessage(4) /* GOZU_005: I will not let them create a world of stillness!! */;
     itfMesMngCloseWindow();
     PAD_ACT(1, 1, 0);
     PAD_ACT(1, 75, 0);

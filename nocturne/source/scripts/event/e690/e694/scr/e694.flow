@@ -58,7 +58,7 @@ void e694_020()
     MODEL_EXMOTION(var5, 2, 1, 0, 0, 2);
     itfMesMngWindowTypeAlpha(1, 50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: A demon born in exchange for the world... */;
     itfMesMngCloseWindow();
     WAIT(50);
 }
@@ -107,7 +107,7 @@ void e694_030()
     MODEL_EXMOTION(var5, 2, 1, 0, 0, 2);
     itfMesMngWindowTypeAlpha(1, 50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(1) /* MSG_002: Light no longer shines upon you. */;
     itfMesMngCloseWindow();
     WAIT(50);
 }
@@ -144,11 +144,11 @@ void e694_040()
     MODEL_EXMOTION(var5, 2, 1, 0, 0, 2);
     itfMesMngWindowTypeAlpha(1, 50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngMessage(2) /* MSG_003: I'm afraid I have to go now. */;
     itfMesMngCloseWindow();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_004 */;
+    itfMesMngMessage(3) /* MSG_004: You should get going, too. */;
     itfMesMngCloseWindow();
 }
 

@@ -3,8 +3,8 @@
 
 void e503_main()
 {
-    itfMesMngMessage(15) /* MODE */;
-    var13 = itfMesMngSelect(16);
+    itfMesMngMessage(15) /* MODE: [8187][818C][81D7][81CA][81D9][8189][80F5][819C][80F7][80E9][809F] */;
+    var13 = itfMesMngSelect(16) /* MODE_SEL: [81D7][81CA][81D9][81B5][81EA][8284][81D9][8091][8080][81CA][81C0][81... */;
     itfMesMngCloseWindow();
     if (var13 == 0)
     {
@@ -96,9 +96,9 @@ void e503_020()
     CAM_PATH_MOVE(SEARCH_ID("Camera02"), SEARCH_ID("Camera02_MOTION"));
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* LILITH_001 */;
-    itfMesMngMessage(1) /* LILITH_002 */;
-    itfMesMngMessage(2) /* LILITH_003 */;
+    itfMesMngMessage(0) /* LILITH_001: [81A6][80ED][80F1][80F1][819C][8185][80FD][8187][81A8][8182][80E2][80... */;
+    itfMesMngMessage(1) /* LILITH_002: [828A][828A][828A][83CC][8185][81A0][83EB][83C7][8185][81A0][8188][80... */;
+    itfMesMngMessage(2) /* LILITH_003: [80E8][83E7][80EA][80F1][80F1][8189][848D][81A9][85BD][818D][85CE][81... */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -109,9 +109,9 @@ void e503_030()
     CAM_PATH_MOVE(SEARCH_ID("Camera03"), SEARCH_ID("Camera03_MOTION"));
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* LILITH_004 */;
-    itfMesMngMessage(4) /* LILITH_005 */;
-    itfMesMngMessage(5) /* LILITH_006 */;
+    itfMesMngMessage(3) /* LILITH_004: [828A][828A][828A][80F1][818C][8784][88B5][80EA][88E1][819C][81AA][80... */;
+    itfMesMngMessage(4) /* LILITH_005: [828A][828A][828A][80FB][80F5][8184][8288][80F1][818C][8784][88B5][81... */;
+    itfMesMngMessage(5) /* LILITH_006: [8997][8184][818C][8B8C][88FE][818D][81F3][81DB][81DA][8189][83EF][80... */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -123,15 +123,15 @@ void e503_040()
     PATH_STOP(SEARCH_ID("Camera04"));
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* LILITH_007 */;
-    itfMesMngMessage(9) /* LILITH_010 */;
-    itfMesMngMessage(10) /* KAIWA */;
-    var13 = itfMesMngSelect(11);
+    itfMesMngMessage(6) /* LILITH_007: [828A][828A][828A][8997][8184][81B0][85DD][81A9][85BD][80EA][80E8][83... */;
+    itfMesMngMessage(9) /* LILITH_010: [80FB][81AA][8185][81A0][80E8][83E7][818D] [81F3][81DB][81DA][818C][8... */;
+    itfMesMngMessage(10) /* KAIWA: [8187][80E4][80F5][819C][80F7][80E9][809F] */;
+    var13 = itfMesMngSelect(11) /* KAIWA_SEL: [80FB][81AA][8185][81A0][84B2][819E] / [828A][828A][828A][86E5][80EB]... */;
     itfMesMngCloseWindow();
     if (var13 == 0)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(12) /* LILITH_011 */;
+        itfMesMngMessage(12) /* LILITH_011: [828A][828A][828A][81A6][80E9][81AB][80E4][8289] [81F3][81DB][81DA][8... */;
         itfMesMngCloseWindow();
         WAIT(30);
         MODEL_MOTION2(var2, 0, 0, 10, 2);
@@ -142,7 +142,7 @@ void e503_040()
     else if (var13 == 1)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(13) /* LILITH_012 */;
+        itfMesMngMessage(13) /* LILITH_012: [828A][828A][828A][80FB][80E4][80E9][8289][80FE][80EA][84EB][80EA][80... */;
         itfMesMngCloseWindow();
     }
 }
@@ -163,8 +163,8 @@ void e503_050()
     PATH_START(SEARCH_ID("Camera06"));
     CAM_PATH_WAIT(SEARCH_ID("Camera06"));
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* LILITH_008 */;
-    itfMesMngMessage(8) /* LILITH_009 */;
+    itfMesMngMessage(7) /* LILITH_008: [80F1][818C][8888][81B0][87FA][80EF][81AA][818E] [81F3][81DB][81DA][8... */;
+    itfMesMngMessage(8) /* LILITH_009: [80FD][80FE][80F5][8288] [8481][81A8][87FA][80EF][81AA][81AA][818E][8... */;
     itfMesMngCloseWindow();
     WAIT(20);
 }

@@ -50,7 +50,7 @@ void e678_010()
     WAIT(320);
     itfMesMngWindowTypeAlpha(1, 60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_010_1 */;
+    itfMesMngMessage(0) /* MSG_010_1: ...It's so quiet... Too quiet... */;
     itfMesMngCloseWindow();
     WAIT(10);
 }
@@ -120,7 +120,7 @@ void e678_030()
     WAIT(100);
     itfMesMngWindowTypeAlpha(1, 60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_020_1_E */;
+    itfMesMngMessage(2) /* MSG_020_1_E: > You obtained the Earthstone. */;
     itfMesMngCloseWindow();
     WAIT(50);
 }

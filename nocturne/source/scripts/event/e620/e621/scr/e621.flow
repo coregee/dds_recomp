@@ -80,12 +80,12 @@ void e621_020()
     MODEL_EXMOTION(var3, 1, 5, 0, 10, 0);
     itfMesMngWindowTypeAlpha(1, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: ...How should I act at a time like this? */;
     MODEL_EXMOTION(var3, 3, 0, 30, 30, 0);
-    itfMesMngMessage(1) /* MSG_001_1 */;
+    itfMesMngMessage(1) /* MSG_001_1: Like, "I'm glad we're both okay."? */;
     MODEL_EXMOTION(var3, 1, 3, 0, 0, 0);
     MODEL_EXMOTION(var3, 3, 3, 30, 30, 2);
-    itfMesMngMessage(2) /* MSG_001_2 */;
+    itfMesMngMessage(2) /* MSG_001_2: It's you, {firstname 0}, right? ...I can tell. */;
     itfMesMngCloseWindow();
     WAIT(30);
     CAM_SEL(SEARCH_ID("cam07"));
@@ -94,8 +94,8 @@ void e621_020()
     MODEL_EXMOTION(var3, 3, 0, 60, 60, 0);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_002 */;
-    itfMesMngMessage(4) /* MSG_002_001 */;
+    itfMesMngMessage(3) /* MSG_002: Don't worry... Nothing phases me anymore. */;
+    itfMesMngMessage(4) /* MSG_002_001: I realized... */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var3, 7);
     MODEL_MOTION2(var3, 8, 0, 20, 0);
@@ -103,10 +103,10 @@ void e621_020()
     MODEL_EXMOTION(var3, 3, 1, 0, 10, 2);
     WAIT(60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_002B */;
+    itfMesMngMessage(5) /* MSG_002B: No matter how much I cry or shout, this nightmare won't end. */;
     MODEL_EXMOTION(var3, 1, 6, 0, 10, 2);
     MODEL_EXMOTION(var3, 3, 2, 0, 10, 2);
-    itfMesMngMessage(6) /* MSG_002B_1 */;
+    itfMesMngMessage(6) /* MSG_002B_1: I'm... a little tired. */;
     itfMesMngCloseWindow();
     WAIT(10);
     KUTI(var3, 2, 1);
@@ -114,8 +114,8 @@ void e621_020()
     itfMesMngOpenWindow();
     MODEL_EXMOTION(var3, 1, 4, 0, 20, 1);
     MODEL_EXMOTION(var3, 3, 1, 0, 10, 2);
-    itfMesMngMessage(7) /* MSG_003 */;
-    var4 = itfMesMngSelect(8);
+    itfMesMngMessage(7) /* MSG_003: {firstname 0}... */;
+    var4 = itfMesMngSelect(8) /* TIAKI_001: The Conception occurred. / No, I don't. */;
     itfMesMngCloseWindow();
     MODEL_EXMOTION(var3, 3, 0, 30, 30, 0);
     MODEL_EXMOTION(var3, 1, 0, 0, 10, 1);
@@ -128,10 +128,10 @@ void e621_020()
     {
         KUTI(var3, 2, 1);
         itfMesMngOpenWindow();
-        itfMesMngMessage(9) /* MSG_004_1 */;
+        itfMesMngMessage(9) /* MSG_004_1: The Conception? */;
         MODEL_EXMOTION(var3, 1, 3, 0, 0, 0);
         MODEL_EXMOTION(var3, 3, 4, 0, 0, 2);
-        itfMesMngMessage(10) /* MSG_004_1_A */;
+        itfMesMngMessage(10) /* MSG_004_1_A: What was written in that magazine actually happened? */;
         itfMesMngCloseWindow();
         WAIT(20);
         MODEL_WAIT_MOT(var3, 14);
@@ -141,21 +141,21 @@ void e621_020()
         MODEL_EXMOTION(var3, 1, 6, 0, 0, 2);
         MODEL_EXMOTION(var3, 2, 2, 0, 0, 0);
         MODEL_EXMOTION(var3, 3, 0, 30, 30, 0);
-        itfMesMngMessage(11) /* MSG_004_1_B */;
+        itfMesMngMessage(11) /* MSG_004_1_B: ...... */;
         MODEL_EXMOTION(var3, 1, 7, 0, 0, 0);
         MODEL_EXMOTION(var3, 3, 2, 10, 10, 2);
-        itfMesMngMessage(12) /* MSG_004_1_C */;
+        itfMesMngMessage(12) /* MSG_004_1_C: ...I see. */;
         itfMesMngCloseWindow();
     }
     else if (var4 == 1)
     {
         KUTI(var3, 2, 1);
         itfMesMngOpenWindow();
-        itfMesMngMessage(13) /* MSG_004_W1 */;
+        itfMesMngMessage(13) /* MSG_004_W1: ...I see. */;
         MODEL_EXMOTION(var3, 3, 2, 0, 10, 2);
-        itfMesMngMessage(14) /* MSG_004_W2 */;
+        itfMesMngMessage(14) /* MSG_004_W2: I fell unconscious at the hospital, */;
         MODEL_EXMOTION(var3, 1, 5, 0, 0, 0);
-        itfMesMngMessage(15) /* MSG_004_W3 */;
+        itfMesMngMessage(15) /* MSG_004_W3: ...and when I woke up, there were demons everywhere. */;
         itfMesMngCloseWindow();
         WAIT(20);
         MODEL_WAIT_MOT(var3, 14);
@@ -164,9 +164,9 @@ void e621_020()
         itfMesMngOpenWindow();
         MODEL_EXMOTION(var3, 1, 4, 0, 20, 1);
         MODEL_EXMOTION(var3, 3, 1, 0, 10, 2);
-        itfMesMngMessage(16) /* MSG_004_B */;
+        itfMesMngMessage(16) /* MSG_004_B: So, I ran outside for help, but... */;
         MODEL_EXMOTION(var3, 1, 6, 0, 10, 2);
-        itfMesMngMessage(17) /* MSG_004_B_1 */;
+        itfMesMngMessage(17) /* MSG_004_B_1: ...it wasn't just the hospital that had changed. */;
         itfMesMngCloseWindow();
     }
     MODEL_EXMOTION(var3, 1, 2, 0, 10, 1);
@@ -193,7 +193,7 @@ void e621_030()
     itfMesMngWindowTypeAlpha(1, 70);
     itfMesMngOpenWindow();
     MODEL_EXMOTION(var3, 2, 1, 0, 0, 0);
-    itfMesMngMessage(18) /* MSG_005 */;
+    itfMesMngMessage(18) /* MSG_005: You saw how it was out there, right? */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -209,20 +209,20 @@ void e621_040()
     WAIT(20);
     itfMesMngWindowTypeAlpha(1, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(19) /* MSG_006_1 */;
+    itfMesMngMessage(19) /* MSG_006_1: There's got to be other survivors, don't you think? */;
     MODEL_EXMOTION(var3, 3, 0, 30, 30, 0);
-    itfMesMngMessage(20) /* MSG_006_2 */;
+    itfMesMngMessage(20) /* MSG_006_2: Ms. {lastname 1} and {firstname 2} might be around somewhere, too. */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var3, 11);
     MODEL_MOTION2(var3, 10, 0, 10, 0);
     WAIT(30);
     itfMesMngOpenWindow();
     MODEL_EXMOTION(var3, 3, 3, 0, 10, 0);
-    itfMesMngMessage(21) /* MSG_007_1 */;
-    itfMesMngMessage(22) /* MSG_007_2 */;
+    itfMesMngMessage(21) /* MSG_007_1: I'll go look for them. */;
+    itfMesMngMessage(22) /* MSG_007_2: ...I'm not ready to give up entirely. */;
     MODEL_EXMOTION(var3, 1, 6, 0, 0, 2);
     MODEL_EXMOTION(var3, 3, 4, 10, 10, 2);
-    itfMesMngMessage(23) /* MSG_007_3 */;
+    itfMesMngMessage(23) /* MSG_007_3: They must be alive. Fate can't be that cruel. */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var3, 16);
     MODEL_MOTION2(var3, 12, 0, 10, 0);
@@ -230,7 +230,7 @@ void e621_040()
     MODEL_EXMOTION(var3, 3, 2, 10, 10, 2);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(24) /* MSG_007_B */;
+    itfMesMngMessage(24) /* MSG_007_B: Otherwise... I don't know what I'll do. */;
     itfMesMngCloseWindow();
     WAIT(10);
 }

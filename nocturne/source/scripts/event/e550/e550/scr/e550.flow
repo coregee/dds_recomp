@@ -36,9 +36,9 @@ void e550_010()
     MODEL_MOTION2(var2, 0, 0, 0, 0);
     WAIT(80);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_010_1 */;
-    itfMesMngMessage(1) /* MSG_010_2 */;
-    itfMesMngMessage(2) /* MSG_010_3 */;
+    itfMesMngMessage(0) /* MSG_010_1: [809E][8CB1][8BC1][8C8D][86A3][80EA][81F2][8299][81FC][81B0][868E][88... */;
+    itfMesMngMessage(1) /* MSG_010_2: [8088][85B2][83F4][8A82][8089][8196] */;
+    itfMesMngMessage(2) /* MSG_010_3: [809E][81C0][81FA][81CA][818C][87CB][83F4][80E9][81A7][818C][81F2][82... */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 30);
     WAIT(30);
@@ -58,7 +58,7 @@ void e550_010()
     FADE_IN(0, 35);
     WAIT(35);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_010_4 */;
+    itfMesMngMessage(3) /* MSG_010_4: [829D][88A6][8296][84A4][8A82][85B5][8185][84E6][8181][8184][81A9][80... */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var2, 3);
     MODEL_MOTION2(var2, 2, 0, 10, 0);

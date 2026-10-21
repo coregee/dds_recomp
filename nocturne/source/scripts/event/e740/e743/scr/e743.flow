@@ -50,7 +50,7 @@ START:
     FADE_IN(1, 30);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_004 */;
+    itfMesMngMessage(4) /* MSG_004: > {name 0} obtained the Candelabrum of Compassion. */;
     itfMesMngCloseWindow();
     WAIT(20);
     BIT_ON(996);
@@ -99,7 +99,7 @@ void e743_010()
     MODEL_MOTION2(var1, 3, 0, 0, 0);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: Haha! We meet again, {name 0}! */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("01cam_07"));
@@ -109,7 +109,7 @@ void e743_010()
     MODEL_MOTION2(var4, 3, 0, 0, 1);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(1) /* MSG_002: If you can defeat all the Fiends and reunite the candelabra, then so... */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("01cam_08"));
@@ -118,7 +118,7 @@ void e743_010()
     MODEL_OFF(var4);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngMessage(2) /* MSG_003: then you will fall by my arrow! */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("01cam_09"));

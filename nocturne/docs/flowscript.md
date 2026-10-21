@@ -21,10 +21,13 @@ the archive paths. Each script has:
   x.bf` rebuilds the original file byte for byte (all 193 do:
   `flowscript.py roundtrip`).
 - **`.flow`** — the readable form, decompiled from it.
-- **`.bmd`** — the script's message table (MSG1), raw. Not committed (game
-  data); `flowscript.py export` writes it from `game/`.
+- **`.msg`** — the script's message table as text (see
+  [messages.md](messages.md)); the `.flowasm` names it and `assemble` encodes
+  it back. The one older-format table (`event/scr/scene11`, MSG0) stays
+  inline in its `.flowasm` as hex.
 
-`python tools/flowscript.py export` regenerates all three from the disc.
+`python tools/flowscript.py export` regenerates all three from the disc, and
+the 31 message tables that are files of their own as `<name>.bmd.msg`.
 
 ## The format
 
@@ -77,8 +80,9 @@ void tousou()
 - Commands are called by name; `var<n>` / `local<n>` are the global and local
   integer variables (`fvar` / `flocal` for floats).
 - `- 5` is the unary minus applied to 5 (as compiled); `-5` is the literal.
-- `itfMesMngMessage(3) /* fol_007 */` names the message (text decoding of the
-  message tables is still to do).
+- `itfMesMngMessage(3) /* fol_007: ... */` and `itfMesMngSelect` name the
+  dialog and quote the start of its text (a message's first page, a
+  selection's options).
 
 The decompiler rebuilds `if` / `else` / `else if` / `while` from the
 original compiler's patterns: every branch ends with a jump to its end label,

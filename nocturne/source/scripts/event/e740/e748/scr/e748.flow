@@ -52,7 +52,7 @@ START:
     FADE_IN(1, 30);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_004 */;
+    itfMesMngMessage(4) /* MSG_004: > You obtained the Candelabrum of Godliness. */;
     itfMesMngCloseWindow();
     BIT_ON(997);
     BIT_ON(2341);
@@ -95,11 +95,11 @@ void e748_010()
     MODEL_MOTION2(var1, 2, 0, 0, 1);
     MODEL_MOTION2(var4, 3, 0, 0, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: Little lamb that struggled through darkness and clung to life, you ha... */;
     itfMesMngCloseWindow();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(1) /* MSG_002: I have come to see if you are worthy... */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("01cam_05"));
     CAM_PATH_MOVE(SEARCH_ID("01cam_05"), SEARCH_ID("01cam_05_MOTION"));
@@ -145,7 +145,7 @@ void e748_010()
     MODEL_MOTION2(var1, 4, 0, 0, 1);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngMessage(2) /* MSG_003: {name 0}, you have been branded with our master's seal... */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_PATH_WAIT(SEARCH_ID("01cam_08"));
@@ -155,7 +155,7 @@ void e748_010()
     MODEL_MOTION2(var1, 5, 0, 0, 1);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_005 */;
+    itfMesMngMessage(3) /* MSG_005: Seize the last candelabrum from my hand! */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("01cam_10"));

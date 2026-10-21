@@ -64,7 +64,7 @@ void e688_020()
     CAM_PATH_MOVE(SEARCH_ID("cam03"), SEARCH_ID("cam03_MOTION"));
     WAIT(60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: Where will I go from here? */;
     itfMesMngCloseWindow();
     WAIT(35);
 }
@@ -76,7 +76,7 @@ void e688_030()
     WAIT(30);
     BGM_TRANS_E(688, - 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(1) /* MSG_002: I've got no strength left. */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -87,7 +87,7 @@ void e688_040()
     CAM_PATH_MOVE(SEARCH_ID("cam05"), SEARCH_ID("cam05_MOTION"));
     WAIT(40);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngMessage(2) /* MSG_003: Use your power to make a new world. */;
     itfMesMngCloseWindow();
     WAIT(30);
 }

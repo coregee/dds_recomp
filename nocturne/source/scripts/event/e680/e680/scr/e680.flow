@@ -68,8 +68,8 @@ void e680_010()
     WAIT(100);
     itfMesMngWindowTypeAlpha(1, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_010_1 */;
-    itfMesMngMessage(1) /* MSG_010_2 */;
+    itfMesMngMessage(0) /* MSG_010_1: You came all the way here just to get killed? Ha ha ha... Man, you're... */;
+    itfMesMngMessage(1) /* MSG_010_2: No one's gonna mess with my plans... not even an old friend. */;
     itfMesMngCloseWindow();
     WAIT(10);
     MODEL_MOTION2(var1, 3, 0, 10, 2);

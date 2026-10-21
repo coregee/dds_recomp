@@ -147,7 +147,7 @@ void e634_010()
     WAIT(340);
     itfMesMngWindowTypeAlpha(1, 90);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: Interesting... So, you found your way here. */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -165,7 +165,7 @@ void e634_020()
     MODEL_EXMOTION(var1, 1, 2, 0, 0, 2);
     itfMesMngWindowTypeAlpha(1, 90);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(1) /* MSG_002: I guess the members of Mantra aren't as thick as I thought... */;
     itfMesMngCloseWindow();
     MODEL_EXMOTION(var1, 1, 1, 0, 0, 1);
     KUTISET(var1, 2, 1);
@@ -176,26 +176,26 @@ void e634_020()
     MODEL_EXMOTION(var1, 3, 1, 0, 0, 0);
     MODEL_EXMOTION(var1, 2, 3, 0, 0, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngMessage(2) /* MSG_003: Now, this is a big surprise. */;
     itfMesMngCloseWindow();
     WAIT(30);
     MODEL_WAIT_MOT(var1, 5);
     MODEL_MOTION2(var1, 4, 0, 10, 0);
     MODEL_EXMOTION(var1, 1, 1, 0, 0, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_004 */;
-    var2 = itfMesMngSelect(4);
+    itfMesMngMessage(3) /* MSG_004: Why have you come here? */;
+    var2 = itfMesMngSelect(4) /* TUIKA_TOI01: Yes. / No. */;
     itfMesMngCloseWindow();
     if (var2 == 0)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(5) /* MSG_0031 */;
+        itfMesMngMessage(5) /* MSG_0031: ...I see. */;
         itfMesMngCloseWindow();
     }
     else if (var2 == 1)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(6) /* MSG_0032 */;
+        itfMesMngMessage(6) /* MSG_0032: Then, are you here to steal our Magatsuhi, like the Mantra? */;
         itfMesMngCloseWindow();
     }
     MODEL_WAIT_MOT(var1, 7);
@@ -213,7 +213,7 @@ void e634_030()
     WAIT(10);
     itfMesMngWindowTypeAlpha(1, 90);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_007 */;
+    itfMesMngMessage(7) /* MSG_007: ...Very well. */;
     itfMesMngCloseWindow();
     CAM_PATH_WAIT(SEARCH_ID("cam03"));
     CAM_SEL(SEARCH_ID("cam04"));
@@ -225,25 +225,25 @@ void e634_030()
     MODEL_MOTION2(var4, 3, 0, 0, 1);
     itfMesMngWindowTypeAlpha(1, 90);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_008 */;
+    itfMesMngMessage(8) /* MSG_008: Take a look at this device... Its function is to collect the Magatsuhi. */;
     itfMesMngCloseWindow();
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_009 */;
-    var2 = itfMesMngSelect(4);
+    itfMesMngMessage(9) /* MSG_009: Do you know why Magatsuhi exists? */;
+    var2 = itfMesMngSelect(4) /* TUIKA_TOI01: Yes. / No. */;
     itfMesMngCloseWindow();
     if (var2 == 0)
     {
         itfMesMngWindowTypeAlpha(1, 90);
         itfMesMngOpenWindow();
-        itfMesMngMessage(10) /* MSG_101 */;
+        itfMesMngMessage(10) /* MSG_101: No, not simply for demons to consume. */;
         itfMesMngCloseWindow();
     }
     else if (var2 == 1)
     {
         itfMesMngWindowTypeAlpha(1, 90);
         itfMesMngOpenWindow();
-        itfMesMngMessage(11) /* MSG_102 */;
+        itfMesMngMessage(11) /* MSG_102: Remember this... */;
         itfMesMngCloseWindow();
     }
     WAIT(30);
@@ -257,11 +257,11 @@ void e634_030()
     MODEL_MOTION2(var1, 9, 0, 10, 0);
     itfMesMngWindowTypeAlpha(1, 90);
     itfMesMngOpenWindow();
-    itfMesMngMessage(12) /* MSG_103 */;
+    itfMesMngMessage(12) /* MSG_103: Magatsuhi... */;
     itfMesMngCloseWindow();
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(13) /* MSG_104 */;
+    itfMesMngMessage(13) /* MSG_104: One who possesses a strong will can change everything in this world. */;
     itfMesMngCloseWindow();
     WAIT(30);
     CAM_SEL(SEARCH_ID("cam06"));
@@ -269,8 +269,8 @@ void e634_030()
     MODEL_WAIT_MOT(var1, 12);
     MODEL_MOTION2(var1, 11, 0, 10, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(14) /* MSG_105 */;
-    itfMesMngMessage(15) /* MSG_106 */;
+    itfMesMngMessage(14) /* MSG_105: Soon, my dream will be realized. */;
+    itfMesMngMessage(15) /* MSG_106: Mantra believes they've destroyed this base, but as you can see, the... */;
     itfMesMngCloseWindow();
     WAIT(10);
     CAM_PATH_WAIT(SEARCH_ID("cam06"));
@@ -282,12 +282,12 @@ void e634_030()
     MODEL_WAIT_MOT(var1, 14);
     MODEL_MOTION2(var1, 13, 0, 10, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(16) /* MSG_107 */;
+    itfMesMngMessage(16) /* MSG_107: However, they deserve to be punished. */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var1, 22);
     MODEL_MOTION2(var1, 21, 0, 0, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(17) /* MSG_108 */;
+    itfMesMngMessage(17) /* MSG_108: The time has come... Activate the Nightmare System! */;
     WAIT(25);
     itfMesMngCloseWindow();
 }
@@ -320,15 +320,15 @@ void e634_080()
     WAIT(10);
     itfMesMngWindowTypeAlpha(1, 80);
     itfMesMngOpenWindow();
-    itfMesMngMessage(18) /* MSG_109 */;
+    itfMesMngMessage(18) /* MSG_109: Do you understand what is happening? */;
     itfMesMngCloseWindow();
     WAIT(30);
     MODEL_WAIT_MOT(var1, 14);
     MODEL_MOTION2(var1, 13, 0, 10, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(19) /* MSG_110 */;
-    itfMesMngMessage(20) /* MSG_120 */;
-    var2 = itfMesMngSelect(4);
+    itfMesMngMessage(19) /* MSG_110: ...Oh, I forgot to mention. {firstname 1} {lastname 1}[80EA] plays a... */;
+    itfMesMngMessage(20) /* MSG_120: ...Are you worried about {firstname 1}? */;
+    var2 = itfMesMngSelect(4) /* TUIKA_TOI01: Yes. / No. */;
     itfMesMngCloseWindow();
     WAIT(30);
     CAM_SEL(SEARCH_ID("cam09"));
@@ -338,13 +338,13 @@ void e634_080()
     if (var2 == 0)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(21) /* MSG_130 */;
+        itfMesMngMessage(21) /* MSG_130: I am sorry to say, but she is not here. */;
         itfMesMngCloseWindow();
     }
     else if (var2 == 1)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(22) /* MSG_140 */;
+        itfMesMngMessage(22) /* MSG_140: You risked your life and came all this way, and you say it was not fo... */;
         itfMesMngCloseWindow();
     }
     WAIT(30);
@@ -353,7 +353,7 @@ void e634_080()
     MODEL_WAIT_MOT(var1, 18);
     MODEL_MOTION2(var1, 17, 0, 10, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(23) /* MSG_150 */;
+    itfMesMngMessage(23) /* MSG_150: ...You were not meant to survive the Conception in the first place. */;
     itfMesMngCloseWindow();
     CAM_PATH_WAIT(SEARCH_ID("cam10"));
     WAIT(20);
@@ -363,12 +363,12 @@ void e634_080()
     MODEL_EXMOTION(var1, 1, 3, 50, 50, 2);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(24) /* MSG_151 */;
+    itfMesMngMessage(24) /* MSG_151: Your pain, your suffering... */;
     itfMesMngCloseWindow();
     WAIT(20);
     itfMesMngOpenWindow();
     SCR_RUN(10, 0);
-    itfMesMngMessage(25) /* MSG_152 */;
+    itfMesMngMessage(25) /* MSG_152: I don't know what hopes and dreams you brought with you here, but... */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var1, 20);
     MODEL_MOTION2(var1, 19, 0, 10, 0);
@@ -395,7 +395,7 @@ void e634_080()
     BLUR2_SWAP(40);
     WAIT(40);
     itfMesMngOpenWindow();
-    itfMesMngMessage(26) /* MSG_153 */;
+    itfMesMngMessage(26) /* MSG_153: Now, go and join the others that you have lost... */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("cam12"));
     CAM_PATH_MOVE(SEARCH_ID("cam12"), SEARCH_ID("cam12_MOTION"));
@@ -430,14 +430,14 @@ START2:
     MODEL_OFF(var4);
     MODEL_OFF(var11);
     itfMesMngOpenWindow();
-    itfMesMngMessage(28) /* MSG_155 */;
+    itfMesMngMessage(28) /* MSG_155: > You obtained the Magatama Anathema. */;
     itfMesMngCloseWindow();
     WAIT(25);
     CAM_SEL(SEARCH_ID("cam15"));
     CAM_PATH_MOVE(SEARCH_ID("cam15"), SEARCH_ID("cam15_MOTION"));
     WAIT(15);
     itfMesMngOpenWindow();
-    itfMesMngMessage(27) /* MSG_154 */;
+    itfMesMngMessage(27) /* MSG_154: ...So you defeated me. */;
     itfMesMngCloseWindow();
     BLUR2_PARA(0.01f, 0.907f, 1);
     BLUR2_RGBA(245, 245, 245, 180);

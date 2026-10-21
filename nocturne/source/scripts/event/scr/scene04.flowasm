@@ -1,7 +1,7 @@
 ; FlowScript assembly. tools/flowscript.py assemble rebuilds the original bytes.
 .header 0000000098070000464c57300000000004000000000000000000000000000000
 .sections procedures labels code messages
-.messages scene04.bmd
+.messages scene04.msg
 .labels _3 _1 _2
 
 .procedure sc04

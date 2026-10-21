@@ -55,11 +55,11 @@ void e659_010()
     KUTI(var1, 3, 1);
     if (BIT_CHK(76) == 1)
     {
-        itfMesMngMessage(0) /* MSG_010_1 */;
+        itfMesMngMessage(0) /* MSG_010_1: I'm glad you're okay... */;
     }
     else if (BIT_CHK(76) == 0)
     {
-        itfMesMngMessage(1) /* MSG_010_1_R */;
+        itfMesMngMessage(1) /* MSG_010_1_R: You came back... I knew I could count on you. */;
     }
     itfMesMngCloseWindow();
     MODEL_EXMOTION(var1, 3, 2, 0, 15, 2);
@@ -82,19 +82,19 @@ void e659_020()
     MODEL_EXMOTION(var1, 3, 1, 0, 0, 2);
     if (BIT_CHK(76) == 1)
     {
-        itfMesMngMessage(2) /* MSG_020_1 */;
+        itfMesMngMessage(2) /* MSG_020_1: Oh... so the Magatsuhi was used up already. */;
         itfMesMngCloseWindow();
         WAIT(35);
         itfMesMngOpenWindow();
-        itfMesMngMessage(3) /* MSG_020_1B */;
+        itfMesMngMessage(3) /* MSG_020_1B: Then, you don't mind me keeping this, do you? */;
     }
     else if (BIT_CHK(76) == 0)
     {
-        itfMesMngMessage(4) /* MSG_020_1_R */;
+        itfMesMngMessage(4) /* MSG_020_1_R: Oh... so the Magatsuhi was used up already. */;
         itfMesMngCloseWindow();
         WAIT(35);
         itfMesMngOpenWindow();
-        itfMesMngMessage(5) /* MSG_020_1_RB */;
+        itfMesMngMessage(5) /* MSG_020_1_RB: Can I have it then, since you have no use for it? */;
     }
     itfMesMngCloseWindow();
     MODEL_WAIT(var1);
@@ -109,7 +109,7 @@ void e659_030()
     CAM_PATH_MOVE(SEARCH_ID("cam03"), SEARCH_ID("cam03_MOTION"));
     WAIT(70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_030_1 */;
+    itfMesMngMessage(6) /* MSG_030_1: This brings me one step closer to creating my world... */;
     itfMesMngCloseWindow();
     WAIT(100);
     SCENE_LIGHT_RGB(90, 0.1f, 0.1f, 0.1f);
@@ -124,7 +124,7 @@ void e659_030()
     FADEOUT_E(659, 1);
     WAIT(180);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_030_2 */;
+    itfMesMngMessage(7) /* MSG_030_2: Freedom is the cliff that overlooks the abyss, the valley of the shad... */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -142,8 +142,8 @@ void e659_040()
     WAIT(40);
     itfMesMngOpenWindow();
     BGM_PLAY_E(659, 2);
-    itfMesMngMessage(8) /* MSG_040_1 */;
-    var5 = itfMesMngSelect(10);
+    itfMesMngMessage(8) /* MSG_040_1: Fool who bears the name Freedom! */;
+    var5 = itfMesMngSelect(10) /* ARA_TOI: Yes, I do. / No, I don't. */;
     itfMesMngCloseWindow();
     if (var5 == 0)
     {
@@ -173,8 +173,8 @@ void e659_050()
     MODEL_MOTION2(var6, 3, 0, 0, 0);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_050_1 */;
-    var5 = itfMesMngSelect(10);
+    itfMesMngMessage(9) /* MSG_050_1: Fool who bears the name Freedom! */;
+    var5 = itfMesMngSelect(10) /* ARA_TOI: Yes, I do. / No, I don't. */;
     itfMesMngCloseWindow();
     if (var5 == 0)
     {
@@ -198,7 +198,7 @@ void e659_060()
     CAM_PATH_MOVE(SEARCH_ID("cam06"), SEARCH_ID("cam06_MOTION"));
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(11) /* MSG_060_1 */;
+    itfMesMngMessage(11) /* MSG_060_1: Go! And see the world with your own eyes! */;
     itfMesMngCloseWindow();
     WAIT(10);
     SCENE_LIGHT_RGB(60, 1.5f, 1.1f, 0.8f);
@@ -219,7 +219,7 @@ void e659_060()
     WAIT(150);
     itfMesMngOpenWindow();
     MODEL_EXMOTION(var1, 3, 1, 0, 0, 2);
-    itfMesMngMessage(12) /* MSG_060_2 */;
+    itfMesMngMessage(12) /* MSG_060_2: ...Aradia... */;
     itfMesMngCloseWindow();
     WAIT(30);
     BGM_PLAY_E(659, 3);
@@ -229,7 +229,7 @@ void e659_060()
     MODEL_EXMOTION(var1, 1, 2, 0, 10, 1);
     MODEL_EXMOTION(var1, 2, 0, 0, 10, 1);
     MODEL_EXMOTION(var1, 3, 1, 0, 0, 2);
-    itfMesMngMessage(13) /* MSG_060_3 */;
+    itfMesMngMessage(13) /* MSG_060_3: ...I think it's time for me to go. Staying here won't do me any good. */;
     itfMesMngCloseWindow();
     WAIT(10);
 }
@@ -243,7 +243,7 @@ void e659_070()
     WAIT(10);
     itfMesMngOpenWindow();
     MODEL_EXMOTION(var1, 3, 1, 0, 0, 2);
-    itfMesMngMessage(14) /* MSG_070_1 */;
+    itfMesMngMessage(14) /* MSG_070_1: Thank you, {firstname 0}. I'll see you again sometime. */;
     itfMesMngCloseWindow();
     WAIT(60);
 }

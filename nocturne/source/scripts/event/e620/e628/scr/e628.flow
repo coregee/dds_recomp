@@ -166,7 +166,7 @@ void e628_010()
     MODEL_MOTION2(var1, 5, 0, 10, 0);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_010_1 */;
+    itfMesMngMessage(0) /* MSG_010_1: Wh-Whaddya want!? */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -186,7 +186,7 @@ void e628_020()
     MODEL_MOTION2(var1, 1, 0, 10, 0);
     WAIT(100);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_020_1 */;
+    itfMesMngMessage(1) /* MSG_020_1: Oh great, there's more...? */;
     itfMesMngCloseWindow();
     WAIT(20);
 }
@@ -198,7 +198,7 @@ void e628_030()
     SCR_RUN(4, - 1);
     itfMesMngOpenWindow();
     itfMesMngIgnoreConfig(1);
-    itfMesMngMessage(2) /* MSG_030_1 */;
+    itfMesMngMessage(2) /* MSG_030_1: You gotta help me! I can't afford to waste any time! */;
     WAIT(15);
     itfMesMngIgnoreConfig(0);
     itfMesMngCloseWindow();
@@ -206,7 +206,7 @@ void e628_030()
     BGM_STOP();
     itfMesMngOpenWindow();
     itfMesMngIgnoreConfig(1);
-    itfMesMngMessage(3) /* MSG_040_1 */;
+    itfMesMngMessage(3) /* MSG_040_1: It's Ms. {lastname 1}! She's...!! */;
     WAIT(10);
     itfMesMngIgnoreConfig(0);
     itfMesMngCloseWindow();
@@ -226,7 +226,7 @@ void e628_040()
     CAM_SEL(SEARCH_ID("cam04"));
     CAM_PATH_MOVE(SEARCH_ID("cam04"), SEARCH_ID("cam04_MOTION"));
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_040_1 */;
+    itfMesMngMessage(3) /* MSG_040_1: It's Ms. {lastname 1}! She's...!! */;
     WAIT(8);
     itfMesMngCloseWindow();
     WAIT(30);
@@ -253,7 +253,7 @@ void e628_060()
     MODEL_EXMOTION(var3, 1, 0, 0, 10, 2);
     WAIT(15);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_060_1 */;
+    itfMesMngMessage(4) /* MSG_060_1: You are unfamiliar to me, demon. */;
     itfMesMngCloseWindow();
     WAIT(20);
     MODEL_MOTION2(var3, 6, 0, 10, 2);

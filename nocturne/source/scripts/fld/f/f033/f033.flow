@@ -13,7 +13,7 @@ void takarasagasi_label()
     itfMesMngSetVarScr(1, local1, 0);
     itfMesMngSetVarScr(2, local2, 1);
     FLD_SE_PLAY(43);
-    itfMesMngMessage(67) /* TAKARASAGASI */;
+    itfMesMngMessage(67) /* TAKARASAGASI: > {var 2} found something. */;
     prm_ITEM_PLUS(local0, local1);
     itfMesMngCloseWindow();
     PAD_ENABLE();
@@ -25,7 +25,7 @@ void hirakenai_label()
     PAD_DISABLE();
     itfMesMngOpenWindow();
     SET_ALLPANEL(6);
-    itfMesMngMessage(68) /* COMP_OPENERROR */;
+    itfMesMngMessage(68) /* COMP_OPENERROR: > It can't be used here. */;
     itfMesMngCloseWindow();
     PAD_ENABLE();
     SET_ALLPANEL(7);
@@ -38,19 +38,19 @@ void kireta_label()
     SET_ALLPANEL(6);
     if (FLD_GET_KIRETA(0) == 1)
     {
-        itfMesMngMessage(69) /* COMP_LIGHTMAEND */;
+        itfMesMngMessage(69) /* COMP_LIGHTMAEND: > The effect of Light wore off. */;
     }
     if (FLD_GET_KIRETA(1) == 1)
     {
-        itfMesMngMessage(72) /* COMP_REFUTOMAEND */;
+        itfMesMngMessage(72) /* COMP_REFUTOMAEND: > The effect of Levitation wore off. */;
     }
     if (FLD_GET_KIRETA(2) == 1)
     {
-        itfMesMngMessage(71) /* COMP_REBERAMAEND */;
+        itfMesMngMessage(71) /* COMP_REBERAMAEND: > The effect of Attract wore off. */;
     }
     if (FLD_GET_KIRETA(3) == 1)
     {
-        itfMesMngMessage(70) /* COMP_ESTOMAEND */;
+        itfMesMngMessage(70) /* COMP_ESTOMAEND: > The effect of Repel wore off. */;
     }
     itfMesMngCloseWindow();
     PAD_ENABLE();
@@ -68,7 +68,7 @@ void itembox_label()
             SET_ALLPANEL(6);
             if (FLD_CHK_TAKARA_OPEN())
             {
-                itfMesMngMessage(61) /* TAKARA_STILLGET */;
+                itfMesMngMessage(61) /* TAKARA_STILLGET: > It's empty. */;
             }
             else
             {
@@ -79,20 +79,20 @@ void itembox_label()
                 local7 = FLD_GET_TAKARA_TBL(4);
                 if (local3 == 1)
                 {
-                    itfMesMngMessage(54) /* HOSEKI */;
+                    itfMesMngMessage(54) /* HOSEKI: > There is a Mystical Chest. Will you open it? */;
                 }
                 else
                 {
-                    itfMesMngMessage(58) /* TAKARA */;
+                    itfMesMngMessage(58) /* TAKARA: > You see a Cache Cube. Will you open it? */;
                 }
                 itfMesMngSelectDefKey(3, 1);
                 if (local3 == 1)
                 {
-                    local8 = itfMesMngSelect(55);
+                    local8 = itfMesMngSelect(55) /* HOSEKI_SEL: Yes. / No. */;
                 }
                 else
                 {
-                    local8 = itfMesMngSelect(59);
+                    local8 = itfMesMngSelect(59) /* TAKARA_SEL: Yes. / No. */;
                 }
                 if (local8 == 0)
                 {
@@ -110,7 +110,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 15);
                         PAD_ACT(1, 100, 15);
                         prm_PARTY_DAMAGE(1);
-                        itfMesMngMessage(65) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(65) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 3)
                     {
@@ -120,7 +120,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(2);
-                        itfMesMngMessage(65) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(65) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 4)
                     {
@@ -130,7 +130,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(4);
-                        itfMesMngMessage(65) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(65) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 5)
                     {
@@ -140,7 +140,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(5);
-                        itfMesMngMessage(65) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(65) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 6)
                     {
@@ -150,7 +150,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(6);
-                        itfMesMngMessage(65) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(65) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else
                     {
@@ -159,14 +159,14 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             if (local4 == 0)
                             {
-                                itfMesMngMessage(66) /* TAKARA_KARAGET */;
+                                itfMesMngMessage(66) /* TAKARA_KARAGET: > It's empty. */;
                             }
                             else
                             {
                                 FLD_SE_PLAY(32);
                                 itfMesMngSetVarScr(0, local4, 3);
                                 itfMesMngSetVarScr(1, local5, 0);
-                                itfMesMngMessage(62) /* TAKARA_GET */;
+                                itfMesMngMessage(62) /* TAKARA_GET: > You obtained {var 0} x {var 1}. */;
                                 prm_ITEM_PLUS(local4, local5);
                             }
                         }
@@ -175,7 +175,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             if (local4 == 0)
                             {
-                                itfMesMngMessage(66) /* TAKARA_KARAGET */;
+                                itfMesMngMessage(66) /* TAKARA_KARAGET: > It's empty. */;
                             }
                             else
                             {
@@ -187,7 +187,7 @@ void itembox_label()
                                 FLD_SE_PLAY(33);
                                 itfMesMngSetVarScr(0, local4, 3);
                                 itfMesMngSetVarScr(1, local5, 0);
-                                itfMesMngMessage(57) /* HOSEKI_GET */;
+                                itfMesMngMessage(57) /* HOSEKI_GET: > You obtained {var 0} x {var 1}. */;
                                 prm_ITEM_PLUS(local4, local5);
                             }
                         }
@@ -196,7 +196,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             FLD_SE_PLAY(32);
                             itfMesMngSetVarScr(0, local4, 9);
-                            itfMesMngMessage(63) /* TAKARA_DH_GET */;
+                            itfMesMngMessage(63) /* TAKARA_DH_GET: > You obtained the Magatama {var 0}. */;
                             prm_DH_PLUS(local4);
                         }
                         else if (local3 == 3)
@@ -204,7 +204,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             FLD_SE_PLAY(32);
                             itfMesMngSetVarScr(0, local7, 0);
-                            itfMesMngMessage(64) /* TAKARA_MAKA_GET */;
+                            itfMesMngMessage(64) /* TAKARA_MAKA_GET: > You obtained {var 0} Macca. */;
                             COMM_139(local7);
                         }
                     }
@@ -213,11 +213,11 @@ void itembox_label()
                 {
                     if (local3 == 1)
                     {
-                        itfMesMngMessage(56) /* HOSEKI_NOGET */;
+                        itfMesMngMessage(56) /* HOSEKI_NOGET: > You did not open the Mystical Chest. */;
                     }
                     else
                     {
-                        itfMesMngMessage(60) /* TAKARA_NOGET */;
+                        itfMesMngMessage(60) /* TAKARA_NOGET: > You did not open the Cache Cube. */;
                     }
                 }
             }
@@ -289,9 +289,9 @@ void dexitwarp_label()
             SET_ALLPANEL(6);
             FLD_EXIT_CAMERA();
             itfMesMngOpenWindow();
-            itfMesMngMessage(52) /* EXITWARP */;
+            itfMesMngMessage(52) /* EXITWARP: > Will you leave the area? */;
             itfMesMngSelectDefKey(3, 1);
-            if (itfMesMngSelect(53) == 0)
+            if (itfMesMngSelect(53) /* EXITWARP_SEL: Yes. / No. */ == 0)
             {
                 itfMesMngCloseWindow();
             }
@@ -623,12 +623,12 @@ void elvstart_label()
     FADE_IN(0, 15);
     FLD_ELV_FLOORSTART(local33, local33);
     itfMesMngOpenWindow();
-    itfMesMngMessage(73) /* WARP_ELV_MSG */;
+    itfMesMngMessage(73) /* WARP_ELV_MSG: > Select a floor. */;
     if (local26 == 1)
     {
         itfMesMngSetVarScr(0, local27, 4);
         itfMesMngSelectDefKey(3, 1);
-        local24 = itfMesMngSelect(74);
+        local24 = itfMesMngSelect(74) /* WARP_ELV_SEL1: {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 2)
     {
@@ -636,7 +636,7 @@ void elvstart_label()
         itfMesMngSetVarScr(1, local28, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 2);
-        local24 = itfMesMngSelect(75);
+        local24 = itfMesMngSelect(75) /* WARP_ELV_SEL2: {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 3)
     {
@@ -645,7 +645,7 @@ void elvstart_label()
         itfMesMngSetVarScr(2, local29, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 3);
-        local24 = itfMesMngSelect(76);
+        local24 = itfMesMngSelect(76) /* WARP_ELV_SEL3: {var 2}[80EA] / {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 4)
     {
@@ -655,7 +655,7 @@ void elvstart_label()
         itfMesMngSetVarScr(3, local30, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 4);
-        local24 = itfMesMngSelect(77);
+        local24 = itfMesMngSelect(77) /* WARP_ELV_SEL4: {var 3}[80EA] / {var 2}[80EA] / {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 5)
     {
@@ -666,7 +666,7 @@ void elvstart_label()
         itfMesMngSetVarScr(4, local31, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 5);
-        local24 = itfMesMngSelect(78);
+        local24 = itfMesMngSelect(78) /* WARP_ELV_SEL5: {var 4}[80EA] / {var 3}[80EA] / {var 2}[80EA] / {var 1}[80EA] / {var... */;
     }
     else if (local26 == 6)
     {
@@ -678,7 +678,7 @@ void elvstart_label()
         itfMesMngSetVarScr(5, local32, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 6);
-        local24 = itfMesMngSelect(79);
+        local24 = itfMesMngSelect(79) /* WARP_ELV_SEL6: {var 5}[80EA] / {var 4}[80EA] / {var 3}[80EA] / {var 2}[80EA] / {var... */;
     }
     itfMesMngCloseWindow();
     if (local24 == local26)
@@ -786,13 +786,13 @@ void 001_01eve_07()
         itfMesMngOpenWindow();
         FADE_IN(0, 15);
         WAIT(15);
-        itfMesMngMessage(47) /* STARTMESSEGE01 */;
+        itfMesMngMessage(47) /* STARTMESSEGE01: ...O lost one. */;
         CAM_SEL_FOVY(SEARCH_ID("01cam_10"));
         CAM_PATH_MOVE(SEARCH_ID("01cam_10"), SEARCH_ID("01cam_10_MOTION"));
-        itfMesMngMessage(48) /* STARTMESSEGE02 */;
+        itfMesMngMessage(48) /* STARTMESSEGE02: I warn thee, leave this place at once. */;
         SET_CHASE_CAMERA();
         CAM_SEL(- 1);
-        itfMesMngMessage(49) /* STARTMESSEGE03 */;
+        itfMesMngMessage(49) /* STARTMESSEGE03: > You cannot hear the voice anymore. */;
         itfMesMngCloseWindow();
         SET_ALLPANEL(3);
         PAD_ENABLE();
@@ -810,13 +810,13 @@ void 001_01eve_01()
         MODEL_POS(var0, SEARCH_ID("01pos_10"));
         WAIT(15);
         itfMesMngOpenWindow();
-        itfMesMngMessage(2) /* ITAGAKI_DOUZOU */;
+        itfMesMngMessage(2) /* ITAGAKI_DOUZOU: Halt! */;
         WAIT(15);
         CAM_SEL_FOVY(SEARCH_ID("01cam_02"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(3) /* ITAGAKI_DOUZOU_1 */;
+        itfMesMngMessage(3) /* ITAGAKI_DOUZOU_1: I am the guardian of this building. */;
         CAM_SEL_FOVY(SEARCH_ID("01cam_01"));
-        itfMesMngMessage(4) /* ITAGAKI_DOUZOU_2 */;
+        itfMesMngMessage(4) /* ITAGAKI_DOUZOU_2: ...By my sword of flames, thy body shall be reduced to ashes! */;
         WAIT(15);
         BIT_ON(1669);
         BIT_ON(2328);
@@ -849,7 +849,7 @@ void 001_01eve_02()
                 CAM_PATH_WAIT(SEARCH_ID("01cam_03"));
                 WAIT(10);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(50) /* DOUZOU_OIKAKE2 */;
+                itfMesMngMessage(50) /* DOUZOU_OIKAKE2: Hmmm... He beat Surt... That kid's not bad. */;
                 itfMesMngCloseWindow();
                 FLD_SE_PLAY(98);
                 FLD_MODEL_OFF(33, 1, "md_hoji_04", 2);
@@ -885,7 +885,7 @@ void 001_01eve_03()
                 FADE_IN(0, 15);
                 WAIT(15);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(51) /* DOUZOU_OIKAKE3 */;
+                itfMesMngMessage(51) /* DOUZOU_OIKAKE3: Curses...! */;
                 itfMesMngCloseWindow();
                 FLD_SE_PLAY(98);
                 FLD_MODEL_OFF(33, 1, "md_hoji_02", 2);
@@ -911,7 +911,7 @@ void 001_01eve_04()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(28) /* TADANO */;
+                itfMesMngMessage(28) /* TADANO: ............ */;
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
                 return;
@@ -931,7 +931,7 @@ void 001_01eve_05()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(28) /* TADANO */;
+                itfMesMngMessage(28) /* TADANO: ............ */;
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
                 return;
@@ -951,7 +951,7 @@ void 001_01eve_06()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(28) /* TADANO */;
+                itfMesMngMessage(28) /* TADANO: ............ */;
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
                 return;
@@ -985,12 +985,12 @@ void 007_start()
                 FLD_BGM_FADE();
                 FLD_BGM_PLAY(128);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(5) /* KIYAGATTA */;
+                itfMesMngMessage(5) /* KIYAGATTA: You made it this far without dying... */;
                 FLD_SE_PLAY(98);
                 FLD_MODEL_OFF(33, 7, "md_hoji_02", 2);
                 FLD_ATARI_OFF(33, 7, "atari_hoji_01");
                 WAIT(45);
-                itfMesMngMessage(6) /* IKASENAI */;
+                itfMesMngMessage(6) /* IKASENAI: I praise you. I haven't had such a fun hunt in quite a while. */;
                 FLD_SE_PLAY(96);
                 FLD_MODEL_ON(33, 7, "md_hoji_01", 1);
                 WAIT(60);
@@ -998,7 +998,7 @@ void 007_start()
                 var0 = MODEL_PLAYER();
                 MODEL_POS(var0, SEARCH_ID("01pos_10"));
                 itfMesMngOpenWindow();
-                itfMesMngMessage(7) /* OOKUMA_DOUZOU */;
+                itfMesMngMessage(7) /* OOKUMA_DOUZOU: ...But, I cannot let you go any further. */;
                 BIT_ON(1670);
                 BIT_ON(2326);
                 CALL_NEXT(1, 33, 551);
@@ -1050,7 +1050,7 @@ void 007_01eve_02()
                     PAD_DISABLE();
                     SET_ALLPANEL(6);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(8) /* DAMASIEDESU */;
+                    itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                     itfMesMngCloseWindow();
                     SET_ALLPANEL(7);
                     PAD_ENABLE();
@@ -1071,7 +1071,7 @@ void 011_01eve_02()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(8) /* DAMASIEDESU */;
+            itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
             itfMesMngCloseWindow();
             SET_ALLPANEL(7);
             PAD_ENABLE();
@@ -1090,7 +1090,7 @@ void 011_01eve_03()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(8) /* DAMASIEDESU */;
+            itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
             itfMesMngCloseWindow();
             SET_ALLPANEL(7);
             PAD_ENABLE();
@@ -1109,7 +1109,7 @@ void 011_01eve_04()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(8) /* DAMASIEDESU */;
+            itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
             itfMesMngCloseWindow();
             SET_ALLPANEL(7);
             PAD_ENABLE();
@@ -1128,7 +1128,7 @@ void 015_01eve_13()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(8) /* DAMASIEDESU */;
+            itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
             itfMesMngCloseWindow();
             SET_ALLPANEL(7);
             PAD_ENABLE();
@@ -1147,7 +1147,7 @@ void 015_01eve_14()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(8) /* DAMASIEDESU */;
+            itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
             itfMesMngCloseWindow();
             SET_ALLPANEL(7);
             PAD_ENABLE();
@@ -1170,7 +1170,7 @@ void 018_01eve_04()
                     PAD_DISABLE();
                     SET_ALLPANEL(6);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(8) /* DAMASIEDESU */;
+                    itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                     itfMesMngCloseWindow();
                     SET_ALLPANEL(7);
                     PAD_ENABLE();
@@ -1195,7 +1195,7 @@ void 018_01eve_08()
                     PAD_DISABLE();
                     SET_ALLPANEL(6);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(8) /* DAMASIEDESU */;
+                    itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                     itfMesMngCloseWindow();
                     SET_ALLPANEL(7);
                     PAD_ENABLE();
@@ -1220,7 +1220,7 @@ void 019_01eve_14()
                     PAD_DISABLE();
                     SET_ALLPANEL(6);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(8) /* DAMASIEDESU */;
+                    itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                     itfMesMngCloseWindow();
                     SET_ALLPANEL(7);
                     PAD_ENABLE();
@@ -1245,7 +1245,7 @@ void 020_01eve_02()
                     PAD_DISABLE();
                     SET_ALLPANEL(6);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(8) /* DAMASIEDESU */;
+                    itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                     itfMesMngCloseWindow();
                     SET_ALLPANEL(7);
                     PAD_ENABLE();
@@ -1270,7 +1270,7 @@ void 021_01eve_04()
                     PAD_DISABLE();
                     SET_ALLPANEL(6);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(8) /* DAMASIEDESU */;
+                    itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                     itfMesMngCloseWindow();
                     SET_ALLPANEL(7);
                     PAD_ENABLE();
@@ -1295,7 +1295,7 @@ void 021_01eve_05()
                     PAD_DISABLE();
                     SET_ALLPANEL(6);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(8) /* DAMASIEDESU */;
+                    itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                     itfMesMngCloseWindow();
                     SET_ALLPANEL(7);
                     PAD_ENABLE();
@@ -1320,7 +1320,7 @@ void 021_01eve_06()
                     PAD_DISABLE();
                     SET_ALLPANEL(6);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(8) /* DAMASIEDESU */;
+                    itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                     itfMesMngCloseWindow();
                     SET_ALLPANEL(7);
                     PAD_ENABLE();
@@ -1345,7 +1345,7 @@ void 023_01eve_06()
                     PAD_DISABLE();
                     SET_ALLPANEL(6);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(8) /* DAMASIEDESU */;
+                    itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                     itfMesMngCloseWindow();
                     SET_ALLPANEL(7);
                     PAD_ENABLE();
@@ -1370,7 +1370,7 @@ void 023_01eve_07()
                     PAD_DISABLE();
                     SET_ALLPANEL(6);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(8) /* DAMASIEDESU */;
+                    itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                     itfMesMngCloseWindow();
                     SET_ALLPANEL(7);
                     PAD_ENABLE();
@@ -1395,7 +1395,7 @@ void 023_01eve_08()
                     PAD_DISABLE();
                     SET_ALLPANEL(6);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(8) /* DAMASIEDESU */;
+                    itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                     itfMesMngCloseWindow();
                     SET_ALLPANEL(7);
                     PAD_ENABLE();
@@ -1420,7 +1420,7 @@ void 023_01eve_09()
                     PAD_DISABLE();
                     SET_ALLPANEL(6);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(8) /* DAMASIEDESU */;
+                    itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                     itfMesMngCloseWindow();
                     SET_ALLPANEL(7);
                     PAD_ENABLE();
@@ -1445,7 +1445,7 @@ void 023_01eve_10()
                     PAD_DISABLE();
                     SET_ALLPANEL(6);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(8) /* DAMASIEDESU */;
+                    itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                     itfMesMngCloseWindow();
                     SET_ALLPANEL(7);
                     PAD_ENABLE();
@@ -1471,7 +1471,7 @@ void 018_start()
             FLD_MODEL_OFF(33, 18, "md_hoji_01", 2);
             FLD_ATARI_OFF(33, 18, "atari_hoji_01");
             itfMesMngOpenWindow();
-            itfMesMngMessage(13) /* EKIERU */;
+            itfMesMngMessage(13) /* EKIERU: > Mot's magic is coming undone. */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 30);
             WAIT(30);
@@ -1495,8 +1495,8 @@ void 018_01eve_01()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(20) /* DOUZOUMITERU */;
-            itfMesMngMessage(21) /* DOUZOUMITERU01 */;
+            itfMesMngMessage(20) /* DOUZOUMITERU: > You can hear a voice... */;
+            itfMesMngMessage(21) /* DOUZOUMITERU01: With my power, thy path hath been closed! */;
             itfMesMngCloseWindow();
             FLD_SE_PLAY(96);
             FLD_MODEL_ON(33, 18, "md_hoji_01", 1);
@@ -1530,8 +1530,8 @@ void 019_01eve_01()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(20) /* DOUZOUMITERU */;
-                itfMesMngMessage(21) /* DOUZOUMITERU01 */;
+                itfMesMngMessage(20) /* DOUZOUMITERU: > You can hear a voice... */;
+                itfMesMngMessage(21) /* DOUZOUMITERU01: With my power, thy path hath been closed! */;
                 itfMesMngCloseWindow();
                 FLD_SE_PLAY(96);
                 FLD_MODEL_ON(33, 19, "md_hoji_01", 1);
@@ -1570,8 +1570,8 @@ void 020_01eve_01()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(20) /* DOUZOUMITERU */;
-                itfMesMngMessage(21) /* DOUZOUMITERU01 */;
+                itfMesMngMessage(20) /* DOUZOUMITERU: > You can hear a voice... */;
+                itfMesMngMessage(21) /* DOUZOUMITERU01: With my power, thy path hath been closed! */;
                 itfMesMngCloseWindow();
                 FLD_SE_PLAY(96);
                 FLD_MODEL_ON(33, 20, "md_hoji_01", 1);
@@ -1616,8 +1616,8 @@ void 021_01eve_01()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(20) /* DOUZOUMITERU */;
-                itfMesMngMessage(21) /* DOUZOUMITERU01 */;
+                itfMesMngMessage(20) /* DOUZOUMITERU: > You can hear a voice... */;
+                itfMesMngMessage(21) /* DOUZOUMITERU01: With my power, thy path hath been closed! */;
                 itfMesMngCloseWindow();
                 FLD_SE_PLAY(96);
                 FLD_MODEL_ON(33, 21, "md_hoji_01", 1);
@@ -1644,8 +1644,8 @@ void 021_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(22) /* MITERUKAMO */;
-                itfMesMngMessage(23) /* MITERUKAMO01 */;
+                itfMesMngMessage(22) /* MITERUKAMO: > You can hear a voice... */;
+                itfMesMngMessage(23) /* MITERUKAMO01: With my power, thy path hath been closed! */;
                 itfMesMngCloseWindow();
                 FLD_SE_PLAY(96);
                 FLD_MODEL_ON(33, 21, "md_hoji_01", 1);
@@ -1672,8 +1672,8 @@ void 021_01eve_03()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(22) /* MITERUKAMO */;
-                itfMesMngMessage(23) /* MITERUKAMO01 */;
+                itfMesMngMessage(22) /* MITERUKAMO: > You can hear a voice... */;
+                itfMesMngMessage(23) /* MITERUKAMO01: With my power, thy path hath been closed! */;
                 itfMesMngCloseWindow();
                 FLD_SE_PLAY(96);
                 FLD_MODEL_ON(33, 21, "md_hoji_02", 1);
@@ -1719,7 +1719,7 @@ void 023_01eve_01()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(32) /* SAGASE */;
+                itfMesMngMessage(32) /* SAGASE: > You can hear a voice... */;
                 itfMesMngCloseWindow();
                 FLD_SE_PLAY(96);
                 FLD_MODEL_ON(33, 23, "md_hoji_01", 1);
@@ -1750,8 +1750,8 @@ void 023_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(20) /* DOUZOUMITERU */;
-                itfMesMngMessage(21) /* DOUZOUMITERU01 */;
+                itfMesMngMessage(20) /* DOUZOUMITERU: > You can hear a voice... */;
+                itfMesMngMessage(21) /* DOUZOUMITERU01: With my power, thy path hath been closed! */;
                 itfMesMngCloseWindow();
                 FLD_SE_PLAY(96);
                 FLD_MODEL_ON(33, 23, "md_hoji_02", 1);
@@ -1782,8 +1782,8 @@ void 023_01eve_03()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(20) /* DOUZOUMITERU */;
-                itfMesMngMessage(21) /* DOUZOUMITERU01 */;
+                itfMesMngMessage(20) /* DOUZOUMITERU: > You can hear a voice... */;
+                itfMesMngMessage(21) /* DOUZOUMITERU01: With my power, thy path hath been closed! */;
                 itfMesMngCloseWindow();
                 FLD_SE_PLAY(96);
                 FLD_MODEL_ON(33, 23, "md_hoji_03", 1);
@@ -1815,7 +1815,7 @@ void 008_01eve_01()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(10) /* SAKITUBOMI */;
+                itfMesMngMessage(10) /* SAKITUBOMI: > It's a trick painting. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -1829,7 +1829,7 @@ void 008_01eve_01()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(10) /* SAKITUBOMI */;
+                itfMesMngMessage(10) /* SAKITUBOMI: > It's a trick painting. */;
                 SET_ALLPANEL(7);
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
@@ -1850,8 +1850,8 @@ void 008_01eve_03()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(14) /* HIKKAKARI */;
-            itfMesMngMessage(15) /* HIKKAKARI01 */;
+            itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+            itfMesMngMessage(15) /* HIKKAKARI01: You fell for my trap! */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 10);
             FLD_SE_PLAY(56);
@@ -1893,7 +1893,7 @@ void 009_01eve_01()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(11) /* TONGARI */;
+                itfMesMngMessage(11) /* TONGARI: > It's a trick painting. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -1907,7 +1907,7 @@ void 009_01eve_01()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(11) /* TONGARI */;
+                itfMesMngMessage(11) /* TONGARI: > It's a trick painting. */;
                 SET_ALLPANEL(7);
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
@@ -1928,8 +1928,8 @@ void 009_01eve_04()
             SET_ALLPANEL(6);
             BIT_OFF(1695);
             itfMesMngOpenWindow();
-            itfMesMngMessage(14) /* HIKKAKARI */;
-            itfMesMngMessage(15) /* HIKKAKARI01 */;
+            itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+            itfMesMngMessage(15) /* HIKKAKARI01: You fell for my trap! */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 10);
             FLD_SE_PLAY(56);
@@ -1971,7 +1971,7 @@ void 009_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(11) /* TONGARI */;
+                itfMesMngMessage(11) /* TONGARI: > It's a trick painting. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -1985,7 +1985,7 @@ void 009_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(11) /* TONGARI */;
+                itfMesMngMessage(11) /* TONGARI: > It's a trick painting. */;
                 SET_ALLPANEL(7);
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
@@ -2006,8 +2006,8 @@ void 009_01eve_06()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(14) /* HIKKAKARI */;
-            itfMesMngMessage(15) /* HIKKAKARI01 */;
+            itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+            itfMesMngMessage(15) /* HIKKAKARI01: You fell for my trap! */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 10);
             FLD_SE_PLAY(56);
@@ -2049,7 +2049,7 @@ void 012_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(8) /* DAMASIEDESU */;
+                itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -2063,7 +2063,7 @@ void 012_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(8) /* DAMASIEDESU */;
+                itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                 SET_ALLPANEL(7);
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
@@ -2084,8 +2084,8 @@ void 012_01eve_04()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(14) /* HIKKAKARI */;
-            itfMesMngMessage(15) /* HIKKAKARI01 */;
+            itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+            itfMesMngMessage(15) /* HIKKAKARI01: You fell for my trap! */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 10);
             FLD_SE_PLAY(56);
@@ -2127,7 +2127,7 @@ void 012_01eve_01()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -2141,7 +2141,7 @@ void 012_01eve_01()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 SET_ALLPANEL(7);
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
@@ -2162,8 +2162,8 @@ void 012_01eve_06()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(14) /* HIKKAKARI */;
-            itfMesMngMessage(16) /* HIKKAKARI02 */;
+            itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+            itfMesMngMessage(16) /* HIKKAKARI02: Hahahaha! Dumbass! */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 10);
             FLD_SE_PLAY(56);
@@ -2205,7 +2205,7 @@ void 013_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(8) /* DAMASIEDESU */;
+                itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -2219,7 +2219,7 @@ void 013_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(8) /* DAMASIEDESU */;
+                itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                 SET_ALLPANEL(7);
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
@@ -2240,8 +2240,8 @@ void 013_01eve_04()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(14) /* HIKKAKARI */;
-            itfMesMngMessage(15) /* HIKKAKARI01 */;
+            itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+            itfMesMngMessage(15) /* HIKKAKARI01: You fell for my trap! */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 10);
             FLD_SE_PLAY(56);
@@ -2283,7 +2283,7 @@ void 013_01eve_09()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(8) /* DAMASIEDESU */;
+                itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -2297,7 +2297,7 @@ void 013_01eve_09()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(8) /* DAMASIEDESU */;
+                itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                 SET_ALLPANEL(7);
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
@@ -2318,8 +2318,8 @@ void 013_01eve_05()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(14) /* HIKKAKARI */;
-            itfMesMngMessage(15) /* HIKKAKARI01 */;
+            itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+            itfMesMngMessage(15) /* HIKKAKARI01: You fell for my trap! */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 10);
             FLD_SE_PLAY(56);
@@ -2361,7 +2361,7 @@ void 013_01eve_01()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(8) /* DAMASIEDESU */;
+                itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -2375,7 +2375,7 @@ void 013_01eve_01()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(8) /* DAMASIEDESU */;
+                itfMesMngMessage(8) /* DAMASIEDESU: > It's a painting of a hallway. */;
                 SET_ALLPANEL(7);
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
@@ -2396,8 +2396,8 @@ void 013_01eve_07()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(14) /* HIKKAKARI */;
-            itfMesMngMessage(15) /* HIKKAKARI01 */;
+            itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+            itfMesMngMessage(15) /* HIKKAKARI01: You fell for my trap! */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 10);
             FLD_SE_PLAY(56);
@@ -2439,7 +2439,7 @@ void 014_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(11) /* TONGARI */;
+                itfMesMngMessage(11) /* TONGARI: > It's a trick painting. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -2453,7 +2453,7 @@ void 014_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(11) /* TONGARI */;
+                itfMesMngMessage(11) /* TONGARI: > It's a trick painting. */;
                 SET_ALLPANEL(7);
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
@@ -2474,8 +2474,8 @@ void 014_01eve_05()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(14) /* HIKKAKARI */;
-            itfMesMngMessage(15) /* HIKKAKARI01 */;
+            itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+            itfMesMngMessage(15) /* HIKKAKARI01: You fell for my trap! */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 10);
             FLD_SE_PLAY(56);
@@ -2517,7 +2517,7 @@ void 014_01eve_03()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(10) /* SAKITUBOMI */;
+                itfMesMngMessage(10) /* SAKITUBOMI: > It's a trick painting. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -2531,7 +2531,7 @@ void 014_01eve_03()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(10) /* SAKITUBOMI */;
+                itfMesMngMessage(10) /* SAKITUBOMI: > It's a trick painting. */;
                 SET_ALLPANEL(7);
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
@@ -2552,8 +2552,8 @@ void 014_01eve_07()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(14) /* HIKKAKARI */;
-            itfMesMngMessage(15) /* HIKKAKARI01 */;
+            itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+            itfMesMngMessage(15) /* HIKKAKARI01: You fell for my trap! */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 10);
             FLD_SE_PLAY(56);
@@ -2594,8 +2594,8 @@ void 014_01eve_01()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(16) /* HIKKAKARI02 */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(16) /* HIKKAKARI02: Hahahaha! Dumbass! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -2630,7 +2630,7 @@ void 014_01eve_01()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -2652,8 +2652,8 @@ void 015_01eve_01()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(16) /* HIKKAKARI02 */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(16) /* HIKKAKARI02: Hahahaha! Dumbass! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -2688,7 +2688,7 @@ void 015_01eve_01()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -2710,8 +2710,8 @@ void 015_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(16) /* HIKKAKARI02 */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(16) /* HIKKAKARI02: Hahahaha! Dumbass! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -2746,7 +2746,7 @@ void 015_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -2768,8 +2768,8 @@ void 015_01eve_03()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(16) /* HIKKAKARI02 */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(16) /* HIKKAKARI02: Hahahaha! Dumbass! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -2804,7 +2804,7 @@ void 015_01eve_03()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -2826,8 +2826,8 @@ void 015_01eve_04()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(16) /* HIKKAKARI02 */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(16) /* HIKKAKARI02: Hahahaha! Dumbass! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -2862,7 +2862,7 @@ void 015_01eve_04()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -2884,8 +2884,8 @@ void 015_01eve_05()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(16) /* HIKKAKARI02 */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(16) /* HIKKAKARI02: Hahahaha! Dumbass! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -2920,7 +2920,7 @@ void 015_01eve_05()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -2942,8 +2942,8 @@ void 015_01eve_06()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(16) /* HIKKAKARI02 */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(16) /* HIKKAKARI02: Hahahaha! Dumbass! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -2978,7 +2978,7 @@ void 015_01eve_06()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -3000,8 +3000,8 @@ void 015_01eve_07()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(16) /* HIKKAKARI02 */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(16) /* HIKKAKARI02: Hahahaha! Dumbass! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -3036,7 +3036,7 @@ void 015_01eve_07()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -3058,8 +3058,8 @@ void 015_01eve_08()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(16) /* HIKKAKARI02 */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(16) /* HIKKAKARI02: Hahahaha! Dumbass! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -3094,7 +3094,7 @@ void 015_01eve_08()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -3116,8 +3116,8 @@ void 015_01eve_09()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(16) /* HIKKAKARI02 */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(16) /* HIKKAKARI02: Hahahaha! Dumbass! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -3152,7 +3152,7 @@ void 015_01eve_09()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -3174,8 +3174,8 @@ void 015_01eve_10()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(16) /* HIKKAKARI02 */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(16) /* HIKKAKARI02: Hahahaha! Dumbass! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -3210,7 +3210,7 @@ void 015_01eve_10()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -3232,8 +3232,8 @@ void 015_01eve_11()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(16) /* HIKKAKARI02 */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(16) /* HIKKAKARI02: Hahahaha! Dumbass! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -3268,7 +3268,7 @@ void 015_01eve_11()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -3290,8 +3290,8 @@ void 015_01eve_12()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(16) /* HIKKAKARI02 */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(16) /* HIKKAKARI02: Hahahaha! Dumbass! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -3326,7 +3326,7 @@ void 015_01eve_12()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -3348,8 +3348,8 @@ void 010_01eve_01()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(16) /* HIKKAKARI02 */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(16) /* HIKKAKARI02: Hahahaha! Dumbass! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -3384,7 +3384,7 @@ void 010_01eve_01()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -3406,8 +3406,8 @@ void 010_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(16) /* HIKKAKARI02 */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(16) /* HIKKAKARI02: Hahahaha! Dumbass! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -3442,7 +3442,7 @@ void 010_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -3464,8 +3464,8 @@ void 010_01eve_03()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(16) /* HIKKAKARI02 */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(16) /* HIKKAKARI02: Hahahaha! Dumbass! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -3500,7 +3500,7 @@ void 010_01eve_03()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -3522,8 +3522,8 @@ void 010_01eve_04()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(16) /* HIKKAKARI02 */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(16) /* HIKKAKARI02: Hahahaha! Dumbass! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -3558,7 +3558,7 @@ void 010_01eve_04()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -3581,7 +3581,7 @@ void 018_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(10) /* SAKITUBOMI */;
+                itfMesMngMessage(10) /* SAKITUBOMI: > It's a trick painting. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -3595,7 +3595,7 @@ void 018_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(10) /* SAKITUBOMI */;
+                itfMesMngMessage(10) /* SAKITUBOMI: > It's a trick painting. */;
                 SET_ALLPANEL(7);
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
@@ -3615,8 +3615,8 @@ void 018_01eve_06()
             BIT_OFF(1695);
             PAD_DISABLE();
             itfMesMngOpenWindow();
-            itfMesMngMessage(14) /* HIKKAKARI */;
-            itfMesMngMessage(18) /* HIKKAKARI01_EAST */;
+            itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+            itfMesMngMessage(18) /* HIKKAKARI01_EAST: Thou hast fallen prey to mine art! */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 10);
             FLD_SE_PLAY(56);
@@ -3658,7 +3658,7 @@ void 019_01eve_11()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(11) /* TONGARI */;
+                itfMesMngMessage(11) /* TONGARI: > It's a trick painting. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -3672,7 +3672,7 @@ void 019_01eve_11()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(11) /* TONGARI */;
+                itfMesMngMessage(11) /* TONGARI: > It's a trick painting. */;
                 SET_ALLPANEL(7);
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
@@ -3693,8 +3693,8 @@ void 019_01eve_15()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(14) /* HIKKAKARI */;
-            itfMesMngMessage(18) /* HIKKAKARI01_EAST */;
+            itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+            itfMesMngMessage(18) /* HIKKAKARI01_EAST: Thou hast fallen prey to mine art! */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 10);
             FLD_SE_PLAY(56);
@@ -3736,7 +3736,7 @@ void 019_01eve_10()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(10) /* SAKITUBOMI */;
+                itfMesMngMessage(10) /* SAKITUBOMI: > It's a trick painting. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -3750,7 +3750,7 @@ void 019_01eve_10()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(10) /* SAKITUBOMI */;
+                itfMesMngMessage(10) /* SAKITUBOMI: > It's a trick painting. */;
                 SET_ALLPANEL(7);
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
@@ -3771,8 +3771,8 @@ void 019_01eve_16()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(14) /* HIKKAKARI */;
-            itfMesMngMessage(18) /* HIKKAKARI01_EAST */;
+            itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+            itfMesMngMessage(18) /* HIKKAKARI01_EAST: Thou hast fallen prey to mine art! */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 10);
             FLD_SE_PLAY(56);
@@ -3814,7 +3814,7 @@ void 019_01eve_12()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -3828,7 +3828,7 @@ void 019_01eve_12()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 SET_ALLPANEL(7);
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
@@ -3849,8 +3849,8 @@ void 019_01eve_19()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(14) /* HIKKAKARI */;
-            itfMesMngMessage(19) /* HIKKAKARI02_EAST */;
+            itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+            itfMesMngMessage(19) /* HIKKAKARI02_EAST: Thou hast fallen prey to mine art! */;
             itfMesMngCloseWindow();
             FADE_OUT(1, 10);
             FLD_SE_PLAY(56);
@@ -3891,8 +3891,8 @@ void 019_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(19) /* HIKKAKARI02_EAST */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(19) /* HIKKAKARI02_EAST: Thou hast fallen prey to mine art! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -3927,7 +3927,7 @@ void 019_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -3949,8 +3949,8 @@ void 019_01eve_03()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(19) /* HIKKAKARI02_EAST */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(19) /* HIKKAKARI02_EAST: Thou hast fallen prey to mine art! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -3985,7 +3985,7 @@ void 019_01eve_03()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -4007,8 +4007,8 @@ void 019_01eve_04()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(19) /* HIKKAKARI02_EAST */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(19) /* HIKKAKARI02_EAST: Thou hast fallen prey to mine art! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -4043,7 +4043,7 @@ void 019_01eve_04()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -4065,8 +4065,8 @@ void 019_01eve_05()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(19) /* HIKKAKARI02_EAST */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(19) /* HIKKAKARI02_EAST: Thou hast fallen prey to mine art! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -4101,7 +4101,7 @@ void 019_01eve_05()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -4123,8 +4123,8 @@ void 019_01eve_06()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(19) /* HIKKAKARI02_EAST */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(19) /* HIKKAKARI02_EAST: Thou hast fallen prey to mine art! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -4159,7 +4159,7 @@ void 019_01eve_06()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -4181,8 +4181,8 @@ void 019_01eve_07()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(19) /* HIKKAKARI02_EAST */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(19) /* HIKKAKARI02_EAST: Thou hast fallen prey to mine art! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -4217,7 +4217,7 @@ void 019_01eve_07()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -4239,8 +4239,8 @@ void 019_01eve_08()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(19) /* HIKKAKARI02_EAST */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(19) /* HIKKAKARI02_EAST: Thou hast fallen prey to mine art! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -4275,7 +4275,7 @@ void 019_01eve_08()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -4297,8 +4297,8 @@ void 019_01eve_09()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(19) /* HIKKAKARI02_EAST */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(19) /* HIKKAKARI02_EAST: Thou hast fallen prey to mine art! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -4333,7 +4333,7 @@ void 019_01eve_09()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -4355,8 +4355,8 @@ void 019_01eve_13()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(19) /* HIKKAKARI02_EAST */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(19) /* HIKKAKARI02_EAST: Thou hast fallen prey to mine art! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -4391,7 +4391,7 @@ void 019_01eve_13()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -4413,8 +4413,8 @@ void 018_01eve_05()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(19) /* HIKKAKARI02_EAST */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(19) /* HIKKAKARI02_EAST: Thou hast fallen prey to mine art! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -4449,7 +4449,7 @@ void 018_01eve_05()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -4471,8 +4471,8 @@ void 023_01eve_05()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(14) /* HIKKAKARI */;
-                itfMesMngMessage(19) /* HIKKAKARI02_EAST */;
+                itfMesMngMessage(14) /* HIKKAKARI: > You can hear a voice... */;
+                itfMesMngMessage(19) /* HIKKAKARI02_EAST: Thou hast fallen prey to mine art! */;
                 itfMesMngCloseWindow();
                 FADE_OUT(1, 10);
                 FLD_SE_PLAY(56);
@@ -4507,7 +4507,7 @@ void 023_01eve_05()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* DAMASITOBIRA */;
+                itfMesMngMessage(9) /* DAMASITOBIRA: > It's a painting of a door. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -4723,7 +4723,7 @@ void 024_01eve_01()
                     PAD_DISABLE();
                     SET_ALLPANEL(6);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(29) /* DOUZOU */;
+                    itfMesMngMessage(29) /* DOUZOU: > It's a statue. */;
                     itfMesMngCloseWindow();
                     SET_ALLPANEL(7);
                     PAD_ENABLE();
@@ -4746,7 +4746,7 @@ void 024_01eve_01()
                     BGM_VOL_DOWN();
                     FADE_IN(0, 10);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(27) /* MITUKETANODA */;
+                    itfMesMngMessage(27) /* MITUKETANODA: Curse thee... */;
                     itfMesMngCloseWindow();
                     COMM_217(62);
                     MODEL_MOTION2(var250, 16, 0, 5, 3);
@@ -4778,7 +4778,7 @@ void 024_01eve_01()
                     SCR_WAIT(SCR_RUN(116, 0));
                     FADE_IN(1, 5);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(26) /* MITEMASU */;
+                    itfMesMngMessage(26) /* MITEMASU: Fool! */;
                     SCR_WAIT(SCR_RUN(117, 0));
                     FLD_SE_PLAY(56);
                     itfMesMngCloseWindow();
@@ -4807,7 +4807,7 @@ void 024_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(29) /* DOUZOU */;
+                itfMesMngMessage(29) /* DOUZOU: > It's a statue. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -4837,7 +4837,7 @@ void 024_01eve_02()
                 SCR_WAIT(SCR_RUN(116, 0));
                 FADE_IN(1, 5);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(26) /* MITEMASU */;
+                itfMesMngMessage(26) /* MITEMASU: Fool! */;
                 SCR_WAIT(SCR_RUN(117, 0));
                 FLD_SE_PLAY(56);
                 itfMesMngCloseWindow();
@@ -4867,7 +4867,7 @@ void 024_01eve_03()
                     PAD_DISABLE();
                     SET_ALLPANEL(6);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(29) /* DOUZOU */;
+                    itfMesMngMessage(29) /* DOUZOU: > It's a statue. */;
                     itfMesMngCloseWindow();
                     SET_ALLPANEL(7);
                     PAD_ENABLE();
@@ -4890,7 +4890,7 @@ void 024_01eve_03()
                     BGM_VOL_DOWN();
                     FADE_IN(0, 10);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(27) /* MITUKETANODA */;
+                    itfMesMngMessage(27) /* MITUKETANODA: Curse thee... */;
                     itfMesMngCloseWindow();
                     COMM_217(62);
                     MODEL_MOTION2(var251, 16, 0, 5, 3);
@@ -4922,7 +4922,7 @@ void 024_01eve_03()
                     SCR_WAIT(SCR_RUN(116, 0));
                     FADE_IN(1, 5);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(26) /* MITEMASU */;
+                    itfMesMngMessage(26) /* MITEMASU: Fool! */;
                     SCR_WAIT(SCR_RUN(117, 0));
                     FLD_SE_PLAY(56);
                     itfMesMngCloseWindow();
@@ -4951,7 +4951,7 @@ void 024_01eve_04()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(29) /* DOUZOU */;
+                itfMesMngMessage(29) /* DOUZOU: > It's a statue. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -4981,7 +4981,7 @@ void 024_01eve_04()
                 SCR_WAIT(SCR_RUN(116, 0));
                 FADE_IN(1, 5);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(26) /* MITEMASU */;
+                itfMesMngMessage(26) /* MITEMASU: Fool! */;
                 SCR_WAIT(SCR_RUN(117, 0));
                 FLD_SE_PLAY(56);
                 itfMesMngCloseWindow();
@@ -5011,7 +5011,7 @@ void 024_01eve_05()
                     PAD_DISABLE();
                     SET_ALLPANEL(6);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(29) /* DOUZOU */;
+                    itfMesMngMessage(29) /* DOUZOU: > It's a statue. */;
                     itfMesMngCloseWindow();
                     SET_ALLPANEL(7);
                     PAD_ENABLE();
@@ -5034,7 +5034,7 @@ void 024_01eve_05()
                     BGM_VOL_DOWN();
                     FADE_IN(0, 10);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(27) /* MITUKETANODA */;
+                    itfMesMngMessage(27) /* MITUKETANODA: Curse thee... */;
                     itfMesMngCloseWindow();
                     COMM_217(62);
                     MODEL_MOTION2(var252, 16, 0, 5, 3);
@@ -5056,7 +5056,7 @@ void 024_01eve_05()
                     SCR_WAIT(SCR_RUN(116, 0));
                     FADE_IN(1, 5);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(26) /* MITEMASU */;
+                    itfMesMngMessage(26) /* MITEMASU: Fool! */;
                     SCR_WAIT(SCR_RUN(117, 0));
                     FLD_SE_PLAY(56);
                     itfMesMngCloseWindow();
@@ -5087,7 +5087,7 @@ void 024_01eve_06()
                     PAD_DISABLE();
                     SET_ALLPANEL(6);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(29) /* DOUZOU */;
+                    itfMesMngMessage(29) /* DOUZOU: > It's a statue. */;
                     itfMesMngCloseWindow();
                     SET_ALLPANEL(7);
                     PAD_ENABLE();
@@ -5110,7 +5110,7 @@ void 024_01eve_06()
                     BGM_VOL_DOWN();
                     FADE_IN(0, 10);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(27) /* MITUKETANODA */;
+                    itfMesMngMessage(27) /* MITUKETANODA: Curse thee... */;
                     itfMesMngCloseWindow();
                     COMM_217(62);
                     MODEL_MOTION2(var253, 16, 0, 5, 3);
@@ -5132,7 +5132,7 @@ void 024_01eve_06()
                     SCR_WAIT(SCR_RUN(116, 0));
                     FADE_IN(1, 5);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(26) /* MITEMASU */;
+                    itfMesMngMessage(26) /* MITEMASU: Fool! */;
                     SCR_WAIT(SCR_RUN(117, 0));
                     FLD_SE_PLAY(56);
                     itfMesMngCloseWindow();
@@ -5161,7 +5161,7 @@ void 024_01eve_07()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(29) /* DOUZOU */;
+                itfMesMngMessage(29) /* DOUZOU: > It's a statue. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -5180,7 +5180,7 @@ void 024_01eve_07()
                 SCR_WAIT(SCR_RUN(116, 0));
                 FADE_IN(1, 5);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(26) /* MITEMASU */;
+                itfMesMngMessage(26) /* MITEMASU: Fool! */;
                 SCR_WAIT(SCR_RUN(117, 0));
                 FLD_SE_PLAY(56);
                 itfMesMngCloseWindow();
@@ -5208,7 +5208,7 @@ void 024_01eve_08()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(29) /* DOUZOU */;
+                itfMesMngMessage(29) /* DOUZOU: > It's a statue. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -5227,7 +5227,7 @@ void 024_01eve_08()
                 SCR_WAIT(SCR_RUN(116, 0));
                 FADE_IN(1, 5);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(26) /* MITEMASU */;
+                itfMesMngMessage(26) /* MITEMASU: Fool! */;
                 SCR_WAIT(SCR_RUN(117, 0));
                 FLD_SE_PLAY(56);
                 itfMesMngCloseWindow();
@@ -5257,8 +5257,8 @@ void 024_01eve_09()
         CAM_SEL_FOVY(SEARCH_ID("01cam_09"));
         FADE_IN(0, 5);
         itfMesMngOpenWindow();
-        itfMesMngMessage(24) /* ASOBIT */;
-        itfMesMngMessage(25) /* ASOBIT01 */;
+        itfMesMngMessage(24) /* ASOBIT: > You can hear a voice... */;
+        itfMesMngMessage(25) /* ASOBIT01: ...Truth and falsity are but light and darkness. */;
         itfMesMngCloseWindow();
         FADE_OUT(0, 10);
         WAIT(10);
@@ -5282,7 +5282,7 @@ void 029_start()
             SET_ALLPANEL(2);
             CAM_SEL_FOVY(SEARCH_ID("01cam_02"));
             itfMesMngOpenWindow();
-            itfMesMngMessage(45) /* KANMONATO */;
+            itfMesMngMessage(45) /* KANMONATO: O Kagutsuchi... Hath the destroyer appeared...? Or is he...? */;
             WAIT(25);
             itfMesMngCloseWindow();
             FADE_OUT(0, 25);
@@ -5312,7 +5312,7 @@ void 029_01eve_01()
         local87 = MODEL_DSP(6, 2);
         local88 = EFFBED_LOAD("/fld/f/bin/DEVILGEN.BED");
         itfMesMngOpenWindow();
-        itfMesMngMessage(35) /* KANMONMAE */;
+        itfMesMngMessage(35) /* KANMONMAE: O Demi-fiend...... Thou hast set foot into my chamber of judgement. */;
         FLD_BGM_FADE();
         FLD_BGM_PLAY(128);
         QUAKE_ON(0, 50);
@@ -5337,19 +5337,19 @@ void 029_01eve_01()
         CAM_PATH_WAIT(SEARCH_ID("01cam_03"));
         WAIT(70);
         itfMesMngOpenWindow();
-        itfMesMngMessage(36) /* KANMON01 */;
+        itfMesMngMessage(36) /* KANMON01: I am the arbiter who enforces the law known as the Prophecy of Miroku. */;
         CAM_SEL_FOVY(SEARCH_ID("01cam_04"));
-        itfMesMngMessage(37) /* KANMON02 */;
-        if (itfMesMngSelect(38) == 0)
+        itfMesMngMessage(37) /* KANMON02: But, darest thou, a demon, attempt to create the new world? */;
+        if (itfMesMngSelect(38) /* KANMON_SEL: Of course I'm a demon. / No, I'm not a demon. */ == 0)
         {
-            itfMesMngMessage(39) /* KANMON03 */;
-            if (itfMesMngSelect(40) == 0)
+            itfMesMngMessage(39) /* KANMON03: Then {firstname 0}, dost thou accept that thy heart is demonic? */;
+            if (itfMesMngSelect(40) /* KANMON_SEL02: Demon to the bone. / No, it's not. */ == 0)
             {
-                itfMesMngMessage(41) /* KANMON04 */;
-                if (itfMesMngSelect(42) == 0)
+                itfMesMngMessage(41) /* KANMON04: Finally, allow me to ask thee, demon. */;
+                if (itfMesMngSelect(42) /* KANMON_SEL03: I wouldn't dream of it. / I'm in a creation mood. */ == 0)
                 {
                     CAM_SEL_FOVY(SEARCH_ID("01cam_05"));
-                    itfMesMngMessage(43) /* KANMONGOODEND */;
+                    itfMesMngMessage(43) /* KANMONGOODEND: Good, now look at me-- */;
                     MODEL_MOTION2(local87, 4, 0, 5, 3);
                     WAIT(5);
                     COMM_217(64);
@@ -5364,7 +5364,7 @@ void 029_01eve_01()
                 else
                 {
                     CAM_SEL_FOVY(SEARCH_ID("01cam_05"));
-                    itfMesMngMessage(44) /* KANMONBADEND */;
+                    itfMesMngMessage(44) /* KANMONBADEND: 'Tis true that thou art the bane of creation... */;
                     MODEL_MOTION2(local87, 4, 0, 5, 3);
                     WAIT(5);
                     COMM_217(64);
@@ -5380,7 +5380,7 @@ void 029_01eve_01()
             else
             {
                 CAM_SEL_FOVY(SEARCH_ID("01cam_05"));
-                itfMesMngMessage(44) /* KANMONBADEND */;
+                itfMesMngMessage(44) /* KANMONBADEND: 'Tis true that thou art the bane of creation... */;
                 MODEL_MOTION2(local87, 4, 0, 5, 3);
                 WAIT(5);
                 COMM_217(64);
@@ -5396,7 +5396,7 @@ void 029_01eve_01()
         else
         {
             CAM_SEL_FOVY(SEARCH_ID("01cam_05"));
-            itfMesMngMessage(44) /* KANMONBADEND */;
+            itfMesMngMessage(44) /* KANMONBADEND: 'Tis true that thou art the bane of creation... */;
             MODEL_MOTION2(local87, 4, 0, 5, 3);
             WAIT(5);
             COMM_217(64);
@@ -5430,7 +5430,7 @@ void 033_bg01()
     FADE_IN(0, 5);
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(33) /* DAREMOINAI */;
+    itfMesMngMessage(33) /* DAREMOINAI: > No one is here. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 15);
     WAIT(15);

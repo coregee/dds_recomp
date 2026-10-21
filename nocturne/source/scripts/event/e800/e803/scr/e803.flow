@@ -31,7 +31,7 @@ void e803_main()
         CAM_SEL(SEARCH_ID("cam02"));
         CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(0) /* MSG_002 */;
+        itfMesMngMessage(0) /* MSG_002: Welcome to Rag's Jewelry. */;
         itfMesMngCloseWindow();
         CAM_SEL(SEARCH_ID("cam01"));
         CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));

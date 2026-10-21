@@ -42,7 +42,7 @@ void e655_main()
         WAIT(60);
         KUTI(var2, 3, 1);
         itfMesMngOpenWindow();
-        itfMesMngMessage(0) /* MSG_010_1 */;
+        itfMesMngMessage(0) /* MSG_010_1: {firstname 0}... */;
         itfMesMngCloseWindow();
         SYNC();
         var40 = CAM_CREATE();
@@ -51,14 +51,14 @@ void e655_main()
         CAM_SEL(var40);
         WAIT(25);
         itfMesMngOpenWindow();
-        itfMesMngMessage(1) /* MSG_010_2 */;
-        var5 = itfMesMngSelect(2);
+        itfMesMngMessage(1) /* MSG_010_2: You came here to see me? */;
+        var5 = itfMesMngSelect(2) /* ISAMU_001: I wanted to see how you're doing. / I came to check up on Hijiri. */;
         itfMesMngCloseWindow();
         if (var5 == 0)
         {
             BIT_ON(99);
             itfMesMngOpenWindow();
-            itfMesMngMessage(3) /* MSG_010_3 */;
+            itfMesMngMessage(3) /* MSG_010_3: Thanks... I really appreciate it. */;
             itfMesMngCloseWindow();
             var41 = CAM_CREATE();
             CAM_POS_XYZ(var41, 191.09f, - 103.69f, - 161.46f);
@@ -66,7 +66,7 @@ void e655_main()
             CAM_SEL(var41);
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(5) /* MSG_010_5 */;
+            itfMesMngMessage(5) /* MSG_010_5: That guy's coming with me... In fact, I better get going now. */;
             itfMesMngCloseWindow();
             var56 = CAM_CREATE();
             CAM_POS_XYZ(var56, - 394.62f, - 9e+01f, - 15.61f);
@@ -87,13 +87,13 @@ void e655_main()
             MODEL_OFF(var39);
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(7) /* MSG_010_7 */;
+            itfMesMngMessage(7) /* MSG_010_7: > {firstname 2} disappeared. */;
             itfMesMngCloseWindow();
         }
         else if (var5 == 1)
         {
             itfMesMngOpenWindow();
-            itfMesMngMessage(4) /* MSG_010_4 */;
+            itfMesMngMessage(4) /* MSG_010_4: ...Oh really? */;
             itfMesMngCloseWindow();
             var41 = CAM_CREATE();
             CAM_POS_XYZ(var41, 191.09f, - 103.69f, - 161.46f);
@@ -101,7 +101,7 @@ void e655_main()
             CAM_SEL(var41);
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(6) /* MSG_010_6 */;
+            itfMesMngMessage(6) /* MSG_010_6: Heh. Maybe that's a good thing about you, being so gullible. */;
             itfMesMngCloseWindow();
             var56 = CAM_CREATE();
             CAM_POS_XYZ(var56, - 394.62f, - 9e+01f, - 15.61f);
@@ -123,7 +123,7 @@ void e655_main()
             MODEL_OFF(var39);
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(7) /* MSG_010_7 */;
+            itfMesMngMessage(7) /* MSG_010_7: > {firstname 2} disappeared. */;
             itfMesMngCloseWindow();
         }
         FADE_OUT(0, 65);
@@ -169,7 +169,7 @@ void e655_010_1()
 {
     WAIT(480);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_010_1 */;
+    itfMesMngMessage(0) /* MSG_010_1: {firstname 0}... */;
     WAIT(10);
     itfMesMngCloseWindow();
 }
@@ -209,7 +209,7 @@ void e655_020()
     itfMesMngWindowTypeAlpha(1, 80);
     WAIT(40);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_020_1 */;
+    itfMesMngMessage(8) /* MSG_020_1: ...Hey {firstname 0}, long time no see. */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -222,7 +222,7 @@ void e655_030()
     itfMesMngWindowTypeAlpha(1, 80);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_030_1 */;
+    itfMesMngMessage(9) /* MSG_030_1: Are you here to help me, or to capture me? */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -236,7 +236,7 @@ void e655_040()
     itfMesMngWindowTypeAlpha(1, 80);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* MSG_040_1 */;
+    itfMesMngMessage(10) /* MSG_040_1: The person you see before you is the almighty {firstname 2}, master o... */;
     itfMesMngCloseWindow();
     WAIT(30);
     MODEL_WAIT_MOT(var2, 4);
@@ -249,7 +249,7 @@ void e655_040()
     KUTI(var2, 3, 1);
     MODEL_CLS(var39);
     itfMesMngOpenWindow();
-    itfMesMngMessage(11) /* MSG_040_2 */;
+    itfMesMngMessage(11) /* MSG_040_2: To be honest with you, I stopped caring about others entirely. */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -315,24 +315,24 @@ void e655_050()
     SCR_RUN(15, - 1);
     WAIT(120);
     itfMesMngOpenWindow();
-    itfMesMngMessage(12) /* MSG_050_1 */;
-    var5 = itfMesMngSelect(13);
+    itfMesMngMessage(12) /* MSG_050_1: They don't care about me, and I don't care about them. */;
+    var5 = itfMesMngSelect(13) /* MSG_050_2: Yeah, I agree. / No, I don't think so. / I don't know. */;
     if (var5 == 0)
     {
         WAIT(30);
         BIT_ON(69);
         POINT_ADD(2, 32);
-        itfMesMngMessage(14) /* MSG_050_3 */;
+        itfMesMngMessage(14) /* MSG_050_3: I knew you'd understand. You can't please everyone, and you really sh... */;
     }
     else if (var5 == 1)
     {
         WAIT(30);
-        itfMesMngMessage(15) /* MSG_050_4 */;
+        itfMesMngMessage(15) /* MSG_050_4: ...I had a feeling that you wouldn't understand. I guess it doesn't m... */;
     }
     else if (var5 == 2)
     {
         WAIT(30);
-        itfMesMngMessage(16) /* MSG_050_5 */;
+        itfMesMngMessage(16) /* MSG_050_5: ...I bet you've done nothing but waste time here in this Vortex World. */;
     }
     itfMesMngCloseWindow();
     WAIT(10);

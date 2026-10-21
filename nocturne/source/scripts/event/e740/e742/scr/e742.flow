@@ -53,7 +53,7 @@ START:
     FADE_IN(1, 30);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_003 */;
+    itfMesMngMessage(4) /* MSG_003: > You obtained the Candelabrum of Eternity. */;
     itfMesMngCloseWindow();
     WAIT(20);
     BIT_ON(999);
@@ -91,7 +91,7 @@ void e742_010()
     WAIT(20);
     SCR_RUN(2, - 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: ...Are you the Fiend who has been seduced by the power of darkness? */;
     itfMesMngCloseWindow();
     WAIT(20);
     FADE_OUT(1, 2);
@@ -106,7 +106,7 @@ void e742_010()
     WAIT(20);
     SCR_RUN(3, - 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(1) /* MSG_002: Man is destined to die, and the world to end... Yet, still you challe... */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("01cam_04"));
@@ -116,14 +116,14 @@ void e742_010()
     MODEL_MOTION2(var1, 2, 0, 0, 1);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_004 */;
+    itfMesMngMessage(2) /* MSG_004: Do not lose sight of the truth, Demi-fiend. Your struggle against dea... */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("01cam_05"));
     CAM_PATH_MOVE(SEARCH_ID("01cam_05"), SEARCH_ID("01cam_05_MOTION"));
     PATH_STOP(SEARCH_ID("01cam_05"));
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_005 */;
+    itfMesMngMessage(3) /* MSG_005: Receive my salvation... Accept your death! */;
     itfMesMngCloseWindow();
     PATH_START(SEARCH_ID("01cam_05"));
     MODEL_MOTION2(var1, 3, 0, 10, 2);

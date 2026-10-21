@@ -68,14 +68,14 @@ void e624_010()
     SCR_RUN(3, - 1);
     WAIT(120);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* YUUKO_001 */;
+    itfMesMngMessage(0) /* YUUKO_001: [82A0][82A0][82DA][81CD][82FA][82A0] */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("cam03"));
     CAM_PATH_MOVE(SEARCH_ID("cam03"), SEARCH_ID("cam03_MOTION"));
     MODEL_LIGHT_RGB(var2, 80, 0.9f, 0.9f, 0.9f, 0.6f, 0.3f, 0.3f);
     SCR_RUN(5, - 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* YUUKO_002 */;
+    itfMesMngMessage(1) /* YUUKO_002: [82F9][81FF][80E6][80E3][82A0][82A0] [81D8][80E1] [82EC][82C3][81DB][... */;
     itfMesMngCloseWindow();
     MODEL_RGB(var2, 100, 0.0f, 0.0f, 0.0f);
     WAIT(100);

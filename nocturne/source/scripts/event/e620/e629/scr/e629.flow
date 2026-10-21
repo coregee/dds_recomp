@@ -83,29 +83,29 @@ void e629_020()
     WAIT(10);
     itfMesMngOpenWindow();
     itfMesMngIgnoreConfig(1);
-    itfMesMngMessage(2) /* MSG_020_A1 */;
+    itfMesMngMessage(2) /* MSG_020_A1: Oooohhh... */;
     WAIT(30);
-    itfMesMngMessage(1) /* MSG_020_A0 */;
+    itfMesMngMessage(1) /* MSG_020_A0: [80EA] */;
     WAIT(10);
     WAIT(15);
     SE_PLAY_E(629, 71);
-    itfMesMngMessage(3) /* MSG_020_A2 */;
+    itfMesMngMessage(3) /* MSG_020_A2: Heaven and earth tremble */;
     WAIT(30);
-    itfMesMngMessage(1) /* MSG_020_A0 */;
+    itfMesMngMessage(1) /* MSG_020_A0: [80EA] */;
     WAIT(10);
-    itfMesMngMessage(4) /* MSG_020_A3 */;
+    itfMesMngMessage(4) /* MSG_020_A3: when the almighty */;
     WAIT(20);
-    itfMesMngMessage(1) /* MSG_020_A0 */;
+    itfMesMngMessage(1) /* MSG_020_A0: [80EA] */;
     WAIT(10);
-    itfMesMngMessage(5) /* MSG_020_A4 */;
+    itfMesMngMessage(5) /* MSG_020_A4: descends from above; */;
     WAIT(20);
-    itfMesMngMessage(1) /* MSG_020_A0 */;
+    itfMesMngMessage(1) /* MSG_020_A0: [80EA] */;
     WAIT(10);
-    itfMesMngMessage(6) /* MSG_020_A5 */;
+    itfMesMngMessage(6) /* MSG_020_A5: god's coming echoes */;
     WAIT(30);
-    itfMesMngMessage(1) /* MSG_020_A0 */;
+    itfMesMngMessage(1) /* MSG_020_A0: [80EA] */;
     WAIT(10);
-    itfMesMngMessage(7) /* MSG_020_A6 */;
+    itfMesMngMessage(7) /* MSG_020_A6: across the land... */;
     WAIT(30);
     itfMesMngCloseWindow();
     WAIT(60);
@@ -199,7 +199,7 @@ void e629_040()
     BGM_PLAY_E(629, 2);
     WAIT(40);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_040_1 */;
+    itfMesMngMessage(8) /* MSG_040_1: Welcome, {name 0}. */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -240,8 +240,8 @@ void e629_050()
     SE_PLAY_E(629, 106);
     WAIT(15);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_040_2 */;
-    itfMesMngMessage(10) /* MSG_050_1 */;
+    itfMesMngMessage(9) /* MSG_040_2: I was truly impressed by your battle. */;
+    itfMesMngMessage(10) /* MSG_050_1: But first, let me reward you. Please accept this gift. */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -276,8 +276,8 @@ void e629_060()
     COMM_0E8(SEARCH_ID("light03"));
     WAIT(15);
     itfMesMngOpenWindow();
-    itfMesMngMessage(13) /* MSG_060_1 */;
-    var4 = itfMesMngSelect(14);
+    itfMesMngMessage(13) /* MSG_060_1: Hahahaha! Do you feel the power coursing through your body? */;
+    var4 = itfMesMngSelect(14) /* MSG_060_2: I'm at your service. / I decline. / Let me think about it. */;
     itfMesMngCloseWindow();
     if (var4 == 0)
     {
@@ -304,7 +304,7 @@ void e629_070()
     if (var4 == 0)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(15) /* MSG_070_1 */;
+        itfMesMngMessage(15) /* MSG_070_1: Hahahaha!! Very well, then! */;
         itfMesMngCloseWindow();
         BIT_ON(27);
         POINT_ADD(1, 8);
@@ -312,14 +312,14 @@ void e629_070()
     else if (var4 == 1)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(16) /* MSG_070_2 */;
+        itfMesMngMessage(16) /* MSG_070_2: Hm... Hahaha... Hahahahaha!! */;
         itfMesMngCloseWindow();
         POINT_ADD(3, 8);
     }
     else if (var4 == 2)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(17) /* MSG_070_3 */;
+        itfMesMngMessage(17) /* MSG_070_3: Hmm... Indecisive, are you? */;
         itfMesMngCloseWindow();
         POINT_ADD(2, 4);
     }
@@ -354,20 +354,20 @@ void e629_080()
     DIST_BLUR_OFF(0);
     WAIT(15);
     itfMesMngOpenWindow();
-    itfMesMngMessage(18) /* MSG_080_1 */;
+    itfMesMngMessage(18) /* MSG_080_1: Now... As you may already know, our enemy is the Assembly of Nihilo. */;
     if (var4 == 0)
     {
-        itfMesMngMessage(19) /* MSG_080_2 */;
+        itfMesMngMessage(19) /* MSG_080_2: If you consider yourself a Mantra, make haste and go to Ginza. Crush... */;
     }
     else if (var4 == 1)
     {
-        itfMesMngMessage(20) /* MSG_080_3 */;
+        itfMesMngMessage(20) /* MSG_080_3: If you call yourself a demon, make haste and go to Ginza. Crush those... */;
     }
     else if (var4 == 2)
     {
-        itfMesMngMessage(20) /* MSG_080_3 */;
+        itfMesMngMessage(20) /* MSG_080_3: If you call yourself a demon, make haste and go to Ginza. Crush those... */;
     }
-    itfMesMngMessage(21) /* MSG_080_4 */;
+    itfMesMngMessage(21) /* MSG_080_4: I am Gozu-Tennoh, the one who will rule the kingdom of chaos... */;
     itfMesMngCloseWindow();
     WAIT(50);
 }
@@ -400,7 +400,7 @@ void e629_055()
     WAIT(30);
     DIST_BLUR_OFF(0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(12) /* MSG_055_1 */;
+    itfMesMngMessage(12) /* MSG_055_1: > You received power from Gozu-Tennoh. */;
     itfMesMngCloseWindow();
     WAIT(30);
 }

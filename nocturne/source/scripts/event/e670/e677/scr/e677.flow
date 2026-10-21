@@ -111,11 +111,11 @@ void e677_020()
     {
         itfMesMngWindowTypeAlpha(1, 60);
         itfMesMngOpenWindow();
-        itfMesMngMessage(1) /* MSG_020_1_B */;
+        itfMesMngMessage(1) /* MSG_020_1_B: Ha ha ha... I got beat up pretty bad. */;
         itfMesMngCloseWindow();
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(2) /* MSG_020_1_C */;
+        itfMesMngMessage(2) /* MSG_020_1_C: I worked so hard to get the Reason of Musubi... But, it seems almost... */;
         itfMesMngCloseWindow();
         WAIT(40);
         MODEL_ON(var4);
@@ -125,14 +125,14 @@ void e677_020()
         WAIT(20);
         itfMesMngWindowTypeAlpha(1, 60);
         itfMesMngOpenWindow();
-        itfMesMngMessage(3) /* MSG_020_1_D */;
+        itfMesMngMessage(3) /* MSG_020_1_D: Here... Let me give you this. I have guarded it with my life... */;
         itfMesMngCloseWindow();
         MODEL_OFF(var4);
         goto START2;
     }
     itfMesMngWindowTypeAlpha(1, 60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_020_1 */;
+    itfMesMngMessage(0) /* MSG_020_1: You win... Do as you... please... */;
     itfMesMngCloseWindow();
 START2:
 }
@@ -184,19 +184,19 @@ void e677_030()
     {
         itfMesMngWindowTypeAlpha(1, 60);
         itfMesMngOpenWindow();
-        itfMesMngMessage(5) /* MSG_020_1_F */;
+        itfMesMngMessage(5) /* MSG_020_1_F: ...See ya, {firstname 0}. */;
         itfMesMngCloseWindow();
         WAIT(35);
         SE_PLAY(25);
         itfMesMngOpenWindow();
-        itfMesMngMessage(4) /* MSG_020_1_E */;
+        itfMesMngMessage(4) /* MSG_020_1_E: > You obtained the Netherstone. */;
         itfMesMngCloseWindow();
         goto START3;
     }
     itfMesMngWindowTypeAlpha(1, 60);
     SE_PLAY(25);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_020_1_E */;
+    itfMesMngMessage(4) /* MSG_020_1_E: > You obtained the Netherstone. */;
     itfMesMngCloseWindow();
 START3:
 }

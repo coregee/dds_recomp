@@ -112,11 +112,11 @@ void e651_020()
     WAIT(150);
     itfMesMngWindowTypeAlpha(1, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_030_1 */;
+    itfMesMngMessage(0) /* MSG_030_1: ...Thank you, {firstname 0}. */;
     itfMesMngCloseWindow();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_030_2 */;
+    itfMesMngMessage(1) /* MSG_030_2: It's funny... I told you that I'd be your strength, */;
     itfMesMngCloseWindow();
 }
 
@@ -141,7 +141,7 @@ void e651_030()
     MODEL_EXMOTION(var1, 1, 1, 20, 20, 1);
     KUTI(var1, 3, 3);
     itfMesMngWindowTypeAlpha(1, 70);
-    itfMesMngMessage(2) /* MSG_040_1 */;
+    itfMesMngMessage(2) /* MSG_040_1: I have no power whatsoever. */;
     itfMesMngCloseWindow();
     MODEL_EXMOTION(var1, 1, 2, 0, 0, 2);
     MODEL_EXMOTION(var1, 3, 0, 10, 0, 2);
@@ -154,9 +154,9 @@ void e651_030()
     MODEL_EXMOTION(var1, 1, 4, 20, 0, 1);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_040_2 */;
+    itfMesMngMessage(3) /* MSG_040_2: It's true that the Conception did take place, and I assisted in makin... */;
     BGM_TRANS_E(651, - 1);
-    itfMesMngMessage(4) /* MSG_040_3 */;
+    itfMesMngMessage(4) /* MSG_040_3: I dreamed of an ideal world where people were grateful to be alive... */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var1, 7);
     MODEL_MOTION2(var1, 6, 0, 20, 0);
@@ -182,14 +182,14 @@ void e651_040()
     KUTI(var1, 3, 3);
     itfMesMngWindowTypeAlpha(1, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_050_1 */;
+    itfMesMngMessage(5) /* MSG_050_1: ...I didn't like how the world was before. */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var1, 9);
     MODEL_MOTION2(var1, 8, 0, 20, 0);
     MODEL_WAIT_EXMOT(var1, 1, 6);
     MODEL_EXMOTION(var1, 1, 7, 0, 0, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_TUIKA01 */;
+    itfMesMngMessage(6) /* MSG_TUIKA01: No wonder I was used by Hikawa... */;
     itfMesMngCloseWindow();
     WAIT(30);
     SCENE_LIGHT_RGB(50, 0.85f, 0.85f, 0.7f);
@@ -204,7 +204,7 @@ void e651_040()
     MODEL_EXMOTION(var1, 3, 1, 0, 10, 2);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_050_2 */;
+    itfMesMngMessage(7) /* MSG_050_2: ...But, it's not over yet. */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var1, 13);
     MODEL_MOTION2(var1, 12, 0, 20, 0);
@@ -224,12 +224,12 @@ void e651_045()
     KUTI(var1, 3, 3);
     itfMesMngWindowTypeAlpha(1, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_050_25 */;
+    itfMesMngMessage(8) /* MSG_050_25: The world is still being recreated... Its shape is not yet fixed. */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var1, 15);
     MODEL_MOTION2(var1, 14, 0, 20, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_TUIKA02 */;
+    itfMesMngMessage(9) /* MSG_TUIKA02: It was here that I discovered my god, a god that even Hikawa is unawa... */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -306,13 +306,13 @@ void e651_070()
     WAIT(90);
     itfMesMngWindowTypeAlpha(1, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* MSG_050_0003 */;
+    itfMesMngMessage(10) /* MSG_050_0003: Fool who bears the name Freedom... */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var6, 5);
     MODEL_MOTION2(var6, 4, 0, 10, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(11) /* MSG_050_0004 */;
-    itfMesMngMessage(12) /* MSG_050_0005 */;
+    itfMesMngMessage(11) /* MSG_050_0004: I am Aradia. I have come from the far reaches of Amala. */;
+    itfMesMngMessage(12) /* MSG_050_0005: It is my duty to bestow freedom. Ask, and you shall be set free. */;
     itfMesMngCloseWindow();
     WAIT(50);
 }
@@ -326,8 +326,8 @@ void e651_080()
     WAIT(40);
     itfMesMngWindowTypeAlpha(1, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(13) /* MSG_TUIKA03 */;
-    itfMesMngMessage(14) /* MSG_TUIKA04 */;
+    itfMesMngMessage(13) /* MSG_TUIKA03: If you deem yourself right, light will return to the world, but so wi... */;
+    itfMesMngMessage(14) /* MSG_TUIKA04: Pursue the way of creation! */;
     itfMesMngCloseWindow();
     WAIT(10);
     FADE_OUT(1, 10);
@@ -337,11 +337,11 @@ void e651_080()
     WAIT(10);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(15) /* MSG_TUIKA05 */;
+    itfMesMngMessage(15) /* MSG_TUIKA05: > You received power from Aradia. */;
     itfMesMngCloseWindow();
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(16) /* MSG_TUIKA06 */;
+    itfMesMngMessage(16) /* MSG_TUIKA06: This woman will soon recover her lost power. */;
     itfMesMngCloseWindow();
     WAIT(20);
 }

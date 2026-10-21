@@ -72,7 +72,7 @@ void e602_010()
     KUTI(var1, 3, 1);
     itfMesMngWindowTypeAlpha(0, 100);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* HIJIRI_001 */;
+    itfMesMngMessage(0) /* HIJIRI_001: Great, the entire park is closed. */;
     itfMesMngCloseWindow();
     WAIT(10);
 }
@@ -90,14 +90,14 @@ void e602_015()
     SCR_RUN(3, - 1);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* HIJIRI_002 */;
+    itfMesMngMessage(1) /* HIJIRI_002: ...? */;
     itfMesMngCloseWindow();
     WAIT(20);
     MODEL_EXMOTION(var1, 1, 1, 0, 0, 2);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* HIJIRI_0021 */;
-    var3 = itfMesMngSelect(3);
+    itfMesMngMessage(2) /* HIJIRI_0021: ...What's up, kid? */;
+    var3 = itfMesMngSelect(3) /* HIJIRI_0022: What happened here? / Ah, nothing. */;
     WAIT(1);
 }
 
@@ -125,7 +125,7 @@ void e602_020()
         MODEL_EXMOTION(var1, 2, 2, 0, 0, 2);
         WAIT(20);
         itfMesMngOpenWindow();
-        itfMesMngMessage(4) /* HIJIRI_0031 */;
+        itfMesMngMessage(4) /* HIJIRI_0031: Well, this is what they said on TV: */;
         itfMesMngCloseWindow();
         WAIT(10);
         CAM_SEL(SEARCH_ID("cam04"));
@@ -136,7 +136,7 @@ void e602_020()
         WAIT(30);
         MODEL_EXMOTION(var1, 2, 0, 0, 0, 0);
         itfMesMngOpenWindow();
-        itfMesMngMessage(5) /* HIJIRI_00312 */;
+        itfMesMngMessage(5) /* HIJIRI_00312: But, those who live on the fringe say... */;
         itfMesMngCloseWindow();
     }
     else if (var3 == 1)
@@ -144,7 +144,7 @@ void e602_020()
         WAIT(20);
         MODEL_EXMOTION(var1, 2, 0, 0, 0, 0);
         itfMesMngOpenWindow();
-        itfMesMngMessage(6) /* HIJIRI_0032 */;
+        itfMesMngMessage(6) /* HIJIRI_0032: Oh... Okay. */;
         itfMesMngCloseWindow();
     }
     itfMesMngCloseWindow();
@@ -152,14 +152,14 @@ void e602_020()
     PATH_START(SEARCH_ID("cam02"));
     SCR_RUN(5, - 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* HIJIRI_009 */;
+    itfMesMngMessage(7) /* HIJIRI_009: > Your cell phone started to ring. */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var1, 17);
     MODEL_MOTION2(var1, 16, 0, 10, 0);
     WAIT(10);
     MODEL_EXMOTION(var1, 1, 0, 0, 0, 2);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* HIJIRI_011 */;
+    itfMesMngMessage(8) /* HIJIRI_011: ...Huh? Isn't that your phone ringing? */;
     itfMesMngCloseWindow();
     WAIT(2);
 }
@@ -182,8 +182,8 @@ void e602_030()
     WAIT(50);
     itfMesMngOpenWindow();
     SCR_RUN(8, - 1);
-    itfMesMngMessage(9) /* TIAKI_001 */;
-    itfMesMngMessage(10) /* TIAKI_001_1 */;
+    itfMesMngMessage(9) /* TIAKI_001: ...Hi, {firstname 0}? It's me. */;
+    itfMesMngMessage(10) /* TIAKI_001_1: > Please enter your classmate's name. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 30);
     WAIT(30);
@@ -191,20 +191,20 @@ void e602_030()
     FADE_IN(0, 30);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(11) /* TIAKI_002 */;
+    itfMesMngMessage(11) /* TIAKI_002: I could see if it was {firstname 2}, but you're never late. Did somet... */;
     SCR_RUN(9, - 1);
-    itfMesMngMessage(12) /* TIAKI_003 */;
-    itfMesMngMessage(13) /* TIAKI_004 */;
-    var3 = itfMesMngSelect(14);
+    itfMesMngMessage(12) /* TIAKI_003: You know which hospital it is? ...Yeah, Shinjuku Medical Center. */;
+    itfMesMngMessage(13) /* TIAKI_004: Oh well. */;
+    var3 = itfMesMngSelect(14) /* TIAKI_004_2: I'll be there ASAP. / Is now the right time for that? */;
     if (var3 == 0)
     {
-        itfMesMngMessage(15) /* TIAKI_004_3 */;
+        itfMesMngMessage(15) /* TIAKI_004_3: Thanks, I'm not planning on staying there long. */;
     }
     else if (var3 == 1)
     {
-        itfMesMngMessage(16) /* TIAKI_004_4 */;
+        itfMesMngMessage(16) /* TIAKI_004_4: ...What? I care about my future, thank you very much. */;
     }
-    itfMesMngMessage(17) /* TIAKI_005 */;
+    itfMesMngMessage(17) /* TIAKI_005: > {firstname 3} hung up. */;
     itfMesMngCloseWindow();
     WAIT(10);
 }
@@ -242,9 +242,9 @@ void e602_040()
     MODEL_EXMOTION(var1, 1, 1, 0, 0, 2);
     MODEL_EXMOTION(var1, 3, 0, 0, 0, 2);
     itfMesMngOpenWindow();
-    itfMesMngMessage(18) /* HIJIRI_006 */;
+    itfMesMngMessage(18) /* HIJIRI_006: Hey, wait a minute... You're going to Shinjuku Medical Center? */;
     MODEL_EXMOTION(var1, 2, 2, 0, 0, 2);
-    itfMesMngMessage(19) /* HIJIRI_0061 */;
+    itfMesMngMessage(19) /* HIJIRI_0061: ...That's where I'm headed, too. What a coincidence. */;
     itfMesMngCloseWindow();
     MODEL_WAIT(var1);
     MODEL_WAIT_MOT(var1, 11);
@@ -253,23 +253,23 @@ void e602_040()
     MODEL_EXMOTION(var1, 2, 0, 0, 5, 0);
     WAIT(60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(20) /* HIJIRI_007 */;
+    itfMesMngMessage(20) /* HIJIRI_007: Here, take this. This issue isn't out yet. */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var1, 13);
     MODEL_MOTION2(var1, 12, 0, 10, 0);
     WAIT(80);
     itfMesMngOpenWindow();
-    itfMesMngMessage(23) /* HIJIRI_008 */;
+    itfMesMngMessage(23) /* HIJIRI_008: > You obtained an issue of Ayakashi Monthly. */;
     itfMesMngCloseWindow();
     WAIT(10);
     MODEL_EXMOTION(var1, 1, 1, 0, 0, 2);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(21) /* HIJIRI_010 */;
+    itfMesMngMessage(21) /* HIJIRI_010: You wouldn't normally associate a hospital with the occult, but... */;
     MODEL_EXMOTION(var1, 1, 0, 0, 0, 2);
     MODEL_EXMOTION(var1, 3, 0, 0, 10, 0);
     WAIT(20);
-    itfMesMngMessage(22) /* HIJIRI_0101 */;
+    itfMesMngMessage(22) /* HIJIRI_0101: ...Heheh. */;
     MODEL_EXMOTION(var1, 3, 0, 0, 10, 2);
     itfMesMngCloseWindow();
     WAIT(10);

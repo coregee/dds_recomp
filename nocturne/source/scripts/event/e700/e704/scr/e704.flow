@@ -214,75 +214,75 @@ void e704_010()
 void e704_010_AS()
 {
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_A01 */;
+    itfMesMngMessage(0) /* MSG_A01: ...You who are about to ascend my tower, and who wish to enter the li... */;
     itfMesMngCloseWindow();
     WAIT(100);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_A02_S */;
+    itfMesMngMessage(1) /* MSG_A02_S: ...I see a Reason as tranquil as a still lake... */;
     itfMesMngCloseWindow();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_A03 */;
+    itfMesMngMessage(4) /* MSG_A03: To breathe your Reason into the act of creation... */;
     itfMesMngCloseWindow();
 }
 
 void e704_010_AY()
 {
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_A01 */;
+    itfMesMngMessage(0) /* MSG_A01: ...You who are about to ascend my tower, and who wish to enter the li... */;
     itfMesMngCloseWindow();
     WAIT(100);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_A02_Y */;
+    itfMesMngMessage(2) /* MSG_A02_Y: ...I see a Reason as fierce as a raging flame... */;
     itfMesMngCloseWindow();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_A03 */;
+    itfMesMngMessage(4) /* MSG_A03: To breathe your Reason into the act of creation... */;
     itfMesMngCloseWindow();
 }
 
 void e704_010_AM()
 {
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_A01 */;
+    itfMesMngMessage(0) /* MSG_A01: ...You who are about to ascend my tower, and who wish to enter the li... */;
     itfMesMngCloseWindow();
     WAIT(100);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_A02_M */;
+    itfMesMngMessage(3) /* MSG_A02_M: ...I see a Reason as hard as a flawless gem... */;
     itfMesMngCloseWindow();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_A03 */;
+    itfMesMngMessage(4) /* MSG_A03: To breathe your Reason into the act of creation... */;
     itfMesMngCloseWindow();
 }
 
 void e704_010_B()
 {
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_B01 */;
+    itfMesMngMessage(5) /* MSG_B01: ...You who are about to ascend my tower, and who wish to enter the li... */;
     itfMesMngCloseWindow();
     WAIT(100);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_B02 */;
+    itfMesMngMessage(6) /* MSG_B02: ...I cannot see within your heart... */;
     itfMesMngCloseWindow();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_B03 */;
+    itfMesMngMessage(7) /* MSG_B03: Who are you...? Is your purpose in accordance with my will? */;
     itfMesMngCloseWindow();
 }
 
 void e704_010_M()
 {
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_M01 */;
+    itfMesMngMessage(8) /* MSG_M01: ...You who are about to ascend my tower, and who wish to enter the li... */;
     itfMesMngCloseWindow();
     WAIT(100);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_M02 */;
+    itfMesMngMessage(9) /* MSG_M02: ...All I see is darkness inside you... */;
     itfMesMngCloseWindow();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* MSG_M03 */;
+    itfMesMngMessage(10) /* MSG_M03: No light remains in your heart, and your purpose is in defiance of my... */;
     itfMesMngCloseWindow();
 }
 

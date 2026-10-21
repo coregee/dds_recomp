@@ -6,7 +6,7 @@ void trm_1st()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
-    itfMesMngMessage(0) /* msg_1st */;
+    itfMesMngMessage(0) /* msg_1st: There is a large cylinder. What will you do? */;
     jump endless_loop;
 }
 
@@ -15,7 +15,7 @@ void trm_1st_2()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
-    itfMesMngMessage(1) /* msg_1st_2 */;
+    itfMesMngMessage(1) /* msg_1st_2: There is a small cylinder. What will you do? */;
     jump endless_loop;
 }
 
@@ -24,7 +24,7 @@ void trm_trans()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
-    itfMesMngMessage(2) /* msg_trans */;
+    itfMesMngMessage(2) /* msg_trans: Select your destination. */;
     jump endless_loop;
 }
 
@@ -35,8 +35,8 @@ void trm_confirm()
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
     itfMesMngSelectDefKey(3, 1);
-    itfMesMngMessage(3) /* msg_confirm */;
-    if (itfMesMngSelect(5) == 1)
+    itfMesMngMessage(3) /* msg_confirm: Destination: {var 0}. Is this okay? */;
+    if (itfMesMngSelect(5) /* msg_sel01: Yes. / No. */ == 1)
     {
         fclSignal(2);
     }
@@ -47,7 +47,7 @@ void trm_exit()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(4) /* msg_exit */;
+    itfMesMngMessage(4) /* msg_exit:  */;
 }
 
 void endless_loop()

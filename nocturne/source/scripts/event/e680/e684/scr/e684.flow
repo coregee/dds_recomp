@@ -76,7 +76,7 @@ void e684_010()
     WAIT(60);
     KUTI(var1, 3, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: Congratulations, {firstname 0}. You've created the world of Yosuga. */;
     itfMesMngCloseWindow();
     WAIT(60);
 }
@@ -88,7 +88,7 @@ void e684_020()
     KUTI(var1, 3, 0);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(1) /* MSG_002: It's a strong and beautiful kingdom, for those who attain the height... */;
     itfMesMngCloseWindow();
     WAIT(40);
     MODEL_WAIT_MOT(var1, 2);
@@ -98,7 +98,7 @@ void e684_020()
     WAIT(20);
     KUTI(var1, 3, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngMessage(2) /* MSG_003: I always thought that I'd be the one to bring about the new world. */;
     itfMesMngCloseWindow();
     WAIT(40);
 }
@@ -114,7 +114,7 @@ void e684_030()
     WAIT(30);
     KUTI(var1, 3, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_004 */;
+    itfMesMngMessage(3) /* MSG_004: I've completed my duty, so... I deserve a nice long rest, don't you t... */;
     itfMesMngCloseWindow();
     WAIT(40);
 }
@@ -133,12 +133,12 @@ void e684_040()
     BGM_TRANS_E(684, - 1);
     KUTI(var1, 3, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_005 */;
+    itfMesMngMessage(4) /* MSG_005: You're supposed to go that way. */;
     itfMesMngCloseWindow();
     WAIT(10);
     KUTI(var1, 3, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_005_B */;
+    itfMesMngMessage(5) /* MSG_005_B: There you'll find eternal bliss... And it's rightfully yours. */;
     itfMesMngCloseWindow();
     WAIT(20);
     MODEL_WAIT_MOT(var1, 8);
@@ -155,7 +155,7 @@ void e684_050()
     WAIT(60);
     KUTI(var1, 3, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_006 */;
+    itfMesMngMessage(6) /* MSG_006: Thanks for everything, {firstname 0}. Say hi to the world I dreamed o... */;
     itfMesMngCloseWindow();
     WAIT(40);
 }

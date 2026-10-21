@@ -1,0 +1,183 @@
+// messages of event/e500/e501/scr/e501
+[speaker 0] [81B5][81D6][81DB]
+[speaker 1] [81D7][81B4][81BC][81D7][81B4][81FE]
+[speaker 2] [81EC][81C0][81D9][81CC][81B5][81C0][8284]
+[speaker 3] [8080]
+
+[msg TENGU_001_1 speaker 0] // [81B5][81D6][81DB]
+{F2 08 FF FF}{speed 5}{style 4}[81D7][81B4][81B4][81BC][81B2][81B2][81D7][81B4][81FE][81BA][81BA]{style 0}[8081][8081]{style 4}
+
+
+[msg TENGU_001_2 speaker 0] // [81B5][81D6][81DB]
+{F2 08 FF FF}{speed 128}{style 4}[81D7][81B4][81B4][81BC][81B2][81B2][81D7][81B4][81FE][81BA][81BA]{style 0}[8081][8081]{style 4}{style 0}
+{speed 5}[86AC][80EA][81BE][81C6][81EF][8188][8187][8189][8181][8081]
+{wait}
+
+[msg TENGU_002 speaker 0] // [81B5][81D6][81DB]
+{F2 08 FF FF}{speed 5}[81BE][81C6][81EF][818C][85E4][81A0][84A0][81AD][81A7][818A][81A2][81A8][86D1]
+[8997][80ED][81A0][8181][8184][81E9][81DA][80EA][84D3][81A9][81AD][8181][8081]
+{wait}
+
+[msg TENGU_003 speaker 0] // [81B5][81D6][81DB]
+{F2 08 FF FF}{speed 5}[83C6][818C][819D][8185][88DE][85A3][818C][84F5][80EA][85B4][80ED][8188][8187][8186][84F4][8181][80FD][81A7]
+[84AA][84CD][8681][80E2][80FE][8081]
+{wait}
+
+[msg TENGU_004 speaker 0] // [81B5][81D6][81DB]
+{F2 08 FF FF}{speed 5}[848D][80FD][8188][88CD][80E2][819A][81AA][829D]
+[80F5][80E9][80F5][829D][8080][80F1][80FD][8191][818D][8288][84EE][80EF][818A][80FC][8081]
+{wait}
+
+[msg TENGU_005 speaker 0] // [81B5][81D6][81DB]
+{F2 08 FF FF}{speed 5}[8591][87AB][818C][83EC][87C5][829D]
+[81B3][81F5][81D5][818C][8186][8187][819F][8288][8489][8189][80F3][80F3][80F9][8184][869E][80F1][80E4][8081]
+{wait}
+
+[msg TENGU_006 speaker 0] // [81B5][81D6][81DB]
+{F2 08 FF FF}{speed 5}[81D7][81B4][81BC][81D7][81B4][81FE][8181][8288][8DA6][87C7][80F9][80E2][8081]
+[80F1][81AA][80EA][81BE][81C6][81EF][818C][8ABE][88FC][8181][8081]
+{wait}
+
+[msg TENGU_007 speaker 0] // [81B5][81D6][81DB]
+{F2 08 FF FF}{speed 5}[81C0][81E0][81E0][81D4][8081][8080][81A2][8181][80FD][8081]
+[80E0][818C][8BD7][84A9][80FF][8188][81A7][818A][81D7][81B4][81BC][81D7][81B4][81FE][81B0][81A2][8181][80FD][818C][80FE][8181][8081]
+{wait}
+
+[msg TENGU_008 speaker 0] // [81B5][81D6][81DB]
+{F2 08 FF FF}{speed 5}[81A0][80E4][86AC][81A0][8288][8489][818C][83CD][83C7][80F7][81A9][85BD][8188][8187][84D3][848D][818A][8181][8081]
+[81C0][81E0][81E0][81E0][81D4][8081]
+{wait}
+
+[msg TENGU_009 speaker 0] // [81B5][81D6][81DB]
+{F2 08 FF FF}{speed 5}[80F3][80E0][8288][8699][8196][829D][829D]
+{wait}
+---
+{F2 08 FF FF}[8186][86A0][80E2][80FD][80E2][8186][80F1][81AB][8188][818C][80FE][80EA][8288]
+[80F1][80E4][80F5][8184][83C6][81B0][84A8][8189][84BC][81AA][80FD][8490][8491][8288]
+[83FA][83FB][8186][8486][89BC][8189][80E2][81A9][84D4][84D5][818D][8188][80ED][8188][8181][80FD][83F7][80FE][829D]
+{wait}
+
+[msg TENGU_010 speaker 0] // [81B5][81D6][81DB]
+{F2 08 FF FF}{speed 5}[80E2][81AB][80E2][81AB][86B0][80F5][80E9][8181][80FD][829D]
+[8482][8799][80F5][81A6][80E4][8081]
+{wait}
+---
+{F2 08 FF FF}[83EE][80EB][8184][80E2][81AA][818E][8288][819C][80FD][84D3][83EF][80E4][85BD][81A0][80E0][81AB][80E4][829D]
+[8784][86A3][8189][8188][8181][80FD][8188][8289]
+{wait}
+
+[msg TENGU_011 speaker 0] // [81B5][81D6][81DB]
+{F2 08 FF FF}{speed 5}[829D][84C5][84EB][80E9][809F]
+[80F1][818C][83F7][8188][87FB][81B0][86FA][80EF][81A9][8188][8187][878A][87BB][80F0][8184][80E2][81A9][8181][8081][809F]
+{wait}
+
+[msg TENGU_012 speaker 0] // [81B5][81D6][81DB]
+{F2 08 FF FF}{speed 5}[87A7][87A8][8185][818D][8188][80E2][8081]
+[83FA][83FB][80EA][85F6][80FB][80E4][8186][81A0][8288][8489][818D][84EC][80F5][8184][85F6][80F3][818A][8181][8081]
+{wait}
+
+[msg TENGU_013 speaker 0] // [81B5][81D6][81DB]
+{F2 08 FF FF}{speed 5}[829D][8188][80FA][8288][80F1][81A2][8182][81B0][86FA][80EF][81A9][8188][8187][8186][86A0][8181][80FD][818C][80FE][809F]
+{wait}
+
+[msg TENGU_014 speaker 0] // [81B5][81D6][81DB]
+{F2 08 FF FF}{speed 5}[80FB][818C][8C81][80F3][80EA][80E0][81A9][8687][81A8][8288][84EA][818C][8784][88B5][8196][84AE][81A9][8187][80F1][81AB][80E9]
+[80F1][818C][8784][88B5][81B0][83EE][8AE9][8191][81A9][80F1][8186][80F7][81A7][80E9][8188][81AD][818A][80FC][829D]
+{wait}
+
+[msg TENGU_015 speaker 0] // [81B5][81D6][81DB]
+{F2 08 FF FF}{speed 5}[83E8][83E9][8185][83C6][81B0][84AD][80FD][84E9][8288]
+[81A0][80E4][83FA][83FB][8186][8486][89BC][8189][80E2][81A9][84D4][84D5][818D][8188][80E2][8289]
+{wait}
+
+[msg TENGU_016 speaker 0] // [81B5][81D6][81DB]
+{F2 08 FF FF}{speed 5}[8187][80E4][81A2][81A7][8288][80F1][80F1][80EA][86D9][81AA][86C2][818C][83F7][80FE][829D]
+[83EE][80EB][8184][80E2][81AA][818E][8288][83EF][80E4][85BD][81A0][80E0][81A9][81A2][81A0][85DD][81AA][818A][8289]
+[8784][86A3][8189][8188][8181][80FD][8188][829D]
+{wait}
+
+[msg INCUBES_001 speaker 1] // [81D7][81B4][81BC][81D7][81B4][81FE]
+{F2 08 FF FF}{speed 5}{style 1}[80E2][81A2][80DF]{style 0}[8BD4]{style 1}[81A8][8188][80E2][818B][80E5]{style 0}[8288]{style 1}[81B3][8284][81D0]{style 0}[8081]{style 1}
+[819C][80DF][80FD]{style 0}[8288]{style 1}[81BB][81FD]{style 0}[83F7]{style 1}[8189][81A2][81A7][81AA][8189]{style 0}[848D]{style 1}[80FD][818C]{style 0}[809F]{style 1}
+{wait}
+
+[msg INCUBES_002 speaker 1] // [81D7][81B4][81BC][81D7][81B4][81FE]
+{F2 08 FF FF}{speed 5}{style 1}[80E0][80DF]{style 0}[8288]{style 1}[80FB][81AA][8186][81A0][81BB][81FD]{style 0}[83F7]{style 1}[818C]{style 0}[87DC][868D]{style 1}[8189][8185][81A0]
+[8188][81AB][80E4][8181][8184][818C][80E9][80E2]{style 0}[809F]{style 1}
+{wait}
+
+[msg INCUBES_003 speaker 1] // [81D7][81B4][81BC][81D7][81B4][81FE]
+{F2 08 FF FF}{speed 5}{style 1}[8190][81A1][80DF][818D][8181][818D][8181]{style 0}[8081]{style 1}
+[81BB][81FD]{style 0}[83F7]{style 1}[8189]{style 0}[86B1][85EC]{style 1}[80E9][80E4][8188][81B1][80F4]{style 0}[878A][87BB]{style 1}[80F0][8184][81A9][80FA][80E5]{style 0}[8081]{style 1}
+{style 0}[8895]{style 1}[80E6][818E]{style 0}[83EB][83C7]{style 1}[8189]{style 0}[8B88]{style 1}[80E6][80F8]{style 0}[83EE]{style 1}[80EB][81A7][81AA][81A9][81B1][80FE][80E9][81A7][81A6]{style 0}[8081]{style 1}
+{wait}
+
+[msg INCUBES_003_2 speaker 1] // [81D7][81B4][81BC][81D7][81B4][81FE]
+{F2 08 FF FF}{speed 5}{style 1}[8190][81A1][80DF][818D][8181][818D][8181]{style 0}[8081]{style 1}
+{wait}
+
+[msg INCUBES_003_3 speaker 1] // [81D7][81B4][81BC][81D7][81B4][81FE]
+{F2 08 FF FF}{speed 5}{style 1}[81BB][81FD]{style 0}[83F7]{style 1}[8189]{style 0}[86B1][85EC]{style 1}[80E9][80E4][8188][81B1][80F4]{style 0}[878A][87BB]{style 1}[80F0][8184][81A9][80FA][80E5]{style 0}[8081]{style 1}
+{style 0}[8895]{style 1}[80E6][818E]{style 0}[83EB][83C7]{style 1}[8189]{style 0}[8B88]{style 1}[80E6][80F8]{style 0}[83EE]{style 1}[80EB][81A7][81AA][81A9][81B1][80FE][80E9][81A7][81A6]{style 0}[8081]{style 1}
+{wait}
+
+[msg INCUBES_004 speaker 1] // [81D7][81B4][81BC][81D7][81B4][81FE]
+{F2 08 FF FF}{speed 5}{style 1}[80ED][8181]{style 0}[8081][8080]{style 1}[80EC][81A1][80E0][80EC][81A1][80E0][81B7][81FC][81C6][80E2]{style 0}[85D0]{style 1}[81A7][80FE][8181]{style 0}[8081]{style 1}
+{style 0}[8DA7]{style 1}[80EA][80F9][8184][80E8][80EB][81A1][80E0]{style 0}[8288]{style 1}[8182][80EF][80E0][80EA][81A8][81A2][80EA][8181][8184]{style 0}[8081]{style 1}
+{wait}
+
+[msg INCUBES_005 speaker 1] // [81D7][81B4][81BC][81D7][81B4][81FE]
+{F2 08 FF FF}{speed 5}{style 1}[8187][80E4][80F5][8184][81A0]{style 0}[848B]{style 1}[81A7][80E4][8186][80E2][80E4][8181][8184][80E5][8188][81A7]
+[81CC][81B5][81FD]{style 0}[8299]{style 1}[8284][8189]{style 0}[85E7][87FA]{style 1}[80EB][8189][80F3][80F9][8184][80E9][81A7]
+[81BB][81FD]{style 0}[83F7]{style 1}[818C]{style 0}[85D0][8DA8]{style 1}[8189][8185][81A0][80F5][8184][81A2][81A9][80FA][80E5]{style 0}[8081]{style 1}
+{wait}
+
+[msg INCUBES_006 speaker 1] // [81D7][81B4][81BC][81D7][81B4][81FE]
+{F2 08 FF FF}{speed 5}{style 1}[81EC][81C0][81D9][81CC][81B5][81C0][8284]{style 0}[83F7]{style 1}[80DF][8181]{style 0}[8081]{style 1}
+[8187][80E4][80FC]{style 0}[8288]{style 1}[80F1][80E2][8182][81A7][81B0]{style 0}[8288]{style 1}[8190][8181]{style 0}[8DA9]{style 1}[80E6][8184][80ED][80FE][80F3][80E2]{style 0}[8081]{style 1}
+{wait}
+
+[msg INCUBES_007 speaker 1] // [81D7][81B4][81BC][81D7][81B4][81FE]
+{F2 08 FF FF}{speed 5}{style 1}[8188]{style 0}[829D][8080]{style 0}[8480]{style 1}[80E1]{style 0}[8081]{style 1}
+[81EC][81C0][81D9][81CC][81B5][81C0][8284][81B0]{style 0}[87A6]{style 1}[80F5][80FD][80FE][8186][80E7]{style 0}[829D][829D]{style 1}
+{wait}
+
+[msg INCUBES_008 speaker 1] // [81D7][81B4][81BC][81D7][81B4][81FE]
+{F2 08 FF FF}{speed 5}{style 1}{tp 1}{style 0}[829D][829D]{style 1}[80E2]{style 0}[8288]{style 1}[80E2][81A2]{style 0}[8288]{style 0}[87A7][87A8]{style 0}[8288]{style 0}[87A7][87A8]{style 1}[8185][80F7][81A6]{style 0}[8081]{style 1}
+{style 0}[84C5][8591]{style 1}[8189]{style 0}[83F9]{style 1}[80F5]{style 0}[87A2]{style 1}[80E0][81A8][819C][80F9][81B1][8185][80F5][80FD]{style 0}[8081]{style 1}{tp 0}
+{wait}
+
+[msg INCUBES_009 speaker 1] // [81D7][81B4][81BC][81D7][81B4][81FE]
+{F2 08 FF FF}{speed 5}{style 1}[80F1][818C]{style 0}[8481]{style 1}[81A8]{style 0}[8799]{style 1}[81A8][819C][80F7][80E9][81A7]{style 0}[8288]{style 0}[87D7]{style 1}[80FE][80EF][818D]{style 0}[829D]{style 1}
+{wait}
+
+[msg INCUBES_010 speaker 1] // [81D7][81B4][81BC][81D7][81B4][81FE]
+{F2 08 FF FF}{speed 5}{style 4}[81BF][81F4][81B2][81B2][81B3]{style 0}[8081][8081]{style 4}
+{wait}
+
+[sel INCUBES_SEL]
+{F2 08 FF FF}[8186][8187][819F][81B0][85E0][80F7]
+---
+{F2 08 FF FF}[87D7][80FE][80EF][818D][86FA][80EF][8184][81A2][81A9]
+
+[msg HOKUTO_001 speaker 2] // [81EC][81C0][81D9][81CC][81B5][81C0][8284]
+{F2 08 FF FF}{speed 5}[8285][81BB][81BA][81BA][81BB][81BA][81BA][81BA][81BA][829D][829D]
+{wait}
+
+[msg MODE speaker 3] // [8080]
+{F2 08 FF FF}[8187][818C][8BDB][84D3][81E2][81D0][8299][8284][8189][80F5][819C][80F7][80E9][809F]
+
+
+[sel MODE_SEL]
+{F2 08 FF FF}[8C99][85B4][81E2][81D0][8299][8284][8091]
+---
+{F2 08 FF FF}[81BC][81D4][81D9][8094][8088][81EC][81C0][81D9][8492][8493][8089][80E9][81A7]
+---
+{F2 08 FF FF}[8C99][85B4][81E2][81D0][8299][8284][8092]
+---
+{F2 08 FF FF}[81F2][81D4][81CC][8299][81C9][80B7][80A9][80AE][8680][8496][8497]
+
+[msg ERROR speaker 3] // [8080]
+{F2 08 FF FF}[81CA][81C0][81FB][81E8][81D9][818C][81B9][81FA][8299][80FE][8181][80FF][81A1][8081]
+{wait}
+

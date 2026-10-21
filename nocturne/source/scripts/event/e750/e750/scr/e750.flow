@@ -59,7 +59,7 @@ void e750_main()
     FADE_IN(1, 30);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngMessage(2) /* MSG_003: Delivering the candelabra to the Labyrinth of Amala is just as grave... */;
     itfMesMngCloseWindow();
     WAIT(20);
     FADE_OUT(1, 60);
@@ -84,7 +84,7 @@ void e750_010()
     MODEL_MOTION2(var4, 1, 0, 20, 1);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: {firstname 0}... */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("01cam_02"));
@@ -102,7 +102,7 @@ void e750_010()
     MODEL_MOTION2(var4, 3, 0, 0, 1);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(1) /* MSG_002: ...You are beyond the point of redemption. */;
     itfMesMngCloseWindow();
     WAIT(60);
     CAM_SEL(SEARCH_ID("01cam_03"));
@@ -115,7 +115,7 @@ void e750_010()
     MUL_BLUR_ON(120);
     WAIT(120);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngMessage(2) /* MSG_003: Delivering the candelabra to the Labyrinth of Amala is just as grave... */;
     itfMesMngCloseWindow();
     FADE_OUT(1, 15);
     WAIT(15);
@@ -136,14 +136,14 @@ void e750_010()
     WAIT(20);
     BLUR2_OFF(180);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_004 */;
+    itfMesMngMessage(3) /* MSG_004: Listen! And tremble in fear! */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("01cam_05"));
     CAM_PATH_MOVE(SEARCH_ID("01cam_05"), SEARCH_ID("01cam_05_MOTION"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_005 */;
+    itfMesMngMessage(4) /* MSG_005: Feel the wrath of god, disciple of darkness!! */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("01cam_06"));

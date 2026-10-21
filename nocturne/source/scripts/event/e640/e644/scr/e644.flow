@@ -46,20 +46,20 @@ void e644_010()
     WAIT(40);
     WAIT(25);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_010_1 */;
+    itfMesMngMessage(0) /* MSG_010_1: You should've just handed over your Magatsuhi... */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("cam02"));
     CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
     WAIT(45);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_010_2 */;
+    itfMesMngMessage(1) /* MSG_010_2: But instead, you decided to oppose me... That was too funny. */;
     itfMesMngCloseWindow();
     WAIT(20);
     itfMesMngOpenWindow();
     MODEL_MOTION2(var1, 4, 0, 10, 1);
     BGM_STOP();
-    itfMesMngMessage(2) /* MSG_010_3 */;
+    itfMesMngMessage(2) /* MSG_010_3: ...!! */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var1, 2);
     MODEL_MOTION2(var1, 1, 0, 10, 0);
@@ -69,30 +69,30 @@ void e644_010()
     WAIT(30);
     BGM_PLAY_E(644, 2);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_010_7 */;
+    itfMesMngMessage(3) /* MSG_010_7: Who's there!? */;
     itfMesMngCloseWindow();
     WAIT(25);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_010_4 */;
+    itfMesMngMessage(4) /* MSG_010_4: Damn, you had me scared for a second... I thought those Manikins were... */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("cam04"));
     CAM_PATH_MOVE(SEARCH_ID("cam04"), SEARCH_ID("cam04_MOTION"));
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_010_5 */;
-    var21 = itfMesMngSelect(6);
+    itfMesMngMessage(5) /* MSG_010_5: I should thank him, though, for bringing his followers here. It's lik... */;
+    var21 = itfMesMngSelect(6) /* SAKAHAGI_001: Yeah, I am. / Not really. */;
     itfMesMngCloseWindow();
     WAIT(10);
     if (var21 == 0)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(7) /* SAKA_001 */;
+        itfMesMngMessage(7) /* SAKA_001: That's what I thought. */;
         itfMesMngCloseWindow();
     }
     else if (var21 == 1)
     {
         itfMesMngOpenWindow();
         MODEL_MOTION2(var1, 3, 0, 10, 1);
-        itfMesMngMessage(8) /* SAKA_002 */;
+        itfMesMngMessage(8) /* SAKA_002: You don't want Magatsuhi? ...You're one weird demon. */;
         itfMesMngCloseWindow();
     }
     var20 = CAM_CREATE();
@@ -101,7 +101,7 @@ void e644_010()
     CAM_SEL(var20);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_010_8 */;
+    itfMesMngMessage(9) /* MSG_010_8: ...Well, it's time for me to go. */;
     itfMesMngCloseWindow();
     WAIT(15);
 }

@@ -3,12 +3,12 @@
 
 void ai_0()
 {
-    itfMesMngMessage(0) /* MSG_000 */;
+    itfMesMngMessage(0) /* MSG_000: ...... */;
 }
 
 void ai_test()
 {
-    itfMesMngMessage(0) /* MSG_000 */;
+    itfMesMngMessage(0) /* MSG_000: ...... */;
     BTL_NAKAMA();
 }
 
@@ -18,7 +18,7 @@ void ai_1()
     {
         BTL_PNL_OFF();
         itfMesMngOpenWindow();
-        itfMesMngMessage(0) /* MSG_000 */;
+        itfMesMngMessage(0) /* MSG_000: ...... */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
     }
@@ -50,7 +50,7 @@ void ai_2()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(3) /* fol_007 */;
+            itfMesMngMessage(3) /* fol_007: ...H-Hey! Just give up already! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -74,7 +74,7 @@ void ai_2()
                 BTL_PNL_OFF();
                 WAIT(20);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(2) /* fol_006 */;
+                itfMesMngMessage(2) /* fol_006: What the hell!? That actually hurt! */;
                 itfMesMngCloseWindow();
                 BTL_PNL_ON();
             }
@@ -83,7 +83,7 @@ void ai_2()
                 BTL_PNL_OFF();
                 WAIT(20);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(1) /* fol_004 */;
+                itfMesMngMessage(1) /* fol_004: Whaddya think you're doing, punk!? */;
                 itfMesMngCloseWindow();
                 BTL_PNL_ON();
             }
@@ -137,7 +137,7 @@ void ai_3()
     {
         BTL_PNL_OFF();
         itfMesMngOpenWindow();
-        itfMesMngMessage(0) /* MSG_000 */;
+        itfMesMngMessage(0) /* MSG_000: ...... */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BIT_ON(2048);
@@ -157,7 +157,7 @@ void ai_4()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(7) /* SP1_004 */;
+            itfMesMngMessage(7) /* SP1_004: YoU LOnELy! I gOt LoTsA fRiENDs!! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
         }
@@ -166,7 +166,7 @@ void ai_4()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(6) /* SP1_003 */;
+            itfMesMngMessage(6) /* SP1_003: Y-YoU nO fRiENDs! I gOt LoTs!! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
         }
@@ -175,7 +175,7 @@ void ai_4()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(5) /* SP1_002 */;
+            itfMesMngMessage(5) /* SP1_002: Y-YoU LoTsA fRIenDs! I gOt LoTs toO!! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
         }
@@ -184,7 +184,7 @@ void ai_4()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(4) /* SP1_001 */;
+            itfMesMngMessage(4) /* SP1_001: Y-YoU LoTsA fRIenDs! I gOt LoTs toO!! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
         }
@@ -203,7 +203,7 @@ void ai_4()
             BTL_PNL_OFF();
             WAIT(10);
             itfMesMngOpenWindow();
-            itfMesMngMessage(13) /* SP1_011 */;
+            itfMesMngMessage(13) /* SP1_011: nO, cAN't bE!! I bEAteN!! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BIT_ON(3057);
@@ -216,7 +216,7 @@ void ai_4()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(8) /* SP1_005 */;
+            itfMesMngMessage(8) /* SP1_005: WoOOooOoOOO!! I eaT! I EAt yOuuUuuuuU!! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BIT_ON(3057);
@@ -276,7 +276,7 @@ void SPC_L()
         BTL_PNL_OFF();
         WAIT(20);
         itfMesMngOpenWindow();
-        itfMesMngMessage(9) /* SP1_006 */;
+        itfMesMngMessage(9) /* SP1_006: ALL mInE! I MIne! YOu mINe tOOOoOooo!! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -289,7 +289,7 @@ void SPC_L()
         BTL_PNL_OFF();
         WAIT(10);
         itfMesMngOpenWindow();
-        itfMesMngMessage(12) /* SP1_010 */;
+        itfMesMngMessage(12) /* SP1_010: MY... mY... myYYYyyYyyyy!! M-MaGAtSUhiiIiIIii!! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -340,7 +340,7 @@ void SPC_M()
         BTL_PNL_OFF();
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(10) /* SP1_008 */;
+        itfMesMngMessage(10) /* SP1_008: N-NoT eNouGH mE... ...bUT i sTiLL EAt yoUuu!! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -353,7 +353,7 @@ void SPC_M()
         BTL_PNL_OFF();
         WAIT(10);
         itfMesMngOpenWindow();
-        itfMesMngMessage(12) /* SP1_010 */;
+        itfMesMngMessage(12) /* SP1_010: MY... mY... myYYYyyYyyyy!! M-MaGAtSUhiiIiIIii!! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -404,7 +404,7 @@ void SPC_S()
         BTL_PNL_OFF();
         WAIT(20);
         itfMesMngOpenWindow();
-        itfMesMngMessage(11) /* SP1_009 */;
+        itfMesMngMessage(11) /* SP1_009: ...I WeAk! YoUr FaULt!! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -416,7 +416,7 @@ void SPC_S()
         BTL_PNL_OFF();
         WAIT(10);
         itfMesMngOpenWindow();
-        itfMesMngMessage(12) /* SP1_010 */;
+        itfMesMngMessage(12) /* SP1_010: MY... mY... myYYYyyYyyyy!! M-MaGAtSUhiiIiIIii!! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -479,7 +479,7 @@ void ai_5()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(15) /* OLU_003 */;
+            itfMesMngMessage(15) /* OLU_003: UGH... IMPOSSIBLE...!! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -519,7 +519,7 @@ void ai_5()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(14) /* OLU_002 */;
+            itfMesMngMessage(14) /* OLU_002: I'M SURPRISED HOW WELL YOU FIGHT... IT'S TIME FOR ME TO GET SERIOUS!! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -581,7 +581,7 @@ void man_olt_end()
     BTL_PNL_OFF();
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(16) /* OLU_004 */;
+    itfMesMngMessage(16) /* OLU_004: YOU'RE... STRONG... */;
     itfMesMngCloseWindow();
     BTL_PNL_ON();
     BTL_CAM_ORG();
@@ -610,7 +610,7 @@ void ai_6()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(18) /* TARA_004 */;
+            itfMesMngMessage(18) /* TARA_004: I don't believe this... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -640,7 +640,7 @@ void ai_6()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(17) /* TARA_003 */;
+            itfMesMngMessage(17) /* TARA_003: ...You know, you're really getting on my nerves... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -702,7 +702,7 @@ void ai_6_end()
     BTL_PNL_OFF();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(19) /* TARA_005 */;
+    itfMesMngMessage(19) /* TARA_005: Aaaaaaah!! */;
     itfMesMngCloseWindow();
     BTL_PNL_ON();
     BTL_CAM_ORG();
@@ -722,7 +722,7 @@ void ai_7()
         BTL_PNL_OFF();
         WAIT(20);
         itfMesMngOpenWindow();
-        itfMesMngMessage(20) /* TOL_005 */;
+        itfMesMngMessage(20) /* TOL_005: Hm, not bad... Now, don't hold back!! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -738,7 +738,7 @@ void ai_7()
         BTL_PNL_OFF();
         WAIT(20);
         itfMesMngOpenWindow();
-        itfMesMngMessage(21) /* TOL_006 */;
+        itfMesMngMessage(21) /* TOL_006: Hmph... */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -1316,7 +1316,7 @@ void syo_will()
         BTL_PNL_OFF();
         WAIT(20);
         itfMesMngOpenWindow();
-        itfMesMngMessage(22) /* WILL_01 */;
+        itfMesMngMessage(22) /* WILL_01: I WAnt eAT... */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BIT_ON(2089);
@@ -1330,7 +1330,7 @@ void syo_will()
         BTL_PNL_OFF();
         WAIT(20);
         itfMesMngOpenWindow();
-        itfMesMngMessage(23) /* WILL_02 */;
+        itfMesMngMessage(23) /* WILL_02: mE EAt... */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BIT_ON(2090);
@@ -1344,7 +1344,7 @@ void syo_will()
         BTL_PNL_OFF();
         WAIT(20);
         itfMesMngOpenWindow();
-        itfMesMngMessage(24) /* WILL_03 */;
+        itfMesMngMessage(24) /* WILL_03: ...MaGatSUHi... */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BIT_ON(2091);
@@ -1365,7 +1365,7 @@ void syo_gaki()
             BTL_CAM_BOUGAI();
             BTL_PNL_OFF();
             itfMesMngOpenWindow();
-            itfMesMngMessage(28) /* GAKI_04 */;
+            itfMesMngMessage(28) /* GAKI_04: Maga...tsu...hi... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BIT_ON(2093);
@@ -1381,7 +1381,7 @@ void syo_gaki()
             BTL_PNL_OFF();
             WAIT(15);
             itfMesMngOpenWindow();
-            itfMesMngMessage(29) /* GAKI_05 */;
+            itfMesMngMessage(29) /* GAKI_05: We tricked... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BIT_ON(2094);
@@ -1397,7 +1397,7 @@ void syo_gaki()
             BTL_PNL_OFF();
             WAIT(15);
             itfMesMngOpenWindow();
-            itfMesMngMessage(30) /* GAKI_06 */;
+            itfMesMngMessage(30) /* GAKI_06: Maga...ga...tsu...tsu... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BIT_ON(2095);
@@ -1416,7 +1416,7 @@ void syo_gaki()
             BTL_PNL_OFF();
             WAIT(15);
             itfMesMngOpenWindow();
-            itfMesMngMessage(25) /* GAKI_01 */;
+            itfMesMngMessage(25) /* GAKI_01: ...Me want to eat. */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BIT_ON(2096);
@@ -1429,7 +1429,7 @@ void syo_gaki()
             BTL_PNL_OFF();
             WAIT(10);
             itfMesMngOpenWindow();
-            itfMesMngMessage(26) /* GAKI_02 */;
+            itfMesMngMessage(26) /* GAKI_02: Maga...tsuhi... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BIT_ON(2097);
@@ -1442,7 +1442,7 @@ void syo_gaki()
             BTL_PNL_OFF();
             WAIT(10);
             itfMesMngOpenWindow();
-            itfMesMngMessage(27) /* GAKI_03 */;
+            itfMesMngMessage(27) /* GAKI_03: Me eat... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BIT_ON(2098);
@@ -1854,7 +1854,7 @@ void kinki()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(31) /* kinki_04 */;
+            itfMesMngMessage(31) /* kinki_04: THAT'S IT! YOU'VE GONE TOO FAR, YOU SON OF A BITCH!! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -2115,7 +2115,7 @@ void kinki_end()
     BTL_PNL_OFF();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(32) /* kinki_05 */;
+    itfMesMngMessage(32) /* kinki_05: ...THE WORLD NEEDS YOU... MORE THAN ME...? */;
     itfMesMngCloseWindow();
     BTL_PNL_ON();
     BTL_CAM_ORG();
@@ -2142,7 +2142,7 @@ void suiki()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(33) /* suiki_04 */;
+            itfMesMngMessage(33) /* suiki_04: Hey, you're pissing me off, so get the hell outta here! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -2269,7 +2269,7 @@ void suiki_end()
     BTL_PNL_OFF();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(34) /* suiki_05 */;
+    itfMesMngMessage(34) /* suiki_05: Not... bad... W-Who are you...? A demon? ...A human...? */;
     itfMesMngCloseWindow();
     BTL_PNL_ON();
     BTL_CAM_ORG();
@@ -2294,7 +2294,7 @@ void fuuki()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(35) /* fuuki_02 */;
+            itfMesMngMessage(35) /* fuuki_02: If you kill me, you'll be making a big mistake. Understand? */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -2504,7 +2504,7 @@ void fuuki_end()
     BTL_PNL_OFF();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(36) /* fuuki_03 */;
+    itfMesMngMessage(36) /* fuuki_03: No... I-I can't die... I'm... too... impor...tant... */;
     itfMesMngCloseWindow();
     BTL_PNL_ON();
     BTL_CAM_ORG();
@@ -2533,7 +2533,7 @@ void ongyouki()
             BTL_PNL_OFF();
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(39) /* ONG_03 */;
+            itfMesMngMessage(39) /* ONG_03: You saw through my illusion... Will this be the last I see of the wor... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -2549,7 +2549,7 @@ void ongyouki()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(38) /* ONG_02 */;
+            itfMesMngMessage(38) /* ONG_02: What you see... may not necessarily be true... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -2714,7 +2714,7 @@ void ongyouki_end()
     BTL_PNL_OFF();
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(40) /* ONG_04 */;
+    itfMesMngMessage(40) /* ONG_04: Remember... There is not always... just one truth... */;
     itfMesMngCloseWindow();
     BTL_PNL_ON();
     BTL_CAM_ORG();
@@ -2938,7 +2938,7 @@ void kuroto()
         BTL_PNL_OFF();
         WAIT(15);
         itfMesMngOpenWindow();
-        itfMesMngMessage(41) /* KURO_01 */;
+        itfMesMngMessage(41) /* KURO_01: Hahahahaha... */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_FORM_ALL_ON();
@@ -3040,7 +3040,7 @@ void rakesisu()
         BTL_PNL_OFF();
         WAIT(20);
         itfMesMngOpenWindow();
-        itfMesMngMessage(42) /* RAKE_01 */;
+        itfMesMngMessage(42) /* RAKE_01: Ohohoho... */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_FORM_ALL_ON();
@@ -3482,10 +3482,10 @@ void sakahagi()
         BTL_PNL_OFF();
         WAIT(20);
         itfMesMngOpenWindow();
-        itfMesMngMessage(48) /* saka_01 */;
+        itfMesMngMessage(48) /* saka_01: You're one helluva monster... */;
         BTL_FORM_ENE_ON();
         BTL_CAM_SET(52.7f, - 102.38f, 242.99f, - 0.22f, 0.21f, - 0.05f, 0.95f);
-        itfMesMngMessage(49) /* saka_02 */;
+        itfMesMngMessage(49) /* saka_02: ...Enough of this! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -3507,7 +3507,7 @@ void sakahagi()
             BTL_CAM_SET(43.7f, - 146.96f, 153.26f, 0.0f, 0.07f, 0.0f, 1.0f);
             BTL_PNL_OFF();
             itfMesMngOpenWindow();
-            itfMesMngMessage(50) /* saka_03 */;
+            itfMesMngMessage(50) /* saka_03: Shit... I used too much power on summoning... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -3577,7 +3577,7 @@ void sakahagi_end()
     BTL_PNL_OFF();
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(51) /* saka_end */;
+    itfMesMngMessage(51) /* saka_end: How can I lose... to a guy... like this...? */;
     itfMesMngCloseWindow();
     BTL_PNL_ON();
     return;
@@ -3591,7 +3591,7 @@ void atrobosu()
         BTL_CAM_SET(- 26.6f, - 182.96f, 231.78f, - 0.03f, - 0.08f, 0.0f, 1.0f);
         BTL_PNL_OFF();
         itfMesMngOpenWindow();
-        itfMesMngMessage(43) /* atoro_02 */;
+        itfMesMngMessage(43) /* atoro_02: Ahaha... */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_FORM_ALL_ON();
@@ -4277,7 +4277,7 @@ void specter_2()
         BTL_PNL_OFF();
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(52) /* spe_02_R1 */;
+        itfMesMngMessage(52) /* spe_02_R1: LoTs oF meEEeee! mEeeEe! MeEEeEEE!! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -4293,7 +4293,7 @@ void specter_2()
         BTL_PNL_OFF();
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(53) /* spe_02_00 */;
+        itfMesMngMessage(53) /* spe_02_00: I-I LeARNeD!! I LEarNed nEW maGIc!! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -4309,10 +4309,10 @@ void specter_2()
         BTL_PNL_OFF();
         WAIT(70);
         itfMesMngOpenWindow();
-        itfMesMngMessage(54) /* spe_02_02 */;
+        itfMesMngMessage(54) /* spe_02_02: NoThInG HAppEnIng!? ...I gOT nO PoWEr!? */;
         BTL_FORM_ALL_ON();
         BTL_CAM_SET(- 786.86f, - 364.55f, 1184.04f, 0.02f, - 0.96f, - 0.08f, 0.27f);
-        itfMesMngMessage(55) /* spe_02_03 */;
+        itfMesMngMessage(55) /* spe_02_03: OoooOOOOooOOOOOoo!! I DRaiN!! I drAIn yOuuUuUUU!!! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -4328,7 +4328,7 @@ void specter_2()
             WAIT(15);
             BIT_ON(3059);
             itfMesMngOpenWindow();
-            itfMesMngMessage(57) /* spe_02_05 */;
+            itfMesMngMessage(57) /* spe_02_05: ...ThIS fEelinG!? I HaVE poweR!! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -4486,7 +4486,7 @@ void boss_albion()
         BTL_CAM_BOUGAI();
         BTL_PNL_OFF();
         itfMesMngOpenWindow();
-        itfMesMngMessage(58) /* albon_02 */;
+        itfMesMngMessage(58) /* albon_02: LINE-UP-THE-FLEET! TIME-FOR-SOME-HEAT! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -4498,7 +4498,7 @@ void boss_albion()
         BIT_OFF(3059);
         BTL_PNL_OFF();
         itfMesMngOpenWindow();
-        itfMesMngMessage(62) /* albon_06 */;
+        itfMesMngMessage(62) /* albon_06: TIME-TO-REPEAT! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -4514,7 +4514,7 @@ void boss_albion()
         {
             BTL_PNL_OFF();
             itfMesMngOpenWindow();
-            itfMesMngMessage(59) /* albon_03 */;
+            itfMesMngMessage(59) /* albon_03: OUT-OF-YOUR-SEATS! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
         }
@@ -4522,7 +4522,7 @@ void boss_albion()
         {
             BTL_PNL_OFF();
             itfMesMngOpenWindow();
-            itfMesMngMessage(60) /* albon_04 */;
+            itfMesMngMessage(60) /* albon_04: ALL-YOU-CAN-MEET! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
         }
@@ -4530,7 +4530,7 @@ void boss_albion()
         {
             BTL_PNL_OFF();
             itfMesMngOpenWindow();
-            itfMesMngMessage(61) /* albon_05 */;
+            itfMesMngMessage(61) /* albon_05: B-B-BOOOOOM! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
         }
@@ -4550,7 +4550,7 @@ void boss_aasona()
         BTL_CAM_1SHOT();
         BTL_PNL_OFF();
         itfMesMngOpenWindow();
-        itfMesMngMessage(63) /* aasona_01 */;
+        itfMesMngMessage(63) /* aasona_01: TIME-TO-REPEAT! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_EVENT(12);
@@ -4568,7 +4568,7 @@ void boss_yurizen()
         BTL_CAM_1SHOT();
         BTL_PNL_OFF();
         itfMesMngOpenWindow();
-        itfMesMngMessage(64) /* yurizen_01 */;
+        itfMesMngMessage(64) /* yurizen_01: REVIVE-THE-ELITE! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_EVENT(12);
@@ -4586,7 +4586,7 @@ void boss_ruva()
         BTL_CAM_1SHOT();
         BTL_PNL_OFF();
         itfMesMngOpenWindow();
-        itfMesMngMessage(65) /* ruva_01 */;
+        itfMesMngMessage(65) /* ruva_01: ALL-WE-CAN-EAT! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_EVENT(12);
@@ -4604,7 +4604,7 @@ void boss_sermas()
         BTL_CAM_1SHOT();
         BTL_PNL_OFF();
         itfMesMngOpenWindow();
-        itfMesMngMessage(66) /* sermas_01 */;
+        itfMesMngMessage(66) /* sermas_01: ALL-WE-CAN-BEAT! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_EVENT(12);
@@ -4810,7 +4810,7 @@ void boss_sukady_e()
     BTL_PNL_OFF();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(67) /* suka_01 */;
+    itfMesMngMessage(67) /* suka_01: What a... shame... */;
     itfMesMngCloseWindow();
     BTL_PNL_ON();
     return;
@@ -5006,7 +5006,7 @@ void speku_3()
         BIT_ON(3057);
         BTL_PNL_OFF();
         itfMesMngOpenWindow();
-        itfMesMngMessage(68) /* speku_3_02 */;
+        itfMesMngMessage(68) /* speku_3_02: I-I jUsT kiLL yOU!! ThAt aLL I dO!! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BIT_ON(3058);
@@ -5022,14 +5022,14 @@ void speku_3()
         BTL_PNL_OFF();
         WAIT(15);
         itfMesMngOpenWindow();
-        itfMesMngMessage(69) /* speku_3_03 */;
+        itfMesMngMessage(69) /* speku_3_03: I woN'T diE!! EVen iF i dIe, I wON't diEee!! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_FORM_ALL_ON();
         BTL_CAM_SET(- 779.51f, - 201.52f, 23.66f, - 0.1f, 0.5f, 0.06f, - 0.86f);
         BTL_PNL_OFF();
         itfMesMngOpenWindow();
-        itfMesMngMessage(70) /* speku_3_04 */;
+        itfMesMngMessage(70) /* speku_3_04: OoOOOooOOOoooOOOO!!! OOOOooOoOooooooOo!!! OooooOOOOOOOOoooo!!! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -5612,7 +5612,7 @@ void mizuthi()
         BTL_PNL_OFF();
         WAIT(20);
         itfMesMngOpenWindow();
-        itfMesMngMessage(71) /* mizu_00 */;
+        itfMesMngMessage(71) /* mizu_00: YOU THINK I'M AN ORDINARY MIZUCHI? YOU'RE WRONG!! */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -5630,7 +5630,7 @@ void mizuthi()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(73) /* mizu_02 */;
+            itfMesMngMessage(73) /* mizu_02: ...I SWEAR YOU'RE GETTING BIGGER!! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -5675,7 +5675,7 @@ void mizuthi()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(72) /* mizu_01 */;
+            itfMesMngMessage(72) /* mizu_01: HUH? ARE YOU GETTING BIGGER? */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -5833,7 +5833,7 @@ void arusieru_end()
     BTL_PNL_OFF();
     WAIT(15);
     itfMesMngOpenWindow();
-    itfMesMngMessage(76) /* alsieru_03 */;
+    itfMesMngMessage(76) /* alsieru_03: N-Not... yet... */;
     itfMesMngCloseWindow();
     BTL_PNL_ON();
     return;
@@ -5889,10 +5889,10 @@ void futomimi_end()
     BTL_PNL_OFF();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(77) /* futomimi_02 */;
+    itfMesMngMessage(77) /* futomimi_02: Damn you... Damn you, foul demon!! */;
     BTL_CAM_SET(- 67.39f, - 78.35f, 353.6f, - 0.33f, - 0.45f, 0.19f, 0.81f);
     WAIT(20);
-    itfMesMngMessage(78) /* futomimi_03 */;
+    itfMesMngMessage(78) /* futomimi_03: Forgive me... everyone... */;
     itfMesMngCloseWindow();
     BTL_PNL_ON();
     BTL_CAM_ORG();
@@ -6224,7 +6224,7 @@ void baaru()
             BTL_CAM_1SHOT();
             BTL_PNL_OFF();
             itfMesMngOpenWindow();
-            itfMesMngMessage(81) /* baaru_03 */;
+            itfMesMngMessage(81) /* baaru_03: ...You are indeed worthy. I will fight you with my all, and our fates... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -6240,10 +6240,10 @@ void baaru()
         BTL_PNL_OFF();
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(79) /* baaru_01 */;
+        itfMesMngMessage(79) /* baaru_01: I ask you, what right do you have to become the creator? */;
         BTL_FORM_ENE_ON();
         BTL_CAM_SET(- 0.98f, - 210.7f, 203.31f, - 0.09f, - 0.0f, 0.0f, 1.0f);
-        itfMesMngMessage(80) /* baaru_02 */;
+        itfMesMngMessage(80) /* baaru_02: By my power, your true self shall be revealed. */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -6803,7 +6803,7 @@ void hyouryuusin_02()
         BTL_PNL_OFF();
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(83) /* hyou_03 */;
+        itfMesMngMessage(83) /* hyou_03: Why...? Why do you always get in my way? */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -7043,7 +7043,7 @@ void maari_01()
         BTL_PNL_OFF();
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(84) /* aari_01 */;
+        itfMesMngMessage(84) /* aari_01: Amuse me with your strength, evil one, before eternal silence is upon... */;
         itfMesMngCloseWindow();
         BTL_PNL_ON();
         BTL_CAM_ORG();
@@ -7058,7 +7058,7 @@ void maari_01()
         BTL_PNL_OFF();
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(87) /* kin_01 */;
+        itfMesMngMessage(87) /* kin_01: Physical attacks are forbidden... */;
         BIT_ON(2129);
         itfMesMngCloseWindow();
         BTL_PNL_ON();
@@ -7082,11 +7082,11 @@ void maari_01()
             BTL_PNL_OFF();
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(85) /* aari_03 */;
+            itfMesMngMessage(85) /* aari_03: Hmhmhm... Enough of this game... */;
             itfMesMngCloseWindow();
             BTL_CAM_BOUGAI();
             itfMesMngOpenWindow();
-            itfMesMngMessage(86) /* aari_04 */;
+            itfMesMngMessage(86) /* aari_04: Games are meaningless in a world of silence. Now, you shall meet your... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -7104,7 +7104,7 @@ void maari_01()
             BTL_PNL_OFF();
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(96) /* kin_11 */;
+            itfMesMngMessage(96) /* kin_11: Hmhmhm... Let us continue... */;
             BIT_OFF(2129);
             BIT_OFF(2130);
             BIT_OFF(2133);
@@ -7113,7 +7113,7 @@ void maari_01()
             BIT_OFF(2131);
             BTL_FORM_ALL_ON();
             BTL_CAM_SET(- 833.47f, - 62.31f, - 1477.14f, - 0.06f, - 0.23f, 0.01f, 0.87f);
-            itfMesMngMessage(95) /* kin_10 */;
+            itfMesMngMessage(95) /* kin_10: All except physical attacks are forbidden... */;
             BIT_ON(2130);
             BIT_ON(2133);
             BIT_ON(2132);
@@ -7134,7 +7134,7 @@ void maari_01()
             BTL_PNL_OFF();
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(96) /* kin_11 */;
+            itfMesMngMessage(96) /* kin_11: Hmhmhm... Let us continue... */;
             BIT_OFF(2129);
             BIT_OFF(2130);
             BIT_OFF(2133);
@@ -7143,7 +7143,7 @@ void maari_01()
             BIT_OFF(2131);
             BTL_FORM_ALL_ON();
             BTL_CAM_SET(458.85f, - 158.05f, - 1474.74f, - 0.04f, 0.17f, - 0.01f, 0.98f);
-            itfMesMngMessage(94) /* kin_08 */;
+            itfMesMngMessage(94) /* kin_08: Healing and items are forbidden... */;
             BIT_ON(2131);
             BIT_ON(2133);
             itfMesMngCloseWindow();
@@ -7161,7 +7161,7 @@ void maari_01()
             BTL_PNL_OFF();
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(96) /* kin_11 */;
+            itfMesMngMessage(96) /* kin_11: Hmhmhm... Let us continue... */;
             BIT_OFF(2129);
             BIT_OFF(2130);
             BIT_OFF(2133);
@@ -7170,7 +7170,7 @@ void maari_01()
             BIT_OFF(2131);
             BTL_FORM_ALL_ON();
             BTL_CAM_SET(11.94f, - 245.69f, - 1735.32f, 0.0f, 0.01f, 0.0f, 1.0f);
-            itfMesMngMessage(93) /* kin_07 */;
+            itfMesMngMessage(93) /* kin_07: Spells and items are forbidden... */;
             BIT_ON(2132);
             BIT_ON(2133);
             itfMesMngCloseWindow();
@@ -7188,7 +7188,7 @@ void maari_01()
             BTL_PNL_OFF();
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(96) /* kin_11 */;
+            itfMesMngMessage(96) /* kin_11: Hmhmhm... Let us continue... */;
             BIT_OFF(2129);
             BIT_OFF(2130);
             BIT_OFF(2133);
@@ -7197,7 +7197,7 @@ void maari_01()
             BIT_OFF(2131);
             BTL_FORM_ALL_ON();
             BTL_CAM_SET(- 833.47f, - 62.31f, - 1477.14f, - 0.06f, - 0.23f, 0.01f, 0.87f);
-            itfMesMngMessage(92) /* kin_06 */;
+            itfMesMngMessage(92) /* kin_06: Summoning is forbidden... */;
             BIT_ON(2134);
             itfMesMngCloseWindow();
             BTL_PNL_ON();
@@ -7214,7 +7214,7 @@ void maari_01()
             BTL_PNL_OFF();
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(96) /* kin_11 */;
+            itfMesMngMessage(96) /* kin_11: Hmhmhm... Let us continue... */;
             BIT_OFF(2129);
             BIT_OFF(2130);
             BIT_OFF(2133);
@@ -7223,7 +7223,7 @@ void maari_01()
             BIT_OFF(2131);
             BTL_FORM_ALL_ON();
             BTL_CAM_SET(458.85f, - 158.05f, - 1474.74f, - 0.04f, 0.17f, - 0.01f, 0.98f);
-            itfMesMngMessage(91) /* kin_05 */;
+            itfMesMngMessage(91) /* kin_05: Items are forbidden... */;
             BIT_ON(2133);
             itfMesMngCloseWindow();
             BTL_PNL_ON();
@@ -7240,7 +7240,7 @@ void maari_01()
             BTL_PNL_OFF();
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(96) /* kin_11 */;
+            itfMesMngMessage(96) /* kin_11: Hmhmhm... Let us continue... */;
             BIT_OFF(2129);
             BIT_OFF(2130);
             BIT_OFF(2133);
@@ -7249,7 +7249,7 @@ void maari_01()
             BIT_OFF(2131);
             BTL_FORM_ALL_ON();
             BTL_CAM_SET(11.94f, - 245.69f, - 1735.32f, 0.0f, 0.01f, 0.0f, 1.0f);
-            itfMesMngMessage(90) /* kin_04 */;
+            itfMesMngMessage(90) /* kin_04: Spells are forbidden... */;
             BIT_ON(2132);
             itfMesMngCloseWindow();
             BTL_PNL_ON();
@@ -7266,7 +7266,7 @@ void maari_01()
             BTL_PNL_OFF();
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(96) /* kin_11 */;
+            itfMesMngMessage(96) /* kin_11: Hmhmhm... Let us continue... */;
             BIT_OFF(2129);
             BIT_OFF(2130);
             BIT_OFF(2133);
@@ -7275,7 +7275,7 @@ void maari_01()
             BIT_OFF(2131);
             BTL_FORM_ALL_ON();
             BTL_CAM_SET(- 833.47f, - 62.31f, - 1477.14f, - 0.06f, - 0.23f, 0.01f, 0.87f);
-            itfMesMngMessage(89) /* kin_03 */;
+            itfMesMngMessage(89) /* kin_03: Healing is forbidden... */;
             BIT_ON(2131);
             itfMesMngCloseWindow();
             BTL_PNL_ON();
@@ -7292,7 +7292,7 @@ void maari_01()
             BTL_PNL_OFF();
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(96) /* kin_11 */;
+            itfMesMngMessage(96) /* kin_11: Hmhmhm... Let us continue... */;
             BIT_OFF(2129);
             BIT_OFF(2130);
             BIT_OFF(2133);
@@ -7301,7 +7301,7 @@ void maari_01()
             BIT_OFF(2131);
             BTL_FORM_ALL_ON();
             BTL_CAM_SET(458.85f, - 158.05f, - 1474.74f, - 0.04f, 0.17f, - 0.01f, 0.98f);
-            itfMesMngMessage(88) /* kin_02 */;
+            itfMesMngMessage(88) /* kin_02: Spell attacks are forbidden... */;
             BIT_ON(2130);
             itfMesMngCloseWindow();
             BTL_PNL_ON();
@@ -7802,7 +7802,7 @@ void b_kagutuch_2()
                 BTL_PNL_OFF();
                 WAIT(30);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(97) /* m_kagu_01 */;
+                itfMesMngMessage(97) /* m_kagu_01: I am destiny... */;
                 itfMesMngCloseWindow();
                 BTL_PNL_ON();
                 BTL_CAM_ORG();
@@ -7817,7 +7817,7 @@ void b_kagutuch_2()
                 BTL_PNL_OFF();
                 WAIT(30);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(98) /* m_kagu_02 */;
+                itfMesMngMessage(98) /* m_kagu_02: I am the truth... */;
                 itfMesMngCloseWindow();
                 BTL_PNL_ON();
                 BTL_CAM_ORG();
@@ -7833,7 +7833,7 @@ void b_kagutuch_2()
                 BTL_PNL_OFF();
                 WAIT(30);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(99) /* m_kagu_03 */;
+                itfMesMngMessage(99) /* m_kagu_03: I am the will... */;
                 itfMesMngCloseWindow();
                 BTL_PNL_ON();
                 BTL_CAM_ORG();
@@ -7896,7 +7896,7 @@ void jyaaku_f()
             BTL_PNL_OFF();
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(100) /* j_fro_02 */;
+            itfMesMngMessage(100) /* j_fro_02: Aaaargh, that's it!! I'll show ya what an emperor can really do!! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -8063,7 +8063,7 @@ void maara()
             BTL_PNL_OFF();
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(101) /* maara_02 */;
+            itfMesMngMessage(101) /* maara_02: *slobber* *slurp* */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -8081,7 +8081,7 @@ void maara()
             BTL_PNL_OFF();
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(102) /* maara_03 */;
+            itfMesMngMessage(102) /* maara_03: *squirt* *splat* */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -8261,7 +8261,7 @@ void bisha()
             BTL_CAM_1SHOT();
             BTL_PNL_OFF();
             itfMesMngOpenWindow();
-            itfMesMngMessage(103) /* bisha_02 */;
+            itfMesMngMessage(103) /* bisha_02: Die by my spear! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -8288,7 +8288,7 @@ void bisha()
             BTL_CAM_1SHOT();
             BTL_PNL_OFF();
             itfMesMngOpenWindow();
-            itfMesMngMessage(104) /* bisha_03 */;
+            itfMesMngMessage(104) /* bisha_03: A swift death awaits you!! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -8910,7 +8910,7 @@ void masa_bsya_end()
     BTL_PNL_OFF();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(105) /* ex_bsyam_01 */;
+    itfMesMngMessage(105) /* ex_bsyam_01: Well done... */;
     itfMesMngCloseWindow();
     BTL_PNL_ON();
     return;
@@ -9126,7 +9126,7 @@ void masa_zikoku_end()
     BTL_PNL_OFF();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(108) /* ex_zoucho_01 */;
+    itfMesMngMessage(108) /* ex_zoucho_01: Well done... */;
     itfMesMngCloseWindow();
     BTL_PNL_ON();
     BTL_CAM_ORG();
@@ -9524,7 +9524,7 @@ void masa_koumoku_end()
     BTL_PNL_OFF();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(106) /* ex_zikoku_01 */;
+    itfMesMngMessage(106) /* ex_zikoku_01: Well done... */;
     itfMesMngCloseWindow();
     BTL_PNL_ON();
     return;
@@ -9740,7 +9740,7 @@ void masa_zoucho_end()
     BTL_PNL_OFF();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(107) /* ex_koumokut_01 */;
+    itfMesMngMessage(107) /* ex_koumokut_01: Well done... */;
     itfMesMngCloseWindow();
     BTL_PNL_ON();
     return;
@@ -11004,7 +11004,7 @@ void kagutool()
             BTL_PNL_OFF();
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(110) /* mes_kagtool_01 */;
+            itfMesMngMessage(110) /* mes_kagtool_01: You... have grown strong... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -11020,7 +11020,7 @@ void kagutool()
             BTL_PNL_OFF();
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(111) /* mes_kagtool_02 */;
+            itfMesMngMessage(111) /* mes_kagtool_02: I... never expected... this... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -11188,7 +11188,7 @@ void kagutool_end()
     BTL_PNL_OFF();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(112) /* mes_kagtool_03 */;
+    itfMesMngMessage(112) /* mes_kagtool_03: I guess my journey... ends here... */;
     itfMesMngCloseWindow();
     BTL_PNL_ON();
     BTL_CAM_ORG();
@@ -11279,7 +11279,7 @@ void metatoron()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(134) /* mes_156_01 */;
+            itfMesMngMessage(134) /* mes_156_01: Face my judgment, accursed spirit! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -11406,7 +11406,7 @@ void metatoron()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(135) /* mes_156_02 */;
+            itfMesMngMessage(135) /* mes_156_02: You dare oppose me, demon? Then I shall crush you with my full streng... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -11605,7 +11605,7 @@ void metatoron()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(136) /* mes_156_03 */;
+            itfMesMngMessage(136) /* mes_156_03: Lord, give me the strength to vanquish this spirit of evil... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -11925,7 +11925,7 @@ void aiscr_157()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(132) /* mes_157_01 */;
+            itfMesMngMessage(132) /* mes_157_01: Now, let's begin. I hope you don't die too easily. */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -11979,7 +11979,7 @@ void aiscr_157()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(133) /* mes_157_02 */;
+            itfMesMngMessage(133) /* mes_157_02: ...That was a good warm-up. Well, my subordinates are getting restles... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -12184,7 +12184,7 @@ void boss_wrid()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(128) /* mes_15a_01 */;
+            itfMesMngMessage(128) /* mes_15a_01: Attack me!! I won't allow any cowardly defending!! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -12312,7 +12312,7 @@ void boss_rrid()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(129) /* mes_15b_01 */;
+            itfMesMngMessage(129) /* mes_15b_01: Your madness is my joy. ...Shall we begin? */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -12452,7 +12452,7 @@ void boss_brid()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(130) /* mes_15c_01 */;
+            itfMesMngMessage(130) /* mes_15c_01: Death shall come for thee... when thy soul is weighed by my scale... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -12594,7 +12594,7 @@ void boss_prid()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(131) /* mes_159_01 */;
+            itfMesMngMessage(131) /* mes_159_01: Behold the land of the dead. It encroaches from before you and behind... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -12761,7 +12761,7 @@ void matadoll()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(113) /* mes_15d_01 */;
+            itfMesMngMessage(113) /* mes_15d_01: Charge me with all your strength! Your horns cannot pierce my soul! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -12834,7 +12834,7 @@ void matadoll()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(114) /* mes_15d_02 */;
+            itfMesMngMessage(114) /* mes_15d_02: Impressive... But, the moment of truth is beyond your grasp... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -12913,7 +12913,7 @@ void aiscr_15e()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(115) /* mes_15e_01 */;
+            itfMesMngMessage(115) /* mes_15e_01: Alright, let's go! Think you can stop me? */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -13003,7 +13003,7 @@ void aiscr_15e()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(116) /* mes_15e_02 */;
+            itfMesMngMessage(116) /* mes_15e_02: ...You're the first to keep up with me. */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -13138,7 +13138,7 @@ void aiscr_15f()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(117) /* mes_15f_01 */;
+            itfMesMngMessage(117) /* mes_15f_01: My sutra shall grant you eternal rest... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -13195,7 +13195,7 @@ void aiscr_15f()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(118) /* mes_15f_02 */;
+            itfMesMngMessage(118) /* mes_15f_02: My words shall erase your karma... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -13259,7 +13259,7 @@ void aiscr_15f()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(119) /* mes_15f_03 */;
+            itfMesMngMessage(119) /* mes_15f_03: Fool... How long will you remain attached to life? */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -13418,7 +13418,7 @@ void aiscr_160()
                 BTL_PNL_OFF();
                 WAIT(20);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(120) /* mes_160_01 */;
+                itfMesMngMessage(120) /* mes_160_01: Let's enjoy every minute of this orgy of death... */;
                 itfMesMngCloseWindow();
                 BTL_PNL_ON();
                 BTL_CAM_ORG();
@@ -13701,7 +13701,7 @@ void aiscr_160()
                 BTL_PNL_OFF();
                 WAIT(20);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(121) /* mes_160_02 */;
+                itfMesMngMessage(121) /* mes_160_02: Hohohoho! Faster! Wilder!! */;
                 itfMesMngCloseWindow();
                 BTL_PNL_ON();
                 BTL_CAM_ORG();
@@ -13925,7 +13925,7 @@ void aiscr_161()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(122) /* mes_161_01 */;
+            itfMesMngMessage(122) /* mes_161_01: I shall sound my trumpet when eight breaths have been spent. It is th... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -13948,7 +13948,7 @@ void aiscr_161()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(127) /* mes_161_06 */;
+            itfMesMngMessage(127) /* mes_161_06: Alas, my soul fades like the setting sun... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -13964,7 +13964,7 @@ void aiscr_161()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(126) /* mes_161_05 */;
+            itfMesMngMessage(126) /* mes_161_05: My soul shines like the bright of day... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -13980,7 +13980,7 @@ void aiscr_161()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(125) /* mes_161_04 */;
+            itfMesMngMessage(125) /* mes_161_04: My soul has just awakened like the dawn... */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -14004,7 +14004,7 @@ void aiscr_161()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(124) /* mes_161_03 */;
+            itfMesMngMessage(124) /* mes_161_03: Behold the salvation from my god!! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -14112,7 +14112,7 @@ void aiscr_161()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(123) /* mes_161_02 */;
+            itfMesMngMessage(123) /* mes_161_02: Cower at the arrival of death!! */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -14931,7 +14931,7 @@ void aiscr_153()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(137) /* mes_153_01 */;
+            itfMesMngMessage(137) /* mes_153_01: ...I'll give you ten minutes to decide. */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -15022,7 +15022,7 @@ void aiscr_153()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(138) /* mes_153_02 */;
+            itfMesMngMessage(138) /* mes_153_02: This is getting good! You're having fun, aren't you? */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -15176,7 +15176,7 @@ void aiscr_155()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(139) /* mes_155_01 */;
+            itfMesMngMessage(139) /* mes_155_01: There's no place to hide. So... whatcha gonna do, kid? */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -15322,7 +15322,7 @@ void aiscr_155()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(140) /* mes_155_02 */;
+            itfMesMngMessage(140) /* mes_155_02: Looks like you've improved. */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();
@@ -15498,7 +15498,7 @@ void aiscr_155()
             BTL_PNL_OFF();
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(141) /* mes_155_03 */;
+            itfMesMngMessage(141) /* mes_155_03: You're better than I thought. */;
             itfMesMngCloseWindow();
             BTL_PNL_ON();
             BTL_CAM_ORG();

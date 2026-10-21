@@ -27,7 +27,7 @@ void e801_main()
         CAM_SEL(SEARCH_ID("cam02"));
         CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(1) /* MSG_002 */;
+        itfMesMngMessage(1) /* MSG_002: Welcome to the Fountain of Life... */;
         itfMesMngCloseWindow();
         CAM_SEL(SEARCH_ID("cam01"));
         CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));
@@ -38,13 +38,13 @@ void e801_main()
         FADE_IN(0, 45);
         WAIT(45);
         itfMesMngOpenWindow();
-        itfMesMngMessage(2) /* MSG_003 */;
+        itfMesMngMessage(2) /* MSG_003: Welcome to the Fountain of Life... */;
         itfMesMngCloseWindow();
         CAM_SEL(SEARCH_ID("cam02"));
         CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
         WAIT(25);
         itfMesMngOpenWindow();
-        itfMesMngMessage(3) /* MSG_003_002 */;
+        itfMesMngMessage(3) /* MSG_003_002: I know your story, and I know that within you lies a tremendous power... */;
         itfMesMngCloseWindow();
         BLUR2_PARA(0.02f, 0.986f, 1);
         BLUR2_RGBA(128, 128, 128, 96);
@@ -58,7 +58,7 @@ void e801_main()
         BLUR2_OFF(40);
         WAIT(25);
         itfMesMngOpenWindow();
-        itfMesMngMessage(4) /* MSG_UP */;
+        itfMesMngMessage(4) /* MSG_UP: > {name 0}'s stats increased. */;
         itfMesMngCloseWindow();
         prm_PLAYER_ADD_PARAM(0, 1);
         prm_PLAYER_ADD_PARAM(2, 1);
@@ -74,7 +74,7 @@ void e801_main()
     {
         WAIT(25);
         itfMesMngOpenWindow();
-        itfMesMngMessage(5) /* MSG_004 */;
+        itfMesMngMessage(5) /* MSG_004: Oh... There is still power inside you which has yet to be set free. */;
         itfMesMngCloseWindow();
         BLUR2_PARA(0.02f, 0.986f, 1);
         BLUR2_RGBA(128, 128, 128, 96);
@@ -88,7 +88,7 @@ void e801_main()
         BLUR2_OFF(40);
         WAIT(25);
         itfMesMngOpenWindow();
-        itfMesMngMessage(4) /* MSG_UP */;
+        itfMesMngMessage(4) /* MSG_UP: > {name 0}'s stats increased. */;
         itfMesMngCloseWindow();
         prm_PLAYER_ADD_PARAM(0, 1);
         prm_PLAYER_ADD_PARAM(2, 1);
@@ -104,7 +104,7 @@ void e801_main()
     {
         WAIT(25);
         itfMesMngOpenWindow();
-        itfMesMngMessage(5) /* MSG_004 */;
+        itfMesMngMessage(5) /* MSG_004: Oh... There is still power inside you which has yet to be set free. */;
         itfMesMngCloseWindow();
         BLUR2_PARA(0.02f, 0.986f, 1);
         BLUR2_RGBA(128, 128, 128, 96);
@@ -118,7 +118,7 @@ void e801_main()
         BLUR2_OFF(40);
         WAIT(25);
         itfMesMngOpenWindow();
-        itfMesMngMessage(4) /* MSG_UP */;
+        itfMesMngMessage(4) /* MSG_UP: > {name 0}'s stats increased. */;
         itfMesMngCloseWindow();
         prm_PLAYER_ADD_PARAM(0, 1);
         prm_PLAYER_ADD_PARAM(2, 1);
@@ -134,7 +134,7 @@ void e801_main()
     {
         WAIT(25);
         itfMesMngOpenWindow();
-        itfMesMngMessage(5) /* MSG_004 */;
+        itfMesMngMessage(5) /* MSG_004: Oh... There is still power inside you which has yet to be set free. */;
         itfMesMngCloseWindow();
         BLUR2_PARA(0.02f, 0.986f, 1);
         BLUR2_RGBA(128, 128, 128, 96);
@@ -148,7 +148,7 @@ void e801_main()
         BLUR2_OFF(40);
         WAIT(25);
         itfMesMngOpenWindow();
-        itfMesMngMessage(4) /* MSG_UP */;
+        itfMesMngMessage(4) /* MSG_UP: > {name 0}'s stats increased. */;
         itfMesMngCloseWindow();
         prm_PLAYER_ADD_PARAM(0, 1);
         prm_PLAYER_ADD_PARAM(2, 1);
@@ -164,7 +164,7 @@ void e801_main()
     {
         WAIT(25);
         itfMesMngOpenWindow();
-        itfMesMngMessage(5) /* MSG_004 */;
+        itfMesMngMessage(5) /* MSG_004: Oh... There is still power inside you which has yet to be set free. */;
         itfMesMngCloseWindow();
         BLUR2_PARA(0.02f, 0.986f, 1);
         BLUR2_RGBA(128, 128, 128, 96);
@@ -178,7 +178,7 @@ void e801_main()
         BLUR2_OFF(40);
         WAIT(25);
         itfMesMngOpenWindow();
-        itfMesMngMessage(4) /* MSG_UP */;
+        itfMesMngMessage(4) /* MSG_UP: > {name 0}'s stats increased. */;
         itfMesMngCloseWindow();
         prm_PLAYER_ADD_PARAM(0, 1);
         prm_PLAYER_ADD_PARAM(2, 1);
@@ -192,7 +192,7 @@ void e801_main()
         CAM_SEL(var5);
         WAIT(20);
         itfMesMngOpenWindow();
-        itfMesMngMessage(6) /* MSG_005 */;
+        itfMesMngMessage(6) /* MSG_005: All of the power that lay dormant inside you has now been unleashed. */;
         itfMesMngCloseWindow();
     }
     else

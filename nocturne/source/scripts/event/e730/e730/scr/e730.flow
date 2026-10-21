@@ -47,8 +47,8 @@ void e730_main()
         FADE_IN(0, 45);
         WAIT(60);
         itfMesMngOpenWindow();
-        itfMesMngMessage(25) /* MSG_020_010 */;
-        var7 = itfMesMngSelect(6);
+        itfMesMngMessage(25) /* MSG_020_010: ...I knew you'd come back. */;
+        var7 = itfMesMngSelect(6) /* KAIWA_SEL: Okay, I'll hire you. / I don't need your help. */;
         itfMesMngCloseWindow();
         if (var7 == 0)
         {
@@ -62,7 +62,7 @@ void e730_main()
                 FADE_IN(0, 20);
                 WAIT(20);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(24) /* MSG_NAKAMA */;
+                itfMesMngMessage(24) /* MSG_NAKAMA: You've got a lot of company with you. Why don't you come back after y... */;
                 itfMesMngCloseWindow();
             }
             else
@@ -91,7 +91,7 @@ void e730_main()
                 BGM_PLAY_E(730, 1);
                 WAIT(20);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(26) /* MSG_006_002 */;
+                itfMesMngMessage(26) /* MSG_006_002: So, you finally came to your senses, huh? Alright then, let's talk bu... */;
                 itfMesMngCloseWindow();
                 WAIT(20);
                 CAM_SEL(SEARCH_ID("01cam_05"));
@@ -101,13 +101,13 @@ void e730_main()
                 MODEL_MOTION2(var1, 2, 0, 0, 0);
                 WAIT(10);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(8) /* MSG_007 */;
+                itfMesMngMessage(8) /* MSG_007: Heads or tails... */;
                 itfMesMngCloseWindow();
                 WAIT(20);
                 WAIT(20);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(9) /* MSG_008 */;
-                var17 = itfMesMngSelect(10);
+                itfMesMngMessage(9) /* MSG_008: Call it. Heads or tails? */;
+                var17 = itfMesMngSelect(10) /* KAIWA2_SEL: Heads. / Tails. */;
                 itfMesMngCloseWindow();
                 if (var17 == 0)
                 {
@@ -131,8 +131,8 @@ void e730_main()
                     MODEL_MOTION2(var4, 4, 0, 0, 1);
                     WAIT(50);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(11) /* MSG_009 */;
-                    itfMesMngMessage(12) /* MSG_009_020 */;
+                    itfMesMngMessage(11) /* MSG_009: ...Heads it is. You're lucky, kid. */;
+                    itfMesMngMessage(12) /* MSG_009_020: > {name 0} paid 1 Macca to Dante. */;
                     itfMesMngCloseWindow();
                     COMM_139(- 1);
                     WAIT(20);
@@ -142,15 +142,15 @@ void e730_main()
                     MODEL_MOTION2(var1, 10, 0, 0, 1);
                     WAIT(20);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(15) /* MSG_010 */;
-                    var18 = itfMesMngSelect(16);
+                    itfMesMngMessage(15) /* MSG_010: Thank you very much. Starting today, I work for you. */;
+                    var18 = itfMesMngSelect(16) /* KAIWA3_SEL: Tell him. / Don't tell him. */;
                     itfMesMngCloseWindow();
                     WAIT(20);
                     if (var18 == 0)
                     {
                         WAIT(20);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(17) /* MSG_012 */;
+                        itfMesMngMessage(17) /* MSG_012: > {name 0} introduced himself to Dante. */;
                         itfMesMngCloseWindow();
                         CAM_SEL(SEARCH_ID("01cam_14"));
                         CAM_PATH_MOVE(SEARCH_ID("01cam_14"), SEARCH_ID("01cam_14_MOTION"));
@@ -159,7 +159,7 @@ void e730_main()
                         MODEL_EXMOTION(var1, 1, 3, 0, 0, 2);
                         WAIT(30);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(18) /* MSG_013 */;
+                        itfMesMngMessage(18) /* MSG_013: I see. Not a bad name. */;
                         itfMesMngCloseWindow();
                         MODEL_ON(var4);
                         WAIT(60);
@@ -173,7 +173,7 @@ void e730_main()
                         MODEL_EXMOTION(var1, 1, 3, 0, 0, 2);
                         WAIT(20);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(19) /* MSG_0130 */;
+                        itfMesMngMessage(19) /* MSG_0130: Okay, {name 0}. */;
                         itfMesMngCloseWindow();
                         WAIT(20);
                         MODEL_WAIT(var1);
@@ -185,7 +185,7 @@ void e730_main()
                         MODEL_MOTION2(var1, 15, 0, 0, 1);
                         WAIT(20);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(22) /* MSG_014 */;
+                        itfMesMngMessage(22) /* MSG_014: The final battle between demons and the army of god... This'll be int... */;
                         itfMesMngCloseWindow();
                         WAIT(20);
                     }
@@ -193,7 +193,7 @@ void e730_main()
                     {
                         WAIT(20);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(20) /* MSG_012B */;
+                        itfMesMngMessage(20) /* MSG_012B: ...Not very social, are you? */;
                         itfMesMngCloseWindow();
                         WAIT(20);
                         CAM_SEL(SEARCH_ID("01cam_11"));
@@ -206,7 +206,7 @@ void e730_main()
                         MODEL_EXMOTION(var1, 1, 3, 0, 0, 2);
                         WAIT(20);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(21) /* MSG_013B */;
+                        itfMesMngMessage(21) /* MSG_013B: Okay, {name 0}. */;
                         itfMesMngCloseWindow();
                         WAIT(20);
                         MODEL_WAIT(var1);
@@ -218,7 +218,7 @@ void e730_main()
                         MODEL_MOTION2(var1, 15, 0, 0, 1);
                         WAIT(20);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(22) /* MSG_014 */;
+                        itfMesMngMessage(22) /* MSG_014: The final battle between demons and the army of god... This'll be int... */;
                         itfMesMngCloseWindow();
                         WAIT(20);
                     }
@@ -245,8 +245,8 @@ void e730_main()
                     MODEL_MOTION2(var4, 4, 0, 0, 1);
                     WAIT(20);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(13) /* MSG_009B */;
-                    itfMesMngMessage(14) /* MSG_009B_020 */;
+                    itfMesMngMessage(13) /* MSG_009B: ...It's heads. You lose. I didn't think you'd fall for a simple trick... */;
+                    itfMesMngMessage(14) /* MSG_009B_020: > {name 0} gave half of his money to Dante. */;
                     itfMesMngCloseWindow();
                     prm_MAKA_PLUS_PER(- 50);
                     WAIT(20);
@@ -256,15 +256,15 @@ void e730_main()
                     MODEL_MOTION2(var1, 10, 0, 0, 1);
                     WAIT(20);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(15) /* MSG_010 */;
-                    var18 = itfMesMngSelect(16);
+                    itfMesMngMessage(15) /* MSG_010: Thank you very much. Starting today, I work for you. */;
+                    var18 = itfMesMngSelect(16) /* KAIWA3_SEL: Tell him. / Don't tell him. */;
                     itfMesMngCloseWindow();
                     WAIT(20);
                     if (var18 == 0)
                     {
                         WAIT(20);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(17) /* MSG_012 */;
+                        itfMesMngMessage(17) /* MSG_012: > {name 0} introduced himself to Dante. */;
                         itfMesMngCloseWindow();
                         CAM_SEL(SEARCH_ID("01cam_14"));
                         CAM_PATH_MOVE(SEARCH_ID("01cam_14"), SEARCH_ID("01cam_14_MOTION"));
@@ -273,7 +273,7 @@ void e730_main()
                         MODEL_EXMOTION(var1, 1, 3, 0, 0, 2);
                         WAIT(30);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(18) /* MSG_013 */;
+                        itfMesMngMessage(18) /* MSG_013: I see. Not a bad name. */;
                         itfMesMngCloseWindow();
                         MODEL_ON(var4);
                         WAIT(60);
@@ -287,7 +287,7 @@ void e730_main()
                         MODEL_EXMOTION(var1, 1, 3, 0, 0, 2);
                         WAIT(20);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(19) /* MSG_0130 */;
+                        itfMesMngMessage(19) /* MSG_0130: Okay, {name 0}. */;
                         itfMesMngCloseWindow();
                         WAIT(20);
                         MODEL_WAIT(var1);
@@ -299,7 +299,7 @@ void e730_main()
                         MODEL_MOTION2(var1, 15, 0, 0, 1);
                         WAIT(20);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(22) /* MSG_014 */;
+                        itfMesMngMessage(22) /* MSG_014: The final battle between demons and the army of god... This'll be int... */;
                         itfMesMngCloseWindow();
                         WAIT(20);
                     }
@@ -307,7 +307,7 @@ void e730_main()
                     {
                         WAIT(20);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(20) /* MSG_012B */;
+                        itfMesMngMessage(20) /* MSG_012B: ...Not very social, are you? */;
                         itfMesMngCloseWindow();
                         WAIT(20);
                         CAM_SEL(SEARCH_ID("01cam_11"));
@@ -319,7 +319,7 @@ void e730_main()
                         SCR_RUN(1, - 1);
                         WAIT(10);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(21) /* MSG_013B */;
+                        itfMesMngMessage(21) /* MSG_013B: Okay, {name 0}. */;
                         itfMesMngCloseWindow();
                         WAIT(20);
                         MODEL_WAIT(var1);
@@ -331,7 +331,7 @@ void e730_main()
                         MODEL_MOTION2(var1, 15, 0, 0, 1);
                         WAIT(20);
                         itfMesMngOpenWindow();
-                        itfMesMngMessage(22) /* MSG_014 */;
+                        itfMesMngMessage(22) /* MSG_014: The final battle between demons and the army of god... This'll be int... */;
                         itfMesMngCloseWindow();
                         WAIT(20);
                     }
@@ -350,7 +350,7 @@ void e730_main()
             WAIT(10);
             WAIT(10);
             itfMesMngOpenWindow();
-            itfMesMngMessage(23) /* MSG_011 */;
+            itfMesMngMessage(23) /* MSG_011: ...Lighten up. It was just a joke. */;
             itfMesMngCloseWindow();
             WAIT(10);
             FADEOUT_E(730, 1);
@@ -404,8 +404,8 @@ void e730_020()
     MODEL_MOTION2(var4, 2, 0, 0, 1);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
-    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(0) /* MSG_001: Our goals are the same... just as I suspected. */;
+    itfMesMngMessage(1) /* MSG_002: I'm impressed that you made it this far. */;
     itfMesMngCloseWindow();
     WAIT(20);
 }
@@ -421,7 +421,7 @@ void e730_030()
     WAIT(10);
     itfMesMngOpenWindow();
     SCR_RUN(7, - 1);
-    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngMessage(2) /* MSG_003: But, it's gonna get a lot more dangerous from here. */;
     itfMesMngCloseWindow();
     WAIT(30);
     MODEL_WAIT(var1);
@@ -429,12 +429,12 @@ void e730_030()
     CAM_PATH_MOVE(SEARCH_ID("01cam_03"), SEARCH_ID("01cam_03_MOTION"));
     MODEL_MOTION2(var1, 10, 0, 0, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_004 */;
-    itfMesMngMessage(4) /* MSG_004B */;
-    itfMesMngMessage(5) /* MSG_005 */;
+    itfMesMngMessage(3) /* MSG_004: That's why I want to offer my services to you. */;
+    itfMesMngMessage(4) /* MSG_004B: It's the joke of the century, don't ya think? */;
+    itfMesMngMessage(5) /* MSG_005: So, how 'bout it? */;
     MODEL_WAIT_EXMOT(var1, 1, 4);
     MODEL_EXMOTION(var1, 1, 2, 0, 0, 0);
-    var7 = itfMesMngSelect(6);
+    var7 = itfMesMngSelect(6) /* KAIWA_SEL: Okay, I'll hire you. / I don't need your help. */;
     itfMesMngCloseWindow();
     if (var7 == 0)
     {
@@ -448,7 +448,7 @@ void e730_030()
             FADE_IN(0, 20);
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(24) /* MSG_NAKAMA */;
+            itfMesMngMessage(24) /* MSG_NAKAMA: You've got a lot of company with you. Why don't you come back after y... */;
             itfMesMngCloseWindow();
             BIT_ON(272);
         }
@@ -478,7 +478,7 @@ void e730_030()
             BGM_PLAY_E(730, 1);
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(7) /* MSG_006 */;
+            itfMesMngMessage(7) /* MSG_006: Alright then, let's talk business. */;
             itfMesMngCloseWindow();
             WAIT(20);
             CAM_SEL(SEARCH_ID("01cam_05"));
@@ -488,13 +488,13 @@ void e730_030()
             MODEL_MOTION2(var1, 2, 0, 0, 0);
             WAIT(10);
             itfMesMngOpenWindow();
-            itfMesMngMessage(8) /* MSG_007 */;
+            itfMesMngMessage(8) /* MSG_007: Heads or tails... */;
             itfMesMngCloseWindow();
             WAIT(20);
             WAIT(20);
             itfMesMngOpenWindow();
-            itfMesMngMessage(9) /* MSG_008 */;
-            var17 = itfMesMngSelect(10);
+            itfMesMngMessage(9) /* MSG_008: Call it. Heads or tails? */;
+            var17 = itfMesMngSelect(10) /* KAIWA2_SEL: Heads. / Tails. */;
             itfMesMngCloseWindow();
             if (var17 == 0)
             {
@@ -518,8 +518,8 @@ void e730_030()
                 MODEL_MOTION2(var4, 4, 0, 0, 1);
                 WAIT(50);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(11) /* MSG_009 */;
-                itfMesMngMessage(12) /* MSG_009_020 */;
+                itfMesMngMessage(11) /* MSG_009: ...Heads it is. You're lucky, kid. */;
+                itfMesMngMessage(12) /* MSG_009_020: > {name 0} paid 1 Macca to Dante. */;
                 itfMesMngCloseWindow();
                 COMM_139(- 1);
                 WAIT(20);
@@ -529,15 +529,15 @@ void e730_030()
                 MODEL_MOTION2(var1, 10, 0, 0, 1);
                 WAIT(20);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(15) /* MSG_010 */;
-                var18 = itfMesMngSelect(16);
+                itfMesMngMessage(15) /* MSG_010: Thank you very much. Starting today, I work for you. */;
+                var18 = itfMesMngSelect(16) /* KAIWA3_SEL: Tell him. / Don't tell him. */;
                 itfMesMngCloseWindow();
                 WAIT(20);
                 if (var18 == 0)
                 {
                     WAIT(20);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(17) /* MSG_012 */;
+                    itfMesMngMessage(17) /* MSG_012: > {name 0} introduced himself to Dante. */;
                     itfMesMngCloseWindow();
                     CAM_SEL(SEARCH_ID("01cam_14"));
                     CAM_PATH_MOVE(SEARCH_ID("01cam_14"), SEARCH_ID("01cam_14_MOTION"));
@@ -546,7 +546,7 @@ void e730_030()
                     MODEL_EXMOTION(var1, 1, 3, 0, 0, 2);
                     WAIT(30);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(18) /* MSG_013 */;
+                    itfMesMngMessage(18) /* MSG_013: I see. Not a bad name. */;
                     itfMesMngCloseWindow();
                     MODEL_ON(var4);
                     WAIT(60);
@@ -560,7 +560,7 @@ void e730_030()
                     MODEL_EXMOTION(var1, 1, 3, 0, 0, 2);
                     WAIT(20);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(19) /* MSG_0130 */;
+                    itfMesMngMessage(19) /* MSG_0130: Okay, {name 0}. */;
                     itfMesMngCloseWindow();
                     WAIT(20);
                     MODEL_WAIT(var1);
@@ -572,7 +572,7 @@ void e730_030()
                     MODEL_MOTION2(var1, 15, 0, 0, 1);
                     WAIT(20);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(22) /* MSG_014 */;
+                    itfMesMngMessage(22) /* MSG_014: The final battle between demons and the army of god... This'll be int... */;
                     itfMesMngCloseWindow();
                     WAIT(20);
                 }
@@ -580,7 +580,7 @@ void e730_030()
                 {
                     WAIT(20);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(20) /* MSG_012B */;
+                    itfMesMngMessage(20) /* MSG_012B: ...Not very social, are you? */;
                     itfMesMngCloseWindow();
                     WAIT(20);
                     CAM_SEL(SEARCH_ID("01cam_11"));
@@ -593,7 +593,7 @@ void e730_030()
                     MODEL_EXMOTION(var1, 1, 3, 0, 0, 2);
                     WAIT(20);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(21) /* MSG_013B */;
+                    itfMesMngMessage(21) /* MSG_013B: Okay, {name 0}. */;
                     itfMesMngCloseWindow();
                     WAIT(20);
                     MODEL_WAIT(var1);
@@ -605,7 +605,7 @@ void e730_030()
                     MODEL_MOTION2(var1, 15, 0, 0, 1);
                     WAIT(20);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(22) /* MSG_014 */;
+                    itfMesMngMessage(22) /* MSG_014: The final battle between demons and the army of god... This'll be int... */;
                     itfMesMngCloseWindow();
                     WAIT(20);
                 }
@@ -632,8 +632,8 @@ void e730_030()
                 MODEL_MOTION2(var4, 4, 0, 0, 1);
                 WAIT(20);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(13) /* MSG_009B */;
-                itfMesMngMessage(14) /* MSG_009B_020 */;
+                itfMesMngMessage(13) /* MSG_009B: ...It's heads. You lose. I didn't think you'd fall for a simple trick... */;
+                itfMesMngMessage(14) /* MSG_009B_020: > {name 0} gave half of his money to Dante. */;
                 itfMesMngCloseWindow();
                 prm_MAKA_PLUS_PER(- 50);
                 WAIT(20);
@@ -643,15 +643,15 @@ void e730_030()
                 MODEL_MOTION2(var1, 10, 0, 0, 1);
                 WAIT(20);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(15) /* MSG_010 */;
-                var18 = itfMesMngSelect(16);
+                itfMesMngMessage(15) /* MSG_010: Thank you very much. Starting today, I work for you. */;
+                var18 = itfMesMngSelect(16) /* KAIWA3_SEL: Tell him. / Don't tell him. */;
                 itfMesMngCloseWindow();
                 WAIT(20);
                 if (var18 == 0)
                 {
                     WAIT(20);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(17) /* MSG_012 */;
+                    itfMesMngMessage(17) /* MSG_012: > {name 0} introduced himself to Dante. */;
                     itfMesMngCloseWindow();
                     CAM_SEL(SEARCH_ID("01cam_14"));
                     CAM_PATH_MOVE(SEARCH_ID("01cam_14"), SEARCH_ID("01cam_14_MOTION"));
@@ -660,7 +660,7 @@ void e730_030()
                     MODEL_EXMOTION(var1, 1, 3, 0, 0, 2);
                     WAIT(30);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(18) /* MSG_013 */;
+                    itfMesMngMessage(18) /* MSG_013: I see. Not a bad name. */;
                     itfMesMngCloseWindow();
                     MODEL_ON(var4);
                     WAIT(60);
@@ -674,7 +674,7 @@ void e730_030()
                     MODEL_EXMOTION(var1, 1, 3, 0, 0, 2);
                     WAIT(20);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(19) /* MSG_0130 */;
+                    itfMesMngMessage(19) /* MSG_0130: Okay, {name 0}. */;
                     itfMesMngCloseWindow();
                     WAIT(20);
                     MODEL_WAIT(var1);
@@ -686,7 +686,7 @@ void e730_030()
                     MODEL_MOTION2(var1, 15, 0, 0, 1);
                     WAIT(20);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(22) /* MSG_014 */;
+                    itfMesMngMessage(22) /* MSG_014: The final battle between demons and the army of god... This'll be int... */;
                     itfMesMngCloseWindow();
                     WAIT(20);
                 }
@@ -694,7 +694,7 @@ void e730_030()
                 {
                     WAIT(20);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(20) /* MSG_012B */;
+                    itfMesMngMessage(20) /* MSG_012B: ...Not very social, are you? */;
                     itfMesMngCloseWindow();
                     WAIT(20);
                     CAM_SEL(SEARCH_ID("01cam_11"));
@@ -706,7 +706,7 @@ void e730_030()
                     SCR_RUN(1, - 1);
                     WAIT(10);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(21) /* MSG_013B */;
+                    itfMesMngMessage(21) /* MSG_013B: Okay, {name 0}. */;
                     itfMesMngCloseWindow();
                     WAIT(20);
                     MODEL_WAIT(var1);
@@ -718,7 +718,7 @@ void e730_030()
                     MODEL_MOTION2(var1, 15, 0, 0, 1);
                     WAIT(20);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(22) /* MSG_014 */;
+                    itfMesMngMessage(22) /* MSG_014: The final battle between demons and the army of god... This'll be int... */;
                     itfMesMngCloseWindow();
                     WAIT(20);
                 }
@@ -737,7 +737,7 @@ void e730_030()
         WAIT(10);
         WAIT(10);
         itfMesMngOpenWindow();
-        itfMesMngMessage(23) /* MSG_011 */;
+        itfMesMngMessage(23) /* MSG_011: ...Lighten up. It was just a joke. */;
         itfMesMngCloseWindow();
         WAIT(10);
         BIT_ON(272);

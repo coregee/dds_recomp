@@ -76,20 +76,20 @@ TOBASI:
     WAIT(80);
     SE_STOP_E(715, 111);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: At last, you have restored all of the candelabra to their rightful pl... */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("01cam_03"));
     CAM_PATH_MOVE(SEARCH_ID("01cam_03"), SEARCH_ID("01cam_03_MOTION"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(1) /* MSG_002: It may have occurred to you that the candelabra were not in fact stol... */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("01cam_04"));
     CAM_PATH_MOVE(SEARCH_ID("01cam_04"), SEARCH_ID("01cam_04_MOTION"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngMessage(2) /* MSG_003: I must apologize for not being honest with you, but there is a reason... */;
     itfMesMngCloseWindow();
     WAIT(20);
     FADE_OUT(1, 5);
@@ -131,7 +131,7 @@ TOBASI:
     itfMesMngWindowTypeAlpha(1, 40);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_004 */;
+    itfMesMngMessage(3) /* MSG_004: The forces of light and darkness have fought throughout the universe,... */;
     itfMesMngCloseWindow();
     WAIT(20);
     FADE_OUT(1, 5);
@@ -142,7 +142,7 @@ TOBASI:
     FADE_IN(1, 5);
     WAIT(25);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_004C */;
+    itfMesMngMessage(4) /* MSG_004C: However, one individual vowed to put an end to this eternal war. */;
     itfMesMngCloseWindow();
     FADE_OUT(1, 5);
     SE_PLAY_E(715, 109);
@@ -158,7 +158,7 @@ TOBASI:
     TEX_ALP(local2, 256, 0, 100);
     TEX_ALP(local3, 0, 256, 100);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_004D */;
+    itfMesMngMessage(5) /* MSG_004D: He decided to create a demon of chaos, one that would inherit his wil... */;
     itfMesMngCloseWindow();
     FADE_OUT(1, 45);
     SE_PLAY_E(715, 109);
@@ -292,9 +292,9 @@ TOBASI:
     WAIT(25);
     COMM_1E3(local0, - 488, 0, 0, 0, 600);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_004B */;
-    itfMesMngMessage(7) /* MSG_004B_002 */;
-    itfMesMngMessage(8) /* MSG_005 */;
+    itfMesMngMessage(6) /* MSG_004B: The Fiends were prepared for the creation of that demon. */;
+    itfMesMngMessage(7) /* MSG_004B_002: He believed that by challenging and overcoming death, */;
+    itfMesMngMessage(8) /* MSG_005: ...That is what he and my master planned. */;
     itfMesMngCloseWindow();
     WAIT(10);
     FADE_OUT(1, 5);
@@ -349,15 +349,15 @@ TOBASI:
     FADE_IN(1, 60);
     WAIT(80);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_005B */;
+    itfMesMngMessage(9) /* MSG_005B: You have vanquished all the Fiends, and now you stand here, just as h... */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("01cam_06"));
     CAM_PATH_MOVE(SEARCH_ID("01cam_06"), SEARCH_ID("01cam_06_MOTION"));
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* MSG_006 */;
-    itfMesMngMessage(12) /* MSG_007 */;
-    itfMesMngMessage(13) /* MSG_008 */;
+    itfMesMngMessage(10) /* MSG_006: {name 0}... */;
+    itfMesMngMessage(12) /* MSG_007: I cannot force you to help us. */;
+    itfMesMngMessage(13) /* MSG_008: But, if you have doubts about the laws of the universe... about fate,... */;
     itfMesMngCloseWindow();
     WAIT(10);
     CAM_SEL(SEARCH_ID("01cam_07"));
@@ -365,7 +365,7 @@ TOBASI:
     PATH_STOP(SEARCH_ID("01cam_07"));
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(14) /* MSG_009 */;
+    itfMesMngMessage(14) /* MSG_009: Let me conclude by telling you about a human who has crossed your pat... */;
     itfMesMngCloseWindow();
     WAIT(10);
     PATH_START(SEARCH_ID("01cam_07"));
@@ -388,7 +388,7 @@ TOBASI:
     CAM_PATH_MOVE(SEARCH_ID("01cam_08"), SEARCH_ID("01cam_08_MOTION"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(15) /* MSG_010 */;
+    itfMesMngMessage(15) /* MSG_010: The man I am referring to was known as Hijiri in your previous world. */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("01cam_09"));
@@ -396,7 +396,7 @@ TOBASI:
     MODEL_MOTION2(var1, 1, 0, 0, 2);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(16) /* MSG_011 */;
+    itfMesMngMessage(16) /* MSG_011: He died, but as fate would have it, he carried on in the Vortex World. */;
     itfMesMngCloseWindow();
     WAIT(20);
     SE_STOP_E(715, 107);
@@ -434,11 +434,11 @@ ITIMAI:
     WAIT(10);
     TEX_ZOOM(local0, 110, 100, 210);
     itfMesMngOpenWindow();
-    itfMesMngMessage(17) /* MSG_012 */;
+    itfMesMngMessage(17) /* MSG_012: ...Yes, he did lose his life, like all the others. */;
     itfMesMngCloseWindow();
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(18) /* MSG_013 */;
+    itfMesMngMessage(18) /* MSG_013: Did it not seem odd to you, */;
     itfMesMngCloseWindow();
     WAIT(20);
     FADE_OUT(1, 15);
@@ -450,7 +450,7 @@ ITIMAI:
     WAIT(15);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(19) /* MSG_014 */;
+    itfMesMngMessage(19) /* MSG_014: It was all because of the mortal sin which he committed... */;
     itfMesMngCloseWindow();
     WAIT(20);
     FADE_OUT(1, 5);
@@ -460,7 +460,7 @@ ITIMAI:
     FADE_IN(1, 5);
     WAIT(25);
     itfMesMngOpenWindow();
-    itfMesMngMessage(20) /* MSG_015 */;
+    itfMesMngMessage(20) /* MSG_015: His punishment was to see with his own eyes all that happens in the w... */;
     itfMesMngCloseWindow();
     WAIT(20);
     FADE_OUT(1, 5);
@@ -478,15 +478,15 @@ ITIMAI:
     WAIT(5);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(21) /* MSG_016 */;
+    itfMesMngMessage(21) /* MSG_016: Man can change the course of his next life, by his karma... */;
     itfMesMngCloseWindow();
     WAIT(20);
     TEX_ALP(local2, 256, 0, 120);
     TEX_ALP(local3, 0, 256, 120);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(22) /* MSG_017 */;
-    itfMesMngMessage(23) /* MSG_018 */;
+    itfMesMngMessage(22) /* MSG_017: "Watch, and record the history of the world... Witness the entirety o... */;
+    itfMesMngMessage(23) /* MSG_018: Do you understand now? */;
     itfMesMngCloseWindow();
     WAIT(20);
     FADE_OUT(1, 45);
@@ -521,7 +521,7 @@ ITIMAI:
     FADE_IN(1, 30);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(24) /* MSG_019 */;
+    itfMesMngMessage(24) /* MSG_019: Soon after, your paths crossed again... */;
     itfMesMngCloseWindow();
     WAIT(10);
     FADE_OUT(1, 5);
@@ -536,7 +536,7 @@ ITIMAI:
     FADE_IN(1, 5);
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(25) /* MSG_020 */;
+    itfMesMngMessage(25) /* MSG_020: Tragically, he has no memory of his sin, his punishment, or even his... */;
     itfMesMngCloseWindow();
     WAIT(10);
     FADE_OUT(1, 5);
@@ -627,7 +627,7 @@ ITIMAI:
     SE_PLAY_E(715, 107);
     WAIT(80);
     itfMesMngOpenWindow();
-    itfMesMngMessage(26) /* MSG_021 */;
+    itfMesMngMessage(26) /* MSG_021: He is now on a journey to a new land of suffering, */;
     itfMesMngCloseWindow();
     FADE_OUT(1, 5);
     SE_PLAY_E(715, 108);
@@ -643,9 +643,9 @@ ITIMAI:
     CAM_PATH_MOVE(SEARCH_ID("01cam_10"), SEARCH_ID("01cam_10_MOTION"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(27) /* MSG_022 */;
-    itfMesMngMessage(28) /* MSG_023 */;
-    var3 = itfMesMngSelect(29);
+    itfMesMngMessage(27) /* MSG_022: Do you want your life to be predestined as well, or would you rather... */;
+    itfMesMngMessage(28) /* MSG_023: You can open the door ahead with the candelabrum I gave you. */;
+    var3 = itfMesMngSelect(29) /* KAIWA_SEL: I will. / ...... */;
     itfMesMngCloseWindow();
     if (var3 == 0)
     {
@@ -654,7 +654,7 @@ ITIMAI:
         CAM_SEL(SEARCH_ID("01cam_11"));
         CAM_PATH_MOVE(SEARCH_ID("01cam_11"), SEARCH_ID("01cam_11_MOTION"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(30) /* MSG_024 */;
+        itfMesMngMessage(30) /* MSG_024: Then, we will be waiting in the deepest part of the Labyrinth. */;
         itfMesMngCloseWindow();
     }
     else if (var3 == 1)
@@ -663,13 +663,13 @@ ITIMAI:
         CAM_PATH_MOVE(SEARCH_ID("01cam_12"), SEARCH_ID("01cam_12_MOTION"));
         BIT_ON(287);
         itfMesMngOpenWindow();
-        itfMesMngMessage(31) /* MSG_024B */;
+        itfMesMngMessage(31) /* MSG_024B: I understand that it is difficult for you to make a decision right now. */;
         itfMesMngCloseWindow();
     }
     CAM_SEL(SEARCH_ID("01cam_13"));
     CAM_PATH_MOVE(SEARCH_ID("01cam_13"), SEARCH_ID("01cam_13_MOTION"));
     itfMesMngOpenWindow();
-    itfMesMngMessage(32) /* MSG_025 */;
+    itfMesMngMessage(32) /* MSG_025: Until then... */;
     itfMesMngCloseWindow();
     MODEL_ON(var6);
     MODEL_ON(var2);

@@ -13,7 +13,7 @@ void takarasagasi_label()
     itfMesMngSetVarScr(1, local1, 0);
     itfMesMngSetVarScr(2, local2, 1);
     FLD_SE_PLAY(43);
-    itfMesMngMessage(160) /* TAKARASAGASI */;
+    itfMesMngMessage(160) /* TAKARASAGASI: > {var 2} found something. */;
     prm_ITEM_PLUS(local0, local1);
     itfMesMngCloseWindow();
     PAD_ENABLE();
@@ -25,7 +25,7 @@ void hirakenai_label()
     PAD_DISABLE();
     itfMesMngOpenWindow();
     SET_ALLPANEL(6);
-    itfMesMngMessage(161) /* COMP_OPENERROR */;
+    itfMesMngMessage(161) /* COMP_OPENERROR: > It can't be used here. */;
     itfMesMngCloseWindow();
     PAD_ENABLE();
     SET_ALLPANEL(7);
@@ -38,19 +38,19 @@ void kireta_label()
     SET_ALLPANEL(6);
     if (FLD_GET_KIRETA(0) == 1)
     {
-        itfMesMngMessage(162) /* COMP_LIGHTMAEND */;
+        itfMesMngMessage(162) /* COMP_LIGHTMAEND: > The effect of Light wore off. */;
     }
     if (FLD_GET_KIRETA(1) == 1)
     {
-        itfMesMngMessage(165) /* COMP_REFUTOMAEND */;
+        itfMesMngMessage(165) /* COMP_REFUTOMAEND: > The effect of Levitation wore off. */;
     }
     if (FLD_GET_KIRETA(2) == 1)
     {
-        itfMesMngMessage(164) /* COMP_REBERAMAEND */;
+        itfMesMngMessage(164) /* COMP_REBERAMAEND: > The effect of Attract wore off. */;
     }
     if (FLD_GET_KIRETA(3) == 1)
     {
-        itfMesMngMessage(163) /* COMP_ESTOMAEND */;
+        itfMesMngMessage(163) /* COMP_ESTOMAEND: > The effect of Repel wore off. */;
     }
     itfMesMngCloseWindow();
     PAD_ENABLE();
@@ -68,7 +68,7 @@ void itembox_label()
             SET_ALLPANEL(6);
             if (FLD_CHK_TAKARA_OPEN())
             {
-                itfMesMngMessage(154) /* TAKARA_STILLGET */;
+                itfMesMngMessage(154) /* TAKARA_STILLGET: > It's empty. */;
             }
             else
             {
@@ -79,20 +79,20 @@ void itembox_label()
                 local7 = FLD_GET_TAKARA_TBL(4);
                 if (local3 == 1)
                 {
-                    itfMesMngMessage(147) /* HOSEKI */;
+                    itfMesMngMessage(147) /* HOSEKI: > There is a Mystical Chest. Will you open it? */;
                 }
                 else
                 {
-                    itfMesMngMessage(151) /* TAKARA */;
+                    itfMesMngMessage(151) /* TAKARA: > You see a Cache Cube. Will you open it? */;
                 }
                 itfMesMngSelectDefKey(3, 1);
                 if (local3 == 1)
                 {
-                    local8 = itfMesMngSelect(148);
+                    local8 = itfMesMngSelect(148) /* HOSEKI_SEL: Yes. / No. */;
                 }
                 else
                 {
-                    local8 = itfMesMngSelect(152);
+                    local8 = itfMesMngSelect(152) /* TAKARA_SEL: Yes. / No. */;
                 }
                 if (local8 == 0)
                 {
@@ -110,7 +110,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 15);
                         PAD_ACT(1, 100, 15);
                         prm_PARTY_DAMAGE(1);
-                        itfMesMngMessage(158) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(158) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 3)
                     {
@@ -120,7 +120,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(2);
-                        itfMesMngMessage(158) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(158) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 4)
                     {
@@ -130,7 +130,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(4);
-                        itfMesMngMessage(158) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(158) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 5)
                     {
@@ -140,7 +140,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(5);
-                        itfMesMngMessage(158) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(158) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 6)
                     {
@@ -150,7 +150,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(6);
-                        itfMesMngMessage(158) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(158) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else
                     {
@@ -159,14 +159,14 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             if (local4 == 0)
                             {
-                                itfMesMngMessage(159) /* TAKARA_KARAGET */;
+                                itfMesMngMessage(159) /* TAKARA_KARAGET: > It's empty. */;
                             }
                             else
                             {
                                 FLD_SE_PLAY(32);
                                 itfMesMngSetVarScr(0, local4, 3);
                                 itfMesMngSetVarScr(1, local5, 0);
-                                itfMesMngMessage(155) /* TAKARA_GET */;
+                                itfMesMngMessage(155) /* TAKARA_GET: > You obtained {var 0} x {var 1}. */;
                                 prm_ITEM_PLUS(local4, local5);
                             }
                         }
@@ -175,7 +175,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             if (local4 == 0)
                             {
-                                itfMesMngMessage(159) /* TAKARA_KARAGET */;
+                                itfMesMngMessage(159) /* TAKARA_KARAGET: > It's empty. */;
                             }
                             else
                             {
@@ -187,7 +187,7 @@ void itembox_label()
                                 FLD_SE_PLAY(33);
                                 itfMesMngSetVarScr(0, local4, 3);
                                 itfMesMngSetVarScr(1, local5, 0);
-                                itfMesMngMessage(150) /* HOSEKI_GET */;
+                                itfMesMngMessage(150) /* HOSEKI_GET: > You obtained {var 0} x {var 1}. */;
                                 prm_ITEM_PLUS(local4, local5);
                             }
                         }
@@ -196,7 +196,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             FLD_SE_PLAY(32);
                             itfMesMngSetVarScr(0, local4, 9);
-                            itfMesMngMessage(156) /* TAKARA_DH_GET */;
+                            itfMesMngMessage(156) /* TAKARA_DH_GET: > You obtained the Magatama {var 0}. */;
                             prm_DH_PLUS(local4);
                         }
                         else if (local3 == 3)
@@ -204,7 +204,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             FLD_SE_PLAY(32);
                             itfMesMngSetVarScr(0, local7, 0);
-                            itfMesMngMessage(157) /* TAKARA_MAKA_GET */;
+                            itfMesMngMessage(157) /* TAKARA_MAKA_GET: > You obtained {var 0} Macca. */;
                             COMM_139(local7);
                         }
                     }
@@ -213,11 +213,11 @@ void itembox_label()
                 {
                     if (local3 == 1)
                     {
-                        itfMesMngMessage(149) /* HOSEKI_NOGET */;
+                        itfMesMngMessage(149) /* HOSEKI_NOGET: > You did not open the Mystical Chest. */;
                     }
                     else
                     {
-                        itfMesMngMessage(153) /* TAKARA_NOGET */;
+                        itfMesMngMessage(153) /* TAKARA_NOGET: > You did not open the Cache Cube. */;
                     }
                 }
             }
@@ -289,9 +289,9 @@ void dexitwarp_label()
             SET_ALLPANEL(6);
             FLD_EXIT_CAMERA();
             itfMesMngOpenWindow();
-            itfMesMngMessage(145) /* EXITWARP */;
+            itfMesMngMessage(145) /* EXITWARP: > Will you leave the area? */;
             itfMesMngSelectDefKey(3, 1);
-            if (itfMesMngSelect(146) == 0)
+            if (itfMesMngSelect(146) /* EXITWARP_SEL: Yes. / No. */ == 0)
             {
                 itfMesMngCloseWindow();
             }
@@ -623,12 +623,12 @@ void elvstart_label()
     FADE_IN(0, 15);
     FLD_ELV_FLOORSTART(local33, local33);
     itfMesMngOpenWindow();
-    itfMesMngMessage(166) /* WARP_ELV_MSG */;
+    itfMesMngMessage(166) /* WARP_ELV_MSG: > Select a floor. */;
     if (local26 == 1)
     {
         itfMesMngSetVarScr(0, local27, 4);
         itfMesMngSelectDefKey(3, 1);
-        local24 = itfMesMngSelect(167);
+        local24 = itfMesMngSelect(167) /* WARP_ELV_SEL1: {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 2)
     {
@@ -636,7 +636,7 @@ void elvstart_label()
         itfMesMngSetVarScr(1, local28, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 2);
-        local24 = itfMesMngSelect(168);
+        local24 = itfMesMngSelect(168) /* WARP_ELV_SEL2: {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 3)
     {
@@ -645,7 +645,7 @@ void elvstart_label()
         itfMesMngSetVarScr(2, local29, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 3);
-        local24 = itfMesMngSelect(169);
+        local24 = itfMesMngSelect(169) /* WARP_ELV_SEL3: {var 2}[80EA] / {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 4)
     {
@@ -655,7 +655,7 @@ void elvstart_label()
         itfMesMngSetVarScr(3, local30, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 4);
-        local24 = itfMesMngSelect(170);
+        local24 = itfMesMngSelect(170) /* WARP_ELV_SEL4: {var 3}[80EA] / {var 2}[80EA] / {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 5)
     {
@@ -666,7 +666,7 @@ void elvstart_label()
         itfMesMngSetVarScr(4, local31, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 5);
-        local24 = itfMesMngSelect(171);
+        local24 = itfMesMngSelect(171) /* WARP_ELV_SEL5: {var 4}[80EA] / {var 3}[80EA] / {var 2}[80EA] / {var 1}[80EA] / {var... */;
     }
     else if (local26 == 6)
     {
@@ -678,7 +678,7 @@ void elvstart_label()
         itfMesMngSetVarScr(5, local32, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 6);
-        local24 = itfMesMngSelect(172);
+        local24 = itfMesMngSelect(172) /* WARP_ELV_SEL6: {var 5}[80EA] / {var 4}[80EA] / {var 3}[80EA] / {var 2}[80EA] / {var... */;
     }
     itfMesMngCloseWindow();
     if (local24 == local26)
@@ -776,7 +776,7 @@ void 001_start()
             PAD_DISABLE();
             SET_ALLPANEL(0);
             itfMesMngOpenWindow();
-            itfMesMngMessage(18) /* KANSHU_GET */;
+            itfMesMngMessage(18) /* KANSHU_GET: > You obtained the Umugi Stone. */;
             itfMesMngCloseWindow();
             SET_ALLPANEL(3);
             BIT_ON(984);
@@ -1143,23 +1143,23 @@ void 001_01eve_01()
             SET_ALLPANEL(6);
             if (BIT_CHK(1429))
             {
-                itfMesMngMessage(7) /* HAMAGURI_DENAI */;
+                itfMesMngMessage(7) /* HAMAGURI_DENAI: > It is no longer working. */;
             }
             else if (BIT_CHK(1414) == 0)
             {
-                itfMesMngMessage(1) /* KANSHU6 */;
+                itfMesMngMessage(1) /* KANSHU6: > There is no response. */;
             }
             else
             {
-                itfMesMngMessage(2) /* HAMAGURI */;
-                local36 = itfMesMngSelect(3);
+                itfMesMngMessage(2) /* HAMAGURI: > There is a mysterious wall. */;
+                local36 = itfMesMngSelect(3) /* HAMAGURI_SEL: Yes. / No. */;
                 if (local36 == 0)
                 {
-                    itfMesMngMessage(4) /* HAMAGURI_YES */;
+                    itfMesMngMessage(4) /* HAMAGURI_YES: > You used the Umugi Stone. */;
                     local37 = MODEL_PLAYER();
                     MODEL_MOTION2(local37, 16, 10, 10, 3);
                     MODEL_WAIT(local37);
-                    itfMesMngMessage(5) /* HAMAGURI_HASSEI */;
+                    itfMesMngMessage(5) /* HAMAGURI_HASSEI: > The building has been shrouded in a mirage. */;
                     FLD_MODEL_ON2(0, 0, 1);
                     FLD_SE_PLAY(99);
                     WAIT(60);
@@ -1188,7 +1188,7 @@ void 001_01eve_01()
                 }
                 else
                 {
-                    itfMesMngMessage(6) /* HAMAGURI_NO */;
+                    itfMesMngMessage(6) /* HAMAGURI_NO: > You left it as is. */;
                 }
             }
             SET_ALLPANEL(7);
@@ -1211,19 +1211,19 @@ void 002_01eve_06()
             SET_ALLPANEL(6);
             if (BIT_CHK(1429))
             {
-                itfMesMngMessage(7) /* HAMAGURI_DENAI */;
+                itfMesMngMessage(7) /* HAMAGURI_DENAI: > It is no longer working. */;
             }
             else
             {
-                itfMesMngMessage(2) /* HAMAGURI */;
-                local38 = itfMesMngSelect(3);
+                itfMesMngMessage(2) /* HAMAGURI: > There is a mysterious wall. */;
+                local38 = itfMesMngSelect(3) /* HAMAGURI_SEL: Yes. / No. */;
                 if (local38 == 0)
                 {
-                    itfMesMngMessage(4) /* HAMAGURI_YES */;
+                    itfMesMngMessage(4) /* HAMAGURI_YES: > You used the Umugi Stone. */;
                     local39 = MODEL_PLAYER();
                     MODEL_MOTION2(local39, 16, 10, 10, 3);
                     MODEL_WAIT(local39);
-                    itfMesMngMessage(5) /* HAMAGURI_HASSEI */;
+                    itfMesMngMessage(5) /* HAMAGURI_HASSEI: > The building has been shrouded in a mirage. */;
                     FLD_MODEL_ON2(0, 0, 1);
                     FLD_SE_PLAY(99);
                     WAIT(60);
@@ -1235,7 +1235,7 @@ void 002_01eve_06()
                 }
                 else
                 {
-                    itfMesMngMessage(6) /* HAMAGURI_NO */;
+                    itfMesMngMessage(6) /* HAMAGURI_NO: > You left it as is. */;
                 }
             }
             SET_ALLPANEL(7);
@@ -1258,19 +1258,19 @@ void 004_01eve_02()
             SET_ALLPANEL(6);
             if (BIT_CHK(1429))
             {
-                itfMesMngMessage(7) /* HAMAGURI_DENAI */;
+                itfMesMngMessage(7) /* HAMAGURI_DENAI: > It is no longer working. */;
             }
             else
             {
-                itfMesMngMessage(2) /* HAMAGURI */;
-                local40 = itfMesMngSelect(3);
+                itfMesMngMessage(2) /* HAMAGURI: > There is a mysterious wall. */;
+                local40 = itfMesMngSelect(3) /* HAMAGURI_SEL: Yes. / No. */;
                 if (local40 == 0)
                 {
-                    itfMesMngMessage(4) /* HAMAGURI_YES */;
+                    itfMesMngMessage(4) /* HAMAGURI_YES: > You used the Umugi Stone. */;
                     local41 = MODEL_PLAYER();
                     MODEL_MOTION2(local41, 16, 10, 10, 3);
                     MODEL_WAIT(local41);
-                    itfMesMngMessage(5) /* HAMAGURI_HASSEI */;
+                    itfMesMngMessage(5) /* HAMAGURI_HASSEI: > The building has been shrouded in a mirage. */;
                     FLD_MODEL_ON2(0, 0, 1);
                     FLD_SE_PLAY(99);
                     WAIT(60);
@@ -1282,7 +1282,7 @@ void 004_01eve_02()
                 }
                 else
                 {
-                    itfMesMngMessage(6) /* HAMAGURI_NO */;
+                    itfMesMngMessage(6) /* HAMAGURI_NO: > You left it as is. */;
                 }
             }
             SET_ALLPANEL(7);
@@ -1305,19 +1305,19 @@ void 017_01eve_05()
             SET_ALLPANEL(6);
             if (BIT_CHK(1429))
             {
-                itfMesMngMessage(7) /* HAMAGURI_DENAI */;
+                itfMesMngMessage(7) /* HAMAGURI_DENAI: > It is no longer working. */;
             }
             else
             {
-                itfMesMngMessage(8) /* TOJI */;
-                local42 = itfMesMngSelect(9);
+                itfMesMngMessage(8) /* TOJI: > The mysterious wall is spewing smoke. */;
+                local42 = itfMesMngSelect(9) /* TOJI_SEL: Yes. / No. */;
                 if (local42 == 0)
                 {
-                    itfMesMngMessage(10) /* TOJI_YES */;
+                    itfMesMngMessage(10) /* TOJI_YES: > You used the Umugi Stone. */;
                     local43 = MODEL_PLAYER();
                     MODEL_MOTION2(local43, 16, 10, 10, 3);
                     MODEL_WAIT(local43);
-                    itfMesMngMessage(11) /* TOJI2 */;
+                    itfMesMngMessage(11) /* TOJI2: > The mirage is disappearing. */;
                     FLD_SE_PLAY(99);
                     FADE_OUT(1, 30);
                     WAIT(30);
@@ -1327,7 +1327,7 @@ void 017_01eve_05()
                 }
                 else
                 {
-                    itfMesMngMessage(12) /* TOJI_NO */;
+                    itfMesMngMessage(12) /* TOJI_NO: > You left it as is. */;
                 }
             }
             SET_ALLPANEL(7);
@@ -1348,15 +1348,15 @@ void 018_01eve_05()
             PAD_DISABLE();
             itfMesMngOpenWindow();
             SET_ALLPANEL(6);
-            itfMesMngMessage(8) /* TOJI */;
-            local44 = itfMesMngSelect(9);
+            itfMesMngMessage(8) /* TOJI: > The mysterious wall is spewing smoke. */;
+            local44 = itfMesMngSelect(9) /* TOJI_SEL: Yes. / No. */;
             if (local44 == 0)
             {
-                itfMesMngMessage(10) /* TOJI_YES */;
+                itfMesMngMessage(10) /* TOJI_YES: > You used the Umugi Stone. */;
                 local45 = MODEL_PLAYER();
                 MODEL_MOTION2(local45, 16, 10, 10, 3);
                 MODEL_WAIT(local45);
-                itfMesMngMessage(11) /* TOJI2 */;
+                itfMesMngMessage(11) /* TOJI2: > The mirage is disappearing. */;
                 FLD_SE_PLAY(99);
                 FADE_OUT(1, 30);
                 WAIT(30);
@@ -1366,7 +1366,7 @@ void 018_01eve_05()
             }
             else
             {
-                itfMesMngMessage(12) /* TOJI_NO */;
+                itfMesMngMessage(12) /* TOJI_NO: > You left it as is. */;
             }
             SET_ALLPANEL(7);
             itfMesMngCloseWindow();
@@ -1386,15 +1386,15 @@ void 020_01eve_05()
             PAD_DISABLE();
             itfMesMngOpenWindow();
             SET_ALLPANEL(6);
-            itfMesMngMessage(8) /* TOJI */;
-            local46 = itfMesMngSelect(9);
+            itfMesMngMessage(8) /* TOJI: > The mysterious wall is spewing smoke. */;
+            local46 = itfMesMngSelect(9) /* TOJI_SEL: Yes. / No. */;
             if (local46 == 0)
             {
-                itfMesMngMessage(10) /* TOJI_YES */;
+                itfMesMngMessage(10) /* TOJI_YES: > You used the Umugi Stone. */;
                 local47 = MODEL_PLAYER();
                 MODEL_MOTION2(local47, 16, 10, 10, 3);
                 MODEL_WAIT(local47);
-                itfMesMngMessage(11) /* TOJI2 */;
+                itfMesMngMessage(11) /* TOJI2: > The mirage is disappearing. */;
                 FLD_SE_PLAY(99);
                 FADE_OUT(1, 30);
                 WAIT(30);
@@ -1404,7 +1404,7 @@ void 020_01eve_05()
             }
             else
             {
-                itfMesMngMessage(12) /* TOJI_NO */;
+                itfMesMngMessage(12) /* TOJI_NO: > You left it as is. */;
             }
             SET_ALLPANEL(7);
             itfMesMngCloseWindow();
@@ -1487,7 +1487,7 @@ void no_man()
     PAD_DISABLE();
     SET_ALLPANEL(6);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* NO_MAN1 */;
+    itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 20);
     WAIT(20);
@@ -1504,19 +1504,19 @@ void 010_01eve_01()
         itfMesMngOpenWindow();
         if (BIT_CHK(1429))
         {
-            itfMesMngMessage(0) /* NO_MAN1 */;
+            itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
         }
         else
         {
-            itfMesMngMessage(23) /* NO_MAN2 */;
-            itfMesMngMessage(24) /* NO_MAN_1F_1 */;
+            itfMesMngMessage(23) /* NO_MAN2: > You can hear a voice coming from somewhere. */;
+            itfMesMngMessage(24) /* NO_MAN_1F_1: Save us... We're trapped in the mirage... */;
         }
         itfMesMngCloseWindow();
     }
     else
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(0) /* NO_MAN1 */;
+        itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
         itfMesMngCloseWindow();
         BIT_ON(1416);
     }
@@ -1536,19 +1536,19 @@ void 010_01eve_02()
         itfMesMngOpenWindow();
         if (BIT_CHK(1429))
         {
-            itfMesMngMessage(0) /* NO_MAN1 */;
+            itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
         }
         else
         {
-            itfMesMngMessage(23) /* NO_MAN2 */;
-            itfMesMngMessage(25) /* NO_MAN_1F_2 */;
+            itfMesMngMessage(23) /* NO_MAN2: > You can hear a voice coming from somewhere. */;
+            itfMesMngMessage(25) /* NO_MAN_1F_2: Mizuchi is holding us captive in his mirage... */;
         }
         itfMesMngCloseWindow();
     }
     else
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(0) /* NO_MAN1 */;
+        itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
         itfMesMngCloseWindow();
         BIT_ON(1416);
     }
@@ -1564,7 +1564,7 @@ void 010_01eve_03()
     PAD_DISABLE();
     SET_ALLPANEL(6);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* NO_MAN1 */;
+    itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 20);
     WAIT(20);
@@ -1582,19 +1582,19 @@ void 010_01eve_04()
         itfMesMngOpenWindow();
         if (BIT_CHK(1429))
         {
-            itfMesMngMessage(0) /* NO_MAN1 */;
+            itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
         }
         else
         {
-            itfMesMngMessage(23) /* NO_MAN2 */;
-            itfMesMngMessage(24) /* NO_MAN_1F_1 */;
+            itfMesMngMessage(23) /* NO_MAN2: > You can hear a voice coming from somewhere. */;
+            itfMesMngMessage(24) /* NO_MAN_1F_1: Save us... We're trapped in the mirage... */;
         }
         itfMesMngCloseWindow();
     }
     else
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(0) /* NO_MAN1 */;
+        itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
         itfMesMngCloseWindow();
         BIT_ON(1416);
     }
@@ -1610,7 +1610,7 @@ void 011_01eve_01()
     PAD_DISABLE();
     SET_ALLPANEL(6);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* NO_MAN1 */;
+    itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 20);
     WAIT(20);
@@ -1624,7 +1624,7 @@ void 011_01eve_02()
     PAD_DISABLE();
     SET_ALLPANEL(6);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* NO_MAN1 */;
+    itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 20);
     WAIT(20);
@@ -1640,11 +1640,11 @@ void 011_01eve_03()
     itfMesMngOpenWindow();
     if (BIT_CHK(1429))
     {
-        itfMesMngMessage(0) /* NO_MAN1 */;
+        itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
     }
     else
     {
-        itfMesMngMessage(41) /* ESCAPE_A_INAI */;
+        itfMesMngMessage(41) /* ESCAPE_A_INAI: > You can hear someone muttering. */;
     }
     itfMesMngCloseWindow();
     FADE_OUT(0, 20);
@@ -1661,12 +1661,12 @@ void 013_01eve_02()
     itfMesMngOpenWindow();
     if (BIT_CHK(1429))
     {
-        itfMesMngMessage(0) /* NO_MAN1 */;
+        itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
     }
     else
     {
-        itfMesMngMessage(23) /* NO_MAN2 */;
-        itfMesMngMessage(82) /* NO_MAN_4F */;
+        itfMesMngMessage(23) /* NO_MAN2: > You can hear a voice coming from somewhere. */;
+        itfMesMngMessage(82) /* NO_MAN_4F: Mizuchi... is on the floor above... */;
     }
     itfMesMngCloseWindow();
     FADE_OUT(0, 20);
@@ -1681,7 +1681,7 @@ void 013_01eve_03()
     PAD_DISABLE();
     SET_ALLPANEL(6);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* NO_MAN1 */;
+    itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 20);
     WAIT(20);
@@ -1697,7 +1697,7 @@ void 013_01eve_01()
     itfMesMngOpenWindow();
     if (BIT_CHK(1430) == 0)
     {
-        itfMesMngMessage(0) /* NO_MAN1 */;
+        itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
         itfMesMngCloseWindow();
         FADE_OUT(0, 20);
         WAIT(20);
@@ -1707,8 +1707,8 @@ void 013_01eve_01()
     }
     else
     {
-        itfMesMngMessage(57) /* NO_MAN_FALL */;
-        if (itfMesMngSelect(58) == 0)
+        itfMesMngMessage(57) /* NO_MAN_FALL: > This is the hole that the Manikin jumped into. */;
+        if (itfMesMngSelect(58) /* NO_MAN_FALL_SEL: Yes. / No. */ == 0)
         {
             BIT_ON(1426);
             FLD_MAP_ON(25, 4, 10);
@@ -1741,7 +1741,7 @@ void 014_01eve_01()
     PAD_DISABLE();
     SET_ALLPANEL(6);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* NO_MAN1 */;
+    itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 20);
     WAIT(20);
@@ -1755,7 +1755,7 @@ void 014_01eve_02()
     PAD_DISABLE();
     SET_ALLPANEL(6);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* NO_MAN1 */;
+    itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 20);
     WAIT(20);
@@ -1769,7 +1769,7 @@ void 014_01eve_03()
     PAD_DISABLE();
     SET_ALLPANEL(6);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* NO_MAN1 */;
+    itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 20);
     WAIT(20);
@@ -1783,7 +1783,7 @@ void 014_01eve_04()
     PAD_DISABLE();
     SET_ALLPANEL(6);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* NO_MAN1 */;
+    itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 20);
     WAIT(20);
@@ -1841,17 +1841,17 @@ void 005_start()
         FADE_IN(0, 15);
         WAIT(15);
         itfMesMngOpenWindow();
-        itfMesMngMessage(109) /* F025_TABIDACHI */;
+        itfMesMngMessage(109) /* F025_TABIDACHI: I have come again to thank you once more. */;
         CAM_SEL_FOVY(SEARCH_ID("01cam_05"));
-        itfMesMngMessage(110) /* F025_TABIDACHI02 */;
+        itfMesMngMessage(110) /* F025_TABIDACHI02: ...Let me prophesy your future as a token of my gratitude. */;
         MODEL_MOTION2(local52, 7, 10, 10, 0);
         WAIT(10);
         MODEL_EXMOTION(local52, 3, 1, 10, 10, 1);
         WAIT(90);
         MODEL_EXMOTION(local52, 3, 0, 5, 5, 1);
         MODEL_WAIT(local52);
-        itfMesMngMessage(111) /* F025_TABIDACHI03 */;
-        itfMesMngMessage(112) /* F025_TABIDACHI04 */;
+        itfMesMngMessage(111) /* F025_TABIDACHI03: ...A man... at Ginza... */;
+        itfMesMngMessage(112) /* F025_TABIDACHI04: ...It seems that there is a man waiting for you at Ginza. Go and see... */;
         itfMesMngCloseWindow();
         FLD_MODEL_OFF(0, 2, "md_hoji_02", 0);
         FLD_ATARI_OFF(0, 2, "atari_hoji_02");
@@ -1874,7 +1874,7 @@ void 005_start()
         FADE_IN(0, 30);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(113) /* F025_TABIDACHI05 */;
+        itfMesMngMessage(113) /* F025_TABIDACHI05: > Futomimi led the other Manikins out. */;
         itfMesMngCloseWindow();
         FLD_BGM_FADE();
         FLD_BGM_PLAY(1);
@@ -1904,7 +1904,7 @@ void 005_01eve_01()
         FADE_IN(0, 15);
         WAIT(15);
         itfMesMngOpenWindow();
-        itfMesMngMessage(114) /* F025_MANE_UGOKENAI_01 */;
+        itfMesMngMessage(114) /* F025_MANE_UGOKENAI_01: ............ */;
         itfMesMngCloseWindow();
         FADE_OUT(0, 15);
         WAIT(15);
@@ -1930,7 +1930,7 @@ void 005_01eve_02()
         FADE_IN(0, 15);
         WAIT(15);
         itfMesMngOpenWindow();
-        itfMesMngMessage(115) /* F025_MANE_UGOKENAI_02 */;
+        itfMesMngMessage(115) /* F025_MANE_UGOKENAI_02: > All the torture must have gotten to him. He doesn't want to move. */;
         itfMesMngCloseWindow();
         FADE_OUT(0, 15);
         WAIT(15);
@@ -1954,7 +1954,7 @@ void 005_01eve_11()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(128) /* F025_HAJIKI */;
+                itfMesMngMessage(128) /* F025_HAJIKI: If you don't see Futomimi and Isamu, there will be a bunch of Manikin... */;
                 itfMesMngCloseWindow();
                 FADE_OUT(0, 10);
                 WAIT(10);
@@ -1978,7 +1978,7 @@ void 005_01eve_08()
         PAD_DISABLE();
         SET_ALLPANEL(6);
         itfMesMngOpenWindow();
-        itfMesMngMessage(83) /* MANE_GOMON */;
+        itfMesMngMessage(83) /* MANE_GOMON: Argh! Stop it! Ahhhhhhhhhhhhhhhhhhh!!! */;
         itfMesMngCloseWindow();
         BIT_ON(1419);
         SET_ALLPANEL(7);
@@ -1993,8 +1993,8 @@ void 005_01eve_09()
         PAD_DISABLE();
         SET_ALLPANEL(6);
         itfMesMngOpenWindow();
-        itfMesMngMessage(84) /* MANE_GOMON2 */;
-        itfMesMngMessage(85) /* MANE_GOMON3 */;
+        itfMesMngMessage(84) /* MANE_GOMON2: Gyaaaaaaaaaaaaaaaahhh!!!! */;
+        itfMesMngMessage(85) /* MANE_GOMON3: ............ */;
         itfMesMngCloseWindow();
         BIT_ON(1420);
         SET_ALLPANEL(7);
@@ -2015,8 +2015,8 @@ void 005_01eve_10()
                 if (BIT_CHK(1429) == 0)
                 {
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(91) /* BOSS_ROOM_IN */;
-                    if (itfMesMngSelect(92) == 0)
+                    itfMesMngMessage(91) /* BOSS_ROOM_IN: > You sense strong power from beyond the door. */;
+                    if (itfMesMngSelect(92) /* BOSS_ROOM_SEL: Yes. / No. */ == 0)
                     {
                         itfMesMngCloseWindow();
                         FADE_OUT(0, 20);
@@ -2054,8 +2054,8 @@ void 021_01eve_10()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(91) /* BOSS_ROOM_IN */;
-                if (itfMesMngSelect(92) == 0)
+                itfMesMngMessage(91) /* BOSS_ROOM_IN: > You sense strong power from beyond the door. */;
+                if (itfMesMngSelect(92) /* BOSS_ROOM_SEL: Yes. / No. */ == 0)
                 {
                     itfMesMngCloseWindow();
                     FADE_OUT(0, 20);
@@ -2078,7 +2078,7 @@ void 009_goout()
     SET_ALLPANEL(0);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(93) /* NO_MIZUCHI */;
+    itfMesMngMessage(93) /* NO_MIZUCHI: MWAHAHAHAHA! */;
     itfMesMngCloseWindow();
     FLD_SE_PLAY(99);
     QUAKE_ON(15, 150);
@@ -2094,7 +2094,7 @@ void 005_goout()
     PAD_DISABLE();
     SET_ALLPANEL(6);
     itfMesMngOpenWindow();
-    itfMesMngMessage(94) /* NO_MIZUCHI2 */;
+    itfMesMngMessage(94) /* NO_MIZUCHI2: > You were knocked out of the room. */;
     itfMesMngCloseWindow();
     SET_ALLPANEL(7);
     PAD_ENABLE();
@@ -2123,7 +2123,7 @@ void 009_NO_MAN()
     PAD_DISABLE();
     SET_ALLPANEL(6);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* NO_MAN1 */;
+    itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 20);
     WAIT(20);
@@ -2140,7 +2140,7 @@ void 001_01eve_06()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(125) /* NPC1 */;
+            itfMesMngMessage(125) /* NPC1: This is Kabukicho Prison. */;
             itfMesMngCloseWindow();
             SET_ALLPANEL(7);
             PAD_ENABLE();
@@ -2165,11 +2165,11 @@ void 001_01eve_07()
         FADE_IN(0, 15);
         WAIT(15);
         itfMesMngOpenWindow();
-        itfMesMngMessage(14) /* KANSHU2 */;
+        itfMesMngMessage(14) /* KANSHU2: Who the hell are you!? */;
         BIT_ON(1414);
-        if (itfMesMngSelect(15))
+        if (itfMesMngSelect(15) /* KANSHU_SEL: You better believe it. / It's just a coincidence. */)
         {
-            itfMesMngMessage(17) /* KANSHU_NO */;
+            itfMesMngMessage(17) /* KANSHU_NO: Whaddya think you're doing here then, punk!? */;
             MODEL_MOTION2(var10, 16, 10, 10, 1);
             WAIT(10);
             COMM_217(50);
@@ -2180,7 +2180,7 @@ void 001_01eve_07()
         }
         else
         {
-            itfMesMngMessage(16) /* KANSHU_YES */;
+            itfMesMngMessage(16) /* KANSHU_YES: ...I-I don't care! */;
             MODEL_MOTION2(var10, 16, 10, 10, 1);
             WAIT(10);
             COMM_217(50);
@@ -2207,7 +2207,7 @@ void 001_01eve_09()
         CAM_PATH_MOVE(SEARCH_ID("01cam_06"), SEARCH_ID("01cam_06_MOTION"));
         CAM_PATH_WAIT(SEARCH_ID("01cam_06"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(13) /* KANSHU */;
+        itfMesMngMessage(13) /* KANSHU: Heheheh... */;
         itfMesMngCloseWindow();
         FADE_OUT(1, 30);
         WAIT(30);
@@ -2216,7 +2216,7 @@ void 001_01eve_09()
         FADE_IN(1, 30);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(19) /* KANSHU_GONE */;
+        itfMesMngMessage(19) /* KANSHU_GONE: > The demon disappeared. */;
         itfMesMngCloseWindow();
         WAIT(15);
         FADE_OUT(0, 15);
@@ -2243,10 +2243,10 @@ void 001_01eve_08()
         FADE_IN(0, 15);
         WAIT(15);
         itfMesMngOpenWindow();
-        itfMesMngMessage(76) /* ESCAPE_A */;
-        itfMesMngMessage(20) /* KANSHU3 */;
-        itfMesMngMessage(21) /* KANSHU4 */;
-        itfMesMngMessage(22) /* KANSHU5 */;
+        itfMesMngMessage(76) /* ESCAPE_A: > You can hear a voice coming from somewhere. */;
+        itfMesMngMessage(20) /* KANSHU3: C'mon, c'mon, c'mon! You better keep it up, or you'll be dead! */;
+        itfMesMngMessage(21) /* KANSHU4: Gaaaaaaaaaaaaaaaaahhh!! Ow ow ow ow ow ow ow ow ow ow!! */;
+        itfMesMngMessage(22) /* KANSHU5: Hyahahahahahahahahaha!! */;
         FADE_OUT(0, 15);
         WAIT(15);
         SET_CHASE_CAMERA();
@@ -2280,13 +2280,13 @@ void 003_01eve_04()
                 itfMesMngOpenWindow();
                 if (BIT_CHK(1429))
                 {
-                    itfMesMngMessage(53) /* FROST2 */;
+                    itfMesMngMessage(53) /* FROST2: Will I ever be like the King, hee ho...? */;
                 }
                 else
                 {
                     if (BIT_CHK(1430))
                     {
-                        itfMesMngMessage(53) /* FROST2 */;
+                        itfMesMngMessage(53) /* FROST2: Will I ever be like the King, hee ho...? */;
                     }
                     else
                     {
@@ -2294,16 +2294,16 @@ void 003_01eve_04()
                         {
                             if (BIT_CHK(1422))
                             {
-                                itfMesMngMessage(50) /* GYAKU_FROST3 */;
+                                itfMesMngMessage(50) /* GYAKU_FROST3: Hee ho? You again? */;
                             }
                             else
                             {
-                                itfMesMngMessage(51) /* FROST3 */;
+                                itfMesMngMessage(51) /* FROST3: Does this shutter only open from the other side, hee ho? */;
                             }
                         }
                         else
                         {
-                            itfMesMngMessage(48) /* FROST */;
+                            itfMesMngMessage(48) /* FROST: The Mantra's headquarters was empty, so I came here, hee ho. */;
                             BIT_ON(1418);
                         }
                     }
@@ -2329,7 +2329,7 @@ void 012_01eve_01()
     PAD_DISABLE();
     SET_ALLPANEL(6);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* NO_MAN1 */;
+    itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 20);
     WAIT(20);
@@ -2350,8 +2350,8 @@ void 003_01eve_03()
         WAIT(30);
         itfMesMngOpenWindow();
         SET_ALLPANEL(6);
-        itfMesMngMessage(77) /* ESCAPE_MAN */;
-        itfMesMngMessage(78) /* ESCAPE_MAN2 */;
+        itfMesMngMessage(77) /* ESCAPE_MAN: > You can hear a voice coming from somewhere. */;
+        itfMesMngMessage(78) /* ESCAPE_MAN2: ...Dammit!! */;
         itfMesMngCloseWindow();
         BIT_ON(1427);
         SET_ALLPANEL(7);
@@ -2368,7 +2368,7 @@ void 017_01eve_01()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(26) /* GYAKU_MAN1 */;
+            itfMesMngMessage(26) /* GYAKU_MAN1: Save me! Free me! */;
             itfMesMngCloseWindow();
             SET_ALLPANEL(7);
             PAD_ENABLE();
@@ -2389,49 +2389,49 @@ void 017_01eve_02()
             itfMesMngOpenWindow();
             if (BIT_CHK(1430))
             {
-                itfMesMngMessage(30) /* GYAKU_MAN9_4 */;
+                itfMesMngMessage(30) /* GYAKU_MAN9_4: Arrrrrrrrrgh! I'm being sucked dry!! */;
             }
             else if (BIT_CHK(1417))
             {
-                itfMesMngMessage(31) /* GYAKU_MAN9 */;
-                itfMesMngMessage(33) /* GYAKU_MAN9_3 */;
-                if (itfMesMngSelect(34) == 0)
+                itfMesMngMessage(31) /* GYAKU_MAN9: The Collector Manikin was caught recently... */;
+                itfMesMngMessage(33) /* GYAKU_MAN9_3: > Will you give the Manikin 100 Macca? */;
+                if (itfMesMngSelect(34) /* GYAKU_MAN9_SEL: Yes. / No. */ == 0)
                 {
                     if (prm_MAKA_CHECK(100) == 0)
                     {
-                        itfMesMngMessage(36) /* GYAKU_MAN9_NO */;
+                        itfMesMngMessage(36) /* GYAKU_MAN9_NO: You don't have enough... */;
                     }
                     else
                     {
                         COMM_139(- 100);
-                        itfMesMngMessage(32) /* GYAKU_MAN9_2 */;
-                        itfMesMngMessage(33) /* GYAKU_MAN9_3 */;
-                        if (itfMesMngSelect(34) == 0)
+                        itfMesMngMessage(32) /* GYAKU_MAN9_2: 3F...... 4F...... */;
+                        itfMesMngMessage(33) /* GYAKU_MAN9_3: > Will you give the Manikin 100 Macca? */;
+                        if (itfMesMngSelect(34) /* GYAKU_MAN9_SEL: Yes. / No. */ == 0)
                         {
                             if (prm_MAKA_CHECK(100) == 0)
                             {
-                                itfMesMngMessage(36) /* GYAKU_MAN9_NO */;
+                                itfMesMngMessage(36) /* GYAKU_MAN9_NO: You don't have enough... */;
                             }
                             else
                             {
                                 COMM_139(- 100);
-                                itfMesMngMessage(35) /* GYAKU_MAN9_YES */;
+                                itfMesMngMessage(35) /* GYAKU_MAN9_YES: 5F...... */;
                             }
                         }
                         else
                         {
-                            itfMesMngMessage(37) /* GYAKU_MAN9_NO2 */;
+                            itfMesMngMessage(37) /* GYAKU_MAN9_NO2: You're a friggin' tightwad... */;
                         }
                     }
                 }
                 else
                 {
-                    itfMesMngMessage(37) /* GYAKU_MAN9_NO2 */;
+                    itfMesMngMessage(37) /* GYAKU_MAN9_NO2: You're a friggin' tightwad... */;
                 }
             }
             else
             {
-                itfMesMngMessage(30) /* GYAKU_MAN9_4 */;
+                itfMesMngMessage(30) /* GYAKU_MAN9_4: Arrrrrrrrrgh! I'm being sucked dry!! */;
             }
             itfMesMngCloseWindow();
             SET_ALLPANEL(7);
@@ -2453,15 +2453,15 @@ void 017_01eve_03()
             itfMesMngOpenWindow();
             if (BIT_CHK(1430))
             {
-                itfMesMngMessage(28) /* GYAKU_MAN3 */;
+                itfMesMngMessage(28) /* GYAKU_MAN3: I can't take it anymore... */;
             }
             else if (BIT_CHK(1417))
             {
-                itfMesMngMessage(29) /* GYAKU_MAN7 */;
+                itfMesMngMessage(29) /* GYAKU_MAN7: Where is the Collector Manikin, you ask? */;
             }
             else
             {
-                itfMesMngMessage(28) /* GYAKU_MAN3 */;
+                itfMesMngMessage(28) /* GYAKU_MAN3: I can't take it anymore... */;
             }
             itfMesMngCloseWindow();
             SET_ALLPANEL(7);
@@ -2481,7 +2481,7 @@ void 017_01eve_04()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(26) /* GYAKU_MAN1 */;
+            itfMesMngMessage(26) /* GYAKU_MAN1: Save me! Free me! */;
             itfMesMngCloseWindow();
             SET_ALLPANEL(7);
             PAD_ENABLE();
@@ -2502,15 +2502,15 @@ void 018_01eve_02()
             itfMesMngOpenWindow();
             if (BIT_CHK(1430))
             {
-                itfMesMngMessage(38) /* GYAKU_MAN5 */;
+                itfMesMngMessage(38) /* GYAKU_MAN5: ...... */;
             }
             else if (BIT_CHK(1417))
             {
-                itfMesMngMessage(39) /* GYAKU_MAN10 */;
+                itfMesMngMessage(39) /* GYAKU_MAN10: The Collector Manikin? */;
             }
             else
             {
-                itfMesMngMessage(38) /* GYAKU_MAN5 */;
+                itfMesMngMessage(38) /* GYAKU_MAN5: ...... */;
             }
             itfMesMngCloseWindow();
             SET_ALLPANEL(7);
@@ -2532,15 +2532,15 @@ void 018_01eve_03()
             itfMesMngOpenWindow();
             if (BIT_CHK(1430))
             {
-                itfMesMngMessage(26) /* GYAKU_MAN1 */;
+                itfMesMngMessage(26) /* GYAKU_MAN1: Save me! Free me! */;
             }
             else if (BIT_CHK(1417))
             {
-                itfMesMngMessage(40) /* GYAKU_MAN6 */;
+                itfMesMngMessage(40) /* GYAKU_MAN6: The Collector Manikin? */;
             }
             else
             {
-                itfMesMngMessage(26) /* GYAKU_MAN1 */;
+                itfMesMngMessage(26) /* GYAKU_MAN1: Save me! Free me! */;
             }
             itfMesMngCloseWindow();
             SET_ALLPANEL(7);
@@ -2562,16 +2562,16 @@ void 019_01eve_02()
             itfMesMngOpenWindow();
             if (BIT_CHK(1430))
             {
-                itfMesMngMessage(54) /* GYAKU_MAN13 */;
+                itfMesMngMessage(54) /* GYAKU_MAN13: Our leader, Futomimi, is being held in a special room on the top floor. */;
             }
             else if (BIT_CHK(1417))
             {
-                itfMesMngMessage(55) /* GYAKU_MAN11 */;
-                itfMesMngMessage(56) /* GYAKU_MAN12 */;
+                itfMesMngMessage(55) /* GYAKU_MAN11: Now that I think of it... */;
+                itfMesMngMessage(56) /* GYAKU_MAN12: Try jumping into a hole! You may end up somewhere you haven't been. */;
             }
             else
             {
-                itfMesMngMessage(54) /* GYAKU_MAN13 */;
+                itfMesMngMessage(54) /* GYAKU_MAN13: Our leader, Futomimi, is being held in a special room on the top floor. */;
             }
             itfMesMngCloseWindow();
             SET_ALLPANEL(7);
@@ -2593,15 +2593,15 @@ void 020_01eve_01()
             itfMesMngOpenWindow();
             if (BIT_CHK(1430))
             {
-                itfMesMngMessage(79) /* GYAKU_MAN4 */;
+                itfMesMngMessage(79) /* GYAKU_MAN4: A short while back, a human came along. He was young. */;
             }
             else if (BIT_CHK(1417))
             {
-                itfMesMngMessage(80) /* GYAKU_MAN8 */;
+                itfMesMngMessage(80) /* GYAKU_MAN8: Collector Manikin? */;
             }
             else
             {
-                itfMesMngMessage(79) /* GYAKU_MAN4 */;
+                itfMesMngMessage(79) /* GYAKU_MAN4: A short while back, a human came along. He was young. */;
             }
             itfMesMngCloseWindow();
             SET_ALLPANEL(7);
@@ -2621,7 +2621,7 @@ void 020_01eve_03()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(81) /* GYAKU_MAN2 */;
+            itfMesMngMessage(81) /* GYAKU_MAN2: Please... Save our prophet, Futomimi... */;
             itfMesMngCloseWindow();
             SET_ALLPANEL(7);
             PAD_ENABLE();
@@ -2640,7 +2640,7 @@ void 021_01eve_01()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(86) /* MANE_GOMON4 */;
+            itfMesMngMessage(86) /* MANE_GOMON4: > The Manikin is unconscious... */;
             BIT_ON(1419);
             BIT_ON(1420);
             itfMesMngCloseWindow();
@@ -2661,7 +2661,7 @@ void 021_01eve_02()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(86) /* MANE_GOMON4 */;
+            itfMesMngMessage(86) /* MANE_GOMON4: > The Manikin is unconscious... */;
             BIT_ON(1419);
             BIT_ON(1420);
             itfMesMngCloseWindow();
@@ -2682,7 +2682,7 @@ void 021_01eve_03()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(86) /* MANE_GOMON4 */;
+            itfMesMngMessage(86) /* MANE_GOMON4: > The Manikin is unconscious... */;
             BIT_ON(1419);
             BIT_ON(1420);
             itfMesMngCloseWindow();
@@ -2703,7 +2703,7 @@ void 021_01eve_04()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(90) /* MANE_LAST4 */;
+            itfMesMngMessage(90) /* MANE_LAST4: Mizuchi, the boss of this prison, is in that room over there! */;
             itfMesMngCloseWindow();
             SET_ALLPANEL(7);
             PAD_ENABLE();
@@ -2720,7 +2720,7 @@ void 021_01eve_06()
         PAD_DISABLE();
         SET_ALLPANEL(6);
         itfMesMngOpenWindow();
-        itfMesMngMessage(87) /* MANE_LAST */;
+        itfMesMngMessage(87) /* MANE_LAST: You there, listen to what I have to say! */;
         itfMesMngCloseWindow();
         FADE_OUT(0, 15);
         WAIT(15);
@@ -2728,10 +2728,10 @@ void 021_01eve_06()
         FADE_IN(0, 15);
         WAIT(15);
         itfMesMngOpenWindow();
-        itfMesMngMessage(88) /* MANE_LAST2 */;
+        itfMesMngMessage(88) /* MANE_LAST2: You see those doors over there? */;
         CAM_PATH_MOVE(SEARCH_ID("01cam_02"), SEARCH_ID("01cam_02_MOTION"));
         CAM_PATH_WAIT(SEARCH_ID("01cam_02"));
-        itfMesMngMessage(89) /* MANE_LAST3 */;
+        itfMesMngMessage(89) /* MANE_LAST3: Mizuchi, the boss of this prison, is in there! */;
         itfMesMngCloseWindow();
         FADE_OUT(0, 15);
         WAIT(15);
@@ -2754,7 +2754,7 @@ void 017_01eve_06()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(27) /* GYAKU_NPC1 */;
+            itfMesMngMessage(27) /* GYAKU_NPC1: This is Kabukicho Prison. */;
             itfMesMngCloseWindow();
             SET_ALLPANEL(7);
             PAD_ENABLE();
@@ -2775,7 +2775,7 @@ void 018_01eve_04()
             PAD_DISABLE();
             SET_ALLPANEL(6);
             itfMesMngOpenWindow();
-            itfMesMngMessage(124) /* GYAKU_NPC2 */;
+            itfMesMngMessage(124) /* GYAKU_NPC2: Whoa! You a ceiling walker? */;
             itfMesMngCloseWindow();
             SET_ALLPANEL(7);
             PAD_ENABLE();
@@ -2800,21 +2800,21 @@ void 019_01eve_01()
             itfMesMngOpenWindow();
             if (BIT_CHK(1430))
             {
-                itfMesMngMessage(53) /* FROST2 */;
+                itfMesMngMessage(53) /* FROST2: Will I ever be like the King, hee ho...? */;
             }
             else
             {
                 if (BIT_CHK(1417))
                 {
-                    itfMesMngMessage(52) /* GYAKU_FROST2 */;
+                    itfMesMngMessage(52) /* GYAKU_FROST2: What ho? Collector Manikin? */;
                 }
                 else if (BIT_CHK(1418))
                 {
-                    itfMesMngMessage(49) /* GYAKU_FROST */;
+                    itfMesMngMessage(49) /* GYAKU_FROST: Huh? You're the demon I just talked to, hee ho. */;
                 }
                 else
                 {
-                    itfMesMngMessage(48) /* FROST */;
+                    itfMesMngMessage(48) /* FROST: The Mantra's headquarters was empty, so I came here, hee ho. */;
                 }
             }
             itfMesMngCloseWindow();
@@ -2846,8 +2846,8 @@ void 025_start()
         PAD_DISABLE();
         SET_ALLPANEL(0);
         itfMesMngOpenWindow();
-        itfMesMngMessage(98) /* f025_H_GET */;
-        itfMesMngMessage(97) /* MIZU_WIN */;
+        itfMesMngMessage(98) /* f025_H_GET: > You obtained the Magatama Miasma. */;
+        itfMesMngMessage(97) /* MIZU_WIN: > The mirage is disappearing. */;
         itfMesMngCloseWindow();
         WAIT(30);
         FADE_OUT(1, 45);
@@ -2870,7 +2870,7 @@ void 025_start()
         CAM_PATH_MOVE(SEARCH_ID("01cam_01"), SEARCH_ID("01cam_01_MOTION"));
         CAM_PATH_WAIT(SEARCH_ID("01cam_01"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(95) /* MIZUCHI */;
+        itfMesMngMessage(95) /* MIZUCHI: DAMN YOU PESTS! */;
         MODEL_MOTION2(local61, 4, 10, 10, 1);
         COMM_217(27);
         WAIT(44);
@@ -2889,8 +2889,8 @@ void 021_01eve_05()
     {
         PAD_DISABLE();
         itfMesMngOpenWindow();
-        itfMesMngMessage(96) /* MIZUCHI2 */;
-        itfMesMngMessage(97) /* MIZU_WIN */;
+        itfMesMngMessage(96) /* MIZUCHI2: ARRRRRRRRRGH! */;
+        itfMesMngMessage(97) /* MIZU_WIN: > The mirage is disappearing. */;
         itfMesMngCloseWindow();
         FADE_OUT(0, 20);
         WAIT(20);
@@ -2903,15 +2903,15 @@ void 021_01eve_05()
         PAD_DISABLE();
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(95) /* MIZUCHI */;
+        itfMesMngMessage(95) /* MIZUCHI: DAMN YOU PESTS! */;
         BIT_ON(1429);
         FADE_OUT(1, 30);
         WAIT(30);
         FADE_IN(1, 10);
         WAIT(10);
-        itfMesMngMessage(127) /* KARI */;
-        itfMesMngMessage(96) /* MIZUCHI2 */;
-        itfMesMngMessage(97) /* MIZU_WIN */;
+        itfMesMngMessage(127) /* KARI: Pretend you have entered battle. */;
+        itfMesMngMessage(96) /* MIZUCHI2: ARRRRRRRRRGH! */;
+        itfMesMngMessage(97) /* MIZU_WIN: > The mirage is disappearing. */;
         itfMesMngCloseWindow();
         FADE_OUT(0, 20);
         WAIT(20);
@@ -2960,7 +2960,7 @@ void 020_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(75) /* ESCAPE_B4 */;
+                itfMesMngMessage(75) /* ESCAPE_B4: > The Manikin is gone. */;
                 itfMesMngCloseWindow();
                 SET_ALLPANEL(7);
                 PAD_ENABLE();
@@ -2980,14 +2980,14 @@ void 020_01eve_02()
                 FADE_IN(0, 15);
                 WAIT(30);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(66) /* GYAKU_ESCAPE */;
-                itfMesMngMessage(67) /* GYAKU_ESCAPE2 */;
-                if (itfMesMngSelect(68) == 0)
+                itfMesMngMessage(66) /* GYAKU_ESCAPE: Did you bring me the spoon? */;
+                itfMesMngMessage(67) /* GYAKU_ESCAPE2: > Will you hand him the spoon? */;
+                if (itfMesMngSelect(68) /* GYAKU_ESCAPE_SEL: Yes. / No. */ == 0)
                 {
                     BIT_ON(1430);
                     BIT_OFF(985);
-                    itfMesMngMessage(70) /* GYAKU_ESCAPE_YES */;
-                    itfMesMngMessage(71) /* GYAKU_ESCAPE4 */;
+                    itfMesMngMessage(70) /* GYAKU_ESCAPE_YES: Whoa! This is one powerful spoon! */;
+                    itfMesMngMessage(71) /* GYAKU_ESCAPE4: > The Manikin began digging. */;
                     itfMesMngCloseWindow();
                     FADE_OUT(0, 30);
                     WAIT(30);
@@ -3001,8 +3001,8 @@ void 020_01eve_02()
                     FADE_IN(0, 30);
                     WAIT(30);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(72) /* GYAKU_ESCAPE5 */;
-                    itfMesMngMessage(73) /* GYAKU_ESCAPE6 */;
+                    itfMesMngMessage(72) /* GYAKU_ESCAPE5: > The hole was dug instantly. */;
+                    itfMesMngMessage(73) /* GYAKU_ESCAPE6: ...This is incredible. I dug the hole in a flash. */;
                     itfMesMngCloseWindow();
                     FADE_OUT(0, 15);
                     WAIT(15);
@@ -3012,12 +3012,12 @@ void 020_01eve_02()
                     FADE_IN(0, 15);
                     WAIT(15);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(74) /* GYAKU_ESCAPE7 */;
+                    itfMesMngMessage(74) /* GYAKU_ESCAPE7: > The Manikin jumped into the hole. */;
                     itfMesMngCloseWindow();
                 }
                 else
                 {
-                    itfMesMngMessage(69) /* GYAKU_ESCAPE_NO */;
+                    itfMesMngMessage(69) /* GYAKU_ESCAPE_NO: What the heck!? I was counting on you!! */;
                     itfMesMngCloseWindow();
                 }
                 FADE_OUT(0, 15);
@@ -3043,7 +3043,7 @@ void 020_01eve_02()
                 FADE_IN(0, 15);
                 WAIT(15);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(65) /* ESCAPE_B3 */;
+                itfMesMngMessage(65) /* ESCAPE_B3: The Collector Manikin should be around here somewhere. */;
                 itfMesMngCloseWindow();
                 FADE_OUT(0, 15);
                 WAIT(15);
@@ -3062,8 +3062,8 @@ void 020_01eve_02()
                 PAD_DISABLE();
                 SET_ALLPANEL(6);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(61) /* ESCAPE_B */;
-                local62 = itfMesMngSelect(62);
+                itfMesMngMessage(61) /* ESCAPE_B: ............ */;
+                local62 = itfMesMngSelect(62) /* ESCAPE_B_SEL: Yes. / No. */;
                 if (local62 == 0)
                 {
                     itfMesMngCloseWindow();
@@ -3075,7 +3075,7 @@ void 020_01eve_02()
                     FADE_IN(0, 15);
                     WAIT(30);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(63) /* ESCAPE_B2 */;
+                    itfMesMngMessage(63) /* ESCAPE_B2: ......Shit! A Mantra demon!? */;
                     FADE_OUT(0, 15);
                     WAIT(15);
                     itfMesMngCloseWindow();
@@ -3085,7 +3085,7 @@ void 020_01eve_02()
                     FADE_IN(0, 15);
                     WAIT(15);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(64) /* ESCAPE_B2A */;
+                    itfMesMngMessage(64) /* ESCAPE_B2A: Look what you did! I was almost done digging, too... */;
                     itfMesMngCloseWindow();
                     FADE_OUT(0, 15);
                     WAIT(15);
@@ -3121,20 +3121,20 @@ void 018_01eve_01()
             itfMesMngOpenWindow();
             if (BIT_CHK(985) || BIT_CHK(1430))
             {
-                itfMesMngMessage(47) /* ESCAPE_A5 */;
+                itfMesMngMessage(47) /* ESCAPE_A5: ...While you're at it, could you rescue me...? */;
             }
             else if (BIT_CHK(1417))
             {
-                itfMesMngMessage(44) /* ESCAPE_A2 */;
-                itfMesMngMessage(45) /* ESCAPE_A3 */;
-                itfMesMngMessage(46) /* ESCAPE_A4 */;
-                itfMesMngMessage(47) /* ESCAPE_A5 */;
+                itfMesMngMessage(44) /* ESCAPE_A2: *cough* */;
+                itfMesMngMessage(45) /* ESCAPE_A3: ...Huh? A spoon? */;
+                itfMesMngMessage(46) /* ESCAPE_A4: > You obtained the spoon. */;
+                itfMesMngMessage(47) /* ESCAPE_A5: ...While you're at it, could you rescue me...? */;
                 BIT_ON(985);
             }
             else
             {
-                itfMesMngMessage(42) /* ESCAPE_A6 */;
-                itfMesMngMessage(43) /* ESCAPE_A6_02 */;
+                itfMesMngMessage(42) /* ESCAPE_A6: .........1000... */;
+                itfMesMngMessage(43) /* ESCAPE_A6_02: > It seems the Manikin is absorbed with talking to himself. */;
             }
             SET_ALLPANEL(7);
             itfMesMngCloseWindow();
@@ -3166,17 +3166,17 @@ void 009_start()
         DIST_BLUR_AREA(60, 0, 0);
         DIST_BLUR_ON(15);
         itfMesMngOpenWindow();
-        itfMesMngMessage(120) /* F025_JAAKU02 */;
+        itfMesMngMessage(120) /* F025_JAAKU02: Heeeeee hoooooo... */;
         DIST_BLUR_PARA(30, 50, 15, 0.222f, 0.005f, 0.13f, 0);
         DIST_BLUR_RGBA(132, 132, 132, 101);
         DIST_BLUR_AREA(60, 0, 0);
         COMM_128(15);
-        itfMesMngMessage(121) /* F025_JAAKU03 */;
+        itfMesMngMessage(121) /* F025_JAAKU03: ...That's all I ever wanted, hee ho! */;
         DIST_BLUR_PARA(60, 50, 15, 0.222f, 0.005f, 0.13f, 0);
         DIST_BLUR_RGBA(132, 132, 132, 101);
         DIST_BLUR_AREA(60, 0, 0);
         COMM_128(15);
-        itfMesMngMessage(122) /* F025_JAAKU04 */;
+        itfMesMngMessage(122) /* F025_JAAKU04: Hee... I'm melting......Ho...... */;
         itfMesMngCloseWindow();
         COMM_217(77);
         MODEL_A(local63, 60, 0.0f);
@@ -3188,7 +3188,7 @@ void 009_start()
         FADE_IN(1, 5);
         WAIT(5);
         itfMesMngOpenWindow();
-        itfMesMngMessage(123) /* F025_JAAKU05 */;
+        itfMesMngMessage(123) /* F025_JAAKU05: > Black Frost melted. */;
         itfMesMngCloseWindow();
         FADE_OUT(0, 15);
         WAIT(15);
@@ -3237,35 +3237,35 @@ void 009_start()
             FLD_SE_PLAY(100);
             MODEL_WAIT(local63);
             itfMesMngOpenWindow();
-            itfMesMngMessage(99) /* HUTOMIMI_01 */;
+            itfMesMngMessage(99) /* HUTOMIMI_01: ............! */;
             itfMesMngCloseWindow();
             WAIT(5);
             CAM_SEL_FOVY(SEARCH_ID("01cam_03"));
             FLD_SE_PLAY(66);
             OBJ_PATH_MOVE(SEARCH_ID("md_01d_04"), SEARCH_ID("01path_01"), 1);
             itfMesMngOpenWindow();
-            itfMesMngMessage(100) /* HUTOMIMI_01A */;
-            itfMesMngMessage(101) /* HUTOMIMI_02 */;
-            itfMesMngMessage(102) /* HUTOMIMI_03 */;
+            itfMesMngMessage(100) /* HUTOMIMI_01A: Thank you for defeating Mizuchi. Now, we can finally escape from this... */;
+            itfMesMngMessage(101) /* HUTOMIMI_02: My name is Futomimi. You may know it already, but I can see into the... */;
+            itfMesMngMessage(102) /* HUTOMIMI_03: I've been waiting for you to come and save us, you who are both human... */;
             MODEL_WAIT_MOT(local63, 6);
             MODEL_MOTION2(local63, 5, 0, 0, 0);
             WAIT(15);
             CAM_SEL_FOVY(SEARCH_ID("01cam_17"));
             CAM_PATH_MOVE(SEARCH_ID("01cam_17"), SEARCH_ID("01cam_17_MOTION"));
-            itfMesMngMessage(103) /* HUTOMIMI_04 */;
-            itfMesMngMessage(104) /* HUTOMIMI_04A */;
+            itfMesMngMessage(103) /* HUTOMIMI_04: You may be interested to know that there is a young man trapped in th... */;
+            itfMesMngMessage(104) /* HUTOMIMI_04A: It seems he came to see me, but he was also caught. */;
             CAM_PATH_WAIT(SEARCH_ID("01cam_17"));
             WAIT(30);
             CAM_SEL_FOVY(SEARCH_ID("01cam_03"));
             MODEL_EXMOTION(local63, 3, 1, 0, 0, 1);
             MODEL_MOTION2(local63, 7, 0, 0, 3);
-            itfMesMngMessage(105) /* HUTOMIMI_05 */;
+            itfMesMngMessage(105) /* HUTOMIMI_05: Hm...? */;
             WAIT(80);
             MODEL_EXMOTION(local63, 3, 0, 5, 5, 1);
             MODEL_WAIT(local63);
             MODEL_MOTION2(local63, 1, 0, 0, 1);
-            itfMesMngMessage(106) /* HUTOMIMI_05A */;
-            itfMesMngMessage(107) /* HUTOMIMI_06 */;
+            itfMesMngMessage(106) /* HUTOMIMI_05A: ...I see, he is your friend. */;
+            itfMesMngMessage(107) /* HUTOMIMI_06: I am worried about the other Manikins, so I must be going. Thank you... */;
             itfMesMngCloseWindow();
             FADE_OUT(0, 30);
             WAIT(30);
@@ -3278,7 +3278,7 @@ void 009_start()
             FADE_IN(0, 30);
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(108) /* HUTOMIMI_07 */;
+            itfMesMngMessage(108) /* HUTOMIMI_07: > Futomimi left. */;
             itfMesMngCloseWindow();
             FLD_BGM_FADE();
             FLD_BGM_PLAY(1);
@@ -3299,7 +3299,7 @@ void 009_crash()
     FADE_IN(0, 5);
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* NO_MAN1 */;
+    itfMesMngMessage(0) /* NO_MAN1: > No one is here. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 15);
     WAIT(15);
@@ -3328,20 +3328,20 @@ void 009_jaaku()
         CAM_PATH_WAIT(SEARCH_ID("01cam_12"));
         WAIT(60);
         itfMesMngOpenWindow();
-        itfMesMngMessage(116) /* F025_JAAKU01 */;
-        if (itfMesMngSelect(117))
+        itfMesMngMessage(116) /* F025_JAAKU01: Heeeeee hoooooo!! */;
+        if (itfMesMngSelect(117) /* F025_JAAKU_SEL: I'm so scared... / Yeah, right, ho! */)
         {
             CAM_SEL_FOVY(SEARCH_ID("01cam_15"));
             MODEL_POS(MODEL_PLAYER(), SEARCH_ID("01pos_19"));
             MODEL_POS(local65, SEARCH_ID("01pos_18"));
-            itfMesMngMessage(119) /* F025_JAAKU01_NO */;
+            itfMesMngMessage(119) /* F025_JAAKU01_NO: I'm pissed! Got that, hee ho!? */;
         }
         else
         {
             CAM_SEL_FOVY(SEARCH_ID("01cam_15"));
             MODEL_POS(MODEL_PLAYER(), SEARCH_ID("01pos_19"));
             MODEL_POS(local65, SEARCH_ID("01pos_18"));
-            itfMesMngMessage(118) /* F025_JAAKU01_YES */;
+            itfMesMngMessage(118) /* F025_JAAKU01_YES: Heeeeee hoooooo! I'm so cool! */;
         }
         itfMesMngCloseWindow();
         MODEL_MOTION2(local65, 5, 10, 10, 1);

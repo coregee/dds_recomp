@@ -283,7 +283,7 @@ void test_sky()
 
 void test_msg()
 {
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: [80E8][83E7][8288][86A8][80E9][81FD][81B5][81C4][88B8][83EE][818C] [8... */;
 }
 
 void test_picture()

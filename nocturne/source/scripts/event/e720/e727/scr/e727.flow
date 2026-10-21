@@ -22,17 +22,17 @@ void e727_main()
     WAIT(50);
     COMM_117(130, 220);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_YHVH01 */;
+    itfMesMngMessage(6) /* MSG_YHVH01: ...You have created a new demon in your heart's likeness, fallen angel? */;
     WAIT(120);
     itfMesMngCloseWindow();
     COMM_117(110, 200);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_YHVH02 */;
+    itfMesMngMessage(7) /* MSG_YHVH02: Then, doom shall set us apart... */;
     WAIT(120);
     itfMesMngCloseWindow();
     COMM_117(110, 200);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_YHVH03 */;
+    itfMesMngMessage(8) /* MSG_YHVH03: now and forevermore... */;
     WAIT(120);
     itfMesMngCloseWindow();
     itfMesMngIgnoreConfig(0);
@@ -49,7 +49,7 @@ void e727_010_10()
     itfMesMngWindowTypeAlpha(1, 20);
     WAIT(300);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: Well done. You've proven yourself with your awesome power. */;
     WAIT(50);
     itfMesMngCloseWindow();
 }
@@ -59,12 +59,12 @@ void e727_010_20()
     itfMesMngWindowTypeAlpha(1, 20);
     WAIT(810);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(1) /* MSG_002: All of you who have lurked in darkness and waited faithfully for this... */;
     WAIT(35);
     itfMesMngCloseWindow();
     WAIT(40);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_002B */;
+    itfMesMngMessage(2) /* MSG_002B: A new demon of darkness has been born. */;
     WAIT(35);
     itfMesMngCloseWindow();
 }
@@ -74,7 +74,7 @@ void e727_010_30()
     itfMesMngWindowTypeAlpha(1, 20);
     WAIT(1110);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_003 */;
+    itfMesMngMessage(3) /* MSG_003: ...The time has come. */;
     WAIT(70);
     itfMesMngCloseWindow();
 }
@@ -85,7 +85,7 @@ void e727_010_40()
     WAIT(1400);
     COMM_117(180, 370);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_004 */;
+    itfMesMngMessage(4) /* MSG_004: Together, let us march onward! */;
     WAIT(65);
     itfMesMngCloseWindow();
 }
@@ -96,7 +96,7 @@ void e727_010_50()
     WAIT(1790);
     COMM_117(150, 370);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_005 */;
+    itfMesMngMessage(5) /* MSG_005: To the final battle... where our true enemy awaits! */;
     WAIT(120);
     itfMesMngCloseWindow();
 }

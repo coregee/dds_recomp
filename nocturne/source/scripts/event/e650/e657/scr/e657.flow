@@ -55,12 +55,12 @@ void e657_020()
     WAIT(50);
     itfMesMngOpenWindow();
     KUTI(var1, 3, 1);
-    itfMesMngMessage(0) /* MSG_YUUKO_001 */;
+    itfMesMngMessage(0) /* MSG_YUUKO_001: Well, hello. ...I knew you would come. */;
     itfMesMngCloseWindow();
     WAIT(20);
     itfMesMngOpenWindow();
     KUTI(var1, 3, 1);
-    itfMesMngMessage(1) /* MSG_YUUKO_001P */;
+    itfMesMngMessage(1) /* MSG_YUUKO_001P: ...I'm sorry that I disappeared after you saved me. */;
     itfMesMngCloseWindow();
     WAIT(20);
     MODEL_WAIT_MOT(var1, 2);
@@ -70,7 +70,7 @@ void e657_020()
     MODEL_EXMOTION(var1, 3, 3, 0, 10, 2);
     WAIT(40);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_YUUKO_002 */;
+    itfMesMngMessage(2) /* MSG_YUUKO_002: ...I lost most of my power, thanks to Hikawa and his Obelisk. */;
     itfMesMngCloseWindow();
     MODEL_WAIT(var1);
     WAIT(10);
@@ -79,7 +79,7 @@ void e657_020()
     MODEL_LIGHT_LINK(var1, 0, SEARCH_ID("light02"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_YUUKO_002_2 */;
+    itfMesMngMessage(3) /* MSG_YUUKO_002_2: ...I won't let him be the one to shape the new world. */;
     itfMesMngCloseWindow();
     WAIT(30);
     CAM_SEL(SEARCH_ID("cam027"));
@@ -91,7 +91,7 @@ void e657_020()
     SCR_RUN(4, - 1);
     MODEL_EXMOTION(var1, 1, 2, 0, 10, 1);
     MODEL_EXMOTION(var1, 2, 0, 0, 20, 1);
-    itfMesMngMessage(4) /* MSG_YUUKO_003 */;
+    itfMesMngMessage(4) /* MSG_YUUKO_003: As the one responsible for the destruction of the old world, it's my... */;
     itfMesMngCloseWindow();
     WAIT(20);
     MODEL_WAIT_MOT(var1, 5);
@@ -100,7 +100,7 @@ void e657_020()
     MODEL_EXMOTION(var1, 2, 2, 0, 60, 1);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_YUUKO_004 */;
+    itfMesMngMessage(5) /* MSG_YUUKO_004: But right now, there's nothing I can do... */;
     itfMesMngCloseWindow();
     WAIT(80);
     CAM_SEL(SEARCH_ID("cam029"));
@@ -112,39 +112,39 @@ void e657_020()
     MODEL_EXMOTION(var1, 2, 0, 0, 20, 1);
     WAIT(15);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_YUUKO_006 */;
+    itfMesMngMessage(6) /* MSG_YUUKO_006: You know what's been going on here lately? */;
     itfMesMngCloseWindow();
     WAIT(30);
     SCR_RUN(3, - 1);
     WAIT(45);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_YUUKO_006_2 */;
+    itfMesMngMessage(7) /* MSG_YUUKO_006_2: ...I'm not interested in Magatsuhi, but the stone is rumored to have... */;
     itfMesMngCloseWindow();
     WAIT(45);
     SCR_RUN(5, - 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_YUUKO_006_3 */;
-    var2 = itfMesMngSelect(9);
+    itfMesMngMessage(8) /* MSG_YUUKO_006_3: Currently, the Yahirono Himorogi is in someone's possession. */;
+    var2 = itfMesMngSelect(9) /* MSG_SEL_1: Okay. / I'm sorry... / Let me think about it. */;
     itfMesMngCloseWindow();
     WAIT(20);
     itfMesMngOpenWindow();
     if (var2 == 0)
     {
         BIT_ON(76);
-        itfMesMngMessage(10) /* MSG_ANS_1 */;
-        itfMesMngMessage(15) /* MSG_ANS_GET */;
+        itfMesMngMessage(10) /* MSG_ANS_1: Thank you so much. */;
+        itfMesMngMessage(15) /* MSG_ANS_GET: > You obtained the key to Yoyogi Park. */;
     }
     else if (var2 == 1)
     {
-        itfMesMngMessage(11) /* MSG_ANS_2 */;
-        itfMesMngMessage(15) /* MSG_ANS_GET */;
-        itfMesMngMessage(12) /* MSG_ANS_2_R */;
+        itfMesMngMessage(11) /* MSG_ANS_2: I see... */;
+        itfMesMngMessage(15) /* MSG_ANS_GET: > You obtained the key to Yoyogi Park. */;
+        itfMesMngMessage(12) /* MSG_ANS_2_R: The choice is yours, but... I believe in you. */;
     }
     else if (var2 == 2)
     {
-        itfMesMngMessage(13) /* MSG_ANS_3 */;
-        itfMesMngMessage(15) /* MSG_ANS_GET */;
-        itfMesMngMessage(14) /* MSG_ANS_3_R */;
+        itfMesMngMessage(13) /* MSG_ANS_3: If you're having doubts, then I really shouldn't force you to do it,... */;
+        itfMesMngMessage(15) /* MSG_ANS_GET: > You obtained the key to Yoyogi Park. */;
+        itfMesMngMessage(14) /* MSG_ANS_3_R: The choice is yours, but... I believe in you. */;
     }
     itfMesMngCloseWindow();
     WAIT(30);
@@ -183,16 +183,16 @@ void e657_030()
     itfMesMngOpenWindow();
     if (var2 == 0)
     {
-        itfMesMngMessage(16) /* MSG_YUUKO_005 */;
+        itfMesMngMessage(16) /* MSG_YUUKO_005: I'll be counting on you, {firstname 0}. */;
     }
     else if (var2 == 1)
     {
-        itfMesMngMessage(17) /* MSG_YUUKO_005_2 */;
+        itfMesMngMessage(17) /* MSG_YUUKO_005_2: Goodbye, {firstname 0}. */;
         POINT_ADD(3, 8);
     }
     else if (var2 == 2)
     {
-        itfMesMngMessage(17) /* MSG_YUUKO_005_2 */;
+        itfMesMngMessage(17) /* MSG_YUUKO_005_2: Goodbye, {firstname 0}. */;
         POINT_ADD(2, 4);
     }
     itfMesMngCloseWindow();
@@ -214,11 +214,11 @@ void e657_010M()
     KUTI(var1, 3, 1);
     if (BIT_CHK(76) == 1)
     {
-        itfMesMngMessage(18) /* MSG_YUUKO_M01 */;
+        itfMesMngMessage(18) /* MSG_YUUKO_M01: {firstname 0}, please bring me the Yahirono Himorogi. */;
     }
     else if (BIT_CHK(76) == 0)
     {
-        itfMesMngMessage(19) /* MSG_YUUKO_M02 */;
+        itfMesMngMessage(19) /* MSG_YUUKO_M02: {firstname 0}... */;
     }
     itfMesMngCloseWindow();
     WAIT(20);
@@ -227,7 +227,7 @@ void e657_010M()
     BGM_TRANS_E(657, - 1);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(20) /* MSG_YUUKO_M03 */;
+    itfMesMngMessage(20) /* MSG_YUUKO_M03: Goodbye, {firstname 0}. */;
     itfMesMngCloseWindow();
     WAIT(30);
 }

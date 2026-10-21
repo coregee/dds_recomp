@@ -3,8 +3,8 @@
 
 void e502_main()
 {
-    itfMesMngMessage(14) /* MODE */;
-    var13 = itfMesMngSelect(15);
+    itfMesMngMessage(14) /* MODE: [81D3][83CD] [81FA][83B1][8282][80E1] [81ED][81CF][85BC][8285][82BB]? */;
+    var13 = itfMesMngSelect(15) /* MODE_SEL: [81FA][83B1][8282][80E2][83EB][8282] [83B1][83CB][85BF][8282] */;
     itfMesMngCloseWindow();
     if (var13 == 0)
     {
@@ -117,9 +117,9 @@ void e502_002()
     CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
     WAIT(120);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* INCUBES_001 */;
-    itfMesMngMessage(4) /* INCUBES_002 */;
-    itfMesMngMessage(5) /* INCUBES_003 */;
+    itfMesMngMessage(3) /* INCUBES_001: [82F5][80E6] [85A0][84FC][828D][8280], [82D6][84B8]! [8288] [80E2] [8... */;
+    itfMesMngMessage(4) /* INCUBES_002: [81FC][83EF] [81D8][82A5][83CA][80E2][80E3] [80E2] [8294][8298][8299]... */;
+    itfMesMngMessage(5) /* INCUBES_003: [81E9][8599][82AE] [81FE][82CC][80E0] [81F3][85C2][81D6], [81DA] [82B... */;
     itfMesMngCloseWindow();
     WAIT(20);
 }
@@ -134,8 +134,8 @@ void e502_003()
     MODEL_MOTION2(var2, 1, 0, 10, 1);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* INCUBES_004 */;
-    itfMesMngMessage(7) /* INCUBES_005 */;
+    itfMesMngMessage(6) /* INCUBES_004: [81D3][859D][83B9] [8593][81CA][81D2][81D3][82A2] [82A1][8594] [82DF]... */;
+    itfMesMngMessage(7) /* INCUBES_005: [80E2] [8294][80E0] [82D3][82E2][8299] [82DF][838C], [849A][81FE][829... */;
     itfMesMngCloseWindow();
     WAIT(20);
 }
@@ -147,8 +147,8 @@ void e502_004()
     MODEL_MOTION2(var2, 0, 0, 10, 1);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* INCUBES_006 */;
-    itfMesMngMessage(9) /* INCUBES_007 */;
+    itfMesMngMessage(8) /* INCUBES_006: [81E9][81E4][81DB][81E0][8285], [84A1][84E1][81D8][80E5][82D0]. [80E2... */;
+    itfMesMngMessage(9) /* INCUBES_007: [82A0][85C5][85C6][80E3] [81D8], [83DF][80E3] [85C7][82F4] [81DF][82A... */;
     itfMesMngCloseWindow();
     WAIT(20);
 }
@@ -197,7 +197,7 @@ void e502_006()
     WAIT(20);
     WAIT(60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* TENGU_001 */;
+    itfMesMngMessage(0) /* TENGU_001: [83D6][81FF][83D6][80E8]! [81F8][82B4][80E4] [828B][81D6][81CC][81F9]... */;
     itfMesMngCloseWindow();
     WAIT(10);
 }
@@ -218,7 +218,7 @@ void e502_007()
     CAM_PATH_MOVE(SEARCH_ID("cam20"), SEARCH_ID("cam20_MOTION"));
     WAIT(40);
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* INCUBES_008 */;
+    itfMesMngMessage(10) /* INCUBES_008: [85C5][85C6][81D8][80E5] [84F4][849D][80E4] [81D8][8286][81E7] [81FE]... */;
     itfMesMngCloseWindow();
     var12 = EFFECT_LOAD("/event/e500/e502/effect/EFFECT08.D3P");
     EFFECT_POS(var12, SEARCH_ID("s03"));
@@ -226,8 +226,8 @@ void e502_007()
     WAIT(10);
     WAIT(40);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* TENGU_002 */;
-    itfMesMngMessage(2) /* TENGU_003 */;
+    itfMesMngMessage(1) /* TENGU_002: [85C0][82E3][81D4]! [8280][82D1][8295] [81E9] [82FF][84C0][81F9] [82B... */;
+    itfMesMngMessage(2) /* TENGU_003: [8484][80E2][82C6] [8284][84C0][858A][82B7][80E4] [82A7] [85C1] [8585... */;
     itfMesMngCloseWindow();
     SCR_RUN(11, - 1);
     WAIT(25);
@@ -257,7 +257,7 @@ void e502_008()
     PATH_STOP(SEARCH_ID("cam08"));
     MODEL_A(var2, 30, 255);
     itfMesMngOpenWindow();
-    itfMesMngMessage(11) /* INCUBES_009 */;
+    itfMesMngMessage(11) /* INCUBES_009: [81CA][82CD] [84A5][80E2] [85CA][8399] [83E4][82C8][80E2][82DA][81D8]... */;
     itfMesMngCloseWindow();
     var9 = EFFECT_LOAD("/event/e500/e502/effect/EFFECT06.D3P");
     EFFECT_LINK2(var9, var2, 0);
@@ -268,7 +268,7 @@ void e502_008()
     SE_PLAY(47);
     WAIT(60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(12) /* INCUBES_010 */;
+    itfMesMngMessage(12) /* INCUBES_010: [81D8][8286][85AD][85CC], [83E5][83E6][83E7][82D0] [82B0]! */;
     itfMesMngCloseWindow();
     PATH_START(SEARCH_ID("cam08"));
     BLUR(30, 70, 115);

@@ -38,7 +38,7 @@ void e608_020()
     CAM_SEL(SEARCH_ID("Cam02"));
     WAIT(15);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* ISAMU_001 */;
+    itfMesMngMessage(0) /* ISAMU_001: [85CD][85CD][85CD][80E2][83FB][81D6][82A2] [80E6] [86EE][82D0]. */;
     itfMesMngCloseWindow();
     WAIT(5);
     MODEL_MOTION2(var1, 2, 0, 0, 2);
@@ -47,14 +47,14 @@ void e608_020()
     WAIT(20);
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* ISAMU_002 */;
+    itfMesMngMessage(1) /* ISAMU_002: [86B9] [80E2][82C6][81CD], [80E2] [8689][8598]. [81CA][8289][82DB][82... */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_PATH_MOVE(SEARCH_ID("Cam02"), SEARCH_ID("Cam02_MOTION"));
     MODEL_MOTION2(var1, 4, 0, 10, 3);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* ISAMU_003 */;
+    itfMesMngMessage(2) /* ISAMU_003: [85CD][85CD][85CD][83A3][81CA][839A][80E5] [81D3][8386] [81D2][80E5][... */;
     itfMesMngCloseWindow();
     WAIT(20);
 }
@@ -65,7 +65,7 @@ void e608_030()
     CAM_PATH_MOVE(SEARCH_ID("Cam03"), SEARCH_ID("Cam03_MOTION"));
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* ISAMU_004 */;
+    itfMesMngMessage(3) /* ISAMU_004: [81CA][8289][86AE] [86D6][81D3][82E1][81D6] [8689][8598] [82A7][80E0]... */;
     itfMesMngCloseWindow();
     WAIT(0);
     WAIT(20);
@@ -79,8 +79,8 @@ void e608_040()
     MODEL_MOTION2(var1, 5, 0, 0, 3);
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* ISAMU_005 */;
-    itfMesMngMessage(5) /* ISAMU_006 */;
+    itfMesMngMessage(4) /* ISAMU_005: [81D8][80E5] [83F6][81F6][83F0][80E2][83BF][80E8] [86BF] [86C0][80E0]... */;
+    itfMesMngMessage(5) /* ISAMU_006: [81F8][80E5] [80E2] [86C0][80E7] [81E7][81ED][80E1] [86B1][81CA][82BF... */;
     itfMesMngCloseWindow();
     WAIT(5);
     MODEL_MOTION2(var1, 6, 0, 0, 2);

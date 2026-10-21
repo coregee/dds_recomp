@@ -6,7 +6,7 @@ void rag_1st()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
-    itfMesMngMessage(0) /* msg_1st */;
+    itfMesMngMessage(0) /* msg_1st: Welcome back. I'll trade anything with you. */;
     jump endless_loop;
 }
 
@@ -15,7 +15,7 @@ void rag_item()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
-    itfMesMngMessage(1) /* msg_item */;
+    itfMesMngMessage(1) /* msg_item: Which one do you want? */;
     jump endless_loop;
 }
 
@@ -24,7 +24,7 @@ void rag_seirei()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
-    itfMesMngMessage(2) /* msg_seirei */;
+    itfMesMngMessage(2) /* msg_seirei: Which Element do you want? */;
     jump endless_loop;
 }
 
@@ -33,7 +33,7 @@ void rag_mitama()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
-    itfMesMngMessage(3) /* msg_mitama */;
+    itfMesMngMessage(3) /* msg_mitama: Which Mitama do you want? */;
     endless_loop();
     jump endless_loop;
 }
@@ -43,7 +43,7 @@ void rag_err_item_max()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(4) /* msg_err_item_max */;
+    itfMesMngMessage(4) /* msg_err_item_max: Mmm, you seem to have enough already. */;
 }
 
 void rag_err_devil()
@@ -51,7 +51,7 @@ void rag_err_devil()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(5) /* msg_err_devil */;
+    itfMesMngMessage(5) /* msg_err_devil: Mmm, you seem to have one with you already. */;
 }
 
 void rag_err_stock()
@@ -59,7 +59,7 @@ void rag_err_stock()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(6) /* msg_err_stock */;
+    itfMesMngMessage(6) /* msg_err_stock: Mmm, your party seems to be full. */;
 }
 
 void rag_err_level()
@@ -67,7 +67,7 @@ void rag_err_level()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(7) /* msg_err_level */;
+    itfMesMngMessage(7) /* msg_err_level: Mmm, you can't handle this right now. */;
 }
 
 void rag_confirm()
@@ -79,14 +79,14 @@ void rag_confirm()
     if (fclGetVal(9) == 0)
     {
         itfMesMngSetVarScr(2, fclGetVal(8), 3);
-        itfMesMngMessage(8) /* msg_confirm_item */;
+        itfMesMngMessage(8) /* msg_confirm_item: You want {var 2}, right? */;
     }
     else
     {
         itfMesMngSetVarScr(1, fclGetVal(8), 1);
-        itfMesMngMessage(9) /* msg_confirm_devil */;
+        itfMesMngMessage(9) /* msg_confirm_devil: You want {var 1}, right? */;
     }
-    if (itfMesMngSelect(16) == 1)
+    if (itfMesMngSelect(16) /* msg_sel01: Yes. / No. */ == 1)
     {
         fclSignal(2);
     }
@@ -97,7 +97,7 @@ void rag_thanks()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(10) /* msg_thanks */;
+    itfMesMngMessage(10) /* msg_thanks: Heh heh heh, thanks. */;
 }
 
 void rag_2nd()
@@ -105,7 +105,7 @@ void rag_2nd()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
-    itfMesMngMessage(11) /* msg_2nd */;
+    itfMesMngMessage(11) /* msg_2nd: What do you want next? */;
     jump endless_loop;
 }
 
@@ -116,11 +116,11 @@ void rag_talk()
     itfMesMngValidateNext(1);
     if (fclGetVal(4) == 0)
     {
-        itfMesMngMessage(13) /* msg_talk_hearts_no */;
+        itfMesMngMessage(13) /* msg_talk_hearts_no: Keep the Kagutsuchi in mind when looking for gems. */;
     }
     else
     {
-        itfMesMngMessage(14) /* msg_talk_hearts_aru */;
+        itfMesMngMessage(14) /* msg_talk_hearts_aru: Keep the Kagutsuchi in mind when looking for gems. */;
     }
 }
 
@@ -129,7 +129,7 @@ void rag_exit()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(15) /* msg_exit */;
+    itfMesMngMessage(15) /* msg_exit: Come again. */;
 }
 
 void endless_loop()

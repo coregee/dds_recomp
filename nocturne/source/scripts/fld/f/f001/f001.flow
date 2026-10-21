@@ -13,7 +13,7 @@ void takarasagasi_label()
     itfMesMngSetVarScr(1, local1, 0);
     itfMesMngSetVarScr(2, local2, 1);
     FLD_SE_PLAY(43);
-    itfMesMngMessage(26) /* TAKARASAGASI */;
+    itfMesMngMessage(26) /* TAKARASAGASI: > {var 2} found something. */;
     prm_ITEM_PLUS(local0, local1);
     itfMesMngCloseWindow();
     PAD_ENABLE();
@@ -25,7 +25,7 @@ void hirakenai_label()
     PAD_DISABLE();
     itfMesMngOpenWindow();
     SET_ALLPANEL(6);
-    itfMesMngMessage(27) /* COMP_OPENERROR */;
+    itfMesMngMessage(27) /* COMP_OPENERROR: > It can't be used here. */;
     itfMesMngCloseWindow();
     PAD_ENABLE();
     SET_ALLPANEL(7);
@@ -38,19 +38,19 @@ void kireta_label()
     SET_ALLPANEL(6);
     if (FLD_GET_KIRETA(0) == 1)
     {
-        itfMesMngMessage(28) /* COMP_LIGHTMAEND */;
+        itfMesMngMessage(28) /* COMP_LIGHTMAEND: > The effect of Light wore off. */;
     }
     if (FLD_GET_KIRETA(1) == 1)
     {
-        itfMesMngMessage(31) /* COMP_REFUTOMAEND */;
+        itfMesMngMessage(31) /* COMP_REFUTOMAEND: > The effect of Levitation wore off. */;
     }
     if (FLD_GET_KIRETA(2) == 1)
     {
-        itfMesMngMessage(30) /* COMP_REBERAMAEND */;
+        itfMesMngMessage(30) /* COMP_REBERAMAEND: > The effect of Attract wore off. */;
     }
     if (FLD_GET_KIRETA(3) == 1)
     {
-        itfMesMngMessage(29) /* COMP_ESTOMAEND */;
+        itfMesMngMessage(29) /* COMP_ESTOMAEND: > The effect of Repel wore off. */;
     }
     itfMesMngCloseWindow();
     PAD_ENABLE();
@@ -68,7 +68,7 @@ void itembox_label()
             SET_ALLPANEL(6);
             if (FLD_CHK_TAKARA_OPEN())
             {
-                itfMesMngMessage(20) /* TAKARA_STILLGET */;
+                itfMesMngMessage(20) /* TAKARA_STILLGET: > It's empty. */;
             }
             else
             {
@@ -79,20 +79,20 @@ void itembox_label()
                 local7 = FLD_GET_TAKARA_TBL(4);
                 if (local3 == 1)
                 {
-                    itfMesMngMessage(13) /* HOSEKI */;
+                    itfMesMngMessage(13) /* HOSEKI: > There is a Mystical Chest. Will you open it? */;
                 }
                 else
                 {
-                    itfMesMngMessage(17) /* TAKARA */;
+                    itfMesMngMessage(17) /* TAKARA: > You see a Cache Cube. Will you open it? */;
                 }
                 itfMesMngSelectDefKey(3, 1);
                 if (local3 == 1)
                 {
-                    local8 = itfMesMngSelect(14);
+                    local8 = itfMesMngSelect(14) /* HOSEKI_SEL: Yes. / No. */;
                 }
                 else
                 {
-                    local8 = itfMesMngSelect(18);
+                    local8 = itfMesMngSelect(18) /* TAKARA_SEL: Yes. / No. */;
                 }
                 if (local8 == 0)
                 {
@@ -110,7 +110,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 15);
                         PAD_ACT(1, 100, 15);
                         prm_PARTY_DAMAGE(1);
-                        itfMesMngMessage(24) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(24) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 3)
                     {
@@ -120,7 +120,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(2);
-                        itfMesMngMessage(24) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(24) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 4)
                     {
@@ -130,7 +130,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(4);
-                        itfMesMngMessage(24) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(24) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 5)
                     {
@@ -140,7 +140,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(5);
-                        itfMesMngMessage(24) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(24) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 6)
                     {
@@ -150,7 +150,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(6);
-                        itfMesMngMessage(24) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(24) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else
                     {
@@ -159,14 +159,14 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             if (local4 == 0)
                             {
-                                itfMesMngMessage(25) /* TAKARA_KARAGET */;
+                                itfMesMngMessage(25) /* TAKARA_KARAGET: > It's empty. */;
                             }
                             else
                             {
                                 FLD_SE_PLAY(32);
                                 itfMesMngSetVarScr(0, local4, 3);
                                 itfMesMngSetVarScr(1, local5, 0);
-                                itfMesMngMessage(21) /* TAKARA_GET */;
+                                itfMesMngMessage(21) /* TAKARA_GET: > You obtained {var 0} x {var 1}. */;
                                 prm_ITEM_PLUS(local4, local5);
                             }
                         }
@@ -175,7 +175,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             if (local4 == 0)
                             {
-                                itfMesMngMessage(25) /* TAKARA_KARAGET */;
+                                itfMesMngMessage(25) /* TAKARA_KARAGET: > It's empty. */;
                             }
                             else
                             {
@@ -187,7 +187,7 @@ void itembox_label()
                                 FLD_SE_PLAY(33);
                                 itfMesMngSetVarScr(0, local4, 3);
                                 itfMesMngSetVarScr(1, local5, 0);
-                                itfMesMngMessage(16) /* HOSEKI_GET */;
+                                itfMesMngMessage(16) /* HOSEKI_GET: > You obtained {var 0} x {var 1}. */;
                                 prm_ITEM_PLUS(local4, local5);
                             }
                         }
@@ -196,7 +196,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             FLD_SE_PLAY(32);
                             itfMesMngSetVarScr(0, local4, 9);
-                            itfMesMngMessage(22) /* TAKARA_DH_GET */;
+                            itfMesMngMessage(22) /* TAKARA_DH_GET: > You obtained the Magatama {var 0}. */;
                             prm_DH_PLUS(local4);
                         }
                         else if (local3 == 3)
@@ -204,7 +204,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             FLD_SE_PLAY(32);
                             itfMesMngSetVarScr(0, local7, 0);
-                            itfMesMngMessage(23) /* TAKARA_MAKA_GET */;
+                            itfMesMngMessage(23) /* TAKARA_MAKA_GET: > You obtained {var 0} Macca. */;
                             COMM_139(local7);
                         }
                     }
@@ -213,11 +213,11 @@ void itembox_label()
                 {
                     if (local3 == 1)
                     {
-                        itfMesMngMessage(15) /* HOSEKI_NOGET */;
+                        itfMesMngMessage(15) /* HOSEKI_NOGET: > You did not open the Mystical Chest. */;
                     }
                     else
                     {
-                        itfMesMngMessage(19) /* TAKARA_NOGET */;
+                        itfMesMngMessage(19) /* TAKARA_NOGET: > You did not open the Cache Cube. */;
                     }
                 }
             }
@@ -289,9 +289,9 @@ void dexitwarp_label()
             SET_ALLPANEL(6);
             FLD_EXIT_CAMERA();
             itfMesMngOpenWindow();
-            itfMesMngMessage(11) /* EXITWARP */;
+            itfMesMngMessage(11) /* EXITWARP: > Will you leave the area? */;
             itfMesMngSelectDefKey(3, 1);
-            if (itfMesMngSelect(12) == 0)
+            if (itfMesMngSelect(12) /* EXITWARP_SEL: Yes. / No. */ == 0)
             {
                 itfMesMngCloseWindow();
             }
@@ -623,12 +623,12 @@ void elvstart_label()
     FADE_IN(0, 15);
     FLD_ELV_FLOORSTART(local33, local33);
     itfMesMngOpenWindow();
-    itfMesMngMessage(32) /* WARP_ELV_MSG */;
+    itfMesMngMessage(32) /* WARP_ELV_MSG: > Select a floor. */;
     if (local26 == 1)
     {
         itfMesMngSetVarScr(0, local27, 4);
         itfMesMngSelectDefKey(3, 1);
-        local24 = itfMesMngSelect(33);
+        local24 = itfMesMngSelect(33) /* WARP_ELV_SEL1: {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 2)
     {
@@ -636,7 +636,7 @@ void elvstart_label()
         itfMesMngSetVarScr(1, local28, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 2);
-        local24 = itfMesMngSelect(34);
+        local24 = itfMesMngSelect(34) /* WARP_ELV_SEL2: {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 3)
     {
@@ -645,7 +645,7 @@ void elvstart_label()
         itfMesMngSetVarScr(2, local29, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 3);
-        local24 = itfMesMngSelect(35);
+        local24 = itfMesMngSelect(35) /* WARP_ELV_SEL3: {var 2}[80EA] / {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 4)
     {
@@ -655,7 +655,7 @@ void elvstart_label()
         itfMesMngSetVarScr(3, local30, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 4);
-        local24 = itfMesMngSelect(36);
+        local24 = itfMesMngSelect(36) /* WARP_ELV_SEL4: {var 3}[80EA] / {var 2}[80EA] / {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 5)
     {
@@ -666,7 +666,7 @@ void elvstart_label()
         itfMesMngSetVarScr(4, local31, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 5);
-        local24 = itfMesMngSelect(37);
+        local24 = itfMesMngSelect(37) /* WARP_ELV_SEL5: {var 4}[80EA] / {var 3}[80EA] / {var 2}[80EA] / {var 1}[80EA] / {var... */;
     }
     else if (local26 == 6)
     {
@@ -678,7 +678,7 @@ void elvstart_label()
         itfMesMngSetVarScr(5, local32, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 6);
-        local24 = itfMesMngSelect(38);
+        local24 = itfMesMngSelect(38) /* WARP_ELV_SEL6: {var 5}[80EA] / {var 4}[80EA] / {var 3}[80EA] / {var 2}[80EA] / {var... */;
     }
     itfMesMngCloseWindow();
     if (local24 == local26)
@@ -741,25 +741,25 @@ void 002_bg03()
     FADE_IN(1, 5);
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* SHIBUYA2 */;
+    itfMesMngMessage(0) /* SHIBUYA2: A riot broke out yesterday at Yoyogi Park, regarding the construction... */;
     local36 = RND(4);
     if (local36 == 1)
     {
-        itfMesMngMessage(2) /* SHIBUYA4 */;
+        itfMesMngMessage(2) /* SHIBUYA4: Now, for the latest in sports, we move over to Mannaka! */;
     }
     else if (local36 == 2)
     {
-        itfMesMngMessage(3) /* SHIBUYA5 */;
+        itfMesMngMessage(3) /* SHIBUYA5: Now, for the latest in entertainment, we move over to Ashimoto! */;
     }
     else if (local36 == 3)
     {
-        itfMesMngMessage(4) /* SHIBUYA6 */;
+        itfMesMngMessage(4) /* SHIBUYA6: And now, over to Kei for the latest in sports! */;
     }
     else if (local36 == 4)
     {
-        itfMesMngMessage(5) /* SHIBUYA7 */;
+        itfMesMngMessage(5) /* SHIBUYA7: Stay tuned to see what the weather forecast has planned. */;
     }
-    itfMesMngMessage(1) /* SHIBUYA3 */;
+    itfMesMngMessage(1) /* SHIBUYA3: > The news continues... */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 15);
     WAIT(15);
@@ -784,7 +784,7 @@ void 002_bg01()
     FADE_IN(1, 5);
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* DAREMOINAI */;
+    itfMesMngMessage(6) /* DAREMOINAI: > No one is here. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 15);
     WAIT(15);
@@ -811,7 +811,7 @@ void 002_bg04()
     FADE_IN(1, 5);
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* YOYOGI */;
+    itfMesMngMessage(8) /* YOYOGI: > Yoyogi Park is sealed off. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 15);
     WAIT(15);
@@ -838,7 +838,7 @@ void 002_bg02()
     FADE_IN(1, 5);
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* BUNIN */;
+    itfMesMngMessage(9) /* BUNIN: > There is a note on the door. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 15);
     WAIT(15);
@@ -865,7 +865,7 @@ void 002_bg05()
     FADE_IN(1, 5);
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* DAREMOINAI */;
+    itfMesMngMessage(6) /* DAREMOINAI: > No one is here. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 15);
     WAIT(15);

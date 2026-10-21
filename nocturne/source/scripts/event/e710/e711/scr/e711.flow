@@ -98,7 +98,7 @@ void e711_020()
     SE_STOP_E(711, 111);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: ...... */;
     itfMesMngCloseWindow();
     WAIT(20);
     MODEL_MOTION2(var1, 1, 0, 10, 2);
@@ -114,7 +114,7 @@ void e711_030()
     MODEL_MOTION2(var1, 2, 0, 0, 0);
     WAIT(130);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(1) /* MSG_002: ...... */;
     itfMesMngCloseWindow();
     WAIT(20);
 }
@@ -138,7 +138,7 @@ void e711_040()
     KUTISET(var1, 1, 1);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngMessage(2) /* MSG_003: The candelabra grant to their possessors access to the Labyrinth of A... */;
     itfMesMngCloseWindow();
     WAIT(45);
 }
@@ -153,7 +153,7 @@ void e711_050()
     SCR_RUN(7, - 1);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_004 */;
+    itfMesMngMessage(3) /* MSG_004: That is why we would like to ask you a favor. */;
     itfMesMngCloseWindow();
     WAIT(40);
 }
@@ -176,8 +176,8 @@ void e711_060()
     KUTISET(var1, 1, 1);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_005 */;
-    var3 = itfMesMngSelect(5);
+    itfMesMngMessage(4) /* MSG_005: That is my master's request... */;
+    var3 = itfMesMngSelect(5) /* KAIWA_SEL: I will. / Let me think about it. */;
     itfMesMngCloseWindow();
     if (var3 == 1)
     {
@@ -185,13 +185,13 @@ void e711_060()
         CAM_PATH_MOVE(SEARCH_ID("01cam_07"), SEARCH_ID("01cam_07_MOTION"));
         MODEL_MOTION2(var1, 5, 0, 0, 1);
         itfMesMngOpenWindow();
-        itfMesMngMessage(6) /* NO_001 */;
+        itfMesMngMessage(6) /* NO_001: ...I see. */;
         itfMesMngCloseWindow();
         WAIT(10);
         CAM_SEL(SEARCH_ID("01cam_09"));
         CAM_PATH_MOVE(SEARCH_ID("01cam_09"), SEARCH_ID("01cam_09_MOTION"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(7) /* NO_002 */;
+        itfMesMngMessage(7) /* NO_002: We will wait, in hope that you will recover all the candelabra. */;
         itfMesMngCloseWindow();
     }
     else if (var3 == 0)
@@ -201,18 +201,18 @@ void e711_060()
         MODEL_MOTION2(var1, 5, 0, 0, 1);
         itfMesMngOpenWindow();
         SCR_RUN(9, - 1);
-        itfMesMngMessage(8) /* MSG_006 */;
+        itfMesMngMessage(8) /* MSG_006: Thank you... {firstname 0}. */;
         itfMesMngCloseWindow();
         WAIT(15);
         MODEL_EXMOTION(var1, 1, 0, 20, 20, 0);
         WAIT(20);
         itfMesMngOpenWindow();
-        itfMesMngMessage(9) /* MSG_006C */;
+        itfMesMngMessage(9) /* MSG_006C: I knew I could count on you... I mean, I knew you would accept our of... */;
         itfMesMngCloseWindow();
         CAM_SEL(SEARCH_ID("01cam_09"));
         CAM_PATH_MOVE(SEARCH_ID("01cam_09"), SEARCH_ID("01cam_09_MOTION"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(10) /* MSG_006B */;
+        itfMesMngMessage(10) /* MSG_006B: The candelabra tend to attract each other. That is why I gave you one. */;
         itfMesMngCloseWindow();
     }
     WAIT(20);
@@ -245,7 +245,7 @@ void e711_080()
     CAM_PATH_MOVE(SEARCH_ID("01cam_08"), SEARCH_ID("01cam_08_MOTION"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(11) /* MSG_007 */;
+    itfMesMngMessage(11) /* MSG_007: When you retrieve a candelabrum, please place it on the pedestal in t... */;
     itfMesMngCloseWindow();
     MODEL_MOTION2(var6, 1, 0, 0, 2);
     MODEL_MOTION2(var7, 2, 0, 0, 2);
@@ -261,7 +261,7 @@ void e711_080()
     WAIT(20);
     SE_STOP_E(711, 111);
     itfMesMngOpenWindow();
-    itfMesMngMessage(12) /* MSG_008 */;
+    itfMesMngMessage(12) /* MSG_008: ...Preparations are complete. */;
     itfMesMngCloseWindow();
     WAIT(5);
     MODEL_WAIT_EXMOT(var1, 1, 5);

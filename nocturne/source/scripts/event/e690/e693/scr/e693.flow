@@ -97,7 +97,7 @@ void e693_010_2()
     WAIT(50);
     itfMesMngWindowTypeAlpha(1, 50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: ...Hey, are you listening? */;
     WAIT(20);
     itfMesMngCloseWindow();
 }
@@ -107,13 +107,13 @@ void e693_010_3()
     WAIT(280);
     itfMesMngWindowTypeAlpha(1, 50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(1) /* MSG_002: Let's get going. {firstname 3} will get mad if we make her wait too l... */;
     WAIT(50);
     itfMesMngCloseWindow();
     WAIT(620);
     itfMesMngWindowTypeAlpha(1, 50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_002B */;
+    itfMesMngMessage(2) /* MSG_002B: > You received a new e-mail. */;
     WAIT(50);
     itfMesMngCloseWindow();
 }
@@ -123,7 +123,7 @@ void e693_010_4()
     WAIT(1220);
     itfMesMngWindowTypeAlpha(1, 50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_003 */;
+    itfMesMngMessage(3) /* MSG_003: Hi, how are you? */;
     WAIT(70);
     itfMesMngCloseWindow();
 }
@@ -133,7 +133,7 @@ void e693_010_5()
     WAIT(1420);
     itfMesMngWindowTypeAlpha(1, 50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_004 */;
+    itfMesMngMessage(4) /* MSG_004: I'm doing much better. I think I'm ready to leave the hospital pretty... */;
     WAIT(80);
     itfMesMngCloseWindow();
 }
@@ -143,7 +143,7 @@ void e693_010_6()
     WAIT(1670);
     itfMesMngWindowTypeAlpha(1, 50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_005 */;
+    itfMesMngMessage(5) /* MSG_005: My doubts and fears have caused you all a lot of trouble. */;
     WAIT(70);
     itfMesMngCloseWindow();
 }
@@ -153,7 +153,7 @@ void e693_010_7()
     WAIT(1870);
     itfMesMngWindowTypeAlpha(1, 50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_006 */;
+    itfMesMngMessage(6) /* MSG_006: But, you've overcome these obstacles... and saved me. */;
     WAIT(70);
     itfMesMngCloseWindow();
 }
@@ -163,7 +163,7 @@ void e693_010_8()
     WAIT(2150);
     itfMesMngWindowTypeAlpha(1, 50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_007 */;
+    itfMesMngMessage(7) /* MSG_007: Back then, the world looked so sad to me. */;
     WAIT(60);
     itfMesMngCloseWindow();
 }
@@ -173,7 +173,7 @@ void e693_010_9()
     WAIT(2410);
     itfMesMngWindowTypeAlpha(1, 50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_008 */;
+    itfMesMngMessage(8) /* MSG_008: That's probably because I was sad myself. */;
     WAIT(60);
     itfMesMngCloseWindow();
 }
@@ -183,7 +183,7 @@ void e693_010_10()
     WAIT(2600);
     itfMesMngWindowTypeAlpha(1, 50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_009 */;
+    itfMesMngMessage(9) /* MSG_009: But, I've changed my thinking, and I'm going to continue on with my l... */;
     WAIT(60);
     itfMesMngCloseWindow();
 }
@@ -193,7 +193,7 @@ void e693_010_11()
     WAIT(2810);
     itfMesMngWindowTypeAlpha(1, 50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* MSG_010 */;
+    itfMesMngMessage(10) /* MSG_010: No matter what the world is like, I won't give up. I'm going to belie... */;
     WAIT(70);
     itfMesMngCloseWindow();
 }
@@ -203,7 +203,7 @@ void e693_010_12()
     WAIT(3010);
     itfMesMngWindowTypeAlpha(1, 50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(11) /* MSG_011 */;
+    itfMesMngMessage(11) /* MSG_011: ...What am I saying? You already know all this. */;
     WAIT(60);
     itfMesMngCloseWindow();
 }
@@ -213,13 +213,13 @@ void e693_010_13()
     WAIT(3220);
     itfMesMngWindowTypeAlpha(1, 50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(12) /* MSG_012 */;
+    itfMesMngMessage(12) /* MSG_012: If it wasn't for you, we wouldn't even be here right now. */;
     WAIT(70);
     itfMesMngCloseWindow();
     WAIT(70);
     itfMesMngWindowTypeAlpha(1, 50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(13) /* MSG_013 */;
+    itfMesMngMessage(13) /* MSG_013: ...Thank you. */;
     WAIT(60);
     itfMesMngCloseWindow();
     itfMesMngIgnoreConfig(0);

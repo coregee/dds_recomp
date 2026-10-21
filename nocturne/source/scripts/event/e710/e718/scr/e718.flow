@@ -92,7 +92,7 @@ void e718_main()
     TEX_ZOOM(local1, 120, 100, 150);
     WAIT(25);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_HIKAWA */;
+    itfMesMngMessage(5) /* MSG_HIKAWA: A man who envisions a world of silence... Ahriman, god of the void, l... */;
     itfMesMngCloseWindow();
     WAIT(25);
     FADE_OUT(1, 5);
@@ -127,7 +127,7 @@ void e718_main()
     TEX_ZOOM(local3, 120, 100, 150);
     WAIT(25);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_TIAKI */;
+    itfMesMngMessage(6) /* MSG_TIAKI: A young woman who values power above all else... The god Baal Avatar... */;
     itfMesMngCloseWindow();
     WAIT(25);
     FADE_OUT(1, 5);
@@ -162,7 +162,7 @@ void e718_main()
     TEX_ZOOM(local5, 120, 100, 150);
     WAIT(25);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_ISAMU */;
+    itfMesMngMessage(7) /* MSG_ISAMU: A young man yearning to live in solitude... His strength comes from N... */;
     itfMesMngCloseWindow();
     WAIT(25);
     FADE_OUT(1, 5);
@@ -179,7 +179,7 @@ void e718_main()
     FADE_IN(1, 5);
     WAIT(25);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_KAGUTUTI */;
+    itfMesMngMessage(8) /* MSG_KAGUTUTI: And Kagutsuchi, the light that watches over the Vortex World as well... */;
     itfMesMngCloseWindow();
     WAIT(25);
     FADE_OUT(1, 5);
@@ -241,18 +241,18 @@ void e718_010()
     SE_STOP_E(718, 111);
     MODEL_MOTION2(var6, 3, 0, 0, 2);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: You are here, at last... */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("01cam_09"));
     CAM_PATH_MOVE(SEARCH_ID("01cam_09"), SEARCH_ID("01cam_09_MOTION"));
     MODEL_MOTION2(var2, 3, 0, 0, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(1) /* MSG_002: You have retrieved all of the candelabra, and triumphed over the migh... */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var1, 5);
     MODEL_MOTION2(var1, 4, 0, 0, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_002B */;
+    itfMesMngMessage(2) /* MSG_002B: You are the demon that we have been waiting for. */;
     itfMesMngCloseWindow();
     FADEOUT_E(718, 2);
     CAM_SEL(SEARCH_ID("01cam_10"));
@@ -280,13 +280,13 @@ void e718_010()
     MODEL_WAIT_MOT(var1, 3);
     MODEL_MOTION2(var1, 2, 0, 0, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_003 */;
+    itfMesMngMessage(3) /* MSG_003: Did you hear that, {firstname 0}? */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("01cam_15"));
     CAM_PATH_MOVE(SEARCH_ID("01cam_15"), SEARCH_ID("01cam_15_MOTION"));
     itfMesMngOpenWindow();
     BGM_PLAY_E(718, 3);
-    itfMesMngMessage(4) /* MSG_004 */;
+    itfMesMngMessage(4) /* MSG_004: There is no turning back... */;
     itfMesMngCloseWindow();
 }
 

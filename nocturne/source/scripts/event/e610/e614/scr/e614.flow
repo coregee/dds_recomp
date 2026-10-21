@@ -51,19 +51,19 @@ void e614_010()
     WAIT(60);
     SCR_RUN(2, - 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: ...You, who is about to enter my world, show me your heart... */;
     itfMesMngCloseWindow();
     WAIT(100);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(1) /* MSG_002: ...You have nothing in your heart. Not even a hint of Reason. */;
     itfMesMngCloseWindow();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngMessage(2) /* MSG_003: For the one who will shape the world, this cannot be. */;
     itfMesMngCloseWindow();
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_004 */;
+    itfMesMngMessage(3) /* MSG_004: Go! */;
     itfMesMngCloseWindow();
 }
 

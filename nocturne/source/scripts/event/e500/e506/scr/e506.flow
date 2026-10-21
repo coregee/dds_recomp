@@ -3,8 +3,8 @@
 
 void e506_main()
 {
-    itfMesMngMessage(2) /* MODE */;
-    var2 = itfMesMngSelect(3);
+    itfMesMngMessage(2) /* MODE: [8187][818C][81D7][81CA][81D9][8189][80F5][819C][80F7][80E9][809F] */;
+    var2 = itfMesMngSelect(3) /* MODE_SEL: [81D7][81CA][81D9][81B5][81EA][8284][81D9][8091][8080][81E7][81FA][82... */;
     itfMesMngCloseWindow();
     if (var2 == 0)
     {

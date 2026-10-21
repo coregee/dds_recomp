@@ -177,7 +177,7 @@ MES4_OK:
 void e646_020_1()
 {
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_020_1 */;
+    itfMesMngMessage(0) /* MSG_020_1: Hey {firstname 0}, you made it. */;
 MES1_CHK:
     SYNC();
     if (BIT_CHK(48) == 1)
@@ -189,7 +189,7 @@ MES1_CHK:
         goto MES1_CHK;
     }
 MES1_OK:
-    itfMesMngMessage(1) /* MSG_020_2 */;
+    itfMesMngMessage(1) /* MSG_020_2: Sorry if I pressured you too much, but I managed to get here after all. */;
 MES2_CHK:
     SYNC();
     if (BIT_CHK(49) == 1)
@@ -201,7 +201,7 @@ MES2_CHK:
         goto MES2_CHK;
     }
 MES2_OK:
-    itfMesMngMessage(2) /* MSG_020_3 */;
+    itfMesMngMessage(2) /* MSG_020_3: It took a while, but I was finally able to pinpoint the route to this... */;
 MES3_CHK:
     SYNC();
     if (BIT_CHK(50) == 1)
@@ -213,7 +213,7 @@ MES3_CHK:
         goto MES3_CHK;
     }
 MES3_OK:
-    itfMesMngMessage(3) /* MSG_020_4 */;
+    itfMesMngMessage(3) /* MSG_020_4: Not bad for an ordinary human, eh? */;
     itfMesMngCloseWindow();
     BIT_ON(51);
 }
@@ -237,7 +237,7 @@ MES4_CHK2:
     }
 MES4_OK2:
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_030_1 */;
+    itfMesMngMessage(4) /* MSG_030_1: Oh yeah, I found out something interesting about Asakusa. This is whe... */;
     itfMesMngCloseWindow();
     WAIT(5);
 }
@@ -247,7 +247,7 @@ void e646_040()
     itfMesMngWindowTypeAlpha(1, 60);
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_040_1 */;
+    itfMesMngMessage(5) /* MSG_040_1: Oh yeah, I found out something interesting about this place. It's whe... */;
     itfMesMngCloseWindow();
     WAIT(5);
     BIT_ON(52);
@@ -265,7 +265,7 @@ void e646_050()
     KUTISET(var1, 3, 1);
     itfMesMngWindowTypeAlpha(1, 60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_050_1 */;
+    itfMesMngMessage(6) /* MSG_050_1: ...Anyways, like I suspected, the terminal here isn't under Nihilo's... */;
     itfMesMngCloseWindow();
     WAIT(5);
     MODEL_WAIT(var1);
@@ -280,7 +280,7 @@ void e646_050()
     LIGHT_PATH_MOVE(SEARCH_ID("light01"), SEARCH_ID("light01_MOTION"));
     WAIT(95);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_050_2 */;
+    itfMesMngMessage(8) /* MSG_050_2: So, while you were gone, I was working on that and... */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("cam07"));
     CAM_PATH_MOVE(SEARCH_ID("cam07"), SEARCH_ID("cam07_MOTION"));
@@ -288,7 +288,7 @@ void e646_050()
     MODEL_EXMOTION(var1, 2, 2, 0, 0, 0);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_050_3 */;
+    itfMesMngMessage(9) /* MSG_050_3: Here, check this out. */;
     itfMesMngCloseWindow();
     WAIT(30);
     CAM_SEL(SEARCH_ID("cam04"));
@@ -318,7 +318,7 @@ void e646_050_f()
     WAIT(45);
     MODEL_WAIT(var1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_050_1 */;
+    itfMesMngMessage(6) /* MSG_050_1: ...Anyways, like I suspected, the terminal here isn't under Nihilo's... */;
     itfMesMngCloseWindow();
     MODEL_MOTION2(var1, 5, 0, 30, 0);
     WAIT(3);
@@ -328,7 +328,7 @@ void e646_050_f()
     MODEL_WAIT_MOT(var1, 15);
     MODEL_MOTION2(var1, 14, 0, 0, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_050_2F */;
+    itfMesMngMessage(7) /* MSG_050_2F: I just started investigating, so I need some time. */;
     itfMesMngCloseWindow();
     FADEOUT_E(646, 1);
     CAM_SEL(SEARCH_ID("cam05"));
@@ -359,8 +359,8 @@ void e646_050_r()
     CAM_PATH_MOVE(SEARCH_ID("cam03"), SEARCH_ID("cam03_MOTION"));
     WAIT(45);
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* MSG_050_1r */;
-    itfMesMngMessage(11) /* MSG_050_1r2 */;
+    itfMesMngMessage(10) /* MSG_050_1r: Hey, good timing. How was Asakusa? */;
+    itfMesMngMessage(11) /* MSG_050_1r2: About the Nightmare System... I've got good news. */;
     itfMesMngCloseWindow();
     WAIT(5);
     BGM_STOP();
@@ -372,7 +372,7 @@ void e646_050_r()
     LIGHT_PATH_MOVE(SEARCH_ID("light01"), SEARCH_ID("light01_MOTION"));
     WAIT(95);
     itfMesMngOpenWindow();
-    itfMesMngMessage(12) /* MSG_050_2r */;
+    itfMesMngMessage(12) /* MSG_050_2r: They say a picture is worth a thousand words... */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("cam07"));
     CAM_PATH_MOVE(SEARCH_ID("cam07"), SEARCH_ID("cam07_MOTION"));
@@ -380,7 +380,7 @@ void e646_050_r()
     MODEL_EXMOTION(var1, 2, 2, 0, 0, 0);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(13) /* MSG_050_3r */;
+    itfMesMngMessage(13) /* MSG_050_3r: ...so here, take a look. */;
     itfMesMngCloseWindow();
     WAIT(30);
     CAM_SEL(SEARCH_ID("cam04"));
@@ -441,7 +441,7 @@ void e646_060()
     WAIT(60);
     itfMesMngWindowTypeAlpha(1, 40);
     itfMesMngOpenWindow();
-    itfMesMngMessage(14) /* MSG_060_1 */;
+    itfMesMngMessage(14) /* MSG_060_1: You see it? That's the Obelisk in Chiyoda. */;
     itfMesMngCloseWindow();
     WAIT(40);
     FADE_OUT(1, 40);
@@ -485,7 +485,7 @@ void e646_070()
     WAIT(40);
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(15) /* MSG_070_1 */;
+    itfMesMngMessage(15) /* MSG_070_1: If I could, I'd go in there myself, but I'm just not strong enough. */;
     itfMesMngCloseWindow();
     WAIT(5);
     MODEL_WAIT_MOT(var1, 11);
@@ -497,9 +497,9 @@ void e646_070()
     MODEL_EXMOTION(var1, 2, 2, 0, 0, 0);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(16) /* MSG_070_2 */;
+    itfMesMngMessage(16) /* MSG_070_2: I'm afraid I have to ask for your help again, {firstname 0}. */;
     BGM_TRANS_E(646, - 1);
-    itfMesMngMessage(17) /* MSG_070_3 */;
+    itfMesMngMessage(17) /* MSG_070_3: The Obelisk looks pretty tall, and who knows what kind of demons are... */;
     itfMesMngCloseWindow();
     WAIT(5);
     MODEL_WAIT_MOT(var1, 13);
@@ -533,13 +533,13 @@ TERMINAL:
         if (BIT_CHK(53) == 1)
         {
             itfMesMngOpenWindow();
-            itfMesMngMessage(19) /* MSG_TRM_2 */;
+            itfMesMngMessage(19) /* MSG_TRM_2: It's up to you to stop whatever's going on inside the Obelisk. */;
             itfMesMngCloseWindow();
         }
         else if (BIT_CHK(53) == 0)
         {
             itfMesMngOpenWindow();
-            itfMesMngMessage(18) /* MSG_TRM_1 */;
+            itfMesMngMessage(18) /* MSG_TRM_1: ...Hey, don't rush me. You don't want me to miss something important,... */;
             itfMesMngCloseWindow();
         }
         MODEL_WAIT_MOT(var1, 13);

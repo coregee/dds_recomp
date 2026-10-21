@@ -89,43 +89,43 @@ void e652_020()
     SET_SKY_A(0, - 80);
     itfMesMngWindowTypeAlpha(1, 60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_020_1 */;
+    itfMesMngMessage(0) /* MSG_020_1: {firstname 0}! You did it! */;
     itfMesMngCloseWindow();
     WAIT(30);
     CAM_SEL(SEARCH_ID("cam04"));
     CAM_PATH_MOVE(SEARCH_ID("cam04"), SEARCH_ID("cam04_MOTION"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_020_01 */;
-    var3 = itfMesMngSelect(2);
+    itfMesMngMessage(1) /* MSG_020_01: But, how did you stop the Nightmare System? Wasn't that Maiden operat... */;
+    var3 = itfMesMngSelect(2) /* MSG_020_02: I saved her. / I took care of her. / I don't want to talk about it. */;
     if (var3 == 0)
     {
         WAIT(20);
-        itfMesMngMessage(3) /* MSG_020_031 */;
+        itfMesMngMessage(3) /* MSG_020_031: So, Hikawa was using her, huh? */;
     }
     else if (var3 == 1)
     {
         WAIT(20);
-        itfMesMngMessage(4) /* MSG_020_032 */;
+        itfMesMngMessage(4) /* MSG_020_032: I see... */;
     }
     else if (var3 == 2)
     {
-        itfMesMngMessage(5) /* MSG_020_033 */;
+        itfMesMngMessage(5) /* MSG_020_033: Oh, you're not gonna tell me? */;
     }
     itfMesMngCloseWindow();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_020_2 */;
-    var3 = itfMesMngSelect(7);
+    itfMesMngMessage(6) /* MSG_020_2: Oh yeah. It might seem like I'm making you do all the work, but... */;
+    var3 = itfMesMngSelect(7) /* MSG_020_3: Sure. / No thanks. */;
     if (var3 == 0)
     {
         WAIT(30);
-        itfMesMngMessage(8) /* MSG_020_4 */;
+        itfMesMngMessage(8) /* MSG_020_4: Alright, listen up. */;
     }
     else if (var3 == 1)
     {
         WAIT(30);
-        itfMesMngMessage(9) /* MSG_020_5 */;
+        itfMesMngMessage(9) /* MSG_020_5: Come on, man. Journalism is pointless without an audience. */;
     }
     itfMesMngCloseWindow();
     WAIT(10);
@@ -146,7 +146,7 @@ void e652_030()
     MODEL_MOTION2(var2, 0, 0, 10, 1);
     itfMesMngWindowTypeAlpha(1, 60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* MSG_030_1 */;
+    itfMesMngMessage(10) /* MSG_030_1: To create a new world, you must have a strong idea of what kind of wo... */;
     itfMesMngCloseWindow();
     WAIT(5);
     MODEL_WAIT_MOT(var1, 6);
@@ -162,20 +162,20 @@ void e652_040()
     CAM_PATH_MOVE(SEARCH_ID("cam04"), SEARCH_ID("cam04_MOTION"));
     itfMesMngWindowTypeAlpha(1, 60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(11) /* MSG_040_1 */;
-    var3 = itfMesMngSelect(12);
+    itfMesMngMessage(11) /* MSG_040_1: Oh, I almost forgot. I met a human inside the Amala Network just a mi... */;
+    var3 = itfMesMngSelect(12) /* MSG_040_2: Yes, I know him. / No, I don't. */;
     if (var3 == 0)
     {
         WAIT(30);
-        itfMesMngMessage(13) /* MSG_040_3 */;
+        itfMesMngMessage(13) /* MSG_040_3: Yeah, that's what I thought. */;
     }
     else if (var3 == 1)
     {
         WAIT(30);
-        itfMesMngMessage(14) /* MSG_040_4 */;
+        itfMesMngMessage(14) /* MSG_040_4: Really? */;
         POINT_ADD(2, 8);
     }
-    itfMesMngMessage(15) /* MSG_040_5 */;
+    itfMesMngMessage(15) /* MSG_040_5: Anyways, about {firstname 2}... He actually seemed to be doing okay i... */;
     itfMesMngCloseWindow();
     WAIT(5);
     MODEL_WAIT_MOT(var1, 8);
@@ -200,9 +200,9 @@ void e652_050()
     WAIT(5);
     itfMesMngWindowTypeAlpha(1, 60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(16) /* MSG_050_0 */;
-    itfMesMngMessage(17) /* MSG_050_1 */;
-    var3 = itfMesMngSelect(18);
+    itfMesMngMessage(16) /* MSG_050_0: Dummy event for checking; terminal menu will be displayed in the actu... */;
+    itfMesMngMessage(17) /* MSG_050_1: Will you have Hijiri send you to where {firstname 2} is? */;
+    var3 = itfMesMngSelect(18) /* MSG_050_2: Yes. / No. */;
     itfMesMngCloseWindow();
     WAIT(5);
     if (var3 == 0)
@@ -213,7 +213,7 @@ void e652_050()
         MODEL_MOTION2(var1, 9, 0, 10, 0);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(19) /* MSG_050_3 */;
+        itfMesMngMessage(19) /* MSG_050_3: No problem. ...I'll start right away. */;
         itfMesMngCloseWindow();
     }
     else if (var3 == 1)
@@ -224,7 +224,7 @@ void e652_050()
         MODEL_MOTION2(var1, 9, 0, 10, 0);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(20) /* MSG_050_4 */;
+        itfMesMngMessage(20) /* MSG_050_4: Let me know if you change your mind. */;
         itfMesMngCloseWindow();
         MODEL_MOTION2(var1, 11, 0, 10, 3);
         WAIT(30);
@@ -248,14 +248,14 @@ TERMINAL:
         MODEL_MOTION2(var1, 9, 0, 10, 0);
         WAIT(30);
         itfMesMngOpenWindow();
-        itfMesMngMessage(21) /* MSG_TRM_1 */;
-        var3 = itfMesMngSelect(22);
+        itfMesMngMessage(21) /* MSG_TRM_1: Do you want me to transfer you to where {firstname 2} is? */;
+        var3 = itfMesMngSelect(22) /* MSG_TRM_2: Yeah, can you? / Not right now. / Tell me again how creation works. */;
         itfMesMngCloseWindow();
         if (var3 == 0)
         {
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(25) /* MSG_TRM_3C */;
+            itfMesMngMessage(25) /* MSG_TRM_3C: Here we go. */;
             itfMesMngCloseWindow();
             BIT_ON(65);
             BGM_STOP();
@@ -274,7 +274,7 @@ TERMINAL:
         {
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(26) /* MSG_TRM_4 */;
+            itfMesMngMessage(26) /* MSG_TRM_4: Just let me know when you're ready. */;
             itfMesMngCloseWindow();
             MODEL_WAIT_MOT(var1, 8);
             MODEL_MOTION2(var1, 11, 0, 10, 0);
@@ -285,7 +285,7 @@ TERMINAL:
         {
             WAIT(30);
             itfMesMngOpenWindow();
-            itfMesMngMessage(27) /* MSG_TRM_5 */;
+            itfMesMngMessage(27) /* MSG_TRM_5: It was a little confusing, wasn't it? No big deal. */;
             itfMesMngCloseWindow();
             MODEL_WAIT_MOT(var1, 8);
             MODEL_MOTION2(var1, 11, 0, 10, 0);

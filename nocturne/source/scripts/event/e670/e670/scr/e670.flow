@@ -115,7 +115,7 @@ void e670_020()
     WAIT(50);
     itfMesMngWindowTypeAlpha(0, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_020_1 */;
+    itfMesMngMessage(0) /* MSG_020_1: ...Quit complaining, This is the last job I have for you. */;
     itfMesMngCloseWindow();
     WAIT(30);
     CAM_PATH_WAIT(SEARCH_ID("cam02"));
@@ -134,7 +134,7 @@ void e670_030()
     MODEL_EXMOTION(var3, 2, 3, 0, 10, 2);
     itfMesMngWindowTypeAlpha(0, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_030_1 */;
+    itfMesMngMessage(1) /* MSG_030_1: ...I hate this. Magatsuhi makes my body itch all over. */;
     itfMesMngCloseWindow();
     WAIT(20);
 }
@@ -148,11 +148,11 @@ void e670_040()
     KUTI(var2, 3, 1);
     itfMesMngWindowTypeAlpha(0, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_040_1 */;
+    itfMesMngMessage(2) /* MSG_040_1: Well, what can I say? We all serve a purpose... You guys are the step... */;
     itfMesMngCloseWindow();
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_040_2 */;
+    itfMesMngMessage(3) /* MSG_040_2: It's a tough job, but someone's gotta do it, right? */;
     itfMesMngCloseWindow();
     CAM_PATH_WAIT(SEARCH_ID("cam04"));
     MODEL_WAIT_MOT(var2, 3);
@@ -169,19 +169,19 @@ void e670_050()
     itfMesMngWindowTypeAlpha(0, 70);
     KUTI(var2, 3, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_050_1 */;
-    var20 = itfMesMngSelect(5);
+    itfMesMngMessage(4) /* MSG_050_1: Thanks for all the trouble you've gone through, {firstname 0}. */;
+    var20 = itfMesMngSelect(5) /* ISAMU_001: What are you doing? / Stop this, {firstname 2}. */;
     itfMesMngCloseWindow();
     if (var20 == 0)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(6) /* MSG_050_2 */;
+        itfMesMngMessage(6) /* MSG_050_2: I'm preparing for the ritual of Reason. */;
         itfMesMngCloseWindow();
     }
     else if (var20 == 1)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(7) /* MSG_050_3 */;
+        itfMesMngMessage(7) /* MSG_050_3: Why do you always have to be such a goody two-shoes? */;
         itfMesMngCloseWindow();
     }
     WAIT(10);
@@ -192,7 +192,7 @@ void e670_050()
     WAIT(5);
     KUTI(var3, 3, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_050_4 */;
+    itfMesMngMessage(8) /* MSG_050_4: ...Yeah, I came up with the plan, but that doesn't mean I would've ca... */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("cam05"));
     CAM_PATH_MOVE(SEARCH_ID("cam05"), SEARCH_ID("cam05_MOTION"));
@@ -202,7 +202,7 @@ void e670_050()
     WAIT(20);
     KUTI(var2, 3, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_050_5 */;
+    itfMesMngMessage(9) /* MSG_050_5: ...Oh, I'm sure you would have. */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("cam06"));
     CAM_PATH_MOVE(SEARCH_ID("cam06"), SEARCH_ID("cam06_MOTION"));
@@ -211,14 +211,14 @@ void e670_050()
     WAIT(10);
     KUTI(var3, 3, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* MSG_050_6 */;
+    itfMesMngMessage(10) /* MSG_050_6: It doesn't matter what I say now, does it? It'll just sound like an e... */;
     itfMesMngCloseWindow();
     WAIT(20);
     MODEL_EXMOTION(var3, 1, 2, 0, 5, 1);
     MODEL_EXMOTION(var3, 2, 2, 0, 5, 2);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(11) /* MSG_050_6_a */;
+    itfMesMngMessage(11) /* MSG_050_6_a: Just remember, you'll pay a high price for following that path. */;
     itfMesMngCloseWindow();
     WAIT(20);
 }
@@ -232,7 +232,7 @@ void e670_060()
     KUTI(var2, 3, 1);
     itfMesMngWindowTypeAlpha(0, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(12) /* MSG_050_7 */;
+    itfMesMngMessage(12) /* MSG_050_7: Don't worry. Like you said, it's my decision. I'm the one in charge h... */;
     itfMesMngCloseWindow();
     WAIT(20);
 }
@@ -250,8 +250,8 @@ void e670_070()
         KUTI(var2, 3, 1);
         itfMesMngWindowTypeAlpha(0, 70);
         itfMesMngOpenWindow();
-        itfMesMngMessage(13) /* MSG_070_1 */;
-        var20 = itfMesMngSelect(14);
+        itfMesMngMessage(13) /* MSG_070_1: ...Hey, {firstname 0}. */;
+        var20 = itfMesMngSelect(14) /* ISAMU_002: It'd be my pleasure. / No, I can't. */;
         itfMesMngCloseWindow();
         if (var20 == 0)
         {
@@ -264,7 +264,7 @@ void e670_070()
         itfMesMngWindowTypeAlpha(0, 70);
         KUTI(var2, 3, 1);
         itfMesMngOpenWindow();
-        itfMesMngMessage(20) /* MSG_070_R1 */;
+        itfMesMngMessage(20) /* MSG_070_R1: Pay attention, {firstname 0}. */;
         itfMesMngCloseWindow();
         var20 = 2;
     }
@@ -280,7 +280,7 @@ void e670_080()
     KUTI(var3, 3, 1);
     itfMesMngWindowTypeAlpha(0, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(16) /* MSG_080_1 */;
+    itfMesMngMessage(16) /* MSG_080_1: Thanks for keeping me entertained, {firstname 0}. Good luck to ya... */;
     itfMesMngCloseWindow();
     WAIT(40);
 }
@@ -298,7 +298,7 @@ void e670_090()
         KUTI(var2, 3, 1);
         itfMesMngWindowTypeAlpha(0, 70);
         itfMesMngOpenWindow();
-        itfMesMngMessage(17) /* MSG_090_1 */;
+        itfMesMngMessage(17) /* MSG_090_1: Too bad. You must have mistaken him for a friend. */;
         itfMesMngCloseWindow();
         WAIT(30);
     }
@@ -310,7 +310,7 @@ void e670_090()
     MODEL_OFF(var4);
     MODEL_LIGHT_LINK(var2, 0, SEARCH_ID("light05"));
     itfMesMngOpenWindow();
-    itfMesMngMessage(18) /* MSG_090_2 */;
+    itfMesMngMessage(18) /* MSG_090_2: Okay, it's time to say goodbye. Soon, you'll have all the rest you co... */;
     itfMesMngCloseWindow();
     WAIT(10);
     CAM_SEL(SEARCH_ID("cam08"));
@@ -319,7 +319,7 @@ void e670_090()
     MODEL_EXMOTION(var3, 2, 3, 0, 0, 2);
     KUTI(var3, 3, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(19) /* MSG_090_3 */;
+    itfMesMngMessage(19) /* MSG_090_3: Ha ha ha... Try your best, kid... */;
     itfMesMngCloseWindow();
     WAIT(20);
 }

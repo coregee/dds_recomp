@@ -6,7 +6,7 @@ void e510_main()
     FADE_IN(0, 30);
     local0 = TEX_LOAD("/event/e510/e510/effect/keitai.tmx");
     TEX_ON(local0);
-    itfMesMngMessage(0) /* MSG_KEITAI */;
+    itfMesMngMessage(0) /* MSG_KEITAI: [8DE0][81A9][84C4][84A6][84FC][80EA][86AB][80E2][8184][80E2][81A9][81... */;
     local1 = TEX_LOAD("/event/e510/e510/effect/itimai_test01.tmx");
     TEX_PRI(local1, 0);
     TEX_SIZE(local0, 512, 448, 512, 448);
@@ -17,7 +17,7 @@ void e510_main()
     TEX_PRI(local1, 0);
     TEX_ALP(local1, 0, 128, 60);
     WAIT(60);
-    itfMesMngMessage(2) /* MSG_KEITAI2 */;
+    itfMesMngMessage(2) /* MSG_KEITAI2: [82A6][83EB][80E2][83F4][8189][818B][80E5][84E9][85E3][81AD][81AA][81... */;
     TEX_OFF(local0);
     TEX_OFF(local1);
     WAIT(4);
@@ -30,7 +30,7 @@ void e510_main()
     TEX_ON(local0);
     COMM_1E3(local0, 0, 0, 0, - 256, 60);
     WAIT(60);
-    itfMesMngMessage(3) /* MSG_KEITAI3 */;
+    itfMesMngMessage(3) /* MSG_KEITAI3: [84A6][84FC][89AE][8181][8184] */;
     TEX_OFF(local0);
     WAIT(4);
     TEX_CLS(local0);
@@ -41,7 +41,7 @@ void e510_main()
     TEX_ON(local0);
     COMM_1E3(local0, 0, 0, - 256, 0, 60);
     WAIT(60);
-    itfMesMngMessage(4) /* MSG_KEITAI4 */;
+    itfMesMngMessage(4) /* MSG_KEITAI4: [80EB][81B1][80FD][819C][81A0][8181][8184][8081] */;
     TEX_OFF(local0);
     WAIT(4);
     TEX_CLS(local0);
@@ -57,6 +57,6 @@ void e510_main()
     TEX_OFF(local0);
     WAIT(4);
     TEX_CLS(local0);
-    itfMesMngMessage(11) /* MSG_KEITAI_07 */;
+    itfMesMngMessage(11) /* MSG_KEITAI_07: [84EB][8CBF][8189][8ACA][819F][81A9][81F2][81FC][81EF][81BD][85CB][85... */;
 }
 

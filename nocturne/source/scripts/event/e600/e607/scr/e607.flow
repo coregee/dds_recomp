@@ -33,7 +33,7 @@ void e607_main()
     MODEL_RGB(var2, 100, 0.6f, 0.6f, 0.6f);
     WAIT(300);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* TIAKI_001 */;
+    itfMesMngMessage(0) /* TIAKI_001: [84D2][8191][8182][80EF][8184][81C5][81F2][8284][818B][8289] */;
     itfMesMngCloseWindow();
     BLUR2_PARA(1.1f, 0.1f, 2);
     BLUR2_RGBA(128, 128, 128, 112);

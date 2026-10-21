@@ -149,9 +149,9 @@ void e635_020()
     WAIT(10);
     itfMesMngWindowTypeAlpha(1, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
-    itfMesMngMessage(1) /* MSG_002 */;
-    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngMessage(0) /* MSG_001: ...Hi, {firstname 0}. */;
+    itfMesMngMessage(1) /* MSG_002: I heard about the trial by combat, and I thought it might be you who... */;
+    itfMesMngMessage(2) /* MSG_003: Getting here was tough, to say the least... but I'm glad I made it. */;
     itfMesMngCloseWindow();
     WAIT(20);
     MODEL_MOTION2(var1, 3, 0, 10, 2);
@@ -176,12 +176,12 @@ void e635_030()
     MODEL_LIGHT_LINK(var2, 0, SEARCH_ID("light03"));
     itfMesMngWindowTypeAlpha(1, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_004 */;
+    itfMesMngMessage(3) /* MSG_004: {firstname 0}... */;
     itfMesMngCloseWindow();
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_005 */;
-    itfMesMngMessage(5) /* MSG_006 */;
+    itfMesMngMessage(4) /* MSG_005: I decided to play by the rules of this world. */;
+    itfMesMngMessage(5) /* MSG_006: You know what the purpose of this new world is, right? */;
     itfMesMngCloseWindow();
     CAM_PATH_WAIT(SEARCH_ID("cam03"));
     WAIT(15);
@@ -192,27 +192,27 @@ void e635_030()
     MODEL_WAIT_MOT(var1, 5);
     MODEL_MOTION2(var1, 19, 0, 20, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_007 */;
+    itfMesMngMessage(6) /* MSG_007: I... I want to try my hand at the creation. */;
     itfMesMngCloseWindow();
     WAIT(20);
     MODEL_EXMOTION(var1, 1, 0, 0, 10, 2);
     MODEL_EXMOTION(var1, 2, 1, 0, 10, 1);
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_008 */;
+    itfMesMngMessage(7) /* MSG_008: ...You probably think I'm crazy. */;
     itfMesMngCloseWindow();
     WAIT(1);
     MODEL_WAIT_MOT(var1, 21);
     MODEL_MOTION2(var1, 20, 0, 20, 0);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_008_a */;
+    itfMesMngMessage(8) /* MSG_008_a: But, I remembered that voice... */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var1, 5);
     MODEL_MOTION2(var1, 22, 0, 30, 0);
     WAIT(15);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_008_b */;
+    itfMesMngMessage(9) /* MSG_008_b: You must've heard it too, {firstname 0}, since you survived. */;
     itfMesMngCloseWindow();
     FADEOUT_E(635, 1);
     BGM_PLAY_E(635, 2);
@@ -320,14 +320,14 @@ void e635_050()
     WAIT(10);
     itfMesMngWindowTypeAlpha(1, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* MSG_009 */;
+    itfMesMngMessage(10) /* MSG_009: ...After we went our separate ways, I started thinking. */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("cam10"));
     CAM_PATH_MOVE(SEARCH_ID("cam10"), SEARCH_ID("cam10_MOTION"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(11) /* MSG_009B */;
+    itfMesMngMessage(11) /* MSG_009B: There were lots of things, and lots of people... */;
     itfMesMngCloseWindow();
     WAIT(45);
     CAM_SEL(SEARCH_ID("cam13"));
@@ -340,14 +340,14 @@ void e635_050()
     MODEL_MOTION2(var6, 1, 0, 0, 2);
     WAIT(50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(12) /* MSG_010 */;
+    itfMesMngMessage(12) /* MSG_010: ...It's true that I lost everything. It was the saddest thing imagina... */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("cam07"));
     CAM_PATH_MOVE(SEARCH_ID("cam07"), SEARCH_ID("cam07_MOTION"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(13) /* MSG_011 */;
+    itfMesMngMessage(13) /* MSG_011: I still feel a great sadness in my heart... */;
     itfMesMngCloseWindow();
     WAIT(10);
     MUL_BLUR_PARA(0, 1.0f, 0);
@@ -376,7 +376,7 @@ void e635_050_1()
 {
     WAIT(50);
     itfMesMngOpenWindow();
-    itfMesMngMessage(13) /* MSG_011 */;
+    itfMesMngMessage(13) /* MSG_011: I still feel a great sadness in my heart... */;
     itfMesMngCloseWindow();
     var70 = 1;
 }
@@ -398,24 +398,24 @@ void e635_060()
     WAIT(10);
     itfMesMngWindowTypeAlpha(1, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(14) /* MSG_012 */;
-    var8 = itfMesMngSelect(15);
+    itfMesMngMessage(14) /* MSG_012: "Choose," the voice said to me. */;
+    var8 = itfMesMngSelect(15) /* MSG_011_2: Yeah, I get it. / I don't see your point. / I don't know what to say. */;
     if (var8 == 0)
     {
         WAIT(30);
-        itfMesMngMessage(16) /* MSG_011_3 */;
+        itfMesMngMessage(16) /* MSG_011_3: ...I'm happy to hear that. */;
         BIT_ON(25);
         POINT_ADD(1, 32);
     }
     else if (var8 == 1)
     {
         WAIT(30);
-        itfMesMngMessage(17) /* MSG_011_4 */;
+        itfMesMngMessage(17) /* MSG_011_4: ...... */;
     }
     else if (var8 == 2)
     {
         WAIT(30);
-        itfMesMngMessage(18) /* MSG_011_5 */;
+        itfMesMngMessage(18) /* MSG_011_5: ...I see. */;
     }
     itfMesMngCloseWindow();
     WAIT(20);
@@ -474,7 +474,7 @@ void e635_070()
     WAIT(10);
     itfMesMngWindowTypeAlpha(1, 70);
     itfMesMngOpenWindow();
-    itfMesMngMessage(19) /* MSG_013 */;
+    itfMesMngMessage(19) /* MSG_013: I'm going to start collecting Magatsuhi. */;
     itfMesMngCloseWindow();
     WAIT(20);
     MODEL_MOTION2(var1, 17, 0, 10, 2);

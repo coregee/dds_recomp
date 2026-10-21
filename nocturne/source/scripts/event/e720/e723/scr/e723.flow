@@ -157,17 +157,17 @@ void e723_010_1()
     WAIT(269);
     itfMesMngWindowTypeAlpha(1, 92);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_HIKAWA_010_1 */;
+    itfMesMngMessage(5) /* MSG_HIKAWA_010_1: There you are, Fiend. */;
     WAIT(130);
     itfMesMngCloseWindow();
     WAIT(41);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_HIKAWA_010_1_1 */;
+    itfMesMngMessage(6) /* MSG_HIKAWA_010_1_1: Let's see what you've got. */;
     WAIT(45);
     itfMesMngCloseWindow();
     WAIT(340);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_HIKAWA_010_2 */;
+    itfMesMngMessage(7) /* MSG_HIKAWA_010_2: Glad to meet you, kid. I hope you feel the same. */;
     WAIT(120);
 }
 
@@ -201,7 +201,7 @@ void e723_020()
     itfMesMngOpenWindow();
     MODEL_EXMOTION(var1, 2, 1, 0, 5, 2);
     MODEL_EXMOTION(var1, 3, 1, 0, 0, 2);
-    itfMesMngMessage(0) /* MSG_020_1 */;
+    itfMesMngMessage(0) /* MSG_020_1: Not bad. */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -215,8 +215,8 @@ void e723_030()
     itfMesMngWindowTypeAlpha(1, 85);
     itfMesMngOpenWindow();
     MODEL_EXMOTION(var1, 3, 1, 0, 5, 2);
-    itfMesMngMessage(1) /* MSG_030_1 */;
-    itfMesMngMessage(2) /* MSG_030_2 */;
+    itfMesMngMessage(1) /* MSG_030_1: My name is Dante. */;
+    itfMesMngMessage(2) /* MSG_030_2: This old guy asked me to hunt down guys like you, but... */;
     itfMesMngCloseWindow();
     WAIT(30);
     SE_PLAY_E(723, 1);
@@ -239,7 +239,7 @@ void e723_040()
     itfMesMngOpenWindow();
     MODEL_EXMOTION(var1, 2, 3, 0, 15, 2);
     MODEL_EXMOTION(var1, 3, 1, 0, 0, 2);
-    itfMesMngMessage(3) /* MSG_040_1 */;
+    itfMesMngMessage(3) /* MSG_040_1: ...Forget it. Let's just stop this battle here. */;
     itfMesMngCloseWindow();
     WAIT(40);
     MODEL_WAIT(var1);

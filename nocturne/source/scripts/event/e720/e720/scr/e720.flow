@@ -75,16 +75,16 @@ void e720_010()
     CAM_SEL(SEARCH_ID("01cam_02"));
     CAM_PATH_MOVE(SEARCH_ID("01cam_02"), SEARCH_ID("01cam_02_MOTION"));
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_SITUMON_001 */;
-    var3 = itfMesMngSelect(4);
+    itfMesMngMessage(0) /* MSG_SITUMON_001: Oh... I wasn't expecting you, {firstname 0}. */;
+    var3 = itfMesMngSelect(4) /* KAIWA_SEL: I want to ask you about something. / There's nothing I want to ask ab... */;
     itfMesMngCloseWindow();
     if (var3 == 0)
     {
         CAM_SEL(SEARCH_ID("01cam_04"));
         CAM_PATH_MOVE(SEARCH_ID("01cam_04"), SEARCH_ID("01cam_04_MOTION"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(2) /* MSG_SITUMON_002 */;
-        var14 = itfMesMngSelect(5);
+        itfMesMngMessage(2) /* MSG_SITUMON_002: ...Alright. */;
+        var14 = itfMesMngSelect(5) /* KAIWA_SEL2: The Vortex World / Nothing */;
         itfMesMngCloseWindow();
         if (var14 == 0)
         {
@@ -102,7 +102,7 @@ void e720_010()
         else if (var14 == 1)
         {
             itfMesMngOpenWindow();
-            itfMesMngMessage(7) /* MSG_SITUMON_005 */;
+            itfMesMngMessage(7) /* MSG_SITUMON_005: ...Then, you should get going. */;
             itfMesMngCloseWindow();
             goto OWARI01;
         }
@@ -110,7 +110,7 @@ void e720_010()
     else if (var3 == 1)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(3) /* MSG_SITUMON_003 */;
+        itfMesMngMessage(3) /* MSG_SITUMON_003: ...Then, you should get going. */;
         itfMesMngCloseWindow();
         goto OWARI01;
     }
@@ -123,16 +123,16 @@ TOBASI02:
     KUTISET(var1, 1, 0);
     WAIT(1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_SITUMON_MODORI */;
-    var3 = itfMesMngSelect(4);
+    itfMesMngMessage(1) /* MSG_SITUMON_MODORI: ...Is there anything else you want to ask about, {firstname 0}? */;
+    var3 = itfMesMngSelect(4) /* KAIWA_SEL: I want to ask you about something. / There's nothing I want to ask ab... */;
     itfMesMngCloseWindow();
     if (var3 == 0)
     {
         CAM_SEL(SEARCH_ID("01cam_04"));
         CAM_PATH_MOVE(SEARCH_ID("01cam_04"), SEARCH_ID("01cam_04_MOTION"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(2) /* MSG_SITUMON_002 */;
-        var14 = itfMesMngSelect(5);
+        itfMesMngMessage(2) /* MSG_SITUMON_002: ...Alright. */;
+        var14 = itfMesMngSelect(5) /* KAIWA_SEL2: The Vortex World / Nothing */;
         itfMesMngCloseWindow();
         if (var14 == 0)
         {
@@ -150,14 +150,14 @@ TOBASI02:
         else if (var14 == 1)
         {
             itfMesMngOpenWindow();
-            itfMesMngMessage(7) /* MSG_SITUMON_005 */;
+            itfMesMngMessage(7) /* MSG_SITUMON_005: ...Then, you should get going. */;
             itfMesMngCloseWindow();
         }
     }
     else if (var3 == 1)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(3) /* MSG_SITUMON_003 */;
+        itfMesMngMessage(3) /* MSG_SITUMON_003: ...Then, you should get going. */;
         itfMesMngCloseWindow();
     }
 OWARI01:
@@ -175,7 +175,7 @@ void e720_020()
     CAM_PATH_MOVE(SEARCH_ID("01cam_04"), SEARCH_ID("01cam_04_MOTION"));
     KUTISET(var1, 1, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(20) /* MSG_MENORA */;
+    itfMesMngMessage(20) /* MSG_MENORA: ...Hello, {firstname 0}. */;
     itfMesMngCloseWindow();
 }
 

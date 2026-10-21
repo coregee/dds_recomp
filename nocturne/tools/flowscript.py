@@ -1,7 +1,7 @@
 """Atlus FlowScript (FLW0) for Nocturne: read, disassemble, assemble, decompile.
 
     python tools/flowscript.py roundtrip            check every script reassembles byte-exact
-    python tools/flowscript.py export               write source/scripts/ (.flowasm, .bmd, .flow)
+    python tools/flowscript.py export               write source/scripts/ (.flowasm, .msg, .flow)
     python tools/flowscript.py disasm <script>      print one script's assembly
     python tools/flowscript.py assemble <in.flowasm> <out.bf>
 
@@ -24,11 +24,14 @@ PUSHREG pushes its result. IF pops a value and jumps to its label when it
 is zero.
 
 The .flowasm form is exact: `flowscript.py assemble` rebuilds the original
-bytes. The .flow form is a readable decompilation generated from it.
+bytes, taking the message script from its text form (.msg, tools/messages.py).
+The .flow form is a readable decompilation generated from it.
 """
 import struct
 import sys
 from pathlib import Path
+
+import messages
 
 ROOT = Path(__file__).resolve().parents[1]
 ELF = ROOT / "game" / "SLUS_209.11"
@@ -311,7 +314,13 @@ def assemble(text, base_dir=Path(".")):
                 names = {v: k for k, v in SECTION_NAMES.items()}
                 s.sections = [(names[n], 0, 0) for n in rest.split()]
             elif directive == ".messages":
-                s.messages = bytes.fromhex(rest[4:]) if rest.startswith("hex:") else (base_dir / rest).read_bytes()
+                if rest.startswith("hex:"):
+                    s.messages = bytes.fromhex(rest[4:])
+                elif rest.endswith(".msg"):
+                    text = (base_dir / rest).read_text(encoding="utf-8")
+                    s.messages = messages.MessageTable.from_text(text).serialize()
+                else:
+                    s.messages = (base_dir / rest).read_bytes()
             elif directive == ".strings":
                 s.strings = bytes.fromhex(rest)
             elif directive == ".string-count":
@@ -417,9 +426,9 @@ class Expr:
 
 
 class Decompiler:
-    def __init__(self, script, message_names=None):
+    def __init__(self, script, message_notes=None):
         self.script = script
-        self.message_names = message_names or {}
+        self.message_notes = message_notes or {}
 
     def string_at(self, offset):
         raw = self.script.strings[offset:].split(b"\0", 1)[0]
@@ -520,9 +529,9 @@ class Decompiler:
         return None if stack else out
 
     def message_note(self, command, args):
-        if command_name(command) == "itfMesMngMessage" and args and args[0].text.isdigit():
-            name = self.message_names.get(int(args[0].text))
-            return f" /* {name} */" if name else ""
+        if command_name(command) in ("itfMesMngMessage", "itfMesMngSelect") and args and args[0].text.isdigit():
+            note = self.message_notes.get(int(args[0].text))
+            return f" /* {note} */" if note else ""
         return ""
 
     # -- structuring --
@@ -695,17 +704,21 @@ class Decompiler:
         return "\n".join(out)
 
 
-def message_names(messages):
-    """Dialog names from a MSG1 message script, by index."""
-    if messages[8:12] != b"MSG1":
+def message_notes(data, width=72):
+    """A comment for each dialog of a MSG1 message script, by index: its name
+    and the start of its text (a message's first page, a selection's options)."""
+    if data[8:12] != b"MSG1":
         return {}
-    count = struct.unpack_from("<I", messages, 0x18)[0]
-    names = {}
-    for i in range(count):
-        kind, offset = struct.unpack_from("<II", messages, 0x20 + 8 * i)
-        raw = messages[0x20 + offset:0x20 + offset + 24]   # offsets count from the end of the header
-        names[i] = raw.split(b"\0")[0].decode("cp932", "replace")
-    return names
+    table = messages.MessageTable.parse(data)
+    notes = {}
+    for k in range(len(table.dialogs)):
+        d = table.shown(k)
+        parts = [messages.plain(p) for p in d.parts]
+        text = " / ".join(parts) if d.kind == messages.SELECTION else parts[0]
+        if len(text) > width:
+            text = text[:width - 3].rstrip() + "..."
+        notes[k] = f"{d.name}: {text}".replace("*/", "* /")
+    return notes
 
 
 # ---- compiling .flow ------------------------------------------------------------------------
@@ -1036,20 +1049,25 @@ def main(argv):
         return 1 if failures else 0
     if argv[0] == "decompile":
         script = Script.parse(find_script(argv[1]))
-        sys.stdout.write(Decompiler(script, message_names(script.messages)).decompile(argv[1]) + "\n")
+        sys.stdout.write(Decompiler(script, message_notes(script.messages)).decompile(argv[1]) + "\n")
         return 0
     if argv[0] == "export":
         out_root = ROOT / "source" / "scripts"
+        for old in out_root.rglob("*.bmd"):
+            old.unlink()
         count = 0
         for name, data in all_scripts():
             script = Script.parse(data)
             base = out_root / name
             base.parent.mkdir(parents=True, exist_ok=True)
-            messages = None
-            if script.messages:
-                messages = base.name + ".bmd"
-                (base.parent / messages).write_bytes(script.messages)
-            asm = disassemble(script, messages, numeric_commands=foreign(name))
+            message_file = None
+            # (scene11 has an older MSG0 table: it stays inline, as hex)
+            if script.messages[8:12] == b"MSG1":
+                message_file = base.name + ".msg"
+                table = messages.MessageTable.parse(script.messages)
+                (base.parent / message_file).write_text(table.text(f"messages of {name}"),
+                                                        encoding="utf-8", newline="\n")
+            asm = disassemble(script, message_file, numeric_commands=foreign(name))
             if assemble(asm, base.parent).serialize() != data:
                 raise SystemExit(f"{name} does not round-trip")
             (base.parent / (base.name + ".flowasm")).write_text(asm, encoding="utf-8", newline="\n")
@@ -1057,10 +1075,19 @@ def main(argv):
                 count += 1
                 continue
             title = f"{name} (SLUS_209.11 at 0x{EMBEDDED[name]:08X})" if name in EMBEDDED else f"game/dds3/{name}.bf"
-            flow = Decompiler(script, message_names(script.messages)).decompile(title)
+            flow = Decompiler(script, message_notes(script.messages)).decompile(title)
             (base.parent / (base.name + ".flow")).write_text(flow + "\n", encoding="utf-8", newline="\n")
             count += 1
-        print(f"exported {count} scripts to {out_root}")
+        # message tables that are files of their own
+        tables = 0
+        for path in sorted((ROOT / "game" / "dds3").rglob("*.bmd")):
+            name = path.relative_to(ROOT / "game" / "dds3").as_posix()
+            text = messages.MessageTable.parse(path.read_bytes()).text(f"game/dds3/{name}")
+            target = out_root / (name + ".msg")
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(text, encoding="utf-8", newline="\n")
+            tables += 1
+        print(f"exported {count} scripts and {tables} message files to {out_root}")
         return 0
     if argv[0] == "verify":
         total = bad = skipped = 0
@@ -1069,7 +1096,7 @@ def main(argv):
             if foreign(name):
                 continue
             script = Script.parse(data)
-            flow = Decompiler(script, message_names(script.messages)).decompile(name)
+            flow = Decompiler(script, message_notes(script.messages)).decompile(name)
             failures = verify(script, flow)
             total += len({p.address for p in script.procedures})
             differ = [f for f in failures if not f.startswith("?")]

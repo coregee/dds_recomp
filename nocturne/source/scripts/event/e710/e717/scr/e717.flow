@@ -57,8 +57,8 @@ TOBASI01:
         CAM_SEL(SEARCH_ID("01cam_02"));
         CAM_PATH_MOVE(SEARCH_ID("01cam_02"), SEARCH_ID("01cam_02_MOTION"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(10) /* MSG_HISYO_001 */;
-        var3 = itfMesMngSelect(11);
+        itfMesMngMessage(10) /* MSG_HISYO_001: You have returned, {firstname 0}. */;
+        var3 = itfMesMngSelect(11) /* KAIWA_SEL4: Yes. / No. */;
         itfMesMngCloseWindow();
         if (var3 == 0)
         {
@@ -67,7 +67,7 @@ TOBASI01:
             CAM_SEL(SEARCH_ID("01cam_04"));
             CAM_PATH_MOVE(SEARCH_ID("01cam_04"), SEARCH_ID("01cam_04_MOTION"));
             itfMesMngOpenWindow();
-            itfMesMngMessage(12) /* MSG_HISYO_002 */;
+            itfMesMngMessage(12) /* MSG_HISYO_002: Then, we will be waiting in the deepest part of the Labyrinth. */;
             itfMesMngCloseWindow();
             WAIT(30);
             goto EN;
@@ -78,7 +78,7 @@ TOBASI01:
             CAM_PATH_MOVE(SEARCH_ID("01cam_04"), SEARCH_ID("01cam_04_MOTION"));
             BIT_ON(287);
             itfMesMngOpenWindow();
-            itfMesMngMessage(13) /* MSG_HISYO_003 */;
+            itfMesMngMessage(13) /* MSG_HISYO_003: I see... I understand that it is a difficult decision to make. */;
             itfMesMngCloseWindow();
             WAIT(30);
             goto EN;
@@ -118,16 +118,16 @@ void e717_010()
     if (BIT_CHK(290) == 1)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(0) /* MSG_SITUMON_001 */;
-        var3 = itfMesMngSelect(4);
+        itfMesMngMessage(0) /* MSG_SITUMON_001: Oh... I wasn't expecting you, {firstname 0}. */;
+        var3 = itfMesMngSelect(4) /* KAIWA_SEL: I want to ask you about something. / There's nothing I want to ask ab... */;
         itfMesMngCloseWindow();
         if (var3 == 0)
         {
             CAM_SEL(SEARCH_ID("01cam_04"));
             CAM_PATH_MOVE(SEARCH_ID("01cam_04"), SEARCH_ID("01cam_04_MOTION"));
             itfMesMngOpenWindow();
-            itfMesMngMessage(2) /* MSG_SITUMON_002 */;
-            var14 = itfMesMngSelect(5);
+            itfMesMngMessage(2) /* MSG_SITUMON_002: ...Alright. */;
+            var14 = itfMesMngSelect(5) /* KAIWA_SEL2: The Vortex World / The Conception and Hikawa / Aradia / Hijiri / The... */;
             itfMesMngCloseWindow();
             if (var14 == 0)
             {
@@ -197,7 +197,7 @@ void e717_010()
             else if (var14 == 5)
             {
                 itfMesMngOpenWindow();
-                itfMesMngMessage(8) /* MSG_SITUMON_005 */;
+                itfMesMngMessage(8) /* MSG_SITUMON_005: ...Then, you should get going. */;
                 itfMesMngCloseWindow();
                 goto OWARI01;
             }
@@ -205,7 +205,7 @@ void e717_010()
         else if (var3 == 1)
         {
             itfMesMngOpenWindow();
-            itfMesMngMessage(3) /* MSG_SITUMON_003 */;
+            itfMesMngMessage(3) /* MSG_SITUMON_003: ...Then, you should get going. */;
             itfMesMngCloseWindow();
             goto OWARI01;
         }
@@ -213,16 +213,16 @@ void e717_010()
     else
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(0) /* MSG_SITUMON_001 */;
-        var3 = itfMesMngSelect(4);
+        itfMesMngMessage(0) /* MSG_SITUMON_001: Oh... I wasn't expecting you, {firstname 0}. */;
+        var3 = itfMesMngSelect(4) /* KAIWA_SEL: I want to ask you about something. / There's nothing I want to ask ab... */;
         itfMesMngCloseWindow();
         if (var3 == 0)
         {
             CAM_SEL(SEARCH_ID("01cam_04"));
             CAM_PATH_MOVE(SEARCH_ID("01cam_04"), SEARCH_ID("01cam_04_MOTION"));
             itfMesMngOpenWindow();
-            itfMesMngMessage(2) /* MSG_SITUMON_002 */;
-            var15 = itfMesMngSelect(6);
+            itfMesMngMessage(2) /* MSG_SITUMON_002: ...Alright. */;
+            var15 = itfMesMngSelect(6) /* KAIWA_SEL3: The Vortex World / The Conception and Hikawa / Aradia / Hijiri / Nothing */;
             itfMesMngCloseWindow();
             if (var15 == 0)
             {
@@ -279,7 +279,7 @@ void e717_010()
             else if (var15 == 4)
             {
                 itfMesMngOpenWindow();
-                itfMesMngMessage(8) /* MSG_SITUMON_005 */;
+                itfMesMngMessage(8) /* MSG_SITUMON_005: ...Then, you should get going. */;
                 itfMesMngCloseWindow();
                 goto OWARI01;
             }
@@ -287,7 +287,7 @@ void e717_010()
         else if (var3 == 1)
         {
             itfMesMngOpenWindow();
-            itfMesMngMessage(3) /* MSG_SITUMON_003 */;
+            itfMesMngMessage(3) /* MSG_SITUMON_003: ...Then, you should get going. */;
             itfMesMngCloseWindow();
             goto OWARI01;
         }
@@ -296,16 +296,16 @@ TOBASI02:
     if (BIT_CHK(290) == 1)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(1) /* MSG_SITUMON_MODORI */;
-        var3 = itfMesMngSelect(4);
+        itfMesMngMessage(1) /* MSG_SITUMON_MODORI: ...Is there anything else you want to ask about, {firstname 0}? */;
+        var3 = itfMesMngSelect(4) /* KAIWA_SEL: I want to ask you about something. / There's nothing I want to ask ab... */;
         itfMesMngCloseWindow();
         if (var3 == 0)
         {
             CAM_SEL(SEARCH_ID("01cam_04"));
             CAM_PATH_MOVE(SEARCH_ID("01cam_04"), SEARCH_ID("01cam_04_MOTION"));
             itfMesMngOpenWindow();
-            itfMesMngMessage(2) /* MSG_SITUMON_002 */;
-            var14 = itfMesMngSelect(5);
+            itfMesMngMessage(2) /* MSG_SITUMON_002: ...Alright. */;
+            var14 = itfMesMngSelect(5) /* KAIWA_SEL2: The Vortex World / The Conception and Hikawa / Aradia / Hijiri / The... */;
             itfMesMngCloseWindow();
             if (var14 == 0)
             {
@@ -375,30 +375,30 @@ TOBASI02:
             else if (var14 == 5)
             {
                 itfMesMngOpenWindow();
-                itfMesMngMessage(8) /* MSG_SITUMON_005 */;
+                itfMesMngMessage(8) /* MSG_SITUMON_005: ...Then, you should get going. */;
                 itfMesMngCloseWindow();
             }
         }
         else if (var3 == 1)
         {
             itfMesMngOpenWindow();
-            itfMesMngMessage(3) /* MSG_SITUMON_003 */;
+            itfMesMngMessage(3) /* MSG_SITUMON_003: ...Then, you should get going. */;
             itfMesMngCloseWindow();
         }
     }
     else
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(1) /* MSG_SITUMON_MODORI */;
-        var3 = itfMesMngSelect(4);
+        itfMesMngMessage(1) /* MSG_SITUMON_MODORI: ...Is there anything else you want to ask about, {firstname 0}? */;
+        var3 = itfMesMngSelect(4) /* KAIWA_SEL: I want to ask you about something. / There's nothing I want to ask ab... */;
         itfMesMngCloseWindow();
         if (var3 == 0)
         {
             CAM_SEL(SEARCH_ID("01cam_04"));
             CAM_PATH_MOVE(SEARCH_ID("01cam_04"), SEARCH_ID("01cam_04_MOTION"));
             itfMesMngOpenWindow();
-            itfMesMngMessage(2) /* MSG_SITUMON_002 */;
-            var15 = itfMesMngSelect(6);
+            itfMesMngMessage(2) /* MSG_SITUMON_002: ...Alright. */;
+            var15 = itfMesMngSelect(6) /* KAIWA_SEL3: The Vortex World / The Conception and Hikawa / Aradia / Hijiri / Nothing */;
             itfMesMngCloseWindow();
             if (var15 == 0)
             {
@@ -455,7 +455,7 @@ TOBASI02:
             else if (var15 == 4)
             {
                 itfMesMngOpenWindow();
-                itfMesMngMessage(8) /* MSG_SITUMON_005 */;
+                itfMesMngMessage(8) /* MSG_SITUMON_005: ...Then, you should get going. */;
                 itfMesMngCloseWindow();
                 goto OWARI01;
             }
@@ -463,7 +463,7 @@ TOBASI02:
         else if (var3 == 1)
         {
             itfMesMngOpenWindow();
-            itfMesMngMessage(3) /* MSG_SITUMON_003 */;
+            itfMesMngMessage(3) /* MSG_SITUMON_003: ...Then, you should get going. */;
             itfMesMngCloseWindow();
             goto OWARI01;
         }
@@ -481,7 +481,7 @@ void e717_020()
     KUTISET(var1, 1, 0);
     WAIT(250);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_NOT */;
+    itfMesMngMessage(9) /* MSG_NOT: > ...The lady in black and the old gentleman in the wheelchair have d... */;
     itfMesMngCloseWindow();
 }
 

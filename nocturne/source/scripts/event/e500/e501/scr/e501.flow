@@ -3,8 +3,8 @@
 
 void e501_main()
 {
-    itfMesMngMessage(31) /* MODE */;
-    var5 = itfMesMngSelect(32);
+    itfMesMngMessage(31) /* MODE: [8187][818C][8BDB][84D3][81E2][81D0][8299][8284][8189][80F5][819C][80... */;
+    var5 = itfMesMngSelect(32) /* MODE_SEL: [8C99][85B4][81E2][81D0][8299][8284][8091] / [81BC][81D4][81D9][8094]... */;
     itfMesMngCloseWindow();
     FIELD_DSP(501, 1);
     var1 = MODEL_DSP(3, 40);
@@ -64,7 +64,7 @@ CUT4:
     }
     else
     {
-        itfMesMngMessage(33) /* ERROR */;
+        itfMesMngMessage(33) /* ERROR: [81CA][81C0][81FB][81E8][81D9][818C][81B9][81FA][8299][80FE][8181][80... */;
     }
     MODEL_CLS(var1);
     MODEL_CLS(var4);
@@ -107,13 +107,13 @@ void e501_002()
     MODEL_WAIT(var2);
     MODEL_MOTION2(var2, 2, 0, 10, 1);
     e501_common();
-    itfMesMngMessage(17) /* INCUBES_001 */;
+    itfMesMngMessage(17) /* INCUBES_001: [80E2][81A2][80DF][8BD4][81A8][8188][80E2][818B][80E5][8288][81B3][82... */;
     itfMesMngCloseWindow();
     MODEL_MOTION2(var2, 3, 0, 10, 2);
     MODEL_WAIT(var2);
     MODEL_MOTION2(var2, 4, 0, 10, 1);
     e501_common();
-    itfMesMngMessage(18) /* INCUBES_002 */;
+    itfMesMngMessage(18) /* INCUBES_002: [80E0][80DF][8288][80FB][81AA][8186][81A0][81BB][81FD][83F7][818C][87... */;
     itfMesMngCloseWindow();
     if (var5 == 0)
     {
@@ -145,7 +145,7 @@ void incubes_walk_1()
     CAM_PATH_MOVE(SEARCH_ID("Cam04"), SEARCH_ID("Cam04_MOTION"));
     WAIT(60);
     e501_common();
-    itfMesMngMessage(21) /* INCUBES_003_3 */;
+    itfMesMngMessage(21) /* INCUBES_003_3: [81BB][81FD][83F7][8189][86B1][85EC][80E9][80E4][8188][81B1][80F4][87... */;
     itfMesMngCloseWindow();
     CAM_PATH_WAIT(SEARCH_ID("Cam04"));
 }
@@ -160,11 +160,11 @@ void incubes_walk_2()
     MODEL_MOTION2(var2, 6, 0, 10, 2);
     MODEL_WAIT(var2);
     e501_common();
-    itfMesMngMessage(20) /* INCUBES_003_2 */;
+    itfMesMngMessage(20) /* INCUBES_003_2: [8190][81A1][80DF][818D][8181][818D][8181][8081] */;
     CAM_SEL(SEARCH_ID("Cam04"));
     SCR_RUN(6, 0);
     WAIT(30);
-    itfMesMngMessage(21) /* INCUBES_003_3 */;
+    itfMesMngMessage(21) /* INCUBES_003_3: [81BB][81FD][83F7][8189][86B1][85EC][80E9][80E4][8188][81B1][80F4][87... */;
     itfMesMngCloseWindow();
     CAM_PATH_WAIT(SEARCH_ID("Cam04"));
 }
@@ -196,7 +196,7 @@ void e501_003()
     local3 = EFFECT_LOAD("/event/e500/e501/effect/e_effe02.D3P");
     EFFECT_POS(local3, SEARCH_ID("S04"));
     e501_common();
-    itfMesMngMessage(0) /* TENGU_001_1 */;
+    itfMesMngMessage(0) /* TENGU_001_1: [81D7][81B4][81B4][81BC][81B2][81B2][81D7][81B4][81FE][81BA][81BA][80... */;
     MODEL_A(var3, 30, 255);
     MODEL_MOTION2(var3, 0, 0, 0, 2);
     WAIT(10);
@@ -204,14 +204,14 @@ void e501_003()
     CAM_PATH_MOVE(SEARCH_ID("Cam06"), SEARCH_ID("Cam06_MOTION"));
     WAIT(30);
     MODEL_MOTION2(var3, 1, 0, 10, 1);
-    itfMesMngMessage(1) /* TENGU_001_2 */;
+    itfMesMngMessage(1) /* TENGU_001_2: [81D7][81B4][81B4][81BC][81B2][81B2][81D7][81B4][81FE][81BA][81BA][80... */;
     itfMesMngCloseWindow();
     MODEL_MOTION2(var3, 2, 0, 10, 0);
     MODEL_WAIT_MOT(var3, 1);
     WAIT(20);
     e501_common();
-    itfMesMngMessage(2) /* TENGU_002 */;
-    itfMesMngMessage(3) /* TENGU_003 */;
+    itfMesMngMessage(2) /* TENGU_002: [81BE][81C6][81EF][818C][85E4][81A0][84A0][81AD][81A7][818A][81A2][81... */;
+    itfMesMngMessage(3) /* TENGU_003: [83C6][818C][819D][8185][88DE][85A3][818C][84F5][80EA][85B4][80ED][81... */;
     itfMesMngCloseWindow();
     EFFECT_CLS(local1);
     EFFECT_CLS(local2);
@@ -237,8 +237,8 @@ void e501_004()
     MODEL_WAIT(var2);
     MODEL_MOTION2(var2, 12, 0, 10, 1);
     e501_common();
-    itfMesMngMessage(22) /* INCUBES_004 */;
-    itfMesMngMessage(23) /* INCUBES_005 */;
+    itfMesMngMessage(22) /* INCUBES_004: [80ED][8181][8081][8080][80EC][81A1][80E0][80EC][81A1][80E0][81B7][81... */;
+    itfMesMngMessage(23) /* INCUBES_005: [8187][80E4][80F5][8184][81A0][848B][81A7][80E4][8186][80E2][80E4][81... */;
     itfMesMngCloseWindow();
     MODEL_MOTION2(var2, 13, 0, 10, 2);
     WAIT(25);
@@ -251,7 +251,7 @@ void e501_004()
     MODEL_WAIT(var2);
     MODEL_MOTION2(var2, 14, 0, 10, 1);
     e501_common();
-    itfMesMngMessage(24) /* INCUBES_006 */;
+    itfMesMngMessage(24) /* INCUBES_006: [81EC][81C0][81D9][81CC][81B5][81C0][8284][83F7][80DF][8181][8081] [8... */;
     itfMesMngCloseWindow();
     PATH_START(SEARCH_ID("Cam33"));
     BLUR(0, 100, 0);
@@ -314,7 +314,7 @@ void e501_005()
     MODEL_WAIT(var3);
     MODEL_MOTION2(var3, 4, 0, 10, 1);
     e501_common();
-    itfMesMngMessage(4) /* TENGU_004 */;
+    itfMesMngMessage(4) /* TENGU_004: [848D][80FD][8188][88CD][80E2][819A][81AA][829D] [80F5][80E9][80F5][8... */;
     itfMesMngCloseWindow();
 }
 
@@ -356,7 +356,7 @@ void e501_007()
     MODEL_MOTION2(var4, 2, 0, 10, 2);
     MODEL_MOTION2(var2, 17, 0, 10, 1);
     e501_common();
-    itfMesMngMessage(25) /* INCUBES_007 */;
+    itfMesMngMessage(25) /* INCUBES_007: [8188][829D][8080][8480][80E1][8081] [81EC][81C0][81D9][81CC][81B5][8... */;
 }
 
 void e501_008()
@@ -373,11 +373,11 @@ void e501_008()
     MODEL_WAIT(var2);
     e501_common();
     MODEL_MOTION2(var2, 19, 0, 10, 1);
-    itfMesMngMessage(26) /* INCUBES_008 */;
+    itfMesMngMessage(26) /* INCUBES_008: [829D][829D][80E2][8288][80E2][81A2][8288][87A7][87A8][8288][87A7][87... */;
     PATH_START(SEARCH_ID("Cam30"));
     CAM_PATH_WAIT(SEARCH_ID("Cam30"));
-    itfMesMngMessage(27) /* INCUBES_009 */;
-    local0 = itfMesMngSelect(29);
+    itfMesMngMessage(27) /* INCUBES_009: [80F1][818C][8481][81A8][8799][81A8][819C][80F7][80E9][81A7][8288][87... */;
+    local0 = itfMesMngSelect(29) /* INCUBES_SEL: [8186][8187][819F][81B0][85E0][80F7] / [87D7][80FE][80EF][818D][86FA]... */;
     itfMesMngCloseWindow();
 }
 
@@ -391,7 +391,7 @@ void e501_009()
     MODEL_WAIT(var3);
     MODEL_MOTION2(var3, 6, 0, 10, 1);
     e501_common();
-    itfMesMngMessage(5) /* TENGU_005 */;
+    itfMesMngMessage(5) /* TENGU_005: [8591][87AB][818C][83EC][87C5][829D] [81B3][81F5][81D5][818C][8186][8... */;
 }
 
 void e501_010()
@@ -403,12 +403,12 @@ void e501_010()
     MODEL_MOTION2(var4, 2, 0, 10, 2);
     MODEL_MOTION2(var3, 19, 0, 10, 1);
     e501_common();
-    itfMesMngMessage(6) /* TENGU_006 */;
+    itfMesMngMessage(6) /* TENGU_006: [81D7][81B4][81BC][81D7][81B4][81FE][8181][8288][8DA6][87C7][80F9][80... */;
     itfMesMngCloseWindow();
     MODEL_MOTION2(var3, 11, 0, 10, 2);
     MODEL_WAIT(var3);
     e501_common();
-    itfMesMngMessage(28) /* INCUBES_010 */;
+    itfMesMngMessage(28) /* INCUBES_010: [81BF][81F4][81B2][81B2][81B3][8081][8081] */;
     itfMesMngCloseWindow();
     WAIT(60);
 }
@@ -432,8 +432,8 @@ void e501_011()
     EFFECT_CLS(local5);
     MODEL_MOTION2(var3, 17, 0, 10, 1);
     e501_common();
-    itfMesMngMessage(7) /* TENGU_007 */;
-    itfMesMngMessage(8) /* TENGU_008 */;
+    itfMesMngMessage(7) /* TENGU_007: [81C0][81E0][81E0][81D4][8081][8080][81A2][8181][80FD][8081] [80E0][8... */;
+    itfMesMngMessage(8) /* TENGU_008: [81A0][80E4][86AC][81A0][8288][8489][818C][83CD][83C7][80F7][81A9][85... */;
     itfMesMngCloseWindow();
     MODEL_MOTION2(var3, 15, 0, 10, 2);
     WAIT(15);
@@ -442,8 +442,8 @@ void e501_011()
     MODEL_WAIT(var3);
     MODEL_MOTION2(var3, 20, 0, 10, 1);
     e501_common();
-    itfMesMngMessage(9) /* TENGU_009 */;
-    itfMesMngMessage(10) /* TENGU_010 */;
+    itfMesMngMessage(9) /* TENGU_009: [80F3][80E0][8288][8699][8196][829D][829D] */;
+    itfMesMngMessage(10) /* TENGU_010: [80E2][81AB][80E2][81AB][86B0][80F5][80E9][8181][80FD][829D] [8482][8... */;
     itfMesMngCloseWindow();
     WAIT(30);
     MODEL_MOTION2(var3, 18, 0, 10, 2);
@@ -485,7 +485,7 @@ void e501_013()
     MODEL_WAIT(var3);
     MODEL_MOTION2(var3, 6, 0, 10, 1);
     e501_common();
-    itfMesMngMessage(11) /* TENGU_011 */;
+    itfMesMngMessage(11) /* TENGU_011: [829D][84C5][84EB][80E9][809F] [80F1][818C][83F7][8188][87FB][81B0][8... */;
 }
 
 void e501_014()
@@ -498,12 +498,12 @@ void e501_014()
     MODEL_WAIT(var3);
     MODEL_MOTION2(var3, 9, 0, 10, 1);
     e501_common();
-    itfMesMngMessage(12) /* TENGU_012 */;
+    itfMesMngMessage(12) /* TENGU_012: [87A7][87A8][8185][818D][8188][80E2][8081] [83FA][83FB][80EA][85F6][8... */;
     itfMesMngCloseWindow();
     MODEL_MOTION2(var3, 12, 0, 10, 2);
     MODEL_WAIT(var3);
     e501_common();
-    itfMesMngMessage(28) /* INCUBES_010 */;
+    itfMesMngMessage(28) /* INCUBES_010: [81BF][81F4][81B2][81B2][81B3][8081][8081] */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -525,7 +525,7 @@ void e501_015()
     WAIT(90);
     MODEL_CLS(var2);
     e501_common();
-    itfMesMngMessage(13) /* TENGU_013 */;
+    itfMesMngMessage(13) /* TENGU_013: [829D][8188][80FA][8288][80F1][81A2][8182][81B0][86FA][80EF][81A9][81... */;
     itfMesMngCloseWindow();
     MODEL_MOTION2(var3, 13, 0, 10, 2);
     EFFECT_CLS(local5);
@@ -535,8 +535,8 @@ void e501_015()
     MODEL_WAIT(var3);
     MODEL_MOTION2(var3, 14, 0, 10, 1);
     e501_common();
-    itfMesMngMessage(14) /* TENGU_014 */;
-    itfMesMngMessage(15) /* TENGU_015 */;
+    itfMesMngMessage(14) /* TENGU_014: [80FB][818C][8C81][80F3][80EA][80E0][81A9][8687][81A8][8288][84EA][81... */;
+    itfMesMngMessage(15) /* TENGU_015: [83E8][83E9][8185][83C6][81B0][84AD][80FD][84E9][8288] [81A0][80E4][8... */;
     itfMesMngCloseWindow();
     CAM_PATH_WAIT(SEARCH_ID("Cam19"));
     MODEL_MOTION2(var3, 15, 0, 10, 2);
@@ -546,7 +546,7 @@ void e501_015()
     MODEL_WAIT(var3);
     MODEL_MOTION2(var3, 20, 0, 10, 1);
     e501_common();
-    itfMesMngMessage(16) /* TENGU_016 */;
+    itfMesMngMessage(16) /* TENGU_016: [8187][80E4][81A2][81A7][8288][80F1][80F1][80EA][86D9][81AA][86C2][81... */;
     WAIT(30);
     MODEL_MOTION2(var3, 18, 0, 10, 2);
     WAIT(40);

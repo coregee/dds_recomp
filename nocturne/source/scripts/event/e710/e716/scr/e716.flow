@@ -51,22 +51,22 @@ TOBASI:
     CAM_PATH_MOVE(SEARCH_ID("01cam_04"), SEARCH_ID("01cam_04_MOTION"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: ...What's the matter, {firstname 0}? */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("01cam_03"));
     CAM_PATH_MOVE(SEARCH_ID("01cam_03"), SEARCH_ID("01cam_03_MOTION"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_001_002 */;
-    itfMesMngMessage(2) /* MSG_002 */;
+    itfMesMngMessage(1) /* MSG_001_002: ...That's a very rare item that you have there. */;
+    itfMesMngMessage(2) /* MSG_002: I thought it was still hidden in the Labyrinth of Amala... */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("01cam_02"));
     CAM_PATH_MOVE(SEARCH_ID("01cam_02"), SEARCH_ID("01cam_02_MOTION"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_003 */;
+    itfMesMngMessage(3) /* MSG_003: ...Speaking of which, */;
     itfMesMngCloseWindow();
     BGM_STOP();
     WAIT(20);
@@ -121,7 +121,7 @@ ITIMAI:
     TEX_ZOOM(local2, 100, 110, 60);
     WAIT(60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_004 */;
+    itfMesMngMessage(4) /* MSG_004: When the Conception took place, Tokyo was purged of humans. */;
     itfMesMngCloseWindow();
     FADE_OUT(1, 5);
     SE_PLAY_E(714, 109);
@@ -131,7 +131,7 @@ ITIMAI:
     FADE_IN(1, 5);
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_005 */;
+    itfMesMngMessage(5) /* MSG_005: But, even after they died, their souls lingered. And likewise... thei... */;
     itfMesMngCloseWindow();
     FADE_OUT(1, 45);
     SE_PLAY_E(714, 109);
@@ -165,7 +165,7 @@ ITIMAI:
     WAIT(5);
     TEX_ZOOM(local0, 130, 100, 180);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_006 */;
+    itfMesMngMessage(6) /* MSG_006: Those emotions sought receptacles, and found refuge in the substance... */;
     itfMesMngCloseWindow();
     TEX_ALP(local0, 256, 0, 120);
     TEX_ALP(local1, 0, 256, 120);
@@ -173,7 +173,7 @@ ITIMAI:
     TEX_ALP(local1, 256, 0, 120);
     TEX_ALP(local2, 0, 256, 120);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_008 */;
+    itfMesMngMessage(8) /* MSG_008: Human emotions became Manikins and inhabited the Vortex World. */;
     itfMesMngCloseWindow();
     WAIT(60);
     while (TEX_STAT(local1, 2))
@@ -289,7 +289,7 @@ ITIMAI:
     FADE_IN(1, 3);
     WAIT(23);
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* MSG_010 */;
+    itfMesMngMessage(10) /* MSG_010: Some Manikins have possessed exceptional strength. */;
     itfMesMngCloseWindow();
     FADE_OUT(1, 5);
     SE_PLAY_E(714, 110);
@@ -339,8 +339,8 @@ ITIMAI:
     WAIT(20);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(11) /* MSG_011 */;
-    itfMesMngMessage(12) /* MSG_012 */;
+    itfMesMngMessage(11) /* MSG_011: If you bring them back to life with the Afterlife Bell, */;
+    itfMesMngMessage(12) /* MSG_012: ...I think it's time for you to go back, {firstname 0}. */;
     itfMesMngCloseWindow();
     BIT_OFF(288);
     BIT_ON(290);
@@ -356,7 +356,7 @@ ITIMAI:
 void e716_010_1()
 {
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_009 */;
+    itfMesMngMessage(9) /* MSG_009: Creation is forbidden to them, and their very existence will be denie... */;
     itfMesMngCloseWindow();
     BIT_ON(288);
 }

@@ -105,7 +105,7 @@ void e658_020()
     SCR_RUN(4, - 1);
     KUTI(var2, 1, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_020_1 */;
+    itfMesMngMessage(0) /* MSG_020_1: It's nice to have visitors, but this is ridiculous... */;
 MES_CHK_01:
     SYNC();
     if (var7 >= 1)
@@ -117,7 +117,7 @@ MES_CHK_01:
         goto MES_CHK_01;
     }
 MES_CHK_01_OK:
-    itfMesMngMessage(1) /* MSG_020_2 */;
+    itfMesMngMessage(1) /* MSG_020_2: You too, huh? You should've thought twice before coming here. */;
 MES_CHK_02:
     SYNC();
     if (var7 >= 2)
@@ -129,7 +129,7 @@ MES_CHK_02:
         goto MES_CHK_02;
     }
 MES_CHK_02_OK:
-    itfMesMngMessage(2) /* MSG_020_3 */;
+    itfMesMngMessage(2) /* MSG_020_3: They all come for Magatsuhi, but then they find out that it's already... */;
 MES_CHK_03:
     SYNC();
     if (var7 >= 3)
@@ -141,7 +141,7 @@ MES_CHK_03:
         goto MES_CHK_03;
     }
 MES_CHK_03_OK:
-    itfMesMngMessage(3) /* MSG_020_4 */;
+    itfMesMngMessage(3) /* MSG_020_4: There was a girl who showed up not long before you. */;
 MES_CHK_04:
     SYNC();
     if (var7 >= 4)
@@ -153,7 +153,7 @@ MES_CHK_04:
         goto MES_CHK_04;
     }
 MES_CHK_04_OK:
-    itfMesMngMessage(4) /* MSG_020_5 */;
+    itfMesMngMessage(4) /* MSG_020_5: Yeah, I taught her a lesson... a painful one. Hehehe... */;
 MES_CHK_05:
     SYNC();
     if (var7 >= 5)
@@ -165,7 +165,7 @@ MES_CHK_05:
         goto MES_CHK_05;
     }
 MES_CHK_05_OK:
-    itfMesMngMessage(5) /* MSG_020_6 */;
+    itfMesMngMessage(5) /* MSG_020_6: Didn't I tell you before? I won't be used by demons. */;
 MES_CHK_06:
     SYNC();
     if (var7 >= 6)
@@ -177,7 +177,7 @@ MES_CHK_06:
         goto MES_CHK_06;
     }
 MES_CHK_06_OK:
-    itfMesMngMessage(6) /* MSG_020_7 */;
+    itfMesMngMessage(6) /* MSG_020_7: With all my Magatsuhi, I'll be the one using them. */;
 MES_CHK_07:
     SYNC();
     if (var7 >= 7)
@@ -189,7 +189,7 @@ MES_CHK_07:
         goto MES_CHK_07;
     }
 MES_CHK_07_OK:
-    itfMesMngMessage(7) /* MSG_020_8 */;
+    itfMesMngMessage(7) /* MSG_020_8: Not just any demons... Even the strong ones. */;
     itfMesMngCloseWindow();
 MOT_CHK:
     SYNC();
@@ -243,7 +243,7 @@ void e658_030()
     WAIT(10);
     KUTI(var2, 1, 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_030_1 */;
+    itfMesMngMessage(8) /* MSG_030_1: That skin of yours will make a nice coat! */;
     itfMesMngCloseWindow();
 }
 
@@ -277,7 +277,7 @@ void e658_050()
     WAIT(60);
     MODEL_WAIT(var1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_050_1 */;
+    itfMesMngMessage(9) /* MSG_050_1: > You obtained the Yahirono Himorogi. */;
     itfMesMngCloseWindow();
     WAIT(120);
 }

@@ -6,9 +6,9 @@ void sc08()
     FADE_IN(0, 60);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* DGT01_00 */;
+    itfMesMngMessage(0) /* DGT01_00: [80E0][81A7][80F7][80F6][819C][80FD][818D][87E6][8A81][87AF][87C6][81... */;
     itfMesMngOpenSelectWindow();
-    var0 = itfMesMngSelect(1);
+    var0 = itfMesMngSelect(1) /* DGT_SEL_01: [80E0][81A7][80F7][80F6][81B0][8ACA][819E][8088][87E6][8A81][87AF][87... */;
     if (var0 == 0)
     {
         arasuji_a();
@@ -26,8 +26,8 @@ void sc08()
 
 void arasuji_a()
 {
-    itfMesMngMessage(2) /* DGT01_01 */;
-    itfMesMngMessage(3) /* DGT01_02 */;
+    itfMesMngMessage(2) /* DGT01_01: [84C4][84C5][818C][85B2][83CC][81B3][81EF][81D7][81FA][81CA][80EA] [8... */;
+    itfMesMngMessage(3) /* DGT01_02: [82AA][87E6][8A81][84A8][8A93][82AB] [8091][8089][8A90][83D7][8A91][8... */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 60);
     WAIT(30);
@@ -37,7 +37,7 @@ void arasuji_a()
 
 void koryaku_a()
 {
-    itfMesMngMessage(3) /* DGT01_02 */;
+    itfMesMngMessage(3) /* DGT01_02: [82AA][87E6][8A81][84A8][8A93][82AB] [8091][8089][8A90][83D7][8A91][8... */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 60);
     WAIT(30);

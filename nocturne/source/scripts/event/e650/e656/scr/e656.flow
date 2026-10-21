@@ -141,7 +141,7 @@ void e656_020()
     if (BIT_CHK(70) == 0)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(0) /* MSG_020_1 */;
+        itfMesMngMessage(0) /* MSG_020_1: I saw what happened, {firstname 0}... Too bad {firstname 2} got away. */;
         itfMesMngCloseWindow();
         WAIT(30);
         MODEL_WAIT_MOT(var1, 13);
@@ -150,13 +150,13 @@ void e656_020()
         if (BIT_CHK(87) == 0)
         {
             itfMesMngOpenWindow();
-            itfMesMngMessage(1) /* MSG_020_2A */;
+            itfMesMngMessage(1) /* MSG_020_2A: ...Sorry, but I can't help you right now. I need to concentrate on this. */;
             itfMesMngCloseWindow();
         }
         else if (BIT_CHK(87) == 1)
         {
             itfMesMngOpenWindow();
-            itfMesMngMessage(2) /* MSG_020_2B */;
+            itfMesMngMessage(2) /* MSG_020_2B: ...Sorry, but I can't help you right now. I need to concentrate on this. */;
             itfMesMngCloseWindow();
             BIT_ON(90);
         }
@@ -164,14 +164,14 @@ void e656_020()
     else if (BIT_CHK(70) == 1)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(4) /* MSG_020_P1 */;
+        itfMesMngMessage(4) /* MSG_020_P1: What's up, {firstname 0}? Find anything interesting? */;
         itfMesMngCloseWindow();
         WAIT(30);
         MODEL_WAIT_MOT(var1, 13);
         MODEL_MOTION2(var1, 12, 0, 10, 0);
         WAIT(45);
         itfMesMngOpenWindow();
-        itfMesMngMessage(5) /* MSG_020_P2 */;
+        itfMesMngMessage(5) /* MSG_020_P2: ...Which reminds me, lately I've heard talk about Futomimi. */;
         itfMesMngCloseWindow();
         BIT_ON(90);
     }
@@ -203,20 +203,20 @@ TERMINAL:
             if (BIT_CHK(70) == 1)
             {
                 itfMesMngOpenWindow();
-                itfMesMngMessage(7) /* MSG_TRM_2 */;
+                itfMesMngMessage(7) /* MSG_TRM_2: I've got no updates on {firstname 2}. Is he playing dead or what...? */;
                 itfMesMngCloseWindow();
             }
             else if (BIT_CHK(70) == 0)
             {
                 itfMesMngOpenWindow();
-                itfMesMngMessage(6) /* MSG_TRM_1 */;
+                itfMesMngMessage(6) /* MSG_TRM_1: I'll take care of {firstname 2}, so don't worry. */;
                 itfMesMngCloseWindow();
             }
         }
         else if (BIT_CHK(90) == 0)
         {
             itfMesMngOpenWindow();
-            itfMesMngMessage(6) /* MSG_TRM_1 */;
+            itfMesMngMessage(6) /* MSG_TRM_1: I'll take care of {firstname 2}, so don't worry. */;
             itfMesMngCloseWindow();
         }
         MODEL_MOTION2(var1, 13, 0, 20, 1);

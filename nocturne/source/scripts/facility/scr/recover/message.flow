@@ -6,7 +6,7 @@ void rcv_1st()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
-    itfMesMngMessage(0) /* msg_1st */;
+    itfMesMngMessage(0) /* msg_1st: Welcome... */;
     jump endless_loop;
 }
 
@@ -15,7 +15,7 @@ void rcv_recover()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
-    itfMesMngMessage(1) /* msg_recover */;
+    itfMesMngMessage(1) /* msg_recover: Whom shall I heal? */;
     jump endless_loop;
 }
 
@@ -25,8 +25,8 @@ void rcv_dispel()
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
     itfMesMngSelectDefKey(3, 1);
-    itfMesMngMessage(2) /* msg_dispel */;
-    if (itfMesMngSelect(12) == 1)
+    itfMesMngMessage(2) /* msg_dispel: Shall I free you from your curse? */;
+    if (itfMesMngSelect(12) /* msg_sel01: Yes. / No. */ == 1)
     {
         fclSignal(2);
     }
@@ -37,7 +37,7 @@ void rcv_revive()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
-    itfMesMngMessage(3) /* msg_revive */;
+    itfMesMngMessage(3) /* msg_revive: Whose soul shall I resurrect? */;
     jump endless_loop;
 }
 
@@ -46,7 +46,7 @@ void rcv_thanks()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(4) /* msg_thanks */;
+    itfMesMngMessage(4) /* msg_thanks: You have been purified... */;
 }
 
 void rcv_2nd()
@@ -54,7 +54,7 @@ void rcv_2nd()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
-    itfMesMngMessage(5) /* msg_2nd */;
+    itfMesMngMessage(5) /* msg_2nd: What do you desire? */;
     jump endless_loop;
 }
 
@@ -63,7 +63,7 @@ void rcv_talk()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(6) /* msg_talk */;
+    itfMesMngMessage(6) /* msg_talk: The Magatama is a spirit of misfortune... */;
 }
 
 void rcv_exit()
@@ -71,7 +71,7 @@ void rcv_exit()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(11) /* msg_exit */;
+    itfMesMngMessage(11) /* msg_exit: Go forth now, and do not look back... */;
 }
 
 void rcv_err_recover()
@@ -79,7 +79,7 @@ void rcv_err_recover()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(7) /* msg_err_recover */;
+    itfMesMngMessage(7) /* msg_err_recover: Everyone seems to be well... */;
 }
 
 void rcv_err_dispel()
@@ -87,7 +87,7 @@ void rcv_err_dispel()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(8) /* msg_err_dispel */;
+    itfMesMngMessage(8) /* msg_err_dispel: You are not cursed... */;
 }
 
 void rcv_err_revive()
@@ -95,7 +95,7 @@ void rcv_err_revive()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(9) /* msg_err_revive */;
+    itfMesMngMessage(9) /* msg_err_revive: Everyone seems to be alive... */;
 }
 
 void rcv_err_money()
@@ -103,7 +103,7 @@ void rcv_err_money()
     itfMesMngWindowType(2);
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(10) /* msg_err_money */;
+    itfMesMngMessage(10) /* msg_err_money: You don't seem to have enough money. */;
 }
 
 void endless_loop()

@@ -87,15 +87,15 @@ TOBASI:
     SE_STOP_E(712, 111);
     WAIT(80);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngMessage(0) /* MSG_001: I see that you have braved the Labyrinth of Amala and returned a cand... */;
     itfMesMngCloseWindow();
     WAIT(20);
     CAM_SEL(SEARCH_ID("01cam_03"));
     CAM_PATH_MOVE(SEARCH_ID("01cam_03"), SEARCH_ID("01cam_03_MOTION"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(1) /* MSG_002 */;
-    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngMessage(1) /* MSG_002: ...Now that I think about it, */;
+    itfMesMngMessage(2) /* MSG_003: The Conception... Because of it, the Vortex World was born. */;
     itfMesMngCloseWindow();
     WAIT(15);
     SE_PLAY_E(712, 110);
@@ -173,20 +173,20 @@ ITIMAI:
     FADE_IN(1, 28);
     WAIT(28);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_004 */;
+    itfMesMngMessage(3) /* MSG_004: Kagutsuchi... It is the light whose sole purpose is to empower the on... */;
     itfMesMngCloseWindow();
     TEX_ALP(local0, 256, 0, 100);
     WAIT(50);
     COMM_1E3(local2, 0, - 60, 0, - 552, 410);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* MSG_004B */;
+    itfMesMngMessage(4) /* MSG_004B: Creation is the act of bringing a new world into existence, made poss... */;
     itfMesMngCloseWindow();
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_005 */;
+    itfMesMngMessage(5) /* MSG_005: Kagutsuchi will allow a life form of its choosing to determine the co... */;
     itfMesMngCloseWindow();
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_005B */;
+    itfMesMngMessage(6) /* MSG_005B: The shape of the world to come depends on who is chosen... */;
     itfMesMngCloseWindow();
     WAIT(60);
     FADE_OUT(1, 60);
@@ -295,7 +295,7 @@ ITIMAI:
     TEX_ALP(local2, 256, 0, 43);
     WAIT(43);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_007 */;
+    itfMesMngMessage(8) /* MSG_007: There are millions--no, billions of worlds that you are unaware of, a... */;
     itfMesMngCloseWindow();
     FADE_OUT(1, 15);
     WAIT(4);
@@ -427,11 +427,11 @@ ITIMAI:
     FADE_IN(1, 60);
     WAIT(80);
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* MSG_222 */;
+    itfMesMngMessage(10) /* MSG_222: But now... */;
     itfMesMngCloseWindow();
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(11) /* MSG_223 */;
+    itfMesMngMessage(11) /* MSG_223: Please retrieve the remaining candelabra as soon as possible, and the... */;
     itfMesMngCloseWindow();
     CAM_SEL(SEARCH_ID("01cam_05"));
     CAM_PATH_MOVE(SEARCH_ID("01cam_05"), SEARCH_ID("01cam_05_MOTION"));
@@ -456,7 +456,7 @@ ITIMAI:
 void e712_010_1()
 {
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_006 */;
+    itfMesMngMessage(7) /* MSG_006: In the vast Amala Universe, this Vortex World is not the only place w... */;
     itfMesMngCloseWindow();
     BIT_ON(259);
 }
@@ -470,7 +470,7 @@ void e712_010_4()
 void e712_010_3()
 {
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_111 */;
+    itfMesMngMessage(9) /* MSG_111: With my master, I have watched how myriads of worlds came into being,... */;
     itfMesMngCloseWindow();
     BIT_ON(260);
 }

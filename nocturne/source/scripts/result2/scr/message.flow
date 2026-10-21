@@ -5,14 +5,14 @@ void rst_player_levup()
 {
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(0) /* msg_player_levup */;
+    itfMesMngMessage(0) /* msg_player_levup: [8188]{name 0}[8295] [83DD][83DC][80E2] [848E][86C5][81D0]! [8589][80... */;
 }
 
 void rst_player_param_cfm()
 {
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
-    itfMesMngMessage(2) /* msg_player_param_cfm */;
+    itfMesMngMessage(2) /* msg_player_param_cfm: [8188][80E2][829B][80E8] [82D8][85C8][81CD][82AE] [82DF][81CF][85BC][... */;
     jump endless_loop;
 }
 
@@ -21,7 +21,7 @@ void rst_devil_levup()
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
     itfMesMngSetVarScr(0, fclGetVal(0), 1);
-    itfMesMngMessage(3) /* msg_devil_levup */;
+    itfMesMngMessage(3) /* msg_devil_levup: [8188]{var 1}[8295] [83DD][83DC][80E2] [848E][86C5][81D0]! {var 8}{pa... */;
 }
 
 void rst_default_skill()
@@ -29,14 +29,14 @@ void rst_default_skill()
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
     itfMesMngSetVarScr(0, fclGetVal(0), 5);
-    itfMesMngMessage(6) /* msg_default_skill */;
+    itfMesMngMessage(6) /* msg_default_skill: [8188]{var 10}{particle3} [88D9][89B9][81D0]! */;
 }
 
 void rst_select_skill()
 {
     itfMesMngOpenWindow();
     itfMesMngValidateNext(0);
-    itfMesMngMessage(7) /* msg_select_skill */;
+    itfMesMngMessage(7) /* msg_select_skill: [8188][85BC][86DA] [83B1][81E3][80E2] [89E3] [88AA][85BC][8285][81D0]... */;
     jump endless_loop;
 }
 
@@ -45,7 +45,7 @@ void rst_destroy_skill()
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
     itfMesMngSetVarScr(0, fclGetVal(0), 5);
-    itfMesMngMessage(10) /* msg_destroy_skill */;
+    itfMesMngMessage(10) /* msg_destroy_skill: [8188]{var 1}{particle2} {var 10}{particle3} [82F3][85AF][81D0]. */;
 }
 
 void rst_dh()
@@ -53,7 +53,7 @@ void rst_dh()
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
     itfMesMngSetVarScr(0, fclGetVal(0), 1);
-    itfMesMngMessage(11) /* msg_dh */;
+    itfMesMngMessage(11) /* msg_dh: [8289][81E6] */;
 }
 
 void rst_zensyo()
@@ -61,7 +61,7 @@ void rst_zensyo()
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
     itfMesMngSetVarScr(0, fclGetVal(0), 1);
-    itfMesMngMessage(12) /* msg_zensyo */;
+    itfMesMngMessage(12) /* msg_zensyo: [8289][81E6] */;
 }
 
 void rst_powerup_yesno()
@@ -70,7 +70,7 @@ void rst_powerup_yesno()
     itfMesMngValidateNext(0);
     COMM_117(37, 310);
     itfMesMngSetVarScr(0, fclGetVal(0), 5);
-    itfMesMngMessage(13) /* msg_powerup_yesno */;
+    itfMesMngMessage(13) /* msg_powerup_yesno: [8188]{var 1}{particle2} [8292][84B8][8295] [83B1][81E3][8298] [81DC]... */;
     jump endless_loop;
 }
 
@@ -78,7 +78,7 @@ void rst_powerup_no()
 {
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
-    itfMesMngMessage(14) /* msg_powerup_no */;
+    itfMesMngMessage(14) /* msg_powerup_no: [8188]{var 1}{particle2} [82EA][8384][81FC] [8590][81ED][81D0][82A0] */;
 }
 
 void rst_powerup_success()
@@ -87,7 +87,7 @@ void rst_powerup_success()
     itfMesMngValidateNext(1);
     itfMesMngSetVarScr(0, fclGetVal(0), 5);
     itfMesMngSetVarScr(1, fclGetVal(1), 5);
-    itfMesMngMessage(15) /* msg_powerup_success */;
+    itfMesMngMessage(15) /* msg_powerup_success: [8188][83B1][81E3][80E2] [83DE][848F][84B9]! {var 15}{particle1}[80EA... */;
 }
 
 void rst_mutation()
@@ -96,7 +96,7 @@ void rst_mutation()
     itfMesMngValidateNext(1);
     itfMesMngSetVarScr(0, fclGetVal(0), 5);
     itfMesMngSetVarScr(1, fclGetVal(1), 5);
-    itfMesMngMessage(16) /* msg_mutation */;
+    itfMesMngMessage(16) /* msg_mutation: [8188]{var 1}{particle2} [81F9][8694][83EF][8298][80EA] {var 15}{part... */;
 }
 
 void rst_powerup_fail()
@@ -105,7 +105,7 @@ void rst_powerup_fail()
     itfMesMngValidateNext(1);
     itfMesMngSetVarScr(0, fclGetVal(0), 5);
     itfMesMngSetVarScr(1, fclGetVal(1), 5);
-    itfMesMngMessage(17) /* msg_powerup_fail */;
+    itfMesMngMessage(17) /* msg_powerup_fail: [8188][82A0][82A0][82A0][82A0][81CA][87ED][81D0]! [81CA][8289] [8296]... */;
 }
 
 void rst_evo_err_1()
@@ -113,7 +113,7 @@ void rst_evo_err_1()
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
     itfMesMngSetVarScr(0, fclGetVal(0), 1);
-    itfMesMngMessage(19) /* msg_evo_err_1 */;
+    itfMesMngMessage(19) /* msg_evo_err_1: [8188]{var 1}[8295] [8294][8298] [80E2][8797][8295] [88BB][8497][80E3... */;
 }
 
 void rst_evo_err_2()
@@ -121,7 +121,7 @@ void rst_evo_err_2()
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
     itfMesMngSetVarScr(0, fclGetVal(0), 1);
-    itfMesMngMessage(20) /* msg_evo_err_2 */;
+    itfMesMngMessage(20) /* msg_evo_err_2: [8188]{var 1}[8295] [8294][8298] [80E2][8797][8295] [88BB][8497][80E3... */;
 }
 
 void rst_evo_yesno()
@@ -130,7 +130,7 @@ void rst_evo_yesno()
     itfMesMngValidateNext(0);
     COMM_117(37, 310);
     itfMesMngSetVarScr(0, fclGetVal(0), 1);
-    itfMesMngMessage(21) /* msg_evo_yesno */;
+    itfMesMngMessage(21) /* msg_evo_yesno: [8188]{var 1}[8295] [8294][8298] [80E2][8797][80E2] [8296][81D3][8290... */;
     jump endless_loop;
 }
 
@@ -140,7 +140,7 @@ void rst_evo_yes()
     itfMesMngValidateNext(1);
     itfMesMngSetVarScr(0, fclGetVal(0), 1);
     itfMesMngSetVarScr(1, fclGetVal(1), 1);
-    itfMesMngMessage(22) /* msg_evo_yes */;
+    itfMesMngMessage(22) /* msg_evo_yes: [8188]{var 17}{particle2}[80EA] {var 18}{particle6} [8797][84BA][8385... */;
 }
 
 void rst_evo_no()
@@ -148,7 +148,7 @@ void rst_evo_no()
     itfMesMngOpenWindow();
     itfMesMngValidateNext(1);
     itfMesMngSetVarScr(0, fclGetVal(0), 1);
-    itfMesMngMessage(23) /* msg_evo_no */;
+    itfMesMngMessage(23) /* msg_evo_no: [8188]{var 1}[8295] [80E2][8797][80E4] [8296][84D1] [80E3][81D4][86FC... */;
 }
 
 void endless_loop()

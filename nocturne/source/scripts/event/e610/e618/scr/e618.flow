@@ -43,17 +43,17 @@ void e618_010_1()
     WAIT(40);
     itfMesMngIgnoreConfig(1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(18) /* MSG_001 */;
+    itfMesMngMessage(18) /* MSG_001: Magatama, the essence of demonic power... */;
     WAIT(25);
     itfMesMngCloseWindow();
     WAIT(180);
     itfMesMngOpenWindow();
-    itfMesMngMessage(19) /* MSG_002 */;
+    itfMesMngMessage(19) /* MSG_002: You have now joined the ranks of demons. */;
     WAIT(25);
     itfMesMngCloseWindow();
     WAIT(290);
     itfMesMngOpenWindow();
-    itfMesMngMessage(20) /* MSG_003 */;
+    itfMesMngMessage(20) /* MSG_003: My little master is always watching you, so don't bore him... */;
     WAIT(25);
     itfMesMngCloseWindow();
     itfMesMngIgnoreConfig(0);
@@ -94,7 +94,7 @@ void e618_030()
     MODEL_CLS(var2);
     WAIT(80);
     itfMesMngOpenWindow();
-    itfMesMngMessage(18) /* MSG_001 */;
+    itfMesMngMessage(18) /* MSG_001: Magatama, the essence of demonic power... */;
     itfMesMngCloseWindow();
     WAIT(10);
     itfMesMngCloseWindow();
@@ -106,7 +106,7 @@ void e618_040()
     CAM_PATH_MOVE(SEARCH_ID("cam04"), SEARCH_ID("cam04_MOTION"));
     WAIT(80);
     itfMesMngOpenWindow();
-    itfMesMngMessage(19) /* MSG_002 */;
+    itfMesMngMessage(19) /* MSG_002: You have now joined the ranks of demons. */;
     itfMesMngCloseWindow();
     WAIT(10);
 }
@@ -124,7 +124,7 @@ void e618_050()
     WAIT(80);
     WAIT(110);
     itfMesMngOpenWindow();
-    itfMesMngMessage(20) /* MSG_003 */;
+    itfMesMngMessage(20) /* MSG_003: My little master is always watching you, so don't bore him... */;
     itfMesMngCloseWindow();
     WAIT(60);
 }
@@ -140,7 +140,7 @@ void e618_060()
     BGM_PLAY(4653057);
     WAIT(40);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_060_1 */;
+    itfMesMngMessage(3) /* MSG_060_1: > You obtained the Magatama Marogareh. */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -149,13 +149,13 @@ void e618_a10()
 {
     FADE_IN(0, 30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_A10_2 */;
+    itfMesMngMessage(5) /* MSG_A10_2: The dark sky of Tokyo can be seen from the roof of the hospital. */;
     WAIT(30);
     WAIT(30);
-    itfMesMngMessage(6) /* MSG_A10_3 */;
-    itfMesMngMessage(7) /* MSG_A10_4 */;
-    itfMesMngMessage(8) /* MSG_A10_5 */;
-    itfMesMngMessage(9) /* MSG_A10_6 */;
+    itfMesMngMessage(6) /* MSG_A10_3: You're the only one who came here? */;
+    itfMesMngMessage(7) /* MSG_A10_4: ...The world is about to be reborn. Everyone will have to start think... */;
+    itfMesMngMessage(8) /* MSG_A10_5: ...It's time. */;
+    itfMesMngMessage(9) /* MSG_A10_6: You know... */;
     itfMesMngCloseWindow();
     WAIT(30);
     FIELD_DSP(618, 1);
@@ -167,7 +167,7 @@ void e618_a10()
     FADE_IN(1, 30);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* MSG_A10_7 */;
+    itfMesMngMessage(10) /* MSG_A10_7: As Yuko looks up into the sky, an explosion occurs. */;
     itfMesMngCloseWindow();
     WAIT(30);
 }
@@ -177,9 +177,9 @@ void e618_a20()
     FADE_IN(1, 30);
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(11) /* MSG_A20_1 */;
+    itfMesMngMessage(11) /* MSG_A20_1: ...... */;
     WAIT(30);
-    itfMesMngMessage(12) /* MSG_A20_2 */;
+    itfMesMngMessage(12) /* MSG_A20_2: ...I can see your heart, but inside there is nothing. */;
     itfMesMngCloseWindow();
     FADE_OUT(1, 30);
     WAIT(30);
@@ -194,15 +194,15 @@ void e618_a30()
 {
     WAIT(30);
     itfMesMngOpenWindow();
-    itfMesMngMessage(13) /* MSG_A30_1 */;
+    itfMesMngMessage(13) /* MSG_A30_1: The surroundings becomes dark as the voice disappears. */;
     WAIT(30);
-    itfMesMngMessage(14) /* MSG_A30_2 */;
+    itfMesMngMessage(14) /* MSG_A30_2: So, how was the end of the world? Did you enjoy it? */;
     WAIT(30);
-    itfMesMngMessage(15) /* MSG_A30_3 */;
+    itfMesMngMessage(15) /* MSG_A30_3: The next thing the main character notices, the old woman is standing... */;
     WAIT(30);
-    itfMesMngMessage(16) /* MSG_A30_4 */;
+    itfMesMngMessage(16) /* MSG_A30_4: This will turn you into a demon. Aren't you happy? */;
     WAIT(10);
-    itfMesMngMessage(17) /* MSG_A30_5 */;
+    itfMesMngMessage(17) /* MSG_A30_5: The child pushes the weird object in the main character's mouth. */;
     itfMesMngCloseWindow();
     WAIT(30);
 }

@@ -86,23 +86,23 @@ void e601_010()
     SCR_RUN(5, - 1);
     itfMesMngWindowTypeAlpha(1, 35);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* YUUKO_001 */;
-    itfMesMngMessage(1) /* YUUKO_002 */;
+    itfMesMngMessage(0) /* YUUKO_001: ...A world that loses its power will fade away into nothingness. */;
+    itfMesMngMessage(1) /* YUUKO_002: The world must first die, for it to be born again... */;
     itfMesMngCloseWindow();
     WAIT(45);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* YUUKO_003 */;
+    itfMesMngMessage(2) /* YUUKO_003: ...That is the only way to salvation, as recorded in an ancient proph... */;
     itfMesMngCloseWindow();
     if (BIT_CHK(2208) == 1)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(12) /* YUUKO_003_2SYUUME */;
-        var12 = itfMesMngSelect(13);
+        itfMesMngMessage(12) /* YUUKO_003_2SYUUME: In what persona will you walk your path? */;
+        var12 = itfMesMngSelect(13) /* KAIWA_SEL2: Hooded jacket. / Leather jacket. */;
         itfMesMngCloseWindow();
         if (var12 == 0)
         {
             itfMesMngOpenWindow();
-            itfMesMngMessage(15) /* HUKU_SIN */;
+            itfMesMngMessage(15) /* HUKU_SIN: You want to stay the same as before? There's nothing wrong with that. */;
             itfMesMngCloseWindow();
             prm_PLAYER_ADD_PARAM(0, 2);
             prm_PLAYER_ADD_PARAM(3, 1);
@@ -112,7 +112,7 @@ void e601_010()
             BIT_ON(2224);
             WAIT(5);
             itfMesMngOpenWindow();
-            itfMesMngMessage(14) /* HUKU_KYUU */;
+            itfMesMngMessage(14) /* HUKU_KYUU: You prefer a new look, then? I'm sure you'll like it. */;
             itfMesMngCloseWindow();
             prm_PLAYER_ADD_PARAM(2, 2);
             prm_PLAYER_ADD_PARAM(4, 1);
@@ -161,11 +161,11 @@ void e601_020()
 {
     itfMesMngWindowTypeAlpha(1, 35);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* YUUKO_004 */;
+    itfMesMngMessage(3) /* YUUKO_004: The world will fall for its sins, and humans will all disappear... */;
     itfMesMngCloseWindow();
     WAIT(45);
     itfMesMngOpenWindow();
-    itfMesMngMessage(4) /* YUUKO_004_1 */;
+    itfMesMngMessage(4) /* YUUKO_004_1: To do so, I need to know your name. */;
     itfMesMngCloseWindow();
     FADE_OUT(1, 80);
     BGM_TRANS_E(601, - 1);
@@ -176,25 +176,25 @@ void e601_020()
     itfMesMngWindowTypeAlpha(1, 35);
     itfMesMngOpenWindow();
     BGM_TRANS_E(601, 9);
-    itfMesMngMessage(5) /* YUUKO_005 */;
-    var4 = itfMesMngSelect(6);
+    itfMesMngMessage(5) /* YUUKO_005: ...... */;
+    var4 = itfMesMngSelect(6) /* KAIWA_SEL: I will. / I don't understand. */;
     itfMesMngCloseWindow();
     if (var4 == 0)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(7) /* YUUKO_006 */;
+        itfMesMngMessage(7) /* YUUKO_006: I'm glad that you understand. */;
         itfMesMngCloseWindow();
     }
     else if (var4 == 1)
     {
         itfMesMngOpenWindow();
-        itfMesMngMessage(8) /* YUUKO_007 */;
+        itfMesMngMessage(8) /* YUUKO_007: You may not understand right now... */;
         itfMesMngCloseWindow();
     }
     SCR_RUN(9, - 1);
     WAIT(40);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* YUUKO_008 */;
+    itfMesMngMessage(9) /* YUUKO_008: I am the nurturer of the next world. */;
     BGM_TRANS_E(601, - 1);
     itfMesMngCloseWindow();
     FADE_OUT(1, 80);
@@ -204,7 +204,7 @@ void e601_020()
     WAIT(80);
     itfMesMngWindowTypeAlpha(1, 35);
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* YUUKO_009 */;
+    itfMesMngMessage(10) /* YUUKO_009: That's right... My name is {firstname 1} {lastname 1}. */;
     itfMesMngCloseWindow();
     FADEOUT_E(601, 1);
     FADEOUT_E(601, 2);
@@ -224,7 +224,7 @@ void e601_020()
     itfMesMngOpenWindow();
     SCR_RUN(8, - 1);
     WAIT(35);
-    itfMesMngMessage(11) /* YUUKO_010 */;
+    itfMesMngMessage(11) /* YUUKO_010: Go ahead and wake up. It's time... */;
     itfMesMngCloseWindow();
     WAIT(30);
 }

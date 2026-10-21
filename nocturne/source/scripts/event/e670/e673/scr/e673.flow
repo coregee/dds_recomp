@@ -131,11 +131,11 @@ void e673_010()
     itfMesMngOpenWindow();
     if (BIT_CHK(129) == 1)
     {
-        itfMesMngMessage(0) /* MSG_010_1 */;
+        itfMesMngMessage(0) /* MSG_010_1: ...Thanks for getting rid of him. */;
     }
     else if (BIT_CHK(129) == 0)
     {
-        itfMesMngMessage(1) /* MSG_010_1_R */;
+        itfMesMngMessage(1) /* MSG_010_1_R: I'm impressed that he didn't die like a mud doll. */;
     }
     itfMesMngCloseWindow();
     WAIT(60);
@@ -149,7 +149,7 @@ void e673_020()
     WAIT(30);
     MODEL_EXMOTION(var1, 2, 1, 0, 20, 1);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_020_1 */;
+    itfMesMngMessage(2) /* MSG_020_1: He had so much Magatsuhi stored here. Funny... Did he think that a mu... */;
     itfMesMngCloseWindow();
     WAIT(50);
 }
@@ -166,7 +166,7 @@ void e673_030()
     MODEL_MOTION2(var1, 1, 0, 10, 0);
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(3) /* MSG_030_1 */;
+    itfMesMngMessage(3) /* MSG_030_1: ...No, it was meant for me... */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var1, 4);
     MODEL_MOTION2(var1, 3, 0, 10, 0);
@@ -188,32 +188,32 @@ void e673_040()
     WAIT(70);
     itfMesMngOpenWindow();
     itfMesMngIgnoreConfig(1);
-    itfMesMngMessage(4) /* MSG_040_1 */;
+    itfMesMngMessage(4) /* MSG_040_1: The god who once died */;
     WAIT(40);
     itfMesMngCloseWindow();
     WAIT(40);
     itfMesMngOpenWindow();
-    itfMesMngMessage(5) /* MSG_040_2 */;
+    itfMesMngMessage(5) /* MSG_040_2: is returning to us now... */;
     WAIT(35);
     itfMesMngCloseWindow();
     WAIT(35);
     itfMesMngOpenWindow();
-    itfMesMngMessage(6) /* MSG_040_3 */;
+    itfMesMngMessage(6) /* MSG_040_3: Let us lay the sacred cloth */;
     WAIT(20);
     itfMesMngCloseWindow();
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(7) /* MSG_040_4 */;
+    itfMesMngMessage(7) /* MSG_040_4: across the coffin */;
     WAIT(10);
     itfMesMngCloseWindow();
     WAIT(10);
     itfMesMngOpenWindow();
-    itfMesMngMessage(8) /* MSG_040_5 */;
+    itfMesMngMessage(8) /* MSG_040_5: so the soul will never */;
     WAIT(10);
     itfMesMngCloseWindow();
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(9) /* MSG_040_6 */;
+    itfMesMngMessage(9) /* MSG_040_6: leave us again. */;
     WAIT(5);
     itfMesMngIgnoreConfig(0);
     itfMesMngCloseWindow();
@@ -231,11 +231,11 @@ void e673_070()
     MODEL_MOTION2(var4, 1, 0, 10, 1);
     WAIT(60);
     itfMesMngOpenWindow();
-    itfMesMngMessage(10) /* MSG_070_1 */;
+    itfMesMngMessage(10) /* MSG_070_1: By this woman's wish, I have come to create the kingdom of Yosuga... */;
     itfMesMngCloseWindow();
     WAIT(15);
     itfMesMngOpenWindow();
-    itfMesMngMessage(11) /* MSG_070_2 */;
+    itfMesMngMessage(11) /* MSG_070_2: I see the awakening of opposing forces... */;
     itfMesMngCloseWindow();
     MODEL_WAIT_MOT(var2, 2);
     MODEL_MOTION2(var2, 1, 0, 10, 0);
@@ -248,7 +248,7 @@ void e673_080()
     CAM_PATH_MOVE(SEARCH_ID("cam08"), SEARCH_ID("cam08_MOTION"));
     WAIT(20);
     itfMesMngOpenWindow();
-    itfMesMngMessage(12) /* MSG_080_1 */;
+    itfMesMngMessage(12) /* MSG_080_1: I, too, shall endeavor to build a kingdom of beauty... */;
     itfMesMngCloseWindow();
     WAIT(40);
 }

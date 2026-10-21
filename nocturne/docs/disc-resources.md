@@ -40,8 +40,9 @@ All `.bf` and `.bmd` files are extracted under `game/dds3/`. Flowscript is a
 bytecode for a VM in the executable (`scr*` functions); `tools/flowscript.py`
 decompiles all of them (and the AI scripts embedded in the executable) into
 `source/scripts/`, verified against the original code. See
-[flowscript.md](flowscript.md). The message tables (`.bmd`, MSG1) are kept
-raw for now; decoding their text is still to do.
+[flowscript.md](flowscript.md). The message tables (`.bmd`, and each
+script's own) become `.msg` text next to the scripts; see
+[messages.md](messages.md).
 
 Not code: `.tb` (field texture banks, 826 files / 360 MB), `.tmx`, `.pb`,
 `.lb`, `.smg`, `.f1/.f2`, `.d3p`, `.p2a`, `.bed`, `.pm1/.pm2`.

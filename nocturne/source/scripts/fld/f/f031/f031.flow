@@ -13,7 +13,7 @@ void takarasagasi_label()
     itfMesMngSetVarScr(1, local1, 0);
     itfMesMngSetVarScr(2, local2, 1);
     FLD_SE_PLAY(43);
-    itfMesMngMessage(67) /* TAKARASAGASI */;
+    itfMesMngMessage(67) /* TAKARASAGASI: > {var 2} found something. */;
     prm_ITEM_PLUS(local0, local1);
     itfMesMngCloseWindow();
     PAD_ENABLE();
@@ -25,7 +25,7 @@ void hirakenai_label()
     PAD_DISABLE();
     itfMesMngOpenWindow();
     SET_ALLPANEL(6);
-    itfMesMngMessage(68) /* COMP_OPENERROR */;
+    itfMesMngMessage(68) /* COMP_OPENERROR: > It can't be used here. */;
     itfMesMngCloseWindow();
     PAD_ENABLE();
     SET_ALLPANEL(7);
@@ -38,19 +38,19 @@ void kireta_label()
     SET_ALLPANEL(6);
     if (FLD_GET_KIRETA(0) == 1)
     {
-        itfMesMngMessage(69) /* COMP_LIGHTMAEND */;
+        itfMesMngMessage(69) /* COMP_LIGHTMAEND: > The effect of Light wore off. */;
     }
     if (FLD_GET_KIRETA(1) == 1)
     {
-        itfMesMngMessage(72) /* COMP_REFUTOMAEND */;
+        itfMesMngMessage(72) /* COMP_REFUTOMAEND: > The effect of Levitation wore off. */;
     }
     if (FLD_GET_KIRETA(2) == 1)
     {
-        itfMesMngMessage(71) /* COMP_REBERAMAEND */;
+        itfMesMngMessage(71) /* COMP_REBERAMAEND: > The effect of Attract wore off. */;
     }
     if (FLD_GET_KIRETA(3) == 1)
     {
-        itfMesMngMessage(70) /* COMP_ESTOMAEND */;
+        itfMesMngMessage(70) /* COMP_ESTOMAEND: > The effect of Repel wore off. */;
     }
     itfMesMngCloseWindow();
     PAD_ENABLE();
@@ -68,7 +68,7 @@ void itembox_label()
             SET_ALLPANEL(6);
             if (FLD_CHK_TAKARA_OPEN())
             {
-                itfMesMngMessage(61) /* TAKARA_STILLGET */;
+                itfMesMngMessage(61) /* TAKARA_STILLGET: > It's empty. */;
             }
             else
             {
@@ -79,20 +79,20 @@ void itembox_label()
                 local7 = FLD_GET_TAKARA_TBL(4);
                 if (local3 == 1)
                 {
-                    itfMesMngMessage(54) /* HOSEKI */;
+                    itfMesMngMessage(54) /* HOSEKI: > There is a Mystical Chest. Will you open it? */;
                 }
                 else
                 {
-                    itfMesMngMessage(58) /* TAKARA */;
+                    itfMesMngMessage(58) /* TAKARA: > You see a Cache Cube. Will you open it? */;
                 }
                 itfMesMngSelectDefKey(3, 1);
                 if (local3 == 1)
                 {
-                    local8 = itfMesMngSelect(55);
+                    local8 = itfMesMngSelect(55) /* HOSEKI_SEL: Yes. / No. */;
                 }
                 else
                 {
-                    local8 = itfMesMngSelect(59);
+                    local8 = itfMesMngSelect(59) /* TAKARA_SEL: Yes. / No. */;
                 }
                 if (local8 == 0)
                 {
@@ -110,7 +110,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 15);
                         PAD_ACT(1, 100, 15);
                         prm_PARTY_DAMAGE(1);
-                        itfMesMngMessage(65) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(65) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 3)
                     {
@@ -120,7 +120,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(2);
-                        itfMesMngMessage(65) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(65) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 4)
                     {
@@ -130,7 +130,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(4);
-                        itfMesMngMessage(65) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(65) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 5)
                     {
@@ -140,7 +140,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(5);
-                        itfMesMngMessage(65) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(65) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else if (local6 == 6)
                     {
@@ -150,7 +150,7 @@ void itembox_label()
                         PAD_ACT(0, 1, 20);
                         PAD_ACT(1, 200, 20);
                         prm_PARTY_DAMAGE(6);
-                        itfMesMngMessage(65) /* TAKARA_DAMAGE */;
+                        itfMesMngMessage(65) /* TAKARA_DAMAGE: > It's a trap. */;
                     }
                     else
                     {
@@ -159,14 +159,14 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             if (local4 == 0)
                             {
-                                itfMesMngMessage(66) /* TAKARA_KARAGET */;
+                                itfMesMngMessage(66) /* TAKARA_KARAGET: > It's empty. */;
                             }
                             else
                             {
                                 FLD_SE_PLAY(32);
                                 itfMesMngSetVarScr(0, local4, 3);
                                 itfMesMngSetVarScr(1, local5, 0);
-                                itfMesMngMessage(62) /* TAKARA_GET */;
+                                itfMesMngMessage(62) /* TAKARA_GET: > You obtained {var 0} x {var 1}. */;
                                 prm_ITEM_PLUS(local4, local5);
                             }
                         }
@@ -175,7 +175,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             if (local4 == 0)
                             {
-                                itfMesMngMessage(66) /* TAKARA_KARAGET */;
+                                itfMesMngMessage(66) /* TAKARA_KARAGET: > It's empty. */;
                             }
                             else
                             {
@@ -187,7 +187,7 @@ void itembox_label()
                                 FLD_SE_PLAY(33);
                                 itfMesMngSetVarScr(0, local4, 3);
                                 itfMesMngSetVarScr(1, local5, 0);
-                                itfMesMngMessage(57) /* HOSEKI_GET */;
+                                itfMesMngMessage(57) /* HOSEKI_GET: > You obtained {var 0} x {var 1}. */;
                                 prm_ITEM_PLUS(local4, local5);
                             }
                         }
@@ -196,7 +196,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             FLD_SE_PLAY(32);
                             itfMesMngSetVarScr(0, local4, 9);
-                            itfMesMngMessage(63) /* TAKARA_DH_GET */;
+                            itfMesMngMessage(63) /* TAKARA_DH_GET: > You obtained the Magatama {var 0}. */;
                             prm_DH_PLUS(local4);
                         }
                         else if (local3 == 3)
@@ -204,7 +204,7 @@ void itembox_label()
                             FLD_SET_TAKARA_OPEN();
                             FLD_SE_PLAY(32);
                             itfMesMngSetVarScr(0, local7, 0);
-                            itfMesMngMessage(64) /* TAKARA_MAKA_GET */;
+                            itfMesMngMessage(64) /* TAKARA_MAKA_GET: > You obtained {var 0} Macca. */;
                             COMM_139(local7);
                         }
                     }
@@ -213,11 +213,11 @@ void itembox_label()
                 {
                     if (local3 == 1)
                     {
-                        itfMesMngMessage(56) /* HOSEKI_NOGET */;
+                        itfMesMngMessage(56) /* HOSEKI_NOGET: > You did not open the Mystical Chest. */;
                     }
                     else
                     {
-                        itfMesMngMessage(60) /* TAKARA_NOGET */;
+                        itfMesMngMessage(60) /* TAKARA_NOGET: > You did not open the Cache Cube. */;
                     }
                 }
             }
@@ -289,9 +289,9 @@ void dexitwarp_label()
             SET_ALLPANEL(6);
             FLD_EXIT_CAMERA();
             itfMesMngOpenWindow();
-            itfMesMngMessage(52) /* EXITWARP */;
+            itfMesMngMessage(52) /* EXITWARP: > Will you leave the area? */;
             itfMesMngSelectDefKey(3, 1);
-            if (itfMesMngSelect(53) == 0)
+            if (itfMesMngSelect(53) /* EXITWARP_SEL: Yes. / No. */ == 0)
             {
                 itfMesMngCloseWindow();
             }
@@ -623,12 +623,12 @@ void elvstart_label()
     FADE_IN(0, 15);
     FLD_ELV_FLOORSTART(local33, local33);
     itfMesMngOpenWindow();
-    itfMesMngMessage(73) /* WARP_ELV_MSG */;
+    itfMesMngMessage(73) /* WARP_ELV_MSG: > Select a floor. */;
     if (local26 == 1)
     {
         itfMesMngSetVarScr(0, local27, 4);
         itfMesMngSelectDefKey(3, 1);
-        local24 = itfMesMngSelect(74);
+        local24 = itfMesMngSelect(74) /* WARP_ELV_SEL1: {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 2)
     {
@@ -636,7 +636,7 @@ void elvstart_label()
         itfMesMngSetVarScr(1, local28, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 2);
-        local24 = itfMesMngSelect(75);
+        local24 = itfMesMngSelect(75) /* WARP_ELV_SEL2: {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 3)
     {
@@ -645,7 +645,7 @@ void elvstart_label()
         itfMesMngSetVarScr(2, local29, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 3);
-        local24 = itfMesMngSelect(76);
+        local24 = itfMesMngSelect(76) /* WARP_ELV_SEL3: {var 2}[80EA] / {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 4)
     {
@@ -655,7 +655,7 @@ void elvstart_label()
         itfMesMngSetVarScr(3, local30, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 4);
-        local24 = itfMesMngSelect(77);
+        local24 = itfMesMngSelect(77) /* WARP_ELV_SEL4: {var 3}[80EA] / {var 2}[80EA] / {var 1}[80EA] / {var 0}[80EA] / Quit. */;
     }
     else if (local26 == 5)
     {
@@ -666,7 +666,7 @@ void elvstart_label()
         itfMesMngSetVarScr(4, local31, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 5);
-        local24 = itfMesMngSelect(78);
+        local24 = itfMesMngSelect(78) /* WARP_ELV_SEL5: {var 4}[80EA] / {var 3}[80EA] / {var 2}[80EA] / {var 1}[80EA] / {var... */;
     }
     else if (local26 == 6)
     {
@@ -678,7 +678,7 @@ void elvstart_label()
         itfMesMngSetVarScr(5, local32, 4);
         itfMesMng_SEL_SELNO(local33);
         itfMesMngSelectDefKey(3, 6);
-        local24 = itfMesMngSelect(79);
+        local24 = itfMesMngSelect(79) /* WARP_ELV_SEL6: {var 5}[80EA] / {var 4}[80EA] / {var 3}[80EA] / {var 2}[80EA] / {var... */;
     }
     itfMesMngCloseWindow();
     if (local24 == local26)
@@ -1225,11 +1225,11 @@ void check_moon_state5()
                 itfMesMngOpenWindow();
                 if (BIT_CHK(1618) == 0)
                 {
-                    itfMesMngMessage(27) /* LACHESIS */;
+                    itfMesMngMessage(27) /* LACHESIS: Ohohoho... I will not allow you past here. */;
                 }
                 else
                 {
-                    itfMesMngMessage(30) /* LACHESIS4 */;
+                    itfMesMngMessage(30) /* LACHESIS4: Ohohoho... Persistent men are not well-liked, you know! */;
                 }
                 itfMesMngCloseWindow();
                 WAIT(15);
@@ -1247,14 +1247,14 @@ void check_moon_state5()
                 itfMesMngOpenWindow();
                 if (BIT_CHK(1618) == 0)
                 {
-                    itfMesMngMessage(28) /* LACHESIS2 */;
+                    itfMesMngMessage(28) /* LACHESIS2: I am Lachesis, the second of the Moirae Sisters. */;
                     CAM_SEL_FOVY(SEARCH_ID("01cam_11"));
-                    itfMesMngMessage(29) /* LACHESIS3 */;
+                    itfMesMngMessage(29) /* LACHESIS3: I measure the length of life. */;
                     BIT_ON(1618);
                 }
                 else
                 {
-                    itfMesMngMessage(31) /* LACHESIS5 */;
+                    itfMesMngMessage(31) /* LACHESIS5: It seems that my measurements were a little off... */;
                 }
                 itfMesMngCloseWindow();
                 BIT_ON(1610);
@@ -1291,11 +1291,11 @@ void check_moon_state5()
                 itfMesMngOpenWindow();
                 if (BIT_CHK(1619) == 0)
                 {
-                    itfMesMngMessage(32) /* ATROPOS */;
+                    itfMesMngMessage(32) /* ATROPOS: Ahaha... Were you able to keep up with Kagutsuchi? */;
                 }
                 else
                 {
-                    itfMesMngMessage(35) /* ATROPOS4 */;
+                    itfMesMngMessage(35) /* ATROPOS4: Ahaha... You again? */;
                 }
                 itfMesMngCloseWindow();
                 WAIT(15);
@@ -1312,14 +1312,14 @@ void check_moon_state5()
                 itfMesMngOpenWindow();
                 if (BIT_CHK(1619) == 0)
                 {
-                    itfMesMngMessage(33) /* ATROPOS2 */;
+                    itfMesMngMessage(33) /* ATROPOS2: I am Atropos, the eldest of the Moirae Sisters. */;
                     CAM_SEL_FOVY(SEARCH_ID("01cam_12"));
-                    itfMesMngMessage(34) /* ATROPOS3 */;
+                    itfMesMngMessage(34) /* ATROPOS3: How unlucky of you to meet me. I cut the threads of fate... In other... */;
                     BIT_ON(1619);
                 }
                 else
                 {
-                    itfMesMngMessage(36) /* ATROPOS5 */;
+                    itfMesMngMessage(36) /* ATROPOS5: Are you done with your prayers? I will cut off any attachments you ha... */;
                 }
                 itfMesMngCloseWindow();
                 BIT_ON(1611);
@@ -1352,11 +1352,11 @@ void check_moon_state5()
                 itfMesMngOpenWindow();
                 if (BIT_CHK(1617) == 0)
                 {
-                    itfMesMngMessage(22) /* KLOTHO */;
+                    itfMesMngMessage(22) /* KLOTHO: Hahahahaha... So, have you figured out how the puzzle works? */;
                 }
                 else
                 {
-                    itfMesMngMessage(25) /* KLOTHO4 */;
+                    itfMesMngMessage(25) /* KLOTHO4: Hahahahaha... You don't give up, do you? */;
                 }
                 itfMesMngCloseWindow();
                 WAIT(15);
@@ -1374,14 +1374,14 @@ void check_moon_state5()
                 itfMesMngOpenWindow();
                 if (BIT_CHK(1617) == 0)
                 {
-                    itfMesMngMessage(23) /* KLOTHO2 */;
+                    itfMesMngMessage(23) /* KLOTHO2: I am Clotho, the youngest of the Moirae Sisters. */;
                     CAM_SEL_FOVY(SEARCH_ID("01cam_10"));
-                    itfMesMngMessage(24) /* KLOTHO3 */;
+                    itfMesMngMessage(24) /* KLOTHO3: I shall wind the thread of your life! */;
                     BIT_ON(1617);
                 }
                 else
                 {
-                    itfMesMngMessage(26) /* KLOTHO5 */;
+                    itfMesMngMessage(26) /* KLOTHO5: If you like me that much, I can make you our lover... */;
                 }
                 itfMesMngCloseWindow();
                 BIT_ON(1609);
@@ -1885,7 +1885,7 @@ void 002_01eve_09()
         FADE_IN(0, 20);
         WAIT(20);
         itfMesMngOpenWindow();
-        itfMesMngMessage(15) /* SANSIMAI_INFO1 */;
+        itfMesMngMessage(15) /* SANSIMAI_INFO1: > You sense a strong power. */;
         itfMesMngCloseWindow();
         FADE_OUT(1, 5);
         WAIT(5);
@@ -1900,23 +1900,23 @@ void 002_01eve_09()
         WAIT(45);
         CAM_SEL_FOVY(SEARCH_ID("01cam_10"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(16) /* KOUMAN1 */;
+        itfMesMngMessage(16) /* KOUMAN1: Hahahahaha... */;
         itfMesMngCloseWindow();
         CAM_SEL_FOVY(SEARCH_ID("01cam_11"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(17) /* HIJO1 */;
+        itfMesMngMessage(17) /* HIJO1: Ohohoho... */;
         itfMesMngCloseWindow();
         CAM_SEL_FOVY(SEARCH_ID("01cam_12"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(18) /* REIKOKU1 */;
+        itfMesMngMessage(18) /* REIKOKU1: Ahaha... If you want her back, you must defeat us. */;
         itfMesMngCloseWindow();
         CAM_SEL_FOVY(SEARCH_ID("01cam_10"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(19) /* KOUMAN2 */;
+        itfMesMngMessage(19) /* KOUMAN2: Kagutsuchi repeats the process of birth and death. It will not wait f... */;
         itfMesMngCloseWindow();
         CAM_SEL_FOVY(SEARCH_ID("01cam_13"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(20) /* SANSIMAI */;
+        itfMesMngMessage(20) /* SANSIMAI: Ahaha... Hahahahaha... Ohohoho... */;
         itfMesMngCloseWindow();
         FADE_OUT(1, 5);
         WAIT(5);
@@ -1926,7 +1926,7 @@ void 002_01eve_09()
         FADE_IN(1, 5);
         WAIT(5);
         itfMesMngOpenWindow();
-        itfMesMngMessage(21) /* SANSIMAI_INFO2 */;
+        itfMesMngMessage(21) /* SANSIMAI_INFO2: > The women disappeared. */;
         itfMesMngCloseWindow();
         FADE_OUT(0, 15);
         WAIT(15);
@@ -1978,13 +1978,13 @@ void 003_01eve_01()
             MODEL_POS(var0, SEARCH_ID("01pos_02"));
             if (BIT_CHK(1614))
             {
-                itfMesMngMessage(3) /* REVERSE_AIR */;
+                itfMesMngMessage(3) /* REVERSE_AIR: > Will you revert the effects? */;
             }
             else
             {
-                itfMesMngMessage(0) /* GIMMICK_TOUCH */;
+                itfMesMngMessage(0) /* GIMMICK_TOUCH: > There is a glowing sphere... */;
             }
-            if (itfMesMngSelect(1))
+            if (itfMesMngSelect(1) /* GIMMICK_TOUCH_SEL: Yes. / No. */)
             {
                 itfMesMngCloseWindow();
                 MODEL_POS(var0, SEARCH_ID("01pos_14"));
@@ -2021,7 +2021,7 @@ void 003_01eve_01()
                 SET_FIX_CAMERA(SEARCH_ID("01cam_01"));
                 WAIT(30);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(2) /* CHANGE_AIR */;
+                itfMesMngMessage(2) /* CHANGE_AIR: > The atmosphere around you changed. */;
                 itfMesMngCloseWindow();
                 CHG_MOON(0);
                 var249 = 0;
@@ -2079,7 +2079,7 @@ void 003_01eve_02()
                 WAIT(15);
             }
             itfMesMngOpenWindow();
-            itfMesMngMessage(5) /* STEP1 */;
+            itfMesMngMessage(5) /* STEP1: > Time passed quickly. */;
             MUL_BLUR_OFF(15);
             itfMesMngCloseWindow();
             PAD_ENABLE();
@@ -2116,7 +2116,7 @@ void 003_01eve_03()
                 WAIT(15);
             }
             itfMesMngOpenWindow();
-            itfMesMngMessage(5) /* STEP1 */;
+            itfMesMngMessage(5) /* STEP1: > Time passed quickly. */;
             MUL_BLUR_OFF(15);
             itfMesMngCloseWindow();
             PAD_ENABLE();
@@ -2134,8 +2134,8 @@ void 003_01eve_04()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(6) /* RETURN_FLOOR */;
-                if (itfMesMngSelect(7) == 0)
+                itfMesMngMessage(6) /* RETURN_FLOOR: > Will you return? */;
+                if (itfMesMngSelect(7) /* RETURN_FLOOR_SEL: Yes. / No. */ == 0)
                 {
                     itfMesMngCloseWindow();
                     var0 = MODEL_PLAYER();
@@ -2182,8 +2182,8 @@ void 003_01eve_05()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(6) /* RETURN_FLOOR */;
-                if (itfMesMngSelect(7) == 0)
+                itfMesMngMessage(6) /* RETURN_FLOOR: > Will you return? */;
+                if (itfMesMngSelect(7) /* RETURN_FLOOR_SEL: Yes. / No. */ == 0)
                 {
                     itfMesMngCloseWindow();
                     var0 = MODEL_PLAYER();
@@ -2341,19 +2341,19 @@ void 003_01npc_01()
                 itfMesMngOpenWindow();
                 if (BIT_CHK(1614))
                 {
-                    itfMesMngMessage(13) /* SINEN1_STOP */;
-                    itfMesMngMessage(14) /* SINEN1_STOP2 */;
+                    itfMesMngMessage(13) /* SINEN1_STOP: Hmmm... */;
+                    itfMesMngMessage(14) /* SINEN1_STOP2: I'm sure it has something to do with that mark engraved on it... */;
                 }
                 else
                 {
-                    itfMesMngMessage(9) /* SINEN1 */;
-                    if (itfMesMngSelect(10) == 0)
+                    itfMesMngMessage(9) /* SINEN1: There's blocks obstructing you? */;
+                    if (itfMesMngSelect(10) /* SINEN1_SEL: They're blocking me. / I'm not that square. */ == 0)
                     {
-                        itfMesMngMessage(11) /* SINEN1_YES */;
+                        itfMesMngMessage(11) /* SINEN1_YES: I wanna go too, but I have no idea what to do! */;
                     }
                     else
                     {
-                        itfMesMngMessage(12) /* SINEN1_NO */;
+                        itfMesMngMessage(12) /* SINEN1_NO: Then, go home. */;
                     }
                 }
                 itfMesMngCloseWindow();
@@ -2587,13 +2587,13 @@ void 005_01eve_05()
             MODEL_POS(var0, SEARCH_ID("01pos_07"));
             if (BIT_CHK(1614))
             {
-                itfMesMngMessage(3) /* REVERSE_AIR */;
+                itfMesMngMessage(3) /* REVERSE_AIR: > Will you revert the effects? */;
             }
             else
             {
-                itfMesMngMessage(0) /* GIMMICK_TOUCH */;
+                itfMesMngMessage(0) /* GIMMICK_TOUCH: > There is a glowing sphere... */;
             }
-            if (itfMesMngSelect(1))
+            if (itfMesMngSelect(1) /* GIMMICK_TOUCH_SEL: Yes. / No. */)
             {
                 itfMesMngCloseWindow();
                 MODEL_POS(var0, SEARCH_ID("01pos_22"));
@@ -2630,7 +2630,7 @@ void 005_01eve_05()
                 SET_FIX_CAMERA(SEARCH_ID("01cam_01"));
                 WAIT(30);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(2) /* CHANGE_AIR */;
+                itfMesMngMessage(2) /* CHANGE_AIR: > The atmosphere around you changed. */;
                 itfMesMngCloseWindow();
                 CHG_MOON(0);
                 var249 = 0;
@@ -2689,7 +2689,7 @@ void 005_01eve_06()
                 WAIT(15);
             }
             itfMesMngOpenWindow();
-            itfMesMngMessage(5) /* STEP1 */;
+            itfMesMngMessage(5) /* STEP1: > Time passed quickly. */;
             MUL_BLUR_OFF(15);
             itfMesMngCloseWindow();
             PAD_ENABLE();
@@ -2726,7 +2726,7 @@ void 005_01eve_07()
                 WAIT(15);
             }
             itfMesMngOpenWindow();
-            itfMesMngMessage(5) /* STEP1 */;
+            itfMesMngMessage(5) /* STEP1: > Time passed quickly. */;
             MUL_BLUR_OFF(15);
             itfMesMngCloseWindow();
             PAD_ENABLE();
@@ -2744,8 +2744,8 @@ void 005_01eve_08()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(6) /* RETURN_FLOOR */;
-                if (itfMesMngSelect(7) == 0)
+                itfMesMngMessage(6) /* RETURN_FLOOR: > Will you return? */;
+                if (itfMesMngSelect(7) /* RETURN_FLOOR_SEL: Yes. / No. */ == 0)
                 {
                     itfMesMngCloseWindow();
                     var0 = MODEL_PLAYER();
@@ -2794,8 +2794,8 @@ void 005_01eve_09()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(6) /* RETURN_FLOOR */;
-                if (itfMesMngSelect(7) == 0)
+                itfMesMngMessage(6) /* RETURN_FLOOR: > Will you return? */;
+                if (itfMesMngSelect(7) /* RETURN_FLOOR_SEL: Yes. / No. */ == 0)
                 {
                     itfMesMngCloseWindow();
                     var0 = MODEL_PLAYER();
@@ -4512,13 +4512,13 @@ void 007_01eve_30()
             MODEL_POS(var0, SEARCH_ID("01pos_32"));
             if (BIT_CHK(1614))
             {
-                itfMesMngMessage(3) /* REVERSE_AIR */;
+                itfMesMngMessage(3) /* REVERSE_AIR: > Will you revert the effects? */;
             }
             else
             {
-                itfMesMngMessage(0) /* GIMMICK_TOUCH */;
+                itfMesMngMessage(0) /* GIMMICK_TOUCH: > There is a glowing sphere... */;
             }
-            if (itfMesMngSelect(1))
+            if (itfMesMngSelect(1) /* GIMMICK_TOUCH_SEL: Yes. / No. */)
             {
                 itfMesMngCloseWindow();
                 MODEL_POS(var0, SEARCH_ID("01pos_60"));
@@ -4555,7 +4555,7 @@ void 007_01eve_30()
                 SET_FIX_CAMERA(SEARCH_ID("01cam_01"));
                 WAIT(30);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(2) /* CHANGE_AIR */;
+                itfMesMngMessage(2) /* CHANGE_AIR: > The atmosphere around you changed. */;
                 itfMesMngCloseWindow();
                 CHG_MOON(0);
                 var249 = 0;
@@ -4631,7 +4631,7 @@ void 007_01eve_32()
                 WAIT(15);
             }
             itfMesMngOpenWindow();
-            itfMesMngMessage(5) /* STEP1 */;
+            itfMesMngMessage(5) /* STEP1: > Time passed quickly. */;
             MUL_BLUR_OFF(15);
             itfMesMngCloseWindow();
             PAD_ENABLE();
@@ -4668,7 +4668,7 @@ void 007_01eve_33()
                 WAIT(15);
             }
             itfMesMngOpenWindow();
-            itfMesMngMessage(5) /* STEP1 */;
+            itfMesMngMessage(5) /* STEP1: > Time passed quickly. */;
             MUL_BLUR_OFF(15);
             itfMesMngCloseWindow();
             PAD_ENABLE();
@@ -4686,8 +4686,8 @@ void 007_01eve_34()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(6) /* RETURN_FLOOR */;
-                if (itfMesMngSelect(7) == 0)
+                itfMesMngMessage(6) /* RETURN_FLOOR: > Will you return? */;
+                if (itfMesMngSelect(7) /* RETURN_FLOOR_SEL: Yes. / No. */ == 0)
                 {
                     itfMesMngCloseWindow();
                     var0 = MODEL_PLAYER();
@@ -4736,8 +4736,8 @@ void 007_01eve_35()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(6) /* RETURN_FLOOR */;
-                if (itfMesMngSelect(7) == 0)
+                itfMesMngMessage(6) /* RETURN_FLOOR: > Will you return? */;
+                if (itfMesMngSelect(7) /* RETURN_FLOOR_SEL: Yes. / No. */ == 0)
                 {
                     itfMesMngCloseWindow();
                     var0 = MODEL_PLAYER();
@@ -4786,8 +4786,8 @@ void 007_01eve_36()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(6) /* RETURN_FLOOR */;
-                if (itfMesMngSelect(7) == 0)
+                itfMesMngMessage(6) /* RETURN_FLOOR: > Will you return? */;
+                if (itfMesMngSelect(7) /* RETURN_FLOOR_SEL: Yes. / No. */ == 0)
                 {
                     itfMesMngCloseWindow();
                     var0 = MODEL_PLAYER();
@@ -5002,13 +5002,13 @@ void 007_01eve_50()
             MODEL_POS(var0, SEARCH_ID("01pos_51"));
             if (BIT_CHK(1614))
             {
-                itfMesMngMessage(3) /* REVERSE_AIR */;
+                itfMesMngMessage(3) /* REVERSE_AIR: > Will you revert the effects? */;
             }
             else
             {
-                itfMesMngMessage(0) /* GIMMICK_TOUCH */;
+                itfMesMngMessage(0) /* GIMMICK_TOUCH: > There is a glowing sphere... */;
             }
-            if (itfMesMngSelect(1))
+            if (itfMesMngSelect(1) /* GIMMICK_TOUCH_SEL: Yes. / No. */)
             {
                 itfMesMngCloseWindow();
                 MODEL_POS(var0, SEARCH_ID("01pos_61"));
@@ -5045,7 +5045,7 @@ void 007_01eve_50()
                 SET_FIX_CAMERA(SEARCH_ID("01cam_02"));
                 WAIT(30);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(2) /* CHANGE_AIR */;
+                itfMesMngMessage(2) /* CHANGE_AIR: > The atmosphere around you changed. */;
                 itfMesMngCloseWindow();
                 CHG_MOON(0);
                 var249 = 0;
@@ -5104,7 +5104,7 @@ void 007_01eve_51()
                 WAIT(15);
             }
             itfMesMngOpenWindow();
-            itfMesMngMessage(5) /* STEP1 */;
+            itfMesMngMessage(5) /* STEP1: > Time passed quickly. */;
             MUL_BLUR_OFF(15);
             itfMesMngCloseWindow();
             PAD_ENABLE();
@@ -5139,8 +5139,8 @@ void 007_01eve_53()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(6) /* RETURN_FLOOR */;
-                if (itfMesMngSelect(7) == 0)
+                itfMesMngMessage(6) /* RETURN_FLOOR: > Will you return? */;
+                if (itfMesMngSelect(7) /* RETURN_FLOOR_SEL: Yes. / No. */ == 0)
                 {
                     itfMesMngCloseWindow();
                     var0 = MODEL_PLAYER();
@@ -5189,8 +5189,8 @@ void 007_01eve_54()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(6) /* RETURN_FLOOR */;
-                if (itfMesMngSelect(7) == 0)
+                itfMesMngMessage(6) /* RETURN_FLOOR: > Will you return? */;
+                if (itfMesMngSelect(7) /* RETURN_FLOOR_SEL: Yes. / No. */ == 0)
                 {
                     itfMesMngCloseWindow();
                     var0 = MODEL_PLAYER();
@@ -5773,13 +5773,13 @@ void 011_01eve_30()
             MODEL_POS(var0, SEARCH_ID("01pos_32"));
             if (BIT_CHK(1614))
             {
-                itfMesMngMessage(3) /* REVERSE_AIR */;
+                itfMesMngMessage(3) /* REVERSE_AIR: > Will you revert the effects? */;
             }
             else
             {
-                itfMesMngMessage(0) /* GIMMICK_TOUCH */;
+                itfMesMngMessage(0) /* GIMMICK_TOUCH: > There is a glowing sphere... */;
             }
-            if (itfMesMngSelect(1))
+            if (itfMesMngSelect(1) /* GIMMICK_TOUCH_SEL: Yes. / No. */)
             {
                 itfMesMngCloseWindow();
                 MODEL_POS(var0, SEARCH_ID("01pos_49"));
@@ -5804,7 +5804,7 @@ void 011_01eve_30()
             if (BIT_CHK(1605))
             {
                 itfMesMngOpenWindow();
-                itfMesMngMessage(8) /* OBJ_UGOKANAI */;
+                itfMesMngMessage(8) /* OBJ_UGOKANAI: > Nothing happened. */;
                 itfMesMngCloseWindow();
                 PAD_ENABLE();
                 return;
@@ -5823,7 +5823,7 @@ void 011_01eve_30()
                 SET_FIX_CAMERA(SEARCH_ID("01cam_01"));
                 WAIT(30);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(2) /* CHANGE_AIR */;
+                itfMesMngMessage(2) /* CHANGE_AIR: > The atmosphere around you changed. */;
                 itfMesMngCloseWindow();
                 CHG_MOON(0);
                 var249 = 0;
@@ -5886,7 +5886,7 @@ void 011_01eve_31()
                 WAIT(15);
             }
             itfMesMngOpenWindow();
-            itfMesMngMessage(5) /* STEP1 */;
+            itfMesMngMessage(5) /* STEP1: > Time passed quickly. */;
             MUL_BLUR_OFF(15);
             itfMesMngCloseWindow();
             PAD_ENABLE();
@@ -5923,7 +5923,7 @@ void 011_01eve_32()
                 WAIT(15);
             }
             itfMesMngOpenWindow();
-            itfMesMngMessage(5) /* STEP1 */;
+            itfMesMngMessage(5) /* STEP1: > Time passed quickly. */;
             MUL_BLUR_OFF(15);
             itfMesMngCloseWindow();
             PAD_ENABLE();
@@ -5963,8 +5963,8 @@ void 011_01eve_34()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(6) /* RETURN_FLOOR */;
-                if (itfMesMngSelect(7) == 0)
+                itfMesMngMessage(6) /* RETURN_FLOOR: > Will you return? */;
+                if (itfMesMngSelect(7) /* RETURN_FLOOR_SEL: Yes. / No. */ == 0)
                 {
                     itfMesMngCloseWindow();
                     var0 = MODEL_PLAYER();
@@ -6019,8 +6019,8 @@ void 011_01eve_35()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(6) /* RETURN_FLOOR */;
-                if (itfMesMngSelect(7) == 0)
+                itfMesMngMessage(6) /* RETURN_FLOOR: > Will you return? */;
+                if (itfMesMngSelect(7) /* RETURN_FLOOR_SEL: Yes. / No. */ == 0)
                 {
                     itfMesMngCloseWindow();
                     var0 = MODEL_PLAYER();
@@ -6075,8 +6075,8 @@ void 011_01eve_36()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(6) /* RETURN_FLOOR */;
-                if (itfMesMngSelect(7) == 0)
+                itfMesMngMessage(6) /* RETURN_FLOOR: > Will you return? */;
+                if (itfMesMngSelect(7) /* RETURN_FLOOR_SEL: Yes. / No. */ == 0)
                 {
                     itfMesMngCloseWindow();
                     var0 = MODEL_PLAYER();
@@ -6485,8 +6485,8 @@ void 012_01eve_04()
             if (BIT_CHK(1602) == 0)
             {
                 itfMesMngOpenWindow();
-                itfMesMngMessage(50) /* BOSS_ROOM_IN */;
-                if (itfMesMngSelect(51))
+                itfMesMngMessage(50) /* BOSS_ROOM_IN: > You sense strong power from the floor above. */;
+                if (itfMesMngSelect(51) /* BOSS_ROOM_SEL: Yes. / No. */)
                 {
                     itfMesMngCloseWindow();
                     PAD_ENABLE();
@@ -6522,16 +6522,16 @@ void 012_01eve_04()
                 MODEL_POS(MODEL_PLAYER(), SEARCH_ID("01pos_15"));
                 SET_CHASE_CAMERA();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(37) /* BOSS3_01 */;
+                itfMesMngMessage(37) /* BOSS3_01: Hahahahaha...! We aren't letting you pass that easily! */;
                 CAM_SEL_FOVY(SEARCH_ID("01cam_06"));
-                itfMesMngMessage(38) /* BOSS3_02 */;
+                itfMesMngMessage(38) /* BOSS3_02: Do not underestimate us! */;
                 CAM_SEL_FOVY(SEARCH_ID("01cam_07"));
-                itfMesMngMessage(39) /* BOSS3_03 */;
+                itfMesMngMessage(39) /* BOSS3_03: We three Moirae Sisters will... */;
                 CAM_SEL_FOVY(SEARCH_ID("01cam_04"));
                 MODEL_POS(MODEL_PLAYER(), SEARCH_ID("01pos_06"));
-                itfMesMngMessage(40) /* BOSS3_04 */;
-                itfMesMngMessage(41) /* BOSS3_05 */;
-                itfMesMngMessage(42) /* BOSS3_06 */;
+                itfMesMngMessage(40) /* BOSS3_04: Spin! */;
+                itfMesMngMessage(41) /* BOSS3_05: Measure! */;
+                itfMesMngMessage(42) /* BOSS3_06: And snip your fate!! */;
                 itfMesMngCloseWindow();
                 MODEL_MOTION2(var10, 3, 10, 10, 1);
                 MODEL_MOTION2(var11, 3, 10, 10, 1);
@@ -6623,15 +6623,15 @@ void 012_01eve_07()
         WAIT(30);
         CAM_SEL_FOVY(SEARCH_ID("01cam_05"));
         itfMesMngOpenWindow();
-        itfMesMngMessage(37) /* BOSS3_01 */;
+        itfMesMngMessage(37) /* BOSS3_01: Hahahahaha...! We aren't letting you pass that easily! */;
         CAM_SEL_FOVY(SEARCH_ID("01cam_06"));
-        itfMesMngMessage(38) /* BOSS3_02 */;
+        itfMesMngMessage(38) /* BOSS3_02: Do not underestimate us! */;
         CAM_SEL_FOVY(SEARCH_ID("01cam_07"));
-        itfMesMngMessage(39) /* BOSS3_03 */;
+        itfMesMngMessage(39) /* BOSS3_03: We three Moirae Sisters will... */;
         CAM_SEL_FOVY(SEARCH_ID("01cam_04"));
-        itfMesMngMessage(40) /* BOSS3_04 */;
-        itfMesMngMessage(41) /* BOSS3_05 */;
-        itfMesMngMessage(42) /* BOSS3_06 */;
+        itfMesMngMessage(40) /* BOSS3_04: Spin! */;
+        itfMesMngMessage(41) /* BOSS3_05: Measure! */;
+        itfMesMngMessage(42) /* BOSS3_06: And snip your fate!! */;
         itfMesMngCloseWindow();
         MODEL_MOTION2(var10, 3, 10, 10, 1);
         MODEL_MOTION2(var11, 3, 10, 10, 1);
@@ -6652,8 +6652,8 @@ void 012_01eve_10()
         {
             PAD_DISABLE();
             itfMesMngOpenWindow();
-            itfMesMngMessage(43) /* TENJOH */;
-            if (itfMesMngSelect(44) == 0)
+            itfMesMngMessage(43) /* TENJOH: > There is light coming from above. */;
+            if (itfMesMngSelect(44) /* TENJOH_SEL: Yes. / No. */ == 0)
             {
                 itfMesMngCloseWindow();
                 FADE_OUT(0, 10);
@@ -6683,7 +6683,7 @@ void 012_01eve_10()
                     FADE_IN(1, 30);
                     WAIT(30);
                     itfMesMngOpenWindow();
-                    itfMesMngMessage(47) /* f031_YUUKO_RESCUE */;
+                    itfMesMngMessage(47) /* f031_YUUKO_RESCUE: > No one is here. */;
                     itfMesMngCloseWindow();
                     FADE_OUT(1, 30);
                     WAIT(30);
@@ -6917,13 +6917,13 @@ void 014_01eve_30()
             MODEL_POS(var0, SEARCH_ID("01pos_32"));
             if (BIT_CHK(1614))
             {
-                itfMesMngMessage(3) /* REVERSE_AIR */;
+                itfMesMngMessage(3) /* REVERSE_AIR: > Will you revert the effects? */;
             }
             else
             {
-                itfMesMngMessage(0) /* GIMMICK_TOUCH */;
+                itfMesMngMessage(0) /* GIMMICK_TOUCH: > There is a glowing sphere... */;
             }
-            if (itfMesMngSelect(1))
+            if (itfMesMngSelect(1) /* GIMMICK_TOUCH_SEL: Yes. / No. */)
             {
                 itfMesMngCloseWindow();
                 MODEL_POS(var0, SEARCH_ID("01pos_39"));
@@ -6960,7 +6960,7 @@ void 014_01eve_30()
                 SET_FIX_CAMERA(SEARCH_ID("01cam_01"));
                 WAIT(30);
                 itfMesMngOpenWindow();
-                itfMesMngMessage(2) /* CHANGE_AIR */;
+                itfMesMngMessage(2) /* CHANGE_AIR: > The atmosphere around you changed. */;
                 itfMesMngCloseWindow();
                 CHG_MOON(0);
                 var249 = 0;
@@ -7019,7 +7019,7 @@ void 014_01eve_31()
                 WAIT(15);
             }
             itfMesMngOpenWindow();
-            itfMesMngMessage(5) /* STEP1 */;
+            itfMesMngMessage(5) /* STEP1: > Time passed quickly. */;
             MUL_BLUR_OFF(15);
             itfMesMngCloseWindow();
             PAD_ENABLE();
@@ -7056,7 +7056,7 @@ void 014_01eve_32()
                 WAIT(15);
             }
             itfMesMngOpenWindow();
-            itfMesMngMessage(5) /* STEP1 */;
+            itfMesMngMessage(5) /* STEP1: > Time passed quickly. */;
             MUL_BLUR_OFF(15);
             itfMesMngCloseWindow();
             PAD_ENABLE();
@@ -7093,7 +7093,7 @@ void 014_01eve_33()
                 WAIT(15);
             }
             itfMesMngOpenWindow();
-            itfMesMngMessage(5) /* STEP1 */;
+            itfMesMngMessage(5) /* STEP1: > Time passed quickly. */;
             MUL_BLUR_OFF(15);
             itfMesMngCloseWindow();
             PAD_ENABLE();
@@ -7111,8 +7111,8 @@ void 014_01eve_34()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(6) /* RETURN_FLOOR */;
-                if (itfMesMngSelect(7) == 0)
+                itfMesMngMessage(6) /* RETURN_FLOOR: > Will you return? */;
+                if (itfMesMngSelect(7) /* RETURN_FLOOR_SEL: Yes. / No. */ == 0)
                 {
                     itfMesMngCloseWindow();
                     var0 = MODEL_PLAYER();
@@ -7161,8 +7161,8 @@ void 014_01eve_35()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(6) /* RETURN_FLOOR */;
-                if (itfMesMngSelect(7) == 0)
+                itfMesMngMessage(6) /* RETURN_FLOOR: > Will you return? */;
+                if (itfMesMngSelect(7) /* RETURN_FLOOR_SEL: Yes. / No. */ == 0)
                 {
                     itfMesMngCloseWindow();
                     var0 = MODEL_PLAYER();
@@ -7211,8 +7211,8 @@ void 014_01eve_36()
             {
                 PAD_DISABLE();
                 itfMesMngOpenWindow();
-                itfMesMngMessage(6) /* RETURN_FLOOR */;
-                if (itfMesMngSelect(7) == 0)
+                itfMesMngMessage(6) /* RETURN_FLOOR: > Will you return? */;
+                if (itfMesMngSelect(7) /* RETURN_FLOOR_SEL: Yes. / No. */ == 0)
                 {
                     itfMesMngCloseWindow();
                     var0 = MODEL_PLAYER();
@@ -7364,7 +7364,7 @@ void 000_dh_plus()
     PAD_DISABLE();
     FLD_MODEL_ON(0, 0, "md_hoji_04", 0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(45) /* f031_H_GET */;
+    itfMesMngMessage(45) /* f031_H_GET: > You obtained the Magatama Djed. */;
     itfMesMngCloseWindow();
     PAD_ENABLE();
 }
@@ -7379,7 +7379,7 @@ void 017_yuuko_rescue()
     FADE_IN(0, 5);
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(47) /* f031_YUUKO_RESCUE */;
+    itfMesMngMessage(47) /* f031_YUUKO_RESCUE: > No one is here. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 15);
     WAIT(15);
@@ -7400,7 +7400,7 @@ void 017_fall_die()
     FADE_IN(0, 5);
     WAIT(5);
     itfMesMngOpenWindow();
-    itfMesMngMessage(46) /* f031_FALL_DIE */;
+    itfMesMngMessage(46) /* f031_FALL_DIE: > If you fall from here, you will lose your life. */;
     itfMesMngCloseWindow();
     FADE_OUT(0, 15);
     WAIT(15);
@@ -7473,8 +7473,8 @@ void 015_01eve_02()
         {
             PAD_DISABLE();
             itfMesMngOpenWindow();
-            itfMesMngMessage(48) /* f031_GO_KAGUTUTI */;
-            if (itfMesMngSelect(49) == 0)
+            itfMesMngMessage(48) /* f031_GO_KAGUTUTI: > Will you go to the Tower of Kagutsuchi? */;
+            if (itfMesMngSelect(49) /* f031_GO_KAG_SEL: Yes. / No. */ == 0)
             {
                 itfMesMngCloseWindow();
                 FLD_SE_PLAY(101);

@@ -63,14 +63,14 @@ void e679_010()
     {
         itfMesMngWindowTypeAlpha(1, 50);
         itfMesMngOpenWindow();
-        itfMesMngMessage(1) /* MSG_010_B1 */;
+        itfMesMngMessage(1) /* MSG_010_B1: Your strength... was superior to mine... */;
         itfMesMngCloseWindow();
     }
     else
     {
         itfMesMngWindowTypeAlpha(1, 50);
         itfMesMngOpenWindow();
-        itfMesMngMessage(0) /* MSG_010_A1 */;
+        itfMesMngMessage(0) /* MSG_010_A1: Your strength... was superior to mine... */;
         itfMesMngCloseWindow();
     }
     WAIT(30);
@@ -129,7 +129,7 @@ void e679_030()
     itfMesMngWindowTypeAlpha(1, 50);
     SE_PLAY(25);
     itfMesMngOpenWindow();
-    itfMesMngMessage(2) /* MSG_020_1_E */;
+    itfMesMngMessage(2) /* MSG_020_1_E: > You obtained the Heavenstone. */;
     itfMesMngCloseWindow();
     WAIT(20);
 }

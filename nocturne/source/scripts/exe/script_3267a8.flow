@@ -5,7 +5,7 @@ void lee_test1()
 {
     itfMesMngWindowType(0);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* TESTMES */;
+    itfMesMngMessage(0) /* TESTMES: H/H:H;H-H#H$H=H[81A9]H HaHbHcHdHeHfHgHhHiHjHkHlHmHnHoH HpHqHrHsHtHuHv... */;
     itfMesMngCloseWindow();
 }
 

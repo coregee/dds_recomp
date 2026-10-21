@@ -78,8 +78,8 @@ void e729_030()
     MODEL_MOTION2(var1, 1, 0, 0, 1);
     WAIT(80);
     itfMesMngOpenWindow();
-    itfMesMngMessage(0) /* MSG_010_1 */;
-    itfMesMngMessage(1) /* MSG_010_2 */;
+    itfMesMngMessage(0) /* MSG_010_1: Thought you got away? */;
+    itfMesMngMessage(1) /* MSG_010_2: Checkmate! */;
     itfMesMngCloseWindow();
     WAIT(10);
     CAM_PATH_WAIT(SEARCH_ID("01cam_03"));
