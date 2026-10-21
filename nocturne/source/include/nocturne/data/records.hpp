@@ -329,11 +329,35 @@ static_assert(sizeof(EventDevil) == 8);
 // Per-devil model record (0x310 bytes; table at 0x34F1E0, fallback record at
 // 0x3494B0). Only the battle model scale is identified so far.
 struct UnitVisual {
-    uint8_t unknown_00[0x18];
+    uint8_t unknown_00[0x10];
+    ee::Float size;           // with scale: a called ally's slot radius (tentative)
+    uint8_t unknown_14[4];
     ee::Float scale;
     uint8_t unknown_1c[0x310 - 0x1c];
 };
 static_assert(sizeof(UnitVisual) == 0x310);
+
+// datDevilAI_t: how an enemy devil chooses its actions (battle/ai.hpp).
+struct AiCheck {               // datDevilAIChk_s
+    uint32_t check[2];         // conditions, (type << 16) | parameter; 0 = always
+    uint32_t table;            // the action table to use when both hold
+};
+struct AiAction {              // datDevilAITbl_s
+    uint16_t ritu;             // weight
+    uint16_t skill;            // a skill, or a 0x8xxx command (attack, escape ...)
+    uint32_t target;           // (selector << 16) | parameter
+};
+struct DevilAI {
+    uint16_t scriptid;         // AI script, or 0 for the table AI
+    uint16_t ailevel;          // target choice: 0 any, 1 best effect, 2 ... skipping immunities
+    AiCheck aichk[3];          // tried in order; none holding means table 0
+    AiAction aitable[3][5];
+    uint16_t deadscriptid;
+    uint16_t deadeventno;
+};
+static_assert(sizeof(AiAction) == 8);
+static_assert(sizeof(DevilAI) == 164);
+static_assert(offsetof(DevilAI, aitable) == 0x28);
 
 // fclencyceelem_t: a compendium entry, a snapshot of a demon (0xB0 bytes).
 struct EncycRecord {

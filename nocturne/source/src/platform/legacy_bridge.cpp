@@ -24,6 +24,12 @@ uint32_t sdfGetRand(uint32_t* state);
 float sdfGetRandFloat(uint32_t* state);
 uint64_t ps2LibcPrintf(uint64_t format, ...);
 void evtBitOn(int32_t no);
+uint32_t evtGetAgeOfMoon16(void);
+uint64_t scrGetData(void);
+uint64_t scrGetIntPara(uint64_t index);
+void scrSetIntReturnValue(uint64_t value);
+uint64_t dds3SearchProcessName(uint64_t name);
+uint64_t dds3GetProcessData(uint64_t process);
 void evtBitOff(int32_t no);
 [[noreturn]] void nocturneCompilerArithmeticTrap(uint32_t code);
 }
@@ -67,6 +73,15 @@ uint32_t evt::GetAgeOfMoon() { return evtGetAgeOfMoon(); }
 int32_t sdf::GetRandInt(int32_t limit) { return static_cast<int32_t>(sdfGetRandInt(nullptr, static_cast<uint32_t>(limit))); }
 ee::Float sdf::GetRandFloat() { return sdfGetRandFloat(nullptr); }
 uint32_t sdf::GetRand() { return sdfGetRand(nullptr); }
+int32_t evt::GetAgeOfMoon16() { return static_cast<int32_t>(evtGetAgeOfMoon16()); }
+
+// ---- scr / dds3 ---------------------------------------------------------------
+
+uint32_t scr::GetData() { return static_cast<uint32_t>(scrGetData()); }
+int32_t scr::GetIntPara(int32_t index) { return static_cast<int32_t>(scrGetIntPara(signExtend(index))); }
+void scr::SetIntReturnValue(int32_t value) { scrSetIntReturnValue(signExtend(value)); }
+uint32_t dds3::SearchProcessName(uint32_t name) { return static_cast<uint32_t>(dds3SearchProcessName(name)); }
+uint32_t dds3::GetProcessData(uint32_t process) { return static_cast<uint32_t>(dds3GetProcessData(signExtend(static_cast<int32_t>(process)))); }
 
 // ---- diagnostics / traps -----------------------------------------------------
 

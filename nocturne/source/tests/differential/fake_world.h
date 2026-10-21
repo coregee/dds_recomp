@@ -28,7 +28,9 @@ enum {
     FW_LOG        = 0x01105100, /* event bit writes: count, then bit | on << 31 */
     FW_SCRATCH    = 0x01105400, /* 0xC00 bytes for test buffers */
     FW_DYNAMIC_BEGIN = 0x01000000,
-    FW_DYNAMIC_END   = 0x01106000,
+    FW_TARSEL     = 0x01106000, /* nbTarSelProcessData */
+    FW_SCRIPT     = 0x01106100, /* fake script VM: int params [8], then returns: count, values */
+    FW_DYNAMIC_END   = 0x01107000,
     /* Guest stack for legacy code that allocates on it (not compared). */
     FW_STACK_TOP     = 0x01300000,
 };

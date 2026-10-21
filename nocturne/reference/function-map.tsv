@@ -5998,7 +5998,7 @@ address	size	name	name_source	status	rewrite	legacy
 00245b10	300	FUN_00245b10	DEFAULT	unknown		
 00245c40	52	FUN_00245c40	DEFAULT	unknown		
 00245c78	24	datDelDevil	USER_DEFINED	legacy		cmp_stock.c:datDelDevil
-00245c90	132	datGetItemSkillNo	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_00245c90;battle_panel_renderer_remaining.c:body_00245c90;battle_targeting.c:datGetItemSkillNo
+00245c90	132	datGetItemSkillNo	USER_DEFINED	rewritten	src/data/progression.cpp:itemSkill	battle_action_skill_registered_frames.c:body_00245c90;battle_panel_renderer_remaining.c:body_00245c90;battle_targeting.c:datGetItemSkillNo
 00245d18	20	datGetLevelForDraw	USER_DEFINED	legacy		battle_panel_analyze_dependencies.c:body_00245d18;dat_work.c:datGetLevelForDraw
 00245d30	304	ps2UnitRefreshCompanion_00245D30	USER_DEFINED	rewritten	src/data/progression.cpp:resetToSpecies	unit_progression.c:ps2UnitRefreshCompanion_00245D30
 00245e60	256	datBossRashGetRec	USER_DEFINED	legacy		dat_boss.c:datBossRashGetRec
@@ -6016,7 +6016,7 @@ address	size	name	name_source	status	rewrite	legacy
 002469c0	120	nbGetUnitWorkPointer	USER_DEFINED	legacy		battle_action_scale_lookup_frames.c:ps2BattleActionScaleLookup_002469C0;battle_panel_renderer_remaining.c:body_002469c0;battle_work_access.c:nbGetUnitWorkPointer
 00246a40	120	nbGetPartyFromFormindex	USER_DEFINED	legacy		battle_action_scale_lookup_frames.c:ps2BattleActionScaleLookup_00246A40;battle_panel_renderer_remaining.c:body_00246a40;battle_work_access.c:nbGetPartyFromFormindex
 00246ab8	164	nbGetUnitWorkFromFormindex	USER_DEFINED	legacy		battle_action_scale_lookup_frames.c:ps2BattleActionScaleLookup_00246AB8;battle_panel_renderer_remaining.c:body_00246ab8;battle_work_access.c:nbGetUnitWorkFromFormindex
-00246b68	68	nbGetSelectBit	USER_DEFINED	legacy		battle_ai_actions.c:nbGetSelectBit;battle_panel_renderer_remaining.c:body_00246b68
+00246b68	68	nbGetSelectBit	USER_DEFINED	rewritten	src/battle/ai.cpp:selectedBits	battle_ai_actions.c:nbGetSelectBit;battle_panel_renderer_remaining.c:body_00246b68
 00246bb0	64	FUN_00246bb0	DEFAULT	unknown		
 00246bf8	268	FUN_00246bf8	DEFAULT	unknown		
 00246d08	508	FUN_00246d08	DEFAULT	unknown		
@@ -6254,8 +6254,8 @@ address	size	name	name_source	status	rewrite	legacy
 00258c08	112	FUN_00258c08	DEFAULT	unknown		
 00258c78	100	FUN_00258c78	DEFAULT	unknown		
 00258ce0	256	FUN_00258ce0	DEFAULT	unknown		
-00258de8	540	nbGetTargetTypeRuleArea	USER_DEFINED	legacy		battle_panel_renderer_remaining.c:body_00258de8;battle_targeting.c:nbGetTargetTypeRuleArea
-00259018	352	nbSetNormalSkill0	USER_DEFINED	legacy		battle_ai_actions.c:nbSetNormalSkill0
+00258de8	540	nbGetTargetTypeRuleArea	USER_DEFINED	rewritten	src/battle/targeting.cpp:targetTypeRuleArea	battle_panel_renderer_remaining.c:body_00258de8;battle_targeting.c:nbGetTargetTypeRuleArea
+00259018	352	nbSetNormalSkill0	USER_DEFINED	rewritten	src/battle/ai.cpp:setNormalAttack	battle_ai_actions.c:nbSetNormalSkill0
 00259180	224	ps2BattleRoster_00259180	USER_DEFINED	legacy		battle_roster.c:body_00259180;battle_roster.c:ps2BattleRoster_00259180
 00259268	64	FUN_00259268	DEFAULT	unknown		
 002592b0	76	ps2BattleAction_002592B0	USER_DEFINED	legacy		battle_action_consumer.c:body_002592b0;battle_action_consumer.c:ps2BattleAction_002592B0;battle_panel_renderer_remaining.c:body_002592b0
@@ -6273,7 +6273,7 @@ address	size	name	name_source	status	rewrite	legacy
 00259b10	92	nbCheckDeadScript	USER_DEFINED	legacy		battle_action_status.c:nbCheckDeadScript
 00259b70	92	nbCheckDeadEvent	USER_DEFINED	legacy		battle_action_packet_frames.c:body_00259b70;battle_action_packet_frames.c:ps2BattleActionPacket_00259B70;battle_action_status.c:nbCheckDeadEvent
 00259bd0	116	FUN_00259bd0	DEFAULT	unknown		
-00259c48	72	nbGetItemSkillNo	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_00259c48;battle_panel_renderer_remaining.c:body_00259c48;battle_targeting.c:nbGetItemSkillNo
+00259c48	72	nbGetItemSkillNo	USER_DEFINED	rewritten	src/battle/targeting.cpp:itemSkillFor	battle_action_skill_registered_frames.c:body_00259c48;battle_panel_renderer_remaining.c:body_00259c48;battle_targeting.c:nbGetItemSkillNo
 00259c90	96	FUN_00259c90	DEFAULT	legacy		battle_status_pairs.c:body_00259c90;battle_status_pairs_native.c:body_00259c90
 00259cf8	36	FUN_00259cf8	DEFAULT	legacy		battle_status_pairs.c:body_00259cf8;battle_status_pairs_native.c:body_00259cf8
 00259d20	496	FUN_00259d20	DEFAULT	unknown		
@@ -6313,14 +6313,14 @@ address	size	name	name_source	status	rewrite	legacy
 0025d4c0	60	FUN_0025d4c0	DEFAULT	legacy		battle_status_pairs.c:body_0025d4c0;battle_status_pairs_native.c:body_0025d4c0
 0025d500	284	FUN_0025d500	DEFAULT	unknown		
 0025d620	108	FUN_0025d620	DEFAULT	unknown		
-0025d690	36	GetTarSelProcessData	USER_DEFINED	legacy		battle_panel_renderer_remaining.c:body_0025d690;battle_targeting.c:GetTarSelProcessData
+0025d690	36	GetTarSelProcessData	USER_DEFINED	rewritten	src/battle/targeting.cpp:targetSelectData	battle_panel_renderer_remaining.c:body_0025d690;battle_targeting.c:GetTarSelProcessData
 0025d6b8	32	FUN_0025d6b8	DEFAULT	legacy		battle_status_pairs.c:body_0025d6b8;battle_status_pairs_native.c:body_0025d6b8
 0025d6d8	40	FUN_0025d6d8	DEFAULT	legacy		battle_status_pairs.c:body_0025d6d8;battle_status_pairs_native.c:body_0025d6d8
 0025d700	40	FUN_0025d700	DEFAULT	legacy		battle_status_pairs.c:body_0025d700;battle_status_pairs_native.c:body_0025d700
 0025d728	540	FUN_0025d728	DEFAULT	unknown		
 0025d948	300	FUN_0025d948	DEFAULT	unknown		
-0025da78	384	CheckFormCursor	USER_DEFINED	legacy		battle_panel_renderer_remaining.c:body_0025da78;battle_targeting.c:CheckFormCursor
-0025dc00	572	nbSetSelectOkMark	USER_DEFINED	legacy		battle_panel_renderer_remaining.c:body_0025dc00;battle_targeting.c:nbSetSelectOkMark
+0025da78	384	CheckFormCursor	USER_DEFINED	rewritten	src/battle/targeting.cpp:canTarget	battle_panel_renderer_remaining.c:body_0025da78;battle_targeting.c:CheckFormCursor
+0025dc00	572	nbSetSelectOkMark	USER_DEFINED	rewritten	src/battle/targeting.cpp:markTargetable	battle_panel_renderer_remaining.c:body_0025dc00;battle_targeting.c:nbSetSelectOkMark
 0025de40	348	FUN_0025de40	DEFAULT	legacy		battle_status_pairs.c:body_0025de40;battle_status_pairs_native.c:body_0025de40
 0025dfa0	204	FUN_0025dfa0	DEFAULT	legacy		battle_status_pairs.c:body_0025dfa0;battle_status_pairs_native.c:body_0025dfa0
 0025e070	64	FUN_0025e070	DEFAULT	legacy		battle_status_pairs.c:body_0025e070;battle_status_pairs_native.c:body_0025e070
@@ -7010,64 +7010,64 @@ address	size	name	name_source	status	rewrite	legacy
 002852c0	68	FUN_002852c0	DEFAULT	unknown		
 00285308	92	FUN_00285308	DEFAULT	unknown		
 00285368	108	FUN_00285368	DEFAULT	unknown		
-002853d8	96	nbAiChkMyHp	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkMyHp
-00285438	56	nbAiChkMyMp	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkMyMp
-00285470	264	nbAiChkFrHp	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkFrHp
-00285578	96	nbAiChkDmgCnt	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkDmgCnt
-002855d8	140	nbAiChkChkCnt	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkChkCnt
-00285668	132	nbAiChkFrCnt	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkFrCnt
-002856f0	132	nbAiChkEnCnt	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkEnCnt
-00285778	56	nbAiChkMyBad	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkMyBad
-002857b0	224	nbAiChkFrBad	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkFrBad
-00285890	224	nbAiChkEnBad	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkEnBad
-00285970	256	nbAiChkEnAllBad	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkEnAllBad
-00285a70	240	nbAiChkEnId	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkEnId
-00285b60	228	nbAiChkFrId	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkFrId
-00285c48	224	nbAiChkHojo	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkHojo
-00285d30	400	nbAiChkHojoMax	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkHojoMax
-00285ec8	220	nbAiChkEnHojo	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkEnHojo
-00285fa8	220	nbAiChkFrHojo	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkFrHojo
-00286088	220	nbAiChkEnHojoMax	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkEnHojoMax
-00286168	220	nbAiChkFrHojoMax	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkFrHojoMax
-00286248	132	nbAiChkBa	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkBa
-002862d0	132	nbAiChkSensei	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkSensei
-00286358	232	nbAiChkEnLight	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkEnLight
-00286440	240	nbAiChkEnDark	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkEnDark
-00286530	76	nbAiChkPow	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkPow
-00286580	44	nbAiChkPlv	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkPlv
-002865b0	52	nbAiChkPPartyLv	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkPPartyLv
-002865e8	20	nbAiChkTurn	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkTurn
-00286600	232	nbAiChkEnHamamHk	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkEnHamamHk
-002866e8	72	nbAiChkSkillNoMp	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkSkillNoMp
-00286730	116	nbAiChkJoken	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiChkJoken
-002867a8	224	nbAiAiChk	USER_DEFINED	legacy		battle_ai_execution.c:nbAiAiChk
-00286888	280	nbAiGetKoudou	USER_DEFINED	legacy		battle_ai_execution.c:nbAiGetKoudou
-002869a0	436	nbAiSetKoudou	USER_DEFINED	legacy		battle_ai_execution.c:nbAiSetKoudou
-00286b68	840	nbAiSelAi	USER_DEFINED	legacy		battle_ai_estimates.c:nbAiSelAi
-00286ec0	200	nbAiSelLifeMin	USER_DEFINED	legacy		battle_ai_filters.c:nbAiSelLifeMin
-00286f88	232	nbAiSelBaarLv	USER_DEFINED	legacy		battle_ai_filters.c:nbAiSelBaarLv
-00287070	200	nbAiSelLvMin	USER_DEFINED	legacy		battle_ai_filters.c:nbAiSelLvMin
-00287138	156	nbAiSelBad	USER_DEFINED	legacy		battle_ai_filters.c:nbAiSelBad
-002871d8	172	nbAiSelId	USER_DEFINED	legacy		battle_ai_filters.c:nbAiSelId
-00287288	176	nbAiSelLight	USER_DEFINED	legacy		battle_ai_filters.c:nbAiSelLight
-00287338	176	nbAiSelDark	USER_DEFINED	legacy		battle_ai_filters.c:nbAiSelDark
-002873e8	144	nbAiSelPlayer	USER_DEFINED	legacy		battle_ai_filters.c:nbAiSelPlayer
-00287478	76	nbAiSelJoken	USER_DEFINED	legacy		battle_ai_filters.c:nbAiSelJoken
-002874c8	60	nbAiSelRnd	USER_DEFINED	legacy		battle_ai_filters.c:nbAiSelRnd
-00287508	580	nbSetSingleTarget2	USER_DEFINED	legacy		battle_ai_selection.c:nbSetSingleTarget2
-00287778	228	nbSetGroupTarget2	USER_DEFINED	legacy		battle_ai_selection.c:nbSetGroupTarget2
-00287860	196	nbAiChkCost	USER_DEFINED	legacy		battle_ai_execution.c:nbAiChkCost
-00287928	196	nbAiChkClose	USER_DEFINED	legacy		battle_ai_execution.c:nbAiChkClose
-002879f0	324	nbSetAiTarget	USER_DEFINED	legacy		battle_ai_selection.c:nbSetAiTarget
-00287b40	368	nbRunAiSub	USER_DEFINED	legacy		battle_ai_execution.c:nbRunAiSub
-00287cb8	188	nbRunAi	USER_DEFINED	legacy		battle_ai_execution.c:nbRunAi
-00287d78	44	nbCommand_AI_ACT_ATTACK	USER_DEFINED	legacy		battle_ai_actions.c:nbCommand_AI_ACT_ATTACK
-00287da8	48	nbCommand_AI_ACT_ESCAPE	USER_DEFINED	legacy		battle_ai_actions.c:nbCommand_AI_ACT_ESCAPE
+002853d8	96	nbAiChkMyHp	USER_DEFINED	rewritten	src/battle/ai.cpp:ownHpAtMost	battle_ai_conditions.c:nbAiChkMyHp
+00285438	56	nbAiChkMyMp	USER_DEFINED	rewritten	src/battle/ai.cpp:ownMpAtMost	battle_ai_conditions.c:nbAiChkMyMp
+00285470	264	nbAiChkFrHp	USER_DEFINED	rewritten	src/battle/ai.cpp:allyHpAtMost	battle_ai_conditions.c:nbAiChkFrHp
+00285578	96	nbAiChkDmgCnt	USER_DEFINED	rewritten	src/battle/ai.cpp:damageCountAtLeast	battle_ai_conditions.c:nbAiChkDmgCnt
+002855d8	140	nbAiChkChkCnt	USER_DEFINED	rewritten	src/battle/ai.cpp:checkedAtLeast	battle_ai_conditions.c:nbAiChkChkCnt
+00285668	132	nbAiChkFrCnt	USER_DEFINED	rewritten	src/battle/ai.cpp:allyCountAtMost	battle_ai_conditions.c:nbAiChkFrCnt
+002856f0	132	nbAiChkEnCnt	USER_DEFINED	rewritten	src/battle/ai.cpp:enemyCountAtMost	battle_ai_conditions.c:nbAiChkEnCnt
+00285778	56	nbAiChkMyBad	USER_DEFINED	rewritten	src/battle/ai.cpp:ownAilment	battle_ai_conditions.c:nbAiChkMyBad
+002857b0	224	nbAiChkFrBad	USER_DEFINED	rewritten	src/battle/ai.cpp:allyAilment	battle_ai_conditions.c:nbAiChkFrBad
+00285890	224	nbAiChkEnBad	USER_DEFINED	rewritten	src/battle/ai.cpp:enemyAilment	battle_ai_conditions.c:nbAiChkEnBad
+00285970	256	nbAiChkEnAllBad	USER_DEFINED	rewritten	src/battle/ai.cpp:allEnemiesAilment	battle_ai_conditions.c:nbAiChkEnAllBad
+00285a70	240	nbAiChkEnId	USER_DEFINED	rewritten	src/battle/ai.cpp:enemyIsDevil	battle_ai_conditions.c:nbAiChkEnId
+00285b60	228	nbAiChkFrId	USER_DEFINED	rewritten	src/battle/ai.cpp:allyIsDevil	battle_ai_conditions.c:nbAiChkFrId
+00285c48	224	nbAiChkHojo	USER_DEFINED	rewritten	src/battle/ai.cpp:hasBuff	battle_ai_conditions.c:nbAiChkHojo
+00285d30	400	nbAiChkHojoMax	USER_DEFINED	rewritten	src/battle/ai.cpp:buffAtLimit	battle_ai_conditions.c:nbAiChkHojoMax
+00285ec8	220	nbAiChkEnHojo	USER_DEFINED	rewritten	src/battle/ai.cpp:enemyBuff	battle_ai_conditions.c:nbAiChkEnHojo
+00285fa8	220	nbAiChkFrHojo	USER_DEFINED	rewritten	src/battle/ai.cpp:allyBuff	battle_ai_conditions.c:nbAiChkFrHojo
+00286088	220	nbAiChkEnHojoMax	USER_DEFINED	rewritten	src/battle/ai.cpp:enemyBuffAtLimit	battle_ai_conditions.c:nbAiChkEnHojoMax
+00286168	220	nbAiChkFrHojoMax	USER_DEFINED	rewritten	src/battle/ai.cpp:allyBuffAtLimit	battle_ai_conditions.c:nbAiChkFrHojoMax
+00286248	132	nbAiChkBa	USER_DEFINED	rewritten	src/battle/ai.cpp:backAttack	battle_ai_conditions.c:nbAiChkBa
+002862d0	132	nbAiChkSensei	USER_DEFINED	rewritten	src/battle/ai.cpp:enemiesStruckFirst	battle_ai_conditions.c:nbAiChkSensei
+00286358	232	nbAiChkEnLight	USER_DEFINED	rewritten	src/battle/ai.cpp:enemyIsLight	battle_ai_conditions.c:nbAiChkEnLight
+00286440	240	nbAiChkEnDark	USER_DEFINED	rewritten	src/battle/ai.cpp:enemyIsDark	battle_ai_conditions.c:nbAiChkEnDark
+00286530	76	nbAiChkPow	USER_DEFINED	rewritten	src/battle/ai.cpp:ownFocus	battle_ai_conditions.c:nbAiChkPow
+00286580	44	nbAiChkPlv	USER_DEFINED	rewritten	src/battle/ai.cpp:playerLevelAtLeast	battle_ai_conditions.c:nbAiChkPlv
+002865b0	52	nbAiChkPPartyLv	USER_DEFINED	rewritten	src/battle/ai.cpp:partyLevelAtLeast	battle_ai_conditions.c:nbAiChkPPartyLv
+002865e8	20	nbAiChkTurn	USER_DEFINED	rewritten	src/battle/ai.cpp:turnAtLeast	battle_ai_conditions.c:nbAiChkTurn
+00286600	232	nbAiChkEnHamamHk	USER_DEFINED	rewritten	src/battle/ai.cpp:enemyNotImmuneToExpel	battle_ai_conditions.c:nbAiChkEnHamamHk
+002866e8	72	nbAiChkSkillNoMp	USER_DEFINED	rewritten	src/battle/ai.cpp:cannotAfford	battle_ai_conditions.c:nbAiChkSkillNoMp
+00286730	116	nbAiChkJoken	USER_DEFINED	rewritten	src/battle/ai.cpp:condition	battle_ai_conditions.c:nbAiChkJoken
+002867a8	224	nbAiAiChk	USER_DEFINED	rewritten	src/battle/ai.cpp:check	battle_ai_execution.c:nbAiAiChk
+00286888	280	nbAiGetKoudou	USER_DEFINED	rewritten	src/battle/ai.cpp:drawAction	battle_ai_execution.c:nbAiGetKoudou
+002869a0	436	nbAiSetKoudou	USER_DEFINED	rewritten	src/battle/ai.cpp:setAction	battle_ai_execution.c:nbAiSetKoudou
+00286b68	840	nbAiSelAi	USER_DEFINED	rewritten	src/battle/ai.cpp:selectBest	battle_ai_estimates.c:nbAiSelAi
+00286ec0	200	nbAiSelLifeMin	USER_DEFINED	rewritten	src/battle/ai.cpp:selectLowestHp	battle_ai_filters.c:nbAiSelLifeMin
+00286f88	232	nbAiSelBaarLv	USER_DEFINED	rewritten	src/battle/ai.cpp:selectLowestLevelNotFlying	battle_ai_filters.c:nbAiSelBaarLv
+00287070	200	nbAiSelLvMin	USER_DEFINED	rewritten	src/battle/ai.cpp:selectLowestLevel	battle_ai_filters.c:nbAiSelLvMin
+00287138	156	nbAiSelBad	USER_DEFINED	rewritten	src/battle/ai.cpp:selectAilment	battle_ai_filters.c:nbAiSelBad
+002871d8	172	nbAiSelId	USER_DEFINED	rewritten	src/battle/ai.cpp:selectDevil	battle_ai_filters.c:nbAiSelId
+00287288	176	nbAiSelLight	USER_DEFINED	rewritten	src/battle/ai.cpp:selectLight	battle_ai_filters.c:nbAiSelLight
+00287338	176	nbAiSelDark	USER_DEFINED	rewritten	src/battle/ai.cpp:selectDark	battle_ai_filters.c:nbAiSelDark
+002873e8	144	nbAiSelPlayer	USER_DEFINED	rewritten	src/battle/ai.cpp:selectDemiFiend	battle_ai_filters.c:nbAiSelPlayer
+00287478	76	nbAiSelJoken	USER_DEFINED	rewritten	src/battle/ai.cpp:selectByCondition	battle_ai_filters.c:nbAiSelJoken
+002874c8	60	nbAiSelRnd	USER_DEFINED	rewritten	src/battle/ai.cpp:selectAll	battle_ai_filters.c:nbAiSelRnd
+00287508	580	nbSetSingleTarget2	USER_DEFINED	rewritten	src/battle/ai.cpp:selectSingleTarget	battle_ai_selection.c:nbSetSingleTarget2
+00287778	228	nbSetGroupTarget2	USER_DEFINED	rewritten	src/battle/ai.cpp:selectGroupTarget	battle_ai_selection.c:nbSetGroupTarget2
+00287860	196	nbAiChkCost	USER_DEFINED	rewritten	src/battle/ai.cpp:costBlocks	battle_ai_execution.c:nbAiChkCost
+00287928	196	nbAiChkClose	USER_DEFINED	rewritten	src/battle/ai.cpp:canProceed	battle_ai_execution.c:nbAiChkClose
+002879f0	324	nbSetAiTarget	USER_DEFINED	rewritten	src/battle/ai.cpp:selectTargets	battle_ai_selection.c:nbSetAiTarget
+00287b40	368	nbRunAiSub	USER_DEFINED	rewritten	src/battle/ai.cpp:runTable	battle_ai_execution.c:nbRunAiSub
+00287cb8	188	nbRunAi	USER_DEFINED	rewritten	src/battle/ai.cpp:run	battle_ai_execution.c:nbRunAi
+00287d78	44	nbCommand_AI_ACT_ATTACK	USER_DEFINED	rewritten	src/battle/ai_script.cpp:actAttack	battle_ai_actions.c:nbCommand_AI_ACT_ATTACK
+00287da8	48	nbCommand_AI_ACT_ESCAPE	USER_DEFINED	rewritten	src/battle/ai_script.cpp:actEscape	battle_ai_actions.c:nbCommand_AI_ACT_ESCAPE
 00287dd8	48	nbCommand_AI_ACT_WAIT	USER_DEFINED	legacy		battle_script_commands.c:nbCommand_AI_ACT_WAIT
-00287e08	68	nbCommand_AI_ACT_SKILL	USER_DEFINED	legacy		battle_ai_actions.c:nbCommand_AI_ACT_SKILL
-00287e50	92	nbCommand_AI_ACT_SUMMON	USER_DEFINED	legacy		battle_ai_execution.c:nbCommand_AI_ACT_SUMMON
-00287eb0	48	nbCommand_AI_SET_CRITICAL	USER_DEFINED	legacy		battle_ai_actions.c:nbCommand_AI_SET_CRITICAL
-00287ee0	80	nbCommand_AI_TAR_AI	USER_DEFINED	legacy		battle_ai_selection.c:nbCommand_AI_TAR_AI
+00287e08	68	nbCommand_AI_ACT_SKILL	USER_DEFINED	rewritten	src/battle/ai_script.cpp:actSkill	battle_ai_actions.c:nbCommand_AI_ACT_SKILL
+00287e50	92	nbCommand_AI_ACT_SUMMON	USER_DEFINED	rewritten	src/battle/ai_script.cpp:actSummon	battle_ai_execution.c:nbCommand_AI_ACT_SUMMON
+00287eb0	48	nbCommand_AI_SET_CRITICAL	USER_DEFINED	rewritten	src/battle/ai_script.cpp:setCritical	battle_ai_actions.c:nbCommand_AI_SET_CRITICAL
+00287ee0	80	nbCommand_AI_TAR_AI	USER_DEFINED	rewritten	src/battle/ai_script.cpp:targetByAi	battle_ai_selection.c:nbCommand_AI_TAR_AI
 00287f30	104	nbCommand_AI_TAR_LIFEMIN	USER_DEFINED	legacy		battle_script_commands.c:nbCommand_AI_TAR_LIFEMIN
 00287f98	104	nbCommand_AI_TAR_BAARLV	USER_DEFINED	legacy		battle_script_commands.c:nbCommand_AI_TAR_BAARLV
 00288000	104	nbCommand_AI_TAR_LVMIN	USER_DEFINED	legacy		battle_script_commands.c:nbCommand_AI_TAR_LVMIN
@@ -7078,47 +7078,47 @@ address	size	name	name_source	status	rewrite	legacy
 00288218	104	nbCommand_AI_TAR_PLAYER	USER_DEFINED	legacy		battle_script_commands.c:nbCommand_AI_TAR_PLAYER
 00288280	104	nbCommand_AI_TAR_RND	USER_DEFINED	legacy		battle_script_commands.c:nbCommand_AI_TAR_RND
 002882e8	104	nbCommand_AI_TAR_JOKEN	USER_DEFINED	legacy		battle_script_commands.c:nbCommand_AI_TAR_JOKEN
-00288350	80	nbAiScriptChkJoken	USER_DEFINED	legacy		battle_ai_conditions.c:nbAiScriptChkJoken
-002883a8	44	nbCommand_AI_CHK_MYHP	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_MYHP
-002883d8	44	nbCommand_AI_CHK_MYMP	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_MYMP
-00288408	44	nbCommand_AI_CHK_FRHP	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_FRHP
-00288438	44	nbCommand_AI_CHK_DMGCNT	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_DMGCNT
-00288468	44	nbCommand_AI_CHK_FRCNT	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_FRCNT
-00288498	44	nbCommand_AI_CHK_ENCNT	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_ENCNT
-002884c8	44	nbCommand_AI_CHK_MYBAD	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_MYBAD
-002884f8	44	nbCommand_AI_CHK_FRBAD	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_FRBAD
-00288528	44	nbCommand_AI_CHK_ENBAD	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_ENBAD
-00288558	44	nbCommand_AI_CHK_ENALLBAD	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_ENALLBAD
-00288588	44	nbCommand_AI_CHK_ENID	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_ENID
-002885b8	44	nbCommand_AI_CHK_FRID	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_FRID
-002885e8	44	nbCommand_AI_CHK_ENHOJO	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_ENHOJO
-00288618	44	nbCommand_AI_CHK_FRHOJO	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_FRHOJO
-00288648	44	nbCommand_AI_CHK_ENHOJOMAX	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_ENHOJOMAX
-00288678	44	nbCommand_AI_CHK_FRHOJOMAX	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_FRHOJOMAX
-002886a8	32	nbCommand_AI_CHK_BA	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_BA
-002886c8	32	nbCommand_AI_CHK_ENLIGHT	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_ENLIGHT
-002886e8	32	nbCommand_AI_CHK_ENDARK	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_ENDARK
-00288708	32	nbCommand_AI_CHK_POW	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_POW
-00288728	44	nbCommand_AI_CHK_PLV	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_PLV
-00288758	44	nbCommand_AI_CHK_PPARTYLV	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_PPARTYLV
-00288788	44	nbCommand_AI_GET_TURN	USER_DEFINED	legacy		battle_ai_execution.c:nbCommand_AI_GET_TURN
+00288350	80	nbAiScriptChkJoken	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkCondition	battle_ai_conditions.c:nbAiScriptChkJoken
+002883a8	44	nbCommand_AI_CHK_MYHP	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkOwnHp	battle_ai_conditions.c:nbCommand_AI_CHK_MYHP
+002883d8	44	nbCommand_AI_CHK_MYMP	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkOwnMp	battle_ai_conditions.c:nbCommand_AI_CHK_MYMP
+00288408	44	nbCommand_AI_CHK_FRHP	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkAllyHp	battle_ai_conditions.c:nbCommand_AI_CHK_FRHP
+00288438	44	nbCommand_AI_CHK_DMGCNT	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkDamageCount	battle_ai_conditions.c:nbCommand_AI_CHK_DMGCNT
+00288468	44	nbCommand_AI_CHK_FRCNT	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkAllyCount	battle_ai_conditions.c:nbCommand_AI_CHK_FRCNT
+00288498	44	nbCommand_AI_CHK_ENCNT	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkEnemyCount	battle_ai_conditions.c:nbCommand_AI_CHK_ENCNT
+002884c8	44	nbCommand_AI_CHK_MYBAD	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkOwnAilment	battle_ai_conditions.c:nbCommand_AI_CHK_MYBAD
+002884f8	44	nbCommand_AI_CHK_FRBAD	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkAllyAilment	battle_ai_conditions.c:nbCommand_AI_CHK_FRBAD
+00288528	44	nbCommand_AI_CHK_ENBAD	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkEnemyAilment	battle_ai_conditions.c:nbCommand_AI_CHK_ENBAD
+00288558	44	nbCommand_AI_CHK_ENALLBAD	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkAllEnemiesAilment	battle_ai_conditions.c:nbCommand_AI_CHK_ENALLBAD
+00288588	44	nbCommand_AI_CHK_ENID	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkEnemyDevil	battle_ai_conditions.c:nbCommand_AI_CHK_ENID
+002885b8	44	nbCommand_AI_CHK_FRID	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkAllyDevil	battle_ai_conditions.c:nbCommand_AI_CHK_FRID
+002885e8	44	nbCommand_AI_CHK_ENHOJO	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkEnemyBuff	battle_ai_conditions.c:nbCommand_AI_CHK_ENHOJO
+00288618	44	nbCommand_AI_CHK_FRHOJO	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkAllyBuff	battle_ai_conditions.c:nbCommand_AI_CHK_FRHOJO
+00288648	44	nbCommand_AI_CHK_ENHOJOMAX	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkEnemyBuffLimit	battle_ai_conditions.c:nbCommand_AI_CHK_ENHOJOMAX
+00288678	44	nbCommand_AI_CHK_FRHOJOMAX	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkAllyBuffLimit	battle_ai_conditions.c:nbCommand_AI_CHK_FRHOJOMAX
+002886a8	32	nbCommand_AI_CHK_BA	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkBackAttack	battle_ai_conditions.c:nbCommand_AI_CHK_BA
+002886c8	32	nbCommand_AI_CHK_ENLIGHT	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkEnemyLight	battle_ai_conditions.c:nbCommand_AI_CHK_ENLIGHT
+002886e8	32	nbCommand_AI_CHK_ENDARK	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkEnemyDark	battle_ai_conditions.c:nbCommand_AI_CHK_ENDARK
+00288708	32	nbCommand_AI_CHK_POW	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkFocus	battle_ai_conditions.c:nbCommand_AI_CHK_POW
+00288728	44	nbCommand_AI_CHK_PLV	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkPlayerLevel	battle_ai_conditions.c:nbCommand_AI_CHK_PLV
+00288758	44	nbCommand_AI_CHK_PPARTYLV	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkPartyLevel	battle_ai_conditions.c:nbCommand_AI_CHK_PPARTYLV
+00288788	44	nbCommand_AI_GET_TURN	USER_DEFINED	rewritten	src/battle/ai_script.cpp:getTurn	battle_ai_execution.c:nbCommand_AI_GET_TURN
 002887b8	56	FUN_002887b8	DEFAULT	unknown		
-002887f0	56	nbCommand_AI_GET_PRESSKOUDO	USER_DEFINED	legacy		battle_ai_execution.c:nbCommand_AI_GET_PRESSKOUDO
-00288828	44	nbCommand_AI_GET_MYLV	USER_DEFINED	legacy		battle_ai_execution.c:nbCommand_AI_GET_MYLV
-00288858	52	nbCommand_AI_GET_MYAISYO	USER_DEFINED	legacy		battle_ai_execution.c:nbCommand_AI_GET_MYAISYO
-00288890	48	nbCommand_AI_GET_FUREA	USER_DEFINED	legacy		battle_ai_execution.c:nbCommand_AI_GET_FUREA
-002888c0	72	nbCommand_AI_CHK_ESCAPE	USER_DEFINED	legacy		battle_ai_execution.c:nbCommand_AI_CHK_ESCAPE
-00288908	32	nbCommand_AI_CHK_ENHAMAMHK	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_ENHAMAMHK
-00288928	44	nbCommand_AI_CHK_SKILLNOMP	USER_DEFINED	legacy		battle_ai_conditions.c:nbCommand_AI_CHK_SKILLNOMP
-00288958	40	nbCommand_AI	USER_DEFINED	legacy		battle_ai_execution.c:nbCommand_AI
+002887f0	56	nbCommand_AI_GET_PRESSKOUDO	USER_DEFINED	rewritten	src/battle/ai_script.cpp:getPressCount	battle_ai_execution.c:nbCommand_AI_GET_PRESSKOUDO
+00288828	44	nbCommand_AI_GET_MYLV	USER_DEFINED	rewritten	src/battle/ai_script.cpp:getOwnLevel	battle_ai_execution.c:nbCommand_AI_GET_MYLV
+00288858	52	nbCommand_AI_GET_MYAISYO	USER_DEFINED	rewritten	src/battle/ai_script.cpp:getOwnAffinityRow	battle_ai_execution.c:nbCommand_AI_GET_MYAISYO
+00288890	48	nbCommand_AI_GET_FUREA	USER_DEFINED	rewritten	src/battle/ai_script.cpp:getMoonPhase	battle_ai_execution.c:nbCommand_AI_GET_FUREA
+002888c0	72	nbCommand_AI_CHK_ESCAPE	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkEscape	battle_ai_execution.c:nbCommand_AI_CHK_ESCAPE
+00288908	32	nbCommand_AI_CHK_ENHAMAMHK	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkExpelWeakness	battle_ai_conditions.c:nbCommand_AI_CHK_ENHAMAMHK
+00288928	44	nbCommand_AI_CHK_SKILLNOMP	USER_DEFINED	rewritten	src/battle/ai_script.cpp:checkCannotAfford	battle_ai_conditions.c:nbCommand_AI_CHK_SKILLNOMP
+00288958	40	nbCommand_AI	USER_DEFINED	rewritten	src/battle/ai_script.cpp:runTableAi	battle_ai_execution.c:nbCommand_AI
 00288980	60	FUN_00288980	DEFAULT	unknown		
 002889c0	144	nbCommand_BTL_CAM_SET	USER_DEFINED	legacy		battle_presentation.c:nbCommand_BTL_CAM_SET
-00288a50	8	nbCommand_BTL_CAM_ORG	USER_DEFINED	legacy		battle_ai_actions.c:nbCommand_BTL_CAM_ORG
+00288a50	8	nbCommand_BTL_CAM_ORG	USER_DEFINED	rewritten	src/battle/ai_script.cpp:cameraOrigin	battle_ai_actions.c:nbCommand_BTL_CAM_ORG
 00288a58	40	nbCommand_BTL_CAM_1SHOT	USER_DEFINED	legacy		battle_presentation.c:nbCommand_BTL_CAM_1SHOT
 00288a80	8	ps2ScriptCommandSlot251	USER_DEFINED	named		
 00288a88	40	nbCommand_BTL_CAM_BOUGAI	USER_DEFINED	legacy		battle_presentation.c:nbCommand_BTL_CAM_BOUGAI
 00288ab0	40	nbCommand_BTL_PNL_OFF	USER_DEFINED	legacy		battle_presentation.c:nbCommand_BTL_PNL_OFF
-00288ad8	8	nbCommand_BTL_PNL_ON	USER_DEFINED	legacy		battle_ai_actions.c:nbCommand_BTL_PNL_ON
+00288ad8	8	nbCommand_BTL_PNL_ON	USER_DEFINED	rewritten	src/battle/ai_script.cpp:panelOn	battle_ai_actions.c:nbCommand_BTL_PNL_ON
 00288ae0	60	nbCommand_BTL_EVENT	USER_DEFINED	legacy		battle_presentation.c:nbCommand_BTL_EVENT
 00288b20	64	FUN_00288b20	DEFAULT	unknown		
 00288b60	64	FUN_00288b60	DEFAULT	unknown		
@@ -7127,9 +7127,9 @@ address	size	name	name_source	status	rewrite	legacy
 00288c20	32	nbCommand_BTL_FORM_ALL_ON	USER_DEFINED	legacy		battle_presentation.c:nbCommand_BTL_FORM_ALL_ON
 00288c40	40	FUN_00288c40	DEFAULT	unknown		
 00288c68	40	nbCommand_BTL_FORM_ENE_ON	USER_DEFINED	legacy		battle_presentation.c:nbCommand_BTL_FORM_ENE_ON
-00288c90	12	nbCommand_BTL_AI_ROT_CLR	USER_DEFINED	legacy		battle_ai_actions.c:nbCommand_BTL_AI_ROT_CLR
-00288ca0	68	nbCommand_BTL_AI_ROT_NEXT	USER_DEFINED	legacy		battle_ai_actions.c:nbCommand_BTL_AI_ROT_NEXT
-00288ce8	36	nbCommand_BTL_AI_ROT_GET	USER_DEFINED	legacy		battle_ai_actions.c:nbCommand_BTL_AI_ROT_GET
+00288c90	12	nbCommand_BTL_AI_ROT_CLR	USER_DEFINED	rewritten	src/battle/ai_script.cpp:rotationClear	battle_ai_actions.c:nbCommand_BTL_AI_ROT_CLR
+00288ca0	68	nbCommand_BTL_AI_ROT_NEXT	USER_DEFINED	rewritten	src/battle/ai_script.cpp:rotationNext	battle_ai_actions.c:nbCommand_BTL_AI_ROT_NEXT
+00288ce8	36	nbCommand_BTL_AI_ROT_GET	USER_DEFINED	rewritten	src/battle/ai_script.cpp:rotationGet	battle_ai_actions.c:nbCommand_BTL_AI_ROT_GET
 00288d10	52	nbCommand_BTL_AI_CHANGE_OFF	USER_DEFINED	legacy		battle_presentation.c:nbCommand_BTL_AI_CHANGE_OFF
 00288d48	56	nbCommand_BTL_AI_CHANGE_ON	USER_DEFINED	legacy		battle_presentation.c:nbCommand_BTL_AI_CHANGE_ON
 00288d80	152	nbInitAiScript	USER_DEFINED	legacy		battle_ai_startup.c:nbInitAiScript
@@ -7180,7 +7180,7 @@ address	size	name	name_source	status	rewrite	legacy
 0028b330	84	FUN_0028b330	DEFAULT	unknown		
 0028b388	180	FUN_0028b388	DEFAULT	unknown		
 0028b448	220	FUN_0028b448	DEFAULT	unknown		
-0028b528	256	nbSetEnemySummonFormation	USER_DEFINED	legacy		battle_ai_estimates.c:nbSetEnemySummonFormation
+0028b528	256	nbSetEnemySummonFormation	USER_DEFINED	rewritten	src/battle/ai.cpp:prepareSummonSlots	battle_ai_estimates.c:nbSetEnemySummonFormation
 0028b628	2708	FUN_0028b628	DEFAULT	unknown		
 0028c0e8	684	FUN_0028c0e8	DEFAULT	unknown		
 0028c3a0	64	FUN_0028c3a0	DEFAULT	unknown		

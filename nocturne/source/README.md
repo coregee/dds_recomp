@@ -27,6 +27,9 @@ include/nocturne/
   battle/affinity.hpp    affinity resolution and the damage ratio
   battle/damage.hpp      physical/magic power, HP/MP effects, ailment rolls
   battle/calc.hpp        hit/crit rolls, initiative, escape, rewards
+  battle/targeting.hpp   which combatants an action can target
+  battle/ai.hpp          enemy AI: conditions, actions, target choice
+  battle/ai_script.hpp   AI script commands (nbCommand_AI_*)
   fusion/stock.hpp       the devil stock: creating, copying, finding units
   fusion/growth.hpp      skills, EXP, level-up stats, evolution, skill power-ups
   fusion/inheritance.hpp skill inheritance rates and the inherited-skill list

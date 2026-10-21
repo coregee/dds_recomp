@@ -25,8 +25,8 @@ functions Ghidra recognises, with their state:
 
 | State | Functions | Meaning |
 |---|---:|---|
-| rewritten | 246 | readable implementation in `source/`, differential-tested |
-| legacy | 2,805 | instruction-faithful C in `legacy/src/` only |
+| rewritten | 349 | readable implementation in `source/`, differential-tested |
+| legacy | 2,702 | instruction-faithful C in `legacy/src/` only |
 | named | 268 | identified and named in Ghidra, no C yet |
 | unknown | 5,748 | not yet identified |
 
@@ -38,12 +38,14 @@ and party progression (`datCalc`: stats, the stock, Magatama, Reason points,
 recovery skills), demon growth (EXP curve, level-up stats, skills, evolution)
 and the whole of fusion (`fclCombineCalcCore`: rules, skill inheritance,
 sacrifices, accidents, Fiends), Magatama (bonuses, skills, mastery, the
-Demi-fiend's race) and the compendium (`fclEncyc`), plus the C library `qsort`
-the game sorts with.
+Demi-fiend's race), the compendium (`fclEncyc`) and the enemy AI (`nbAi`:
+conditions, action tables, target choice, AI script commands, targeting),
+plus the C library `qsort` the game sorts with.
 Game data as source: devils, skills, items, level-up/growth tables, Magatama,
-encounters, affinities, inheritance and every fusion table (`source/src/data/`);
+encounters, affinities, enemy AI, inheritance and every fusion table (`source/src/data/`);
 see [docs/fusion.md](docs/fusion.md) for how fusion works and
-[docs/magatama-and-compendium.md](docs/magatama-and-compendium.md).
+[docs/magatama-and-compendium.md](docs/magatama-and-compendium.md) and
+[docs/enemy-ai.md](docs/enemy-ai.md).
 
 ## Setting up
 

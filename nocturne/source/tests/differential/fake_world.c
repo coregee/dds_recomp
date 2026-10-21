@@ -28,6 +28,7 @@
 #include "stat_neighbors.h"
 #include "unit_batch.h"
 #include "unit_neighbors.h"
+#include "battle_ai_conditions.h"
 
 uint8_t *fw_ram;
 fw_trace fw_current_trace;
@@ -187,6 +188,8 @@ int fw_print_arg_count(uint32_t format)
     case 0x00543188: case 0x00543198: return 1; /* YAMI-B Lv / Exp */
     case 0x0053caf8: return 1;                  /* fusion accident */
     case 0x0053d7e8: return 0;                  /* compendium full */
+    case 0x00545830: case 0x00545840: return 1; /* AI action / table */
+    case 0x005457d8: case 0x005457e8: case 0x00544170: return 0;
     case 0x00544ba8: return 4; /* ailment chance */
     default:
         fprintf(stderr, "fake world: unknown print format %08x\n", format);
@@ -314,6 +317,85 @@ void nocturneQsortNoteCompare(uint32_t pc, uint64_t callback, uint64_t left, uin
 
 static _Noreturn void unreachable(const char *name);
 
+/* ---- the battle AI's surroundings -------------------------------------- */
+
+static uint32_t guest_sp_reserve(uint32_t bytes);
+static void guest_sp_release(uint32_t bytes);
+
+/* The process table: only the target-selection process exists. */
+uint64_t dds3SearchProcessName(uint64_t name) { (void)name; return 1; }
+uint64_t dds3GetProcessData(uint64_t process) { (void)process; return FW_TARSEL; }
+
+uint32_t evtGetAgeOfMoon16(void) { return case_moon * 2u + (uint32_t)(fw_hash(13, 0, 0) & 1); }
+
+/* A fake flowscript VM: the data word, integer parameters and a log of
+ * returned values all live in dynamic RAM. */
+uint64_t scrGetData(void) { return FW_ACTION; }
+uint64_t scrGetIntPara(uint64_t index)
+{
+    int32_t value; memcpy(&value, fw_resolve(FW_SCRIPT + 4u * ((uint32_t)index & 7u)), 4);
+    return (uint64_t)(int64_t)value;
+}
+void scrSetIntReturnValue(uint64_t value)
+{
+    uint32_t *log = (uint32_t *)fw_resolve(FW_SCRIPT + 0x20);
+    uint32_t n = log[0]++;
+    if (n < 15) log[1 + n] = (uint32_t)value;
+}
+
+/* Host buffers handed to legacy code as guest addresses: staged on the
+ * guest stack and copied back. */
+static void *local_buffer;
+static uint32_t local_bytes, local_address;
+uint32_t nocturneLibcStreamLocalAddress(void *buffer, uint32_t bytes)
+{
+    local_buffer = buffer;
+    local_bytes = bytes;
+    local_address = guest_sp_reserve(bytes);
+    memcpy(fw_resolve(local_address), buffer, bytes);
+    return local_address;
+}
+void nocturneLibcStreamEndLocal(void)
+{
+    memcpy(local_buffer, fw_resolve(local_address), local_bytes);
+    guest_sp_release(local_bytes);
+}
+
+/* The condition table at 0x4F0788, by callback address. */
+uint64_t nocturneInvokeBattleAiCondition(uint32_t entry, uint64_t context, uint64_t parameter)
+{
+    switch (entry) {
+    case 0x2853d8: return nbAiChkMyHp(context, parameter);
+    case 0x285438: return nbAiChkMyMp(context, parameter);
+    case 0x285470: return nbAiChkFrHp(context, parameter);
+    case 0x285578: return nbAiChkDmgCnt(context, parameter);
+    case 0x2855d8: return nbAiChkChkCnt(context, parameter);
+    case 0x285668: return nbAiChkFrCnt(context, parameter);
+    case 0x2856f0: return nbAiChkEnCnt(context, parameter);
+    case 0x285778: return nbAiChkMyBad(context, parameter);
+    case 0x2857b0: return nbAiChkFrBad(context, parameter);
+    case 0x285890: return nbAiChkEnBad(context, parameter);
+    case 0x285970: return nbAiChkEnAllBad(context, parameter);
+    case 0x285a70: return nbAiChkEnId(context, parameter);
+    case 0x285b60: return nbAiChkFrId(context, parameter);
+    case 0x285ec8: return nbAiChkEnHojo(context, parameter);
+    case 0x285fa8: return nbAiChkFrHojo(context, parameter);
+    case 0x286088: return nbAiChkEnHojoMax(context, parameter);
+    case 0x286168: return nbAiChkFrHojoMax(context, parameter);
+    case 0x286248: return nbAiChkBa(context, parameter);
+    case 0x2862d0: return nbAiChkSensei(context, parameter);
+    case 0x286358: return nbAiChkEnLight(context, parameter);
+    case 0x286440: return nbAiChkEnDark(context, parameter);
+    case 0x286530: return nbAiChkPow(context, parameter);
+    case 0x286580: return nbAiChkPlv(context, parameter);
+    case 0x2865b0: return nbAiChkPPartyLv(context, parameter);
+    case 0x2865e8: return nbAiChkTurn(context, parameter);
+    case 0x286600: return nbAiChkEnHamamHk(context, parameter);
+    case 0x2866e8: return nbAiChkSkillNoMp(context, parameter);
+    default: unreachable("AI condition callback");
+    }
+}
+
 /* qsort's comparator dispatch for the compendium sorts. */
 uint64_t ps2CompendiumRecords_00219C40(uint64_t p0, uint64_t p1);
 uint64_t ps2CompendiumRecords_00219D00(uint64_t p0, uint64_t p1);
@@ -338,6 +420,9 @@ uint32_t nocturneFusionCoreStackPointer(void) { return guest_sp; }
 void nocturneFusionCoreSetStackPointer(uint32_t address) { guest_sp = address; }
 void nocturneFusionCoreFpuCondition(uint32_t condition) { (void)condition; }
 
+static uint32_t guest_sp_reserve(uint32_t bytes) { guest_sp -= (bytes + 15u) & ~15u; return guest_sp; }
+static void guest_sp_release(uint32_t bytes) { guest_sp += (bytes + 15u) & ~15u; }
+
 uint32_t nocturneFusionSortScratchPush(uint32_t bytes)
 {
     guest_sp -= (bytes + 15u) & ~15u;
@@ -361,18 +446,11 @@ static _Noreturn void unreachable(const char *name)
 }
 
 int32_t g_nbDebugEnabled;
-uint64_t dds3GetProcessData(uint64_t process) { (void)process; unreachable("dds3GetProcessData"); }
-uint64_t dds3SearchProcessName(uint64_t name) { (void)name; unreachable("dds3SearchProcessName"); }
 void *ps2Memset(void *destination, int32_t value, uint32_t count) { return memset(destination, value, count); }
 void *nocturneResolveBattleAiConditionsAddress(uint32_t a) { return fw_resolve(a); }
+void *nocturneResolveBattleAiActionsAddress(uint32_t a) { return fw_resolve(a); }
+void *nocturneResolveBattleAiFiltersAddress(uint32_t a) { return fw_resolve(a); }
+void *nocturneResolveBattleAiSelectionAddress(uint32_t a) { return fw_resolve(a); }
 void *nocturneResolveBattleAiEstimatesAddress(uint32_t a) { return fw_resolve(a); }
 void *nocturneResolveBattleAiExecutionAddress(uint32_t a) { return fw_resolve(a); }
-uint32_t evtGetAgeOfMoon16(void) { unreachable("evtGetAgeOfMoon16"); }
-uint64_t nbGetSelectBit(uint64_t main) { (void)main; unreachable("nbGetSelectBit"); }
-uint64_t nbSetAiTarget(uint64_t context, uint64_t selector, uint64_t parameter) { (void)context; (void)selector; (void)parameter; unreachable("nbSetAiTarget"); }
-uint64_t nocturneInvokeBattleAiCondition(uint32_t entry, uint64_t context, uint64_t parameter) { (void)entry; (void)context; (void)parameter; unreachable("nocturneInvokeBattleAiCondition"); }
-uint64_t scrGetData(void) { unreachable("scrGetData"); }
-uint64_t scrGetIntPara(uint64_t index) { (void)index; unreachable("scrGetIntPara"); }
-void nbSetNormalSkill0(uint64_t unit) { (void)unit; unreachable("nbSetNormalSkill0"); }
-void scrSetIntReturnValue(uint64_t value) { (void)value; unreachable("scrSetIntReturnValue"); }
 int32_t nocturne_diagnostic_printf(const char *message) { (void)message; unreachable("nocturne_diagnostic_printf"); }

@@ -53,6 +53,8 @@ bool hasItem(int32_t item, int32_t count);                 // datCheckItem: at l
 // to 0..99; key items set event 0x360 + ID (the Deathstone also counts).
 void addItem(int32_t item, int32_t count);
 int32_t receiveItem(uint16_t item, int32_t count);        // fclAddItem: the same, always returns 1
+// datGetItemSkillNo: the skill an item uses; item 1 picks one of six at random.
+int32_t itemSkill(int32_t item);
 
 // ---- Skills outside battle ----------------------------------------------------
 

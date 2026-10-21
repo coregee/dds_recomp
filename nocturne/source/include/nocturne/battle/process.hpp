@@ -46,6 +46,11 @@ static_assert(offsetof(Formation, stat) == 0x78);
 static_assert(offsetof(Formation, formindex) == 0x92);
 
 namespace FormationStat {
+inline constexpr uint32_t Present     = 0x0001; // a combatant stands here
+inline constexpr uint32_t Selectable  = 0x0004; // a valid target for the current action
+inline constexpr uint32_t Selected    = 0x0008; // chosen as a target
+inline constexpr uint32_t CheckParty  = 0x0040; // check the party flags before targeting (tentative)
+inline constexpr uint32_t SummonSlot  = 0x0800; // an empty slot an ally may be called into
 inline constexpr uint32_t Unknown1000 = 0x1000; // nbGetKoukaType result 11
 inline constexpr uint32_t Unknown2000 = 0x2000; // makes crits near-certain on Hard
 } // namespace FormationStat
@@ -104,7 +109,10 @@ struct MainProcessData {
     uint8_t turn;
     int8_t phase, nextphase;
     uint8_t esccnt;           // escape attempts so far; each one helps
-    uint8_t unknown_6c[0x98 - 0x6c];
+    uint8_t unknown_6c[0x84 - 0x6c];
+    int32_t summonallowed;    // nonzero: enemies may call allies (tentative; HD order suggests nakamayobi)
+    int32_t aiextra;          // set by AI command 0xExxx with action 9 (meaning unknown)
+    uint8_t unknown_8c[0x98 - 0x8c];
     uint8_t item[4];          // spoils so far
     uint8_t itemcnt[4];
     uint32_t maka;            // Macca earned
@@ -133,12 +141,62 @@ inline constexpr uint32_t DebugAlwaysHit      = 0x08000000; // debug event bit 0
 inline constexpr uint32_t DebugAlwaysRepel    = 0x40000000; // debug event bit 0xC0D
 } // namespace BattleStat
 
-// nbActionProcessData: one unit's action in progress.
+// nbActionProcessData: one unit's action in progress. Also the enemy AI's
+// working state (the ai* fields).
 struct ActionProcessData {
     Ptr32<MainProcessData> data;
-    uint8_t unknown_04[0x58 - 0x04];
+    uint32_t stat;
+    int32_t uniqueid;
+    int8_t seq, nextseq;
+    uint16_t seqtime;
+    int32_t seqcnt;
+    int32_t skilltime;
+    ee::Float press;
+    int32_t newpresstype;
+    int16_t newpress_p, newpress_ten;
+    Ptr32<Party> party;       // the acting unit's
+    Ptr32<Formation> form;
+    Ptr32<UnitWork> work;
+    int32_t partyindex;
+    int32_t type;
+    int32_t target;
+    uint32_t select;          // chosen targets, one bit per formation slot
+    uint32_t timer;
+    int32_t runerr;
+    int32_t jyokyomes, jyo_varid, jyo_varind;
+    int32_t adata;
     int32_t autoskill;        // passive that fired (e.g. Might); tentative name
+    int32_t allhpdamage, allmpdamage;
+    int32_t massuruid;        // the skill item 1 rolled (nbGetItemSkillNo)
+    uint8_t unknown_68[0x190 - 0x68];
+    uint32_t aiselect;        // targets the AI conditions picked, one bit per party index
+    int32_t aijokentbl;       // which AI check is being evaluated
+    int8_t aichktbl[5];       // actions already tried this turn
+    uint8_t unknown_19d[3];
+    uint32_t aisummonid;      // devil to call, or the skill's parameter
 };
+static_assert(offsetof(ActionProcessData, party) == 0x24);
+static_assert(offsetof(ActionProcessData, select) == 0x3c);
 static_assert(offsetof(ActionProcessData, autoskill) == 0x58);
+static_assert(offsetof(ActionProcessData, aiselect) == 0x190);
+static_assert(offsetof(ActionProcessData, aisummonid) == 0x1a0);
+
+// nbTarSelProcessData: the target-selection process (cursor and lists).
+struct TargetSelectData {
+    Ptr32<MainProcessData> data;
+    Ptr32<ActionProcessData> act;
+    uint8_t stat;
+    int8_t ctype;
+    uint8_t crule, carea, nowcarea;
+    int8_t nowno, nowform;
+    uint8_t unknown_0f;
+    int16_t partyindex;
+    int8_t friendcnt;         // selectable slots on the actor's side ...
+    int8_t enemycnt;          // ... and the other side
+    int8_t friendno[12];
+    int8_t enemyno[12];       // enemies sorted by screen position (Formation::orgpos.x)
+};
+static_assert(offsetof(TargetSelectData, friendcnt) == 0x12);
+static_assert(offsetof(TargetSelectData, enemyno) == 0x20);
 
 } // namespace nocturne::nb

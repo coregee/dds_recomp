@@ -49,6 +49,8 @@ extern const MoonRange kCombineManinKagTbl[5];
 extern const uint8_t kCombineManinRaceTbl[4];
 extern const uint16_t kCombineManinTbl[4][5]; // [race][moon range] -> Fiend
 
+extern const DevilAI kDevilAI[384];
+
 namespace address {
 inline constexpr uint32_t Affinity          = 0x003a7fe0;
 inline constexpr uint32_t DevilFormat       = 0x003497c0;
@@ -86,6 +88,7 @@ inline constexpr uint32_t CombineManinRaceTbl = 0x0032dde0;
 inline constexpr uint32_t CombineManinTbl     = 0x0032dde8;
 inline constexpr uint32_t GlobalWorkPointer = 0x0054ea20;
 inline constexpr uint32_t DevilCount        = 0x0054ff18; // int32 (gp-relative), 384
+inline constexpr uint32_t DevilAI           = 0x003989e0;
 } // namespace address
 
 inline const NormalSkill& normalSkill(int32_t id) { return guest::table<const NormalSkill>(address::NormalSkill)[id]; }
@@ -105,6 +108,7 @@ inline const SpecialSkill& specialSkill(int32_t skill)
 
 inline const DevilGrowth& devilGrowth(int32_t devil) { return guest::table<const DevilGrowth>(address::DevilGrowth)[devil]; }
 inline const MagatamaData& magatama(int32_t id) { return guest::table<const MagatamaData>(address::Magatama)[id]; }
+inline const DevilAI& devilAI(int32_t devil) { return guest::table<const DevilAI>(address::DevilAI)[devil]; }
 inline const ItemData& item(int32_t id) { return guest::table<const ItemData>(address::Item)[id]; }
 
 // Whole tables at their PS2 addresses (the sizes are in the k* declarations).

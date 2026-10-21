@@ -289,7 +289,36 @@ struct Outcome {
     uint64_t result = 0;
     fw_trace trace{};
     std::vector<uint8_t> ram;
+    std::vector<uint8_t> statics;
 };
+
+// Static game data some functions write to (nbSetNormalSkill0 rewrites the
+// normal attack's skill data; the AI rotation counter). Compared, and
+// restored between the two runs and after each case.
+struct StaticRange { uint32_t address, size; };
+const StaticRange kWrittenStatics[] = {
+    {0x003d7998, 60}, {0x003d7998 + 0xa4 * 60, 4 * 60},   // NormalSkill 0, 0xA4..0xA7
+    {0x003d6998, 8}, {0x003d6998 + 0xa4 * 8, 4 * 8},      // SkillInfo
+    {0x003dbd20, 4}, {0x003dbd20 + 0xa4 * 4, 4 * 4},      // skill hit effects
+    {0x005514e8, 4},                                       // AI rotation counter
+};
+
+std::vector<uint8_t> captureStatics()
+{
+    std::vector<uint8_t> bytes;
+    for (const StaticRange& r : kWrittenStatics)
+        bytes.insert(bytes.end(), fw_ram + r.address, fw_ram + r.address + r.size);
+    return bytes;
+}
+
+void restoreStatics(const std::vector<uint8_t>& bytes)
+{
+    size_t offset = 0;
+    for (const StaticRange& r : kWrittenStatics) {
+        std::memcpy(fw_ram + r.address, bytes.data() + offset, r.size);
+        offset += r.size;
+    }
+}
 
 // Traps longjmp out of the code under test; no frame in between owns
 // anything with a destructor.
@@ -307,6 +336,7 @@ Outcome run(const std::function<uint64_t()>& body, uint64_t seed, int normal, ui
         out.trap = code;
     out.trace = fw_current_trace;
     out.ram.assign(fw_ram + FW_DYNAMIC_BEGIN, fw_ram + FW_DYNAMIC_END);
+    out.statics = captureStatics();
     return out;
 }
 
@@ -324,6 +354,7 @@ std::string describe(const Outcome& a, const Outcome& b)
         for (int k = 0; k < fw_print_arg_count(a.trace.print_format[i]); ++k)
             if (a.trace.print_args[i][k] != b.trace.print_args[i][k]) { std::snprintf(buffer, sizeof buffer, "print %u arg %d: %lld vs %lld", i, k, (long long)a.trace.print_args[i][k], (long long)b.trace.print_args[i][k]); return buffer; }
     }
+    if (a.statics != b.statics) return "static data writes differ";
     for (size_t i = 0; i < a.ram.size(); ++i)
         if (a.ram[i] != b.ram[i]) { std::snprintf(buffer, sizeof buffer, "RAM %08zx: %02x vs %02x", FW_DYNAMIC_BEGIN + i, a.ram[i], b.ram[i]); return buffer; }
     return {};
@@ -773,6 +804,7 @@ std::vector<TestCase> tests()
     addProgressionTests(t);
     addFusionCoreTests(t);
     addMagatamaTests(t);
+    addAiTests(t);
     return t;
 }
 
@@ -807,10 +839,13 @@ int main(int argc, char** argv)
             int normal = g.chance(50) ? 1 : 0;
             uint32_t moon = g.chance(30) ? kMoonFull : g.below(16);
             std::memcpy(saved.data(), fw_ram + FW_DYNAMIC_BEGIN, saved.size());
+            std::vector<uint8_t> statics = captureStatics();
 
             Outcome legacy = run(pair.legacy, caseSeed, normal, moon);
             std::memcpy(fw_ram + FW_DYNAMIC_BEGIN, saved.data(), saved.size());
+            restoreStatics(statics);
             Outcome rewrite = run(pair.rewrite, caseSeed, normal, moon);
+            restoreStatics(statics);
 
             traps += legacy.trap != 0;
             draws += legacy.trace.rng_count;

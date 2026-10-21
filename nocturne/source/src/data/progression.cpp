@@ -341,6 +341,15 @@ int32_t receiveItem(uint16_t item, int32_t count)
     return 1;
 }
 
+// datGetItemSkillNo @ 0x00245C90 (the six choices are the words at 0x543170)
+int32_t itemSkill(int32_t item)
+{
+    const int32_t* choices = guest::table<const int32_t>(0x00543170);
+    if (item == 1)
+        return choices[sdf::GetRandInt(6)];
+    return dat::item(item).skillid;
+}
+
 // ===========================================================================
 // Skills outside battle
 // ===========================================================================

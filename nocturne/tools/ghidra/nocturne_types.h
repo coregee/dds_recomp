@@ -9,6 +9,30 @@
 
 #ifndef PTR32
 #define PTR32(T) T *
+/* nbTarSelProcessData: target selection (partial). */
+typedef struct nbTarSelProcessData {
+    PTR32(nbMainProcessData) data;
+    PTR32(nbActionProcessData) act;
+    u8 stat;
+    s8 ctype;
+    u8 crule, carea, nowcarea;
+    s8 nowno, nowform;
+    u8 unknown_0f;
+    s16 partyindex;
+    s8 friendcnt, enemycnt;
+    s8 friendno[12], enemyno[12];
+} nbTarSelProcessData;
+
+/* datDevilAI_t: enemy AI per devil ID (0x3989E0). */
+typedef struct datDevilAIChk { u32 check[2]; u32 table; } datDevilAIChk;
+typedef struct datDevilAITbl { u16 ritu, skill; u32 target; } datDevilAITbl;
+typedef struct datDevilAI {
+    u16 scriptid, ailevel;
+    datDevilAIChk aichk[3];
+    datDevilAITbl aitable[3][5];
+    u16 deadscriptid, deadeventno;
+} datDevilAI;
+
 #endif
 
 typedef unsigned char u8;
@@ -318,7 +342,10 @@ typedef struct nbMainProcessData {
     u8 turn;
     s8 phase, nextphase;
     u8 esccnt;
-    u8 unknown_6c[0x98 - 0x6c];
+    u8 unknown_6c[0x84 - 0x6c];
+    s32 summonallowed;
+    s32 aiextra;
+    u8 unknown_8c[0x98 - 0x8c];
     u8 item[4], itemcnt[4];
     u32 maka, exp;
     u8 unknown_a8[0x14c - 0xa8];
@@ -327,8 +354,52 @@ typedef struct nbMainProcessData {
 
 typedef struct nbActionProcessData {
     PTR32(nbMainProcessData) data;
-    u8 unknown_04[0x58 - 0x04];
+    u32 stat;
+    s32 uniqueid;
+    s8 seq, nextseq;
+    u16 seqtime;
+    s32 seqcnt, skilltime;
+    float press;
+    s32 newpresstype;
+    s16 newpress_p, newpress_ten;
+    PTR32(nbParty) party;
+    PTR32(nbFormation) form;
+    PTR32(datUnitWork) work;
+    s32 partyindex, type, target;
+    u32 select, timer;
+    s32 runerr, jyokyomes, jyo_varid, jyo_varind, adata;
     s32 autoskill;
+    s32 allhpdamage, allmpdamage, massuruid;
+    u8 unknown_68[0x190 - 0x68];
+    u32 aiselect;
+    s32 aijokentbl;
+    s8 aichktbl[5];
+    u8 unknown_19d[3];
+    u32 aisummonid;
 } nbActionProcessData;
+
+/* nbTarSelProcessData: target selection (partial). */
+typedef struct nbTarSelProcessData {
+    PTR32(nbMainProcessData) data;
+    PTR32(nbActionProcessData) act;
+    u8 stat;
+    s8 ctype;
+    u8 crule, carea, nowcarea;
+    s8 nowno, nowform;
+    u8 unknown_0f;
+    s16 partyindex;
+    s8 friendcnt, enemycnt;
+    s8 friendno[12], enemyno[12];
+} nbTarSelProcessData;
+
+/* datDevilAI_t: enemy AI per devil ID (0x3989E0). */
+typedef struct datDevilAIChk { u32 check[2]; u32 table; } datDevilAIChk;
+typedef struct datDevilAITbl { u16 ritu, skill; u32 target; } datDevilAITbl;
+typedef struct datDevilAI {
+    u16 scriptid, ailevel;
+    datDevilAIChk aichk[3];
+    datDevilAITbl aitable[3][5];
+    u16 deadscriptid, deadeventno;
+} datDevilAI;
 
 #endif

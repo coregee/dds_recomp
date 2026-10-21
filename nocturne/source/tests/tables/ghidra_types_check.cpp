@@ -78,5 +78,10 @@ SAME_OFFSET(nbMainProcessData, nb::MainProcessData, esccnt, esccnt);
 SAME_OFFSET(nbMainProcessData, nb::MainProcessData, exp, exp);
 SAME_OFFSET(nbMainProcessData, nb::MainProcessData, piercedResistance, piercedResistance);
 SAME_OFFSET(nbActionProcessData, nb::ActionProcessData, autoskill, autoskill);
+SAME_OFFSET(nbActionProcessData, nb::ActionProcessData, aiselect, aiselect);
+SAME_OFFSET(nbActionProcessData, nb::ActionProcessData, aisummonid, aisummonid);
+SAME_OFFSET(nbMainProcessData, nb::MainProcessData, summonallowed, summonallowed);
+SAME_OFFSET(nbTarSelProcessData, nb::TargetSelectData, enemyno, enemyno);
+SAME_SIZE(datDevilAI, DevilAI);
 
 } // namespace

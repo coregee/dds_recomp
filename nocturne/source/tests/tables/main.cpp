@@ -50,6 +50,7 @@ int main(int argc, char** argv)
         {"fclSkillTbl", dat::address::DevilGrowth, dat::kDevilGrowth, sizeof dat::kDevilGrowth},
         {"datItem", dat::address::Item, dat::kItem, sizeof dat::kItem},
         {"fclHeartsTbl", dat::address::Magatama, dat::kMagatama, sizeof dat::kMagatama},
+        {"datDevilAI", dat::address::DevilAI, dat::kDevilAI, sizeof dat::kDevilAI},
         {"fclCombineTbl", dat::address::CombineTbl, dat::kCombineTbl, sizeof dat::kCombineTbl},
         {"fclCombineCurseTbl", dat::address::CombineCurseTbl, dat::kCombineCurseTbl, sizeof dat::kCombineCurseTbl},
         {"fclRankUpDownTbl", dat::address::RankUpDownTbl, dat::kRankUpDownTbl, sizeof dat::kRankUpDownTbl},

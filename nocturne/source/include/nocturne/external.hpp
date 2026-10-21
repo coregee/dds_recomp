@@ -27,11 +27,25 @@ Party* GetPartyFromFormindex(int32_t formindex);
 UnitWork* GetUnitWorkPointer(MainProcessData& data, Party& party);
 } // namespace nb
 
+// The script VM (flowscript), as seen by script commands.
+namespace scr {
+uint32_t GetData();                 // the running script's data (for AI scripts: ActionProcessData)
+int32_t GetIntPara(int32_t index);  // an integer argument
+void SetIntReturnValue(int32_t value);
+} // namespace scr
+
+// Engine process table.
+namespace dds3 {
+uint32_t SearchProcessName(uint32_t name);   // name: address of a C string
+uint32_t GetProcessData(uint32_t process);   // the process's data, as an address
+} // namespace dds3
+
 namespace evt {
 bool BitCheck(int32_t bit);
 void BitOn(int32_t bit);
 void BitOff(int32_t bit);
 uint32_t GetAgeOfMoon();      // 0..15, 0 = new, 8 = full Kagutsuchi
+int32_t GetAgeOfMoon16();     // the phase in sixteenths (tentative)
 } // namespace evt
 
 namespace sdf {
@@ -66,6 +80,11 @@ enum class Message : uint32_t {
     ResetExp         = 0x00543198, // "YAMI-B Exp:%d"
     FusionAccident   = 0x0053caf8, // "Combione accident!!!..." (passed the accident type)
     CompendiumFull   = 0x0053d7e8, // "****** FATAL!! The encyclopedia record is bound to burst!!!"
+    AiActionTable    = 0x00545830, // "Koukatbl = %d" (the action chosen)
+    AiTable          = 0x00545840, // "AItbl = %d"
+    AiNoSkill        = 0x005457d8, // "no skill"
+    AiNoTarget       = 0x005457e8, // "taisyo nashi!!!" (no target)
+    SkillRewritten   = 0x00544170, // スキル書き換え!! (normal attack data rewritten)
 };
 // Integer arguments are passed sign-extended; %f arguments are ee::Double bits.
 void print(Message message, int64_t a = 0, int64_t b = 0, int64_t c = 0, int64_t d = 0, int64_t e = 0);

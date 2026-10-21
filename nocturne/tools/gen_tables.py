@@ -560,6 +560,58 @@ def generate_fusion():
     out.append("};\n\n} // namespace nocturne::dat\n")
     write(ROOT / "source/src/data/fusion_table.cpp", "".join(out))
 
+def generate_devil_ai():
+    base, count = 0x3989E0, 384
+
+    def skill(v):
+        if v == 0:
+            return "0"
+        return value_text(v, "skill") if v < 0x8000 else f"0x{v:04X}"
+
+    def trimmed(items, empty):
+        items = list(items)
+        while items and empty(items[-1]):
+            items.pop()
+        return items
+
+    out = [HEADER,
+           f"// datDevilAI, 0x{base:08X}: enemy AI per devil ID (see battle/ai.hpp).\n",
+           "// aichk: {{condition, condition}, action table}; conditions and targets are\n",
+           "// (type << 16) | parameter. aitable actions: {weight, skill or 0x8xxx command, target}.\n",
+           f"const DevilAI kDevilAI[{count}] = {{\n"]
+    for i in range(count):
+        p = base + i * 164
+        scriptid, ailevel = read(p, "HH")
+        checks = [read(p + 4 + k * 12, "III") for k in range(3)]
+        tables = [[read(p + 0x28 + t * 40 + a * 8, "HHI") for a in range(5)] for t in range(3)]
+        dead_script, dead_event = read(p + 0xA0, "HH")
+        parts = []
+        if scriptid:
+            parts.append(f".scriptid = {scriptid}")
+        if ailevel:
+            parts.append(f".ailevel = {ailevel}")
+        checks = trimmed(checks, lambda c: not any(c))
+        if checks:
+            parts.append(".aichk = {" + ", ".join(
+                "{{" + f"0x{a:X}, 0x{b:X}" + "}, " + str(t) + "}" for a, b, t in checks) + "}")
+        tables = trimmed([trimmed(t, lambda a: not any(a)) for t in tables], lambda t: not t)
+        if tables:
+            rows = []
+            for t in tables:
+                rows.append("{" + ", ".join("{" + f"{r}, {skill(s)}, 0x{g:X}" + "}" for r, s, g in t) + "}")
+            parts.append(".aitable = {" + ", ".join(rows) + "}")
+        if dead_script:
+            parts.append(f".deadscriptid = {dead_script}")
+        if dead_event:
+            parts.append(f".deadeventno = {dead_event}")
+        name = devil_names.get(i, "(unnamed)")
+        if not parts:
+            out.append(f"    {{}}, // 0x{i:03X} {name}\n")
+        else:
+            out.append(f"    // 0x{i:03X} {name}\n    {{{', '.join(parts)}}},\n")
+    out.append("};\n\n} // namespace nocturne::dat\n")
+    write(ROOT / "source/src/data/devil_ai_table.cpp", "".join(out))
+
 
 if __name__ == "__main__":
     generate_ids()
@@ -572,3 +624,4 @@ if __name__ == "__main__":
     generate_fusion()
     generate_inheritance()
     generate_magatama()
+    generate_devil_ai()
