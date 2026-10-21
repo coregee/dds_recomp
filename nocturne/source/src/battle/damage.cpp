@@ -3,6 +3,8 @@
 // Rewritten from legacy/src/battle_power.c and battle_effects.c.
 #include "nocturne/battle/damage.hpp"
 
+#include <initializer_list>
+
 #include "nocturne/battle/affinity.hpp"
 #include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/combatant.hpp"
@@ -299,6 +301,38 @@ int32_t hpEffect(Float ratio, bool damage, int32_t skill, int32_t source, int32_
 int32_t mpEffect(Float ratio, bool damage, int32_t skill, int32_t source, int32_t target, int32_t count)
 {
     return effectAmount(true, ratio, damage, skill, source, target, count);
+}
+
+// nbGetVirtualKoukaPoint @ 0x00268F68
+int32_t estimateEffect(int32_t skill, int32_t source, int32_t target)
+{
+    UnitWork& unit = *GetUnitWorkFromFormindex(target);
+    Float ratio = damageRatio(skill, source, target);
+    uint32_t inflicts = rollAilmentInflict(ratio, skill, source, target, true);
+    uint32_t cures = rollAilmentCure(ratio, skill, source, target, true);
+
+    int32_t hpDamage = hpEffect(ratio, true, skill, source, target, 1);
+    int32_t hpHeal = hpEffect(ratio, false, skill, source, target, 1);
+    if (hpHeal > 0) {
+        int32_t missing = unit.maxhp - unit.hp;
+        if (missing < hpHeal) hpHeal = missing;
+    }
+    int32_t mpDamage = mpEffect(ratio, true, skill, source, target, 1);
+    int32_t mpHeal = mpEffect(ratio, false, skill, source, target, 1);
+    if (mpHeal > 0) {
+        int32_t missing = unit.maxmp - unit.mp;
+        if (missing < mpHeal) mpHeal = missing;
+    }
+
+    const NormalSkill& s = dat::normalSkill(skill);
+    int32_t buffChange = s.hojotype ? applyBuffs(target, s.hojotype, s.hojopoint, true) : 0;
+
+    // Amounts of 0 or 1 don't count: 1 is the minimum "chip" damage.
+    int32_t score = (inflicts != 0) + (cures != 0);
+    for (int32_t amount : {hpDamage, hpHeal, mpDamage, mpHeal})
+        if (amount >= 2)
+            score += amount;
+    return score + buffChange;
 }
 
 // ===========================================================================

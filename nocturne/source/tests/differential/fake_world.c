@@ -21,6 +21,13 @@
 #include "battle_power.h"
 #include "battle_effects.h"
 #include "combat_calculation.h"
+#include "exp.h"
+#include "hearts_menu.h"
+#include "inheritance_queries.h"
+#include "rst_rng_frontier.h"
+#include "stat_neighbors.h"
+#include "unit_batch.h"
+#include "unit_neighbors.h"
 
 uint8_t *fw_ram;
 fw_trace fw_current_trace;
@@ -65,6 +72,15 @@ int fw_load_elf(const char *path)
     fw_ram = calloc(1, FW_RAM_SIZE);
     g_datGlobalWork = (datGlobalWork_PS2 *)(fw_ram + FW_GLOBAL);
     g_datDevilSkillTable = (const datDevilSkillRecord_PS2 *)(fw_ram + 0x3497c0);
+    g_cmbExpConstants = (const cmbExpConstants_PS2 *)(fw_ram + 0x54e434);
+    g_cmbHeartsRecords = (const cmbHeartsRecord_PS2 *)(fw_ram + 0x339e00);
+    g_cmbEvoFlagRequirements = (const cmbEvoFlagRequirement_PS2 *)(fw_ram + 0x339640);
+    g_cmbDarkDevilIds = (const uint16_t *)(fw_ram + 0x339ba8);
+    g_cmbPowerUpSkills = (const cmbPowerUpSkill_PS2 *)(fw_ram + 0x339c20);
+    g_cmbDemonSkillRows = (const cmbDemonSkillRow_PS2 *)(fw_ram + 0x333cf8);
+    g_cmbInheritanceLevelRecords = (const cmbInheritanceLevelRecord_PS2 *)(fw_ram + 0x339658);
+    g_cmbInheritanceSkillRecords = (const cmbInheritanceSkillRecord_PS2 *)(fw_ram + 0x3d6998);
+    g_cmbInheritanceScoreBytes = fw_ram + 0x3399e8;
     uint32_t phoff; uint16_t phnum;
     memcpy(&phoff, elf + 0x1c, 4);
     memcpy(&phnum, elf + 0x2c, 2);
@@ -134,6 +150,14 @@ uint32_t sdfGetRandInt(uint32_t *state, uint32_t limit)
     return value;
 }
 
+uint32_t sdfGetRand(uint32_t *state)
+{
+    (void)state;
+    uint32_t value = next_random();
+    record_rng(0xffffffffu, value);
+    return value;
+}
+
 float sdfGetRandFloat(uint32_t *state)
 {
     (void)state;
@@ -157,6 +181,8 @@ int fw_print_arg_count(uint32_t format)
     case 0x00544d00: case 0x00544d10: case 0x00544be8: return 1; /* %f ratios */
     case 0x00544d30: return 3; /* magic heal */
     case 0x00544b48: case 0x00544b68: case 0x00544b88: return 0;
+    case 0x00543188: case 0x00543198: return 1; /* YAMI-B Lv / Exp */
+    case 0x0053caf8: return 1;                  /* fusion accident */
     case 0x00544ba8: return 4; /* ailment chance */
     default:
         fprintf(stderr, "fake world: unknown print format %08x\n", format);
@@ -205,6 +231,17 @@ uint32_t EE_FPU_COMPARE_S(uint32_t a, uint32_t b, unsigned predicate)
 
 datGlobalWork_PS2 *g_datGlobalWork;
 const datDevilSkillRecord_PS2 *g_datDevilSkillTable;
+const cmbExpConstants_PS2 *g_cmbExpConstants;
+const cmbHeartsRecord_PS2 *g_cmbHeartsRecords;
+const cmbEvoFlagRequirement_PS2 *g_cmbEvoFlagRequirements;
+const uint16_t *g_cmbDarkDevilIds;
+const cmbPowerUpSkill_PS2 *g_cmbPowerUpSkills;
+const cmbDemonSkillRow_PS2 *g_cmbDemonSkillRows;
+const cmbInheritanceLevelRecord_PS2 *g_cmbInheritanceLevelRecords;
+const cmbInheritanceSkillRecord_PS2 *g_cmbInheritanceSkillRecords;
+const uint8_t *g_cmbInheritanceScoreBytes;
+const cmpHeartsPosition_PS2 *g_cmpHeartsPositions; /* not reached */
+const rstResourceWork_PS2 *g_rstResourceWork;      /* not reached */
 
 _Noreturn void nocturne_break(uint32_t code) { fw_trap(code); }
 
@@ -236,6 +273,22 @@ uint32_t evtBitCheck(int32_t no)
 
 uint32_t evtGetAgeOfMoon(void) { return case_moon; }
 
+/* The compendium: each registration is appended to a log in dynamic RAM,
+ * so the RAM comparison checks which units were registered and when. */
+int32_t fclEncycRegist(datUnitWork_PS2 *unit, int32_t overwrite)
+{
+    uint32_t *log = (uint32_t *)fw_resolve(FW_LOG);
+    uint32_t n = log[0]++;
+    if (n < 31) {
+        log[1 + 2 * n] = fw_address_of(unit);
+        log[2 + 2 * n] = (uint32_t)overwrite;
+    }
+    return 1;
+}
+
+/* A debug print compiled out of the shipped game. */
+void ps2ScriptDiagnosticDisabled(uint64_t format, ...) { (void)format; }
+
 /* ---- per-file address resolvers ----------------------------------------- */
 
 void *nocturneResolveBattleActionStatusAddress(uint32_t a) { return fw_resolve(a); }
@@ -245,6 +298,34 @@ void *nocturneResolveBattlePowerAddress(uint32_t a) { return fw_resolve(a); }
 void *nocturneResolveBattleSupportAddress(uint32_t a) { return fw_resolve(a); }
 void *nocturneResolveBattleTargetingAddress(uint32_t a) { return fw_resolve(a); }
 void *nocturneResolveUnitProgressionAddress(uint32_t a) { return fw_resolve(a); }
+
+void *nocturneResolveQsortAddress(uint32_t a) { return fw_resolve(a); }
+void *nocturneResolveFusionSortAddress(uint32_t a) { return fw_resolve(a); }
+void *nocturneResolveFusionAccidentAddress(uint32_t a) { return fw_resolve(a); }
+void nocturneQsortNoteCompare(uint32_t pc, uint64_t callback, uint64_t left, uint64_t right, uint64_t result)
+{
+    (void)pc; (void)callback; (void)left; (void)right; (void)result;
+}
+
+/* A guest stack for legacy scratch buffers; outside the compared RAM. */
+static uint32_t guest_sp = FW_STACK_TOP;
+
+void *nocturneResolveFusionCoreAddress(uint32_t a) { return fw_resolve(a); }
+uint32_t nocturneFusionCoreStackPointer(void) { return guest_sp; }
+void nocturneFusionCoreSetStackPointer(uint32_t address) { guest_sp = address; }
+void nocturneFusionCoreFpuCondition(uint32_t condition) { (void)condition; }
+
+uint32_t nocturneFusionSortScratchPush(uint32_t bytes)
+{
+    guest_sp -= (bytes + 15u) & ~15u;
+    return guest_sp;
+}
+
+void nocturneFusionSortScratchPop(uint32_t address, uint32_t bytes)
+{
+    if (address != guest_sp) { fprintf(stderr, "fake world: scratch pop out of order\n"); abort(); }
+    guest_sp += (bytes + 15u) & ~15u;
+}
 
 /* ---- not reached ---------------------------------------------------------- */
 /* Called only by other functions in the same legacy files, never by the code
@@ -260,11 +341,19 @@ int32_t g_nbDebugEnabled;
 void evtBitOff(int32_t no) { (void)no; unreachable("evtBitOff"); }
 uint64_t dds3GetProcessData(uint64_t process) { (void)process; unreachable("dds3GetProcessData"); }
 uint64_t dds3SearchProcessName(uint64_t name) { (void)name; unreachable("dds3SearchProcessName"); }
-int32_t fclEncycRegist(datUnitWork_PS2 *unit, int32_t overwrite) { (void)unit; (void)overwrite; unreachable("fclEncycRegist"); }
-int8_t cmbGetHeartsParam(int8_t id, int8_t index) { (void)id; (void)index; unreachable("cmbGetHeartsParam"); }
-uint32_t cmbCalcLevelUpExp(const datUnitWork_PS2 *unit, int32_t level) { (void)unit; (void)level; unreachable("cmbCalcLevelUpExp"); }
-uint8_t cmbGetPlayerRaceID(datUnitWork_PS2 *unit) { (void)unit; unreachable("cmbGetPlayerRaceID"); }
-void *ps2Memset(void *destination, int32_t value, uint32_t count) { (void)destination; (void)value; (void)count; unreachable("ps2Memset"); }
-void cmbSubHeartsParam(uint8_t id, datUnitWork_PS2 *unit) { (void)id; (void)unit; unreachable("cmbSubHeartsParam"); }
-void ps2HeartsAddParam(uint8_t id, datUnitWork_PS2 *unit) { (void)id; (void)unit; unreachable("ps2HeartsAddParam"); }
-void ps2ScriptDiagnosticDisabled(uint64_t format, ...) { (void)format; unreachable("ps2ScriptDiagnosticDisabled"); }
+void *ps2Memset(void *destination, int32_t value, uint32_t count) { return memset(destination, value, count); }
+void *nocturneResolveBattleAiConditionsAddress(uint32_t a) { return fw_resolve(a); }
+void *nocturneResolveBattleAiEstimatesAddress(uint32_t a) { return fw_resolve(a); }
+void *nocturneResolveBattleAiExecutionAddress(uint32_t a) { return fw_resolve(a); }
+uint32_t evtGetAgeOfMoon16(void) { unreachable("evtGetAgeOfMoon16"); }
+uint64_t nbGetSelectBit(uint64_t main) { (void)main; unreachable("nbGetSelectBit"); }
+uint64_t nbSetAiTarget(uint64_t context, uint64_t selector, uint64_t parameter) { (void)context; (void)selector; (void)parameter; unreachable("nbSetAiTarget"); }
+uint64_t nocturneInvokeBattleAiCondition(uint32_t entry, uint64_t context, uint64_t parameter) { (void)entry; (void)context; (void)parameter; unreachable("nocturneInvokeBattleAiCondition"); }
+uint64_t scrGetData(void) { unreachable("scrGetData"); }
+uint64_t scrGetIntPara(uint64_t index) { (void)index; unreachable("scrGetIntPara"); }
+void nbSetNormalSkill0(uint64_t unit) { (void)unit; unreachable("nbSetNormalSkill0"); }
+void scrSetIntReturnValue(uint64_t value) { (void)value; unreachable("scrSetIntReturnValue"); }
+int8_t cmbGetHeartsAfterSkillNums(uint8_t id) { (void)id; unreachable("cmbGetHeartsAfterSkillNums"); }
+uint8_t cmbChkHeartsStat(int8_t id) { (void)id; unreachable("cmbChkHeartsStat"); }
+void rstCreateBeforeSkillList(int8_t id, datUnitWork_PS2 *unit, int8_t level_offset, rstSkillInfo_PS2 *info) { (void)id; (void)unit; (void)level_offset; (void)info; unreachable("rstCreateBeforeSkillList"); }
+uint64_t nocturneCompendiumRecordsCompare(uint64_t target, uint64_t left, uint64_t right) { (void)target; (void)left; (void)right; unreachable("nocturneCompendiumRecordsCompare"); }

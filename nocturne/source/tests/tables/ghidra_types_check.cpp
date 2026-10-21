@@ -5,6 +5,8 @@
 
 #include "nocturne/battle/process.hpp"
 #include "nocturne/data/records.hpp"
+#include "nocturne/fusion/combine.hpp"
+#include "nocturne/fusion/sort.hpp"
 
 namespace ghidra {
 #define PTR32(T) uint32_t
@@ -37,6 +39,32 @@ SAME_SIZE(datEncountPack, EncountPack);
 SAME_OFFSET(datEncountPack, EncountPack, enctable, enctable);
 SAME_SIZE(datGlobalWork, GlobalWork);
 SAME_OFFSET(datGlobalWork, GlobalWork, units, units);
+SAME_OFFSET(datGlobalWork, GlobalWork, item_counts, item_counts);
+SAME_OFFSET(datGlobalWork, GlobalWork, hearts_owned_count, hearts_owned_count);
+SAME_SIZE(datSkill, SkillInfo);
+SAME_SIZE(fclSkillEvent, GrowthEvent);
+SAME_SIZE(fclSkill, DevilGrowth);
+SAME_SIZE(datItem, ItemData);
+SAME_SIZE(fclHeartsSkill, MagatamaSkill);
+SAME_SIZE(fclHearts, MagatamaData);
+SAME_OFFSET(fclHearts, MagatamaData, autoasignparam, autoasignparam);
+SAME_OFFSET(fclHearts, MagatamaData, skill, skill);
+SAME_SIZE(cmbEvoFlag, EvolutionRequirement);
+SAME_SIZE(fclKeisyoSkillLevel, InheritanceLevel);
+SAME_SIZE(fclKeisyoScore, InheritanceScores);
+SAME_SIZE(cmbPowerUpSkill, SkillPowerUp);
+SAME_SIZE(fclKeisyoList, cmb::InheritedSkillList);
+SAME_OFFSET(fclKeisyoList, cmb::InheritedSkillList, count, count);
+SAME_SIZE(cmbDevilSort, cmb::DevilSortEntry);
+SAME_SIZE(fclCombCom, FusionPair);
+SAME_SIZE(fclRankTbl, SpiritRankTable);
+SAME_SIZE(fclCombSpirit, SpiritParamUp);
+SAME_SIZE(fclIkenieExtPattern, SacrificeRacePattern);
+SAME_SIZE(fclIkenieExtPatternDev, SacrificeDevilPattern);
+SAME_SIZE(fclIkenieExtPatternDev2, SacrificeResultPattern);
+SAME_SIZE(fclIkenieExtPatternDevRace, SacrificeDevilRacePattern);
+SAME_SIZE(fclEventDevil, EventDevil);
+SAME_SIZE(fclMoonRange, MoonRange);
 SAME_SIZE(nbFormation, nb::Formation);
 SAME_OFFSET(nbFormation, nb::Formation, formindex, formindex);
 SAME_SIZE(nbParty, nb::Party);

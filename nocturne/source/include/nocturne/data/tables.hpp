@@ -21,6 +21,33 @@ extern const SpecialSkill kSpecialSkill[88];   // index: skill ID - 0x128
 extern const Encount kEncount[1270];           // index: encno
 extern const EncountPack kEncountPack[256];
 extern const uint32_t kAffinity[448][16];      // [DevilFormat::aisyoid][Attribute]
+extern const DevilGrowth kDevilGrowth[384];    // fclSkillTbl, index: devil ID
+extern const ItemData kItem[160];              // datItem, index: item ID
+extern const MagatamaData kMagatama[26];       // fclHeartsTbl, index: Magatama ID
+
+// Evolution and inheritance.
+extern const EvolutionRequirement kEvolutionRequirement[6];
+extern const InheritanceLevel kInheritanceLevel[227];
+extern const InheritanceScores kInheritanceScores;
+extern const uint16_t kDarkDevil[37];          // devils that count as "dark"
+extern const SkillPowerUp kSkillPowerUp[55];
+
+// Fusion (fclCombineTable).
+extern const uint8_t kCombineTbl[32][32];      // [lower race - 1][higher race - 1] -> race
+extern const uint8_t kCombineCurseTbl[32][32]; // the same, for cursed fusion
+extern const SpiritRankTable kRankUpDownTbl[4];
+extern const FusionPair kExtPatternTbl[3];     // special two-devil fusions
+extern const FusionPair kBirthSpiritTbl[6];    // Spirit pairs that make a Mitama
+extern const SpiritParamUp kSpiritParamUpTbl[4];
+extern const SacrificeRacePattern kIkenieExtPatternTbl[1];
+extern const SacrificeDevilPattern kIkenieExtPatternDevTbl[7];
+extern const SacrificeResultPattern kIkenieExtPatternDev2Tbl[19];
+extern const SacrificeDevilRacePattern kIkenieExtPatternDevRaceTbl[2];
+extern const uint16_t kAccidentFailTbl[14];
+extern const EventDevil kEventDevilTbl[34];
+extern const MoonRange kCombineManinKagTbl[5];
+extern const uint8_t kCombineManinRaceTbl[4];
+extern const uint16_t kCombineManinTbl[4][5]; // [race][moon range] -> Fiend
 
 namespace address {
 inline constexpr uint32_t Affinity          = 0x003a7fe0;
@@ -34,7 +61,31 @@ inline constexpr uint32_t NormalSkill       = 0x003d7998;
 inline constexpr uint32_t SkillInfo         = 0x003d6998;
 inline constexpr uint32_t SpecialSkill      = 0x003dc1e0;
 inline constexpr uint32_t SenseiCoefficient = 0x00544d58; // float[6], see nbCheckSensei
+inline constexpr uint32_t DevilGrowth       = 0x00333cf8;
+inline constexpr uint32_t Magatama          = 0x00339e00;
+inline constexpr uint32_t EvolutionRequirement = 0x00339640;
+inline constexpr uint32_t InheritanceLevel  = 0x00339658;
+inline constexpr uint32_t InheritanceScores = 0x003399e8;
+inline constexpr uint32_t DarkDevil         = 0x00339ba8;
+inline constexpr uint32_t SkillPowerUp      = 0x00339c20;
+inline constexpr uint32_t Item              = 0x003dc4a0;
+inline constexpr uint32_t CombineTbl        = 0x0032d270;
+inline constexpr uint32_t CombineCurseTbl   = 0x0032d670;
+inline constexpr uint32_t RankUpDownTbl     = 0x0032da70;
+inline constexpr uint32_t ExtPatternTbl     = 0x0032db78;
+inline constexpr uint32_t BirthSpiritTbl    = 0x0032db90;
+inline constexpr uint32_t SpiritParamUpTbl  = 0x0032dbb8;
+inline constexpr uint32_t IkenieExtPatternTbl        = 0x0032dbd8;
+inline constexpr uint32_t IkenieExtPatternDevTbl     = 0x0032dbe0;
+inline constexpr uint32_t IkenieExtPatternDev2Tbl    = 0x0032dc18;
+inline constexpr uint32_t IkenieExtPatternDevRaceTbl = 0x0032dc90;
+inline constexpr uint32_t AccidentFailTbl   = 0x0032dca0;
+inline constexpr uint32_t EventDevilTbl     = 0x0032dcc0;
+inline constexpr uint32_t CombineManinKagTbl  = 0x0032ddd0;
+inline constexpr uint32_t CombineManinRaceTbl = 0x0032dde0;
+inline constexpr uint32_t CombineManinTbl     = 0x0032dde8;
 inline constexpr uint32_t GlobalWorkPointer = 0x0054ea20;
+inline constexpr uint32_t DevilCount        = 0x0054ff18; // int32 (gp-relative), 384
 } // namespace address
 
 inline const NormalSkill& normalSkill(int32_t id) { return guest::table<const NormalSkill>(address::NormalSkill)[id]; }
@@ -51,6 +102,17 @@ inline const SpecialSkill& specialSkill(int32_t skill)
 {
     return guest::table<const SpecialSkill>(address::SpecialSkill)[skill - 0x128];
 }
+
+inline const DevilGrowth& devilGrowth(int32_t devil) { return guest::table<const DevilGrowth>(address::DevilGrowth)[devil]; }
+inline const MagatamaData& magatama(int32_t id) { return guest::table<const MagatamaData>(address::Magatama)[id]; }
+inline const ItemData& item(int32_t id) { return guest::table<const ItemData>(address::Item)[id]; }
+
+// Whole tables at their PS2 addresses (the sizes are in the k* declarations).
+template <class T>
+const T* tableAt(uint32_t address) { return guest::table<const T>(address); }
+
+// The number of devil IDs, a global variable (384) rather than a constant.
+inline int32_t devilCount() { return *guest::table<const int32_t>(address::DevilCount); }
 
 inline GlobalWork& globalWork()
 {

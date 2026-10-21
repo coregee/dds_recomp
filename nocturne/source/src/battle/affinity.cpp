@@ -101,6 +101,19 @@ uint32_t virtualAffinity(int32_t skill, int32_t /*source*/, int32_t target)
     return 0;
 }
 
+// nbGetAisyoTable @ 0x002677E8
+int32_t affinityRowOf(int32_t formindex)
+{
+    UnitWork& unit = *GetUnitWorkFromFormindex(formindex);
+    int32_t row = unit.isPlayerCharacter() ? 0 : dat::devilFormat(unit.id).aisyoid;
+    int32_t override = buffCounter(formindex, static_cast<int32_t>(Hojo::AffinityRow));
+    if (override > 0)
+        row = override;
+    if (unit.ailment() == ailment::Fly)   return dat::kFlyAffinityRow;
+    if (unit.ailment() == ailment::Stone) return dat::kStoneAffinityRow;
+    return row;
+}
+
 // nbGetAisyoRitu @ 0x00266130
 //
 // Repel/Drain entries with no rate count as 100%. Against a frozen target,

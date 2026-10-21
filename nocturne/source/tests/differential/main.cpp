@@ -7,6 +7,8 @@
 // sides (legacy callees vs. rewritten callees); only the engine boundary is
 // faked (fake_world.c).
 //
+// Fusion and growth tests are in fusion_tests.cpp.
+//
 // usage: differential <path to SLUS_209.11> [cases per function] [seed] [name filter]
 #include <csetjmp>
 #include <cstdint>
@@ -19,6 +21,7 @@
 #include <vector>
 
 #include "fake_world.h"
+#include "harness.hpp"
 #include "nocturne/battle/affinity.hpp"
 #include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/calc.hpp"
@@ -63,6 +66,13 @@ void nbSetKuisibariStop(uint64_t form);
 uint64_t nbGetUnitID(uint64_t work);
 uint64_t ps2UnitMagicHitPower_00242CB0(uint64_t unit);
 uint64_t ps2UnitEvasionPower_00242D50(uint64_t unit);
+uint64_t datGetSkillCost(uint64_t unit, uint64_t skill);
+uint64_t nbCheckSkillCost(uint64_t formation, uint64_t skill);
+uint64_t nbGetLvAvg(uint64_t main, uint64_t side);
+uint64_t nbCheckSkillUse(uint64_t formation, uint64_t skill);
+uint64_t nbGetAisyoTable(uint64_t formation);
+uint64_t nbGetEscapeSwitch(uint64_t main);
+uint64_t nbGetVirtualKoukaPoint(uint64_t skill, uint64_t source, uint64_t target);
 }
 
 using namespace nocturne;
@@ -72,26 +82,12 @@ using namespace nocturne;
 void* nocturne::guest::resolve(uint32_t address) { return fw_resolve(address); }
 uint32_t nocturne::guest::addressOf(const void* pointer) { return fw_address_of(pointer); }
 
+namespace difftest {
+
 namespace {
-
-template <class T> T& at(uint32_t address) { return *static_cast<T*>(fw_resolve(address)); }
-
-uint64_t floatBits(float f) { uint32_t b; std::memcpy(&b, &f, 4); return b; }
-uint64_t norm(uint64_t legacyRegister) { return static_cast<uint64_t>(static_cast<int64_t>(static_cast<int32_t>(legacyRegister))); }
-uint64_t norm(int32_t value) { return static_cast<uint64_t>(static_cast<int64_t>(value)); }
-uint64_t norm(bool value) { return value ? 1 : 0; }
-
-// ---- random battle states -------------------------------------------------------
-
-struct Gen {
-    std::mt19937_64 rng;
-    uint32_t below(uint32_t n) { return static_cast<uint32_t>(rng() % n); }
-    int32_t range(int32_t lo, int32_t hi) { return lo + static_cast<int32_t>(below(static_cast<uint32_t>(hi - lo + 1))); }
-    bool chance(uint32_t percent) { return below(100) < percent; }
-    template <class T, size_t N> T pick(const T (&values)[N]) { return values[below(N)]; }
-};
-
 const uint16_t kAilments[] = {0, 0, 0, 0, 0x1, 0x2, 0x4, 0x8, 0x10, 0x20, 0x40, 0x80, 0x100, 0x200, 0x400, 0x800};
+
+} // namespace
 
 // Skills that change battle calculations, so random units own them often.
 int32_t interestingSkill(Gen& g)
@@ -133,6 +129,12 @@ void randomUnit(Gen& g, UnitWork& u, bool enemy)
     for (int i = 0; i < u.skillcnt; ++i)
         u.skill[i] = static_cast<uint16_t>(interestingSkill(g));
 }
+
+} // namespace difftest
+
+namespace {
+
+using namespace difftest;
 
 uint32_t randomAffinity(Gen& g)
 {
@@ -278,8 +280,6 @@ int32_t activeSkill(Gen& g)
     }
 }
 
-datUnitWork_PS2* legacyUnit(uint32_t address) { return static_cast<datUnitWork_PS2*>(fw_resolve(address)); }
-
 const float kRatios[] = {0.0f, 0.5f, 1.0f, 1.0f, 1.5f, 2.0f, 0.25f, 1.25f};
 
 // ---- running a case ---------------------------------------------------------------
@@ -329,19 +329,7 @@ std::string describe(const Outcome& a, const Outcome& b)
     return {};
 }
 
-struct Pair {
-    std::function<uint64_t()> legacy, rewrite;
-};
-
-struct TestCase {
-    const char* name;
-    std::function<Pair(Gen&)> make;
-};
-
-uint64_t sx(int32_t v) { return static_cast<uint64_t>(static_cast<int64_t>(v)); }
-
 nb::MainProcessData& mainData() { return at<nb::MainProcessData>(FW_MAIN); }
-UnitWork& unitAt(uint32_t address) { return at<UnitWork>(address); }
 uint32_t formUnit(int f) { return at<uint32_t>(FW_FORM_UNITS + 4 * static_cast<uint32_t>(f)); }
 
 std::vector<TestCase> tests()
@@ -728,6 +716,39 @@ std::vector<TestCase> tests()
     ailmentTest("nbGetKoukaBadDamage", nbGetKoukaBadDamage, nb::rollAilmentInflict);
     ailmentTest("nbGetKoukaBadKaifuku", nbGetKoukaBadKaifuku, nb::rollAilmentCure);
 
+    // ---- nbCalc: skill costs, AI helpers ---------------------------------------
+    t.push_back({"datGetSkillCost", [](Gen& g) {
+        uint32_t unit = formUnit(occupiedForm(g));
+        int32_t skill = activeSkill(g);
+        return Pair{[=] { return norm(datGetSkillCost(unit, sx(skill))); }, [=] { return norm(dat::skillCost(unitAt(unit), skill)); }};
+    }});
+    t.push_back({"nbCheckSkillCost", [](Gen& g) {
+        int32_t f = occupiedForm(g), skill = activeSkill(g);
+        return Pair{[=] { return norm(nbCheckSkillCost(sx(f), sx(skill))); },
+                    [=] { return norm(static_cast<int32_t>(nb::checkSkillCost(f, skill))); }};
+    }});
+    t.push_back({"nbCheckSkillUse", [](Gen& g) {
+        int32_t f = occupiedForm(g), skill = activeSkill(g);
+        return Pair{[=] { return norm(nbCheckSkillUse(sx(f), sx(skill))); }, [=] { return norm(nb::checkSkillUse(f, skill)); }};
+    }});
+    t.push_back({"nbGetLvAvg", [](Gen& g) {
+        int32_t side = g.range(0, 1);
+        return Pair{[=] { return norm(nbGetLvAvg(FW_MAIN, sx(side))); },
+                    [=] { return norm(nb::averageCombatLevel(mainData(), static_cast<nb::Side>(side))); }};
+    }});
+    t.push_back({"nbGetAisyoTable", [](Gen& g) {
+        int32_t f = occupiedForm(g);
+        return Pair{[=] { return norm(nbGetAisyoTable(sx(f))); }, [=] { return norm(nb::affinityRowOf(f)); }};
+    }});
+    t.push_back({"nbGetEscapeSwitch", [](Gen&) {
+        return Pair{[] { return norm(nbGetEscapeSwitch(FW_MAIN)); }, [] { return norm(nb::escapeAllowed(mainData())); }};
+    }});
+    t.push_back({"nbGetVirtualKoukaPoint", [](Gen& g) {
+        int32_t skill = activeSkill(g), s = occupiedForm(g), d = occupiedForm(g);
+        return Pair{[=] { return norm(nbGetVirtualKoukaPoint(sx(skill), sx(s), sx(d))); },
+                    [=] { return norm(nb::estimateEffect(skill, s, d)); }};
+    }});
+
     // Every curing skill in the shipped data has badlevel 255 (always works),
     // so the cure-chance roll is dead in practice. Exercise it anyway by
     // patching a chance into the skill record for the duration of the call.
@@ -747,6 +768,10 @@ std::vector<TestCase> tests()
         return Pair{[=] { return patched([&] { return norm(nbGetKoukaBadKaifuku(ratio, sx(skill), sx(s), sx(d), sx(preview))); }); },
                     [=] { return patched([&] { return norm(static_cast<int32_t>(nb::rollAilmentCure(ratio, skill, s, d, preview != 0))); }); }};
     }});
+
+    addFusionTests(t);
+    addProgressionTests(t);
+    addFusionCoreTests(t);
     return t;
 }
 

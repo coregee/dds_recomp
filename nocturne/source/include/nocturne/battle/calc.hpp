@@ -85,6 +85,8 @@ enum class Side : int32_t { Player = 0, Enemy = 1 };
 
 void setEncounter(int32_t encno);                                    // (unnamed, 0x259658)
 int32_t averageLevel(MainProcessData& data, Side side);              // nbGetLvAvg2
+int32_t averageCombatLevel(MainProcessData& data, Side side);        // nbGetLvAvg: over the combatants
+bool escapeAllowed(const MainProcessData& data);                     // nbGetEscapeSwitch
 int32_t averageParam(MainProcessData& data, Side side, Param stat);  // nbGetParamAvg
 int32_t averageEncounterParam(MainProcessData& data, Side side, Param stat); // nbGetParamAvg2
 bool rollEnemiesFirst(MainProcessData& data);                        // nbCheckSensei

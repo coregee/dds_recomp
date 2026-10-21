@@ -142,6 +142,15 @@ struct DevilFormat {
     uint8_t attackcnt, attackinterval, reserve1;
 };
 static_assert(sizeof(DevilFormat) == 60);
+
+// DevilFormat::flag bits.
+namespace DevilFlag {
+inline constexpr uint32_t AlignmentPlus  = 0x040; // datGet3Zokusei +1
+inline constexpr uint32_t AlignmentMinus = 0x080; // datGet3Zokusei -1
+inline constexpr uint32_t NoHpCost       = 0x200; // HP-cost skills are free
+inline constexpr uint32_t NoMpCost       = 0x400; // MP-cost skills are free
+inline constexpr uint32_t MissIsFail     = 0x800; // a missed skill reports "no effect"
+} // namespace DevilFlag
 static_assert(offsetof(DevilFormat, param) == 0x10);
 static_assert(offsetof(DevilFormat, dropmakka) == 0x2a);
 static_assert(offsetof(DevilFormat, specialbit) == 0x32);
@@ -194,6 +203,129 @@ struct EncountPack {
 };
 static_assert(sizeof(EncountPack) == 420);
 
+// fclSkill: how a devil grows. Table at 0x333CF8, 102 bytes, per devil ID.
+struct GrowthEvent {
+    int8_t targetlevel;       // level at which it happens
+    uint8_t type;             // GrowthEventType
+    uint16_t param;           // skill ID for Skill; evolution target etc.
+};
+namespace GrowthEventType {
+inline constexpr uint8_t None         = 0;
+inline constexpr uint8_t Skill        = 1;   // learn skill `param` at targetlevel
+inline constexpr uint8_t Evolve       = 5;   // evolves into devil `param` at targetlevel
+inline constexpr uint8_t EvolveNotice = 7;   // the "can evolve" notice
+// 2..4, 6, 8..10 also occur; their meaning is not yet established.
+} // namespace GrowthEventType
+struct DevilGrowth {
+    int8_t growparam[6];      // weights for level-up stat increases (by Param)
+    GrowthEvent event[24];
+};
+static_assert(sizeof(DevilGrowth) == 102);
+
+// datItem: table at 0x3DC4A0, 8 bytes, 160 entries (item ID).
+struct ItemData {
+    uint8_t use;
+    uint8_t flag;
+    uint16_t skillid;         // skill the item casts (Bead: Diarahan)
+    uint32_t price;
+};
+static_assert(sizeof(ItemData) == 8);
+
+// fclHearts: Magatama. Table at 0x339E00, 66 bytes, 26 entries (0 = none).
+struct MagatamaSkill {        // fclHeartsSkill_t
+    uint8_t targetlevel;
+    uint8_t unknown_01;
+    uint16_t id;              // skill taught
+};
+struct MagatamaData {         // fclHearts_t
+    uint8_t flag;             // low 3 bits: the Magatama's stat class
+    uint8_t unknown_01;
+    int16_t aisyoid;          // affinity row while equipped
+    int16_t masteraisyoid;    // ... once mastered
+    int8_t growparam[6];      // stat bonuses while equipped (by Param)
+    int8_t mastergrowparam[6];
+    int8_t autoasignparam[6]; // Demi-fiend level-up stat weights
+    uint8_t splitlevel;       // fclHeartsSplt_t
+    uint8_t splitid;
+    MagatamaSkill skill[8];
+    uint8_t event[8];
+};
+static_assert(sizeof(MagatamaData) == 66);
+static_assert(offsetof(MagatamaData, autoasignparam) == 0x12);
+static_assert(offsetof(MagatamaData, skill) == 0x1a);
+
+// ---- Evolution and skill inheritance ----------------------------------------
+
+struct EvolutionRequirement {     // evolution needs this event bit set
+    uint16_t devil;
+    uint16_t eventbit;
+};
+struct InheritanceLevel {         // fclKeisyoSkillLevel_t: skill "level" divisor
+    uint16_t skill;
+    uint8_t level;
+    uint8_t unknown_03;
+};
+struct InheritanceScoreRow {
+    int16_t keisyotype;           // DevilFormat::keisyotype
+    uint16_t score[16];           // low byte: base rate for each element column
+};
+struct InheritanceScores {        // how well each kind of devil inherits each element
+    int16_t unknown_00;
+    int16_t attribute[16];        // column keys: SkillInfo::skillattr
+    InheritanceScoreRow row[12];
+};
+struct SkillPowerUp {             // a skill and its stronger version
+    uint16_t skill;
+    uint16_t target;
+};
+static_assert(sizeof(InheritanceScores) == 442);
+
+// ---- Fusion tables (fclCombineTable) ----------------------------------------
+
+struct FusionPair {           // fclCombCom_t: two devils -> a result
+    uint16_t devil1, devil2, birth;
+};
+struct RankShift {            // fclRankBase_t
+    uint8_t race;
+    uint8_t flag;             // 1 one rank up the race, 2 one rank down, 0 no result
+};
+struct SpiritRankTable {      // fclRankTbl_t: what a Spirit does to each race
+    uint16_t devil;
+    RankShift base[32];
+};
+struct SpiritParamUp {        // fclCombSpirit_t: a Mitama's stat boost
+    uint16_t devil;
+    uint16_t paramtype[2];    // Param raised
+    uint8_t uprate;
+    uint8_t unknown_07;
+};
+struct SacrificeRacePattern {     // fclIkenieExtPattern_t
+    uint8_t race1, race2, race3, birthrace;
+};
+struct SacrificeDevilPattern {    // fclIkenieExtPatternDev_t
+    uint16_t devil1, devil2, devil3, birth;
+};
+struct SacrificeResultPattern {   // fclIkenieExtPatternDev2_t: normal result + sacrifice -> birth
+    uint16_t devil1, devil2, birth;
+};
+struct SacrificeDevilRacePattern { // fclIkenieExtPatternDevRace_t
+    uint16_t devil;
+    uint8_t race1, race2;
+    uint16_t birth;
+};
+struct EventDevil {           // fclEventDevil_t: not fusible until the event bit is set
+    uint16_t devil;
+    uint16_t unknown_02;
+    uint32_t eventflag;
+};
+struct MoonRange {            // fclCombineManinKagTbl entry: Kagutsuchi phases
+    uint8_t min, max;
+};
+static_assert(sizeof(SpiritRankTable) == 66);
+static_assert(sizeof(SpiritParamUp) == 8);
+static_assert(sizeof(SacrificeDevilRacePattern) == 6);
+static_assert(sizeof(EventDevil) == 8);
+
 // Per-devil model record (0x310 bytes; table at 0x34F1E0, fallback record at
 // 0x3494B0). Only the battle model scale is identified so far.
 struct UnitVisual {
@@ -212,10 +344,26 @@ struct GlobalWork {
     uint32_t moon_move_bits;
     int32_t maka;             // Macca on hand
     uint32_t unknown_0a4c;    // bit 1 quintuples consecutive-encounter odds (role unknown)
-    int32_t stock_capacity;
-    UnitWork units[16];       // units[0] is the Demi-fiend
+    int32_t stock_capacity;   // how many demons the stock can hold
+    UnitWork units[16];       // units[0] the Demi-fiend, 1..3 reserved, 4.. demons
+    uint8_t stock_list[16];   // display order of the stock (unit indexes)
+    int32_t stock_count;
+    uint8_t item_counts[0xa0];
+    int16_t boss_records[40][2];
+    uint8_t unknown_1a68[0x284];
+    uint8_t reason_points[4]; // [1..3]: points toward each Reason (Kotowari)
+    uint8_t unknown_1cf0[0xa];
+    uint8_t hearts_equipped;  // Magatama ID, 0 = none
+    uint8_t hearts_owned[64];
+    uint8_t hearts_skill_state[64];
+    uint8_t hearts_owned_count;
 };
 static_assert(offsetof(GlobalWork, maka) == 0xa48);
 static_assert(offsetof(GlobalWork, units) == 0xa54);
+static_assert(offsetof(GlobalWork, stock_list) == 0x1914);
+static_assert(offsetof(GlobalWork, item_counts) == 0x1928);
+static_assert(offsetof(GlobalWork, reason_points) == 0x1cec);
+static_assert(offsetof(GlobalWork, hearts_equipped) == 0x1cfa);
+static_assert(offsetof(GlobalWork, hearts_owned_count) == 0x1d7b);
 
 } // namespace nocturne

@@ -33,6 +33,12 @@ int32_t maxHpPower(int32_t skill, int32_t source, int32_t target, int32_t power)
 int32_t hpEffect(ee::Float ratio, bool damage, int32_t skill, int32_t source, int32_t target, int32_t count);
 int32_t mpEffect(ee::Float ratio, bool damage, int32_t skill, int32_t source, int32_t target, int32_t count);
 
+// nbGetVirtualKoukaPoint: the AI's score for using a skill on a target: the
+// expected HP/MP damage and healing (healing capped at what is missing),
+// plus 1 for an ailment inflicted or cured, plus the buff change. Runs every
+// roll in preview mode, but still draws RNG for damage spread.
+int32_t estimateEffect(int32_t skill, int32_t source, int32_t target);
+
 // ---- Ailments ---------------------------------------------------------------
 
 // nbGetKoukaBadDamage: roll whether the skill inflicts its ailment. Returns

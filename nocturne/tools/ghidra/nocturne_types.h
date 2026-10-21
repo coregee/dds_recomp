@@ -152,8 +152,97 @@ typedef struct datGlobalWork {
     s32 maka;
     u32 unknown_0a4c;
     s32 stock_capacity;
-    datUnitWork units[16];
+    datUnitWork units[16];   /* [0] the Demi-fiend, [4..] demons */
+    u8 stock_list[16];
+    s32 stock_count;
+    u8 item_counts[0xa0];
+    s16 boss_records[40][2];
+    u8 unknown_1a68[0x284];
+    u8 reason_points[4];     /* [1..3]: Reason (Kotowari) points */
+    u8 unknown_1cf0[0xa];
+    u8 hearts_equipped;      /* Magatama ID */
+    u8 hearts_owned[64];
+    u8 hearts_skill_state[64];
+    u8 hearts_owned_count;
 } datGlobalWork;
+
+/* datSkill: per-skill info. Table at 0x3D6998, 512 entries. */
+typedef struct datSkill {
+    s8 skillattr;            /* element, -1 none */
+    s8 type;                 /* 0 active, 1 passive, -1 unused */
+    s16 index;
+    u16 keisyoform;          /* which demons can inherit it */
+    s8 capacity;
+    u8 flag;
+} datSkill;
+
+/* fclSkill: how a devil grows. Table at 0x333CF8, per devil ID. */
+typedef struct fclSkillEvent {
+    s8 targetlevel;
+    u8 type;                 /* 1 learn skill, 5 evolve into devil, 7 evolution notice */
+    u16 param;
+} fclSkillEvent;
+typedef struct fclSkill {
+    s8 growparam[6];         /* level-up stat weights */
+    fclSkillEvent event[24];
+} fclSkill;
+
+typedef struct datItem {
+    u8 use, flag;
+    u16 skillid;
+    u32 price;
+} datItem;
+
+/* fclHearts: Magatama. Table at 0x339E00. */
+typedef struct fclHeartsSkill {
+    u8 targetlevel, unknown_01;
+    u16 id;
+} fclHeartsSkill;
+typedef struct fclHearts {
+    u8 flag, unknown_01;
+    s16 aisyoid, masteraisyoid;
+    s8 growparam[6];
+    s8 mastergrowparam[6];
+    s8 autoasignparam[6];    /* Demi-fiend level-up stat weights */
+    u8 splitlevel, splitid;
+    fclHeartsSkill skill[8];
+    u8 event[8];
+} fclHearts;
+
+/* Evolution and inheritance (fclCombineCalcCore). */
+typedef struct cmbEvoFlag { u16 devil, eventbit; } cmbEvoFlag;
+typedef struct fclKeisyoSkillLevel { u16 skill; u8 level, unknown_03; } fclKeisyoSkillLevel;
+typedef struct fclKeisyoScoreRow { s16 keisyotype; u16 score[16]; } fclKeisyoScoreRow;
+typedef struct fclKeisyoScore {
+    s16 unknown_00;
+    s16 attribute[16];
+    fclKeisyoScoreRow row[12];
+} fclKeisyoScore;
+typedef struct cmbPowerUpSkill { u16 skill, target; } cmbPowerUpSkill;
+
+/* fclKeisyoList_t: skills a fused devil inherited (results screen). */
+typedef struct fclKeisyoList {
+    u16 skill[8];
+    u8 count;
+} fclKeisyoList;
+
+/* Entry of the devil list sorted by race, then level (highest first). */
+typedef struct cmbDevilSort {
+    u16 devil, unused;
+    PTR32(datDevilFormat) format;
+} cmbDevilSort;
+
+/* Fusion tables (fclCombineTable). */
+typedef struct fclCombCom { u16 devil1, devil2, birth; } fclCombCom;
+typedef struct fclRankBase { u8 race, flag; } fclRankBase;   /* flag 1 rank up, 2 down */
+typedef struct fclRankTbl { u16 devil; fclRankBase base[32]; } fclRankTbl;
+typedef struct fclCombSpirit { u16 devil; u16 paramtype[2]; u8 uprate, unknown_07; } fclCombSpirit;
+typedef struct fclIkenieExtPattern { u8 race1, race2, race3, birthrace; } fclIkenieExtPattern;
+typedef struct fclIkenieExtPatternDev { u16 devil1, devil2, devil3, birth; } fclIkenieExtPatternDev;
+typedef struct fclIkenieExtPatternDev2 { u16 devil1, devil2, birth; } fclIkenieExtPatternDev2;
+typedef struct fclIkenieExtPatternDevRace { u16 devil; u8 race1, race2; u16 birth; } fclIkenieExtPatternDevRace;
+typedef struct fclEventDevil { u16 devil, unknown_02; u32 eventflag; } fclEventDevil;
+typedef struct fclMoonRange { u8 min, max; } fclMoonRange;
 
 typedef struct nbVec4 { float x, y, z, w; } nbVec4;
 

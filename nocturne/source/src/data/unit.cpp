@@ -150,8 +150,8 @@ int32_t alignment(const UnitWork& unit)
     if (unit.isPlayerCharacter())
         return 0;
     uint32_t flags = devilFormat(unit.id).flag;
-    if (flags & 0x40) return 1;
-    if (flags & 0x80) return -1;
+    if (flags & DevilFlag::AlignmentPlus) return 1;
+    if (flags & DevilFlag::AlignmentMinus) return -1;
     return 0;
 }
 
@@ -181,6 +181,31 @@ bool partyHasSkill(int32_t skill)
             return true;
     }
     return false;
+}
+
+// datGetSkillCost @ 0x002459E8
+//
+// costtype 1: HP, cost% of max HP + costbase (at least 1); free for enemies
+// and for species with DevilFlag::NoHpCost. costtype 2: MP, a fixed cost;
+// free for species with DevilFlag::NoMpCost.
+int32_t skillCost(const UnitWork& unit, int32_t skill)
+{
+    const NormalSkill& s = normalSkill(skill);
+    if (s.costtype == 1) {
+        if (!unit.isPlayerCharacter()) {
+            if (devilFormat(unit.id).flag & DevilFlag::NoHpCost) return 0;
+            if (unit.isEnemy()) return 0;
+        }
+        int32_t product = static_cast<int32_t>(static_cast<uint32_t>(unit.maxhp) * s.cost);
+        int32_t cost = product / 100 + s.costbase;
+        return cost > 0 ? cost : 1;
+    }
+    if (s.costtype == 2) {
+        if (!unit.isPlayerCharacter() && (devilFormat(unit.id).flag & DevilFlag::NoMpCost))
+            return 0;
+        return s.cost;
+    }
+    return 0;
 }
 
 // datSetBadStat @ 0x00243BD0

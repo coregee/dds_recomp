@@ -18,6 +18,10 @@ Affinity affinity(int32_t skill, int32_t formindex, Attribute attr);
 // Affinity::Repel, Drain or Null, or 0. Used by the AI.
 uint32_t virtualAffinity(int32_t skill, int32_t source, int32_t target);
 
+// nbGetAisyoTable: which affinity-table row applies to the combatant (its
+// species row, the override counter, or the Fly/Stone rows). Used by AI.
+int32_t affinityRowOf(int32_t formindex);
+
 // nbGetAisyoRitu: the damage multiplier from affinity (rate / 100), after
 // Freeze and Pierce, times 1.5 for Son's Oath or an element Boost.
 ee::Float damageRatio(int32_t skill, int32_t source, int32_t target);

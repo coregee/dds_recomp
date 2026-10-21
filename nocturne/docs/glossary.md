@@ -11,8 +11,10 @@ and records the evidence for every value used in the rewrite.
 | `dat` | data: units, devils, items, the save state (`datGlobalWork`) |
 | `nb` | "new battle": the battle system |
 | `evt` | event flags, moon phase |
-| `fcl` | facilities (compendium, shops) |
-| `cmb` / `cmp` | Magatama / status menus |
+| `fcl` | facilities (compendium, shops, the Cathedral of Shadows: `fclCombine*`) |
+| `cmb` | "combine": fusion, and the devil stock it manages |
+| `cmp` | status / Magatama menus |
+| `rst` | the battle results screen (level-ups) |
 | `sdf` | system library (RNG, memory) |
 | `dds3` | engine core (*Digital Devil Saga 3* = Nocturne's internal name) |
 
@@ -25,6 +27,8 @@ and records the evidence for every value used in the rewrite.
 | gensyo | 減少 | reduction |
 | hatudo | 発動 | activation (of a passive skill) |
 | hensin(mae) | 変身(前) | transformation / evolution (before) |
+| hearts | — | Magatama (the HD code's English name) |
+| ikenie | 生贄 | sacrifice (sacrificial fusion) |
 | hojo | 補助 | support: buffs and debuffs (-kaja/-nda) |
 | hougyoku | 宝玉 | Bead (item 4) |
 | jyoken | 条件 | condition |
@@ -32,16 +36,22 @@ and records the evidence for every value used in the rewrite.
 | buturi | 物理 | physical |
 | waza | 技 | skill (power) |
 | kaifuku | 回復 | recovery |
+| kotowari | 理 | Reason (the three ending philosophies) |
+| LND | — | Law / Neutral / Dark alignment |
 | kakutoku | 獲得 | earned |
 | keisyo | 継承 | inheritance (fusion) |
 | kouka | 効果 | effect |
 | maka / makka | マッカ | Macca (money) |
 | maseki | 魔石 | Life Stone (item 3) |
+| manin | 魔人 | Fiend (fused with a Deathstone) |
+| mitama | 御魂 | Mitama, a spirit that raises stats when fused |
+| nakama | 仲間 | companion (a demon in the stock) |
 | renzoku | 連続 | consecutive (encounters) |
 | ritu | 率 | rate |
 | sake | 避け | evasion |
 | sensei | 先制 | first strike / initiative |
 | syoji | 所持 | owned / held |
+| takara sagasi | 宝探し | treasure hunting (Lucky Find) |
 | zokusei (3zokusei) | (三)属性 | alignment class |
 
 ## Values and their evidence

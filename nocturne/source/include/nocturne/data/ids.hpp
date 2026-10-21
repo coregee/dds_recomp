@@ -1043,6 +1043,7 @@ inline constexpr uint16_t Sophia = 0x55;
 inline constexpr uint16_t Gaea = 0x56;
 inline constexpr uint16_t Kailash = 0x57;
 inline constexpr uint16_t Masakados = 0x58;
+inline constexpr uint16_t Deathstone = 0x8D;
 } // namespace item
 
 } // namespace nocturne

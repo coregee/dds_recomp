@@ -18,17 +18,28 @@ include/nocturne/
   data/records.hpp       game records: UnitWork, NormalSkill, SkillInfo, DevilFormat, Encount ...
   data/tables.hpp        the data tables: contents (src/data) and accessors
   data/unit.hpp          datCalc: stats, derived powers, max HP/MP, affinity, ailments
+  data/progression.hpp   datCalc: the party and stock, Magatama, Reason points, recovery skills
   battle/process.hpp     battle state: MainProcessData, Party, Formation
   battle/combatant.hpp   per-combatant queries: ailment, side, passives, Endure
   battle/buffs.hpp       -kaja/-nda counters and multipliers
   battle/affinity.hpp    affinity resolution and the damage ratio
   battle/damage.hpp      physical/magic power, HP/MP effects, ailment rolls
   battle/calc.hpp        hit/crit rolls, initiative, escape, rewards
+  fusion/stock.hpp       the devil stock: creating, copying, finding units
+  fusion/growth.hpp      skills, EXP, level-up stats, evolution, skill power-ups
+  fusion/inheritance.hpp skill inheritance rates and the inherited-skill list
+  fusion/rules.hpp       which devil a fusion makes (races, Elements, Mitama, sacrifices, Fiends)
+  fusion/combine.hpp     building the fused devil; cmbGetBirthDevil
+  fusion/accident.hpp    fusion accidents
+  fusion/sort.hpp        inherited-skill and devil-list sorting
+  libc/qsort.hpp         the PS2 C library qsort (its tie order is observable)
   external.hpp           engine functions not rewritten yet (bridged to legacy C)
 src/
-  data/unit.cpp                     datCalc
-  data/*_table.cpp                  devils, skills, encounters, affinities (generated)
+  data/unit.cpp, progression.cpp   datCalc
+  data/*_table.cpp                  game data tables (generated)
   battle/*.cpp                      nbCalc, by topic
+  fusion/*.cpp                      cmb / fclCombineCalcCore, by topic
+  libc/*.cpp                        C library functions whose exact behaviour matters
   platform/legacy_bridge.cpp        external.hpp -> legacy C ABI
 tests/
   differential/          every rewritten function vs. its legacy C, on the real game data
@@ -93,5 +104,8 @@ values, traps, RNG draws, debug prints and every byte of dynamic RAM. Callees
 are real code on both sides; only the engine boundary (unit lookup, RNG,
 event flags, printf) is faked, in `fake_world.c`.
 
-Status: 85 functions (nbCalc, datCalc) match over thousands of states each;
-7 tables match the executable exactly.
+Status: every rewritten function (nbCalc, datCalc, cmb/fusion, qsort) matches
+its legacy C over thousands of random states each, and mutation checks show
+the tests notice small deliberate changes; 30 tables match the executable
+exactly. Some original addresses legitimately differ from the legacy file
+they were compared with (e.g. libc qsort is checked through the fusion sorts).

@@ -40,8 +40,11 @@ proven, not assumed.
 4. **Rewrite** into `source/`. Unrewritten callees go into
    `source/include/nocturne/external.hpp` and are bridged in
    `source/src/platform/legacy_bridge.cpp`.
-5. **Prove it.** Add every function to `source/tests/differential/main.cpp`
-   and run `source\tests\differential\build.cmd`. Results, traps, RNG draw
+5. **Prove it.** Add every function to the differential test
+   (`source/tests/differential/`: `main.cpp` for battle/unit code,
+   `fusion_tests.cpp`, `fusion_core_tests.cpp`, `progression_tests.cpp`;
+   shared helpers in `harness.hpp`, engine fakes in `fake_world.c`) and run
+   `source\tests\differential\build.cmd`. Results, traps, RNG draw
    order, debug prints and all written RAM must match the legacy C. Make sure
    the generator reaches the interesting branches; a quick mutation (change a
    constant, confirm a failure) shows the test can see the change.

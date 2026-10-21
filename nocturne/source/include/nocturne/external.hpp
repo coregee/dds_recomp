@@ -27,6 +27,18 @@ Party* GetPartyFromFormindex(int32_t formindex);
 UnitWork* GetUnitWorkPointer(MainProcessData& data, Party& party);
 } // namespace nb
 
+// Magatama ("hearts") parameters and the compendium, not yet rewritten.
+namespace cmb {
+int8_t GetHeartsParam(int8_t id, int8_t stat);             // the Magatama's bonus to a stat
+void SubHeartsParam(uint8_t id, UnitWork& unit);           // take its bonuses off
+void HeartsAddParam(uint8_t id, UnitWork& unit);           // ps2HeartsAddParam: put them on
+uint8_t GetPlayerRaceID(UnitWork& unit);
+} // namespace cmb
+
+namespace fcl {
+int32_t EncycRegist(UnitWork& unit, bool overwrite);       // record in the compendium
+} // namespace fcl
+
 namespace evt {
 bool BitCheck(int32_t bit);
 uint32_t GetAgeOfMoon();      // 0..15, 0 = new, 8 = full Kagutsuchi
@@ -34,6 +46,7 @@ uint32_t GetAgeOfMoon();      // 0..15, 0 = new, 8 = full Kagutsuchi
 
 namespace sdf {
 int32_t GetRandInt(int32_t limit);   // uniform in [0, limit) from the default RNG
+uint32_t GetRand();                  // the raw 32-bit value
 ee::Float GetRandFloat();            // uniform in [0, 1)
 } // namespace sdf
 
@@ -59,6 +72,9 @@ enum class Message : uint32_t {
     PestilenceNoPoison = 0x00544b88, // "PESTO POISON NASI NG..."
     AilmentChance    = 0x00544ba8, // バッドステータス反映確率 waza:%d aisyo:%d ritu:%d rnd:%d
     AilmentCureRate  = 0x00544be8, // "bad ritu:%f"
+    ResetLevel       = 0x00543188, // "YAMI-B Lv:%d"
+    ResetExp         = 0x00543198, // "YAMI-B Exp:%d"
+    FusionAccident   = 0x0053caf8, // "Combione accident!!!..." (passed the accident type)
 };
 // Integer arguments are passed sign-extended; %f arguments are ee::Double bits.
 void print(Message message, int64_t a = 0, int64_t b = 0, int64_t c = 0, int64_t d = 0, int64_t e = 0);

@@ -20,22 +20,27 @@ and documentation of how the game works.
 
 ## Progress
 
-[reference/function-map.tsv](reference/function-map.tsv) lists all 9,065
+[reference/function-map.tsv](reference/function-map.tsv) lists all 9,067
 functions Ghidra recognises, with their state:
 
 | State | Functions | Meaning |
 |---|---:|---|
-| rewritten | 85 | readable implementation in `source/`, differential-tested |
-| legacy | 2,962 | instruction-faithful C in `legacy/src/` only |
+| rewritten | 201 | readable implementation in `source/`, differential-tested |
+| legacy | 2,848 | instruction-faithful C in `legacy/src/` only |
 | named | 268 | identified and named in Ghidra, no C yet |
 | unknown | 5,750 | not yet identified |
 
 Refresh it with `tools/ghidra/export-annotations.ps1` after Ghidra work.
 
 Rewritten so far: the battle calculations (`nbCalc`: hit, crit, ailments,
-initiative, escape, rewards, damage, affinity, buffs) and unit stats
-(`datCalc`). Game data as source: devils, skills, passive-skill numbers,
-encounters, encounter tables and affinities (`source/src/data/`).
+initiative, escape, rewards, damage, affinity, buffs, skill costs), unit stats
+and party progression (`datCalc`: stats, the stock, Magatama, Reason points,
+recovery skills), demon growth (EXP curve, level-up stats, skills, evolution)
+and the whole of fusion (`fclCombineCalcCore`: rules, skill inheritance,
+sacrifices, accidents, Fiends), plus the C library `qsort` the game sorts with.
+Game data as source: devils, skills, items, level-up/growth tables, Magatama,
+encounters, affinities, inheritance and every fusion table (`source/src/data/`);
+see [docs/fusion.md](docs/fusion.md) for how fusion works.
 
 ## Setting up
 

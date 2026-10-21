@@ -1454,6 +1454,8 @@ symbol	00210a00	Function	ps2ScriptCommandSlot282	Global
 symbol	00210b38	Function	ps2ScriptCommandSlot284	Global
 symbol	00210b68	Function	ps2ScriptCommandSlot287	Global
 symbol	00210b90	Function	ps2ScriptCommandSlot288	Global
+symbol	002131e0	Function	cmbSortKeisyoSkillCallback	Global
+symbol	00213230	Function	cmbDevilSortCallback	Global
 symbol	00213280	Function	ps2FusionSortPack_00213280	Global
 symbol	002132c0	Function	ps2FusionSortUnpack_002132C0	Global
 symbol	00213350	Function	ps2FusionSortSkills_00213350	Global
@@ -3190,12 +3192,37 @@ symbol	002e6b30	Function	ps2SoftDoubleToUint64	Global
 symbol	002e6c48	Function	ps2SoftDoubleDiv	Global
 symbol	002e6d88	Function	ps2SoftDoubleFromInt64	Global
 symbol	002e6e30	Function	ps2GetRuntimeState	Global
+symbol	0032d270	Label	fclCombineTbl	Global
+symbol	0032d670	Label	fclCombineCurseTbl	Global
+symbol	0032da70	Label	fclRankUpDownTbl	Global
+symbol	0032db78	Label	fclExtPatternTbl	Global
+symbol	0032db90	Label	fclBirthSpiritTbl	Global
+symbol	0032dbb8	Label	fclSpiritParamUpTbl	Global
+symbol	0032dbd8	Label	fclIkenieExtPatternTbl	Global
+symbol	0032dbe0	Label	fclIkenieExtPatternDevTbl	Global
+symbol	0032dc18	Label	fclIkenieExtPatternDev2Tbl	Global
+symbol	0032dc90	Label	fclIkenieExtPatternDevRaceTbl	Global
+symbol	0032dca0	Label	fclAccidentFailTbl	Global
+symbol	0032dcc0	Label	fclEventDevilTbl	Global
+symbol	0032ddd0	Label	fclCombineManinKagTbl	Global
+symbol	0032dde0	Label	fclCombineManinRaceTbl	Global
+symbol	0032dde8	Label	fclCombineManinTbl	Global
+symbol	00333cf8	Label	fclSkill_tbl	Global
+symbol	00339640	Label	cmbEvoFlagTbl	Global
+symbol	00339658	Label	fclKeisyoSkillLevelTbl	Global
+symbol	003399e8	Label	fclKeisyoScoreTbl	Global
+symbol	00339ba8	Label	cmbDarkDevilTbl	Global
+symbol	00339c20	Label	cmbPowerUpSkillTbl	Global
+symbol	00339e00	Label	fclHearts_tbl	Global
 symbol	003497c0	Label	datDevilFormat_tbl	Global
 symbol	003a7fe0	Label	datAisyo_tbl	Global
 symbol	003aefe0	Label	datEncount_tbl	Global
 symbol	003bade0	Label	datEncountPack_tbl	Global
+symbol	003d6998	Label	datSkill_tbl	Global
 symbol	003d7998	Label	datNormalSkill_tbl	Global
 symbol	003dc1e0	Label	datSpecialSkill_tbl	Global
+symbol	003dc4a0	Label	datItem_tbl	Global
+symbol	0054ff18	Label	datDevilNums	Global
 signature	00100418		ps2KernelGetFontContextIndex	ulonglong ps2KernelGetFontContextIndex(void)
 function_repeatable_comment	00100418		ps2KernelGetFontContextIndex	Thirteen complete PS2 context/font splice/recycle, panel, message/selection/window/32-variable/manager cleanup and script release/all-release/shutdown bodies. Actual recovered memory-handle coalescing, pool release, field initializers, lists, process removal and shutdown callback, printf/formatter and creation dependencies execute. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. Original BF inputs traverse actual construction before release; populated ownership fixtures exercise real font recycling, handle coalescing, optional allocations, mixed owned/unowned script lists and repeat null-work shutdown. HD provides semantic roles only: managed offsets/ownership and font positioning differ. Returning finite backed ownership graphs; arbitrary invalid/cyclic pointers, exhaustive alias/OOM states, shipped VM execution, physical hardware and matching executable remain unproved. Diagnostic output uses the actual formatter with a bounded string-buffer FILE.
 signature	001005e8		dds3DeleteProcessList	void dds3DeleteProcessList(ulonglong arg_0)
@@ -8326,247 +8353,247 @@ function_repeatable_comment	001f1728		FUN_001f1728	Recovered missing PS2 functio
 function_repeatable_comment	001f1838		FUN_001f1838	Recovered missing PS2 function entry. Decoded negative stack adjustment; saved RA; restored RA/SP and tail jump to a known function; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
 function_repeatable_comment	001f4458		FUN_001f4458	Recovered missing PS2 function entry. Decoded negative stack adjustment; saved RA; JR RA return; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
 function_repeatable_comment	001f4718		FUN_001f4718	Recovered missing PS2 function entry. Decoded negative stack adjustment; saved RA; JR RA return; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
-signature	001fd3b0		ps2FusionAccidentEventDisabled_001FD3B0	ulonglong ps2FusionAccidentEventDisabled_001FD3B0(ulonglong arg_0)
+signature	001fd3b0		ps2FusionAccidentEventDisabled_001FD3B0	char ps2FusionAccidentEventDisabled_001FD3B0(ushort devil)
 function_repeatable_comment	001fd3b0		ps2FusionAccidentEventDisabled_001FD3B0	Recovered SLUS_209.11 negotiation-fusion family: ten whole C bodies pass1393 original-instruction cases on canonical527, including64 connected chains. Raw64 EE verification slots/V0; HD supplies roles, not original typedefs. Declared semantic RAM/Status/FCSR-value scope; volatile banks/save frames/HI-LO and physical gameplay unproved. See analysis/negotiation-fusion-main-C-validation.json.
-variable	001fd3b0	a0:8	arg_0	ulonglong
-signature	001fd498		ps2FusionCore_001FD498	ulonglong ps2FusionCore_001FD498(ulonglong arg_0)
+variable	001fd3b0	a0_lo:2	devil	ushort
+signature	001fd498		ps2FusionCore_001FD498	char ps2FusionCore_001FD498(ushort mitama)
 function_repeatable_comment	001fd498		ps2FusionCore_001FD498	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fd498	a0:8	arg_0	ulonglong
-signature	001fd4e0		ps2FusionCore_001FD4E0	ulonglong ps2FusionCore_001FD4E0(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+variable	001fd498	a0_lo:2	mitama	ushort
+signature	001fd4e0		ps2FusionCore_001FD4E0	int ps2FusionCore_001FD4E0(int def, int mitamaup, int parammax, uchar rate)
 function_repeatable_comment	001fd4e0		ps2FusionCore_001FD4E0	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fd4e0	a0:8	arg_0	ulonglong
-variable	001fd4e0	a1:8	arg_1	ulonglong
-variable	001fd4e0	a2:8	arg_2	ulonglong
-variable	001fd4e0	a3:8	arg_3	ulonglong
-signature	001fd538		ps2FusionCore_001FD538	ulonglong ps2FusionCore_001FD538(ulonglong arg_0, ulonglong arg_1)
+variable	001fd4e0	a0_lo:4	def	int
+variable	001fd4e0	a1_lo:4	mitamaup	int
+variable	001fd4e0	a2_lo:4	parammax	int
+variable	001fd4e0	a3_lo:1	rate	uchar
+signature	001fd538		ps2FusionCore_001FD538	char ps2FusionCore_001FD538(ushort mitama, datUnitWork * unit)
 function_repeatable_comment	001fd538		ps2FusionCore_001FD538	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fd538	a0:8	arg_0	ulonglong
-variable	001fd538	a1:8	arg_1	ulonglong
-signature	001fd610		ps2FusionCore_001FD610	ulonglong ps2FusionCore_001FD610(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	001fd538	a0_lo:2	mitama	ushort
+variable	001fd538	a1_lo:4	unit	datUnitWork *
+signature	001fd610		ps2FusionCore_001FD610	char ps2FusionCore_001FD610(ushort devil1, ushort devil2, ushort sacrifice)
 function_repeatable_comment	001fd610		ps2FusionCore_001FD610	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fd610	a0:8	arg_0	ulonglong
-variable	001fd610	a1:8	arg_1	ulonglong
-variable	001fd610	a2:8	arg_2	ulonglong
-signature	001fd708		ps2FusionCore_001FD708	ulonglong ps2FusionCore_001FD708(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	001fd610	a0_lo:2	devil1	ushort
+variable	001fd610	a1_lo:2	devil2	ushort
+variable	001fd610	a2_lo:2	sacrifice	ushort
+signature	001fd708		ps2FusionCore_001FD708	int ps2FusionCore_001FD708(ushort devil1, ushort devil2, ushort birth)
 function_repeatable_comment	001fd708		ps2FusionCore_001FD708	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fd708	a0:8	arg_0	ulonglong
-variable	001fd708	a1:8	arg_1	ulonglong
-variable	001fd708	a2:8	arg_2	ulonglong
-signature	001fd730		ps2FusionCore_001FD730	ulonglong ps2FusionCore_001FD730(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	001fd708	a0_lo:2	devil1	ushort
+variable	001fd708	a1_lo:2	devil2	ushort
+variable	001fd708	a2_lo:2	birth	ushort
+signature	001fd730		ps2FusionCore_001FD730	ushort ps2FusionCore_001FD730(ushort devil1, ushort devil2, ushort sacrifice)
 function_repeatable_comment	001fd730		ps2FusionCore_001FD730	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fd730	a0:8	arg_0	ulonglong
-variable	001fd730	a1:8	arg_1	ulonglong
-variable	001fd730	a2:8	arg_2	ulonglong
-signature	001fd878		ps2FusionCore_001FD878	ulonglong ps2FusionCore_001FD878(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4)
+variable	001fd730	a0_lo:2	devil1	ushort
+variable	001fd730	a1_lo:2	devil2	ushort
+variable	001fd730	a2_lo:2	sacrifice	ushort
+signature	001fd878		ps2FusionCore_001FD878	ushort ps2FusionCore_001FD878(datUnitWork * devil1, datUnitWork * devil2, datUnitWork * sacrifice, char curse, char levelmode)
 function_repeatable_comment	001fd878		ps2FusionCore_001FD878	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fd878	a0:8	arg_0	ulonglong
-variable	001fd878	a1:8	arg_1	ulonglong
-variable	001fd878	a2:8	arg_2	ulonglong
-variable	001fd878	a3:8	arg_3	ulonglong
-variable	001fd878	t0:8	arg_4	ulonglong
-signature	001fda08		ps2FusionCore_001FDA08	ulonglong ps2FusionCore_001FDA08(ulonglong arg_0)
+variable	001fd878	a0_lo:4	devil1	datUnitWork *
+variable	001fd878	a1_lo:4	devil2	datUnitWork *
+variable	001fd878	a2_lo:4	sacrifice	datUnitWork *
+variable	001fd878	a3_lo:1	curse	char
+variable	001fd878	t0_lo:1	levelmode	char
+signature	001fda08		ps2FusionCore_001FDA08	char ps2FusionCore_001FDA08(ushort devil)
 function_repeatable_comment	001fda08		ps2FusionCore_001FDA08	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fda08	a0:8	arg_0	ulonglong
-signature	001fdac0		ps2FusionCore_001FDAC0	ulonglong ps2FusionCore_001FDAC0(ulonglong arg_0, ulonglong arg_1)
+variable	001fda08	a0_lo:2	devil	ushort
+signature	001fdac0		ps2FusionCore_001FDAC0	ushort ps2FusionCore_001FDAC0(ushort devil, uchar flag)
 function_repeatable_comment	001fdac0		ps2FusionCore_001FDAC0	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fdac0	a0:8	arg_0	ulonglong
-variable	001fdac0	a1:8	arg_1	ulonglong
-signature	001fdca0		ps2FusionCore_001FDCA0	ulonglong ps2FusionCore_001FDCA0(ulonglong arg_0, ulonglong arg_1)
+variable	001fdac0	a0_lo:2	devil	ushort
+variable	001fdac0	a1_lo:1	flag	uchar
+signature	001fdca0		ps2FusionCore_001FDCA0	char ps2FusionCore_001FDCA0(ushort soul, char race)
 function_repeatable_comment	001fdca0		ps2FusionCore_001FDCA0	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fdca0	a0:8	arg_0	ulonglong
-variable	001fdca0	a1:8	arg_1	ulonglong
-signature	001fdd18		ps2FusionCore_001FDD18	ulonglong ps2FusionCore_001FDD18(ulonglong arg_0, ulonglong arg_1)
+variable	001fdca0	a0_lo:2	soul	ushort
+variable	001fdca0	a1_lo:1	race	char
+signature	001fdd18		ps2FusionCore_001FDD18	ushort ps2FusionCore_001FDD18(ushort devil1, ushort devil2)
 function_repeatable_comment	001fdd18		ps2FusionCore_001FDD18	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fdd18	a0:8	arg_0	ulonglong
-variable	001fdd18	a1:8	arg_1	ulonglong
-signature	001fdda8		cmbGetKeisyoSkillEndIndex	char __stdcall cmbGetKeisyoSkillEndIndex(datUnitWork_PS2 * unit)
+variable	001fdd18	a0_lo:2	devil1	ushort
+variable	001fdd18	a1_lo:2	devil2	ushort
+signature	001fdda8		cmbGetKeisyoSkillEndIndex	char cmbGetKeisyoSkillEndIndex(datUnitWork * unit)
 function_repeatable_comment	001fdda8		cmbGetKeisyoSkillEndIndex	Reviewed static counterpart: fclCombineCalcCore$$cmbGetKeisyoSkillEndIndex at HD VA 0x182411f40. First zero among all24 ushort inherited slots+0x86; signed index/-1, normal count independent. Full15 listed words/16 span words and native body independently reviewed. Platform differences/limits: PS2 inline slots versus managed HD array. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	001fdda8	a0_lo:4	unit	datUnitWork_PS2 *
-signature	001fdde8		ps2FusionCore_001FDDE8	ulonglong ps2FusionCore_001FDDE8(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	001fdda8	a0_lo:4	unit	datUnitWork *
+signature	001fdde8		ps2FusionCore_001FDDE8	uchar ps2FusionCore_001FDDE8(ushort devil1, ushort devil2, char curse)
 function_repeatable_comment	001fdde8		ps2FusionCore_001FDDE8	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fdde8	a0:8	arg_0	ulonglong
-variable	001fdde8	a1:8	arg_1	ulonglong
-variable	001fdde8	a2:8	arg_2	ulonglong
-signature	001fdec0		ps2FusionCore_001FDEC0	ulonglong ps2FusionCore_001FDEC0(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+variable	001fdde8	a0_lo:2	devil1	ushort
+variable	001fdde8	a1_lo:2	devil2	ushort
+variable	001fdde8	a2_lo:1	curse	char
+signature	001fdec0		ps2FusionCore_001FDEC0	int ps2FusionCore_001FDEC0(datUnitWork * devil1, datUnitWork * devil2, datUnitWork * devil3, char levelmode)
 function_repeatable_comment	001fdec0		ps2FusionCore_001FDEC0	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fdec0	a0:8	arg_0	ulonglong
-variable	001fdec0	a1:8	arg_1	ulonglong
-variable	001fdec0	a2:8	arg_2	ulonglong
-variable	001fdec0	a3:8	arg_3	ulonglong
-signature	001fdf78		ps2FusionCore_001FDF78	ulonglong ps2FusionCore_001FDF78(ulonglong arg_0, ulonglong arg_1)
+variable	001fdec0	a0_lo:4	devil1	datUnitWork *
+variable	001fdec0	a1_lo:4	devil2	datUnitWork *
+variable	001fdec0	a2_lo:4	devil3	datUnitWork *
+variable	001fdec0	a3_lo:1	levelmode	char
+signature	001fdf78		ps2FusionCore_001FDF78	ushort ps2FusionCore_001FDF78(uchar race, uchar level)
 function_repeatable_comment	001fdf78		ps2FusionCore_001FDF78	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fdf78	a0:8	arg_0	ulonglong
-variable	001fdf78	a1:8	arg_1	ulonglong
-signature	001fe170		ps2FusionCore_001FE170	void ps2FusionCore_001FE170(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	001fdf78	a0_lo:1	race	uchar
+variable	001fdf78	a1_lo:1	level	uchar
+signature	001fe170		ps2FusionCore_001FE170	void ps2FusionCore_001FE170(datUnitWork * unit, ushort * id, uchar * race)
 function_repeatable_comment	001fe170		ps2FusionCore_001FE170	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fe170	a0:8	arg_0	ulonglong
-variable	001fe170	a1:8	arg_1	ulonglong
-variable	001fe170	a2:8	arg_2	ulonglong
-signature	001fe1a0		ps2FusionCore_001FE1A0	ulonglong ps2FusionCore_001FE1A0(ulonglong arg_0, ulonglong arg_1)
+variable	001fe170	a0_lo:4	unit	datUnitWork *
+variable	001fe170	a1_lo:4	id	ushort *
+variable	001fe170	a2_lo:4	race	uchar *
+signature	001fe1a0		ps2FusionCore_001FE1A0	ushort ps2FusionCore_001FE1A0(ushort devil1, ushort devil2)
 function_repeatable_comment	001fe1a0		ps2FusionCore_001FE1A0	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fe1a0	a0:8	arg_0	ulonglong
-variable	001fe1a0	a1:8	arg_1	ulonglong
-signature	001fe280		ps2FusionCore_001FE280	ulonglong ps2FusionCore_001FE280(ulonglong arg_0)
+variable	001fe1a0	a0_lo:2	devil1	ushort
+variable	001fe1a0	a1_lo:2	devil2	ushort
+signature	001fe280		ps2FusionCore_001FE280	char ps2FusionCore_001FE280(ushort devil)
 function_repeatable_comment	001fe280		ps2FusionCore_001FE280	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fe280	a0:8	arg_0	ulonglong
-signature	001fe2c8		ps2FusionAccidentMetaOnly_001FE2C8	ulonglong ps2FusionAccidentMetaOnly_001FE2C8(ulonglong arg_0)
+variable	001fe280	a0_lo:2	devil	ushort
+signature	001fe2c8		ps2FusionAccidentMetaOnly_001FE2C8	char ps2FusionAccidentMetaOnly_001FE2C8(ushort devil)
 function_repeatable_comment	001fe2c8		ps2FusionAccidentMetaOnly_001FE2C8	Recovered SLUS_209.11 negotiation-fusion family: ten whole C bodies pass1393 original-instruction cases on canonical527, including64 connected chains. Raw64 EE verification slots/V0; HD supplies roles, not original typedefs. Declared semantic RAM/Status/FCSR-value scope; volatile banks/save frames/HI-LO and physical gameplay unproved. See analysis/negotiation-fusion-main-C-validation.json.
-variable	001fe2c8	a0:8	arg_0	ulonglong
-signature	001fe2f0		ps2FusionAccidentCheck_001FE2F0	ulonglong ps2FusionAccidentCheck_001FE2F0(void)
+variable	001fe2c8	a0_lo:2	devil	ushort
+signature	001fe2f0		ps2FusionAccidentCheck_001FE2F0	char ps2FusionAccidentCheck_001FE2F0(void)
 function_repeatable_comment	001fe2f0		ps2FusionAccidentCheck_001FE2F0	Recovered SLUS_209.11 negotiation-fusion family: ten whole C bodies pass1393 original-instruction cases on canonical527, including64 connected chains. Raw64 EE verification slots/V0; HD supplies roles, not original typedefs. Declared semantic RAM/Status/FCSR-value scope; volatile banks/save frames/HI-LO and physical gameplay unproved. See analysis/negotiation-fusion-main-C-validation.json.
-signature	001fe368		ps2FusionAccidentType_001FE368	ulonglong ps2FusionAccidentType_001FE368(void)
+signature	001fe368		ps2FusionAccidentType_001FE368	char ps2FusionAccidentType_001FE368(void)
 function_repeatable_comment	001fe368		ps2FusionAccidentType_001FE368	Recovered SLUS_209.11 negotiation-fusion family: ten whole C bodies pass1393 original-instruction cases on canonical527, including64 connected chains. Raw64 EE verification slots/V0; HD supplies roles, not original typedefs. Declared semantic RAM/Status/FCSR-value scope; volatile banks/save frames/HI-LO and physical gameplay unproved. See analysis/negotiation-fusion-main-C-validation.json.
-signature	001fe388		ps2FusionAccidentFallback_001FE388	ulonglong ps2FusionAccidentFallback_001FE388(ulonglong arg_0)
+signature	001fe388		ps2FusionAccidentFallback_001FE388	ushort ps2FusionAccidentFallback_001FE388(ushort birth)
 function_repeatable_comment	001fe388		ps2FusionAccidentFallback_001FE388	Recovered SLUS_209.11 negotiation-fusion family: ten whole C bodies pass1393 original-instruction cases on canonical527, including64 connected chains. Raw64 EE verification slots/V0; HD supplies roles, not original typedefs. Declared semantic RAM/Status/FCSR-value scope; volatile banks/save frames/HI-LO and physical gameplay unproved. See analysis/negotiation-fusion-main-C-validation.json.
-variable	001fe388	a0:8	arg_0	ulonglong
-signature	001fe410		ps2FusionAccidentSelect_001FE410	ulonglong ps2FusionAccidentSelect_001FE410(ulonglong arg_0)
+variable	001fe388	a0_lo:2	birth	ushort
+signature	001fe410		ps2FusionAccidentSelect_001FE410	ushort ps2FusionAccidentSelect_001FE410(ushort birth)
 function_repeatable_comment	001fe410		ps2FusionAccidentSelect_001FE410	Recovered SLUS_209.11 negotiation-fusion family: ten whole C bodies pass1393 original-instruction cases on canonical527, including64 connected chains. Raw64 EE verification slots/V0; HD supplies roles, not original typedefs. Declared semantic RAM/Status/FCSR-value scope; volatile banks/save frames/HI-LO and physical gameplay unproved. See analysis/negotiation-fusion-main-C-validation.json.
-variable	001fe410	a0:8	arg_0	ulonglong
-signature	001fe570		ps2FusionAccidentBoost_001FE570	ulonglong ps2FusionAccidentBoost_001FE570(ulonglong arg_0)
+variable	001fe410	a0_lo:2	birth	ushort
+signature	001fe570		ps2FusionAccidentBoost_001FE570	void ps2FusionAccidentBoost_001FE570(datUnitWork * unit)
 function_repeatable_comment	001fe570		ps2FusionAccidentBoost_001FE570	Recovered SLUS_209.11 negotiation-fusion family: ten whole C bodies pass1393 original-instruction cases on canonical527, including64 connected chains. Raw64 EE verification slots/V0; HD supplies roles, not original typedefs. Declared semantic RAM/Status/FCSR-value scope; volatile banks/save frames/HI-LO and physical gameplay unproved. See analysis/negotiation-fusion-main-C-validation.json.
-variable	001fe570	a0:8	arg_0	ulonglong
-signature	001fe5f0		ps2FusionCore_001FE5F0	ulonglong ps2FusionCore_001FE5F0(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+variable	001fe570	a0_lo:4	unit	datUnitWork *
+signature	001fe5f0		ps2FusionCore_001FE5F0	ushort ps2FusionCore_001FE5F0(datUnitWork * devil1, datUnitWork * devil2, char curse, char levelmode)
 function_repeatable_comment	001fe5f0		ps2FusionCore_001FE5F0	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fe5f0	a0:8	arg_0	ulonglong
-variable	001fe5f0	a1:8	arg_1	ulonglong
-variable	001fe5f0	a2:8	arg_2	ulonglong
-variable	001fe5f0	a3:8	arg_3	ulonglong
-signature	001fe690		ps2FusionCore_001FE690	ulonglong ps2FusionCore_001FE690(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4, ulonglong arg_5, ulonglong arg_6)
+variable	001fe5f0	a0_lo:4	devil1	datUnitWork *
+variable	001fe5f0	a1_lo:4	devil2	datUnitWork *
+variable	001fe5f0	a2_lo:1	curse	char
+variable	001fe5f0	a3_lo:1	levelmode	char
+signature	001fe690		ps2FusionCore_001FE690	ushort ps2FusionCore_001FE690(datUnitWork * devil1, datUnitWork * devil2, char curse, char levelmode, ushort * ids, uchar * races, uchar * type)
 function_repeatable_comment	001fe690		ps2FusionCore_001FE690	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fe690	a0:8	arg_0	ulonglong
-variable	001fe690	a1:8	arg_1	ulonglong
-variable	001fe690	a2:8	arg_2	ulonglong
-variable	001fe690	a3:8	arg_3	ulonglong
-variable	001fe690	t0:8	arg_4	ulonglong
-variable	001fe690	t1:8	arg_5	ulonglong
-variable	001fe690	t2:8	arg_6	ulonglong
-signature	001fe880		ps2FusionCore_001FE880	void ps2FusionCore_001FE880(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+variable	001fe690	a0_lo:4	devil1	datUnitWork *
+variable	001fe690	a1_lo:4	devil2	datUnitWork *
+variable	001fe690	a2_lo:1	curse	char
+variable	001fe690	a3_lo:1	levelmode	char
+variable	001fe690	t0_lo:4	ids	ushort *
+variable	001fe690	t1_lo:4	races	uchar *
+variable	001fe690	t2_lo:4	type	uchar *
+signature	001fe880		ps2FusionCore_001FE880	void ps2FusionCore_001FE880(datUnitWork * stock, datUnitWork * devil1, datUnitWork * devil2, datUnitWork * sacrifice)
 function_repeatable_comment	001fe880		ps2FusionCore_001FE880	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fe880	a0:8	arg_0	ulonglong
-variable	001fe880	a1:8	arg_1	ulonglong
-variable	001fe880	a2:8	arg_2	ulonglong
-variable	001fe880	a3:8	arg_3	ulonglong
-signature	001fe9e0		cmbChkIkenieIllegalDevil	char __stdcall cmbChkIkenieIllegalDevil(ushort devil_id)
+variable	001fe880	a0_lo:4	stock	datUnitWork *
+variable	001fe880	a1_lo:4	devil1	datUnitWork *
+variable	001fe880	a2_lo:4	devil2	datUnitWork *
+variable	001fe880	a3_lo:4	sacrifice	datUnitWork *
+signature	001fe9e0		cmbChkIkenieIllegalDevil	char cmbChkIkenieIllegalDevil(ushort devil)
 function_repeatable_comment	001fe9e0		cmbChkIkenieIllegalDevil	Reviewed static counterpart: fclCombineCalcCore$$cmbChkIkenieIllegalDevil at HD VA 0x1824103d0. Existing60-byte descriptor race+4 zero returns1 without flag read; otherwise flags+0 bit20 predicate. Full15 listed words/15 span words and native body independently reviewed. Platform differences/limits: Unsigned character backing reads avoid incompatible struct aliasing; no English race meaning or managed descriptor remap inferred. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	001fe9e0	a0_lo:2	devil_id	ushort
-signature	001fea20		ps2FusionCore_001FEA20	ulonglong ps2FusionCore_001FEA20(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4, ulonglong arg_5, ulonglong arg_6)
+variable	001fe9e0	a0_lo:2	devil	ushort
+signature	001fea20		ps2FusionCore_001FEA20	ushort ps2FusionCore_001FEA20(datUnitWork * devil1, datUnitWork * devil2, datUnitWork * sacrifice, char curse, char levelmode, ushort * ids, uchar * races)
 function_repeatable_comment	001fea20		ps2FusionCore_001FEA20	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fea20	a0:8	arg_0	ulonglong
-variable	001fea20	a1:8	arg_1	ulonglong
-variable	001fea20	a2:8	arg_2	ulonglong
-variable	001fea20	a3:8	arg_3	ulonglong
-variable	001fea20	t0:8	arg_4	ulonglong
-variable	001fea20	t1:8	arg_5	ulonglong
-variable	001fea20	t2:8	arg_6	ulonglong
-signature	001fea98		cmbGetEmptyStockIndex	char __stdcall cmbGetEmptyStockIndex(datUnitWork_PS2 * units, byte count)
+variable	001fea20	a0_lo:4	devil1	datUnitWork *
+variable	001fea20	a1_lo:4	devil2	datUnitWork *
+variable	001fea20	a2_lo:4	sacrifice	datUnitWork *
+variable	001fea20	a3_lo:1	curse	char
+variable	001fea20	t0_lo:1	levelmode	char
+variable	001fea20	t1_lo:4	ids	ushort *
+variable	001fea20	t2_lo:4	races	uchar *
+signature	001fea98		cmbGetEmptyStockIndex	char cmbGetEmptyStockIndex(datUnitWork * units, uchar count)
 function_repeatable_comment	001fea98		cmbGetEmptyStockIndex	Reviewed static counterpart: fclCombineCalcCore$$cmbGetEmptyStockIndex at HD VA 0x182411ee0. First entire flagword zero over unsigned countlow8; result signedlow8 index/-1. Full15 listed words/16 span words and native body independently reviewed. Platform differences/limits: PS2 has no managed top argument; count0 permits NULL and backed255 arrays preserve indexes128/254. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	001fea98	a0_lo:4	units	datUnitWork_PS2 *
-variable	001fea98	a1_lo:1	count	byte
-signature	001fead8		cmbGetStockDevilIndex	char __stdcall cmbGetStockDevilIndex(ushort devil_id, datUnitWork_PS2 * units, byte count)
+variable	001fea98	a0_lo:4	units	datUnitWork *
+variable	001fea98	a1_lo:1	count	uchar
+signature	001fead8		cmbGetStockDevilIndex	char cmbGetStockDevilIndex(ushort devil, datUnitWork * units, uchar count)
 function_repeatable_comment	001fead8		cmbGetStockDevilIndex	Reviewed static counterpart: fclCombineCalcCore$$cmbGetStockDevilIndex at HD VA 0x182412580. First matching ID with any nonzero flagword including4; unsigned countlow8 and signedlow8 index. Full18 listed words/19 span words and native body independently reviewed. Platform differences/limits: Managed array/top changes excluded; wholeflag lookup differs from flag1 stock query. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	001fead8	a0_lo:2	devil_id	ushort
-variable	001fead8	a1_lo:4	units	datUnitWork_PS2 *
-variable	001fead8	a2_lo:1	count	byte
-signature	001feb28		ps2FusionCore_001FEB28	void ps2FusionCore_001FEB28(ulonglong arg_0, ulonglong arg_1)
+variable	001fead8	a0_lo:2	devil	ushort
+variable	001fead8	a1_lo:4	units	datUnitWork *
+variable	001fead8	a2_lo:1	count	uchar
+signature	001feb28		ps2FusionCore_001FEB28	void ps2FusionCore_001FEB28(datUnitWork * dst, datUnitWork * src)
 function_repeatable_comment	001feb28		ps2FusionCore_001FEB28	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001feb28	a0:8	arg_0	ulonglong
-variable	001feb28	a1:8	arg_1	ulonglong
-signature	001fec40		ps2FusionCore_001FEC40	void ps2FusionCore_001FEC40(ulonglong arg_0, ulonglong arg_1)
+variable	001feb28	a0_lo:4	dst	datUnitWork *
+variable	001feb28	a1_lo:4	src	datUnitWork *
+signature	001fec40		ps2FusionCore_001FEC40	void ps2FusionCore_001FEC40(datUnitWork * unit, uchar index)
 function_repeatable_comment	001fec40		ps2FusionCore_001FEC40	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fec40	a0:8	arg_0	ulonglong
-variable	001fec40	a1:8	arg_1	ulonglong
-signature	001fec68		ps2FusionCore_001FEC68	ulonglong ps2FusionCore_001FEC68(ulonglong arg_0, ulonglong arg_1)
+variable	001fec40	a0_lo:4	unit	datUnitWork *
+variable	001fec40	a1_lo:1	index	uchar
+signature	001fec68		ps2FusionCore_001FEC68	char ps2FusionCore_001FEC68(ushort skill, datUnitWork * unit)
 function_repeatable_comment	001fec68		ps2FusionCore_001FEC68	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001fec68	a0:8	arg_0	ulonglong
-variable	001fec68	a1:8	arg_1	ulonglong
-signature	001fed00		cmbAddSkill	char __stdcall cmbAddSkill(ushort skill, datUnitWork_PS2 * unit)
+variable	001fec68	a0_lo:2	skill	ushort
+variable	001fec68	a1_lo:4	unit	datUnitWork *
+signature	001fed00		cmbAddSkill	char cmbAddSkill(ushort skill, datUnitWork * unit)
 function_repeatable_comment	001fed00		cmbAddSkill	Reviewed static counterpart: fclCombineCalcCore$$cmbAddSkill at HD VA 0x18240deb0. Real owner query before first8 normal slots; duplicate-2/full-1, firstzero store and low16 count+1. Full38 listed words/39 span words and native body independently reviewed. Platform differences/limits: PS2 fixed8 insertion span despite24-slot backing; initial owner count must fit24. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	001fed00	a0_lo:2	skill	ushort
-variable	001fed00	a1_lo:4	unit	datUnitWork_PS2 *
-signature	001feda0		cmbChkSkillOwner	char __stdcall cmbChkSkillOwner(ushort skill, datUnitWork_PS2 * unit)
+variable	001fed00	a1_lo:4	unit	datUnitWork *
+signature	001feda0		cmbChkSkillOwner	char cmbChkSkillOwner(ushort skill, datUnitWork * unit)
 function_repeatable_comment	001feda0		cmbChkSkillOwner	Reviewed static counterpart: fclCombineCalcCore$$cmbChkSkillOwner at HD VA 0x182410660. Input maskffff; ushort count38 and skill list3a; first equal index narrowed to signed8, or-1. Direct callee of next-Hearts-skill; HD same equality/index/-1 algorithm. Platform differences/limits: HD count48 and managed Int32 array50; PS2 ushort count/inline ushort array. Valid unit count required. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	001feda0	a0_lo:2	skill	ushort
-variable	001feda0	a1_lo:4	unit	datUnitWork_PS2 *
-signature	001fedf0		cmbChkKeisyoSkillOwner	char __stdcall cmbChkKeisyoSkillOwner(ushort skill, datUnitWork_PS2 * unit)
+variable	001feda0	a1_lo:4	unit	datUnitWork *
+signature	001fedf0		cmbChkKeisyoSkillOwner	char cmbChkKeisyoSkillOwner(ushort skill, datUnitWork * unit)
 function_repeatable_comment	001fedf0		cmbChkKeisyoSkillOwner	Reviewed static counterpart: fclCombineCalcCore$$cmbChkKeisyoSkillOwner at HD VA 0x1824104e0. Scan all24 ushort inherited slots at+0x86, including zero; first equality returns signed index, absent-1. Full15words and native body reviewed. Platform differences/limits: PS2 inline236-byte unit vs managed HD; independent of normal skill count. Read-only aliases allowed. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	001fedf0	a0_lo:2	skill	ushort
-variable	001fedf0	a1_lo:4	unit	datUnitWork_PS2 *
-signature	001fee30		cmbChkKeisyoSkillNums	char __stdcall cmbChkKeisyoSkillNums(datUnitWork_PS2 * unit)
+variable	001fedf0	a1_lo:4	unit	datUnitWork *
+signature	001fee30		cmbChkKeisyoSkillNums	char cmbChkKeisyoSkillNums(datUnitWork * unit)
 function_repeatable_comment	001fee30		cmbChkKeisyoSkillNums	Reviewed static counterpart: fclCombineCalcCore$$cmbChkKeisyoSkillNums at HD VA 0x182410480. Count all24 nonzero ushort inherited slots, including entries after holes; signed8 result0..24. Full14words and native body reviewed. Platform differences/limits: Normal skill count+0x38 is irrelevant; HD managed unit layout differs. No null fallback. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	001fee30	a0_lo:4	unit	datUnitWork_PS2 *
-signature	001fee68		cmbCopyDefaultDevilToStock	void __stdcall cmbCopyDefaultDevilToStock(ushort devil_id, datUnitWork_PS2 * unit)
+variable	001fee30	a0_lo:4	unit	datUnitWork *
+signature	001fee68		cmbCopyDefaultDevilToStock	void cmbCopyDefaultDevilToStock(ushort devil, datUnitWork * unit)
 function_repeatable_comment	001fee68		cmbCopyDefaultDevilToStock	Reviewed static counterpart: fclCombineCalcCore$$cmbCopyDefaultDevilToStock at HD VA 0x1824107e0. Full236byteclear,flag1/id, directdescriptor unsignedlevel+5 and6signedparams+10, HPfilled beforeMP, suppliedID defaultskillbuild; full46words checked. Platform differences/limits: HD managedClear arrays and edition-sensitive descriptorGet differ; fullPS2 padding and directID retained. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	001fee68	a0_lo:2	devil_id	ushort
-variable	001fee68	a1_lo:4	unit	datUnitWork_PS2 *
-signature	001fef20		cmbCopyCustomDevilToStock	void __stdcall cmbCopyCustomDevilToStock(datUnitWork_PS2 * destination, datUnitWork_PS2 * source)
+variable	001fee68	a0_lo:2	devil	ushort
+variable	001fee68	a1_lo:4	unit	datUnitWork *
+signature	001fef20		cmbCopyCustomDevilToStock	void cmbCopyCustomDevilToStock(datUnitWork * dst, datUnitWork * src)
 function_repeatable_comment	001fef20		cmbCopyCustomDevilToStock	Reviewed static counterpart: fclCombineCalcCore$$cmbCopyCustomDevilToStock at HD VA 0x182410730. Copy236 raw bytes as seven32-byte load-before-store chunks plus12 tail; aligned LD/SD or merge LDL/LDR/SDL/SDR path. Recompute maxHP/maxMP, truncate to ushort fields8/c, clamp unsigned currents6/a to truncated maxima, then flagOR1. Native HD Copy and resource sequence reviewed. Platform differences/limits: HD managed Copy omits PS2 padding and may return early for NULL managed arrays; PS2 always copies236. Observed4-byte-aligned buffers have residue0/4mod8; disjoint and exact self supported, partial overlap/arbitrary byte misalignment not claimed. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	001fef20	a0_lo:4	destination	datUnitWork_PS2 *
-variable	001fef20	a1_lo:4	source	datUnitWork_PS2 *
-signature	001ff050		ps2ClearUnitWork	void __stdcall ps2ClearUnitWork(datUnitWork_PS2 * unit)
+variable	001fef20	a0_lo:4	dst	datUnitWork *
+variable	001fef20	a1_lo:4	src	datUnitWork *
+signature	001ff050		ps2ClearUnitWork	void ps2ClearUnitWork(datUnitWork * unit)
 function_repeatable_comment	001ff050		ps2ClearUnitWork	Chosen PS2 behavior alias; original spelling not established. Tailcalls realbytefill002d4558 witha1=0,a2=ec; entire236byteunitzeroed. Full7words checked. Limits: HD ClearStock is a lead with protectedarraydimensions, not promoted. Descriptivealias; validwordaligned fullunit.
-variable	001ff050	a0_lo:4	unit	datUnitWork_PS2 *
-signature	001ff070		cmbClearSkill	void __stdcall cmbClearSkill(datUnitWork_PS2 * unit)
+variable	001ff050	a0_lo:4	unit	datUnitWork *
+signature	001ff070		cmbClearSkill	void cmbClearSkill(datUnitWork * unit)
 function_repeatable_comment	001ff070		cmbClearSkill	Reviewed static counterpart: fclCombineCalcCore$$cmbClearSkill at HD VA 0x1824106f0. Original clear callee2d4558 uses byte-count18 at unit3a, clearing only12 ushort skills, then count38=0. Full13-instruction body checked against ELF; HD name and clear/count sequence agree. Platform differences/limits: HD clears all24 managed Int32 elements. Preserve PS2 upper12slots and every unrelated byte; no managed null/array behavior copied. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	001ff070	a0_lo:4	unit	datUnitWork_PS2 *
-signature	001ff0a8		cmbClearKeisyoSkill	void __stdcall cmbClearKeisyoSkill(datUnitWork_PS2 * unit)
+variable	001ff070	a0_lo:4	unit	datUnitWork *
+signature	001ff0a8		cmbClearKeisyoSkill	void cmbClearKeisyoSkill(datUnitWork * unit)
 function_repeatable_comment	001ff0a8		cmbClearKeisyoSkill	Reviewed static counterpart: fclCombineCalcCore$$cmbClearKeisyoSkill at HD VA 0x1824106d0. Real PS2 memset clears exactly48 inherited bytes; following24 attributes remain intact. Full8 listed words/8 span words and native body independently reviewed. Platform differences/limits: HD managed array clearing; original inline extent retained. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	001ff0a8	a0_lo:4	unit	datUnitWork_PS2 *
+variable	001ff0a8	a0_lo:4	unit	datUnitWork *
 signature	001ff0c8		ps2CompactStockUnits	void __stdcall ps2CompactStockUnits(datUnitWork_PS2 * units, byte count)
 function_repeatable_comment	001ff0c8		ps2CompactStockUnits	Chosen PS2 behavior alias; original spelling not established. Scan unsigned countlow8, select ushortID!=0; stable realcustomcopy to earlierEC slot before fullclear of moved source; untouched prefix skipped,ID0tail retained. Full43words and bothcallee bodies checked. Limits: Descriptive PS2-only alias; no supported HD counterpart or indexed/literal callers established. Count0 NULL valid; backed255 records prove width, not globalcapacity. Realresource/table contracts; wordalignment/disjoint records; no list/count repair.
 variable	001ff0c8	a0_lo:4	units	datUnitWork_PS2 *
 variable	001ff0c8	a1_lo:1	count	byte
-signature	001ff178		cmbDeleteUnitFromStockList	void __stdcall cmbDeleteUnitFromStockList(char unit_index)
+signature	001ff178		cmbDeleteUnitFromStockList	void cmbDeleteUnitFromStockList(char index)
 function_repeatable_comment	001ff178		cmbDeleteUnitFromStockList	Reviewed static counterpart: fclCombineCalcCore$$cmbDeleteUnitFromStockList at HD VA 0x182410cb0. Byte copy precedes global/source/count rereads; unsigned stored byte versus signed query; always one wrapped count decrement. Full31 listed words/31 span words and native body independently reviewed. Platform differences/limits: No duplicate/absent repair; stale tail preserved. Positive counts use established16-byte backing; zero/negative no-loop supported. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	001ff178	a0_lo:1	unit_index	char
-signature	001ff1f8		cmbAddUnitToStockList	void __stdcall cmbAddUnitToStockList(char unit_index)
+variable	001ff178	a0_lo:1	index	char
+signature	001ff1f8		cmbAddUnitToStockList	void cmbAddUnitToStockList(char index)
 function_repeatable_comment	001ff1f8		cmbAddUnitToStockList	Reviewed static counterpart: fclCombineCalcCore$$cmbAddUnitToStockList at HD VA 0x18240df70. Byte append at old signed count precedes wrapped count+1; no deduplication/capacity check. Full8 listed words/8 span words and native body independently reviewed. Platform differences/limits: Established global list requires oldcount0..15 for this recovered interface. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	001ff1f8	a0_lo:1	unit_index	char
-signature	001ff218		cmbDeleteDevilFromStock	char __stdcall cmbDeleteDevilFromStock(ushort devil_id, datUnitWork_PS2 * units, byte count)
+variable	001ff1f8	a0_lo:1	index	char
+signature	001ff218		cmbDeleteDevilFromStock	char cmbDeleteDevilFromStock(ushort devil, datUnitWork * units, uchar count)
 function_repeatable_comment	001ff218		cmbDeleteDevilFromStock	Reviewed static counterpart: fclCombineCalcCore$$cmbDeleteDevilFromStock at HD VA 0x1824109f0. Real flag1 lookup; negative index aborts; signedlow8(index-count+16) list delete before real fullEC clear; success-1/failure0. Full32 listed words/32 span words and native body independently reviewed. Platform differences/limits: Managed top/offset omitted; index128 is negative in original and aborts even when found. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	001ff218	a0_lo:2	devil_id	ushort
-variable	001ff218	a1_lo:4	units	datUnitWork_PS2 *
-variable	001ff218	a2_lo:1	count	byte
-signature	001ff298		cmbAddDefaultDevilToStock	char __stdcall cmbAddDefaultDevilToStock(ushort devil_id, datUnitWork_PS2 * units, byte count)
+variable	001ff218	a0_lo:2	devil	ushort
+variable	001ff218	a1_lo:4	units	datUnitWork *
+variable	001ff218	a2_lo:1	count	uchar
+signature	001ff298		cmbAddDefaultDevilToStock	char cmbAddDefaultDevilToStock(ushort devil, datUnitWork * units, uchar count)
 function_repeatable_comment	001ff298		cmbAddDefaultDevilToStock	Reviewed static counterpart: fclCombineCalcCore$$cmbAddDefaultDevilToStock at HD VA 0x18240db40. Real wholeflag empty lookup; signedlow8(index-count+16) append before real default unit construction; negative lookup returns-1. Full36 listed words/36 span words and native body independently reviewed. Platform differences/limits: HD managed top/edition descriptor changes omitted; execute original descriptor, resource and skill dependencies. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	001ff298	a0_lo:2	devil_id	ushort
-variable	001ff298	a1_lo:4	units	datUnitWork_PS2 *
-variable	001ff298	a2_lo:1	count	byte
-signature	001ff328		cmbAddCustomDevilToStock	char __stdcall cmbAddCustomDevilToStock(datUnitWork_PS2 * source, datUnitWork_PS2 * units, byte count)
+variable	001ff298	a0_lo:2	devil	ushort
+variable	001ff298	a1_lo:4	units	datUnitWork *
+variable	001ff298	a2_lo:1	count	uchar
+signature	001ff328		cmbAddCustomDevilToStock	char cmbAddCustomDevilToStock(datUnitWork * src, datUnitWork * units, uchar count)
 function_repeatable_comment	001ff328		cmbAddCustomDevilToStock	Reviewed static counterpart: fclCombineCalcCore$$cmbAddCustomDevilToStock at HD VA 0x18240da70. Real empty lookup; append before original custom copy; failure does not read source; full unit/global/RNG/table comparison. Full36 listed words/36 span words and native body independently reviewed. Platform differences/limits: Disjoint or exact-self wordaligned records, including another stock source; no managed top/offset adaptation. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	001ff328	a0_lo:4	source	datUnitWork_PS2 *
-variable	001ff328	a1_lo:4	units	datUnitWork_PS2 *
-variable	001ff328	a2_lo:1	count	byte
-signature	001ff3b8		cmbCalcTotalKeisyoSkillRate	int __stdcall cmbCalcTotalKeisyoSkillRate(datUnitWork_PS2 * unit)
+variable	001ff328	a0_lo:4	src	datUnitWork *
+variable	001ff328	a1_lo:4	units	datUnitWork *
+variable	001ff328	a2_lo:1	count	uchar
+signature	001ff3b8		cmbCalcTotalKeisyoSkillRate	int cmbCalcTotalKeisyoSkillRate(datUnitWork * unit)
 function_repeatable_comment	001ff3b8		cmbCalcTotalKeisyoSkillRate	Reviewed static counterpart: fclCombineCalcCore$$cmbCalcTotalKeisyoSkillRate at HD VA 0x18240f240. All24 nonzero inherited slots call real rate; duplicates count and holes do not stop scan; final rate maskFF yields unsigned sum0..6120. Full27 listed words/27 span words and native body independently reviewed. Platform differences/limits: Do not copy saved decompiler char cast; divisor0 break path remains static-only. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	001ff3b8	a0_lo:4	unit	datUnitWork_PS2 *
-signature	001ff428		ps2FusionCore_001FF428	ulonglong ps2FusionCore_001FF428(ulonglong arg_0)
+variable	001ff3b8	a0_lo:4	unit	datUnitWork *
+signature	001ff428		ps2FusionCore_001FF428	ushort ps2FusionCore_001FF428(datUnitWork * unit)
 function_repeatable_comment	001ff428		ps2FusionCore_001FF428	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001ff428	a0:8	arg_0	ulonglong
-signature	001ff4d0		ps2FusionCore_001FF4D0	void ps2FusionCore_001FF4D0(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4)
+variable	001ff428	a0_lo:4	unit	datUnitWork *
+signature	001ff4d0		ps2FusionCore_001FF4D0	void ps2FusionCore_001FF4D0(datUnitWork * devil1, datUnitWork * devil2, datUnitWork * sacrifice, datUnitWork * stock, fclKeisyoList * list)
 function_repeatable_comment	001ff4d0		ps2FusionCore_001FF4D0	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001ff4d0	a0:8	arg_0	ulonglong
-variable	001ff4d0	a1:8	arg_1	ulonglong
-variable	001ff4d0	a2:8	arg_2	ulonglong
-variable	001ff4d0	a3:8	arg_3	ulonglong
-variable	001ff4d0	t0:8	arg_4	ulonglong
-signature	001ff648		ps2FusionCore_001FF648	ulonglong ps2FusionCore_001FF648(ulonglong arg_0)
+variable	001ff4d0	a0_lo:4	devil1	datUnitWork *
+variable	001ff4d0	a1_lo:4	devil2	datUnitWork *
+variable	001ff4d0	a2_lo:4	sacrifice	datUnitWork *
+variable	001ff4d0	a3_lo:4	stock	datUnitWork *
+variable	001ff4d0	t0_lo:4	list	fclKeisyoList *
+signature	001ff648		ps2FusionCore_001FF648	ushort ps2FusionCore_001FF648(ushort devil)
 function_repeatable_comment	001ff648		ps2FusionCore_001FF648	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001ff648	a0:8	arg_0	ulonglong
-signature	001ff758		ps2FusionCore_001FF758	ulonglong ps2FusionCore_001FF758(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	001ff648	a0_lo:2	devil	ushort
+signature	001ff758		ps2FusionCore_001FF758	int ps2FusionCore_001FF758(datUnitWork * devil1, datUnitWork * devil2, datUnitWork * sacrifice)
 function_repeatable_comment	001ff758		ps2FusionCore_001FF758	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001ff758	a0:8	arg_0	ulonglong
-variable	001ff758	a1:8	arg_1	ulonglong
-variable	001ff758	a2:8	arg_2	ulonglong
-signature	001ff790		ps2FusionCore_001FF790	ulonglong ps2FusionCore_001FF790(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4, ulonglong arg_5, ulonglong arg_6, ulonglong arg_7)
+variable	001ff758	a0_lo:4	devil1	datUnitWork *
+variable	001ff758	a1_lo:4	devil2	datUnitWork *
+variable	001ff758	a2_lo:4	sacrifice	datUnitWork *
+signature	001ff790		ps2FusionCore_001FF790	uchar ps2FusionCore_001FF790(datUnitWork * devil1, datUnitWork * devil2, datUnitWork * sacrifice, datUnitWork * result, char curse, char levelmode, char accidentmode, fclKeisyoList * list)
 function_repeatable_comment	001ff790		ps2FusionCore_001FF790	Recovered SLUS_209.11 full fusion29 whole native bodies. Actual original/probe/main536 comparisons cover3764 cases including12 existingqsort supplementary cases. Five VOID and24 definedraw64 interfaces; eight raw EE slots on the full birth root. HD role counterparts do not establish exact original symbols/layout. Finite ordinaryRAM/typedreturns/realcallbacks/FCSRcondition profile; fullvolatile/privateframes/HI-LO/physicalgameplay unproved. See analysis/fusion-core-main-C-validation.json.
-variable	001ff790	a0:8	arg_0	ulonglong
-variable	001ff790	a1:8	arg_1	ulonglong
-variable	001ff790	a2:8	arg_2	ulonglong
-variable	001ff790	a3:8	arg_3	ulonglong
-variable	001ff790	t0:8	arg_4	ulonglong
-variable	001ff790	t1:8	arg_5	ulonglong
-variable	001ff790	t2:8	arg_6	ulonglong
-variable	001ff790	t3:8	arg_7	ulonglong
+variable	001ff790	a0_lo:4	devil1	datUnitWork *
+variable	001ff790	a1_lo:4	devil2	datUnitWork *
+variable	001ff790	a2_lo:4	sacrifice	datUnitWork *
+variable	001ff790	a3_lo:4	result	datUnitWork *
+variable	001ff790	t0_lo:1	curse	char
+variable	001ff790	t1_lo:1	levelmode	char
+variable	001ff790	t2_lo:1	accidentmode	char
+variable	001ff790	t3_lo:4	list	fclKeisyoList *
 signature	002071e0		ps2ShopItemId_002071E0	ulonglong ps2ShopItemId_002071E0(ulonglong arg_0, ulonglong arg_1)
 function_repeatable_comment	002071e0		ps2ShopItemId_002071E0	Ten complete shop list/price/quantity/value/filter bodies,1476B; actual588668 original/1336 strict C cases and independent completeRAM+return set/table/arithmetic model. All369 original words decoded,all308 ordinary PCs observed;61 delay words decoded,not all asserted executed. DIVU1 exact20746C isolated provider checked. Real list producers,event and Hearts ownership,raw64 Index sign,low8 modes/quantity,negative facility writes and inherited BuyList V0=1 retained. Original source return typedef for the HDVOID BuyList role remains unresolved; raw native transport is explicit. Payment2092E8,full constructor/UI/scheduler/hardware and arbitrary table overrides remain outside. No canonical/count mutation.
 variable	002071e0	a0:8	arg_0	ulonglong
@@ -8664,21 +8691,27 @@ function_comment	00210a00		ps2ScriptCommandSlot282	Native script command table s
 function_comment	00210b38		ps2ScriptCommandSlot284	Native script command table slot 284, descriptor 52ec30, pop count 0. Indirect entry established from original table bytes; semantic HD identity and source recovery are pending.
 function_comment	00210b68		ps2ScriptCommandSlot287	Native script command table slot 287, descriptor 52ec48, pop count 0. Indirect entry established from original table bytes; semantic HD identity and source recovery are pending.
 function_comment	00210b90		ps2ScriptCommandSlot288	Native script command table slot 288, descriptor 52ec50, pop count 0. Indirect entry established from original table bytes; semantic HD identity and source recovery are pending.
-signature	00213280		ps2FusionSortPack_00213280	void ps2FusionSortPack_00213280(ulonglong arg_0, ulonglong arg_1)
+signature	002131e0		cmbSortKeisyoSkillCallback	int cmbSortKeisyoSkillCallback(void * left, void * right)
+variable	002131e0	a0_lo:4	left	void *
+variable	002131e0	a1_lo:4	right	void *
+signature	00213230		cmbDevilSortCallback	int cmbDevilSortCallback(void * left, void * right)
+variable	00213230	a0_lo:4	left	void *
+variable	00213230	a1_lo:4	right	void *
+signature	00213280		ps2FusionSortPack_00213280	void ps2FusionSortPack_00213280(datUnitWork * unit, void * out)
 function_repeatable_comment	00213280		ps2FusionSortPack_00213280	Recovered SLUS_209.11 fusion-sort-family family: five whole C bodies pass1248 original-instruction cases on canonical534, with two additional byte-bounded zero-credit comparator bodies. Raw64 EE argument slots; these five services are void; HD supplies roles, not original typedefs. Declared semantic RAM/Status/FCSR-value scope; volatile banks/save frames/HI-LO and physical gameplay unproved. See analysis/fusion-sort-family-main-C-validation.json.
-variable	00213280	a0:8	arg_0	ulonglong
-variable	00213280	a1:8	arg_1	ulonglong
-signature	002132c0		ps2FusionSortUnpack_002132C0	void ps2FusionSortUnpack_002132C0(ulonglong arg_0, ulonglong arg_1)
+variable	00213280	a0_lo:4	unit	datUnitWork *
+variable	00213280	a1_lo:4	out	void *
+signature	002132c0		ps2FusionSortUnpack_002132C0	void ps2FusionSortUnpack_002132C0(datUnitWork * unit, void * in)
 function_repeatable_comment	002132c0		ps2FusionSortUnpack_002132C0	Recovered SLUS_209.11 fusion-sort-family family: five whole C bodies pass1248 original-instruction cases on canonical534, with two additional byte-bounded zero-credit comparator bodies. Raw64 EE argument slots; these five services are void; HD supplies roles, not original typedefs. Declared semantic RAM/Status/FCSR-value scope; volatile banks/save frames/HI-LO and physical gameplay unproved. See analysis/fusion-sort-family-main-C-validation.json.
-variable	002132c0	a0:8	arg_0	ulonglong
-variable	002132c0	a1:8	arg_1	ulonglong
-signature	00213350		ps2FusionSortSkills_00213350	void ps2FusionSortSkills_00213350(ulonglong arg_0)
+variable	002132c0	a0_lo:4	unit	datUnitWork *
+variable	002132c0	a1_lo:4	in	void *
+signature	00213350		ps2FusionSortSkills_00213350	void ps2FusionSortSkills_00213350(datUnitWork * unit)
 function_repeatable_comment	00213350		ps2FusionSortSkills_00213350	Recovered SLUS_209.11 fusion-sort-family family: five whole C bodies pass1248 original-instruction cases on canonical534, with two additional byte-bounded zero-credit comparator bodies. Raw64 EE argument slots; these five services are void; HD supplies roles, not original typedefs. Declared semantic RAM/Status/FCSR-value scope; volatile banks/save frames/HI-LO and physical gameplay unproved. See analysis/fusion-sort-family-main-C-validation.json.
-variable	00213350	a0:8	arg_0	ulonglong
-signature	002133a0		ps2FusionSortDescriptors_002133A0	void ps2FusionSortDescriptors_002133A0(ulonglong arg_0, ulonglong arg_1)
+variable	00213350	a0_lo:4	unit	datUnitWork *
+signature	002133a0		ps2FusionSortDescriptors_002133A0	void ps2FusionSortDescriptors_002133A0(cmbDevilSort * out, ushort count)
 function_repeatable_comment	002133a0		ps2FusionSortDescriptors_002133A0	Recovered SLUS_209.11 fusion-sort-family family: five whole C bodies pass1248 original-instruction cases on canonical534, with two additional byte-bounded zero-credit comparator bodies. Raw64 EE argument slots; these five services are void; HD supplies roles, not original typedefs. Declared semantic RAM/Status/FCSR-value scope; volatile banks/save frames/HI-LO and physical gameplay unproved. See analysis/fusion-sort-family-main-C-validation.json.
-variable	002133a0	a0:8	arg_0	ulonglong
-variable	002133a0	a1:8	arg_1	ulonglong
+variable	002133a0	a0_lo:4	out	cmbDevilSort *
+variable	002133a0	a1_lo:2	count	ushort
 signature	002135e0		ps2ShopListCursorMove_002135E0	void ps2ShopListCursorMove_002135E0(ulonglong arg_0, ulonglong arg_1)
 function_repeatable_comment	002135e0		ps2ShopListCursorMove_002135E0	Eight complete original shop buy/sell/quantity/list/input/sound bodies2984B;640original/1280strictC onactual641. Real retail list/price/Hearts/signal/BF/process/allocator/native sound enqueue/cache/kernel owners execute;no supplied UI/RPC/Wakeup/TagLo reply. Incoming producer priority0 is genuine nonpreemption. Raw64Type/control,signedlow8Mode,byte/word wrap and distinct normalJAL/error-tail sound frames retained. 521/535 ordinaryPCs observed;211delaywords decoded,9conditional likely without blanket execution claim. Private packet words use proven native SD owners or ordinary incoming stack/real initializer history. Genuine sale-list filtering leaves reject branch unforced. Unknownbank/IOP/service completion,worker switches,natural dialogue and physical gameplay remain outside.0credituntilmainadmission.
 variable	002135e0	a0:8	arg_0	ulonglong
@@ -8880,9 +8913,9 @@ signature	00220c50		rstChkSkillPowerUp1	byte __stdcall rstChkSkillPowerUp1(void)
 function_repeatable_comment	00220c50		rstChkSkillPowerUp1	Global player unsigned level below7 returns0 before reading result/unit or drawing RNG. Otherwise result+16C unitID0 still consumes an ignored real RNG draw and returns1; other IDs require draw low2bits0. Full23 words92 bytes. HD difference/limits: Keep original ignored draw and early-read order. Embedded PS2 pointer remains32bits; managed object checks do not transfer. Six-function isolated original replay passed5112 cases; canonical full-suite certification is versioned separately.
 signature	00220cb0		rstChkSkillPowerUp2	byte __stdcall rstChkSkillPowerUp2(void)
 function_repeatable_comment	00220cb0		rstChkSkillPowerUp2	Real RNG draw unsigned modulo254. ID0 remainder0..111 returns0,112..253 returns1; other IDs0..127 returns0,128..253 returns1. Full41 listed42 span words168 bytes, omittedNOP220D0C included. HD difference/limits: HD adds1 before threshold comparisons; original zero-based boundaries retained. Return2 branches exist but are unreachable under ordinary modulo bounds. Six-function isolated original replay passed5112 cases; canonical full-suite certification is versioned separately.
-signature	00220d58		rstRndGetPowerUpSkill	ushort __stdcall rstRndGetPowerUpSkill(datUnitWork_PS2 * unit, char * index)
+signature	00220d58		rstRndGetPowerUpSkill	ushort rstRndGetPowerUpSkill(datUnitWork * unit, char * index)
 function_repeatable_comment	00220d58		rstRndGetPowerUpSkill	Reviewed static counterpart: rstcalc$$rstRndGetPowerUpSkill at HD VA 0x1822810b0. Gather up to24 nonzero normal-skill upgrades using real cmbGetPowerUpSkill; retain duplicate candidates and original slot bytes. One real RNG draw only when candidates exist; optional index write after all reads. Full68 words/272 bytes. Platform differences/limits: Optional original pointer may be NULL or alias a unit byte; managed ref/object checks are excluded. Normal skill count must be <=24; no candidate leaves output/RNG unchanged. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00220d58	a0_lo:4	unit	datUnitWork_PS2 *
+variable	00220d58	a0_lo:4	unit	datUnitWork *
 variable	00220d58	a1_lo:4	index	char *
 signature	00220e68		rstChkDevilSkillPowerUp	byte __stdcall rstChkDevilSkillPowerUp(datUnitWork_PS2 * unit)
 function_repeatable_comment	00220e68		rstChkDevilSkillPowerUp	Original full flag word bit40 yields exact Boolean0/1. Full4 words16 bytes. HD difference/limits: Use original inline unit flag layout, not HD object fields. Six-function isolated original replay passed5112 cases; canonical full-suite certification is versioned separately.
@@ -8901,10 +8934,10 @@ signature	00221d00		cmbGetParamBase	int __stdcall cmbGetParamBase(datUnitWork_PS
 function_repeatable_comment	00221d00		cmbGetParamBase	Reviewed static counterpart: rstCalcCore$$cmbGetParamBase at HD VA 0x18227b8e0. Player id0 returns raw signed param16+index minus signed effective equipped-Hearts param if nonzero equipped1cfa. Subtraction returns full32 without byte wrapping or clamp. Nonplayer delegates243ee0 datGetParam. Full PS2 instruction and native HD call/field sequence reviewed. Platform differences/limits: PS2 direct unit pointer/full index on raw array; Hearts accessor narrows equipped and index to signed8. HD ref managed unit with managed param array. Valid indexes0..5; retain demon flag/status/clamp behavior through existing callee. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00221d00	a0_lo:4	unit	datUnitWork_PS2 *
 variable	00221d00	a1_lo:4	index	int
-signature	00221d70		cmbGetParam	int __stdcall cmbGetParam(datUnitWork_PS2 * unit, int index)
+signature	00221d70		cmbGetParam	int cmbGetParam(datUnitWork * unit, int paratype)
 function_repeatable_comment	00221d70		cmbGetParam	Reviewed static counterpart: rstCalcCore$$cmbGetParam at HD VA 0x18227ba50. Player id0 returns raw signed byte at unit16+index; demon delegates canonical243ee0 datGetParam. Native HD player raw array and corresponding demon clamp/status logic agree. Platform differences/limits: PS2 direct pointer and inline bytes; HD managed ref/array and inlined demon implementation. Equipped Hearts has no direct read in this helper. Valid indexes0..5. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00221d70	a0_lo:4	unit	datUnitWork_PS2 *
-variable	00221d70	a1_lo:4	index	int
+variable	00221d70	a0_lo:4	unit	datUnitWork *
+variable	00221d70	a1_lo:4	paratype	int
 signature	00221dd8		cmbChkGetHearts	char __stdcall cmbChkGetHearts(char id)
 function_repeatable_comment	00221dd8		cmbChkGetHearts	Reviewed static counterpart: rstCalcCore$$cmbChkGetHearts at HD VA 0x182279370. Count byte1d7b and ownership bytes1cfb scanned for equality with signed8 ID; return0/1. HD distinct recovery-module ownership query retains same loop and fields. Platform differences/limits: PS2 byte count/list; HD managed fields. Logical IDs0..25; malformed high-bit list values are not claimed equivalent across ports. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00221dd8	a0_lo:1	id	char
@@ -8964,109 +8997,109 @@ signature	002226b8		cmbChkGetHeartsSkill	ushort __stdcall cmbChkGetHeartsSkill(b
 function_repeatable_comment	002226b8		cmbChkGetHeartsSkill	Reviewed static counterpart: rstCalcCore$$cmbChkGetHeartsSkill at HD VA 0x182279130. Start at AfterSkillNums; scan throughslot7; nonzero ushort skill and signed level!=0 <= unit level; owner-search001feda0<0; first eligible skill or0. HD retains same scan, predicates and named owner callee. Platform differences/limits: HD adds protected skill eventE80/E86 gates absent PS2. PS2 required level signedLB; no consumption/state write; inline tables/unit. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002226b8	a0_lo:1	id	byte
 variable	002226b8	a1_lo:4	unit	datUnitWork_PS2 *
-signature	00222788		cmbCreateDefaultSkill	void __stdcall cmbCreateDefaultSkill(ushort devil_id, datUnitWork_PS2 * unit)
+signature	00222788		cmbCreateDefaultSkill	void cmbCreateDefaultSkill(ushort devil, datUnitWork * unit)
 function_repeatable_comment	00222788		cmbCreateDefaultSkill	Reviewed static counterpart: rstCalcCore$$cmbCreateDefaultSkill at HD VA 0x18227a220. Mask argumentIDffff, call1ff070 partial clear, scan24 events in direct333cf8+ID*102 row. Append every type1 level0 skill including0 and duplicates; increment ushort count and write inline slot. Full40-instruction body checked against ELF and native HD sequence reviewed. Platform differences/limits: HD tblSkill.Get adds edition/event C0-to-BF remap; managed24-element clear differs. SuppliedID chooses row independently of unitID. At most24appends; no additional ownership or level test. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00222788	a0_lo:2	devil_id	ushort
-variable	00222788	a1_lo:4	unit	datUnitWork_PS2 *
-signature	00222828		ps2CreateLevelSkill	void __stdcall ps2CreateLevelSkill(ushort devil_id, byte level, datUnitWork_PS2 * unit)
+variable	00222788	a0_lo:2	devil	ushort
+variable	00222788	a1_lo:4	unit	datUnitWork *
+signature	00222828		ps2CreateLevelSkill	void ps2CreateLevelSkill(ushort devil, uchar level, datUnitWork * unit)
 function_repeatable_comment	00222828		ps2CreateLevelSkill	Chosen PS2 behavior alias; original spelling not established. Direct suppliedID eventrow333cf8/102,24entries; real24-byteclear; unsignedrequiredlevel<=supplied8level andtype1, include zero/duplicates. Full44words checked. Limits: No distinct reviewed native three-argument declaration; descriptive alias. Validbacked rows/full24-slotunit.
-variable	00222828	a0_lo:2	devil_id	ushort
-variable	00222828	a1_lo:1	level	byte
-variable	00222828	a2_lo:4	unit	datUnitWork_PS2 *
-signature	002228d8		cmbChkStockDevil	char __stdcall cmbChkStockDevil(ushort devil_id, datUnitWork_PS2 * units, byte count)
+variable	00222828	a0_lo:2	devil	ushort
+variable	00222828	a1_lo:1	level	uchar
+variable	00222828	a2_lo:4	unit	datUnitWork *
+signature	002228d8		cmbChkStockDevil	char cmbChkStockDevil(ushort devil, datUnitWork * units, uchar count)
 function_repeatable_comment	002228d8		cmbChkStockDevil	Reviewed static counterpart: rstCalcCore$$cmbChkStockDevil at HD VA 0x182279ce0. Unsigned16ID and unsigned8count; inline236-byte stride; first flag1 occupied unit with equal ushortID returns signed8 relative index, otherwise-1. Flag4 does not exclude match. Full19-instruction body checked against ELF. Platform differences/limits: HD adds top argument and returns absolute managed-array index. PS2 base pointer provides relative search; zero count does not read pointer. Backed larger arrays do not establish global-stock capacity beyond observed16. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	002228d8	a0_lo:2	devil_id	ushort
-variable	002228d8	a1_lo:4	units	datUnitWork_PS2 *
-variable	002228d8	a2_lo:1	count	byte
-signature	00222928		cmbChkStockDevilNums	char __stdcall cmbChkStockDevilNums(datUnitWork_PS2 * units, byte count)
+variable	002228d8	a0_lo:2	devil	ushort
+variable	002228d8	a1_lo:4	units	datUnitWork *
+variable	002228d8	a2_lo:1	count	uchar
+signature	00222928		cmbChkStockDevilNums	char cmbChkStockDevilNums(datUnitWork * units, uchar count)
 function_repeatable_comment	00222928		cmbChkStockDevilNums	Reviewed static counterpart: rstCalcCore$$cmbChkStockDevilNums at HD VA 0x182279c70. Unsigned8count and236stride; count flag1 units with flag4clear; byte accumulator returns signed8. Full18-instruction body checked against ELF and HD predicate reviewed. Platform differences/limits: HD signature includes unused top argument and managed unit array; PS2 actualarguments units,count. Zero count no pointer read; signed wrapping retained for separately backed arrays. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00222928	a0_lo:4	units	datUnitWork_PS2 *
-variable	00222928	a1_lo:1	count	byte
-signature	00222970		cmbChkEvoNeedFlag	char __stdcall cmbChkEvoNeedFlag(ushort devil_id)
+variable	00222928	a0_lo:4	units	datUnitWork *
+variable	00222928	a1_lo:1	count	uchar
+signature	00222970		cmbChkEvoNeedFlag	char cmbChkEvoNeedFlag(ushort devil)
 function_repeatable_comment	00222970		cmbChkEvoNeedFlag	Reviewed static counterpart: rstCalcCore$$cmbChkEvoNeedFlag at HD VA 0x182278fc0. Scan six4-byte devil/event pairs at339640; matching fullushort event passed to real evtBitCheck; setbit continues, unset returns1. Full29words reviewed. Platform differences/limits: FixedPS2 count vs managed table; duplicate matches preserve scan order. Back queried event bits independently. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00222970	a0_lo:2	devil_id	ushort
-signature	00222a28		cmbChkLevelUpEvent	cmbDemonSkillEntry_PS2 * __stdcall cmbChkLevelUpEvent(datUnitWork_PS2 * unit, char * event_count)
+variable	00222970	a0_lo:2	devil	ushort
+signature	00222a28		cmbChkLevelUpEvent	fclSkillEvent * cmbChkLevelUpEvent(datUnitWork * unit, char * count)
 function_repeatable_comment	00222a28		cmbChkLevelUpEvent	Reviewed static counterpart: rstCalcCore$$cmbChkLevelUpEvent at HD VA 0x1822796e0. Capture ID/low8 level, scan24 raw event levels at102-stride row+6; return first matching entry/NULL and optional byte total after all reads. Full29 listed words/29 span words and native body independently reviewed. Platform differences/limits: HD returns managed array with first-index globals and unconditional output; PS2 optional output may alias one mutable unit byte. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00222a28	a0_lo:4	unit	datUnitWork_PS2 *
-variable	00222a28	a1_lo:4	event_count	char *
-signature	00222aa0		cmbGetKeisyoSkillScore	byte __stdcall cmbGetKeisyoSkillScore(short skill_attribute, short inheritance_type)
+variable	00222a28	a0_lo:4	unit	datUnitWork *
+variable	00222a28	a1_lo:4	count	char *
+signature	00222aa0		cmbGetKeisyoSkillScore	uchar cmbGetKeisyoSkillScore(short skillattr, short keisyotype)
 function_repeatable_comment	00222aa0		cmbGetKeisyoSkillScore	Reviewed static counterpart: rstCalcCore$$cmbGetKeisyoSkillScore at HD VA 0x18227b0c0. Signed16key searches:16column headers at3399ea,13examined type labels stride34 at339a0a. Return raw byte339a0c+2*column+34*row. First duplicate wins. Full50-instruction body checked against ELF; same named HD matrix lookup. Platform differences/limits: HD clamps absent headers to last legitimate column/row. PS2 missingcolumn16 and missingrow13 read adjacent data up to offset510 in512-byte raw backing; examinedrow12 is padding, not an extra legitimate score row. Preserve original fallback. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00222aa0	a0_lo:2	skill_attribute	short
-variable	00222aa0	a1_lo:2	inheritance_type	short
-signature	00222b70		cmbGetKeisyoSkillMotion	byte __stdcall cmbGetKeisyoSkillMotion(ushort skill_form, ushort devil_form)
+variable	00222aa0	a0_lo:2	skillattr	short
+variable	00222aa0	a1_lo:2	keisyotype	short
+signature	00222b70		cmbGetKeisyoSkillMotion	uchar cmbGetKeisyoSkillMotion(ushort skillform, ushort devilform)
 function_repeatable_comment	00222b70		cmbGetKeisyoSkillMotion	Reviewed static counterpart: rstCalcCore$$cmbGetKeisyoSkillMotion at HD VA 0x18227b080. Mask bothinputsffff; scan16bits; return devil-form bit at first/lowest set skill-form bit, or0 if no set bit. Full15-instruction body checked against ELF and HD algorithm reviewed. Platform differences/limits: Not a general intersection predicate: skill3/devil2 returns0. HD retains lowest-bit rule; ushort narrowing and0/1return preserved. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00222b70	a0_lo:2	skill_form	ushort
-variable	00222b70	a1_lo:2	devil_form	ushort
-signature	00222bb0		cmbGetKeisyoSkillLevel	byte __stdcall cmbGetKeisyoSkillLevel(ushort skill_id)
+variable	00222b70	a0_lo:2	skillform	ushort
+variable	00222b70	a1_lo:2	devilform	ushort
+signature	00222bb0		cmbGetKeisyoSkillLevel	uchar cmbGetKeisyoSkillLevel(ushort skill)
 function_repeatable_comment	00222bb0		cmbGetKeisyoSkillLevel	Reviewed static counterpart: rstCalcCore$$cmbGetKeisyoSkillLevel at HD VA 0x18227af30. Mask IDffff;227 four-byte records at339658; first matching ushortID returns unsigned levelbyte2; absent returns1. Full15-instruction body checked against ELF and native constructor/lookup reviewed. Platform differences/limits: HD managed array versus packed227rows; unknown fourthbyte preserved. Synthetic duplicate/0/128/255 levels needed; level0 is exceptional division input in parent. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00222bb0	a0_lo:2	skill_id	ushort
-signature	00222bf0		cmbCalcKeisyoSkillRate	byte __stdcall cmbCalcKeisyoSkillRate(datUnitWork_PS2 * unit, ushort skill_id)
+variable	00222bb0	a0_lo:2	skill	ushort
+signature	00222bf0		cmbCalcKeisyoSkillRate	uchar cmbCalcKeisyoSkillRate(datUnitWork * unit, ushort skill)
 function_repeatable_comment	00222bf0		cmbCalcKeisyoSkillRate	Reviewed static counterpart: rstCalcCore$$cmbCalcKeisyoSkillRate at HD VA 0x182278680. 64-instruction body checked against ELF: skill3d6998 stride8 attrLB0/formLHU4, demon3497c0 stride60 levelLBU5/typeLH26/formLHU28; score before motion gate; DIVU by level, quotientlow8 plus unitlvl minus descriptorlvl plus1; signed uppercap99 then low8return. Platform differences/limits: HD datDevilFormat.Get edition/event selection differs from direct PS2 table indexing. Negative totals wrap, not lowerclamp. Divisor0 original BREAK7 path statically retained; corrected P-code divisionzero is not runtime validation. No RNG/state mutation. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00222bf0	a0_lo:4	unit	datUnitWork_PS2 *
-variable	00222bf0	a1_lo:2	skill_id	ushort
-signature	00222cf0		cmbChkDarkDevil	char __stdcall cmbChkDarkDevil(ushort devil_id)
+variable	00222bf0	a0_lo:4	unit	datUnitWork *
+variable	00222bf0	a1_lo:2	skill	ushort
+signature	00222cf0		cmbChkDarkDevil	char cmbChkDarkDevil(ushort devil)
 function_repeatable_comment	00222cf0		cmbChkDarkDevil	Reviewed static counterpart: rstCalcCore$$cmbChkDarkDevil at HD VA 0x182278bd0. Fixed37 ushort IDs at339ba8; equality returns1, absent0; full18words/native algorithm reviewed. Platform differences/limits: Direct immutable PS2 data vs managed HD array; no ID remap added. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00222cf0	a0_lo:2	devil_id	ushort
-signature	00222d38		cmbChkStockDarkDevilNums	char __stdcall cmbChkStockDarkDevilNums(datUnitWork_PS2 * units, byte count)
+variable	00222cf0	a0_lo:2	devil	ushort
+signature	00222d38		cmbChkStockDarkDevilNums	char cmbChkStockDarkDevilNums(datUnitWork * units, uchar count)
 function_repeatable_comment	00222d38		cmbChkStockDarkDevilNums	Reviewed static counterpart: rstCalcCore$$cmbChkStockDarkDevilNums at HD VA 0x182279b90. ECstride scan countlow8; flag1 set and flag4clear invoke real dark predicate; signed low8 count. Full33words reviewed. Platform differences/limits: Count0 accepts NULL; separately backed255entries do not establish global capacity. HD has managed-array top argument. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00222d38	a0_lo:4	units	datUnitWork_PS2 *
-variable	00222d38	a1_lo:1	count	byte
-signature	00222e00		cmbAddLevelUpParamEx	char __stdcall cmbAddLevelUpParamEx(datUnitWork_PS2 * unit, char mode)
+variable	00222d38	a0_lo:4	units	datUnitWork *
+variable	00222d38	a1_lo:1	count	uchar
+signature	00222e00		cmbAddLevelUpParamEx	char cmbAddLevelUpParamEx(datUnitWork * unit, char mode)
 function_repeatable_comment	00222e00		cmbAddLevelUpParamEx	Reviewed static counterpart: rstCalcCore$$cmbAddLevelUpParamEx at HD VA 0x182277dc0. Unsigned six growth bytes from demon102-byte prefix or equipped Hearts66-byte row+12hex. Exclude lane1 and real parameter low8 equal40. Signed quotient minimum, ushort weights, one actual RNG modulo, low8 threshold and cumulative sum; mode0 increments raw byte. Full158 listed/159 span words/636 bytes, omitted NOP222FDC included. Platform differences/limits: HD cumulative arithmetic is wider; retain original byte-wrap fallthrough return6. Minimum eligible quotient -1 observes uninitialized excluded weights and is outside deterministic C contract; no fabricated initialization. Nonzero signed mode skips write. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00222e00	a0_lo:4	unit	datUnitWork_PS2 *
+variable	00222e00	a0_lo:4	unit	datUnitWork *
 variable	00222e00	a1_lo:1	mode	char
-signature	00223080		ps2AddLevelUpParam	char __stdcall ps2AddLevelUpParam(datUnitWork_PS2 * unit)
+signature	00223080		ps2AddLevelUpParam	char ps2AddLevelUpParam(datUnitWork * unit)
 function_repeatable_comment	00223080		ps2AddLevelUpParam	Chosen PS2 behavior alias; original spelling not established. Full seven original words independently re-encoded against ELF; real cmbAddLevelUpParamEx call with A1=0 in JAL delay slot; original V0 preserved. No supported distinct HD identity established. Limits: Chosen descriptive PS2-only alias; historical spelling is unproved. Real dependency inherits the deterministic minimum-not-minus1 and complete backing contracts.
-variable	00223080	a0_lo:4	unit	datUnitWork_PS2 *
-signature	002230a0		cmbChkEvoAttention	char __stdcall cmbChkEvoAttention(datUnitWork_PS2 * unit)
+variable	00223080	a0_lo:4	unit	datUnitWork *
+signature	002230a0		cmbChkEvoAttention	char cmbChkEvoAttention(datUnitWork * unit)
 function_repeatable_comment	002230a0		cmbChkEvoAttention	Reviewed static counterpart: rstCalcCore$$cmbChkEvoAttention at HD VA 0x182278e20. Direct row333cf8+102*ID,24events; first type7 whose unsignedlevel<=unitlow8level returns signed8index; full27words checked. Platform differences/limits: HD tblSkill.Get edition remapping managed arrays; PS2 usesLBU eligibility and directID. Noevent returns-1. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	002230a0	a0_lo:4	unit	datUnitWork_PS2 *
-signature	00223110		cmbChkCancelEvo	char __stdcall cmbChkCancelEvo(datUnitWork_PS2 * unit)
+variable	002230a0	a0_lo:4	unit	datUnitWork *
+signature	00223110		cmbChkCancelEvo	char cmbChkCancelEvo(datUnitWork * unit)
 function_repeatable_comment	00223110		cmbChkCancelEvo	Reviewed static counterpart: rstCalcCore$$cmbChkCancelEvo at HD VA 0x182278a80. First type5 event with unsignedrequiredlevel strictly belowunitlow8level; full27words checked. Platform differences/limits: HD managed eventrows/remaps; PS2 equality doesnotqualify; returns firstindex or-1. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00223110	a0_lo:4	unit	datUnitWork_PS2 *
-signature	00223180		cmbChkDevilEvo	char __stdcall cmbChkDevilEvo(datUnitWork_PS2 * unit)
+variable	00223110	a0_lo:4	unit	datUnitWork *
+signature	00223180		cmbChkDevilEvo	char cmbChkDevilEvo(datUnitWork * unit)
 function_repeatable_comment	00223180		cmbChkDevilEvo	Reviewed static counterpart: rstCalcCore$$cmbChkDevilEvo at HD VA 0x182278cb0. First type5 eventParamushort indexes TARGET descriptor3497c0 stride60; return signedLB at+5, regardlesscurrentlevel; full29words checked. Platform differences/limits: DirectPS2 numeric tables vs HD edition-sensitiveGet; targetlevelsigned despiteByte declaration. Absentreturns-1. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00223180	a0_lo:4	unit	datUnitWork_PS2 *
-signature	002231f8		cmbGetDevilEvoLevel	char __stdcall cmbGetDevilEvoLevel(datUnitWork_PS2 * unit)
+variable	00223180	a0_lo:4	unit	datUnitWork *
+signature	002231f8		cmbGetDevilEvoLevel	char cmbGetDevilEvoLevel(datUnitWork * unit)
 function_repeatable_comment	002231f8		cmbGetDevilEvoLevel	Reviewed static counterpart: rstCalcCore$$cmbGetDevilEvoLevel at HD VA 0x18227a410. First type5 event returns signedLB requiredlevel atentry+0, no target descriptor/currentlevel check; full23words checked. Platform differences/limits: HD uses managed events/remaps. Distinctfrom targetlevelquery; signedlevel preserved. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	002231f8	a0_lo:4	unit	datUnitWork_PS2 *
+variable	002231f8	a0_lo:4	unit	datUnitWork *
 signature	00223258		ps2EvolutionEvent_00223258	void ps2EvolutionEvent_00223258(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
 function_repeatable_comment	00223258		ps2EvolutionEvent_00223258	Recovered SLUS_209.11 evolution-negotiation family: five whole C bodies pass3161 original-instruction cases on canonical529, including64 connected payment/outcome chains. Raw64 EE argument slots; Flow raw64 V0; evolution void; HD supplies roles, not original typedefs. Declared semantic RAM/Status/FCSR-value scope; volatile banks/save frames/HI-LO and physical gameplay unproved. See analysis/evolution-negotiation-main-C-validation.json.
 variable	00223258	a0:8	arg_0	ulonglong
 variable	00223258	a1:8	arg_1	ulonglong
 variable	00223258	a2:8	arg_2	ulonglong
 variable	00223258	a3:8	arg_3	ulonglong
-signature	00223398		cmbChkEvoDevilLev	int __stdcall cmbChkEvoDevilLev(datUnitWork_PS2 * player, datUnitWork_PS2 * stock, datUnitWork_PS2 * evolved, int event_level)
+signature	00223398		cmbChkEvoDevilLev	int cmbChkEvoDevilLev(datUnitWork * player, datUnitWork * stock, datUnitWork * evolved, int eventlevel)
 function_repeatable_comment	00223398		cmbChkEvoDevilLev	Reviewed static counterpart: rstCalcCore$$cmbChkEvoDevilLev at HD VA 0x182278f70. Signed32 minimum of evolved.level-player.level-4 and limit; negativeevent sets255 without reading stock; otherwise signedlow32 99-(stock.level-event). Full14words reviewed. Platform differences/limits: No lower clamp/byte narrowing. Extreme nonnegative event levels wrap the original lowword; read-only unit aliases permitted. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00223398	a0_lo:4	player	datUnitWork_PS2 *
-variable	00223398	a1_lo:4	stock	datUnitWork_PS2 *
-variable	00223398	a2_lo:4	evolved	datUnitWork_PS2 *
-variable	00223398	a3_lo:4	event_level	int
-signature	002233d0		cmbCopyEvoDevilToStock	void __stdcall cmbCopyEvoDevilToStock(datUnitWork_PS2 * unit, datUnitWork_PS2 * evolved_unit)
+variable	00223398	a0_lo:4	player	datUnitWork *
+variable	00223398	a1_lo:4	stock	datUnitWork *
+variable	00223398	a2_lo:4	evolved	datUnitWork *
+variable	00223398	a3_lo:4	eventlevel	int
+signature	002233d0		cmbCopyEvoDevilToStock	void cmbCopyEvoDevilToStock(datUnitWork * unit, datUnitWork * evolved)
 function_repeatable_comment	002233d0		cmbCopyEvoDevilToStock	Reviewed static counterpart: rstCalcCore$$cmbCopyEvoDevilToStock at HD VA 0x182279d50. Realcustomcopy/24byte skillclear/rate dependencies; earlyflag200 mutation; oldflag,uniqueID,priorID, EXPwrap preserved; inherit eachnonzerorate withoutRNG, copyback andfullheal; full67words checked. Platform differences/limits: HD managedcopy/fullskillarrayclear/remaps differ. PS2 upper12skillssurvive partialclear untiloverwritten; disjoint/exactself wordaligned units only tested. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	002233d0	a0_lo:4	unit	datUnitWork_PS2 *
-variable	002233d0	a1_lo:4	evolved_unit	datUnitWork_PS2 *
-signature	002234e0		cmbGetPowerUpSkill	ushort __stdcall cmbGetPowerUpSkill(ushort skill)
+variable	002233d0	a0_lo:4	unit	datUnitWork *
+variable	002233d0	a1_lo:4	evolved	datUnitWork *
+signature	002234e0		cmbGetPowerUpSkill	ushort cmbGetPowerUpSkill(ushort skill)
 function_repeatable_comment	002234e0		cmbGetPowerUpSkill	Reviewed static counterpart: rstCalcCore$$cmbGetPowerUpSkill at HD VA 0x18227bb90. Fixed55 source/targetushort pairs at339c20; first match target, absent0; full15words/native algorithm reviewed. Platform differences/limits: FixedPS2 table extent vs managedarray; duplicate source/target0 preserved; no descriptor filter. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002234e0	a0_lo:2	skill	ushort
-signature	00223520		cmbGetMutationSkill	ushort __stdcall cmbGetMutationSkill(ushort skill, datUnitWork_PS2 * unit)
+signature	00223520		cmbGetMutationSkill	ushort cmbGetMutationSkill(ushort skill, datUnitWork * unit)
 function_repeatable_comment	00223520		cmbGetMutationSkill	Reviewed static counterpart: rstCalcCore$$cmbGetMutationSkill at HD VA 0x18227b6b0. Up to64 real RNG draws modulo227; actual level/owner/rate/same-ID gates, followed by two separate original-level lookups enforcing exactly original level+1. Dependency LBU proves unsigned levels0..255. Full66 words/264 bytes. Platform differences/limits: Back every candidate/original ID and dependency table. Motion-compatible candidate level0 retains real BREAK7 trap, outside returning fixtures. Managed checks/layout are excluded; no replacement RNG or rate hook. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00223520	a0_lo:2	skill	ushort
-variable	00223520	a1_lo:4	unit	datUnitWork_PS2 *
-signature	00223628		cmpCalcLevelUpBaseExp	uint __stdcall cmpCalcLevelUpBaseExp(int level)
+variable	00223520	a1_lo:4	unit	datUnitWork *
+signature	00223628		cmpCalcLevelUpBaseExp	uint cmpCalcLevelUpBaseExp(int level)
 function_repeatable_comment	00223628		cmpCalcLevelUpBaseExp	Reviewed static counterpart: rstCalcCore$$cmpCalcLevelUpBaseExp at HD VA 0x18227be70. Two MULT/MFLO low32 cube steps, signed CVT.S.W, ordered MUL.S byA, ADD.S minus5, CVT.W.S then signed-negative clamp0; full104-word EXP cluster checked againstELF. Platform differences/limits: HD uses integer cube*142/100-5. Original PS2 constants54e434 A3fb5c28f; EE rawword rounding/multiplier boundaries retained. FCSR/timing outside host comparison. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00223628	a0_lo:4	level	int
-signature	00223668		cmbCalcLevelUpExp	uint __stdcall cmbCalcLevelUpExp(datUnitWork_PS2 * unit, int level)
+signature	00223668		cmbCalcLevelUpExp	uint cmbCalcLevelUpExp(datUnitWork * unit, int level)
 function_repeatable_comment	00223668		cmbCalcLevelUpExp	Reviewed static counterpart: rstCalcCore$$cmbCalcLevelUpExp at HD VA 0x182278890. Basequery first; flag4 shortcut; direct descriptor stride60 byte5; factor B-C*D in savedF20; two distinctCVT.W.S boundaries with ancestralEXP wrap; full body checked. Platform differences/limits: HD uses integer percentage and descriptorlevel1shortcut including omitted ancestraloffset. PS2 B402ccccc,C3c8b4395 originaloperandorder preserved; valueonly COP1 scope. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00223668	a0_lo:4	unit	datUnitWork_PS2 *
+variable	00223668	a0_lo:4	unit	datUnitWork *
 variable	00223668	a1_lo:4	level	int
-signature	00223728		cmbChkLevelUpExp	uint __stdcall cmbChkLevelUpExp(datUnitWork_PS2 * unit)
+signature	00223728		cmbChkLevelUpExp	uint cmbChkLevelUpExp(datUnitWork * unit)
 function_repeatable_comment	00223728		cmbChkLevelUpExp	Reviewed static counterpart: rstCalcCore$$cmbChkLevelUpExp at HD VA 0x182279850. LHU storedlevel+1 passed as signed32 requestedlevel to real scaler; full7words checked. Platform differences/limits: FFFF becomes65536 rather than0; managedHD unit layouts/remaps differ. Query preserves unit. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00223728	a0_lo:4	unit	datUnitWork_PS2 *
-signature	00223928		cmbGetLevelUpCount	int __stdcall cmbGetLevelUpCount(datUnitWork_PS2 * unit, int added_exp)
+variable	00223728	a0_lo:4	unit	datUnitWork *
+signature	00223928		cmbGetLevelUpCount	int cmbGetLevelUpCount(datUnitWork * unit, int addexp)
 function_repeatable_comment	00223928		cmbGetLevelUpCount	Reviewed static counterpart: rstCalcCore$$cmbGetLevelUpCount at HD VA 0x18227b460. Real236-byte customcopy into scratch; EXP ADDU wrap; unsigned threshold loop; low16 incrementbefore previouslevel>=255 cap; source unchanged. Full33words checked. Platform differences/limits: HD managed unit copies differ; PS2 threshold uses original EEfloat ops. EXP notconsumed and callerlevel notmodified; cap255 testedafter scratchincrement. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00223928	a0_lo:4	unit	datUnitWork_PS2 *
-variable	00223928	a1_lo:4	added_exp	int
+variable	00223928	a0_lo:4	unit	datUnitWork *
+variable	00223928	a1_lo:4	addexp	int
 function_repeatable_comment	00223e58		FUN_00223e58	Recovered missing PS2 function entry. Decoded negative stack adjustment; saved RA; JR RA return; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
 signature	002262e8		ps2SoundBuildPath	ulonglong ps2SoundBuildPath(ulonglong arg_0, ulonglong arg_1)
 function_repeatable_comment	002262e8		ps2SoundBuildPath	Five complete native cache scan/interrupt wrapper,seven-record bank check,sound path and variadic sprintf bodies. Real interrupt,strcat,stream formatter,vector writer and integer/string conversion dependencies execute. Full declared RAM,defined returns,Status,primitives,callee saves and ordered cache/index/TagLo observations compared. Finite explicit external cache TagLo operands,not actual cache hardware. Raw64 unsigned inclusive ranges,high argument lanes,aligned ends,signed sound bank,pending state,original literals,MIDI filenames and register/caller-stack variadic tails;native %lX consumes64 bits while %llX uses low32 bits. Native private stack/FPR saves execute;host local/va_list transport is not matching stack layout. No exact HD identity accepted for these platform/library helpers. Bank loading/wait/audio command,installed resource pump002976C0,IOP completion,scheduler,physical sound and matching binary remain outstanding.
@@ -9211,9 +9244,9 @@ variable	002409f0	a0_lo:1	index	char
 signature	00240a50		cmpAddStockListGBWK	void __stdcall cmpAddStockListGBWK(char index)
 function_repeatable_comment	00240a50		cmpAddStockListGBWK	Reviewed static counterpart: cmpMisc$$cmpAddStockListGBWK at HD VA 0x1822eb1b0. Append argument byte to global1914+count; increment signed count1924. Platform differences/limits: HD appends sign-extended sbyte into an int-index array. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00240a50	a0_lo:1	index	char
-signature	00240a98		ps2UnitRecalculateMaxHpMp_00240A98	void __stdcall ps2UnitRecalculateMaxHpMp_00240A98(ulonglong arg_0)
+signature	00240a98		ps2UnitRecalculateMaxHpMp_00240A98	void ps2UnitRecalculateMaxHpMp_00240A98(datUnitWork * unit)
 function_repeatable_comment	00240a98		ps2UnitRecalculateMaxHpMp_00240A98	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	00240a98	a0:8	arg_0	ulonglong
+variable	00240a98	a0_lo:4	unit	datUnitWork *
 signature	002411b0		ps2ShopCommonInput_002411B0	ulonglong ps2ShopCommonInput_002411B0(ulonglong arg_0)
 function_repeatable_comment	002411b0		ps2ShopCommonInput_002411B0	Eight complete original shop buy/sell/quantity/list/input/sound bodies2984B;640original/1280strictC onactual641. Real retail list/price/Hearts/signal/BF/process/allocator/native sound enqueue/cache/kernel owners execute;no supplied UI/RPC/Wakeup/TagLo reply. Incoming producer priority0 is genuine nonpreemption. Raw64Type/control,signedlow8Mode,byte/word wrap and distinct normalJAL/error-tail sound frames retained. 521/535 ordinaryPCs observed;211delaywords decoded,9conditional likely without blanket execution claim. Private packet words use proven native SD owners or ordinary incoming stack/real initializer history. Genuine sale-list filtering leaves reject branch unforced. Unknownbank/IOP/service completion,worker switches,natural dialogue and physical gameplay remain outside.0credituntilmainadmission.
 variable	002411b0	a0:8	arg_0	ulonglong
@@ -9431,10 +9464,10 @@ signature	00243fe8		datGetAisyo	uint datGetAisyo(datUnitWork * work, nbAttr attr
 function_repeatable_comment	00243fe8		datGetAisyo	Ten complete native bodies: attack/defense/affinity/alignment/item-skill queries, action targeting rules, real named target-manager lookup, eligibility and sixteen-slot candidate marking/list ordering. Real parameter/passive/RNG/process dependencies execute; no game-result hooks. Full declared RAM,defined raw64 returns,Status,processor primitives,callee saves and ordered VM targets compared; original C.LT.S site and FCSR condition checked using existing EE value boundary. Raw64 guards/equality, signed16 rows and indices, three output aliases/store order, cached-item RNG consumption, side reversal and flag filters covered. The list marks16 slots but appends0..13 and uses strict pairwise swaps, not stable sorting. One impossible byte-mode dispatch branch is separately proved. Backed finite tables and acyclic named process queues; missing manager, arbitrary invalid indices/aliases or malformed counts remain unproved. HD managed arrays/guards and float representation differ. Original automatic AI scoring/selection, scheduling, matching binary and physical PS2 execution remain outstanding. No full-suite run or checkpoint.
 variable	00243fe8	a0_lo:4	work	datUnitWork *
 variable	00243fe8	a1_lo:4	attr	nbAttr
-signature	00244098		ps2UnitAffinityFlags_00244098	ulonglong __stdcall ps2UnitAffinityFlags_00244098(ulonglong arg_0, ulonglong arg_1)
+signature	00244098		ps2UnitAffinityFlags_00244098	uint ps2UnitAffinityFlags_00244098(datUnitWork * unit, int attr)
 function_repeatable_comment	00244098		ps2UnitAffinityFlags_00244098	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	00244098	a0:8	arg_0	ulonglong
-variable	00244098	a1:8	arg_1	ulonglong
+variable	00244098	a0_lo:4	unit	datUnitWork *
+variable	00244098	a1_lo:4	attr	int
 signature	002440c0		datGetBadStatusAttr	nbAttr datGetBadStatusAttr(int bad)
 function_repeatable_comment	002440c0		datGetBadStatusAttr	Reviewed static counterpart: datCalc$$datGetBadStatusAttr at HD VA 0x181ccc7b0. Same bit-to-attribute map for statuses 1..0x400; HD encoded constants independently decoded from disk. Platform differences/limits: HD maps 0x800 to attribute 5 and gates higher statuses through cfgGetBit(9); PS2 returns -1 for 0x800. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002440c0	a0_lo:4	bad	int
@@ -9444,9 +9477,9 @@ variable	00244200	a0_lo:4	work	datUnitWork *
 signature	00244238		datAddMaka	void __stdcall datAddMaka(int addmaka)
 function_repeatable_comment	00244238		datAddMaka	Reviewed static counterpart: datCalc$$datAddMaka at HD VA 0x181cc9d00. Global field +0xA48; signed addition; clamp 0..9999999. Platform differences/limits: HD global object field +0x48. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00244238	a0_lo:4	addmaka	int
-signature	00244268		ps2UnitAddMakaPercent_00244268	void __stdcall ps2UnitAddMakaPercent_00244268(ulonglong arg_0)
+signature	00244268		ps2UnitAddMakaPercent_00244268	void ps2UnitAddMakaPercent_00244268(int percent)
 function_repeatable_comment	00244268		ps2UnitAddMakaPercent_00244268	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	00244268	a0:8	arg_0	ulonglong
+variable	00244268	a0_lo:4	percent	int
 signature	002442c8		datCheckMaka	int __stdcall datCheckMaka(int maka)
 function_repeatable_comment	002442c8		datCheckMaka	Reviewed static counterpart: datCalc$$datCheckMaka at HD VA 0x181ccad30. Compare requested currency to the same global currency field. Platform differences/limits: HD managed null/init checks. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002442c8	a0_lo:4	maka	int
@@ -9454,9 +9487,9 @@ signature	002442e0		datAddItem	void __stdcall datAddItem(int id, int num)
 function_repeatable_comment	002442e0		datAddItem	Reviewed static counterpart: datCalc$$datAddItem at HD VA 0x181cc9840. Item-to-Hearts dispatch; ID ranges 0x60/0x70; clamp quantity 0..99; event bit id+0x360; special ID 0x8D. Platform differences/limits: HD managed arrays and encoded constants; same main branches. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002442e0	a0_lo:4	id	int
 variable	002442e0	a1_lo:4	num	int
-signature	002443f8		datCheckItem	int __stdcall datCheckItem(int id, int num)
+signature	002443f8		datCheckItem	int datCheckItem(int item, int num)
 function_repeatable_comment	002443f8		datCheckItem	Reviewed static counterpart: datCalc$$datCheckItem at HD VA 0x181ccac90. Byte quantity at global+0x1928+id compared against requested number. Platform differences/limits: HD byte array access. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	002443f8	a0_lo:4	id	int
+variable	002443f8	a0_lo:4	item	int
 variable	002443f8	a1_lo:4	num	int
 signature	00244410		datCheckItemFull	int __stdcall datCheckItemFull(int id)
 function_repeatable_comment	00244410		datCheckItemFull	Reviewed static counterpart: datCalc$$datCheckItemFull at HD VA 0x181ccabe0. IDs below 0x70 use count >=99; higher IDs use nonzero count. Platform differences/limits: PS2 retains a redundant split at ID 0x60. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
@@ -9472,22 +9505,22 @@ function_repeatable_comment	00244530		datSearchDevilStock	Twenty-one complete or
 variable	00244530	a0:8	arg_0	ulonglong
 signature	00244598		datGetPlayerLevel	int datGetPlayerLevel(void)
 function_repeatable_comment	00244598		datGetPlayerLevel	Reviewed static counterpart: datCalc$$datGetPlayerLevel at HD VA 0x181ccd830. Player slot level at global+0xA68, equal to unit base+0x14. Platform differences/limits: HD returns ushort level +0x24 through array slot zero. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-signature	002445c0		ps2UnitPlayerParameter_002445C0	ulonglong __stdcall ps2UnitPlayerParameter_002445C0(ulonglong arg_0)
+signature	002445c0		ps2UnitPlayerParameter_002445C0	int ps2UnitPlayerParameter_002445C0(int paratype)
 function_repeatable_comment	002445c0		ps2UnitPlayerParameter_002445C0	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	002445c0	a0:8	arg_0	ulonglong
-signature	00244610		ps2UnitAddPlayerParameter_00244610	void __stdcall ps2UnitAddPlayerParameter_00244610(ulonglong arg_0, ulonglong arg_1)
+variable	002445c0	a0_lo:4	paratype	int
+signature	00244610		ps2UnitAddPlayerParameter_00244610	void ps2UnitAddPlayerParameter_00244610(int paratype, int amount)
 function_repeatable_comment	00244610		ps2UnitAddPlayerParameter_00244610	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	00244610	a0:8	arg_0	ulonglong
-variable	00244610	a1:8	arg_1	ulonglong
-signature	00244668		ps2UnitCompanionParameter_00244668	ulonglong __stdcall ps2UnitCompanionParameter_00244668(ulonglong arg_0, ulonglong arg_1)
+variable	00244610	a0_lo:4	paratype	int
+variable	00244610	a1_lo:4	amount	int
+signature	00244668		ps2UnitCompanionParameter_00244668	int ps2UnitCompanionParameter_00244668(int devil, int paratype)
 function_repeatable_comment	00244668		ps2UnitCompanionParameter_00244668	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	00244668	a0:8	arg_0	ulonglong
-variable	00244668	a1:8	arg_1	ulonglong
-signature	002446b0		ps2UnitPlayerAlignment_002446B0	ulonglong __stdcall ps2UnitPlayerAlignment_002446B0(void)
+variable	00244668	a0_lo:4	devil	int
+variable	00244668	a1_lo:4	paratype	int
+signature	002446b0		ps2UnitPlayerAlignment_002446B0	int ps2UnitPlayerAlignment_002446B0(void)
 function_repeatable_comment	002446b0		ps2UnitPlayerAlignment_002446B0	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-signature	002446f8		ps2UnitKillCompanion_002446F8	void __stdcall ps2UnitKillCompanion_002446F8(ulonglong arg_0)
+signature	002446f8		ps2UnitKillCompanion_002446F8	void ps2UnitKillCompanion_002446F8(int devil)
 function_repeatable_comment	002446f8		ps2UnitKillCompanion_002446F8	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	002446f8	a0:8	arg_0	ulonglong
+variable	002446f8	a0_lo:4	devil	int
 signature	002447c0		ps2FieldSkillPartyDamage_002447C0	void __stdcall ps2FieldSkillPartyDamage_002447C0(ulonglong arg_0)
 function_repeatable_comment	002447c0		ps2FieldSkillPartyDamage_002447C0	Field-skill/party hazards16 descriptive native aliases,5224 recognized/5284 spanbytes. Explicit raw64 A0..A3 calling slots, F0:4 binary32 only002432D0, four typedvoid party routines; remaining definedreturns V0:8. Original and HD alias names/comments remain in analysis/field-skill-native-interfaces.json. Fullnative bank/privateframe/HI1LO1 and hardwareclaims are separate from the standalone704 semantic proof. Metadata changes neither source/executable bytes nor registration. Current original-processor export C is reference only.
 variable	002447c0	a0:8	arg_0	ulonglong
@@ -9505,64 +9538,64 @@ function_repeatable_comment	00244e68		datGet3Zokusei	Ten complete native bodies:
 variable	00244e68	a0_lo:4	work	datUnitWork *
 signature	00244eb8		datCheckStockFull	int __stdcall datCheckStockFull(void)
 function_repeatable_comment	00244eb8		datCheckStockFull	Reviewed static counterpart: datCalc$$datCheckStockFull at HD VA 0x181ccb1a0. Count occupied flags in slots4..15; compare with global capacity+0xA50. Platform differences/limits: HD counts managed array slots4..15 and compares global field+0x50. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-signature	00244ef8		ps2UnitInitializeCompanion_00244EF8	void __stdcall ps2UnitInitializeCompanion_00244EF8(ulonglong arg_0, ulonglong arg_1)
+signature	00244ef8		ps2UnitInitializeCompanion_00244EF8	void ps2UnitInitializeCompanion_00244EF8(int devil, datUnitWork * unit)
 function_repeatable_comment	00244ef8		ps2UnitInitializeCompanion_00244EF8	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	00244ef8	a0:8	arg_0	ulonglong
-variable	00244ef8	a1:8	arg_1	ulonglong
-signature	00245020		ps2UnitAddCompanion_00245020	ulonglong __stdcall ps2UnitAddCompanion_00245020(ulonglong arg_0, ulonglong arg_1)
+variable	00244ef8	a0_lo:4	devil	int
+variable	00244ef8	a1_lo:4	unit	datUnitWork *
+signature	00245020		ps2UnitAddCompanion_00245020	int ps2UnitAddCompanion_00245020(int devil, int party)
 function_repeatable_comment	00245020		ps2UnitAddCompanion_00245020	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	00245020	a0:8	arg_0	ulonglong
-variable	00245020	a1:8	arg_1	ulonglong
-signature	00245180		ps2UnitAddUniqueCompanion_00245180	void __stdcall ps2UnitAddUniqueCompanion_00245180(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	00245020	a0_lo:4	devil	int
+variable	00245020	a1_lo:4	party	int
+signature	00245180		ps2UnitAddUniqueCompanion_00245180	void ps2UnitAddUniqueCompanion_00245180(int devil, int party, int uniqueid)
 function_repeatable_comment	00245180		ps2UnitAddUniqueCompanion_00245180	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	00245180	a0:8	arg_0	ulonglong
-variable	00245180	a1:8	arg_1	ulonglong
-variable	00245180	a2:8	arg_2	ulonglong
-signature	002451f0		ps2UnitFindUniqueCompanion_002451F0	ulonglong __stdcall ps2UnitFindUniqueCompanion_002451F0(ulonglong arg_0)
+variable	00245180	a0_lo:4	devil	int
+variable	00245180	a1_lo:4	party	int
+variable	00245180	a2_lo:4	uniqueid	int
+signature	002451f0		ps2UnitFindUniqueCompanion_002451F0	int ps2UnitFindUniqueCompanion_002451F0(int uniqueid)
 function_repeatable_comment	002451f0		ps2UnitFindUniqueCompanion_002451F0	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	002451f0	a0:8	arg_0	ulonglong
+variable	002451f0	a0_lo:4	uniqueid	int
 signature	00245250		datGetUniqueDevilId	int __stdcall datGetUniqueDevilId(int uid)
 function_repeatable_comment	00245250		datGetUniqueDevilId	Reviewed static counterpart: datCalc$$datGetUniqueDevilId at HD VA 0x181cceb80. Same unique-slot predicate; return matching demon ID instead of slot index. Platform differences/limits: HD returns -1 for absence; PS2 emits 0xFFFFFFFF. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00245250	a0_lo:4	uid	int
-signature	002452b8		ps2UnitAddExperience_002452B8	void __stdcall ps2UnitAddExperience_002452B8(ulonglong arg_0, ulonglong arg_1)
+signature	002452b8		ps2UnitAddExperience_002452B8	void ps2UnitAddExperience_002452B8(datUnitWork * unit, int exp)
 function_repeatable_comment	002452b8		ps2UnitAddExperience_002452B8	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	002452b8	a0:8	arg_0	ulonglong
-variable	002452b8	a1:8	arg_1	ulonglong
+variable	002452b8	a0_lo:4	unit	datUnitWork *
+variable	002452b8	a1_lo:4	exp	int
 signature	002452c8		datAddHearts	int __stdcall datAddHearts(int id)
 function_repeatable_comment	002452c8		datAddHearts	Reviewed static counterpart: datCalc$$datAddHearts at HD VA 0x181cc9470. Reject duplicate owned-Hearts ID; append byte list; increment count; clear per-ID field; event bit0x860; parameter helper; return0/1. Platform differences/limits: HD adds achievement/collection tracking after retained acquisition core. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002452c8	a0_lo:4	id	int
-signature	00245380		ps2UnitRemoveMagatama_00245380	void __stdcall ps2UnitRemoveMagatama_00245380(void)
+signature	00245380		ps2UnitRemoveMagatama_00245380	void ps2UnitRemoveMagatama_00245380(void)
 function_repeatable_comment	00245380		ps2UnitRemoveMagatama_00245380	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-signature	002453e8		ps2UnitEquipMagatama_002453E8	void __stdcall ps2UnitEquipMagatama_002453E8(ulonglong arg_0)
+signature	002453e8		ps2UnitEquipMagatama_002453E8	void ps2UnitEquipMagatama_002453E8(int id)
 function_repeatable_comment	002453e8		ps2UnitEquipMagatama_002453E8	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	002453e8	a0:8	arg_0	ulonglong
-signature	00245478		ps2UnitApplyRecoverySkill_00245478	void __stdcall ps2UnitApplyRecoverySkill_00245478(ulonglong arg_0, ulonglong arg_1)
+variable	002453e8	a0_lo:4	id	int
+signature	00245478		ps2UnitApplyRecoverySkill_00245478	void ps2UnitApplyRecoverySkill_00245478(datUnitWork * unit, int skill)
 function_repeatable_comment	00245478		ps2UnitApplyRecoverySkill_00245478	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	00245478	a0:8	arg_0	ulonglong
-variable	00245478	a1:8	arg_1	ulonglong
-signature	002455b8		ps2UnitRecoverFieldParty_002455B8	void __stdcall ps2UnitRecoverFieldParty_002455B8(void)
+variable	00245478	a0_lo:4	unit	datUnitWork *
+variable	00245478	a1_lo:4	skill	int
+signature	002455b8		ps2UnitRecoverFieldParty_002455B8	void ps2UnitRecoverFieldParty_002455B8(void)
 function_repeatable_comment	002455b8		ps2UnitRecoverFieldParty_002455B8	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
 signature	00245638		datCheckSkillInParty	int datCheckSkillInParty(int skillid)
 function_repeatable_comment	00245638		datCheckSkillInParty	Reviewed static counterpart: datCalc$$datCheckSkillInParty at HD VA 0x181ccae50. 16 slots; occupied and party bits1/2; owned-skill helper; return1 on first match, else0. Platform differences/limits: HD managed arrays and an encoded true constant. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00245638	a0_lo:4	skillid	int
-signature	002456d0		ps2UnitFindTreasureSkillOwner_002456D0	ulonglong __stdcall ps2UnitFindTreasureSkillOwner_002456D0(void)
+signature	002456d0		ps2UnitFindTreasureSkillOwner_002456D0	int ps2UnitFindTreasureSkillOwner_002456D0(void)
 function_repeatable_comment	002456d0		ps2UnitFindTreasureSkillOwner_002456D0	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-signature	002457f0		datClearCommMemory	void __stdcall datClearCommMemory(ulonglong arg_0)
+signature	002457f0		datClearCommMemory	void datClearCommMemory(datUnitWork * unit)
 function_repeatable_comment	002457f0		datClearCommMemory	Twenty-one complete original CHECK1 prerequisites. Actual process lookup, unit/party routing and skill search execute. All384 unchanged AI record endings are read by each of three death queries. Native A4 record stride, A0/A2 unsigned death halfwords, signed LH forms, signed LW descriptor flags, full64 predicates, fixed32 timers/12 order bytes/16 stock slots, positive HP wrap and live stack-count reloads retained. Bounded backed RAM, finite queues and selected aliases; arbitrary invalid pointers, unchecked excessive IDs, outer CHECK1 callbacks, physical battle runtime and a matching executable remain unproved. Twenty-one HD roles and attributed community record/build/source-unit context reviewed; complete DDS comparison is separate. One rolling capture, no checkpoints.
-variable	002457f0	a0:8	arg_0	ulonglong
-signature	00245808		ps2UnitClearPartyCommandMemory_00245808	void __stdcall ps2UnitClearPartyCommandMemory_00245808(void)
+variable	002457f0	a0_lo:4	unit	datUnitWork *
+signature	00245808		ps2UnitClearPartyCommandMemory_00245808	void ps2UnitClearPartyCommandMemory_00245808(void)
 function_repeatable_comment	00245808		ps2UnitClearPartyCommandMemory_00245808	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-signature	00245890		ps2UnitAddReasonPoints_00245890	void __stdcall ps2UnitAddReasonPoints_00245890(ulonglong arg_0, ulonglong arg_1)
+signature	00245890		ps2UnitAddReasonPoints_00245890	void ps2UnitAddReasonPoints_00245890(int reason, int amount)
 function_repeatable_comment	00245890		ps2UnitAddReasonPoints_00245890	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	00245890	a0:8	arg_0	ulonglong
-variable	00245890	a1:8	arg_1	ulonglong
-signature	002458d0		ps2UnitReasonRank_002458D0	ulonglong __stdcall ps2UnitReasonRank_002458D0(ulonglong arg_0)
+variable	00245890	a0_lo:4	reason	int
+variable	00245890	a1_lo:4	amount	int
+signature	002458d0		ps2UnitReasonRank_002458D0	int ps2UnitReasonRank_002458D0(int rank)
 function_repeatable_comment	002458d0		ps2UnitReasonRank_002458D0	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	002458d0	a0:8	arg_0	ulonglong
-signature	002459e8		datGetSkillCost	ulonglong __stdcall datGetSkillCost(ulonglong arg_0, ulonglong arg_1)
+variable	002458d0	a0_lo:4	rank	int
+signature	002459e8		datGetSkillCost	int datGetSkillCost(datUnitWork * unit, int skill)
 function_repeatable_comment	002459e8		datGetSkillCost	Complete retail predicate table27 unique callbacks/28 nonzero slots,2 full support-condition switches,packed dispatcher/script bridge,actual skill cost and party average plus24 command wrappers. Original descriptors,table and branch bytes checked;community names and named HD roles provide context. Native HP zero traps,mask accumulation/intersection,full64 leaf comparisons,word SRL/low16 dispatch,unclamped indices,counter side effects,actual parameters/work/support/affinity/cost and VM return helpers retained. Bounded valid backed contexts/parties/units;original and constructed flags,counters,costs and table targets distinguished. Full RAM,defined raw64 returns,Status,FCSR condition,CPU primitives,ordered libc/VM/predicate callbacks and returning native callee saves compared. No result hooks. Native null/arbitrary invalid callback dereferences,malformed party pointers,dynamic scheduling,whole original AI decision execution,physical gameplay,arithmetic FCSR flags,timing and matching binary unproved. One rolling capture;no checkpoints.
-variable	002459e8	a0:8	arg_0	ulonglong
-variable	002459e8	a1:8	arg_1	ulonglong
+variable	002459e8	a0_lo:4	unit	datUnitWork *
+variable	002459e8	a1_lo:4	skill	int
 signature	00245c78		datDelDevil	int __stdcall datDelDevil(int id)
 function_repeatable_comment	00245c78		datDelDevil	Reviewed static counterpart: datCalc$$datDelDevil at HD VA 0x181ccbc50. Mask ID to16 bits then tail-jump to reviewed cmpRemoveDevilEx; native stack restore precedes tail jump. Platform differences/limits: PS2 propagates removal success0/1; HD ignores removal return and returns the original unmasked id. Return contract differs. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00245c78	a0_lo:4	id	int
@@ -9572,10 +9605,10 @@ variable	00245c90	a0:8	arg_0	ulonglong
 signature	00245d18		datGetLevelForDraw	int __stdcall datGetLevelForDraw(datUnitWork_PS2 * work)
 function_repeatable_comment	00245d18		datGetLevelForDraw	Reviewed static counterpart: datCalc$$datGetLevelForDraw at HD VA 0x181ccd000. Unit ushort level+0x14; clamp displayed value to99. Platform differences/limits: HD field+0x24 and managed null check. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00245d18	a0_lo:4	work	datUnitWork_PS2 *
-signature	00245d30		ps2UnitRefreshCompanion_00245D30	void __stdcall ps2UnitRefreshCompanion_00245D30(ulonglong arg_0, ulonglong arg_1)
+signature	00245d30		ps2UnitRefreshCompanion_00245D30	void ps2UnitRefreshCompanion_00245D30(int devil, datUnitWork * unit)
 function_repeatable_comment	00245d30		ps2UnitRefreshCompanion_00245D30	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	00245d30	a0:8	arg_0	ulonglong
-variable	00245d30	a1:8	arg_1	ulonglong
+variable	00245d30	a0_lo:4	devil	int
+variable	00245d30	a1_lo:4	unit	datUnitWork *
 signature	00245e60		datBossRashGetRec	int __stdcall datBossRashGetRec(int eid, int type)
 function_repeatable_comment	00245e60		datBossRashGetRec	Reviewed static counterpart: datCalc$$datBossRashGetRec at HD VA 0x181cca4b0. Scan40 records at003FA430 stride16: enemy ID+8; type0 signed best at global19C8+4*i or999; type1 gated by entry event bit, last result or1; other types return entry+12. Platform differences/limits: HD managed records hold32-bit results; PS2 stores signed16-bit best/last pairs. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00245e60	a0_lo:4	eid	int
@@ -10419,9 +10452,9 @@ variable	00267788	a0_lo:4	formindex	int
 signature	002677b8		nbCheckBadCurse	int nbCheckBadCurse(int formindex)
 function_repeatable_comment	002677b8		nbCheckBadCurse	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
 variable	002677b8	a0_lo:4	formindex	int
-signature	002677e8		nbGetAisyoTable	ulonglong nbGetAisyoTable(ulonglong arg_0)
+signature	002677e8		nbGetAisyoTable	int nbGetAisyoTable(int formindex)
 function_repeatable_comment	002677e8		nbGetAisyoTable	Eighteen complete native basic-AI/query/summon bodies with actual predicates,work,costs,RNG,targeting,model scales,VM and printf/formatter dependencies. All384 original A4 AI records execute through each three-condition choice and ordinary decision runner in declared constructed battle states; separate constructed tables cover special action kinds,rejections,all-excluded/zero weights and mode1/2. Retail and constructed data distinguished. Full RAM,defined raw64 returns,Status,FCSR condition,primitives,ordered actual VM/predicate/libc calls and native returning callee saves compared. Weighted fallback86988 is proved unreachable for five stable unsigned16 weights and actual bounded RNG. Invalid pointers/out-of-domain table/index layouts,unrecovered original BF presentation/event paths,dynamic scheduling,physical gameplay,arithmetic FCSR flags,timing and matching executable unproved. One rolling capture;no checkpoints.
-variable	002677e8	a0:8	arg_0	ulonglong
+variable	002677e8	a0_lo:4	formindex	int
 signature	00267890		nbGetAisyo	uint nbGetAisyo(int nskill, int formindex, nbAttr attr)
 function_repeatable_comment	00267890		nbGetAisyo	Four complete original support/affinity bodies. Actual scheduler,party/unit resolution,support bounds/counters,skill attribute,datGetAisyo,passive skill scans and folded moon execute;no game-result hooks. Full declared RAM,raw64 integer/rawF0 results,Status,CPU primitives,callee saves and ordered VM traces compared. Signed16 counters,wordwrap delta/rate product,full64 guards/sentinels,preview high lanes,status200/400,passive combinations,temporary effect precedence,charge and unit125 moon adjustment covered. COP1 value boundary is opcode/body pinned;FCSR arithmetic flags,timing and physical hardware remain unproved. Finite backed indices/table prefixes/acyclic queues;arbitrary invalid pointers,counts,private stack aliases and all gameplay paths unproved. HD roles and DDS documentation are context,not byte/layout identity;HD add-counter pseudocode contains a damaged switch. Automatic AI scoring/selection,matching executable and a new full regression remain outstanding. No checkpoint.
 variable	00267890	a0_lo:4	nskill	int
@@ -10496,29 +10529,29 @@ function_repeatable_comment	00268eb8		nbGetVirtualAisyo	Four complete original s
 variable	00268eb8	a0_lo:4	nskill	int
 variable	00268eb8	a1_lo:4	sformindex	int
 variable	00268eb8	a2_lo:4	dformindex	int
-signature	00268f68		nbGetVirtualKoukaPoint	ulonglong nbGetVirtualKoukaPoint(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+signature	00268f68		nbGetVirtualKoukaPoint	int nbGetVirtualKoukaPoint(int skill, int sformindex, int dformindex)
 function_repeatable_comment	00268f68		nbGetVirtualKoukaPoint	Three complete native bodies using actual work/scheduler,affinity/effects/power/support,default RNG,parameters,software-double and libc dependencies;no game-result hooks. Raw64 results,full declared RAM,Status,FCSR condition,primitives,ordered libc traces and native callee saves compared. AI header modes1/2 and changed action/encounter/model tables are constructed branch states;retail384 AI modes are separately audited and all0. Preview estimator retains RNG/support-clear side effects;mode2 compact winning ordinal remaps across every flags4 slot. Summon clears4..13 before availability,reads encounter byte+22,stride26,loops unbounded unsigned byte count and uses full64 signed devil guard with lowword model address. Arithmetic FCSR flags,timing,physical gameplay and matching binary unproved. Bounded valid nonaliasing contexts,queues,units and libc stdout;selector orchestration/command52 remain outstanding. No checkpoint.
-variable	00268f68	a0:8	arg_0	ulonglong
-variable	00268f68	a1:8	arg_1	ulonglong
-variable	00268f68	a2:8	arg_2	ulonglong
-signature	00269170		nbCheckSkillCost	ulonglong nbCheckSkillCost(ulonglong arg_0, ulonglong arg_1)
+variable	00268f68	a0_lo:4	skill	int
+variable	00268f68	a1_lo:4	sformindex	int
+variable	00268f68	a2_lo:4	dformindex	int
+signature	00269170		nbCheckSkillCost	int nbCheckSkillCost(int formindex, int skill)
 function_repeatable_comment	00269170		nbCheckSkillCost	Complete retail predicate table27 unique callbacks/28 nonzero slots,2 full support-condition switches,packed dispatcher/script bridge,actual skill cost and party average plus24 command wrappers. Original descriptors,table and branch bytes checked;community names and named HD roles provide context. Native HP zero traps,mask accumulation/intersection,full64 leaf comparisons,word SRL/low16 dispatch,unclamped indices,counter side effects,actual parameters/work/support/affinity/cost and VM return helpers retained. Bounded valid backed contexts/parties/units;original and constructed flags,counters,costs and table targets distinguished. Full RAM,defined raw64 returns,Status,FCSR condition,CPU primitives,ordered libc/VM/predicate callbacks and returning native callee saves compared. No result hooks. Native null/arbitrary invalid callback dereferences,malformed party pointers,dynamic scheduling,whole original AI decision execution,physical gameplay,arithmetic FCSR flags,timing and matching binary unproved. One rolling capture;no checkpoints.
-variable	00269170	a0:8	arg_0	ulonglong
-variable	00269170	a1:8	arg_1	ulonglong
-signature	00269280		nbCheckSkillUse	ulonglong nbCheckSkillUse(ulonglong arg_0, ulonglong arg_1)
+variable	00269170	a0_lo:4	formindex	int
+variable	00269170	a1_lo:4	skill	int
+signature	00269280		nbCheckSkillUse	int nbCheckSkillUse(int formindex, int skill)
 function_repeatable_comment	00269280		nbCheckSkillUse	Eighteen complete native basic-AI/query/summon bodies with actual predicates,work,costs,RNG,targeting,model scales,VM and printf/formatter dependencies. All384 original A4 AI records execute through each three-condition choice and ordinary decision runner in declared constructed battle states; separate constructed tables cover special action kinds,rejections,all-excluded/zero weights and mode1/2. Retail and constructed data distinguished. Full RAM,defined raw64 returns,Status,FCSR condition,primitives,ordered actual VM/predicate/libc calls and native returning callee saves compared. Weighted fallback86988 is proved unreachable for five stable unsigned16 weights and actual bounded RNG. Invalid pointers/out-of-domain table/index layouts,unrecovered original BF presentation/event paths,dynamic scheduling,physical gameplay,arithmetic FCSR flags,timing and matching executable unproved. One rolling capture;no checkpoints.
-variable	00269280	a0:8	arg_0	ulonglong
-variable	00269280	a1:8	arg_1	ulonglong
+variable	00269280	a0_lo:4	formindex	int
+variable	00269280	a1_lo:4	skill	int
 signature	00269318		nbGetEncountTableItem	void nbGetEncountTableItem(nbMainProcessData * data)
 function_repeatable_comment	00269318		nbGetEncountTableItem	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
 variable	00269318	a0_lo:4	data	nbMainProcessData *
 signature	00269448		nbGetExpMakaItem	void nbGetExpMakaItem(datUnitWork * w)
 function_repeatable_comment	00269448		nbGetExpMakaItem	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
 variable	00269448	a0_lo:4	w	datUnitWork *
-signature	002696f8		nbGetLvAvg	ulonglong nbGetLvAvg(ulonglong arg_0, ulonglong arg_1)
+signature	002696f8		nbGetLvAvg	int nbGetLvAvg(nbMainProcessData * data, int side)
 function_repeatable_comment	002696f8		nbGetLvAvg	Complete retail predicate table27 unique callbacks/28 nonzero slots,2 full support-condition switches,packed dispatcher/script bridge,actual skill cost and party average plus24 command wrappers. Original descriptors,table and branch bytes checked;community names and named HD roles provide context. Native HP zero traps,mask accumulation/intersection,full64 leaf comparisons,word SRL/low16 dispatch,unclamped indices,counter side effects,actual parameters/work/support/affinity/cost and VM return helpers retained. Bounded valid backed contexts/parties/units;original and constructed flags,counters,costs and table targets distinguished. Full RAM,defined raw64 returns,Status,FCSR condition,CPU primitives,ordered libc/VM/predicate callbacks and returning native callee saves compared. No result hooks. Native null/arbitrary invalid callback dereferences,malformed party pointers,dynamic scheduling,whole original AI decision execution,physical gameplay,arithmetic FCSR flags,timing and matching binary unproved. One rolling capture;no checkpoints.
-variable	002696f8	a0:8	arg_0	ulonglong
-variable	002696f8	a1:8	arg_1	ulonglong
+variable	002696f8	a0_lo:4	data	nbMainProcessData *
+variable	002696f8	a1_lo:4	side	int
 signature	002697d8		nbGetLvAvg2	int nbGetLvAvg2(nbMainProcessData * data, int side)
 function_repeatable_comment	002697d8		nbGetLvAvg2	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
 variable	002697d8	a0_lo:4	data	nbMainProcessData *
@@ -10542,9 +10575,9 @@ variable	00269d20	a0_lo:4	data	nbMainProcessData *
 signature	00269e98		nbCheckEscape	int nbCheckEscape(nbMainProcessData * data)
 function_repeatable_comment	00269e98		nbCheckEscape	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
 variable	00269e98	a0_lo:4	data	nbMainProcessData *
-signature	0026a110		nbGetEscapeSwitch	ulonglong nbGetEscapeSwitch(ulonglong arg_0)
+signature	0026a110		nbGetEscapeSwitch	int nbGetEscapeSwitch(nbMainProcessData * data)
 function_repeatable_comment	0026a110		nbGetEscapeSwitch	Eighteen complete native basic-AI/query/summon bodies with actual predicates,work,costs,RNG,targeting,model scales,VM and printf/formatter dependencies. All384 original A4 AI records execute through each three-condition choice and ordinary decision runner in declared constructed battle states; separate constructed tables cover special action kinds,rejections,all-excluded/zero weights and mode1/2. Retail and constructed data distinguished. Full RAM,defined raw64 returns,Status,FCSR condition,primitives,ordered actual VM/predicate/libc calls and native returning callee saves compared. Weighted fallback86988 is proved unreachable for five stable unsigned16 weights and actual bounded RNG. Invalid pointers/out-of-domain table/index layouts,unrecovered original BF presentation/event paths,dynamic scheduling,physical gameplay,arithmetic FCSR flags,timing and matching executable unproved. One rolling capture;no checkpoints.
-variable	0026a110	a0:8	arg_0	ulonglong
+variable	0026a110	a0_lo:4	data	nbMainProcessData *
 signature	0026a158		nbCheckRenzokuEncount	int nbCheckRenzokuEncount(nbMainProcessData * data)
 function_repeatable_comment	0026a158		nbCheckRenzokuEncount	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
 variable	0026a158	a0_lo:4	data	nbMainProcessData *
@@ -14370,12 +14403,12 @@ variable	002d4748	t0:8	arg_4	ulonglong
 variable	002d4748	t1:8	arg_5	ulonglong
 variable	002d4748	t2:8	arg_6	ulonglong
 variable	002d4748	t3:8	arg_7	ulonglong
-signature	002d4860		ps2Qsort_002D4860	void ps2Qsort_002D4860(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+signature	002d4860		ps2Qsort_002D4860	void ps2Qsort_002D4860(void * base, uint count, uint size, void * compare)
 function_repeatable_comment	002d4860		ps2Qsort_002D4860	Recovered SLUS_209.11 fusion-sort-family family: five whole C bodies pass1248 original-instruction cases on canonical534, with two additional byte-bounded zero-credit comparator bodies. Raw64 EE argument slots; these five services are void; HD supplies roles, not original typedefs. Declared semantic RAM/Status/FCSR-value scope; volatile banks/save frames/HI-LO and physical gameplay unproved. See analysis/fusion-sort-family-main-C-validation.json.
-variable	002d4860	a0:8	arg_0	ulonglong
-variable	002d4860	a1:8	arg_1	ulonglong
-variable	002d4860	a2:8	arg_2	ulonglong
-variable	002d4860	a3:8	arg_3	ulonglong
+variable	002d4860	a0_lo:4	base	void *
+variable	002d4860	a1_lo:4	count	uint
+variable	002d4860	a2_lo:4	size	uint
+variable	002d4860	a3_lo:4	compare	void *
 signature	002d5250		ps2HeapSbrkReentrant	uint ps2HeapSbrkReentrant(heapReentHeadView_PS2 * arg_0, uint arg_1)
 function_repeatable_comment	002d5250		ps2HeapSbrkReentrant	Descriptive original PS2 alias. Complete original body byte-gated; nineteen new bodies/4676 function bytes; existing runtime getter reused and5952 focused fresh original/C cases. All364 compiled exports pass449372 completely fresh cases. Real bin/remainder/top allocation, coalescing, break growth/trimming, reentrant locks, pool and deferred queue calls. Explicit kernel syscall value boundary; CreateSema trace includes only original written fields4/8/20. Nine complete RAM spans, return bits, IRQ Status, instruction primitive counts and syscall traces compared. Kernel scheduling/timing, unknown semaphore fields, private stack, exhaustive input/heap validity, hardware/runtime and matching binary unclaimed.
 variable	002d5250	a0_lo:4	arg_0	heapReentHeadView_PS2 *

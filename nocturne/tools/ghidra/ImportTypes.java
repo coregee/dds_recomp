@@ -26,6 +26,31 @@ public class ImportTypes extends GhidraScript {
         {0x003aefe0L, "datEncount", 1270, "datEncount_tbl"},
         {0x003bade0L, "datEncountPack", 256, "datEncountPack_tbl"},
         {0x003a7fe0L, "datAisyoRow", 448, "datAisyo_tbl"},
+        {0x003d6998L, "datSkill", 512, "datSkill_tbl"},
+        {0x00333cf8L, "fclSkill", 384, "fclSkill_tbl"},
+        {0x003dc4a0L, "datItem", 160, "datItem_tbl"},
+        {0x00339e00L, "fclHearts", 26, "fclHearts_tbl"},
+        {0x00339640L, "cmbEvoFlag", 6, "cmbEvoFlagTbl"},
+        {0x00339658L, "fclKeisyoSkillLevel", 227, "fclKeisyoSkillLevelTbl"},
+        {0x003399e8L, "fclKeisyoScore", 1, "fclKeisyoScoreTbl"},
+        {0x00339ba8L, "u16", 37, "cmbDarkDevilTbl"},
+        {0x00339c20L, "cmbPowerUpSkill", 55, "cmbPowerUpSkillTbl"},
+        {0x0032d270L, "u8", 1024, "fclCombineTbl"},
+        {0x0032d670L, "u8", 1024, "fclCombineCurseTbl"},
+        {0x0032da70L, "fclRankTbl", 4, "fclRankUpDownTbl"},
+        {0x0032db78L, "fclCombCom", 3, "fclExtPatternTbl"},
+        {0x0032db90L, "fclCombCom", 6, "fclBirthSpiritTbl"},
+        {0x0032dbb8L, "fclCombSpirit", 4, "fclSpiritParamUpTbl"},
+        {0x0032dbd8L, "fclIkenieExtPattern", 1, "fclIkenieExtPatternTbl"},
+        {0x0032dbe0L, "fclIkenieExtPatternDev", 7, "fclIkenieExtPatternDevTbl"},
+        {0x0032dc18L, "fclIkenieExtPatternDev2", 19, "fclIkenieExtPatternDev2Tbl"},
+        {0x0032dc90L, "fclIkenieExtPatternDevRace", 2, "fclIkenieExtPatternDevRaceTbl"},
+        {0x0032dca0L, "u16", 14, "fclAccidentFailTbl"},
+        {0x0032dcc0L, "fclEventDevil", 34, "fclEventDevilTbl"},
+        {0x0032ddd0L, "fclMoonRange", 5, "fclCombineManinKagTbl"},
+        {0x0032dde0L, "u8", 4, "fclCombineManinRaceTbl"},
+        {0x0032dde8L, "u16", 20, "fclCombineManinTbl"},
+        {0x0054ff18L, "s32", 1, "datDevilNums"},
     };
 
     @Override
@@ -65,7 +90,11 @@ public class ImportTypes extends GhidraScript {
         for (String line : lines.subList(1, lines.size())) {
             if (line.isBlank()) continue;
             String[] parts = line.split("\t", 2);
-            Function f = getFunctionAt(toAddr(Long.parseLong(parts[0], 16)));
+            Address entry = toAddr(Long.parseLong(parts[0], 16));
+            Function f = getFunctionAt(entry);
+            // Callbacks reached only through pointers (qsort comparators) may
+            // not have been discovered; define them where code is disassembled.
+            if (f == null && getInstructionAt(entry) != null) f = createFunction(entry, null);
             if (f == null) { printerr("no function at " + parts[0]); continue; }
             // Older signatures pinned arguments to custom register storage (the
             // legacy C ABI); return to the standard EE convention first.

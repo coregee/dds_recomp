@@ -56,6 +56,38 @@ int32_t unitModelId(const UnitWork& unit)
     return unit.ailment() == ailment::Fly ? 255 : id;
 }
 
+// nbCheckSkillCost @ 0x00269170
+//
+// Muted units can't cast magic. Skills with NormalSkill::flag 4 cost
+// nothing. HP skills need more HP than they cost (they can't kill the user).
+SkillCheck checkSkillCost(int32_t formindex, int32_t skill)
+{
+    UnitWork& unit = *GetUnitWorkFromFormindex(formindex);
+    const NormalSkill& s = dat::normalSkill(skill);
+    if (s.koukatype == 1 && unit.ailment() == ailment::Mute)
+        return SkillCheck::Muted;
+    if (s.flag & 4)
+        return SkillCheck::Ok;
+    if (s.costtype == 1)
+        return dat::skillCost(unit, skill) >= unit.hp ? SkillCheck::NotEnoughHp : SkillCheck::Ok;
+    if (s.costtype == 2)
+        return unit.mp < dat::skillCost(unit, skill) ? SkillCheck::NotEnoughMp : SkillCheck::Ok;
+    return SkillCheck::Ok;
+}
+
+// nbCheckSkillUse @ 0x00269280
+int32_t checkSkillUse(int32_t formindex, int32_t skill)
+{
+    UnitWork& unit = *GetUnitWorkFromFormindex(formindex);
+    if (unit.ailment() == ailment::Mute && dat::normalSkill(skill).koukatype == 1)
+        return 1;
+    switch (checkSkillCost(formindex, skill)) {
+    case SkillCheck::NotEnoughHp: return 2;
+    case SkillCheck::NotEnoughMp: return 3;
+    default:                      return 0;
+    }
+}
+
 namespace {
 
 // Shared by Endure and Never Yield. The party flags record that the skill

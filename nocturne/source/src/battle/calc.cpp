@@ -301,7 +301,7 @@ EffectResult resolveEffect(int32_t skill, int32_t source, int32_t target)
     diag::print(s.koukatype == 0 ? diag::Message::PhysicalHitRate : diag::Message::MagicHitRate, threshold);
     if (percentRoll(threshold))
         return EffectResult::Hit;
-    return (formatFlag & 0x800) ? EffectResult::Fail : EffectResult::Miss;
+    return (formatFlag & DevilFlag::MissIsFail) ? EffectResult::Fail : EffectResult::Miss;
 }
 
 // nbCheckStoneDead @ 0x00267390
@@ -550,6 +550,33 @@ int32_t averageLevel(MainProcessData& data, Side side)
         }
     }
     return count ? sum / count : 0;
+}
+
+// nbGetLvAvg @ 0x002696F8: level averaged over one side's combatants.
+int32_t averageCombatLevel(MainProcessData& data, Side side)
+{
+    uint32_t sum = 0, count = 0;
+    for (int32_t i = 0; i < kFormationCount; ++i) {
+        Party& party = data.party[i];
+        uint16_t flags = static_cast<uint16_t>(party.flag);
+        if (!(flags & PartyFlag::Active) || (flags & PartyFlag::Inactive))
+            continue;
+        bool enemy = (flags & PartyFlag::EnemySide) != 0;
+        if (enemy != (side == Side::Enemy))
+            continue;
+        sum += GetUnitWorkPointer(data, party)->level;
+        ++count;
+    }
+    return count ? static_cast<int32_t>(sum / count) : 0;
+}
+
+// nbGetEscapeSwitch @ 0x0026A110: no escaping from boss battles or from
+// encounters marked esc = 1. (The AI's "can I flee" check.)
+bool escapeAllowed(const MainProcessData& data)
+{
+    if (data.stat & BattleStat::BossBattle)
+        return false;
+    return dat::encount(data.encno).esc != 1;
 }
 
 // nbGetParamAvg @ 0x002698C0: a stat averaged over one side's combatants.

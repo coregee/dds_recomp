@@ -38,6 +38,7 @@ int32_t alignment(const UnitWork& unit);
 
 bool hasSkill(const UnitWork& unit, int32_t skill);     // datCheckSyojiSkill
 bool partyHasSkill(int32_t skill);                      // datCheckSkillInParty
+int32_t skillCost(const UnitWork& unit, int32_t skill); // datGetSkillCost: HP or MP to pay
 
 // ---- Ailments and HP/MP -----------------------------------------------------
 
