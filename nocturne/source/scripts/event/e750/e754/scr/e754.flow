@@ -1,0 +1,38 @@
+// game/dds3/event/e750/e754/scr/e754.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e754_main()
+{
+    SYNC();
+    if (BIT_CHK(294) == 1 || BIT_CHK(149) == 1 || BIT_CHK(148) == 1 || BIT_CHK(147) == 1 || BIT_CHK(145) == 1 || BIT_CHK(146) == 1)
+    {
+        CALL_EVENT(717);
+        return;
+    }
+    else if (BIT_CHK(283) == 0)
+    {
+        CALL_EVENT(714);
+    }
+    else if (BIT_CHK(290) == 0 && BIT_CHK(1007) == 1 && BIT_CHK(294) == 0 && BIT_CHK(149) == 0 && BIT_CHK(148) == 0 && BIT_CHK(147) == 0 && BIT_CHK(145) == 0 && BIT_CHK(146) == 0)
+    {
+        CALL_EVENT(716);
+    }
+    else if (BIT_CHK(283) == 1 && BIT_CHK(284) == 0)
+    {
+        CALL_EVENT(722);
+    }
+    else if (BIT_CHK(284) == 1 && BIT_CHK(287) == 1)
+    {
+        CALL_EVENT(717);
+    }
+    else if (BIT_CHK(284) == 1 && BIT_CHK(286) == 1 && BIT_CHK(294) == 0)
+    {
+        CALL_EVENT(717);
+    }
+    else if (BIT_CHK(294) == 1)
+    {
+        CALL_EVENT(717);
+    }
+    EXIT_EVENT();
+}
+

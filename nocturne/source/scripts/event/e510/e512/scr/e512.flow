@@ -1,0 +1,16 @@
+// game/dds3/event/e510/e512/scr/e512.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e512_main()
+{
+    LOAD_BE(512);
+    FIELD_BE(512, 3);
+    SCENE_LIGHT_RGB(0, 0.9f, 0.9f, 0.9f);
+    SCENE_LIGHT_DIR(0, 0.05f, 0.05f, 0.05f);
+    SCENE_AMBIENT(0, 0.7f, 0.7f, 0.7f);
+    SOFTEN_BIAS(0, 5, - 0.4f);
+    CAM_SEL(SEARCH_ID("01cam_01"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_01"), SEARCH_ID("01cam_01_MOTION"));
+    CAM_PATH_WAIT(SEARCH_ID("01cam_01"));
+}
+

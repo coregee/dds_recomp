@@ -1,0 +1,64 @@
+// game/dds3/event/e750/e751/scr/e751.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e751_main()
+{
+    SYNC();
+    if (BIT_CHK(294) == 1 || BIT_CHK(149) == 1 || BIT_CHK(148) == 1 || BIT_CHK(147) == 1 || BIT_CHK(145) == 1 || BIT_CHK(146) == 1)
+    {
+        CALL_EVENT(717);
+        return;
+    }
+    else if (BIT_CHK(271) == 0)
+    {
+        CALL_EVENT(710);
+        return;
+    }
+    else if (BIT_CHK(267) == 0)
+    {
+        CALL_EVENT(711);
+        return;
+    }
+    else if (BIT_CHK(290) == 0 && BIT_CHK(1007) == 1 && BIT_CHK(294) == 0 && BIT_CHK(149) == 0 && BIT_CHK(148) == 0 && BIT_CHK(147) == 0 && BIT_CHK(145) == 0 && BIT_CHK(146) == 0)
+    {
+        CALL_EVENT(716);
+        return;
+    }
+    else if (BIT_CHK(267) == 1 && BIT_CHK(270) == 0)
+    {
+        CALL_EVENT(720);
+        return;
+    }
+    else if (BIT_CHK(267) == 1 && BIT_CHK(270) == 1 && BIT_CHK(282) == 0)
+    {
+        CALL_EVENT(720);
+        return;
+    }
+    else if (BIT_CHK(282) == 1 && BIT_CHK(283) == 0)
+    {
+        CALL_EVENT(721);
+        return;
+    }
+    else if (BIT_CHK(283) == 1 && BIT_CHK(284) == 0)
+    {
+        CALL_EVENT(722);
+        return;
+    }
+    else if (BIT_CHK(284) == 1 && BIT_CHK(287) == 1)
+    {
+        CALL_EVENT(717);
+        return;
+    }
+    else if (BIT_CHK(284) == 1 && BIT_CHK(286) == 1 && BIT_CHK(294) == 0)
+    {
+        CALL_EVENT(717);
+        return;
+    }
+    else if (BIT_CHK(294) == 1)
+    {
+        CALL_EVENT(717);
+        return;
+    }
+    EXIT_EVENT();
+}
+

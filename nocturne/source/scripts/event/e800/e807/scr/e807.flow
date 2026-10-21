@@ -1,0 +1,154 @@
+// game/dds3/event/e800/e807/scr/e807.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e807_main()
+{
+    FILTER2_PARA(0);
+    FILTER2_RGBA(0, 0, 0, 0);
+    FILTER2_ON(0);
+    if (fclGetVal(2) == 0)
+    {
+        var5 = PMV_LOAD(800, 70);
+        if (fclGetVal(3) == 0)
+        {
+            e807_010_1();
+            fclSignal(4);
+            SCR_WAIT(PMV_RUN2(var5));
+            FIELD_CLS_STOP();
+            fclSignal(3);
+        }
+        else
+        {
+            var11 = PMV_LOAD(800, 90);
+            fclSignal(4);
+            SCR_WAIT(PMV_RUN2(var5));
+            FIELD_CLS_STOP();
+            READ_BE(807);
+            fclSignal(3);
+            SCR_WAIT(PMV_RUN2(var11));
+            FIELD_CLS_STOP();
+        }
+    }
+    else
+    {
+        var5 = PMV_LOAD(800, 80);
+        if (fclGetVal(3) == 0)
+        {
+            e807_010_1();
+            fclSignal(4);
+            SCR_WAIT(PMV_RUN2(var5));
+            FIELD_CLS_STOP();
+            fclSignal(3);
+        }
+        else
+        {
+            var11 = PMV_LOAD(800, 90);
+            fclSignal(4);
+            SCR_WAIT(PMV_RUN2(var5));
+            FIELD_CLS_STOP();
+            READ_BE(807);
+            fclSignal(3);
+            SCR_WAIT(PMV_RUN2(var11));
+            FIELD_CLS_STOP();
+        }
+    }
+    while (CHK_BE(807) == 0)
+    {
+        WAIT(1);
+    }
+    FIELD_BE(807, 3);
+    if (fclGetVal(5) == 0)
+    {
+        CAM_SEL(SEARCH_ID("cam06_04"));
+        CAM_PATH_MOVE(SEARCH_ID("cam06_04"), SEARCH_ID("cam06_04_MOTION"));
+    }
+    else if (fclGetVal(5) == 1)
+    {
+        CAM_SEL(SEARCH_ID("cam06_03"));
+        CAM_PATH_MOVE(SEARCH_ID("cam06_03"), SEARCH_ID("cam06_03_MOTION"));
+    }
+    else if (fclGetVal(5) == 2)
+    {
+        CAM_SEL(SEARCH_ID("cam06_02"));
+        CAM_PATH_MOVE(SEARCH_ID("cam06_02"), SEARCH_ID("cam06_02_MOTION"));
+    }
+    else if (fclGetVal(5) == 3)
+    {
+        CAM_SEL(SEARCH_ID("cam06_01"));
+        CAM_PATH_MOVE(SEARCH_ID("cam06_01"), SEARCH_ID("cam06_01_MOTION"));
+    }
+    var15 = MODEL_BE(807, 15);
+    MODEL_OFF(var15);
+    MUL_BLUR_OFF(0);
+    FILTER2_OFF(80);
+    SET_SKY(90, 1, 0);
+    SET_SKY_A(0, - 100);
+    var12 = MODEL_BE(807, 13);
+    MODEL_POS_XYZ(var12, 0, - 17, 0);
+    MODEL_LIGHT_LINK(var15, 0, SEARCH_ID("light02"));
+    LIGHT_PATH_MOVE(SEARCH_ID("light02"), SEARCH_ID("light02_MOTION"));
+    SCENE_LIGHT_RGB(0, 0.5f, 0.55f, 0.6f);
+    SCENE_LIGHT_DIR(0, 0.65f, 0.39f, 0.65f);
+    SCENE_AMBIENT(0, 0.1f, 0.1f, 0.2f);
+    SCENE_FOG_RGB(0, 1.0f, 1.0f, 1.0f);
+    SCENE_FOG_PARA(0, 255, 0, 0, 220000);
+    SOFTEN_BIAS(0, 5, 0);
+    var10 = EFFECT_BE(807, 9);
+    EFFECT_POS(var10, SEARCH_ID("s03"));
+    EFFECT_ON(var10);
+    var14 = EFFECT_BE(807, 14);
+    EFFECT_POS(var14, SEARCH_ID("g001"));
+    EFFECT_ON(var14);
+    SCENE_FOG_RGB(60, 1.0f, 1.0f, 1.0f);
+    SCENE_FOG_PARA(60, 255, 0, 255, 220000);
+    local0 = SCR_RUN(2, - 1);
+    WAIT(40);
+    BLUR2_PARA(0.0f, 0.986f, 0);
+    BLUR2_RGBA(128, 128, 128, 0);
+    BLUR2_AREA(0, 0);
+    BLUR2_SWAP(80);
+    WAIT(110);
+    SCR_KILL(local0);
+    local0 = SCR_RUN(2, - 1);
+    MODEL_LIGHT_LINK(var15, 10, SEARCH_ID("light03"));
+    LIGHT_PATH_MOVE(SEARCH_ID("light03"), SEARCH_ID("light03_MOTION"));
+    COMM_0E8(SEARCH_ID("light03"));
+    WAIT(110);
+    while (fclGetVal(4))
+    {
+        WAIT(10);
+    }
+    FADE_OUT(0, 15);
+    SCR_KILL(local0);
+    SYNC();
+}
+
+void e807_010_1()
+{
+    READ_BE(807);
+    while (CHK_BE(807) == 0)
+    {
+        WAIT(1);
+    }
+}
+
+void e807_010_2()
+{
+    var6 = EFFBED_BE(807, 4);
+    local1 = 0;
+    while (1)
+    {
+        if (local1 == 0)
+        {
+            COMM_168(var6, 1, fclGetVal(6));
+            EFFECT_POS_XYZ(var6, fclGetVal(11), fclGetVal(12), fclGetVal(13));
+        }
+        local1 = local1 + 1;
+        if (local1 >= 270)
+        {
+            local1 = 0;
+        }
+        SYNC();
+    }
+}
+

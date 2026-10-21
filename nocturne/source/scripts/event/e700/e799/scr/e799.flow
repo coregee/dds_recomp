@@ -1,0 +1,75 @@
+// game/dds3/event/e700/e799/scr/e799.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e799_main()
+{
+    FADE_OUT(1, 0);
+    LOAD_SOUND_E(799);
+    WAIT(60);
+    local1 = SCR_RUN(1, - 1);
+    local2 = SCR_RUN(2, - 1);
+    BGM_PLAY_E(799, 0);
+    MOVIE_PLAY(7);
+    MOVIE_CHKDRAW();
+    FADE_IN(1, 40);
+    local0 = 0;
+    while (MOVIE_CHK())
+    {
+        if (local0 > 40 && local0 < 290)
+        {
+            if (PAD_PRESS(3) == 1)
+            {
+                FADEOUT_E(799, 0);
+                FADE_OUT(0, 8);
+                WAIT(10);
+                MOVIE_STOP();
+                WAIT(6);
+                FADE_IN(0, 0);
+                SCR_KILL(local1);
+                SCR_KILL(local2);
+                RTRN_TITLE();
+                return;
+            }
+        }
+        SYNC();
+        local0 = local0 + 1;
+    }
+    MOVIE_STOP();
+    WAIT(60);
+    itfMesMngWindowTypeAlpha(0, 35);
+    itfMesMngWindowTypeAlpha(0, 1);
+    itfMesMngOpenWindow();
+    COMM_117(90, 220);
+    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngCloseWindow();
+    itfMesMngIgnoreConfig(0);
+    FADEOUT_E(799, 0);
+    FILTER2_PARA(0);
+    FILTER2_RGBA(0, 0, 0, 0);
+    FILTER2_SWAP(120);
+    WAIT(130);
+    RTRN_TITLE();
+}
+
+void e799_010_1()
+{
+    WAIT(479);
+    FILTER2_PARA(0);
+    FILTER2_RGBA(255, 255, 255, 128);
+    FILTER2_ON(1);
+}
+
+void e799_010_2()
+{
+    WAIT(350);
+    itfMesMngIgnoreConfig(1);
+    itfMesMngWindowTypeAlpha(0, 1);
+    COMM_117(60, 220);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(3) /* MSG_002B */;
+    WAIT(40);
+    itfMesMngCloseWindow();
+    WAIT(30);
+    itfMesMngIgnoreConfig(0);
+}
+

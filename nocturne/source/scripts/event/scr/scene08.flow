@@ -1,0 +1,61 @@
+// game/dds3/event/scr/scene08.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void sc08()
+{
+    FADE_IN(0, 60);
+    WAIT(30);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* DGT01_00 */;
+    itfMesMngOpenSelectWindow();
+    var0 = itfMesMngSelect(1);
+    if (var0 == 0)
+    {
+        arasuji_a();
+    }
+    else if (var0 == 1)
+    {
+        koryaku_a();
+    }
+    else
+    {
+        sugu_a();
+    }
+    jump finish_a;
+}
+
+void arasuji_a()
+{
+    itfMesMngMessage(2) /* DGT01_01 */;
+    itfMesMngMessage(3) /* DGT01_02 */;
+    itfMesMngCloseWindow();
+    FADE_OUT(0, 60);
+    WAIT(30);
+    BIT_ON(3);
+    BIT_ON(7);
+}
+
+void koryaku_a()
+{
+    itfMesMngMessage(3) /* DGT01_02 */;
+    itfMesMngCloseWindow();
+    FADE_OUT(0, 60);
+    WAIT(30);
+    BIT_ON(3);
+    BIT_ON(7);
+}
+
+void sugu_a()
+{
+    itfMesMngCloseWindow();
+    FADE_OUT(0, 60);
+    WAIT(30);
+    BIT_ON(3);
+    BIT_ON(7);
+}
+
+void finish_a()
+{
+    // not decompiled; see the .flowasm
+}
+

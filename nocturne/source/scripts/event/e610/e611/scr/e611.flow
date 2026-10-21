@@ -1,0 +1,105 @@
+// game/dds3/event/e610/e611/scr/e611.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e611_main()
+{
+    FIELD_DSP(611, 1);
+    var1 = MODEL_DSP(3, 74);
+    var2 = MODEL_DSP(3, 75);
+    var3 = MODEL_DSP(3, 77);
+    MODEL_POS(var1, SEARCH_ID("p00"));
+    MODEL_POS(var2, SEARCH_ID("p01"));
+    SCENE_LIGHT_RGB(0, 0.7f, 0.7f, 0.9f);
+    SCENE_LIGHT_DIR(0, 0.62f, 0.42f, 0.18f);
+    SCENE_AMBIENT(0, 0.25f, 0.2f, 0.2f);
+    FADE_IN(0, 30);
+    SCR_WAIT(SCR_RUN(1, - 1));
+    SCR_WAIT(SCR_RUN(3, - 1));
+    SCR_WAIT(SCR_RUN(4, - 1));
+    SCR_WAIT(SCR_RUN(5, - 1));
+    SCR_WAIT(SCR_RUN(6, - 1));
+    SCR_WAIT(SCR_RUN(7, - 1));
+    FADE_OUT(0, 30);
+    WAIT(30);
+    MODEL_CLS(var1);
+    MODEL_CLS(var2);
+    FIELD_CLS();
+    EXIT_EVENT();
+}
+
+void e611_010()
+{
+    CAM_SEL(SEARCH_ID("cam01"));
+    CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));
+    MODEL_MOVE2(var3, SEARCH_ID("path00"), 1, 0, 0, 0, 0);
+    MODEL_MOTION2(var3, 1, 0, 10, 3);
+    MODEL_MOTION2(var1, 1, 0, 10, 3);
+    WAIT(160);
+    SCR_RUN(2, 0);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* ISAMU_001 */;
+    itfMesMngCloseWindow();
+    WAIT(60);
+}
+
+void camera()
+{
+    WAIT(60);
+    CAM_SEL(SEARCH_ID("cam02"));
+    CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
+    MODEL_POS(var1, SEARCH_ID("p02"));
+    MODEL_MOTION2(var1, 2, 0, 0, 3);
+}
+
+void e611_020()
+{
+    WAIT(5);
+    MODEL_MOTION2(var1, 3, 0, 10, 3);
+    WAIT(90);
+}
+
+void e611_030()
+{
+    CAM_SEL(SEARCH_ID("cam03"));
+    CAM_PATH_MOVE(SEARCH_ID("cam03"), SEARCH_ID("cam03_MOTION"));
+    itfMesMngOpenWindow();
+    itfMesMngMessage(1) /* ISAMU_002 */;
+    itfMesMngCloseWindow();
+    WAIT(5);
+}
+
+void e611_040()
+{
+    CAM_SEL(SEARCH_ID("cam04"));
+    CAM_PATH_MOVE(SEARCH_ID("cam04"), SEARCH_ID("cam04_MOTION"));
+    MODEL_MOTION2(var1, 4, 0, 10, 0);
+    WAIT(5);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(2) /* ISAMU_003 */;
+    itfMesMngCloseWindow();
+    WAIT(5);
+}
+
+void e611_050()
+{
+    CAM_SEL(SEARCH_ID("cam05"));
+    CAM_PATH_MOVE(SEARCH_ID("cam05"), SEARCH_ID("cam05_MOTION"));
+    MODEL_WAIT_MOT(var1, 7);
+    MODEL_MOTION2(var1, 6, 0, 10, 0);
+    WAIT(100);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(3) /* ISAMU_004 */;
+    itfMesMngCloseWindow();
+    WAIT(5);
+    MODEL_MOTION2(var1, 8, 0, 10, 3);
+    MODEL_MOTION2(var2, 1, 0, 10, 3);
+    WAIT(40);
+}
+
+void e611_060()
+{
+    CAM_SEL(SEARCH_ID("cam06"));
+    CAM_PATH_MOVE(SEARCH_ID("cam06"), SEARCH_ID("cam06_MOTION"));
+    WAIT(140);
+}
+

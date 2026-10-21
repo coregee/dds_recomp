@@ -1,0 +1,217 @@
+// game/dds3/event/e700/e703/scr/e703.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e703_main()
+{
+    SYNC();
+    if (BIT_CHK(81) == 0)
+    {
+        CALL_EVENT(670);
+    }
+    else if (BIT_CHK(115) == 1 && BIT_CHK(150) == 0)
+    {
+        LOAD_SOUND_E(676);
+        var2 = PMV_LOAD(676, 10);
+        SCR_RUN(3, 0);
+        local0 = PMV_RUN2(var2);
+        var5 = PMV_LOAD(676, 30);
+        WAIT(950);
+        MODEL_CLS(SEARCH_ID("p_motion_root.T3"));
+        MODEL_CLS(SEARCH_ID("pyram1.T3"));
+        MODEL_CLS(SEARCH_ID("player_a.PB"));
+        SCR_WAIT(local0);
+        SCR_RUN(1, - 1);
+        SCR_RUN(2, - 1);
+        MOVIE_PLAY(12);
+        MOVIE_CHKDRAW();
+        FILTER_ALLOFF();
+        BLUR_ALLOFF();
+        while (MOVIE_CHK())
+        {
+            SYNC();
+        }
+        MOVIE_STOP();
+        FIELD_CLS_STOP();
+        FILTER_ALLOFF();
+        BLUR_ALLOFF();
+        SCR_WAIT(PMV_RUN2(var5));
+        PAD_ACT(1, 1, 1);
+        PAD_ACT(1, 55, 1);
+        FIELD_CLS_STOP();
+        SYNC();
+        FILTER_ALLOFF();
+        BLUR_ALLOFF();
+        LOAD_BE(703);
+        FIELD_BE(703, 4);
+        FADE_OUT(0, 1);
+        LOAD_SOUND_E(617);
+        SET_SKY(12, 1, 0);
+        SET_SKY_A(0, - 63);
+        var7 = MODEL_BE(703, 2);
+        var6 = MODEL_BE(703, 3);
+        MODEL_POS(var6, SEARCH_ID("p01"));
+        MODEL_POS(var7, SEARCH_ID("p02"));
+        SCENE_FOG_RGB(0, 0.251f, 0.314f, 0.376f);
+        SCENE_FOG_PARA(0, 255, 19999, 255, 20000);
+        SCENE_LIGHT_RGB(0, 0.7f, 0.7f, 0.7f);
+        SCENE_LIGHT_DIR(0, 0.7f, 0.4f, 0.7f);
+        SCENE_AMBIENT(0, 0.2f, 0.2f, 0.2f);
+        SOFTEN_BIAS(0, 20, 0);
+        MODEL_LIGHT_LINK(var6, 0, SEARCH_ID("light01"));
+        MODEL_LIGHT_LINK(var7, 0, SEARCH_ID("light02"));
+        MODEL_MOTION2(var6, 8, 0, 0, 1);
+        MODEL_MOTION2(var7, 0, 0, 0, 1);
+        BGM_PLAY_E(617, 1);
+        CAM_SEL(SEARCH_ID("cam01"));
+        CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));
+        FADE_IN(0, 60);
+        WAIT(90);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(0) /* MSG_010_1 */;
+        itfMesMngCloseWindow();
+        WAIT(45);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(1) /* MSG_010_2 */;
+        itfMesMngCloseWindow();
+        WAIT(30);
+        CAM_SEL(SEARCH_ID("cam02"));
+        CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
+        WAIT(30);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(2) /* MSG_010_3 */;
+        itfMesMngMessage(3) /* MSG_010_4 */;
+        itfMesMngCloseWindow();
+        WAIT(20);
+        CAM_SEL(SEARCH_ID("cam03"));
+        CAM_PATH_MOVE(SEARCH_ID("cam03"), SEARCH_ID("cam03_MOTION"));
+        if (BIT_CHK(294) == 0)
+        {
+            WAIT(20);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(6) /* MSG_010_5_MANIAX */;
+            itfMesMngCloseWindow();
+            WAIT(30);
+        }
+        else
+        {
+            WAIT(20);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(7) /* MSG_010_5_MANIAX02 */;
+            itfMesMngCloseWindow();
+            WAIT(30);
+        }
+        FADE_OUT(1, 10);
+        WAIT(10);
+        BGM_STOP();
+        MODEL_CLS(var7);
+        FADE_IN(1, 10);
+        WAIT(10);
+        WAIT(20);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(5) /* MSG_010_6 */;
+        itfMesMngCloseWindow();
+        WAIT(30);
+        FADE_OUT(0, 60);
+        WAIT(150);
+        FIELD_CLS_STOP();
+        FILTER_ALLOFF();
+        BLUR_ALLOFF();
+        BIT_ON(150);
+        BIT_OFF(986);
+        BIT_ON(2152);
+        BIT_ON(2152);
+        BIT_OFF(1358);
+        BIT_ON(1359);
+        BIT_OFF(1230);
+        BIT_OFF(1142);
+        BIT_OFF(1289);
+        BIT_OFF(1392);
+    }
+    EXIT_EVENT();
+}
+
+void e676_010_1()
+{
+    WAIT(20);
+    BLUR2_PARA(0.0f, 1.06f, 1);
+    BLUR2_RGBA(128, 98, 98, 60);
+    BLUR2_AREA(0, 0);
+    BLUR2_ON(20);
+    WAIT(20);
+    BLUR2_PARA(0.0f, 1.06f, 1);
+    BLUR2_RGBA(128, 98, 98, 0);
+    BLUR2_AREA(0, 0);
+    BLUR2_SWAP(20);
+    WAIT(50);
+    BLUR2_PARA(0.0f, 0.94f, 1);
+    BLUR2_RGBA(98, 98, 128, 60);
+    BLUR2_AREA(0, 0);
+    BLUR2_SWAP(10);
+    WAIT(80);
+    BLUR2_PARA(0.0f, 1.06f, 1);
+    BLUR2_RGBA(128, 98, 98, 0);
+    BLUR2_AREA(0, 0);
+    BLUR2_SWAP(50);
+    RIP_BLUR_PARA(2, 0.02f, 0.3f, 0.025f, 0.14f, 0.22f, 0);
+    RIP_BLUR_RGBA(128, 128, 128, 40);
+    RIP_BLUR_AREA(550, 0, 0);
+    RIP_BLUR_ON(20);
+    WAIT(100);
+    RIP_BLUR_PARA(2, 0.02f, 0.3f, 0.025f, 0.14f, 0.22f, 0);
+    RIP_BLUR_RGBA(128, 128, 128, 0);
+    RIP_BLUR_AREA(550, 0, 0);
+    RIP_BLUR_SWAP(20);
+    WAIT(123);
+    MUL_BLUR_PARA(0.0f, 0.9f, 1);
+    MUL_BLUR_RGBA(98, 98, 128, 40);
+    MUL_BLUR_AREA(300, - 96, - 142);
+    MUL_BLUR_ON(30);
+    WAIT(37);
+    MUL_BLUR_PARA(0.0f, 0.9f, 1);
+    MUL_BLUR_RGBA(98, 98, 128, 0);
+    MUL_BLUR_AREA(300, - 96, - 142);
+    MUL_BLUR_SWAP(40);
+    WAIT(70);
+    BLUR2_PARA(0.0f, 0.94f, 1);
+    BLUR2_RGBA(128, 98, 98, 60);
+    BLUR2_AREA(133, 143);
+    BLUR2_SWAP(10);
+    WAIT(30);
+    BLUR2_PARA(0.0f, 1.06f, 1);
+    BLUR2_RGBA(128, 98, 98, 0);
+    BLUR2_AREA(0, 0);
+    BLUR2_SWAP(50);
+    WAIT(370);
+    BLUR2_PARA(0.0f, 0.94f, 1);
+    BLUR2_RGBA(128, 98, 98, 60);
+    BLUR2_AREA(- 22, - 35);
+    BLUR2_SWAP(10);
+    WAIT(20);
+    BLUR2_PARA(0.0f, 0.99f, 1);
+    BLUR2_RGBA(128, 98, 98, 60);
+    BLUR2_AREA(- 22, - 35);
+    BLUR2_SWAP(30);
+    BLUR2_OFF(1);
+    WAIT(1);
+}
+
+void e676_010_2()
+{
+    WAIT(920);
+    PAD_ACT(1, 1, 340);
+    PAD_ACT(1, 175, 340);
+    WAIT(340);
+    PAD_ACT(1, 1, 10);
+    PAD_ACT(1, 235, 10);
+}
+
+void e703_010_1()
+{
+    WAIT(350);
+    PAD_ACT(1, 1, 20);
+    PAD_ACT(1, 55, 20);
+    WAIT(520);
+    PAD_ACT(1, 1, 155);
+    PAD_ACT(1, 160, 155);
+}
+

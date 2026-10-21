@@ -1,0 +1,97 @@
+; FlowScript assembly. tools/flowscript.py assemble rebuilds the original bytes.
+.header 000000008d090000464c57300000000004000000000000000000000000000000
+.sections procedures labels code messages
+.messages scene08.bmd
+.labels _2 _3 _1
+
+.procedure sc08
+    PROC
+    PUSHIS 60
+    PUSHIS 0
+    COMM FADE_IN
+    PUSHIS 30
+    COMM WAIT
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngMessage
+    COMM itfMesMngOpenSelectWindow
+    PUSHIS 1
+    COMM itfMesMngSelect
+    PUSHREG
+    POPIX 0
+    PUSHIS 0
+    PUSHIX 0
+    EQ
+    IF _2
+    CALL arasuji_a
+    GOTO _1
+_2:
+    PUSHIS 1
+    PUSHIX 0
+    EQ
+    IF _3
+    CALL koryaku_a
+    GOTO _1
+_3:
+    CALL sugu_a
+    GOTO _1
+_1:
+    JUMP finish_a
+    END
+
+.procedure arasuji_a
+    PROC
+    PUSHIS 2
+    COMM itfMesMngMessage
+    PUSHIS 3
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    PUSHIS 60
+    PUSHIS 0
+    COMM FADE_OUT
+    PUSHIS 30
+    COMM WAIT
+    PUSHIS 3
+    COMM BIT_ON
+    PUSHIS 7
+    COMM BIT_ON
+    END
+
+.procedure koryaku_a
+    PROC
+    PUSHIS 3
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    PUSHIS 60
+    PUSHIS 0
+    COMM FADE_OUT
+    PUSHIS 30
+    COMM WAIT
+    PUSHIS 3
+    COMM BIT_ON
+    PUSHIS 7
+    COMM BIT_ON
+    END
+
+.procedure sugu_a
+    PROC
+    COMM itfMesMngCloseWindow
+    PUSHIS 60
+    PUSHIS 0
+    COMM FADE_OUT
+    PUSHIS 30
+    COMM WAIT
+    PUSHIS 3
+    COMM BIT_ON
+    PUSHIS 7
+    COMM BIT_ON
+    END
+
+.procedure finish_a
+    PROC
+    PUSHIS 1
+    POPIX 0
+    PUSHI 196661
+    PUSHIS 1
+    COMM CALL_FIELD
+    END

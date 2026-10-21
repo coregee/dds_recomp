@@ -1,0 +1,62 @@
+// game/dds3/event/e510/e510/scr/e510.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e510_main()
+{
+    FADE_IN(0, 30);
+    local0 = TEX_LOAD("/event/e510/e510/effect/keitai.tmx");
+    TEX_ON(local0);
+    itfMesMngMessage(0) /* MSG_KEITAI */;
+    local1 = TEX_LOAD("/event/e510/e510/effect/itimai_test01.tmx");
+    TEX_PRI(local1, 0);
+    TEX_SIZE(local0, 512, 448, 512, 448);
+    TEX_ALP(local0, 0, 0, 0);
+    TEX_ON(local1);
+    TEX_PRI(local0, 1);
+    TEX_ALP(local0, 128, 128, 0);
+    TEX_PRI(local1, 0);
+    TEX_ALP(local1, 0, 128, 60);
+    WAIT(60);
+    itfMesMngMessage(2) /* MSG_KEITAI2 */;
+    TEX_OFF(local0);
+    TEX_OFF(local1);
+    WAIT(4);
+    TEX_CLS(local0);
+    TEX_CLS(local1);
+    local0 = TEX_LOAD("/event/e510/e510/effect/itimai_test02.tmx");
+    TEX_PRI(local0, 0);
+    TEX_SIZE(local0, 512, 1024, 256, 512);
+    TEX_ALP(local0, 128, 128, 0);
+    TEX_ON(local0);
+    COMM_1E3(local0, 0, 0, 0, - 256, 60);
+    WAIT(60);
+    itfMesMngMessage(3) /* MSG_KEITAI3 */;
+    TEX_OFF(local0);
+    WAIT(4);
+    TEX_CLS(local0);
+    local0 = TEX_LOAD("/event/e510/e510/effect/itimai_test03.tmx");
+    TEX_PRI(local0, 0);
+    TEX_SIZE(local0, 1024, 448, 512, 256);
+    TEX_ALP(local0, 128, 128, 0);
+    TEX_ON(local0);
+    COMM_1E3(local0, 0, 0, - 256, 0, 60);
+    WAIT(60);
+    itfMesMngMessage(4) /* MSG_KEITAI4 */;
+    TEX_OFF(local0);
+    WAIT(4);
+    TEX_CLS(local0);
+    local0 = TEX_LOAD("/event/e510/e510/effect/itimai_test01.tmx");
+    TEX_PRI(local0, 0);
+    TEX_SIZE(local0, 512, 448, 512, 448);
+    TEX_ALP(local0, 128, 128, 0);
+    TEX_ON(local0);
+    TEX_ZOOM(local0, 100, 10, 60);
+    WAIT(60);
+    TEX_ZOOM(local0, 10, 200, 120);
+    WAIT(120);
+    TEX_OFF(local0);
+    WAIT(4);
+    TEX_CLS(local0);
+    itfMesMngMessage(11) /* MSG_KEITAI_07 */;
+}
+

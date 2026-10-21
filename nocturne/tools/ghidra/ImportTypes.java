@@ -55,6 +55,9 @@ public class ImportTypes extends GhidraScript {
         {0x003322c0L, "s8", 5, "fclEncycCompareParamTbl"},
         {0x003989e0L, "datDevilAI", 384, "datDevilAI_tbl"},
         {0x004f0788L, "u32", 29, "nbAiFuncTbl"},
+        {0x0052e350L, "scrCommandTable", 583, "scrCommandTable"},
+        {0x004f0800L, "u8", 0x35bf1, "nbAiScript_bf"},
+        {0x003267a8L, "u8", 0x41a, "script_3267a8_bf"},
     };
 
     @Override

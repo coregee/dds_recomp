@@ -1,0 +1,154 @@
+// game/dds3/event/e690/e694/scr/e694.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e694_main()
+{
+    LOAD_BE(694);
+    LOAD_SOUND_E(617);
+    WAIT(75);
+    FIELD_BE(694, 3);
+    FADE_OUT(0, 1);
+    SET_SKY(85, 2, 0);
+    SET_SKY_A(0, - 100);
+    SCENE_LIGHT_RGB(0, 0.35f, 0.45f, 0.8f);
+    SCENE_LIGHT_DIR(0, - 0.95f, 0.13f, - 0.27f);
+    SCENE_AMBIENT(0, 0.12f, 0.13f, 0.2f);
+    SOFTEN_BIAS(0, 7, - 0.3f);
+    var5 = MODEL_BE(694, 4);
+    var6 = MODEL_BE(694, 5);
+    var8 = EFFECT_BE(694, 6);
+    EFFECT_ON(var8);
+    EFFECT_POS(var8, SEARCH_ID("p01"));
+    BOKASI_ON();
+    SYNC();
+    BGM_PLAY_E(617, 1);
+    SCR_WAIT(SCR_RUN(1, - 1));
+    SCR_WAIT(SCR_RUN(2, - 1));
+    SCR_WAIT(SCR_RUN(3, - 1));
+    SCR_WAIT(SCR_RUN(4, - 1));
+    FADEOUT_E(617, 1);
+    FADE_OUT(0, 100);
+    WAIT(100);
+    FIELD_CLS_STOP();
+    FILTER_ALLOFF();
+    BLUR_ALLOFF();
+    WAIT(75);
+    CALL_STAFF();
+    EXIT_EVENT();
+}
+
+void e694_010()
+{
+    CAM_SEL(SEARCH_ID("cam01"));
+    CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));
+    WAIT(1);
+    FADE_IN(0, 50);
+    MODEL_MOTION2(var5, 1, 0, 10, 1);
+    MODEL_EXMOTION(var5, 1, 1, 0, 0, 2);
+    MODEL_EXMOTION(var5, 2, 0, 0, 0, 2);
+    MODEL_MOTION2(var6, 1, 0, 10, 1);
+    WAIT(110);
+}
+
+void e694_020()
+{
+    CAM_SEL(SEARCH_ID("cam01"));
+    CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));
+    MODEL_EXMOTION(var5, 1, 2, 0, 0, 1);
+    MODEL_EXMOTION(var5, 2, 1, 0, 0, 2);
+    itfMesMngWindowTypeAlpha(1, 50);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngCloseWindow();
+    WAIT(50);
+}
+
+void e694_030()
+{
+    CAM_SEL(SEARCH_ID("cam02"));
+    CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
+    SCENE_LIGHT_RGB(0, 0.35f, 0.45f, 0.8f);
+    SCENE_LIGHT_DIR(0, - 0.98f, 0.22f, - 0.03f);
+    SCENE_AMBIENT(0, 0.12f, 0.13f, 0.2f);
+    SOFTEN_BIAS(0, 7, - 0.1f);
+    var9 = EFFECT_BE(694, 8);
+    var10 = EFFECT_BE(694, 8);
+    var11 = EFFECT_BE(694, 8);
+    var12 = EFFECT_BE(694, 8);
+    var13 = EFFECT_BE(694, 8);
+    var14 = EFFECT_BE(694, 8);
+    var15 = EFFECT_BE(694, 8);
+    var16 = EFFECT_BE(694, 8);
+    var17 = EFFECT_BE(694, 8);
+    var18 = EFFECT_BE(694, 8);
+    var19 = EFFECT_BE(694, 8);
+    EFFECT_ON(var9);
+    EFFECT_ON(var10);
+    EFFECT_ON(var11);
+    EFFECT_ON(var12);
+    EFFECT_ON(var13);
+    EFFECT_ON(var14);
+    EFFECT_ON(var15);
+    EFFECT_ON(var16);
+    EFFECT_ON(var17);
+    EFFECT_ON(var18);
+    EFFECT_ON(var19);
+    EFFECT_POS(var9, SEARCH_ID("p04"));
+    EFFECT_POS(var10, SEARCH_ID("p05"));
+    EFFECT_POS(var11, SEARCH_ID("p08"));
+    EFFECT_POS(var12, SEARCH_ID("p09"));
+    EFFECT_POS(var13, SEARCH_ID("p10"));
+    EFFECT_POS(var14, SEARCH_ID("p11"));
+    EFFECT_POS(var15, SEARCH_ID("p12"));
+    EFFECT_POS(var16, SEARCH_ID("p13"));
+    EFFECT_POS(var17, SEARCH_ID("p14"));
+    EFFECT_POS(var18, SEARCH_ID("p15"));
+    EFFECT_POS(var19, SEARCH_ID("p16"));
+    MODEL_EXMOTION(var5, 2, 1, 0, 0, 2);
+    itfMesMngWindowTypeAlpha(1, 50);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngCloseWindow();
+    WAIT(50);
+}
+
+void e694_040()
+{
+    CAM_SEL(SEARCH_ID("cam04"));
+    CAM_PATH_MOVE(SEARCH_ID("cam04"), SEARCH_ID("cam04_MOTION"));
+    SCENE_LIGHT_RGB(0, 0.55f, 0.65f, 1.0f);
+    SCENE_LIGHT_DIR(0, - 0.72f, 0.62f, - 0.32f);
+    SCENE_AMBIENT(0, 0.12f, 0.15f, 0.2f);
+    SOFTEN_BIAS(0, 7, - 0.3f);
+    var20 = EFFECT_BE(694, 7);
+    var21 = EFFECT_BE(694, 7);
+    var22 = EFFECT_BE(694, 7);
+    var23 = EFFECT_BE(694, 7);
+    var24 = EFFECT_BE(694, 7);
+    var25 = EFFECT_BE(694, 7);
+    var26 = EFFECT_BE(694, 7);
+    EFFECT_ON(var20);
+    EFFECT_ON(var21);
+    EFFECT_ON(var22);
+    EFFECT_ON(var23);
+    EFFECT_ON(var24);
+    EFFECT_ON(var25);
+    EFFECT_ON(var26);
+    EFFECT_POS(var20, SEARCH_ID("p02"));
+    EFFECT_POS(var21, SEARCH_ID("p03"));
+    EFFECT_POS(var22, SEARCH_ID("p04"));
+    EFFECT_POS(var23, SEARCH_ID("p05"));
+    EFFECT_POS(var24, SEARCH_ID("p08"));
+    EFFECT_POS(var25, SEARCH_ID("p09"));
+    EFFECT_POS(var26, SEARCH_ID("p12"));
+    MODEL_EXMOTION(var5, 2, 1, 0, 0, 2);
+    itfMesMngWindowTypeAlpha(1, 50);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngCloseWindow();
+    WAIT(30);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(3) /* MSG_004 */;
+    itfMesMngCloseWindow();
+}
+

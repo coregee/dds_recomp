@@ -1,0 +1,515 @@
+; FlowScript assembly. tools/flowscript.py assemble rebuilds the original bytes.
+.header 000000006e3d0000464c57300000000005000000010000000000000000000000
+.sections procedures labels code messages strings
+.messages message.bmd
+.strings 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+.labels _1 _3 _6 _5 _8 _11 _12 _13 _14 _15 _16 _17 _18 _10 _20 _21 _22 _23 _19 _25 _24 _26 _27 _28 _30 _32 _34
+
+.procedure cmb_1st
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngValidateNext
+    PUSHIS 0
+    COMM itfMesMngMessage
+    JUMP endless_loop
+    END
+
+.procedure cmb_1st_fullmoon
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngValidateNext
+    PUSHIS 1
+    COMM itfMesMngMessage
+    JUMP endless_loop
+    END
+
+.procedure cmb_1st_curse
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngValidateNext
+    PUSHIS 2
+    COMM itfMesMngMessage
+    JUMP endless_loop
+    END
+
+.procedure cmb_encyc_top
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngValidateNext
+    PUSHIS 11
+    COMM itfMesMngMessage
+    JUMP endless_loop
+    END
+
+.procedure cmb_err_dev_nums
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 3
+    COMM itfMesMngMessage
+    END
+
+.procedure cmb_err_dev_lev
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 6
+    COMM itfMesMngMessage
+    END
+
+.procedure cmb_err_dev_dbl
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 7
+    COMM itfMesMngMessage
+    END
+
+.procedure cmb_sacrifice
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 1
+    PUSHIS 3
+    COMM itfMesMngSelectDefKey
+    PUSHIS 0
+    COMM itfMesMng_SEL_SELNO
+    PUSHIS 4
+    COMM itfMesMngMessage
+    PUSHIS 1
+    PUSHIS 21
+    COMM itfMesMngSelect
+    PUSHREG
+    EQ
+    IF _1
+    PUSHIS 2
+    COMM fclSignal
+    GOTO _1
+_1:
+    END
+
+.procedure cmb_confirm
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 1
+    PUSHIS 3
+    COMM itfMesMngSelectDefKey
+    PUSHIS 1
+    COMM itfMesMng_SEL_SELNO
+    PUSHIS 5
+    COMM itfMesMngMessage
+    PUSHIS 1
+    PUSHIS 21
+    COMM itfMesMngSelect
+    PUSHREG
+    EQ
+    IF _3
+    PUSHIS 2
+    COMM fclSignal
+    GOTO _3
+_3:
+    END
+
+.procedure cmb_2nd
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngValidateNext
+    PUSHIS 10
+    COMM itfMesMngMessage
+    JUMP endless_loop
+    END
+
+.procedure cmb_talk
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngValidateNext
+    PUSHIS 19
+    COMM itfMesMngMessage
+    JUMP endless_loop
+    END
+
+.procedure cmb_exit
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 20
+    COMM itfMesMngMessage
+    END
+
+.procedure cmb_birth
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 1
+    PUSHIS 3
+    COMM fclGetVal
+    PUSHREG
+    EQ
+    IF _6
+    PUSHIS 8
+    COMM itfMesMngMessage
+    GOTO _5
+_6:
+    PUSHIS 2
+    PUSHIS 3
+    COMM fclGetVal
+    PUSHREG
+    EQ
+    IF _5
+    PUSHIS 9
+    COMM itfMesMngMessage
+    GOTO _5
+_5:
+    PUSHIS 1
+    PUSHIS 9
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 8
+    PUSHIS 10
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 4
+    COMM itfMesMngSetVarScr
+    PUSHIS 9
+    COMM fclGetVal
+    PUSHREG
+    POPLIX 0
+    PUSHIS 0
+    PUSHIS 7
+    COMM fclGetVal
+    PUSHREG
+    NEQ
+    IF _25
+    PUSHIS 0
+    PUSHIS 7
+    COMM fclGetVal
+    PUSHREG
+    L
+    IF _8
+    PUSHIS 3
+    PUSHIS 7
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 5
+    COMM itfMesMngSetVarScr
+    PUSHIS 35
+    COMM itfMesMngMessage
+    GOTO _8
+_8:
+    PUSHIS 199
+    PUSHLIX 0
+    EQ
+    IF _11
+    PUSHIS 53
+    COMM itfMesMngMessage
+    GOTO _10
+_11:
+    PUSHIS 200
+    PUSHLIX 0
+    EQ
+    IF _12
+    PUSHIS 54
+    COMM itfMesMngMessage
+    GOTO _10
+_12:
+    PUSHIS 201
+    PUSHLIX 0
+    EQ
+    IF _13
+    PUSHIS 55
+    COMM itfMesMngMessage
+    GOTO _10
+_13:
+    PUSHIS 196
+    PUSHLIX 0
+    EQ
+    IF _14
+    PUSHIS 56
+    COMM itfMesMngMessage
+    GOTO _10
+_14:
+    PUSHIS 197
+    PUSHLIX 0
+    EQ
+    IF _15
+    PUSHIS 57
+    COMM itfMesMngMessage
+    GOTO _10
+_15:
+    PUSHIS 198
+    PUSHLIX 0
+    EQ
+    IF _16
+    PUSHIS 58
+    COMM itfMesMngMessage
+    GOTO _10
+_16:
+    PUSHIS 195
+    PUSHLIX 0
+    EQ
+    IF _17
+    PUSHIS 59
+    COMM itfMesMngMessage
+    GOTO _10
+_17:
+    PUSHIS 202
+    PUSHLIX 0
+    EQ
+    IF _18
+    PUSHIS 60
+    COMM itfMesMngMessage
+    GOTO _10
+_18:
+    PUSHIS 61
+    COMM itfMesMngMessage
+    GOTO _10
+_10:
+    GOTO _24
+_25:
+    PUSHIS 207
+    PUSHLIX 0
+    EQ
+    IF _20
+    PUSHIS 66
+    COMM itfMesMngMessage
+    GOTO _19
+_20:
+    PUSHIS 193
+    PUSHLIX 0
+    EQ
+    IF _21
+    PUSHIS 63
+    COMM itfMesMngMessage
+    GOTO _19
+_21:
+    PUSHIS 204
+    PUSHLIX 0
+    EQ
+    IF _22
+    PUSHIS 64
+    COMM itfMesMngMessage
+    GOTO _19
+_22:
+    PUSHIS 205
+    PUSHLIX 0
+    EQ
+    IF _23
+    PUSHIS 65
+    COMM itfMesMngMessage
+    GOTO _19
+_23:
+    PUSHIS 8
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 36
+    ADD
+    COMM itfMesMngMessage
+    GOTO _19
+_19:
+    GOTO _24
+_24:
+    END
+
+.procedure cmb_exp
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 8
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 67
+    ADD
+    COMM itfMesMngMessage
+    PUSHIS 0
+    COMM fclSignal
+    END
+
+.procedure endless_loop
+    PROC
+    PUSHIS 0
+    COMM fclSignal
+_26:
+    PUSHIS 1
+    IF _27
+    PUSHIS 1
+    COMM WAIT
+    GOTO _26
+_27:
+    END
+
+.procedure encyc_regist_top
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 22
+    COMM itfMesMngMessage
+    PUSHIS 0
+    COMM fclSignal
+    JUMP endless_loop
+    END
+
+.procedure encyc_regist_confirm
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 23
+    COMM itfMesMngMessage
+    PUSHIS 1
+    PUSHIS 3
+    COMM itfMesMngSelectDefKey
+    PUSHIS 1
+    PUSHIS 21
+    COMM itfMesMngSelect
+    PUSHREG
+    EQ
+    IF _28
+    END
+    GOTO _28
+_28:
+    PUSHIS 0
+    COMM fclSignal
+    PUSHIS 24
+    COMM itfMesMngMessage
+    PUSHIS 1
+    PUSHIS 8
+    COMM fclGetVal
+    PUSHREG
+    EQ
+    IF _30
+    PUSHIS 25
+    COMM itfMesMngMessage
+    GOTO _30
+_30:
+    END
+
+.procedure encyc_summon
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 26
+    COMM itfMesMngMessage
+    PUSHIS 1
+    PUSHIS 3
+    COMM itfMesMngSelectDefKey
+    PUSHIS 1
+    PUSHIS 21
+    COMM itfMesMngSelect
+    PUSHREG
+    EQ
+    IF _32
+    END
+    GOTO _32
+_32:
+    PUSHIS 0
+    COMM fclSignal
+    PUSHIS 27
+    COMM itfMesMngMessage
+    END
+
+.procedure encyc_summon_error
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 8
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 28
+    ADD
+    COMM itfMesMngMessage
+    END
+
+.procedure encyc_regist_all
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 33
+    COMM itfMesMngMessage
+    PUSHIS 1
+    PUSHIS 3
+    COMM itfMesMngSelectDefKey
+    PUSHIS 1
+    PUSHIS 21
+    COMM itfMesMngSelect
+    PUSHREG
+    EQ
+    IF _34
+    END
+    GOTO _34
+_34:
+    PUSHIS 0
+    COMM fclSignal
+    PUSHIS 34
+    COMM itfMesMngMessage
+    END
+
+.procedure cmb_write_err_nobody
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 12
+    COMM itfMesMngMessage
+    END
+
+.procedure cmb_see_err_nocontents
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 13
+    COMM itfMesMngMessage
+    END

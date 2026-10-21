@@ -1,0 +1,94 @@
+// game/dds3/event/e680/e688/scr/e688.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e688_main()
+{
+    LOAD_BE(688);
+    LOAD_SOUND_E(688);
+    var3 = PMV_LOAD(688, 10);
+    SCR_WAIT(PMV_RUN2(var3));
+    FIELD_CLS_STOP();
+    FIELD_BE(688, 3);
+    var2 = MODEL_BE(688, 5);
+    var4 = MODEL_BE(688, 4);
+    MODEL_SHADOW_ON2(var4);
+    SCENE_FOG_RGB(0, 0.329f, 0.588f, 0.573f);
+    SCENE_FOG_PARA(0, 255, 8000, 255, 20000);
+    SCENE_LIGHT_RGB(0, 0.7f, 0.7f, 0.7f);
+    SCENE_LIGHT_DIR(0, 0.5f, 0.16f, - 0.85f);
+    SCENE_AMBIENT(0, 0.2f, 0.2f, 0.2f);
+    SOFTEN_BIAS(0, 5, - 0.4f);
+    var9 = EFFBED_BE(688, 6);
+    EFFBED_START(var9, 1);
+    EFFECT_POS(var9, SEARCH_ID("e01"));
+    MODEL_LIGHT_LINK(var4, 1, SEARCH_ID("light10"));
+    BGM_PLAY_E(688, 1);
+    CAM_SEL(SEARCH_ID("cam02"));
+    CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
+    var3 = PMV_LOAD(688, 20);
+    SCR_WAIT(SCR_RUN(1, - 1));
+    SCR_WAIT(SCR_RUN(2, - 1));
+    SCR_WAIT(SCR_RUN(3, - 1));
+    SCR_WAIT(SCR_RUN(4, - 1));
+    FIELD_CLS_STOP();
+    COMM_0F9(688);
+    SCR_WAIT(PMV_RUN2(var3));
+    MOVIE_PLAY(15);
+    while (MOVIE_CHK())
+    {
+        SYNC();
+    }
+    MOVIE_STOP();
+    FADEOUT_E(688, 1);
+    FADEOUT_E(688, 2);
+    FADEOUT_E(688, 3);
+    FADE_OUT(1, 0);
+    FIELD_CLS_STOP();
+    WAIT(60);
+    FADE_IN(1, 90);
+    WAIT(90);
+    CALL_STAFF();
+    EXIT_EVENT();
+}
+
+void e688_010()
+{
+    MODEL_WAIT_MOT(var4, 1);
+    MODEL_MOTION2(var4, 0, 0, 10, 0);
+    WAIT(180);
+}
+
+void e688_020()
+{
+    CAM_SEL(SEARCH_ID("cam03"));
+    CAM_PATH_MOVE(SEARCH_ID("cam03"), SEARCH_ID("cam03_MOTION"));
+    WAIT(60);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngCloseWindow();
+    WAIT(35);
+}
+
+void e688_030()
+{
+    CAM_SEL(SEARCH_ID("cam04"));
+    CAM_PATH_MOVE(SEARCH_ID("cam04"), SEARCH_ID("cam04_MOTION"));
+    WAIT(30);
+    BGM_TRANS_E(688, - 1);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngCloseWindow();
+    WAIT(30);
+}
+
+void e688_040()
+{
+    CAM_SEL(SEARCH_ID("cam05"));
+    CAM_PATH_MOVE(SEARCH_ID("cam05"), SEARCH_ID("cam05_MOTION"));
+    WAIT(40);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngCloseWindow();
+    WAIT(30);
+}
+

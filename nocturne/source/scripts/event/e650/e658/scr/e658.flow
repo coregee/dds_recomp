@@ -1,0 +1,284 @@
+// game/dds3/event/e650/e658/scr/e658.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e658_main()
+{
+    BIT_OFF(73);
+    LOAD_BE(658);
+    FIELD_BE(658, 3);
+    FADE_OUT(0, 1);
+    SYNC();
+    if (BIT_CHK(71) == 1)
+    {
+        goto BATTLE;
+    }
+    LOAD_SOUND_E(658);
+    var1 = MODEL_BE(658, 4);
+    var2 = MODEL_BE(658, 6);
+    var3 = MODEL_BE(658, 5);
+    MODEL_POS(var1, SEARCH_ID("p00"));
+    MODEL_POS(var2, SEARCH_ID("p00"));
+    MODEL_POS(var3, SEARCH_ID("p00"));
+    SCENE_LIGHT_RGB(0, 1.5f, 1.1f, 0.5f);
+    SCENE_LIGHT_DIR(0, 0.41f, 0.65f, - 0.63f);
+    SCENE_AMBIENT(0, 0.2f, 0.1f, 0.1f);
+    SCENE_FOG_RGB(0, 0.996f, 0.976f, 0.878f);
+    SCENE_FOG_PARA(0, 255, 5000, 210, 20000);
+    SOFTEN_BIAS(0, 4.2f, - 0.16f);
+    MODEL_LIGHT_LINK(var1, 0, SEARCH_ID("light01"));
+    LIGHT_PATH_MOVE(SEARCH_ID("light01"), SEARCH_ID("light01_MOTION"));
+    COMM_0E8(SEARCH_ID("light01"));
+    MODEL_LIGHT_LINK(var2, 0, SEARCH_ID("light02"));
+    LIGHT_PATH_MOVE(SEARCH_ID("light02"), SEARCH_ID("light02_MOTION"));
+    COMM_0E8(SEARCH_ID("light02"));
+    BGM_PLAY_E(658, 1);
+    SCR_WAIT(SCR_RUN(1, - 1));
+    SCR_WAIT(SCR_RUN(2, - 1));
+    SCR_WAIT(SCR_RUN(5, - 1));
+    FADEOUT_E(658, 1);
+    FADEOUT_E(658, 2);
+    WAIT(3);
+    MOVIE_PLAY(6);
+    MOVIE_CHKDRAW();
+    BLUR_ALLOFF();
+    FILTER_ALLOFF();
+    SET_SKY_A(0, - 115);
+    while (MOVIE_CHK())
+    {
+        SYNC();
+    }
+    MOVIE_STOP();
+    FIELD_CLS_STOP();
+    BLUR_ALLOFF();
+    FILTER_ALLOFF();
+    BIT_ON(71);
+    RESTORE_BATTLE(307, 658);
+    return;
+BATTLE:
+    SCR_WAIT(SCR_RUN(6, - 1));
+    FADEOUT_E(658, 2);
+    FADE_OUT(0, 30);
+    WAIT(30);
+    BIT_ON(74);
+    BIT_ON(986);
+    BIT_ON(2312);
+    BLUR_ALLOFF();
+    FILTER_ALLOFF();
+    itfMesMngWindowType(0);
+    MODEL_CLS(var1);
+    MODEL_CLS(var2);
+    FIELD_CLS_STOP();
+    EXIT_EVENT();
+}
+
+void e658_010()
+{
+    SET_SKY(96, 1, 0);
+    SET_SKY_A(0, - 60);
+    CAM_SEL(SEARCH_ID("cam01"));
+    CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));
+    itfMesMngWindowTypeAlpha(1, 80);
+    MODEL_WAIT_MOT(var1, 1);
+    MODEL_MOTION2(var1, 0, 0, 0, 0);
+    MODEL_MOTION2(var2, 0, 0, 0, 1);
+    MODEL_SHADOW_ON2(var2);
+    MODEL_SHADOW_ON2(var1);
+    FADE_IN(0, 30);
+    WAIT(30);
+    MODEL_WAIT(var1);
+    WAIT(10);
+}
+
+void e658_020()
+{
+    CAM_SEL(SEARCH_ID("cam02"));
+    CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
+    SET_SKY(96, 1, 0);
+    SET_SKY_A(0, - 60);
+    itfMesMngWindowTypeAlpha(1, 80);
+    SCR_RUN(3, - 1);
+    MODEL_MOTION2(var3, 1, 0, 0, 2);
+    OBJ_PATH_MOVE(SEARCH_ID("step"), SEARCH_ID("path01"), 0);
+    MODEL_WAIT_MOT(var2, 2);
+    MODEL_MOTION2(var2, 1, 0, 10, 0);
+    WAIT(30);
+    SCR_RUN(4, - 1);
+    KUTI(var2, 1, 0);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* MSG_020_1 */;
+MES_CHK_01:
+    SYNC();
+    if (var7 >= 1)
+    {
+        goto MES_CHK_01_OK;
+    }
+    else if (var7 < 1)
+    {
+        goto MES_CHK_01;
+    }
+MES_CHK_01_OK:
+    itfMesMngMessage(1) /* MSG_020_2 */;
+MES_CHK_02:
+    SYNC();
+    if (var7 >= 2)
+    {
+        goto MES_CHK_02_OK;
+    }
+    else if (var7 < 2)
+    {
+        goto MES_CHK_02;
+    }
+MES_CHK_02_OK:
+    itfMesMngMessage(2) /* MSG_020_3 */;
+MES_CHK_03:
+    SYNC();
+    if (var7 >= 3)
+    {
+        goto MES_CHK_03_OK;
+    }
+    else if (var7 < 3)
+    {
+        goto MES_CHK_03;
+    }
+MES_CHK_03_OK:
+    itfMesMngMessage(3) /* MSG_020_4 */;
+MES_CHK_04:
+    SYNC();
+    if (var7 >= 4)
+    {
+        goto MES_CHK_04_OK;
+    }
+    else if (var7 < 4)
+    {
+        goto MES_CHK_04;
+    }
+MES_CHK_04_OK:
+    itfMesMngMessage(4) /* MSG_020_5 */;
+MES_CHK_05:
+    SYNC();
+    if (var7 >= 5)
+    {
+        goto MES_CHK_05_OK;
+    }
+    else if (var7 < 5)
+    {
+        goto MES_CHK_05;
+    }
+MES_CHK_05_OK:
+    itfMesMngMessage(5) /* MSG_020_6 */;
+MES_CHK_06:
+    SYNC();
+    if (var7 >= 6)
+    {
+        goto MES_CHK_06_OK;
+    }
+    else if (var7 < 6)
+    {
+        goto MES_CHK_06;
+    }
+MES_CHK_06_OK:
+    itfMesMngMessage(6) /* MSG_020_7 */;
+MES_CHK_07:
+    SYNC();
+    if (var7 >= 7)
+    {
+        goto MES_CHK_07_OK;
+    }
+    else if (var7 < 7)
+    {
+        goto MES_CHK_07;
+    }
+MES_CHK_07_OK:
+    itfMesMngMessage(7) /* MSG_020_8 */;
+    itfMesMngCloseWindow();
+MOT_CHK:
+    SYNC();
+    if (BIT_CHK(73) == 1)
+    {
+        goto MOT_PASS;
+    }
+    else if (BIT_CHK(73) == 0)
+    {
+        goto MOT_CHK;
+    }
+MOT_PASS:
+    WAIT(25);
+}
+
+void e658_020_1()
+{
+    WAIT(500);
+    MODEL_WAIT_MOT(var1, 3);
+    MODEL_MOTION2(var1, 2, 0, 10, 0);
+    MODEL_WAIT(var1);
+    BIT_ON(73);
+}
+
+void e658_020_2()
+{
+    var7 = 0;
+MES_COUNT_START:
+    WAIT(40);
+    var7 = var7 + 1;
+    if (var7 >= 7)
+    {
+        goto MES_COUNT_END;
+    }
+    else if (var7 < 7)
+    {
+        goto MES_COUNT_START;
+    }
+MES_COUNT_END:
+}
+
+void e658_030()
+{
+    CAM_SEL(SEARCH_ID("cam03"));
+    CAM_PATH_MOVE(SEARCH_ID("cam03"), SEARCH_ID("cam03_MOTION"));
+    SET_SKY(96, 1, 0);
+    SET_SKY_A(0, - 80);
+    itfMesMngWindowTypeAlpha(1, 80);
+    MODEL_WAIT_MOT(var2, 4);
+    MODEL_MOTION2(var2, 3, 0, 10, 0);
+    WAIT(10);
+    KUTI(var2, 1, 0);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(8) /* MSG_030_1 */;
+    itfMesMngCloseWindow();
+}
+
+void e658_050()
+{
+    FIELD_BE(658, 3);
+    FADE_OUT(0, 1);
+    LOAD_SOUND_E(658);
+    BGM_PLAY_E(658, 2);
+    var1 = MODEL_BE(658, 4);
+    SCENE_LIGHT_RGB(0, 1.5f, 1.1f, 0.5f);
+    SCENE_LIGHT_DIR(0, 0.41f, 0.65f, - 0.63f);
+    SCENE_AMBIENT(0, 0.2f, 0.1f, 0.1f);
+    SCENE_FOG_RGB(0, 0.996f, 0.976f, 0.878f);
+    SCENE_FOG_PARA(0, 255, 5000, 210, 20000);
+    SOFTEN_BIAS(0, 4.2f, - 0.16f);
+    MODEL_POS(var1, SEARCH_ID("p00"));
+    SET_SKY(96, 1, 0);
+    SET_SKY_A(0, - 100);
+    CAM_SEL(SEARCH_ID("cam04"));
+    CAM_PATH_MOVE(SEARCH_ID("cam04"), SEARCH_ID("cam04_MOTION"));
+    itfMesMngWindowTypeAlpha(1, 80);
+    OBJ_PATH_MOVE(SEARCH_ID("step"), SEARCH_ID("path_root"), 2);
+    MODEL_WAIT_MOT(var1, 5);
+    MODEL_MOTION2(var1, 4, 0, 0, 0);
+    MODEL_SHADOW_ON2(var1);
+    MODEL_LIGHT_LINK(var1, 0, SEARCH_ID("light03"));
+    LIGHT_PATH_MOVE(SEARCH_ID("light03"), SEARCH_ID("light03_MOTION"));
+    COMM_0E8(SEARCH_ID("light03"));
+    FADE_IN(0, 60);
+    WAIT(60);
+    MODEL_WAIT(var1);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(9) /* MSG_050_1 */;
+    itfMesMngCloseWindow();
+    WAIT(120);
+}
+

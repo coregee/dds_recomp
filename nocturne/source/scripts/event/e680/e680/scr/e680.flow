@@ -1,0 +1,96 @@
+// game/dds3/event/e680/e680/scr/e680.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e680_main()
+{
+    if (BIT_CHK(147) == 1)
+    {
+        CALL_EVENT(677);
+        return;
+    }
+    LOAD_BE(680);
+    var3 = PMV_LOAD(680, 1);
+    SYNC();
+    SCR_RUN(1, 0);
+    SCR_WAIT(PMV_RUN2(var3));
+    FIELD_CLS_STOP();
+    FIELD_BE(680, 3);
+    BOKASI_ON();
+    SET_SKY(21, 1, 0);
+    SET_SKY_A(0, - 2);
+    var1 = MODEL_BE(680, 6);
+    var2 = MODEL_BE(680, 5);
+    var4 = MODEL_BE(680, 4);
+    SCENE_FOG_RGB(0, 0.114f, 0, 0.114f);
+    SCENE_FOG_PARA(0, 215, 1000, 180, 20000);
+    SCENE_LIGHT_RGB(0, 0.5f, 0.43f, 0.55f);
+    SCENE_LIGHT_DIR(0, 0.22f, 0.92f, - 0.32f);
+    SCENE_AMBIENT(0, 0.2f, 0.13f, 0.15f);
+    SOFTEN_BIAS(0, 15, 0);
+    SYNC();
+    SCR_WAIT(SCR_RUN(2, - 1));
+    SCR_WAIT(SCR_RUN(3, - 1));
+    FADE_OUT(1, 30);
+    WAIT(30);
+    BLUR_ALLOFF();
+    FILTER_ALLOFF();
+    FIELD_CLS_STOP();
+    RESTORE_BATTLE(472, 677);
+    return;
+    FADE_OUT(1, 30);
+    WAIT(30);
+    BIT_ON(98);
+    FIELD_CLS_STOP();
+    EXIT_EVENT();
+}
+
+void e680_010_1()
+{
+    WAIT(325);
+    PAD_ACT(1, 1, 20);
+    PAD_ACT(1, 55, 20);
+    WAIT(20);
+    PAD_ACT(1, 1, 235);
+    PAD_ACT(1, 160, 235);
+}
+
+void e680_010()
+{
+    CAM_SEL(SEARCH_ID("cam01"));
+    CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));
+    FILTER2_PARA(1);
+    FILTER2_RGBA(20, 10, 20, 44);
+    FILTER2_ON(1);
+    MODEL_WAIT_MOT(var1, 2);
+    MODEL_MOTION2(var1, 1, 0, 10, 0);
+    MODEL_EXMOTION(var1, 1, 0, 0, 0, 1);
+    MODEL_MOTION2(var2, 1, 0, 10, 1);
+    WAIT(100);
+    itfMesMngWindowTypeAlpha(1, 70);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* MSG_010_1 */;
+    itfMesMngMessage(1) /* MSG_010_2 */;
+    itfMesMngCloseWindow();
+    WAIT(10);
+    MODEL_MOTION2(var1, 3, 0, 10, 2);
+    WAIT(10);
+}
+
+void e680_020()
+{
+    CAM_SEL(SEARCH_ID("cam02"));
+    CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
+    SET_SKY(84, 1, 0);
+    SET_SKY_A(0, - 100);
+    MODEL_MOTION2(var4, 1, 0, 10, 2);
+    BLUR2_PARA(0, 0.986f, 0);
+    BLUR2_RGBA(128, 128, 128, 0);
+    BLUR2_AREA(4, - 44);
+    BLUR2_ON(1);
+    BLUR2_PARA(0, 0.997f, 0);
+    BLUR2_RGBA(128, 128, 128, 90);
+    BLUR2_AREA(4, - 44);
+    BLUR2_SWAP(60);
+    WAIT(50);
+}
+

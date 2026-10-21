@@ -1,0 +1,168 @@
+// game/dds3/event/e720/e721/scr/e721.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e721_main()
+{
+    LOAD_SOUND_E(711);
+    if (BIT_CHK(298) == 1)
+    {
+        goto TOBASI01;
+    }
+    MOVIE_PLAY(21);
+    MOVIE_CHKDRAW();
+    while (MOVIE_CHK())
+    {
+        SYNC();
+        if (PAD_TRIG(3) != 0)
+        {
+            goto TOBASI;
+        }
+    }
+TOBASI:
+    MOVIE_STOP();
+    FIELD_CLS_STOP();
+TOBASI01:
+    FADE_OUT(1, 1);
+    LOAD_BE(717);
+    FIELD_BE(717, 3);
+    var1 = MODEL_BE(717, 4);
+    MODEL_SHADOW_ON(var1);
+    SET_SKY(95, 1, 0);
+    SET_SKY_A(0, - 100);
+    SCENE_LIGHT_RGB(0, 0.7f, 0.7f, 0.7f);
+    SCENE_LIGHT_DIR(0, - 0.3f, 0.4f, 0.5f);
+    SCENE_AMBIENT(0, 0.2f, 0.2f, 0.2f);
+    SOFTEN_BIAS(0, 5, 0);
+    CAM_SEL(SEARCH_ID("01cam_01"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_01"), SEARCH_ID("01cam_01_MOTION"));
+    MODEL_MOTION2(var1, 1, 0, 0, 2);
+    FADE_IN(1, 60);
+    WAIT(20);
+    BGM_PLAY_E(711, 1);
+    WAIT(40);
+    SCR_WAIT(SCR_RUN(1, - 1));
+    FADE_OUT(1, 80);
+    FADEOUT_E(711, 1);
+    WAIT(100);
+    BLUR_ALLOFF();
+    FILTER_ALLOFF();
+    FIELD_CLS_STOP();
+    EXIT_EVENT();
+}
+
+void e721_010()
+{
+    DIST_BLUR_PARA(60, 136, 15, 0.222f, 0.005f, 0.13f, 0);
+    DIST_BLUR_RGBA(132, 132, 132, 35);
+    DIST_BLUR_AREA(256, 0, 0);
+    DIST_BLUR_ON(1);
+    if (BIT_CHK(298) == 1)
+    {
+        BIT_OFF(298);
+        goto TOBASI02;
+    }
+    itfMesMngWindowTypeAlpha(1, 60);
+    WAIT(250);
+    CAM_SEL(SEARCH_ID("01cam_02"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_02"), SEARCH_ID("01cam_02_MOTION"));
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* MSG_SITUMON_001 */;
+    var3 = itfMesMngSelect(5);
+    itfMesMngCloseWindow();
+    if (var3 == 0)
+    {
+        CAM_SEL(SEARCH_ID("01cam_04"));
+        CAM_PATH_MOVE(SEARCH_ID("01cam_04"), SEARCH_ID("01cam_04_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(2) /* MSG_SITUMON_002 */;
+        var14 = itfMesMngSelect(6);
+        itfMesMngCloseWindow();
+        if (var14 == 0)
+        {
+            FADE_OUT(1, 60);
+            WAIT(60);
+            FILTER_ALLOFF();
+            BGM_STOP();
+            FIELD_CLS_STOP();
+            BIT_ON(298);
+            WAIT(10);
+            CALL_EVENT(712);
+            WAIT(1);
+            return;
+        }
+        else if (var14 == 1)
+        {
+            FADE_OUT(1, 60);
+            WAIT(60);
+            FILTER_ALLOFF();
+            BGM_STOP();
+            FIELD_CLS_STOP();
+            BIT_ON(298);
+            WAIT(10);
+            CALL_EVENT(713);
+            WAIT(1);
+            return;
+        }
+    }
+    else if (var3 == 1)
+    {
+        itfMesMngOpenWindow();
+        itfMesMngMessage(3) /* MSG_SITUMON_003 */;
+        itfMesMngCloseWindow();
+        goto OWARI01;
+    }
+TOBASI02:
+    itfMesMngOpenWindow();
+    itfMesMngMessage(1) /* MSG_SITUMON_MODORI */;
+    var3 = itfMesMngSelect(5);
+    itfMesMngCloseWindow();
+    if (var3 == 0)
+    {
+        CAM_SEL(SEARCH_ID("01cam_04"));
+        CAM_PATH_MOVE(SEARCH_ID("01cam_04"), SEARCH_ID("01cam_04_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(2) /* MSG_SITUMON_002 */;
+        var14 = itfMesMngSelect(6);
+        itfMesMngCloseWindow();
+        if (var14 == 0)
+        {
+            FADE_OUT(1, 60);
+            WAIT(60);
+            FILTER_ALLOFF();
+            BGM_STOP();
+            FIELD_CLS_STOP();
+            BIT_ON(298);
+            WAIT(10);
+            CALL_EVENT(712);
+            WAIT(1);
+            return;
+        }
+        else if (var14 == 1)
+        {
+            FADE_OUT(1, 60);
+            WAIT(60);
+            FILTER_ALLOFF();
+            BGM_STOP();
+            FIELD_CLS_STOP();
+            BIT_ON(298);
+            WAIT(10);
+            CALL_EVENT(713);
+            WAIT(1);
+            return;
+        }
+        else if (var14 == 2)
+        {
+            itfMesMngOpenWindow();
+            itfMesMngMessage(8) /* MSG_SITUMON_005 */;
+            itfMesMngCloseWindow();
+        }
+    }
+    else if (var3 == 1)
+    {
+        itfMesMngOpenWindow();
+        itfMesMngMessage(3) /* MSG_SITUMON_003 */;
+        itfMesMngCloseWindow();
+    }
+OWARI01:
+}
+

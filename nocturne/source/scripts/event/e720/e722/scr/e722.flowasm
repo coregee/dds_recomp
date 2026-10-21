@@ -1,0 +1,766 @@
+; FlowScript assembly. tools/flowscript.py assemble rebuilds the original bytes.
+.header 0000000080160000464c573000000000050000000a0000000000000000000000
+.sections procedures labels code messages strings
+.messages e722.bmd
+.strings 303163616d5f303100303163616d5f303100303163616d5f30315f4d4f54494f4e00303163616d5f303200303163616d5f303200303163616d5f30325f4d4f54494f4e00303163616d5f303400303163616d5f303400303163616d5f30345f4d4f54494f4e00303163616d5f303400303163616d5f303400303163616d5f30345f4d4f54494f4e00303163616d5f303400303163616d5f303400303163616d5f30345f4d4f54494f4e00303163616d5f303400303163616d5f303400303163616d5f30345f4d4f54494f4e00
+.string-count 176
+.labels _1 _5 _3 _4 TOBASI TOBASI01 _7 ATAMA _10 _11 _12 _13 _9 _16 _15 _19 _20 _21 _18 _24 _23 _27 _26 TOBASI02 _29 _30 _31 _32 _28 _35 _34 _38 _39 _40 _37 _43 _42 _46 _45 OWARI01
+
+.procedure e722_main
+    PROC
+    PUSHIS 711
+    COMM LOAD_SOUND_E
+    PUSHIS 1
+    PUSHIS 301
+    COMM BIT_CHK
+    PUSHREG
+    EQ
+    IF _1
+    GOTO TOBASI01
+    GOTO _1
+_1:
+    PUSHIS 21
+    COMM MOVIE_PLAY
+    COMM MOVIE_CHKDRAW
+_3:
+    COMM MOVIE_CHK
+    PUSHREG
+    IF _4
+    COMM SYNC
+    PUSHIS 0
+    PUSHIS 3
+    COMM PAD_TRIG
+    PUSHREG
+    NEQ
+    IF _5
+    GOTO TOBASI
+    GOTO _5
+_5:
+    GOTO _3
+_4:
+TOBASI:
+    COMM MOVIE_STOP
+    COMM FIELD_CLS_STOP
+TOBASI01:
+    PUSHIS 1
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 717
+    COMM LOAD_BE
+    PUSHIS 3
+    PUSHIS 717
+    COMM FIELD_BE
+    PUSHIS 4
+    PUSHIS 717
+    COMM MODEL_BE
+    PUSHREG
+    POPIX 1
+    PUSHIX 1
+    COMM MODEL_SHADOW_ON
+    PUSHIS 0
+    PUSHIS 1
+    PUSHIS 95
+    COMM SET_SKY
+    PUSHIS 100
+    MINUS
+    PUSHIS 0
+    COMM SET_SKY_A
+    PUSHF 0.7
+    PUSHF 0.7
+    PUSHF 0.8
+    PUSHIS 0
+    COMM SCENE_LIGHT_RGB
+    PUSHF 0.5
+    PUSHF 0.4
+    PUSHF 0.3
+    MINUS
+    PUSHIS 0
+    COMM SCENE_LIGHT_DIR
+    PUSHF 0.1
+    PUSHF 0.2
+    PUSHF 0.2
+    PUSHIS 0
+    COMM SCENE_AMBIENT
+    PUSHIS 0
+    PUSHIS 5
+    PUSHIS 0
+    COMM SOFTEN_BIAS
+    PUSHSTR 0
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_SEL
+    PUSHSTR 18
+    COMM SEARCH_ID
+    PUSHREG
+    PUSHSTR 9
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_PATH_MOVE
+    PUSHIS 2
+    PUSHIS 0
+    PUSHIS 0
+    PUSHIS 1
+    PUSHIX 1
+    COMM MODEL_MOTION2
+    PUSHIS 60
+    PUSHIS 1
+    COMM FADE_IN
+    PUSHIS 20
+    COMM WAIT
+    PUSHIS 1
+    PUSHIS 711
+    COMM BGM_PLAY_E
+    PUSHIS 40
+    COMM WAIT
+    PUSHIS 1
+    MINUS
+    PUSHIS 1
+    COMM SCR_RUN
+    PUSHREG
+    COMM SCR_WAIT
+    PUSHIS 80
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 1
+    PUSHIS 711
+    COMM FADEOUT_E
+    PUSHIS 100
+    COMM WAIT
+    COMM BLUR_ALLOFF
+    COMM FILTER_ALLOFF
+    COMM FIELD_CLS_STOP
+    COMM EXIT_EVENT
+    END
+
+.procedure e722_010
+    PROC
+    PUSHIS 0
+    PUSHF 0.13
+    PUSHF 0.005
+    PUSHF 0.222
+    PUSHIS 15
+    PUSHIS 136
+    PUSHIS 60
+    COMM DIST_BLUR_PARA
+    PUSHIS 35
+    PUSHIS 132
+    PUSHIS 132
+    PUSHIS 132
+    COMM DIST_BLUR_RGBA
+    PUSHIS 0
+    PUSHIS 0
+    PUSHIS 256
+    COMM DIST_BLUR_AREA
+    PUSHIS 1
+    COMM DIST_BLUR_ON
+    PUSHIS 1
+    PUSHIS 301
+    COMM BIT_CHK
+    PUSHREG
+    EQ
+    IF _7
+    PUSHIS 301
+    COMM BIT_OFF
+    GOTO TOBASI02
+    GOTO _7
+_7:
+    PUSHIS 60
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    PUSHIS 0
+    PUSHIS 1
+    PUSHIX 1
+    COMM KUTISET
+    PUSHIS 250
+    COMM WAIT
+    PUSHSTR 34
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_SEL
+    PUSHSTR 52
+    COMM SEARCH_ID
+    PUSHREG
+    PUSHSTR 43
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_PATH_MOVE
+ATAMA:
+    PUSHIS 1
+    PUSHIS 290
+    COMM BIT_CHK
+    PUSHREG
+    EQ
+    IF _27
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngMessage
+    PUSHIS 4
+    COMM itfMesMngSelect
+    PUSHREG
+    POPIX 3
+    COMM itfMesMngCloseWindow
+    PUSHIS 0
+    PUSHIX 3
+    EQ
+    IF _16
+    PUSHSTR 68
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_SEL
+    PUSHSTR 86
+    COMM SEARCH_ID
+    PUSHREG
+    PUSHSTR 77
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_PATH_MOVE
+    COMM itfMesMngOpenWindow
+    PUSHIS 2
+    COMM itfMesMngMessage
+    PUSHIS 5
+    COMM itfMesMngSelect
+    PUSHREG
+    POPIX 14
+    COMM itfMesMngCloseWindow
+    PUSHIS 0
+    PUSHIX 14
+    EQ
+    IF _10
+    PUSHIS 60
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    COMM FILTER_ALLOFF
+    COMM BGM_STOP
+    COMM FIELD_CLS_STOP
+    PUSHIS 301
+    COMM BIT_ON
+    PUSHIS 10
+    COMM WAIT
+    PUSHIS 712
+    COMM CALL_EVENT
+    PUSHIS 1
+    COMM WAIT
+    END
+    GOTO _9
+_10:
+    PUSHIS 1
+    PUSHIX 14
+    EQ
+    IF _11
+    PUSHIS 60
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    COMM FILTER_ALLOFF
+    COMM BGM_STOP
+    COMM FIELD_CLS_STOP
+    PUSHIS 301
+    COMM BIT_ON
+    PUSHIS 10
+    COMM WAIT
+    PUSHIS 713
+    COMM CALL_EVENT
+    PUSHIS 1
+    COMM WAIT
+    END
+    GOTO _9
+_11:
+    PUSHIS 2
+    PUSHIX 14
+    EQ
+    IF _12
+    PUSHIS 60
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    COMM FILTER_ALLOFF
+    COMM BGM_STOP
+    COMM FIELD_CLS_STOP
+    PUSHIS 301
+    COMM BIT_ON
+    PUSHIS 10
+    COMM WAIT
+    PUSHIS 714
+    COMM CALL_EVENT
+    PUSHIS 1
+    COMM WAIT
+    END
+    GOTO _9
+_12:
+    PUSHIS 3
+    PUSHIX 14
+    EQ
+    IF _13
+    PUSHIS 60
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    COMM FILTER_ALLOFF
+    COMM BGM_STOP
+    COMM FIELD_CLS_STOP
+    PUSHIS 301
+    COMM BIT_ON
+    PUSHIS 10
+    COMM WAIT
+    PUSHIS 716
+    COMM CALL_EVENT
+    PUSHIS 1
+    COMM WAIT
+    END
+    GOTO _9
+_13:
+    PUSHIS 4
+    PUSHIX 14
+    EQ
+    IF _9
+    COMM itfMesMngOpenWindow
+    PUSHIS 8
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    GOTO OWARI01
+    GOTO _9
+_9:
+    GOTO _15
+_16:
+    PUSHIS 1
+    PUSHIX 3
+    EQ
+    IF _15
+    COMM itfMesMngOpenWindow
+    PUSHIS 3
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    GOTO OWARI01
+    GOTO _15
+_15:
+    GOTO _26
+_27:
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngMessage
+    PUSHIS 4
+    COMM itfMesMngSelect
+    PUSHREG
+    POPIX 3
+    COMM itfMesMngCloseWindow
+    PUSHIS 0
+    PUSHIX 3
+    EQ
+    IF _24
+    PUSHSTR 102
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_SEL
+    PUSHSTR 120
+    COMM SEARCH_ID
+    PUSHREG
+    PUSHSTR 111
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_PATH_MOVE
+    COMM itfMesMngOpenWindow
+    PUSHIS 2
+    COMM itfMesMngMessage
+    PUSHIS 6
+    COMM itfMesMngSelect
+    PUSHREG
+    POPIX 15
+    COMM itfMesMngCloseWindow
+    PUSHIS 0
+    PUSHIX 15
+    EQ
+    IF _19
+    PUSHIS 60
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    COMM FILTER_ALLOFF
+    COMM BGM_STOP
+    COMM FIELD_CLS_STOP
+    PUSHIS 301
+    COMM BIT_ON
+    PUSHIS 10
+    COMM WAIT
+    PUSHIS 712
+    COMM CALL_EVENT
+    PUSHIS 1
+    COMM WAIT
+    END
+    GOTO _18
+_19:
+    PUSHIS 1
+    PUSHIX 15
+    EQ
+    IF _20
+    PUSHIS 60
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    COMM FILTER_ALLOFF
+    COMM BGM_STOP
+    COMM FIELD_CLS_STOP
+    PUSHIS 301
+    COMM BIT_ON
+    PUSHIS 10
+    COMM WAIT
+    PUSHIS 713
+    COMM CALL_EVENT
+    PUSHIS 1
+    COMM WAIT
+    END
+    GOTO _18
+_20:
+    PUSHIS 2
+    PUSHIX 15
+    EQ
+    IF _21
+    PUSHIS 60
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    COMM FILTER_ALLOFF
+    COMM BGM_STOP
+    COMM FIELD_CLS_STOP
+    PUSHIS 301
+    COMM BIT_ON
+    PUSHIS 10
+    COMM WAIT
+    PUSHIS 714
+    COMM CALL_EVENT
+    PUSHIS 1
+    COMM WAIT
+    END
+    GOTO _18
+_21:
+    PUSHIS 3
+    PUSHIX 15
+    EQ
+    IF _18
+    COMM itfMesMngOpenWindow
+    PUSHIS 8
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    GOTO OWARI01
+    GOTO _18
+_18:
+    GOTO _23
+_24:
+    PUSHIS 1
+    PUSHIX 3
+    EQ
+    IF _23
+    COMM itfMesMngOpenWindow
+    PUSHIS 3
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    GOTO OWARI01
+    GOTO _23
+_23:
+    GOTO _26
+_26:
+TOBASI02:
+    PUSHIS 1
+    PUSHIS 290
+    COMM BIT_CHK
+    PUSHREG
+    EQ
+    IF _46
+    PUSHIS 60
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    PUSHIS 0
+    PUSHIS 1
+    PUSHIX 1
+    COMM KUTISET
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngMessage
+    PUSHIS 4
+    COMM itfMesMngSelect
+    PUSHREG
+    POPIX 3
+    COMM itfMesMngCloseWindow
+    PUSHIS 0
+    PUSHIX 3
+    EQ
+    IF _35
+    PUSHSTR 136
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_SEL
+    PUSHSTR 154
+    COMM SEARCH_ID
+    PUSHREG
+    PUSHSTR 145
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_PATH_MOVE
+    COMM itfMesMngOpenWindow
+    PUSHIS 2
+    COMM itfMesMngMessage
+    PUSHIS 5
+    COMM itfMesMngSelect
+    PUSHREG
+    POPIX 14
+    COMM itfMesMngCloseWindow
+    PUSHIS 0
+    PUSHIX 14
+    EQ
+    IF _29
+    PUSHIS 60
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    COMM FILTER_ALLOFF
+    COMM BGM_STOP
+    COMM FIELD_CLS_STOP
+    PUSHIS 301
+    COMM BIT_ON
+    PUSHIS 10
+    COMM WAIT
+    PUSHIS 712
+    COMM CALL_EVENT
+    PUSHIS 1
+    COMM WAIT
+    END
+    GOTO _28
+_29:
+    PUSHIS 1
+    PUSHIX 14
+    EQ
+    IF _30
+    PUSHIS 60
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    COMM FILTER_ALLOFF
+    COMM BGM_STOP
+    COMM FIELD_CLS_STOP
+    PUSHIS 301
+    COMM BIT_ON
+    PUSHIS 10
+    COMM WAIT
+    PUSHIS 713
+    COMM CALL_EVENT
+    PUSHIS 1
+    COMM WAIT
+    END
+    GOTO _28
+_30:
+    PUSHIS 2
+    PUSHIX 14
+    EQ
+    IF _31
+    PUSHIS 60
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    COMM FILTER_ALLOFF
+    COMM BGM_STOP
+    COMM FIELD_CLS_STOP
+    PUSHIS 301
+    COMM BIT_ON
+    PUSHIS 10
+    COMM WAIT
+    PUSHIS 714
+    COMM CALL_EVENT
+    PUSHIS 1
+    COMM WAIT
+    END
+    GOTO _28
+_31:
+    PUSHIS 3
+    PUSHIX 14
+    EQ
+    IF _32
+    PUSHIS 60
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    COMM FILTER_ALLOFF
+    COMM BGM_STOP
+    COMM FIELD_CLS_STOP
+    PUSHIS 301
+    COMM BIT_ON
+    PUSHIS 10
+    COMM WAIT
+    PUSHIS 716
+    COMM CALL_EVENT
+    PUSHIS 1
+    COMM WAIT
+    END
+    GOTO _28
+_32:
+    PUSHIS 4
+    PUSHIX 14
+    EQ
+    IF _28
+    COMM itfMesMngOpenWindow
+    PUSHIS 8
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    GOTO OWARI01
+    GOTO _28
+_28:
+    GOTO _34
+_35:
+    PUSHIS 1
+    PUSHIX 3
+    EQ
+    IF _34
+    COMM itfMesMngOpenWindow
+    PUSHIS 3
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    GOTO OWARI01
+    GOTO _34
+_34:
+    GOTO _45
+_46:
+    PUSHIS 60
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    PUSHIS 0
+    PUSHIS 1
+    PUSHIX 1
+    COMM KUTISET
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngMessage
+    PUSHIS 4
+    COMM itfMesMngSelect
+    PUSHREG
+    POPIX 3
+    COMM itfMesMngCloseWindow
+    PUSHIS 0
+    PUSHIX 3
+    EQ
+    IF _43
+    PUSHSTR 170
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_SEL
+    PUSHSTR 188
+    COMM SEARCH_ID
+    PUSHREG
+    PUSHSTR 179
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_PATH_MOVE
+    COMM itfMesMngOpenWindow
+    PUSHIS 2
+    COMM itfMesMngMessage
+    PUSHIS 6
+    COMM itfMesMngSelect
+    PUSHREG
+    POPIX 15
+    COMM itfMesMngCloseWindow
+    PUSHIS 0
+    PUSHIX 15
+    EQ
+    IF _38
+    PUSHIS 60
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    COMM FILTER_ALLOFF
+    COMM BGM_STOP
+    COMM FIELD_CLS_STOP
+    PUSHIS 301
+    COMM BIT_ON
+    PUSHIS 10
+    COMM WAIT
+    PUSHIS 712
+    COMM CALL_EVENT
+    PUSHIS 1
+    COMM WAIT
+    END
+    GOTO _37
+_38:
+    PUSHIS 1
+    PUSHIX 15
+    EQ
+    IF _39
+    PUSHIS 60
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    COMM FILTER_ALLOFF
+    COMM BGM_STOP
+    COMM FIELD_CLS_STOP
+    PUSHIS 301
+    COMM BIT_ON
+    PUSHIS 10
+    COMM WAIT
+    PUSHIS 713
+    COMM CALL_EVENT
+    PUSHIS 1
+    COMM WAIT
+    END
+    GOTO _37
+_39:
+    PUSHIS 2
+    PUSHIX 15
+    EQ
+    IF _40
+    PUSHIS 60
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    COMM FILTER_ALLOFF
+    COMM BGM_STOP
+    COMM FIELD_CLS_STOP
+    PUSHIS 301
+    COMM BIT_ON
+    PUSHIS 10
+    COMM WAIT
+    PUSHIS 714
+    COMM CALL_EVENT
+    PUSHIS 1
+    COMM WAIT
+    END
+    GOTO _37
+_40:
+    PUSHIS 3
+    PUSHIX 15
+    EQ
+    IF _37
+    COMM itfMesMngOpenWindow
+    PUSHIS 8
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    GOTO OWARI01
+    GOTO _37
+_37:
+    GOTO _42
+_43:
+    PUSHIS 1
+    PUSHIX 3
+    EQ
+    IF _42
+    COMM itfMesMngOpenWindow
+    PUSHIS 3
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    GOTO OWARI01
+    GOTO _42
+_42:
+    GOTO _45
+_45:
+OWARI01:
+    END

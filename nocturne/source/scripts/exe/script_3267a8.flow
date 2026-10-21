@@ -1,0 +1,11 @@
+// exe/script_3267a8 (SLUS_209.11 at 0x003267A8)
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void lee_test1()
+{
+    itfMesMngWindowType(0);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* TESTMES */;
+    itfMesMngCloseWindow();
+}
+

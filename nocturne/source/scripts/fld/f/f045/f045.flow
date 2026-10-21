@@ -1,0 +1,4941 @@
+// game/dds3/fld/f/f045/f045.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void takarasagasi_label()
+{
+    PAD_DISABLE();
+    itfMesMngOpenWindow();
+    SET_ALLPANEL(6);
+    local0 = FLD_SAGASI_AKUMA(1);
+    local1 = 1;
+    local2 = FLD_SAGASI_AKUMA(0);
+    itfMesMngSetVarScr(0, local0, 3);
+    itfMesMngSetVarScr(1, local1, 0);
+    itfMesMngSetVarScr(2, local2, 1);
+    FLD_SE_PLAY(43);
+    itfMesMngMessage(133) /* TAKARASAGASI */;
+    prm_ITEM_PLUS(local0, local1);
+    itfMesMngCloseWindow();
+    PAD_ENABLE();
+    SET_ALLPANEL(7);
+}
+
+void hirakenai_label()
+{
+    PAD_DISABLE();
+    itfMesMngOpenWindow();
+    SET_ALLPANEL(6);
+    itfMesMngMessage(134) /* COMP_OPENERROR */;
+    itfMesMngCloseWindow();
+    PAD_ENABLE();
+    SET_ALLPANEL(7);
+}
+
+void kireta_label()
+{
+    PAD_DISABLE();
+    itfMesMngOpenWindow();
+    SET_ALLPANEL(6);
+    if (FLD_GET_KIRETA(0) == 1)
+    {
+        itfMesMngMessage(135) /* COMP_LIGHTMAEND */;
+    }
+    if (FLD_GET_KIRETA(1) == 1)
+    {
+        itfMesMngMessage(138) /* COMP_REFUTOMAEND */;
+    }
+    if (FLD_GET_KIRETA(2) == 1)
+    {
+        itfMesMngMessage(137) /* COMP_REBERAMAEND */;
+    }
+    if (FLD_GET_KIRETA(3) == 1)
+    {
+        itfMesMngMessage(136) /* COMP_ESTOMAEND */;
+    }
+    itfMesMngCloseWindow();
+    PAD_ENABLE();
+    SET_ALLPANEL(7);
+}
+
+void itembox_label()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP(9) == 1)
+        {
+            PAD_DISABLE();
+            itfMesMngOpenWindow();
+            SET_ALLPANEL(6);
+            if (FLD_CHK_TAKARA_OPEN())
+            {
+                itfMesMngMessage(127) /* TAKARA_STILLGET */;
+            }
+            else
+            {
+                local3 = FLD_GET_TAKARA_TBL(0);
+                local4 = FLD_GET_TAKARA_TBL(1);
+                local5 = FLD_GET_TAKARA_TBL(2);
+                local6 = FLD_GET_TAKARA_TBL(3);
+                local7 = FLD_GET_TAKARA_TBL(4);
+                if (local3 == 1)
+                {
+                    itfMesMngMessage(120) /* HOSEKI */;
+                }
+                else
+                {
+                    itfMesMngMessage(124) /* TAKARA */;
+                }
+                itfMesMngSelectDefKey(3, 1);
+                if (local3 == 1)
+                {
+                    local8 = itfMesMngSelect(121);
+                }
+                else
+                {
+                    local8 = itfMesMngSelect(125);
+                }
+                if (local8 == 0)
+                {
+                    if (local6 == 1)
+                    {
+                        FLD_SET_TAKARA_OPEN();
+                        CALL_BATTLE2(local7);
+                        return;
+                    }
+                    else if (local6 == 2)
+                    {
+                        FLD_SET_TAKARA_OPEN();
+                        FLD_SE_PLAY(34);
+                        QUAKE_ON(15, 100);
+                        PAD_ACT(0, 1, 15);
+                        PAD_ACT(1, 100, 15);
+                        prm_PARTY_DAMAGE(1);
+                        itfMesMngMessage(131) /* TAKARA_DAMAGE */;
+                    }
+                    else if (local6 == 3)
+                    {
+                        FLD_SET_TAKARA_OPEN();
+                        FLD_SE_PLAY(34);
+                        QUAKE_ON(20, 200);
+                        PAD_ACT(0, 1, 20);
+                        PAD_ACT(1, 200, 20);
+                        prm_PARTY_DAMAGE(2);
+                        itfMesMngMessage(131) /* TAKARA_DAMAGE */;
+                    }
+                    else if (local6 == 4)
+                    {
+                        FLD_SET_TAKARA_OPEN();
+                        FLD_SE_PLAY(34);
+                        QUAKE_ON(20, 200);
+                        PAD_ACT(0, 1, 20);
+                        PAD_ACT(1, 200, 20);
+                        prm_PARTY_DAMAGE(4);
+                        itfMesMngMessage(131) /* TAKARA_DAMAGE */;
+                    }
+                    else if (local6 == 5)
+                    {
+                        FLD_SET_TAKARA_OPEN();
+                        FLD_SE_PLAY(34);
+                        QUAKE_ON(20, 200);
+                        PAD_ACT(0, 1, 20);
+                        PAD_ACT(1, 200, 20);
+                        prm_PARTY_DAMAGE(5);
+                        itfMesMngMessage(131) /* TAKARA_DAMAGE */;
+                    }
+                    else if (local6 == 6)
+                    {
+                        FLD_SET_TAKARA_OPEN();
+                        FLD_SE_PLAY(34);
+                        QUAKE_ON(20, 200);
+                        PAD_ACT(0, 1, 20);
+                        PAD_ACT(1, 200, 20);
+                        prm_PARTY_DAMAGE(6);
+                        itfMesMngMessage(131) /* TAKARA_DAMAGE */;
+                    }
+                    else
+                    {
+                        if (local3 == 0)
+                        {
+                            FLD_SET_TAKARA_OPEN();
+                            if (local4 == 0)
+                            {
+                                itfMesMngMessage(132) /* TAKARA_KARAGET */;
+                            }
+                            else
+                            {
+                                FLD_SE_PLAY(32);
+                                itfMesMngSetVarScr(0, local4, 3);
+                                itfMesMngSetVarScr(1, local5, 0);
+                                itfMesMngMessage(128) /* TAKARA_GET */;
+                                prm_ITEM_PLUS(local4, local5);
+                            }
+                        }
+                        else if (local3 == 1)
+                        {
+                            FLD_SET_TAKARA_OPEN();
+                            if (local4 == 0)
+                            {
+                                itfMesMngMessage(132) /* TAKARA_KARAGET */;
+                            }
+                            else
+                            {
+                                if (FLD_GET_ITEMBOX_RND() == 0)
+                                {
+                                    local4 = 3;
+                                    local5 = 1;
+                                }
+                                FLD_SE_PLAY(33);
+                                itfMesMngSetVarScr(0, local4, 3);
+                                itfMesMngSetVarScr(1, local5, 0);
+                                itfMesMngMessage(123) /* HOSEKI_GET */;
+                                prm_ITEM_PLUS(local4, local5);
+                            }
+                        }
+                        else if (local3 == 2)
+                        {
+                            FLD_SET_TAKARA_OPEN();
+                            FLD_SE_PLAY(32);
+                            itfMesMngSetVarScr(0, local4, 9);
+                            itfMesMngMessage(129) /* TAKARA_DH_GET */;
+                            prm_DH_PLUS(local4);
+                        }
+                        else if (local3 == 3)
+                        {
+                            FLD_SET_TAKARA_OPEN();
+                            FLD_SE_PLAY(32);
+                            itfMesMngSetVarScr(0, local7, 0);
+                            itfMesMngMessage(130) /* TAKARA_MAKA_GET */;
+                            COMM_139(local7);
+                        }
+                    }
+                }
+                else
+                {
+                    if (local3 == 1)
+                    {
+                        itfMesMngMessage(122) /* HOSEKI_NOGET */;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(126) /* TAKARA_NOGET */;
+                    }
+                }
+            }
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+            SET_ALLPANEL(7);
+            return;
+        }
+        SYNC();
+    }
+}
+
+void warp_label()
+{
+    PAD_DISABLE();
+    local9 = FLD_WARP_GET_WARPEFF();
+    if (local9 == 1)
+    {
+        FLD_WARP_RUN_START();
+        WAIT(20);
+        DIST_BLUR_PARA(60, 175, 2, 0.1f, 0.0f, 0.13f, 0);
+        DIST_BLUR_RGBA(132, 132, 132, 101);
+        DIST_BLUR_AREA(256, 0, 0);
+        DIST_BLUR_ON(1);
+        WAIT(20);
+        FADE_OUT(1, 30);
+        WAIT(30);
+        DIST_BLUR_OFF(0);
+    }
+    FLD_WARP_CALL_FIELD();
+    return;
+}
+
+void doorwarp_label()
+{
+    while (1)
+    {
+        FLD_WARP_CASH_F();
+        if (ACT_WIN_DSP(2) == 1)
+        {
+            PAD_DISABLE();
+            local10 = FLD_WARP_GET_DOOR(0);
+            FLD_WARP_RUN_START();
+            if (local10 == 40)
+            {
+                WAIT(20);
+                FADE_OUT(0, 20);
+                WAIT(20);
+            }
+            else
+            {
+                FADE_OUT(0, 20);
+                WAIT(20);
+            }
+            FLD_WARP_CALL_FIELD();
+            return;
+        }
+        SYNC();
+    }
+}
+
+void dexitwarp_label()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP(10) == 1)
+        {
+            PAD_DISABLE();
+            SET_ALLPANEL(6);
+            FLD_EXIT_CAMERA();
+            itfMesMngOpenWindow();
+            itfMesMngMessage(118) /* EXITWARP */;
+            itfMesMngSelectDefKey(3, 1);
+            if (itfMesMngSelect(119) == 0)
+            {
+                itfMesMngCloseWindow();
+            }
+            else
+            {
+                itfMesMngCloseWindow();
+                CAM_SEL(- 1);
+                PAD_ENABLE();
+                SET_ALLPANEL(7);
+                return;
+            }
+            local11 = FLD_WARP_GET_DOOR(0);
+            FLD_WARP_RUN_START();
+            if (local11 == 40)
+            {
+                WAIT(20);
+                FADE_OUT(1, 45);
+                WAIT(45);
+            }
+            else
+            {
+                FADE_OUT(1, 45);
+                WAIT(45);
+            }
+            FLD_WARP_CALL_FIELD();
+            return;
+        }
+        SYNC();
+    }
+}
+
+void dinwarp_label()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP(11) == 1)
+        {
+            PAD_DISABLE();
+            FLD_WARP_RUN_START();
+            FADE_OUT(1, 45);
+            WAIT(45);
+            FLD_WARP_CALL_FIELD();
+            return;
+        }
+        SYNC();
+    }
+}
+
+void runwarp_label()
+{
+    FLD_WARP_CASH_F();
+    PAD_DISABLE();
+    FLD_WARP_RUN_START();
+    WAIT(15);
+    FLD_WARP_CALL_FIELD();
+}
+
+void anawarp_label()
+{
+    PAD_DISABLE();
+    FLD_WARP_CASH_F();
+    FLD_WARP_RUN_START();
+    var0 = MODEL_PLAYER();
+    MODEL_MOTION2(var0, 12, 4, 4, 0);
+    MODEL_WAIT(var0);
+    FLD_WARP_CALL_FIELD();
+}
+
+void tobiwarp_label()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP(3) == 1)
+        {
+            PAD_DISABLE();
+            FLD_WARP_CASH_F();
+            var0 = MODEL_PLAYER();
+            MODEL_MOTION2(var0, 11, 4, 4, 0);
+            WAIT(70);
+            FLD_WARP_CALL_FIELD();
+            return;
+        }
+        SYNC();
+    }
+}
+
+void tobi2warp_label()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP(3) == 1)
+        {
+            PAD_DISABLE();
+            FLD_WARP_CASH_F();
+            var0 = MODEL_PLAYER();
+            MODEL_MOTION2(var0, 11, 4, 4, 0);
+            WAIT(30);
+            FLD_WARP_CALL_FIELD();
+            return;
+        }
+        SYNC();
+    }
+}
+
+void hasigo_label()
+{
+    local13 = FLD_WARP_HASIGO_GETTBL(0);
+    local12 = 1;
+    while (local12)
+    {
+        FLD_WARP_CASH_F();
+        if (local13 == 0)
+        {
+            if (ACT_WIN_DSP(6) == 1)
+            {
+                local12 = 0;
+            }
+        }
+        else
+        {
+            if (ACT_WIN_DSP(7) == 1)
+            {
+                local12 = 0;
+            }
+        }
+        if (local12 == 1)
+        {
+            SYNC();
+        }
+    }
+    PAD_DISABLE();
+    SET_ALLPANEL(6);
+    FADE_OUT(0, 15);
+    WAIT(15);
+    local14 = FLD_WARP_HASIGO_GETTBL(1);
+    local15 = FLD_WARP_HASIGO_GETTBL(2);
+    CAM_SEL(local15);
+    var0 = MODEL_PLAYER();
+    MODEL_POS(var0, local14);
+    FLD_WARP_RUN_START();
+    if (local13 == 0)
+    {
+        MODEL_MOTION2(var0, 14, 0, 0, 1);
+    }
+    else
+    {
+        MODEL_MOTION2(var0, 15, 0, 0, 1);
+    }
+    FADE_IN(0, 15);
+    WAIT(60);
+    FADE_OUT(0, 20);
+    WAIT(20);
+    FLD_WARP_CALL_FIELD();
+}
+
+void npctalk_label()
+{
+    local22 = FLD_INF_GETPANEL();
+    local23 = 1;
+    while (local23)
+    {
+        if (local22 == 0)
+        {
+            local23 = 0;
+            return;
+        }
+        else if (local22 == 1)
+        {
+            if (ACT_WIN_DSP(1) == 1)
+            {
+                local23 = 0;
+            }
+        }
+        else if (local22 == 2)
+        {
+            if (ACT_WIN_DSP(9) == 1)
+            {
+                local23 = 0;
+            }
+        }
+        else if (local22 == 100)
+        {
+            if (ACT_WIN_DSP(2) == 1)
+            {
+                local23 = 0;
+            }
+        }
+        else if (local22 == 101)
+        {
+            local23 = 0;
+        }
+        else if (local22 == 102)
+        {
+            if (ACT_WIN_DSP(3) == 1)
+            {
+                local23 = 0;
+            }
+        }
+        else if (local22 == 103)
+        {
+            local23 = 0;
+        }
+        else if (local22 == 104)
+        {
+            if (ACT_WIN_DSP(6) == 1)
+            {
+                local23 = 0;
+            }
+        }
+        else if (local22 == 105)
+        {
+            if (ACT_WIN_DSP(7) == 1)
+            {
+                local23 = 0;
+            }
+        }
+        else if (local22 == 106)
+        {
+            if (ACT_WIN_DSP(10) == 1)
+            {
+                local23 = 0;
+            }
+        }
+        else if (local22 == 107)
+        {
+            if (ACT_WIN_DSP(11) == 1)
+            {
+                local23 = 0;
+            }
+        }
+        else if (local22 == 199)
+        {
+            local23 = 0;
+        }
+        if (local23 == 1)
+        {
+            SYNC();
+        }
+    }
+    PAD_DISABLE();
+    SET_ALLPANEL(6);
+    local17 = 1;
+    local21 = 0;
+    while (1)
+    {
+        if (local17 < 10)
+        {
+            local17 = FLD_INF_NEXT(local17, - 1);
+        }
+        else
+        {
+            local16 = 0;
+            local18 = COMM_206(local17, 0);
+            if (local18 == - 1)
+            {
+                if (local21 == 1)
+                {
+                    itfMesMngCloseWindow();
+                    local21 = 0;
+                }
+            }
+            else
+            {
+                local19 = COMM_206(local17, 1);
+                if (local21 == 0)
+                {
+                    local21 = 1;
+                    itfMesMngOpenWindow();
+                }
+                if (local18 == 0)
+                {
+                    itfMesMngMessage(local19);
+                }
+                else if (local18 == 1)
+                {
+                    local16 = itfMesMngSelect(local19);
+                }
+            }
+            local17 = FLD_INF_NEXT(local17, local16);
+            SYNC();
+        }
+        if (local17 >= 200)
+        {
+            return;
+        }
+        if (local17 == 100)
+        {
+            if (local21 == 1)
+            {
+                itfMesMngCloseWindow();
+                local21 = 0;
+            }
+            FLD_INF_GOWAP();
+            return;
+        }
+        if (local17 == 0)
+        {
+            if (local21 == 1)
+            {
+                itfMesMngCloseWindow();
+                local21 = 0;
+            }
+            SET_ALLPANEL(7);
+            CAM_SEL(- 1);
+            PAD_ENABLE();
+            return;
+        }
+    }
+    PAD_ENABLE();
+    return;
+}
+
+void elvstart_label()
+{
+    var0 = MODEL_PLAYER();
+    local25 = SEARCH_ID("01cam_01");
+    local26 = FLD_WARP_ELV_GETTBL(0);
+    local33 = FLD_WARP_ELV_GETTBL(14);
+    local27 = FLD_WARP_ELV_GETTBL(2);
+    local28 = FLD_WARP_ELV_GETTBL(3);
+    local29 = FLD_WARP_ELV_GETTBL(4);
+    local30 = FLD_WARP_ELV_GETTBL(5);
+    local31 = FLD_WARP_ELV_GETTBL(6);
+    local32 = FLD_WARP_ELV_GETTBL(7);
+    PAD_DISABLE();
+    SET_ALLPANEL(4);
+    MODEL_MOTION2(var0, 8, 0, 0, 1);
+    CAM_SEL(local25);
+    FADE_IN(0, 15);
+    FLD_ELV_FLOORSTART(local33, local33);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(139) /* WARP_ELV_MSG */;
+    if (local26 == 1)
+    {
+        itfMesMngSetVarScr(0, local27, 4);
+        itfMesMngSelectDefKey(3, 1);
+        local24 = itfMesMngSelect(140);
+    }
+    else if (local26 == 2)
+    {
+        itfMesMngSetVarScr(0, local27, 4);
+        itfMesMngSetVarScr(1, local28, 4);
+        itfMesMng_SEL_SELNO(local33);
+        itfMesMngSelectDefKey(3, 2);
+        local24 = itfMesMngSelect(141);
+    }
+    else if (local26 == 3)
+    {
+        itfMesMngSetVarScr(0, local27, 4);
+        itfMesMngSetVarScr(1, local28, 4);
+        itfMesMngSetVarScr(2, local29, 4);
+        itfMesMng_SEL_SELNO(local33);
+        itfMesMngSelectDefKey(3, 3);
+        local24 = itfMesMngSelect(142);
+    }
+    else if (local26 == 4)
+    {
+        itfMesMngSetVarScr(0, local27, 4);
+        itfMesMngSetVarScr(1, local28, 4);
+        itfMesMngSetVarScr(2, local29, 4);
+        itfMesMngSetVarScr(3, local30, 4);
+        itfMesMng_SEL_SELNO(local33);
+        itfMesMngSelectDefKey(3, 4);
+        local24 = itfMesMngSelect(143);
+    }
+    else if (local26 == 5)
+    {
+        itfMesMngSetVarScr(0, local27, 4);
+        itfMesMngSetVarScr(1, local28, 4);
+        itfMesMngSetVarScr(2, local29, 4);
+        itfMesMngSetVarScr(3, local30, 4);
+        itfMesMngSetVarScr(4, local31, 4);
+        itfMesMng_SEL_SELNO(local33);
+        itfMesMngSelectDefKey(3, 5);
+        local24 = itfMesMngSelect(144);
+    }
+    else if (local26 == 6)
+    {
+        itfMesMngSetVarScr(0, local27, 4);
+        itfMesMngSetVarScr(1, local28, 4);
+        itfMesMngSetVarScr(2, local29, 4);
+        itfMesMngSetVarScr(3, local30, 4);
+        itfMesMngSetVarScr(4, local31, 4);
+        itfMesMngSetVarScr(5, local32, 4);
+        itfMesMng_SEL_SELNO(local33);
+        itfMesMngSelectDefKey(3, 6);
+        local24 = itfMesMngSelect(145);
+    }
+    itfMesMngCloseWindow();
+    if (local24 == local26)
+    {
+        WAIT(4);
+    }
+    else if (local24 == local33)
+    {
+        WAIT(4);
+    }
+    else
+    {
+        MODEL_MOTION2(var0, 16, 4, 20, 0);
+        MODEL_WAIT(var0);
+        WAIT(4);
+        FLD_SE_PLAY(46);
+        FLD_ELV_FLOORSTART(local33, local24);
+        WAIT(4);
+        WAIT(20);
+        local34 = FLD_ELV_ENDCHK();
+        while (local34 != 1)
+        {
+            if (local34 == 2)
+            {
+                FADE_OUT(0, 15);
+                WAIT(15);
+                FLD_SE_STOP(46);
+                FLD_ELV_FLOOREND();
+                FLD_WARP_ELV_EXIT(local24);
+                return;
+            }
+            SYNC();
+            local34 = FLD_ELV_ENDCHK();
+        }
+        WAIT(20);
+        FLD_SE_STOP(46);
+        FLD_SE_PLAY(47);
+        WAIT(20);
+    }
+    FLD_SE_PLAY(48);
+    OBJ_PATH_MOVE(SEARCH_ID("01all_d01"), SEARCH_ID("01path_01"), 0);
+    OBJ_PATH_MOVE(SEARCH_ID("01all_d02"), SEARCH_ID("01path_02"), 0);
+    OBJ_PATH_WAIT(SEARCH_ID("01all_d01"));
+    WAIT(20);
+    FADE_OUT(0, 15);
+    WAIT(15);
+    FLD_ELV_FLOOREND();
+    FLD_WARP_ELV_EXIT(local24);
+}
+
+void 001_01eve_test()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP3(9))
+        {
+            PAD_DISABLE();
+            itfMesMngOpenWindow();
+            itfMesMngMessage(1) /* F045_DEBBUG */;
+            if (itfMesMngSelect(0) == 0)
+            {
+                BIT_ON(1002);
+            }
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 001_start()
+{
+    if (BIT_CHK(2017) == 0)
+    {
+        COMM_10A(0, 0, 4);
+        COMM_10A(0, 0, 8);
+        FLD_MODEL_OFF(0, 0, "md_hoji_04", 0);
+        FLD_ANIME_OFF(0, 0, "md_hoji_02", 2);
+    }
+    if (BIT_CHK(2016) == 0)
+    {
+        PAD_DISABLE();
+        FLD_TITLE_START2(45, 100);
+        SET_ALLPANEL(0);
+        CAM_SEL(SEARCH_ID("01cam_04"));
+        CAM_PATH_MOVE(SEARCH_ID("01cam_04"), SEARCH_ID("01cam_04_MOTION"));
+        var0 = MODEL_PLAYER();
+        MODEL_POS(var0, SEARCH_ID("01pos_02"));
+        WAIT(60);
+        WAIT(170);
+        FADE_OUT(0, 30);
+        WAIT(35);
+        BIT_ON(2016);
+        SET_CHASE_CAMERA();
+        MODEL_MOTION2(var0, 8, 3, 15, 1);
+        CAM_SEL(- 1);
+        SET_ALLPANEL(3);
+        PAD_ENABLE();
+        FADE_IN(0, 30);
+        WAIT(30);
+    }
+}
+
+void 001_01eve_01()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(9) == 1)
+        {
+            if (BIT_CHK(1002) == 0 && BIT_CHK(2018) == 0)
+            {
+                PAD_DISABLE();
+                SET_ALLPANEL(2);
+                FADE_OUT(0, 15);
+                WAIT(15);
+                var0 = MODEL_PLAYER();
+                MODEL_OFF(var0);
+                MODEL_SHADOW_OFF(var0);
+                CAM_SEL(SEARCH_ID("01cam_02"));
+                FADE_IN(0, 15);
+                WAIT(15);
+                itfMesMngOpenWindow();
+                itfMesMngMessage(10) /* MSG_001 */;
+                itfMesMngMessage(11) /* MSG_001_2 */;
+                itfMesMngCloseWindow();
+                FADE_OUT(0, 15);
+                WAIT(15);
+                CAM_SEL(- 1);
+                SET_ALLPANEL(3);
+                MODEL_ON(var0);
+                MODEL_SHADOW_ON(var0);
+                PAD_ENABLE();
+                FADE_IN(0, 15);
+                WAIT(15);
+            }
+            else if (BIT_CHK(2017) == 0)
+            {
+                PAD_DISABLE();
+                SET_ALLPANEL(2);
+                FADE_OUT(0, 15);
+                WAIT(15);
+                var0 = MODEL_PLAYER();
+                MODEL_OFF(var0);
+                MODEL_SHADOW_OFF(var0);
+                CAM_SEL(SEARCH_ID("01cam_02"));
+                FADE_IN(0, 15);
+                WAIT(15);
+                WAIT(15);
+                itfMesMngOpenWindow();
+                itfMesMngMessage(10) /* MSG_001 */;
+                itfMesMngMessage(12) /* MSG_002 */;
+                local36 = itfMesMngSelect(13);
+                itfMesMngCloseWindow();
+                if (local36 == 0)
+                {
+                    FADE_OUT(0, 10);
+                    WAIT(10);
+                    CAM_SEL(SEARCH_ID("01cam_03"));
+                    FADE_IN(0, 10);
+                    WAIT(10);
+                    WAIT(15);
+                    FLD_MODEL_ON(0, 0, "md_hoji_04", 2);
+                    FLD_SE_PLAY(97);
+                    WAIT(35);
+                    FLD_MODEL_ON2(0, 0, 4);
+                    WAIT(30);
+                    FLD_MODEL_ON2(0, 0, 8);
+                    WAIT(15);
+                    BIT_ON(2017);
+                    itfMesMngOpenWindow();
+                    itfMesMngMessage(14) /* MSG_003 */;
+                    itfMesMngCloseWindow();
+                    FADE_OUT(0, 10);
+                    WAIT(10);
+                    CAM_SEL(SEARCH_ID("01cam_02"));
+                    FADE_IN(0, 10);
+                    WAIT(10);
+                    itfMesMngOpenWindow();
+                    itfMesMngMessage(15) /* MSG_003B */;
+                    itfMesMngCloseWindow();
+                    BIT_ON(2018);
+                    DIST_BLUR_PARA(2, 1000, 0, 0.05f, 0, - 1.0f, 1);
+                    DIST_BLUR_RGBA(250, 220, 200, 50);
+                    DIST_BLUR_AREA(20, 0, - 100);
+                    DIST_BLUR_ON(0);
+                    FLD_SE_PLAY(98);
+                    WAIT(30);
+                    FADE_OUT(1, 30);
+                    WAIT(30);
+                    DIST_BLUR_OFF(0);
+                    BIT_OFF(1002);
+                    CAM_SEL(SEARCH_ID("01cam_01"));
+                    FADE_IN(1, 15);
+                    WAIT(15);
+                    CAM_PATH_MOVE(SEARCH_ID("01cam_01"), SEARCH_ID("01cam_01_MOTION"));
+                    WAIT(60);
+                    OBJ_PATH_MOVE(SEARCH_ID("atari_hoji_01"), SEARCH_ID("path_hoji_01"), 0);
+                    FLD_SE_PLAY(96);
+                    WAIT(20);
+                    QUAKE_ON(10, 50);
+                    FLD_SE_PLAY(99);
+                    FLD_ANIME_ON(0, 0, "md_hoji_02", 1);
+                    WAIT(100);
+                    FLD_MODEL_OFF(0, 0, "md_hoji_02", 1);
+                    FLD_MODEL_OFF(0, 0, "md_hoji_03", 1);
+                    WAIT(40);
+                    FADE_OUT(0, 45);
+                    WAIT(45);
+                    CAM_SEL(- 1);
+                    PAD_ENABLE();
+                    SET_ALLPANEL(3);
+                    MODEL_ON(var0);
+                    MODEL_SHADOW_ON(var0);
+                    FADE_IN(0, 30);
+                    WAIT(30);
+                }
+                else
+                {
+                    FADE_OUT(0, 15);
+                    WAIT(15);
+                    CAM_SEL(- 1);
+                    SET_ALLPANEL(3);
+                    MODEL_ON(var0);
+                    MODEL_SHADOW_ON(var0);
+                    PAD_ENABLE();
+                    FADE_IN(0, 15);
+                    WAIT(15);
+                }
+            }
+            else
+            {
+                PAD_DISABLE();
+                SET_ALLPANEL(2);
+                FADE_OUT(0, 15);
+                WAIT(15);
+                var0 = MODEL_PLAYER();
+                MODEL_OFF(var0);
+                MODEL_SHADOW_OFF(var0);
+                CAM_SEL(SEARCH_ID("01cam_02"));
+                FADE_IN(0, 15);
+                WAIT(15);
+                itfMesMngOpenWindow();
+                itfMesMngMessage(16) /* MSG_006 */;
+                itfMesMngCloseWindow();
+                FADE_OUT(0, 15);
+                WAIT(15);
+                var0 = MODEL_PLAYER();
+                MODEL_ON(var0);
+                MODEL_SHADOW_ON(var0);
+                CAM_SEL(- 1);
+                FADE_IN(0, 15);
+                WAIT(15);
+                SET_ALLPANEL(3);
+                PAD_ENABLE();
+            }
+        }
+        SYNC();
+    }
+}
+
+void 001_01eve_02()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(9))
+        {
+            PAD_DISABLE();
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            CAM_SEL(SEARCH_ID("01cam_07"));
+            itfMesMngOpenWindow();
+            itfMesMngMessage(9) /* F045_SHAFT_UP */;
+            if (itfMesMngSelect(0) == 0)
+            {
+                FADE_OUT(0, 15);
+                WAIT(15);
+                itfMesMngCloseWindow();
+                MODEL_ON(var0);
+                MODEL_SHADOW_ON(var0);
+                MODEL_POS(var0, SEARCH_ID("01pos_05"));
+                CAM_SEL(SEARCH_ID("01cam_08"));
+                FADE_IN(0, 15);
+                WAIT(30);
+                MODEL_MOTION2(var0, 11, 4, 4, 3);
+                WAIT(75);
+                FLD_CALL_WAPEX(83);
+                return;
+            }
+            else
+            {
+                itfMesMngCloseWindow();
+            }
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            SET_CHASE_CAMERA();
+            CAM_SEL(- 1);
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 001_01eve_03()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(9))
+        {
+            PAD_DISABLE();
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            CAM_SEL(SEARCH_ID("01cam_09"));
+            itfMesMngOpenWindow();
+            itfMesMngMessage(8) /* F045_SHAFT_ENT */;
+            if (itfMesMngSelect(0) == 0)
+            {
+                FADE_OUT(0, 15);
+                WAIT(15);
+                itfMesMngCloseWindow();
+                MODEL_ON(var0);
+                MODEL_SHADOW_ON(var0);
+                MODEL_POS(var0, SEARCH_ID("01pos_06"));
+                CAM_SEL(SEARCH_ID("01cam_10"));
+                FADE_IN(0, 15);
+                WAIT(30);
+                MODEL_MOTION2(var0, 11, 4, 4, 3);
+                WAIT(75);
+                FLD_CALL_WAPEX(75);
+                return;
+            }
+            else
+            {
+                itfMesMngCloseWindow();
+            }
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            SET_CHASE_CAMERA();
+            CAM_SEL(- 1);
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 003_flag_off()
+{
+    BIT_OFF(2024);
+}
+
+void 008_01eve_01()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(9) == 1)
+        {
+            if (BIT_CHK(2030) == 0)
+            {
+                PAD_DISABLE();
+                SET_ALLPANEL(2);
+                itfMesMngOpenWindow();
+                itfMesMngMessage(17) /* MSG_SW_010 */;
+                local38 = itfMesMngSelect(0);
+                itfMesMngCloseWindow();
+                if (local38 == 0)
+                {
+                    FADE_OUT(0, 15);
+                    WAIT(15);
+                    CAM_SEL(SEARCH_ID("01cam_05"));
+                    local37 = MODEL_PLAYER();
+                    MODEL_POS(local37, SEARCH_ID("01pos_13"));
+                    FADE_IN(0, 15);
+                    WAIT(15);
+                    MODEL_MOTION2(local37, 16, 4, 20, 0);
+                    WAIT(18);
+                    MODEL_WAIT(local37);
+                    WAIT(30);
+                    FLD_SE_PLAY(100);
+                    DIST_BLUR_PARA(10, 600, 0, 0.2f, 0, 0.2f, 1);
+                    DIST_BLUR_RGBA(100, 100, 100, 20);
+                    DIST_BLUR_AREA(20, 0, 0);
+                    DIST_BLUR_ON(0);
+                    WAIT(30);
+                    FADE_OUT(1, 10);
+                    WAIT(10);
+                    COMM_10A(0, 0, 3);
+                    FLD_MODEL_OFF(0, 0, "md_hoji_03", 0);
+                    DIST_BLUR_OFF(0);
+                    FADE_IN(1, 10);
+                    WAIT(40);
+                    FADE_OUT(0, 15);
+                    WAIT(15);
+                    CAM_SEL(SEARCH_ID("01cam_08"));
+                    FADE_IN(0, 15);
+                    WAIT(30);
+                    CAM_PATH_MOVE(SEARCH_ID("01cam_08"), SEARCH_ID("01cam_08_MOTION"));
+                    CAM_PATH_WAIT(SEARCH_ID("01cam_08"));
+                    WAIT(30);
+                    OBJ_PATH_MOVE(SEARCH_ID("atari_hoji_02"), SEARCH_ID("path_hoji_02"), 0);
+                    FLD_SE_PLAY(96);
+                    WAIT(20);
+                    QUAKE_ON(10, 50);
+                    WAIT(30);
+                    FADE_OUT(0, 15);
+                    WAIT(15);
+                    BIT_ON(2030);
+                    SET_CHASE_CAMERA();
+                    CAM_SEL(- 1);
+                    FADE_IN(0, 15);
+                    WAIT(15);
+                    PAD_ENABLE();
+                    SET_ALLPANEL(3);
+                }
+                PAD_ENABLE();
+                SET_ALLPANEL(3);
+            }
+            else
+            {
+                PAD_DISABLE();
+                SET_ALLPANEL(0);
+                CAM_SEL(SEARCH_ID("01cam_05"));
+                WAIT(30);
+                itfMesMngOpenWindow();
+                itfMesMngMessage(18) /* MSG_011_010 */;
+                itfMesMngCloseWindow();
+                WAIT(30);
+                FADE_OUT(0, 15);
+                WAIT(15);
+                CAM_SEL(- 1);
+                FADE_IN(0, 15);
+                WAIT(15);
+                PAD_ENABLE();
+                SET_ALLPANEL(3);
+            }
+        }
+        SYNC();
+    }
+}
+
+void 008_01eve_02()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(9) == 1)
+        {
+            if (BIT_CHK(2031) == 0)
+            {
+                PAD_DISABLE();
+                SET_ALLPANEL(2);
+                itfMesMngOpenWindow();
+                itfMesMngMessage(17) /* MSG_SW_010 */;
+                local40 = itfMesMngSelect(0);
+                itfMesMngCloseWindow();
+                if (local40 == 0)
+                {
+                    FADE_OUT(0, 15);
+                    WAIT(15);
+                    CAM_SEL(SEARCH_ID("01cam_06"));
+                    local39 = MODEL_PLAYER();
+                    MODEL_POS(local39, SEARCH_ID("01pos_14"));
+                    FADE_IN(0, 15);
+                    WAIT(15);
+                    MODEL_MOTION2(local39, 16, 4, 20, 0);
+                    WAIT(18);
+                    MODEL_WAIT(local39);
+                    WAIT(30);
+                    FLD_SE_PLAY(100);
+                    DIST_BLUR_PARA(10, 600, 0, 0.2f, 0, 0.2f, 1);
+                    DIST_BLUR_RGBA(100, 100, 100, 20);
+                    DIST_BLUR_AREA(20, 0, 0);
+                    DIST_BLUR_ON(0);
+                    WAIT(30);
+                    FADE_OUT(1, 10);
+                    WAIT(10);
+                    COMM_10A(0, 0, 4);
+                    FLD_MODEL_OFF(0, 0, "md_hoji_04", 0);
+                    DIST_BLUR_OFF(0);
+                    FADE_IN(1, 10);
+                    WAIT(40);
+                    FADE_OUT(0, 15);
+                    WAIT(15);
+                    CAM_SEL(SEARCH_ID("01cam_07"));
+                    FADE_IN(0, 15);
+                    WAIT(30);
+                    CAM_PATH_MOVE(SEARCH_ID("01cam_07"), SEARCH_ID("01cam_07_MOTION"));
+                    CAM_PATH_WAIT(SEARCH_ID("01cam_07"));
+                    WAIT(30);
+                    OBJ_PATH_MOVE(SEARCH_ID("atari_hoji_01"), SEARCH_ID("path_hoji_01"), 0);
+                    FLD_SE_PLAY(96);
+                    WAIT(20);
+                    QUAKE_ON(10, 50);
+                    WAIT(30);
+                    FADE_OUT(0, 15);
+                    WAIT(15);
+                    BIT_ON(2031);
+                    SET_CHASE_CAMERA();
+                    CAM_SEL(- 1);
+                    FADE_IN(0, 15);
+                    WAIT(15);
+                    PAD_ENABLE();
+                    SET_ALLPANEL(3);
+                }
+                PAD_ENABLE();
+                SET_ALLPANEL(3);
+            }
+            else
+            {
+                PAD_DISABLE();
+                SET_ALLPANEL(0);
+                CAM_SEL(SEARCH_ID("01cam_06"));
+                WAIT(30);
+                itfMesMngOpenWindow();
+                itfMesMngMessage(18) /* MSG_011_010 */;
+                itfMesMngCloseWindow();
+                WAIT(30);
+                FADE_OUT(0, 15);
+                WAIT(15);
+                CAM_SEL(- 1);
+                FADE_IN(0, 15);
+                WAIT(15);
+                PAD_ENABLE();
+                SET_ALLPANEL(3);
+            }
+        }
+        SYNC();
+    }
+}
+
+void 011_01eve_test()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP3(9) == 1)
+        {
+            PAD_DISABLE();
+            itfMesMngOpenWindow();
+            itfMesMngMessage(2) /* F045_DEBBUG2 */;
+            itfMesMngCloseWindow();
+            local41 = itfMesMngSelect(3);
+            if (local41 == 0)
+            {
+                BIT_ON(1006);
+            }
+            else if (local41 == 1)
+            {
+                BIT_ON(1681);
+            }
+            else if (local41 == 2)
+            {
+                BIT_ON(1649);
+            }
+            else if (local41 == 3)
+            {
+                BIT_ON(1006);
+                BIT_ON(1681);
+                BIT_ON(1649);
+            }
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 011_start()
+{
+    if (BIT_CHK(1681) == 0)
+    {
+        FLD_MODEL_OFF(0, 0, "md_hoji_01", 0);
+    }
+    else
+    {
+        FLD_MODEL_ON(0, 0, "md_hoji_01", 0);
+    }
+    if (BIT_CHK(2208) == 0 && BIT_CHK(2019) == 0 || BIT_CHK(2208) == 1 && prm_BOSS_PRESS_REC(970, 0) == 999)
+    {
+        FLD_MODEL_OFF(0, 0, "md_hoji_02", 0);
+    }
+    if (BIT_CHK(1649) == 0)
+    {
+        FLD_MODEL_OFF(0, 0, "md_hoji_03", 0);
+    }
+    else
+    {
+        FLD_MODEL_ON(0, 0, "md_hoji_03", 0);
+    }
+    if (BIT_CHK(2208) == 0 && BIT_CHK(2020) == 0 || BIT_CHK(2208) == 1 && prm_BOSS_PRESS_REC(1008, 0) == 999)
+    {
+        FLD_MODEL_OFF(0, 0, "md_hoji_04", 0);
+    }
+}
+
+void 023_01eve_test()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP3(9) == 1)
+        {
+            PAD_DISABLE();
+            itfMesMngOpenWindow();
+            itfMesMngMessage(2) /* F045_DEBBUG2 */;
+            itfMesMngCloseWindow();
+            local42 = itfMesMngSelect(4);
+            if (local42 == 0)
+            {
+                BIT_ON(1006);
+            }
+            else if (local42 == 1)
+            {
+                BIT_ON(117);
+            }
+            else if (local42 == 2)
+            {
+                BIT_ON(97);
+            }
+            else if (local42 == 3)
+            {
+                BIT_ON(131);
+            }
+            else if (local42 == 4)
+            {
+                BIT_ON(1006);
+                BIT_ON(117);
+                BIT_ON(97);
+                BIT_ON(131);
+            }
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 023_start()
+{
+    if (BIT_CHK(117) == 0 || BIT_CHK(117) && BIT_CHK(146) && BIT_CHK(2037) == 0)
+    {
+        FLD_MODEL_OFF(0, 0, "md_hoji_01", 0);
+    }
+    else
+    {
+        FLD_MODEL_ON(0, 0, "md_hoji_01", 0);
+    }
+    if (BIT_CHK(2208) == 0 && BIT_CHK(2021) == 0 || BIT_CHK(2208) == 1 && prm_BOSS_PRESS_REC(334, 0) == 999)
+    {
+        FLD_MODEL_OFF(0, 0, "md_hoji_02", 0);
+    }
+    if (BIT_CHK(97) == 0 || BIT_CHK(97) && BIT_CHK(147) && BIT_CHK(2038) == 0)
+    {
+        FLD_MODEL_OFF(0, 0, "md_hoji_03", 0);
+    }
+    else
+    {
+        FLD_MODEL_ON(0, 0, "md_hoji_03", 0);
+    }
+    if (BIT_CHK(2208) == 0 && BIT_CHK(2022) == 0 || BIT_CHK(2208) == 1 && prm_BOSS_PRESS_REC(472, 0) == 999)
+    {
+        FLD_MODEL_OFF(0, 0, "md_hoji_04", 0);
+    }
+    if (BIT_CHK(131) == 0)
+    {
+        FLD_MODEL_OFF(0, 0, "md_hoji_05", 0);
+    }
+    else
+    {
+        FLD_MODEL_ON(0, 0, "md_hoji_05", 0);
+    }
+    if (BIT_CHK(2208) == 0 && BIT_CHK(2023) == 0 || BIT_CHK(2208) == 1 && prm_BOSS_PRESS_REC(333, 0) == 999)
+    {
+        FLD_MODEL_OFF(0, 0, "md_hoji_06", 0);
+    }
+    BIT_ON(3087);
+}
+
+void 011_01eve_01()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(9) == 1)
+        {
+            PAD_DISABLE();
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            CAM_SEL(SEARCH_ID("01cam_01"));
+            itfMesMngOpenWindow();
+            var250 = prm_BOSS_PRESS_REC(970, 0);
+            var251 = prm_BOSS_PRESS_REC(970, 2);
+            itfMesMngSetVarScr(0, var250, 0);
+            if (BIT_CHK(2019))
+            {
+                if (var250 <= var251)
+                {
+                    itfMesMngMessage(24) /* MITO_BEST_SCORE_R */;
+                }
+                else
+                {
+                    itfMesMngMessage(23) /* MITO_BEST_SCORE */;
+                }
+            }
+            else
+            {
+                if (BIT_CHK(1681) == 0)
+                {
+                    itfMesMngMessage(19) /* NO_NAME */;
+                    itfMesMngCloseWindow();
+                    FADE_OUT(0, 15);
+                    WAIT(15);
+                    MODEL_ON(var0);
+                    MODEL_SHADOW_ON(var0);
+                    CAM_SEL(- 1);
+                    FADE_IN(0, 15);
+                    WAIT(15);
+                    PAD_ENABLE();
+                    return;
+                }
+                if (prm_BOSS_PRESS_REC(970, 0) < 999)
+                {
+                    if (var250 <= var251)
+                    {
+                        itfMesMngMessage(24) /* MITO_BEST_SCORE_R */;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(23) /* MITO_BEST_SCORE */;
+                    }
+                }
+                else
+                {
+                    itfMesMngMessage(25) /* MITO_BOHI */;
+                }
+                if (BIT_CHK(1006) == 0)
+                {
+                    itfMesMngCloseWindow();
+                    FADE_OUT(0, 15);
+                    WAIT(15);
+                    MODEL_ON(var0);
+                    MODEL_SHADOW_ON(var0);
+                    CAM_SEL(- 1);
+                    FADE_IN(0, 15);
+                    WAIT(15);
+                    PAD_ENABLE();
+                    return;
+                }
+            }
+            BIT_ON(2598);
+            itfMesMngMessage(20) /* VISER_USE */;
+            if (itfMesMngSelect(0))
+            {
+                itfMesMngCloseWindow();
+                FADE_OUT(0, 15);
+                WAIT(15);
+                MODEL_ON(var0);
+                MODEL_SHADOW_ON(var0);
+                CAM_SEL(- 1);
+                FADE_IN(0, 15);
+                WAIT(15);
+                PAD_ENABLE();
+                return;
+            }
+            itfMesMngMessage(26) /* MITO_REMEMBER */;
+            itfMesMngCloseWindow();
+            FADE_OUT(1, 30);
+            WAIT(30);
+            CALL_NEXT(1, 45, 500);
+            CALL_BATTLE(970);
+            return;
+        }
+        SYNC();
+    }
+}
+
+void 013_mito_after()
+{
+    PAD_DISABLE();
+    var250 = prm_BOSS_PRESS_REC(970, 0);
+    var252 = prm_BOSS_PRESS_REC(970, 1);
+    var251 = prm_BOSS_PRESS_REC(970, 2);
+    itfMesMngSetVarScr(0, var250, 0);
+    BIT_ON(2019);
+    if (var250 >= var252)
+    {
+        FLD_MODEL_OFF(0, 0, "md_hoji_02", 0);
+        var0 = MODEL_PLAYER();
+        MODEL_OFF(var0);
+        MODEL_SHADOW_OFF(var0);
+        CAM_SEL(SEARCH_ID("01cam_01"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(21) /* LETTER_CHANGE */;
+        itfMesMngCloseWindow();
+        FLD_SE_PLAY(101);
+        MUL_BLUR_PARA(0, 0.9f, 0);
+        MUL_BLUR_RGBA(150, 150, 150, 80);
+        MUL_BLUR_AREA(400, 0, 0);
+        MUL_BLUR_ON(15);
+        WAIT(20);
+        FLD_MODEL_ON(0, 0, "md_hoji_02", 2);
+        MUL_BLUR_PARA(0, 1.0f, 0);
+        MUL_BLUR_RGBA(128, 128, 128, 0);
+        MUL_BLUR_SWAP(30);
+        WAIT(50);
+        MUL_BLUR_OFF(0);
+        WAIT(30);
+        itfMesMngOpenWindow();
+        if (var250 <= var251)
+        {
+            BIT_ON(2599);
+            itfMesMngMessage(24) /* MITO_BEST_SCORE_R */;
+        }
+        else
+        {
+            itfMesMngMessage(23) /* MITO_BEST_SCORE */;
+        }
+        itfMesMngCloseWindow();
+        FADE_OUT(0, 15);
+        WAIT(15);
+        MODEL_ON(var0);
+        MODEL_SHADOW_ON(var0);
+        CAM_SEL(- 1);
+        FADE_IN(0, 15);
+        WAIT(15);
+    }
+    else
+    {
+        itfMesMngOpenWindow();
+        itfMesMngMessage(22) /* LETTER_NOCHANGE */;
+        itfMesMngCloseWindow();
+    }
+    PAD_ENABLE();
+}
+
+void 011_01eve_02()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(9) == 1)
+        {
+            PAD_DISABLE();
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            CAM_SEL(SEARCH_ID("01cam_02"));
+            itfMesMngOpenWindow();
+            var250 = prm_BOSS_PRESS_REC(1008, 0);
+            var251 = prm_BOSS_PRESS_REC(1008, 2);
+            itfMesMngSetVarScr(0, var250, 0);
+            if (BIT_CHK(2020))
+            {
+                if (var250 <= var251)
+                {
+                    itfMesMngMessage(28) /* THOR_BEST_SCORE_R */;
+                }
+                else
+                {
+                    itfMesMngMessage(27) /* THOR_BEST_SCORE */;
+                }
+            }
+            else
+            {
+                if (BIT_CHK(1649) == 0)
+                {
+                    itfMesMngMessage(19) /* NO_NAME */;
+                    itfMesMngCloseWindow();
+                    FADE_OUT(0, 15);
+                    WAIT(15);
+                    MODEL_ON(var0);
+                    MODEL_SHADOW_ON(var0);
+                    CAM_SEL(- 1);
+                    FADE_IN(0, 15);
+                    WAIT(15);
+                    PAD_ENABLE();
+                    return;
+                }
+                if (prm_BOSS_PRESS_REC(1008, 0) < 999)
+                {
+                    if (var250 <= var251)
+                    {
+                        itfMesMngMessage(28) /* THOR_BEST_SCORE_R */;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(27) /* THOR_BEST_SCORE */;
+                    }
+                }
+                else
+                {
+                    itfMesMngMessage(29) /* THOR_BOHI */;
+                }
+                if (BIT_CHK(1006) == 0)
+                {
+                    itfMesMngCloseWindow();
+                    FADE_OUT(0, 15);
+                    WAIT(15);
+                    MODEL_ON(var0);
+                    MODEL_SHADOW_ON(var0);
+                    CAM_SEL(- 1);
+                    FADE_IN(0, 15);
+                    WAIT(15);
+                    PAD_ENABLE();
+                    return;
+                }
+            }
+            BIT_ON(2600);
+            itfMesMngMessage(20) /* VISER_USE */;
+            if (itfMesMngSelect(0))
+            {
+                itfMesMngCloseWindow();
+                FADE_OUT(0, 15);
+                WAIT(15);
+                MODEL_ON(var0);
+                MODEL_SHADOW_ON(var0);
+                CAM_SEL(- 1);
+                FADE_IN(0, 15);
+                WAIT(15);
+                PAD_ENABLE();
+                return;
+            }
+            itfMesMngMessage(30) /* THOR_REMEMBER */;
+            itfMesMngCloseWindow();
+            FADE_OUT(1, 30);
+            WAIT(30);
+            CALL_NEXT(1, 45, 501);
+            CALL_BATTLE(1008);
+            return;
+        }
+        SYNC();
+    }
+}
+
+void 011_thor_after()
+{
+    PAD_DISABLE();
+    var250 = prm_BOSS_PRESS_REC(1008, 0);
+    var252 = prm_BOSS_PRESS_REC(1008, 1);
+    var251 = prm_BOSS_PRESS_REC(1008, 2);
+    itfMesMngSetVarScr(0, var250, 0);
+    BIT_ON(2020);
+    if (var250 >= var252)
+    {
+        FLD_MODEL_OFF(0, 0, "md_hoji_04", 0);
+        var0 = MODEL_PLAYER();
+        MODEL_OFF(var0);
+        MODEL_SHADOW_OFF(var0);
+        CAM_SEL(SEARCH_ID("01cam_02"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(21) /* LETTER_CHANGE */;
+        itfMesMngCloseWindow();
+        FLD_SE_PLAY(101);
+        MUL_BLUR_PARA(0, 0.9f, 0);
+        MUL_BLUR_RGBA(150, 150, 150, 80);
+        MUL_BLUR_AREA(400, 0, 0);
+        MUL_BLUR_ON(15);
+        WAIT(20);
+        FLD_MODEL_ON(0, 0, "md_hoji_04", 2);
+        MUL_BLUR_PARA(0, 1.0f, 0);
+        MUL_BLUR_RGBA(128, 128, 128, 0);
+        MUL_BLUR_SWAP(30);
+        WAIT(50);
+        MUL_BLUR_OFF(0);
+        WAIT(30);
+        itfMesMngOpenWindow();
+        if (var250 <= var251)
+        {
+            BIT_ON(2601);
+            itfMesMngMessage(28) /* THOR_BEST_SCORE_R */;
+        }
+        else
+        {
+            itfMesMngMessage(27) /* THOR_BEST_SCORE */;
+        }
+        itfMesMngCloseWindow();
+        FADE_OUT(0, 15);
+        WAIT(15);
+        MODEL_ON(var0);
+        MODEL_SHADOW_ON(var0);
+        CAM_SEL(- 1);
+        FADE_IN(0, 15);
+        WAIT(15);
+    }
+    else
+    {
+        itfMesMngOpenWindow();
+        itfMesMngMessage(22) /* LETTER_NOCHANGE */;
+        itfMesMngCloseWindow();
+    }
+    PAD_ENABLE();
+}
+
+void 023_01eve_01()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(9) == 1)
+        {
+            PAD_DISABLE();
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            CAM_SEL(SEARCH_ID("01cam_01"));
+            itfMesMngOpenWindow();
+            var250 = prm_BOSS_PRESS_REC(334, 0);
+            var251 = prm_BOSS_PRESS_REC(334, 2);
+            itfMesMngSetVarScr(0, var250, 0);
+            if (BIT_CHK(2021))
+            {
+                if (var250 <= var251)
+                {
+                    itfMesMngMessage(32) /* AHRI_BEST_SCORE_R */;
+                }
+                else
+                {
+                    itfMesMngMessage(31) /* AHRI_BEST_SCORE */;
+                }
+            }
+            else
+            {
+                if (BIT_CHK(117) == 0 || BIT_CHK(117) && BIT_CHK(146) && BIT_CHK(2037) == 0)
+                {
+                    itfMesMngMessage(19) /* NO_NAME */;
+                    itfMesMngCloseWindow();
+                    FADE_OUT(0, 15);
+                    WAIT(15);
+                    MODEL_ON(var0);
+                    MODEL_SHADOW_ON(var0);
+                    CAM_SEL(- 1);
+                    FADE_IN(0, 15);
+                    WAIT(15);
+                    PAD_ENABLE();
+                    return;
+                }
+                if (prm_BOSS_PRESS_REC(334, 0) < 999)
+                {
+                    if (var250 <= var251)
+                    {
+                        itfMesMngMessage(32) /* AHRI_BEST_SCORE_R */;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(31) /* AHRI_BEST_SCORE */;
+                    }
+                }
+                else
+                {
+                    itfMesMngMessage(33) /* AHRI_BOHI */;
+                }
+                if (BIT_CHK(1006) == 0)
+                {
+                    itfMesMngCloseWindow();
+                    FADE_OUT(0, 15);
+                    WAIT(15);
+                    MODEL_ON(var0);
+                    MODEL_SHADOW_ON(var0);
+                    CAM_SEL(- 1);
+                    FADE_IN(0, 15);
+                    WAIT(15);
+                    PAD_ENABLE();
+                    return;
+                }
+            }
+            BIT_ON(2602);
+            itfMesMngMessage(20) /* VISER_USE */;
+            if (itfMesMngSelect(0))
+            {
+                itfMesMngCloseWindow();
+                FADE_OUT(0, 15);
+                WAIT(15);
+                MODEL_ON(var0);
+                MODEL_SHADOW_ON(var0);
+                CAM_SEL(- 1);
+                FADE_IN(0, 15);
+                WAIT(15);
+                PAD_ENABLE();
+                return;
+            }
+            itfMesMngMessage(34) /* AHRI_REMEMBER */;
+            itfMesMngCloseWindow();
+            FADE_OUT(1, 30);
+            WAIT(30);
+            CALL_NEXT(1, 45, 502);
+            CALL_BATTLE(334);
+            return;
+        }
+        SYNC();
+    }
+}
+
+void 023_ahri_after()
+{
+    PAD_DISABLE();
+    var250 = prm_BOSS_PRESS_REC(334, 0);
+    var252 = prm_BOSS_PRESS_REC(334, 1);
+    var251 = prm_BOSS_PRESS_REC(334, 2);
+    itfMesMngSetVarScr(0, var250, 0);
+    BIT_ON(2021);
+    if (var250 >= var252)
+    {
+        FLD_MODEL_OFF(0, 0, "md_hoji_02", 0);
+        var0 = MODEL_PLAYER();
+        MODEL_OFF(var0);
+        MODEL_SHADOW_OFF(var0);
+        CAM_SEL(SEARCH_ID("01cam_01"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(21) /* LETTER_CHANGE */;
+        itfMesMngCloseWindow();
+        FLD_SE_PLAY(101);
+        MUL_BLUR_PARA(0, 0.9f, 0);
+        MUL_BLUR_RGBA(150, 150, 150, 80);
+        MUL_BLUR_AREA(400, 0, 0);
+        MUL_BLUR_ON(15);
+        WAIT(20);
+        FLD_MODEL_ON(0, 0, "md_hoji_02", 2);
+        MUL_BLUR_PARA(0, 1.0f, 0);
+        MUL_BLUR_RGBA(128, 128, 128, 0);
+        MUL_BLUR_SWAP(30);
+        WAIT(50);
+        MUL_BLUR_OFF(0);
+        WAIT(30);
+        itfMesMngOpenWindow();
+        if (var250 <= var251)
+        {
+            BIT_ON(2603);
+            itfMesMngMessage(32) /* AHRI_BEST_SCORE_R */;
+        }
+        else
+        {
+            itfMesMngMessage(31) /* AHRI_BEST_SCORE */;
+        }
+        itfMesMngCloseWindow();
+        FADE_OUT(0, 15);
+        WAIT(15);
+        MODEL_ON(var0);
+        MODEL_SHADOW_ON(var0);
+        CAM_SEL(- 1);
+        FADE_IN(0, 15);
+        WAIT(15);
+    }
+    else
+    {
+        itfMesMngOpenWindow();
+        itfMesMngMessage(22) /* LETTER_NOCHANGE */;
+        itfMesMngCloseWindow();
+    }
+    PAD_ENABLE();
+}
+
+void 023_01eve_02()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(9) == 1)
+        {
+            PAD_DISABLE();
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            CAM_SEL(SEARCH_ID("01cam_02"));
+            itfMesMngOpenWindow();
+            var250 = prm_BOSS_PRESS_REC(472, 0);
+            var251 = prm_BOSS_PRESS_REC(472, 2);
+            itfMesMngSetVarScr(0, var250, 0);
+            if (BIT_CHK(2022))
+            {
+                if (var250 <= var251)
+                {
+                    itfMesMngMessage(36) /* NOAH_BEST_SCORE_R */;
+                }
+                else
+                {
+                    itfMesMngMessage(35) /* NOAH_BEST_SCORE */;
+                }
+            }
+            else
+            {
+                if (BIT_CHK(97) == 0 || BIT_CHK(97) && BIT_CHK(147) && BIT_CHK(2038) == 0)
+                {
+                    itfMesMngMessage(19) /* NO_NAME */;
+                    itfMesMngCloseWindow();
+                    FADE_OUT(0, 15);
+                    WAIT(15);
+                    MODEL_ON(var0);
+                    MODEL_SHADOW_ON(var0);
+                    CAM_SEL(- 1);
+                    FADE_IN(0, 15);
+                    WAIT(15);
+                    PAD_ENABLE();
+                    return;
+                }
+                if (prm_BOSS_PRESS_REC(472, 0) < 999)
+                {
+                    if (var250 <= var251)
+                    {
+                        itfMesMngMessage(36) /* NOAH_BEST_SCORE_R */;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(35) /* NOAH_BEST_SCORE */;
+                    }
+                }
+                else
+                {
+                    itfMesMngMessage(37) /* NOAH_BOHI */;
+                }
+                if (BIT_CHK(1006) == 0)
+                {
+                    itfMesMngCloseWindow();
+                    FADE_OUT(0, 15);
+                    WAIT(15);
+                    MODEL_ON(var0);
+                    MODEL_SHADOW_ON(var0);
+                    CAM_SEL(- 1);
+                    FADE_IN(0, 15);
+                    WAIT(15);
+                    PAD_ENABLE();
+                    return;
+                }
+            }
+            BIT_ON(2604);
+            itfMesMngMessage(20) /* VISER_USE */;
+            if (itfMesMngSelect(0))
+            {
+                itfMesMngCloseWindow();
+                FADE_OUT(0, 15);
+                WAIT(15);
+                MODEL_ON(var0);
+                MODEL_SHADOW_ON(var0);
+                CAM_SEL(- 1);
+                FADE_IN(0, 15);
+                WAIT(15);
+                PAD_ENABLE();
+                return;
+            }
+            itfMesMngMessage(38) /* NOAH_REMEMBER */;
+            itfMesMngCloseWindow();
+            FADE_OUT(1, 30);
+            WAIT(30);
+            CALL_NEXT(1, 45, 503);
+            CALL_BATTLE(472);
+            return;
+        }
+        SYNC();
+    }
+}
+
+void 023_noah_after()
+{
+    PAD_DISABLE();
+    var250 = prm_BOSS_PRESS_REC(472, 0);
+    var252 = prm_BOSS_PRESS_REC(472, 1);
+    var251 = prm_BOSS_PRESS_REC(472, 2);
+    itfMesMngSetVarScr(0, var250, 0);
+    BIT_ON(2022);
+    if (var250 >= var252)
+    {
+        FLD_MODEL_OFF(0, 0, "md_hoji_04", 0);
+        var0 = MODEL_PLAYER();
+        MODEL_OFF(var0);
+        MODEL_SHADOW_OFF(var0);
+        CAM_SEL(SEARCH_ID("01cam_02"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(21) /* LETTER_CHANGE */;
+        itfMesMngCloseWindow();
+        FLD_SE_PLAY(101);
+        MUL_BLUR_PARA(0, 0.9f, 0);
+        MUL_BLUR_RGBA(150, 150, 150, 80);
+        MUL_BLUR_AREA(400, 0, 0);
+        MUL_BLUR_ON(15);
+        WAIT(20);
+        FLD_MODEL_ON(0, 0, "md_hoji_04", 2);
+        MUL_BLUR_PARA(0, 1.0f, 0);
+        MUL_BLUR_RGBA(128, 128, 128, 0);
+        MUL_BLUR_SWAP(30);
+        WAIT(50);
+        MUL_BLUR_OFF(0);
+        WAIT(30);
+        itfMesMngOpenWindow();
+        if (var250 <= var251)
+        {
+            BIT_ON(2605);
+            itfMesMngMessage(36) /* NOAH_BEST_SCORE_R */;
+        }
+        else
+        {
+            itfMesMngMessage(35) /* NOAH_BEST_SCORE */;
+        }
+        itfMesMngCloseWindow();
+        FADE_OUT(0, 15);
+        WAIT(15);
+        MODEL_ON(var0);
+        MODEL_SHADOW_ON(var0);
+        CAM_SEL(- 1);
+        FADE_IN(0, 15);
+        WAIT(15);
+    }
+    else
+    {
+        itfMesMngOpenWindow();
+        itfMesMngMessage(22) /* LETTER_NOCHANGE */;
+        itfMesMngCloseWindow();
+    }
+    PAD_ENABLE();
+}
+
+void 023_01eve_03()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(9) == 1)
+        {
+            PAD_DISABLE();
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            CAM_SEL(SEARCH_ID("01cam_03"));
+            itfMesMngOpenWindow();
+            var250 = prm_BOSS_PRESS_REC(333, 0);
+            var251 = prm_BOSS_PRESS_REC(333, 2);
+            itfMesMngSetVarScr(0, var250, 0);
+            if (BIT_CHK(2023))
+            {
+                if (var250 <= var251)
+                {
+                    itfMesMngMessage(40) /* BAAL_BEST_SCORE_R */;
+                }
+                else
+                {
+                    itfMesMngMessage(39) /* BAAL_BEST_SCORE */;
+                }
+            }
+            else
+            {
+                if (BIT_CHK(131) == 0)
+                {
+                    itfMesMngMessage(19) /* NO_NAME */;
+                    itfMesMngCloseWindow();
+                    FADE_OUT(0, 15);
+                    WAIT(15);
+                    MODEL_ON(var0);
+                    MODEL_SHADOW_ON(var0);
+                    CAM_SEL(- 1);
+                    FADE_IN(0, 15);
+                    WAIT(15);
+                    PAD_ENABLE();
+                    return;
+                }
+                if (prm_BOSS_PRESS_REC(333, 0) < 999)
+                {
+                    if (var250 <= var251)
+                    {
+                        itfMesMngMessage(40) /* BAAL_BEST_SCORE_R */;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(39) /* BAAL_BEST_SCORE */;
+                    }
+                }
+                else
+                {
+                    itfMesMngMessage(41) /* BAAL_BOHI */;
+                }
+                if (BIT_CHK(1006) == 0)
+                {
+                    itfMesMngCloseWindow();
+                    FADE_OUT(0, 15);
+                    WAIT(15);
+                    MODEL_ON(var0);
+                    MODEL_SHADOW_ON(var0);
+                    CAM_SEL(- 1);
+                    FADE_IN(0, 15);
+                    WAIT(15);
+                    PAD_ENABLE();
+                    return;
+                }
+            }
+            BIT_ON(2606);
+            itfMesMngMessage(20) /* VISER_USE */;
+            if (itfMesMngSelect(0))
+            {
+                itfMesMngCloseWindow();
+                FADE_OUT(0, 15);
+                WAIT(15);
+                MODEL_ON(var0);
+                MODEL_SHADOW_ON(var0);
+                CAM_SEL(- 1);
+                FADE_IN(0, 15);
+                WAIT(15);
+                PAD_ENABLE();
+                return;
+            }
+            itfMesMngMessage(42) /* BAAL_REMEMBER */;
+            itfMesMngCloseWindow();
+            FADE_OUT(1, 30);
+            WAIT(30);
+            CALL_NEXT(1, 45, 504);
+            CALL_BATTLE(333);
+            return;
+        }
+        SYNC();
+    }
+}
+
+void 023_baal_after()
+{
+    PAD_DISABLE();
+    var250 = prm_BOSS_PRESS_REC(333, 0);
+    var252 = prm_BOSS_PRESS_REC(333, 1);
+    var251 = prm_BOSS_PRESS_REC(333, 2);
+    itfMesMngSetVarScr(0, var250, 0);
+    BIT_ON(2023);
+    if (var250 >= var252)
+    {
+        FLD_MODEL_OFF(0, 0, "md_hoji_06", 0);
+        var0 = MODEL_PLAYER();
+        MODEL_OFF(var0);
+        MODEL_SHADOW_OFF(var0);
+        CAM_SEL(SEARCH_ID("01cam_03"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(21) /* LETTER_CHANGE */;
+        itfMesMngCloseWindow();
+        FLD_SE_PLAY(101);
+        MUL_BLUR_PARA(0, 0.9f, 0);
+        MUL_BLUR_RGBA(150, 150, 150, 80);
+        MUL_BLUR_AREA(400, 0, 0);
+        MUL_BLUR_ON(15);
+        WAIT(20);
+        FLD_MODEL_ON(0, 0, "md_hoji_06", 2);
+        MUL_BLUR_PARA(0, 1.0f, 0);
+        MUL_BLUR_RGBA(128, 128, 128, 0);
+        MUL_BLUR_SWAP(30);
+        WAIT(50);
+        MUL_BLUR_OFF(0);
+        WAIT(30);
+        itfMesMngOpenWindow();
+        if (var250 <= var251)
+        {
+            BIT_ON(2607);
+            itfMesMngMessage(40) /* BAAL_BEST_SCORE_R */;
+        }
+        else
+        {
+            itfMesMngMessage(39) /* BAAL_BEST_SCORE */;
+        }
+        itfMesMngCloseWindow();
+        FADE_OUT(0, 15);
+        WAIT(15);
+        MODEL_ON(var0);
+        MODEL_SHADOW_ON(var0);
+        CAM_SEL(- 1);
+        FADE_IN(0, 15);
+        WAIT(15);
+    }
+    else
+    {
+        itfMesMngOpenWindow();
+        itfMesMngMessage(22) /* LETTER_NOCHANGE */;
+        itfMesMngCloseWindow();
+    }
+    PAD_ENABLE();
+}
+
+void 027_01eve_01()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP3(5))
+        {
+            PAD_DISABLE();
+            SET_ALLPANEL(2);
+            WAIT(1);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(86) /* GO_ROSINSI */;
+            if (itfMesMngSelect(0) == 0)
+            {
+                itfMesMngCloseWindow();
+                SYNC();
+                if (BIT_CHK(294) == 0 && BIT_CHK(149) == 0 && BIT_CHK(148) == 0 && BIT_CHK(147) == 0 && BIT_CHK(145) == 0 && BIT_CHK(146) == 0)
+                {
+                    WAIT(1);
+                    FADE_OUT(0, 10);
+                    WAIT(10);
+                    CAM_SEL_FOVY(SEARCH_ID("01cam_01"));
+                    var0 = MODEL_PLAYER();
+                    MODEL_POS(var0, SEARCH_ID("01pos_02"));
+                    MODEL_MOTION2(var0, 8, 0, 0, 1);
+                    FLD_SE_PLAY(100);
+                    CAM_PATH_MOVE(SEARCH_ID("01cam_01"), SEARCH_ID("01cam_01_MOTION"));
+                    OBJ_PATH_MOVE(SEARCH_ID("01all_02"), SEARCH_ID("01path_01"), 0);
+                    FADE_IN(0, 10);
+                    WAIT(10);
+                    WAIT(90);
+                    FADE_OUT(0, 30);
+                    WAIT(30);
+                    FLD_SE_STOP(100);
+                    FLD_BGM_FADE();
+                    CALL_NEXT(1, 15, 718);
+                    CALL_EVENT(718);
+                    return;
+                    SYNC();
+                }
+                itfMesMngOpenWindow();
+                itfMesMngMessage(97) /* NOT_GO001 */;
+                itfMesMngCloseWindow();
+            }
+            SYNC();
+            itfMesMngCloseWindow();
+            SET_ALLPANEL(3);
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+    SYNC();
+}
+
+void 014_01eve_01()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_01"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(51) /* CHK_QUK_DOOR */;
+            FLD_ANAHORI_INIT();
+            while (1)
+            {
+                local43 = FLD_ANAHORI_GET();
+                if (local43 == 0)
+                {
+                    itfMesMngMessage(45) /* CHK_DOOR_SYSTEM_01 */;
+                    itfMesMngCloseWindow();
+                    goto _358;
+                }
+                itfMesMngSetVarScr(0, local43, 1);
+                itfMesMngMessage(74) /* TAKE_QUK_DOOR */;
+                local44 = itfMesMngSelect(47);
+                if (local44 == 0)
+                {
+                    if (prm_NAKAMA_GET_PARAM(local43, 4) >= 20)
+                    {
+                        itfMesMngMessage(67) /* OK_QUK_DOOR */;
+                        itfMesMngCloseWindow();
+                        FLD_SE_PLAY(96);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_05"), SEARCH_ID("01path_01"), 0);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_05b"), SEARCH_ID("01path_02"), 0);
+                        WAIT(20);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(126);
+                        return;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(46) /* CHK_DOOR_SYSTEM_02 */;
+                        itfMesMngMessage(60) /* OUT_QUK_DOOR */;
+                        itfMesMngMessage(63) /* GO_OUT_DOOR */;
+                        itfMesMngCloseWindow();
+                        QUAKE_ON(0, 200);
+                        FLD_SE_PLAY(34);
+                        PAD_ACT(1, 200, 10);
+                        FADE_OUT(1, 5);
+                        WAIT(5);
+                        FADE_IN(1, 5);
+                        WAIT(5);
+                        QUAKE_OFF();
+                        prm_NAKAMA_DEAD(local43);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(136);
+                        return;
+                    }
+                }
+                else if (local44 == 1)
+                {
+                    FLD_ANAHORI_NEXT();
+                }
+                else
+                {
+                    itfMesMngCloseWindow();
+                    goto _358;
+                }
+                SYNC();
+            }
+        _358:
+            itfMesMngCloseWindow();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 014_01eve_02()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_02"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(49) /* CHK_MAG_DOOR */;
+            FLD_ANAHORI_INIT();
+            while (1)
+            {
+                local45 = FLD_ANAHORI_GET();
+                if (local45 == 0)
+                {
+                    itfMesMngMessage(45) /* CHK_DOOR_SYSTEM_01 */;
+                    itfMesMngCloseWindow();
+                    goto _371;
+                }
+                itfMesMngSetVarScr(0, local45, 1);
+                itfMesMngMessage(72) /* TAKE_MAG_DOOR */;
+                local46 = itfMesMngSelect(47);
+                if (local46 == 0)
+                {
+                    if (prm_NAKAMA_GET_PARAM(local45, 2) >= 25)
+                    {
+                        itfMesMngMessage(65) /* OK_MAG_DOOR */;
+                        itfMesMngCloseWindow();
+                        FLD_SE_PLAY(96);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_06"), SEARCH_ID("01path_01"), 0);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_06b"), SEARCH_ID("01path_02"), 0);
+                        WAIT(20);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(122);
+                        return;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(46) /* CHK_DOOR_SYSTEM_02 */;
+                        itfMesMngMessage(58) /* OUT_MAG_DOOR */;
+                        itfMesMngMessage(63) /* GO_OUT_DOOR */;
+                        itfMesMngCloseWindow();
+                        QUAKE_ON(0, 200);
+                        FLD_SE_PLAY(34);
+                        PAD_ACT(1, 200, 10);
+                        FADE_OUT(1, 5);
+                        WAIT(5);
+                        FADE_IN(1, 5);
+                        WAIT(5);
+                        QUAKE_OFF();
+                        prm_NAKAMA_DEAD(local45);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(136);
+                        return;
+                    }
+                }
+                else if (local46 == 1)
+                {
+                    FLD_ANAHORI_NEXT();
+                }
+                else
+                {
+                    itfMesMngCloseWindow();
+                    goto _371;
+                }
+                SYNC();
+            }
+        _371:
+            itfMesMngCloseWindow();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 014_01eve_03()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_03"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(49) /* CHK_MAG_DOOR */;
+            FLD_ANAHORI_INIT();
+            while (1)
+            {
+                local47 = FLD_ANAHORI_GET();
+                if (local47 == 0)
+                {
+                    itfMesMngMessage(45) /* CHK_DOOR_SYSTEM_01 */;
+                    itfMesMngCloseWindow();
+                    goto _384;
+                }
+                itfMesMngSetVarScr(0, local47, 1);
+                itfMesMngMessage(72) /* TAKE_MAG_DOOR */;
+                local48 = itfMesMngSelect(47);
+                if (local48 == 0)
+                {
+                    if (prm_NAKAMA_GET_PARAM(local47, 2) >= 25)
+                    {
+                        itfMesMngMessage(65) /* OK_MAG_DOOR */;
+                        itfMesMngCloseWindow();
+                        FLD_SE_PLAY(96);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_06"), SEARCH_ID("01path_01"), 0);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_06b"), SEARCH_ID("01path_02"), 0);
+                        WAIT(20);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(123);
+                        return;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(46) /* CHK_DOOR_SYSTEM_02 */;
+                        itfMesMngMessage(58) /* OUT_MAG_DOOR */;
+                        itfMesMngMessage(63) /* GO_OUT_DOOR */;
+                        itfMesMngCloseWindow();
+                        QUAKE_ON(0, 200);
+                        FLD_SE_PLAY(34);
+                        PAD_ACT(1, 200, 10);
+                        FADE_OUT(1, 5);
+                        WAIT(5);
+                        FADE_IN(1, 5);
+                        WAIT(5);
+                        QUAKE_OFF();
+                        prm_NAKAMA_DEAD(local47);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(136);
+                        return;
+                    }
+                }
+                else if (local48 == 1)
+                {
+                    FLD_ANAHORI_NEXT();
+                }
+                else
+                {
+                    itfMesMngCloseWindow();
+                    goto _384;
+                }
+                SYNC();
+            }
+        _384:
+            itfMesMngCloseWindow();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 014_01eve_04()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_04"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(53) /* CHK_META_DOOR */;
+            FLD_ANAHORI_INIT();
+            while (1)
+            {
+                local49 = FLD_ANAHORI_GET();
+                if (local49 == 0)
+                {
+                    itfMesMngMessage(45) /* CHK_DOOR_SYSTEM_01 */;
+                    itfMesMngCloseWindow();
+                    goto _397;
+                }
+                itfMesMngSetVarScr(0, local49, 1);
+                itfMesMngMessage(76) /* TAKE_DEVIL_DOOR */;
+                local50 = itfMesMngSelect(47);
+                if (local50 == 0)
+                {
+                    if (local49 == 193)
+                    {
+                        itfMesMngMessage(69) /* OK_DEVIL_DOOR */;
+                        itfMesMngCloseWindow();
+                        FLD_SE_PLAY(96);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_08"), SEARCH_ID("01path_01"), 0);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_08b"), SEARCH_ID("01path_02"), 0);
+                        WAIT(20);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(130);
+                        return;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(46) /* CHK_DOOR_SYSTEM_02 */;
+                        itfMesMngMessage(62) /* OUT_DEVIL_DOOR */;
+                        itfMesMngMessage(63) /* GO_OUT_DOOR */;
+                        itfMesMngCloseWindow();
+                        QUAKE_ON(0, 200);
+                        FLD_SE_PLAY(34);
+                        PAD_ACT(1, 200, 10);
+                        FADE_OUT(1, 5);
+                        WAIT(5);
+                        FADE_IN(1, 5);
+                        WAIT(5);
+                        QUAKE_OFF();
+                        prm_NAKAMA_DEAD(local49);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(136);
+                        return;
+                    }
+                }
+                else if (local50 == 1)
+                {
+                    FLD_ANAHORI_NEXT();
+                }
+                else
+                {
+                    itfMesMngCloseWindow();
+                    goto _397;
+                }
+                SYNC();
+            }
+        _397:
+            itfMesMngCloseWindow();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 014_01eve_05()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_05"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(52) /* CHK_LUK_DOOR */;
+            FLD_ANAHORI_INIT();
+            while (1)
+            {
+                local51 = FLD_ANAHORI_GET();
+                if (local51 == 0)
+                {
+                    itfMesMngMessage(45) /* CHK_DOOR_SYSTEM_01 */;
+                    itfMesMngCloseWindow();
+                    goto _410;
+                }
+                itfMesMngSetVarScr(0, local51, 1);
+                itfMesMngMessage(75) /* TAKE_LUK_DOOR */;
+                local52 = itfMesMngSelect(47);
+                if (local52 == 0)
+                {
+                    if (prm_NAKAMA_GET_PARAM(local51, 5) >= 20)
+                    {
+                        itfMesMngMessage(68) /* OK_LUK_DOOR */;
+                        itfMesMngCloseWindow();
+                        FLD_SE_PLAY(96);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_09"), SEARCH_ID("01path_01"), 0);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_09b"), SEARCH_ID("01path_02"), 0);
+                        WAIT(20);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(128);
+                        return;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(46) /* CHK_DOOR_SYSTEM_02 */;
+                        itfMesMngMessage(61) /* OUT_LUK_DOOR */;
+                        itfMesMngMessage(63) /* GO_OUT_DOOR */;
+                        itfMesMngCloseWindow();
+                        QUAKE_ON(0, 200);
+                        FLD_SE_PLAY(34);
+                        PAD_ACT(1, 200, 10);
+                        FADE_OUT(1, 5);
+                        WAIT(5);
+                        FADE_IN(1, 5);
+                        WAIT(5);
+                        QUAKE_OFF();
+                        prm_NAKAMA_DEAD(local51);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(136);
+                        return;
+                    }
+                }
+                else if (local52 == 1)
+                {
+                    FLD_ANAHORI_NEXT();
+                }
+                else
+                {
+                    itfMesMngCloseWindow();
+                    goto _410;
+                }
+                SYNC();
+            }
+        _410:
+            itfMesMngCloseWindow();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 014_01eve_06()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_06"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(48) /* CHK_POW_DOOR */;
+            FLD_ANAHORI_INIT();
+            while (1)
+            {
+                local53 = FLD_ANAHORI_GET();
+                if (local53 == 0)
+                {
+                    itfMesMngMessage(45) /* CHK_DOOR_SYSTEM_01 */;
+                    itfMesMngCloseWindow();
+                    goto _423;
+                }
+                itfMesMngSetVarScr(0, local53, 1);
+                itfMesMngMessage(71) /* TAKE_POW_DOOR */;
+                local54 = itfMesMngSelect(47);
+                if (local54 == 0)
+                {
+                    if (prm_NAKAMA_GET_PARAM(local53, 0) >= 25)
+                    {
+                        itfMesMngMessage(64) /* OK_POW_DOOR */;
+                        itfMesMngCloseWindow();
+                        FLD_SE_PLAY(96);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_10"), SEARCH_ID("01path_01"), 0);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_10b"), SEARCH_ID("01path_02"), 0);
+                        WAIT(20);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(120);
+                        return;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(46) /* CHK_DOOR_SYSTEM_02 */;
+                        itfMesMngMessage(57) /* OUT_POW_DOOR */;
+                        itfMesMngMessage(63) /* GO_OUT_DOOR */;
+                        itfMesMngCloseWindow();
+                        QUAKE_ON(0, 200);
+                        FLD_SE_PLAY(34);
+                        PAD_ACT(1, 200, 10);
+                        FADE_OUT(1, 5);
+                        WAIT(5);
+                        FADE_IN(1, 5);
+                        WAIT(5);
+                        QUAKE_OFF();
+                        prm_NAKAMA_DEAD(local53);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(136);
+                        return;
+                    }
+                }
+                else if (local54 == 1)
+                {
+                    FLD_ANAHORI_NEXT();
+                }
+                else
+                {
+                    itfMesMngCloseWindow();
+                    goto _423;
+                }
+                SYNC();
+            }
+        _423:
+            itfMesMngCloseWindow();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 015_01eve_01()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_01"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(52) /* CHK_LUK_DOOR */;
+            FLD_ANAHORI_INIT();
+            while (1)
+            {
+                local55 = FLD_ANAHORI_GET();
+                if (local55 == 0)
+                {
+                    itfMesMngMessage(45) /* CHK_DOOR_SYSTEM_01 */;
+                    itfMesMngCloseWindow();
+                    goto _436;
+                }
+                itfMesMngSetVarScr(0, local55, 1);
+                itfMesMngMessage(75) /* TAKE_LUK_DOOR */;
+                local56 = itfMesMngSelect(47);
+                if (local56 == 0)
+                {
+                    if (prm_NAKAMA_GET_PARAM(local55, 5) >= 20)
+                    {
+                        itfMesMngMessage(68) /* OK_LUK_DOOR */;
+                        itfMesMngCloseWindow();
+                        FLD_SE_PLAY(96);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_05"), SEARCH_ID("01path_01"), 0);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_05b"), SEARCH_ID("01path_02"), 0);
+                        WAIT(20);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(129);
+                        return;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(46) /* CHK_DOOR_SYSTEM_02 */;
+                        itfMesMngMessage(61) /* OUT_LUK_DOOR */;
+                        itfMesMngMessage(63) /* GO_OUT_DOOR */;
+                        itfMesMngCloseWindow();
+                        QUAKE_ON(0, 200);
+                        FLD_SE_PLAY(34);
+                        PAD_ACT(1, 200, 10);
+                        FADE_OUT(1, 5);
+                        WAIT(5);
+                        FADE_IN(1, 5);
+                        WAIT(5);
+                        QUAKE_OFF();
+                        prm_NAKAMA_DEAD(local55);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(136);
+                        return;
+                    }
+                }
+                else if (local56 == 1)
+                {
+                    FLD_ANAHORI_NEXT();
+                }
+                else
+                {
+                    itfMesMngCloseWindow();
+                    goto _436;
+                }
+                SYNC();
+            }
+        _436:
+            itfMesMngCloseWindow();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 014_01eve_07()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_07"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(54) /* CHK_ZYA_DOOR */;
+            FLD_ANAHORI_INIT();
+            while (1)
+            {
+                local57 = FLD_ANAHORI_GET();
+                if (local57 == 0)
+                {
+                    itfMesMngMessage(45) /* CHK_DOOR_SYSTEM_01 */;
+                    itfMesMngCloseWindow();
+                    goto _449;
+                }
+                itfMesMngSetVarScr(0, local57, 1);
+                itfMesMngMessage(76) /* TAKE_DEVIL_DOOR */;
+                local58 = itfMesMngSelect(47);
+                if (local58 == 0)
+                {
+                    if (local57 == 206)
+                    {
+                        itfMesMngMessage(70) /* OK_DEVIL_DOOR_ZYA */;
+                        itfMesMngCloseWindow();
+                        FLD_SE_PLAY(96);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_07"), SEARCH_ID("01path_01"), 0);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_07b"), SEARCH_ID("01path_02"), 0);
+                        WAIT(20);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(138);
+                        return;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(46) /* CHK_DOOR_SYSTEM_02 */;
+                        itfMesMngMessage(62) /* OUT_DEVIL_DOOR */;
+                        itfMesMngMessage(63) /* GO_OUT_DOOR */;
+                        itfMesMngCloseWindow();
+                        QUAKE_ON(0, 200);
+                        FLD_SE_PLAY(34);
+                        PAD_ACT(1, 200, 10);
+                        FADE_OUT(1, 5);
+                        WAIT(5);
+                        FADE_IN(1, 5);
+                        WAIT(5);
+                        QUAKE_OFF();
+                        prm_NAKAMA_DEAD(local57);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(136);
+                        return;
+                    }
+                }
+                else if (local58 == 1)
+                {
+                    FLD_ANAHORI_NEXT();
+                }
+                else
+                {
+                    itfMesMngCloseWindow();
+                    goto _449;
+                }
+                SYNC();
+            }
+        _449:
+            itfMesMngCloseWindow();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 018_01eve_04()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_05"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(54) /* CHK_ZYA_DOOR */;
+            FLD_ANAHORI_INIT();
+            while (1)
+            {
+                local59 = FLD_ANAHORI_GET();
+                if (local59 == 0)
+                {
+                    itfMesMngMessage(45) /* CHK_DOOR_SYSTEM_01 */;
+                    itfMesMngCloseWindow();
+                    goto _462;
+                }
+                itfMesMngSetVarScr(0, local59, 1);
+                itfMesMngMessage(76) /* TAKE_DEVIL_DOOR */;
+                local60 = itfMesMngSelect(47);
+                if (local60 == 0)
+                {
+                    if (local59 == 206)
+                    {
+                        itfMesMngMessage(70) /* OK_DEVIL_DOOR_ZYA */;
+                        itfMesMngCloseWindow();
+                        FLD_SE_PLAY(96);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_07"), SEARCH_ID("01path_01"), 0);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_07b"), SEARCH_ID("01path_02"), 0);
+                        WAIT(20);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(137);
+                        return;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(46) /* CHK_DOOR_SYSTEM_02 */;
+                        itfMesMngMessage(62) /* OUT_DEVIL_DOOR */;
+                        itfMesMngMessage(63) /* GO_OUT_DOOR */;
+                        itfMesMngCloseWindow();
+                        QUAKE_ON(0, 200);
+                        FLD_SE_PLAY(34);
+                        PAD_ACT(1, 200, 10);
+                        FADE_OUT(1, 5);
+                        WAIT(5);
+                        FADE_IN(1, 5);
+                        WAIT(5);
+                        QUAKE_OFF();
+                        prm_NAKAMA_DEAD(local59);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(136);
+                        return;
+                    }
+                }
+                else if (local60 == 1)
+                {
+                    FLD_ANAHORI_NEXT();
+                }
+                else
+                {
+                    itfMesMngCloseWindow();
+                    goto _462;
+                }
+                SYNC();
+            }
+        _462:
+            itfMesMngCloseWindow();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 015_01eve_02()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_02"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            if (BIT_CHK(2029) == 0)
+            {
+                itfMesMngOpenWindow();
+                itfMesMngMessage(56) /* CHK_PIXY_DOOR */;
+                FLD_ANAHORI_INIT();
+                while (1)
+                {
+                    local61 = FLD_ANAHORI_GET();
+                    if (local61 == 0)
+                    {
+                        itfMesMngMessage(45) /* CHK_DOOR_SYSTEM_01 */;
+                        itfMesMngCloseWindow();
+                        goto _475;
+                    }
+                    itfMesMngSetVarScr(0, local61, 1);
+                    itfMesMngMessage(76) /* TAKE_DEVIL_DOOR */;
+                    local62 = itfMesMngSelect(47);
+                    if (local62 == 0)
+                    {
+                        if (prm_NAKAMA_CHK_PIKUKO(local61) != 0)
+                        {
+                            itfMesMngMessage(69) /* OK_DEVIL_DOOR */;
+                            itfMesMngCloseWindow();
+                            FLD_SE_PLAY(96);
+                            OBJ_PATH_MOVE(SEARCH_ID("md_01d_08"), SEARCH_ID("01path_01"), 0);
+                            OBJ_PATH_MOVE(SEARCH_ID("md_01d_08b"), SEARCH_ID("01path_02"), 0);
+                            WAIT(20);
+                            FADE_OUT(0, 30);
+                            WAIT(30);
+                            FLD_CALL_WAPEX(134);
+                            return;
+                        }
+                        else
+                        {
+                            itfMesMngMessage(46) /* CHK_DOOR_SYSTEM_02 */;
+                            itfMesMngMessage(62) /* OUT_DEVIL_DOOR */;
+                            itfMesMngMessage(63) /* GO_OUT_DOOR */;
+                            itfMesMngCloseWindow();
+                            QUAKE_ON(0, 200);
+                            FLD_SE_PLAY(34);
+                            PAD_ACT(1, 200, 10);
+                            FADE_OUT(1, 5);
+                            WAIT(5);
+                            FADE_IN(1, 5);
+                            WAIT(5);
+                            QUAKE_OFF();
+                            prm_NAKAMA_DEAD(local61);
+                            FADE_OUT(0, 30);
+                            WAIT(30);
+                            FLD_CALL_WAPEX(136);
+                            return;
+                        }
+                    }
+                    else if (local62 == 1)
+                    {
+                        FLD_ANAHORI_NEXT();
+                    }
+                    else
+                    {
+                        itfMesMngCloseWindow();
+                        goto _475;
+                    }
+                    SYNC();
+                }
+            _475:
+            }
+            else
+            {
+                itfMesMngOpenWindow();
+                itfMesMngMessage(69) /* OK_DEVIL_DOOR */;
+                itfMesMngCloseWindow();
+                FLD_SE_PLAY(96);
+                OBJ_PATH_MOVE(SEARCH_ID("md_01d_08"), SEARCH_ID("01path_01"), 0);
+                OBJ_PATH_MOVE(SEARCH_ID("md_01d_08b"), SEARCH_ID("01path_02"), 0);
+                WAIT(20);
+                FADE_OUT(0, 30);
+                WAIT(30);
+                FLD_CALL_WAPEX(134);
+                return;
+            }
+            itfMesMngCloseWindow();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 015_01eve_03()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_03"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(50) /* CHK_STA_DOOR */;
+            FLD_ANAHORI_INIT();
+            while (1)
+            {
+                local63 = FLD_ANAHORI_GET();
+                if (local63 == 0)
+                {
+                    itfMesMngMessage(45) /* CHK_DOOR_SYSTEM_01 */;
+                    itfMesMngCloseWindow();
+                    goto _490;
+                }
+                itfMesMngSetVarScr(0, local63, 1);
+                itfMesMngMessage(73) /* TAKE_STA_DOOR */;
+                local64 = itfMesMngSelect(47);
+                if (local64 == 0)
+                {
+                    if (prm_NAKAMA_GET_PARAM(local63, 3) >= 25)
+                    {
+                        itfMesMngMessage(66) /* OK_STA_DOOR */;
+                        itfMesMngCloseWindow();
+                        FLD_SE_PLAY(96);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_07"), SEARCH_ID("01path_01"), 0);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_07b"), SEARCH_ID("01path_02"), 0);
+                        WAIT(20);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(124);
+                        return;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(46) /* CHK_DOOR_SYSTEM_02 */;
+                        itfMesMngMessage(59) /* OUT_STA_DOOR */;
+                        itfMesMngMessage(63) /* GO_OUT_DOOR */;
+                        itfMesMngCloseWindow();
+                        QUAKE_ON(0, 200);
+                        FLD_SE_PLAY(34);
+                        PAD_ACT(1, 200, 10);
+                        FADE_OUT(1, 5);
+                        WAIT(5);
+                        FADE_IN(1, 5);
+                        WAIT(5);
+                        QUAKE_OFF();
+                        prm_NAKAMA_DEAD(local63);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(136);
+                        return;
+                    }
+                }
+                else if (local64 == 1)
+                {
+                    FLD_ANAHORI_NEXT();
+                }
+                else
+                {
+                    itfMesMngCloseWindow();
+                    goto _490;
+                }
+                SYNC();
+            }
+        _490:
+            itfMesMngCloseWindow();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 016_01eve_01()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_01"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(53) /* CHK_META_DOOR */;
+            FLD_ANAHORI_INIT();
+            while (1)
+            {
+                local65 = FLD_ANAHORI_GET();
+                if (local65 == 0)
+                {
+                    itfMesMngMessage(45) /* CHK_DOOR_SYSTEM_01 */;
+                    itfMesMngCloseWindow();
+                    goto _503;
+                }
+                itfMesMngSetVarScr(0, local65, 1);
+                itfMesMngMessage(76) /* TAKE_DEVIL_DOOR */;
+                local66 = itfMesMngSelect(47);
+                if (local66 == 0)
+                {
+                    if (local65 == 193)
+                    {
+                        itfMesMngMessage(69) /* OK_DEVIL_DOOR */;
+                        itfMesMngCloseWindow();
+                        FLD_SE_PLAY(96);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_04"), SEARCH_ID("01path_01"), 0);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_04b"), SEARCH_ID("01path_02"), 0);
+                        WAIT(20);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(131);
+                        return;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(46) /* CHK_DOOR_SYSTEM_02 */;
+                        itfMesMngMessage(62) /* OUT_DEVIL_DOOR */;
+                        itfMesMngMessage(63) /* GO_OUT_DOOR */;
+                        itfMesMngCloseWindow();
+                        QUAKE_ON(0, 200);
+                        FLD_SE_PLAY(34);
+                        PAD_ACT(1, 200, 10);
+                        FADE_OUT(1, 5);
+                        WAIT(5);
+                        FADE_IN(1, 5);
+                        WAIT(5);
+                        QUAKE_OFF();
+                        prm_NAKAMA_DEAD(local65);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(136);
+                        return;
+                    }
+                }
+                else if (local66 == 1)
+                {
+                    FLD_ANAHORI_NEXT();
+                }
+                else
+                {
+                    itfMesMngCloseWindow();
+                    goto _503;
+                }
+                SYNC();
+            }
+        _503:
+            itfMesMngCloseWindow();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 017_01eve_01()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_01"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(48) /* CHK_POW_DOOR */;
+            FLD_ANAHORI_INIT();
+            while (1)
+            {
+                local67 = FLD_ANAHORI_GET();
+                if (local67 == 0)
+                {
+                    itfMesMngMessage(45) /* CHK_DOOR_SYSTEM_01 */;
+                    itfMesMngCloseWindow();
+                    goto _516;
+                }
+                itfMesMngSetVarScr(0, local67, 1);
+                itfMesMngMessage(71) /* TAKE_POW_DOOR */;
+                local68 = itfMesMngSelect(47);
+                if (local68 == 0)
+                {
+                    if (prm_NAKAMA_GET_PARAM(local67, 0) >= 25)
+                    {
+                        itfMesMngMessage(64) /* OK_POW_DOOR */;
+                        itfMesMngCloseWindow();
+                        FLD_SE_PLAY(96);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_08"), SEARCH_ID("01path_01"), 0);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_08b"), SEARCH_ID("01path_02"), 0);
+                        WAIT(20);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(121);
+                        return;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(46) /* CHK_DOOR_SYSTEM_02 */;
+                        itfMesMngMessage(57) /* OUT_POW_DOOR */;
+                        itfMesMngMessage(63) /* GO_OUT_DOOR */;
+                        itfMesMngCloseWindow();
+                        QUAKE_ON(0, 200);
+                        FLD_SE_PLAY(34);
+                        PAD_ACT(1, 200, 10);
+                        FADE_OUT(1, 5);
+                        WAIT(5);
+                        FADE_IN(1, 5);
+                        WAIT(5);
+                        QUAKE_OFF();
+                        prm_NAKAMA_DEAD(local67);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(136);
+                        return;
+                    }
+                }
+                else if (local68 == 1)
+                {
+                    FLD_ANAHORI_NEXT();
+                }
+                else
+                {
+                    itfMesMngCloseWindow();
+                    goto _516;
+                }
+                SYNC();
+            }
+        _516:
+            itfMesMngCloseWindow();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 017_01eve_02()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_02"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            if (BIT_CHK(2029) == 0)
+            {
+                itfMesMngOpenWindow();
+                itfMesMngMessage(56) /* CHK_PIXY_DOOR */;
+                FLD_ANAHORI_INIT();
+                while (1)
+                {
+                    local69 = FLD_ANAHORI_GET();
+                    if (local69 == 0)
+                    {
+                        itfMesMngMessage(45) /* CHK_DOOR_SYSTEM_01 */;
+                        itfMesMngCloseWindow();
+                        goto _529;
+                    }
+                    itfMesMngSetVarScr(0, local69, 1);
+                    itfMesMngMessage(76) /* TAKE_DEVIL_DOOR */;
+                    local70 = itfMesMngSelect(47);
+                    if (local70 == 0)
+                    {
+                        if (prm_NAKAMA_CHK_PIKUKO(local69) != 0)
+                        {
+                            itfMesMngMessage(69) /* OK_DEVIL_DOOR */;
+                            itfMesMngCloseWindow();
+                            FLD_SE_PLAY(96);
+                            OBJ_PATH_MOVE(SEARCH_ID("md_01d_07"), SEARCH_ID("01path_01"), 0);
+                            OBJ_PATH_MOVE(SEARCH_ID("md_01d_07b"), SEARCH_ID("01path_02"), 0);
+                            WAIT(20);
+                            FADE_OUT(0, 30);
+                            WAIT(30);
+                            FLD_CALL_WAPEX(135);
+                            return;
+                        }
+                        else
+                        {
+                            itfMesMngMessage(46) /* CHK_DOOR_SYSTEM_02 */;
+                            itfMesMngMessage(62) /* OUT_DEVIL_DOOR */;
+                            itfMesMngMessage(63) /* GO_OUT_DOOR */;
+                            itfMesMngCloseWindow();
+                            QUAKE_ON(0, 200);
+                            FLD_SE_PLAY(34);
+                            PAD_ACT(1, 200, 10);
+                            FADE_OUT(1, 5);
+                            WAIT(5);
+                            FADE_IN(1, 5);
+                            WAIT(5);
+                            QUAKE_OFF();
+                            prm_NAKAMA_DEAD(local69);
+                            FADE_OUT(0, 30);
+                            WAIT(30);
+                            FLD_CALL_WAPEX(136);
+                            return;
+                        }
+                    }
+                    else if (local70 == 1)
+                    {
+                        FLD_ANAHORI_NEXT();
+                    }
+                    else
+                    {
+                        itfMesMngCloseWindow();
+                        goto _529;
+                    }
+                    SYNC();
+                }
+            _529:
+            }
+            else
+            {
+                itfMesMngOpenWindow();
+                itfMesMngMessage(69) /* OK_DEVIL_DOOR */;
+                itfMesMngCloseWindow();
+                FLD_SE_PLAY(96);
+                OBJ_PATH_MOVE(SEARCH_ID("md_01d_07"), SEARCH_ID("01path_01"), 0);
+                OBJ_PATH_MOVE(SEARCH_ID("md_01d_07b"), SEARCH_ID("01path_02"), 0);
+                WAIT(20);
+                FADE_OUT(0, 30);
+                WAIT(30);
+                FLD_CALL_WAPEX(135);
+                return;
+            }
+            itfMesMngCloseWindow();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 018_01eve_01()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_01"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(50) /* CHK_STA_DOOR */;
+            FLD_ANAHORI_INIT();
+            while (1)
+            {
+                local71 = FLD_ANAHORI_GET();
+                if (local71 == 0)
+                {
+                    itfMesMngMessage(45) /* CHK_DOOR_SYSTEM_01 */;
+                    itfMesMngCloseWindow();
+                    goto _544;
+                }
+                itfMesMngSetVarScr(0, local71, 1);
+                itfMesMngMessage(73) /* TAKE_STA_DOOR */;
+                local72 = itfMesMngSelect(47);
+                if (local72 == 0)
+                {
+                    if (prm_NAKAMA_GET_PARAM(local71, 3) >= 25)
+                    {
+                        itfMesMngMessage(66) /* OK_STA_DOOR */;
+                        itfMesMngCloseWindow();
+                        FLD_SE_PLAY(96);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_05"), SEARCH_ID("01path_01"), 0);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_05b"), SEARCH_ID("01path_02"), 0);
+                        WAIT(20);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(125);
+                        return;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(46) /* CHK_DOOR_SYSTEM_02 */;
+                        itfMesMngMessage(59) /* OUT_STA_DOOR */;
+                        itfMesMngMessage(63) /* GO_OUT_DOOR */;
+                        itfMesMngCloseWindow();
+                        QUAKE_ON(0, 200);
+                        FLD_SE_PLAY(34);
+                        PAD_ACT(1, 200, 10);
+                        FADE_OUT(1, 5);
+                        WAIT(5);
+                        FADE_IN(1, 5);
+                        WAIT(5);
+                        QUAKE_OFF();
+                        prm_NAKAMA_DEAD(local71);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(136);
+                        return;
+                    }
+                }
+                else if (local72 == 1)
+                {
+                    FLD_ANAHORI_NEXT();
+                }
+                else
+                {
+                    itfMesMngCloseWindow();
+                    goto _544;
+                }
+                SYNC();
+            }
+        _544:
+            itfMesMngCloseWindow();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 018_01eve_02()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_02"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(55) /* CHK_BERU_DOOR */;
+            FLD_ANAHORI_INIT();
+            while (1)
+            {
+                local73 = FLD_ANAHORI_GET();
+                if (local73 == 0)
+                {
+                    itfMesMngMessage(45) /* CHK_DOOR_SYSTEM_01 */;
+                    itfMesMngCloseWindow();
+                    goto _557;
+                }
+                itfMesMngSetVarScr(0, local73, 1);
+                itfMesMngMessage(76) /* TAKE_DEVIL_DOOR */;
+                local74 = itfMesMngSelect(47);
+                if (local74 == 0)
+                {
+                    if (local73 == 194)
+                    {
+                        itfMesMngMessage(69) /* OK_DEVIL_DOOR */;
+                        itfMesMngCloseWindow();
+                        FLD_SE_PLAY(96);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_04"), SEARCH_ID("01path_01"), 0);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_04b"), SEARCH_ID("01path_02"), 0);
+                        WAIT(20);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(132);
+                        return;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(46) /* CHK_DOOR_SYSTEM_02 */;
+                        itfMesMngMessage(62) /* OUT_DEVIL_DOOR */;
+                        itfMesMngMessage(63) /* GO_OUT_DOOR */;
+                        itfMesMngCloseWindow();
+                        QUAKE_ON(0, 200);
+                        FLD_SE_PLAY(34);
+                        PAD_ACT(1, 200, 10);
+                        FADE_OUT(1, 5);
+                        WAIT(5);
+                        FADE_IN(1, 5);
+                        WAIT(5);
+                        QUAKE_OFF();
+                        prm_NAKAMA_DEAD(local73);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(136);
+                        return;
+                    }
+                }
+                else if (local74 == 1)
+                {
+                    FLD_ANAHORI_NEXT();
+                }
+                else
+                {
+                    itfMesMngCloseWindow();
+                    goto _557;
+                }
+                SYNC();
+            }
+        _557:
+            itfMesMngCloseWindow();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 018_01eve_03()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_03"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(55) /* CHK_BERU_DOOR */;
+            FLD_ANAHORI_INIT();
+            while (1)
+            {
+                local75 = FLD_ANAHORI_GET();
+                if (local75 == 0)
+                {
+                    itfMesMngMessage(45) /* CHK_DOOR_SYSTEM_01 */;
+                    itfMesMngCloseWindow();
+                    goto _570;
+                }
+                itfMesMngSetVarScr(0, local75, 1);
+                itfMesMngMessage(76) /* TAKE_DEVIL_DOOR */;
+                local76 = itfMesMngSelect(47);
+                if (local76 == 0)
+                {
+                    if (local75 == 194)
+                    {
+                        itfMesMngMessage(69) /* OK_DEVIL_DOOR */;
+                        itfMesMngCloseWindow();
+                        FLD_SE_PLAY(96);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_04"), SEARCH_ID("01path_01"), 0);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_04b"), SEARCH_ID("01path_02"), 0);
+                        WAIT(20);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(133);
+                        return;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(46) /* CHK_DOOR_SYSTEM_02 */;
+                        itfMesMngMessage(62) /* OUT_DEVIL_DOOR */;
+                        itfMesMngMessage(63) /* GO_OUT_DOOR */;
+                        itfMesMngCloseWindow();
+                        QUAKE_ON(0, 200);
+                        FLD_SE_PLAY(34);
+                        PAD_ACT(1, 200, 10);
+                        FADE_OUT(1, 5);
+                        WAIT(5);
+                        FADE_IN(1, 5);
+                        WAIT(5);
+                        QUAKE_OFF();
+                        prm_NAKAMA_DEAD(local75);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(136);
+                        return;
+                    }
+                }
+                else if (local76 == 1)
+                {
+                    FLD_ANAHORI_NEXT();
+                }
+                else
+                {
+                    itfMesMngCloseWindow();
+                    goto _570;
+                }
+                SYNC();
+            }
+        _570:
+            itfMesMngCloseWindow();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 019_01eve_01()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_01"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(51) /* CHK_QUK_DOOR */;
+            FLD_ANAHORI_INIT();
+            while (1)
+            {
+                local77 = FLD_ANAHORI_GET();
+                if (local77 == 0)
+                {
+                    itfMesMngMessage(45) /* CHK_DOOR_SYSTEM_01 */;
+                    itfMesMngCloseWindow();
+                    goto _583;
+                }
+                itfMesMngSetVarScr(0, local77, 1);
+                itfMesMngMessage(74) /* TAKE_QUK_DOOR */;
+                local78 = itfMesMngSelect(47);
+                if (local78 == 0)
+                {
+                    if (prm_NAKAMA_GET_PARAM(local77, 4) >= 20)
+                    {
+                        itfMesMngMessage(67) /* OK_QUK_DOOR */;
+                        itfMesMngCloseWindow();
+                        FLD_SE_PLAY(96);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_12"), SEARCH_ID("01path_01"), 0);
+                        OBJ_PATH_MOVE(SEARCH_ID("md_01d_12b"), SEARCH_ID("01path_02"), 0);
+                        WAIT(20);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(127);
+                        return;
+                    }
+                    else
+                    {
+                        itfMesMngMessage(46) /* CHK_DOOR_SYSTEM_02 */;
+                        itfMesMngMessage(60) /* OUT_QUK_DOOR */;
+                        itfMesMngMessage(63) /* GO_OUT_DOOR */;
+                        itfMesMngCloseWindow();
+                        QUAKE_ON(0, 200);
+                        FLD_SE_PLAY(34);
+                        PAD_ACT(1, 200, 10);
+                        FADE_OUT(1, 5);
+                        WAIT(5);
+                        FADE_IN(1, 5);
+                        WAIT(5);
+                        QUAKE_OFF();
+                        prm_NAKAMA_DEAD(local77);
+                        FADE_OUT(0, 30);
+                        WAIT(30);
+                        FLD_CALL_WAPEX(136);
+                        return;
+                    }
+                }
+                else if (local78 == 1)
+                {
+                    FLD_ANAHORI_NEXT();
+                }
+                else
+                {
+                    itfMesMngCloseWindow();
+                    goto _583;
+                }
+                SYNC();
+            }
+        _583:
+            itfMesMngCloseWindow();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 017_pixy()
+{
+    if (BIT_CHK(2029) == 0)
+    {
+        PAD_DISABLE();
+        SET_ALLPANEL(0);
+        FLD_BGM_FADE();
+        FLD_BGM_PLAY(134);
+        local79 = prm_PIKUKO_GETID();
+        local80 = MODEL_DSP(6, local79);
+        FLD_MODEL_LIGHT(local80);
+        MODEL_POS(local80, SEARCH_ID("01pos_12"));
+        CAM_SEL_FOVY(SEARCH_ID("01cam_03"));
+        itfMesMngSetVarScr(0, local79, 1);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(77) /* PIXY_REBIRTH_SYSTEM_01 */;
+        itfMesMngCloseWindow();
+        FADE_OUT(0, 10);
+        WAIT(10);
+        CAM_SEL_FOVY(SEARCH_ID("01cam_04"));
+        FADE_IN(0, 10);
+        WAIT(10);
+        QUAKE_ON(0, 50);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(78) /* PIXY_REBIRTH_01 */;
+        itfMesMngCloseWindow();
+        FADE_OUT(1, 5);
+        WAIT(5);
+        FADE_IN(1, 5);
+        WAIT(10);
+        FADE_OUT(1, 10);
+        WAIT(10);
+        FADE_IN(1, 10);
+        WAIT(20);
+        FADE_OUT(1, 20);
+        WAIT(20);
+        QUAKE_OFF();
+        MODEL_CLS(local80);
+        local81 = EFFBED_LOAD("/fld/f/bin/DEVILGEN.BED");
+        local80 = MODEL_DSP(6, 61);
+        FLD_MODEL_LIGHT(local80);
+        FADE_IN(1, 20);
+        WAIT(60);
+        COMM_217(1);
+        EFFECT_POS(local81, SEARCH_ID("01pos_12"));
+        EFFBED_START(local81, 0);
+        WAIT(10);
+        MODEL_A(local80, 0, 0.0f);
+        MODEL_POS(local80, SEARCH_ID("01pos_12"));
+        MODEL_A(local80, 15, 1.0f);
+        QUAKE_ON(10, 300);
+        PAD_ACT(1, 170, 10);
+        PAD_ACT(0, 1, 10);
+        WAIT(10);
+        WAIT(60);
+        FADE_OUT(0, 10);
+        WAIT(10);
+        CAM_SEL_FOVY(SEARCH_ID("01cam_05"));
+        FADE_IN(0, 10);
+        WAIT(10);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(79) /* PIXY_REBIRTH_02 */;
+        itfMesMngCloseWindow();
+        FADE_OUT(0, 10);
+        WAIT(10);
+        MODEL_POS(local80, SEARCH_ID("01pos_13"));
+        CAM_SEL_FOVY(SEARCH_ID("01cam_03"));
+        FADE_IN(0, 10);
+        WAIT(10);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(80) /* PIXY_REBIRTH_03 */;
+        itfMesMngCloseWindow();
+        COMM_217(5);
+        MODEL_MOTION2(local80, 14, 3, 15, 0);
+        MODEL_WAIT_MOT(local80, 0);
+        WAIT(75);
+        FLD_BGM_FADE();
+        FLD_BGM_PLAY(1);
+        FLD_ANAHORI_DEL();
+        prm_DV_PLUS(61, 2, 0);
+        prm_DV_COPY_PARAM(61, 215);
+        FADE_OUT(0, 15);
+        WAIT(15);
+        MODEL_CLS(local80);
+        SET_CHASE_CAMERA();
+        CAM_SEL(- 1);
+        FADE_IN(0, 15);
+        WAIT(15);
+        BIT_ON(2029);
+        SET_ALLPANEL(3);
+        PAD_ENABLE();
+    }
+}
+
+void 015_01eve_test()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP3(9))
+        {
+            prm_DV_PLUS(61, 1, 1);
+            BIT_ON(32);
+            prm_UDV_DELETE_OK(1);
+            BIT_ON(2324);
+            BIT_ON(2325);
+        }
+        SYNC();
+    }
+}
+
+void 021_01eve_01()
+{
+    if (BIT_CHK(2025) == 0)
+    {
+        PAD_DISABLE();
+        SET_ALLPANEL(0);
+        FADE_OUT(0, 10);
+        WAIT(10);
+        CAM_SEL(SEARCH_ID("01cam_03"));
+        FADE_IN(0, 10);
+        WAIT(10);
+        CAM_PATH_MOVE(SEARCH_ID("01cam_03"), SEARCH_ID("01cam_03_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(81) /* KAISU_DOOR */;
+        itfMesMngCloseWindow();
+        FADE_OUT(0, 15);
+        WAIT(15);
+        CAM_SEL(- 1);
+        FADE_IN(0, 15);
+        WAIT(15);
+        BIT_ON(2025);
+        SET_ALLPANEL(3);
+        PAD_ENABLE();
+    }
+}
+
+void 021_01eve_02()
+{
+    if (BIT_CHK(2025) == 0)
+    {
+        PAD_DISABLE();
+        SET_ALLPANEL(0);
+        FADE_OUT(0, 10);
+        WAIT(10);
+        CAM_SEL(SEARCH_ID("01cam_03"));
+        FADE_IN(0, 10);
+        WAIT(10);
+        CAM_PATH_MOVE(SEARCH_ID("01cam_03"), SEARCH_ID("01cam_03_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(81) /* KAISU_DOOR */;
+        itfMesMngCloseWindow();
+        FADE_OUT(0, 15);
+        WAIT(15);
+        CAM_SEL(- 1);
+        FADE_IN(0, 15);
+        WAIT(15);
+        BIT_ON(2025);
+        SET_ALLPANEL(3);
+        PAD_ENABLE();
+    }
+}
+
+void 021_01eve_03()
+{
+    if (BIT_CHK(2025) == 0)
+    {
+        PAD_DISABLE();
+        SET_ALLPANEL(0);
+        FADE_OUT(0, 15);
+        WAIT(15);
+        CAM_SEL(SEARCH_ID("01cam_03"));
+        FADE_IN(0, 15);
+        WAIT(15);
+        CAM_PATH_MOVE(SEARCH_ID("01cam_03"), SEARCH_ID("01cam_03_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(81) /* KAISU_DOOR */;
+        itfMesMngCloseWindow();
+        FADE_OUT(0, 15);
+        WAIT(15);
+        CAM_SEL(- 1);
+        FADE_IN(0, 15);
+        WAIT(15);
+        BIT_ON(2025);
+        SET_ALLPANEL(3);
+        PAD_ENABLE();
+    }
+}
+
+void 021_exit_door()
+{
+    PAD_DISABLE();
+    SET_ALLPANEL(0);
+    itfMesMngOpenWindow();
+    itfMesMngOpenWindow();
+    if (BIT_CHK(2028))
+    {
+        itfMesMngMessage(85) /* KAISU_DOOR_OUT */;
+        itfMesMngCloseWindow();
+        FADE_OUT(1, 30);
+        FLD_SE_PLAY(56);
+        WAIT(30);
+        BIT_OFF(2026);
+        BIT_OFF(2027);
+        BIT_OFF(2028);
+        FLD_CALL_WAPEX(155);
+        return;
+    }
+    else if (BIT_CHK(2027))
+    {
+        BIT_ON(2028);
+        itfMesMngMessage(84) /* KAISU_DOOR_3RD */;
+    }
+    else if (BIT_CHK(2026))
+    {
+        BIT_ON(2027);
+        itfMesMngMessage(83) /* KAISU_DOOR_2ND */;
+    }
+    else
+    {
+        BIT_ON(2026);
+        itfMesMngMessage(82) /* KAISU_DOOR_1ST */;
+    }
+    itfMesMngCloseWindow();
+    SET_ALLPANEL(3);
+    PAD_ENABLE();
+}
+
+void 016_reset_time()
+{
+    BIT_OFF(2026);
+    BIT_OFF(2027);
+    BIT_OFF(2028);
+}
+
+void 008_01eve_03()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_11"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(43) /* CHK_AKUMA_001 */;
+            itfMesMngCloseWindow();
+            if (BIT_CHK(294) == 1)
+            {
+                FLD_SE_PLAY(96);
+                OBJ_PATH_MOVE(SEARCH_ID("md_01d_02"), SEARCH_ID("01path_01"), 0);
+                OBJ_PATH_MOVE(SEARCH_ID("md_01d_02b"), SEARCH_ID("01path_02"), 0);
+                WAIT(20);
+                FADE_OUT(0, 30);
+                WAIT(30);
+                FLD_CALL_WAPEX(181);
+                return;
+            }
+            else
+            {
+                FLD_SE_PLAY(96);
+                OBJ_PATH_MOVE(SEARCH_ID("md_01d_02"), SEARCH_ID("01path_01"), 0);
+                OBJ_PATH_MOVE(SEARCH_ID("md_01d_02b"), SEARCH_ID("01path_02"), 0);
+                WAIT(20);
+                FADE_OUT(0, 30);
+                WAIT(30);
+                FLD_CALL_WAPEX(180);
+                return;
+            }
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(- 1);
+            MODEL_ON(var0);
+            MODEL_SHADOW_ON(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngCloseWindow();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 009_01eve_01()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_01"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(44) /* CHK_AKUMA_001B */;
+            itfMesMngCloseWindow();
+            FLD_SE_PLAY(96);
+            OBJ_PATH_MOVE(SEARCH_ID("md_01d_01"), SEARCH_ID("01path_01"), 0);
+            OBJ_PATH_MOVE(SEARCH_ID("md_01d_01b"), SEARCH_ID("01path_02"), 0);
+            WAIT(20);
+            FADE_OUT(0, 30);
+            WAIT(30);
+            FLD_CALL_WAPEX(182);
+        }
+        SYNC();
+    }
+}
+
+void 010_01eve_01()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP2(2))
+        {
+            PAD_DISABLE();
+            FADE_OUT(0, 10);
+            WAIT(10);
+            CAM_SEL_FOVY(SEARCH_ID("01cam_01"));
+            var0 = MODEL_PLAYER();
+            MODEL_OFF(var0);
+            MODEL_SHADOW_OFF(var0);
+            FADE_IN(0, 10);
+            WAIT(10);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(44) /* CHK_AKUMA_001B */;
+            itfMesMngCloseWindow();
+            FLD_SE_PLAY(96);
+            OBJ_PATH_MOVE(SEARCH_ID("md_01d_01"), SEARCH_ID("01path_01"), 0);
+            OBJ_PATH_MOVE(SEARCH_ID("md_01d_01b"), SEARCH_ID("01path_02"), 0);
+            WAIT(20);
+            FADE_OUT(0, 30);
+            WAIT(30);
+            FLD_CALL_WAPEX(182);
+        }
+        SYNC();
+    }
+}
+
+void 020_01npc_01()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP(1))
+        {
+            PAD_DISABLE();
+            SET_NPC_CAMERA("01npc_01");
+            SET_ALLPANEL(6);
+            FLD_BGM_FADE();
+            FLD_BGM_PLAY(130);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(87) /* BOTTAKURI_01 */;
+            if (itfMesMngSelect(0))
+            {
+                itfMesMngMessage(88) /* BOTTAKURI_NO */;
+            }
+            else
+            {
+                if (prm_MAKA_CHECK(500) == 0)
+                {
+                    itfMesMngMessage(89) /* BOTTAKURI_NOMONEY */;
+                }
+                else
+                {
+                    COMM_139(- 500);
+                    itfMesMngMessage(90) /* BOTTAKURI_YES_01 */;
+                    prm_PARTY_KAIFUKU();
+                    itfMesMngMessage(91) /* BOTTAKURI_YES_02 */;
+                    itfMesMngMessage(92) /* BOTTAKURI_YES_03 */;
+                    DIST_BLUR_PARA(60, 96, 15, 0.222f, 0.005f, 0.13f, 0);
+                    DIST_BLUR_RGBA(132, 132, 132, 101);
+                    DIST_BLUR_AREA(256, 0, 0);
+                    DIST_BLUR_ON(30);
+                    itfMesMngMessage(93) /* BOTTAKURI_YES_04 */;
+                    prm_PARTY_KAIFUKU();
+                    WAIT(10);
+                    prm_PARTY_KAIFUKU();
+                    itfMesMngMessage(94) /* BOTTAKURI_YES_05 */;
+                    DIST_BLUR_PARA(60, 176, 15, 0.222f, 0.005f, 0.13f, 0);
+                    DIST_BLUR_RGBA(132, 132, 132, 101);
+                    DIST_BLUR_AREA(256, 0, 0);
+                    COMM_128(30);
+                    WAIT(30);
+                    itfMesMngMessage(95) /* BOTTAKURI_YES_06 */;
+                    WAIT(30);
+                    itfMesMngMessage(95) /* BOTTAKURI_YES_06 */;
+                    COMM_139(- 16000);
+                    FADE_OUT(1, 30);
+                    WAIT(30);
+                    itfMesMngCloseWindow();
+                    DIST_BLUR_OFF(0);
+                    CAM_SEL(SEARCH_ID("01cam_03"));
+                    FADE_IN(0, 10);
+                    WAIT(10);
+                    itfMesMngOpenWindow();
+                    itfMesMngMessage(96) /* BOTTAKURI_YES_07 */;
+                    itfMesMngCloseWindow();
+                    FADE_OUT(0, 30);
+                    WAIT(30);
+                    FLD_BGM_FADE();
+                    FLD_CALL_WAPEX(144);
+                    return;
+                }
+            }
+            itfMesMngCloseWindow();
+            FLD_BGM_FADE();
+            FLD_BGM_PLAY(1);
+            SET_ALLPANEL(7);
+            SET_CHASE_CAMERA();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 016_01npc_01()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP(1))
+        {
+            PAD_DISABLE();
+            SET_NPC_CAMERA("01npc_01");
+            SET_ALLPANEL(6);
+            FLD_BGM_FADE();
+            FLD_BGM_PLAY(130);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(87) /* BOTTAKURI_01 */;
+            if (itfMesMngSelect(0))
+            {
+                itfMesMngMessage(88) /* BOTTAKURI_NO */;
+            }
+            else
+            {
+                if (prm_MAKA_CHECK(500) == 0)
+                {
+                    itfMesMngMessage(89) /* BOTTAKURI_NOMONEY */;
+                }
+                else
+                {
+                    COMM_139(- 500);
+                    itfMesMngMessage(90) /* BOTTAKURI_YES_01 */;
+                    prm_PARTY_KAIFUKU();
+                    itfMesMngMessage(91) /* BOTTAKURI_YES_02 */;
+                    itfMesMngMessage(92) /* BOTTAKURI_YES_03 */;
+                    DIST_BLUR_PARA(60, 96, 15, 0.222f, 0.005f, 0.13f, 0);
+                    DIST_BLUR_RGBA(132, 132, 132, 101);
+                    DIST_BLUR_AREA(256, 0, 0);
+                    DIST_BLUR_ON(30);
+                    itfMesMngMessage(93) /* BOTTAKURI_YES_04 */;
+                    prm_PARTY_KAIFUKU();
+                    WAIT(10);
+                    prm_PARTY_KAIFUKU();
+                    itfMesMngMessage(94) /* BOTTAKURI_YES_05 */;
+                    DIST_BLUR_PARA(60, 176, 15, 0.222f, 0.005f, 0.13f, 0);
+                    DIST_BLUR_RGBA(132, 132, 132, 101);
+                    DIST_BLUR_AREA(256, 0, 0);
+                    COMM_128(30);
+                    WAIT(30);
+                    itfMesMngMessage(95) /* BOTTAKURI_YES_06 */;
+                    WAIT(30);
+                    itfMesMngMessage(95) /* BOTTAKURI_YES_06 */;
+                    COMM_139(- 10000);
+                    FADE_OUT(1, 30);
+                    WAIT(30);
+                    itfMesMngCloseWindow();
+                    DIST_BLUR_OFF(0);
+                    CAM_SEL(SEARCH_ID("01cam_04"));
+                    FADE_IN(0, 10);
+                    WAIT(10);
+                    itfMesMngOpenWindow();
+                    itfMesMngMessage(96) /* BOTTAKURI_YES_07 */;
+                    WAIT(30);
+                    itfMesMngCloseWindow();
+                    FADE_OUT(0, 30);
+                    WAIT(30);
+                    FLD_BGM_FADE();
+                    FLD_BGM_PLAY(1);
+                    FLD_CALL_WAPEX(144);
+                    return;
+                }
+            }
+            itfMesMngCloseWindow();
+            FLD_BGM_FADE();
+            FLD_BGM_PLAY(1);
+            SET_ALLPANEL(7);
+            SET_CHASE_CAMERA();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 012_01npc_01()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP(1))
+        {
+            PAD_DISABLE();
+            SET_NPC_CAMERA("01npc_01");
+            SET_ALLPANEL(6);
+            FLD_BGM_FADE();
+            FLD_BGM_PLAY(134);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(154) /* F041_AREA9_KUROJAKU */;
+            if (itfMesMngSelect(155) == 0)
+            {
+                itfMesMngMessage(156) /* F041_AREA9_KUROJAKU_YES */;
+            }
+            else
+            {
+                if (BIT_CHK(150))
+                {
+                    local82 = 20000;
+                }
+                else if (BIT_CHK(86))
+                {
+                    local82 = 15000;
+                }
+                else if (BIT_CHK(63))
+                {
+                    local82 = 10000;
+                }
+                else if (BIT_CHK(1472))
+                {
+                    local82 = 5000;
+                }
+                else
+                {
+                    local82 = 2000;
+                }
+                itfMesMngSetVarScr(0, local82, 0);
+                itfMesMngMessage(157) /* F041_AREA9_KUROJAKU_KAIH */;
+                if (itfMesMngSelect(155) == 0)
+                {
+                    itfMesMngMessage(156) /* F041_AREA9_KUROJAKU_YES */;
+                }
+                else
+                {
+                    if (prm_MAKA_CHECK(local82) == 0)
+                    {
+                        itfMesMngMessage(159) /* F041_AREA9_KUROJAKU_NOMO */;
+                    }
+                    else
+                    {
+                        prm_PARTY_KAIFUKU();
+                        itfMesMngMessage(158) /* F041_AREA9_KUROJAKU_KAIH */;
+                        COMM_139(-local82);
+                    }
+                }
+            }
+            itfMesMngCloseWindow();
+            FLD_BGM_FADE();
+            FLD_BGM_PLAY(1);
+            SET_ALLPANEL(7);
+            SET_CHASE_CAMERA();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 022_01npc_01()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP(1))
+        {
+            PAD_DISABLE();
+            SET_NPC_CAMERA("01npc_01");
+            SET_ALLPANEL(6);
+            FLD_BGM_FADE();
+            FLD_BGM_PLAY(136);
+            local83 = prm_PLAYER_GET_LEVEL();
+            if (local83 > 57)
+            {
+                WAIT(1);
+                if (BIT_CHK(313) == 0)
+                {
+                    WAIT(1);
+                    if (prm_STOCK_FULL_CHECK() == 0)
+                    {
+                        local84 = 200000;
+                        itfMesMngOpenWindow();
+                        itfMesMngMessage(183) /* F041_SINEN_LEV001 */;
+                        if (prm_DV_CHECK(105) == 0)
+                        {
+                            itfMesMngMessage(186) /* F041_SINEN_LEV003 */;
+                            if (itfMesMngSelect(187) == 0)
+                            {
+                                local84 = 200000;
+                                if (prm_MAKA_CHECK(local84) == 0)
+                                {
+                                    itfMesMngMessage(193) /* F041_SINEN_KANE */;
+                                    itfMesMngCloseWindow();
+                                    goto END;
+                                }
+                                else
+                                {
+                                    itfMesMngMessage(188) /* F041_SINEN_LEV004 */;
+                                    itfMesMngMessage(189) /* F041_SINEN_LEV005 */;
+                                    itfMesMngCloseWindow();
+                                    prm_DV_PLUS(105, 2, 0);
+                                    prm_DV_COPY_PARAM(105, 213);
+                                    BIT_ON(313);
+                                    COMM_139(-local84);
+                                    goto END;
+                                }
+                                WAIT(1);
+                            }
+                            itfMesMngMessage(192) /* F041_SINEN_LEVIRANAI */;
+                            itfMesMngCloseWindow();
+                            goto END;
+                            WAIT(1);
+                        }
+                        WAIT(1);
+                        itfMesMngOpenWindow();
+                        itfMesMngMessage(184) /* F041_SINEN_DAM */;
+                        itfMesMngCloseWindow();
+                        goto END;
+                    }
+                    itfMesMngOpenWindow();
+                    itfMesMngMessage(185) /* F041_SINEN_LEV002 */;
+                    itfMesMngCloseWindow();
+                    goto END;
+                }
+                WAIT(1);
+            }
+            if (BIT_CHK(313) == 0)
+            {
+                itfMesMngOpenWindow();
+                itfMesMngMessage(181) /* F041_SINEN_X */;
+                itfMesMngCloseWindow();
+            }
+            else
+            {
+                itfMesMngOpenWindow();
+                itfMesMngMessage(182) /* F041_SINEN_X2 */;
+                itfMesMngCloseWindow();
+            }
+        END:
+            FLD_BGM_FADE();
+            FLD_BGM_PLAY(1);
+            SET_ALLPANEL(7);
+            SET_CHASE_CAMERA();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 029start()
+{
+    PAD_DISABLE();
+    SET_ALLPANEL(0);
+    FLD_BGM_FADE();
+    FLD_BGM_PLAY(134);
+    local85 = MODEL_DSP(3, 24);
+    local86 = MODEL_DSP(3, 25);
+    CAM_SEL_FOVY(SEARCH_ID("01cam_01"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_01"), SEARCH_ID("01cam_01_MOTION"));
+    WAIT(90);
+    FADE_OUT(1, 5);
+    WAIT(5);
+    FADE_IN(1, 5);
+    WAIT(5);
+    DIST_BLUR_PARA(60, 136, 15, 0.222f, 0.005f, 0.13f, 0);
+    DIST_BLUR_RGBA(132, 132, 142, 31);
+    DIST_BLUR_AREA(256, 0, 0);
+    DIST_BLUR_ON(0);
+    MODEL_A(local85, 0, 0.0f);
+    MODEL_A(local86, 0, 0.0f);
+    MODEL_POS(local85, SEARCH_ID("01pos_01"));
+    MODEL_POS(local86, SEARCH_ID("01pos_02"));
+    FLD_MODEL_LIGHT(local85);
+    FLD_MODEL_LIGHT(local86);
+    MODEL_A(local85, 30, 1.0f);
+    MODEL_A(local86, 30, 1.0f);
+    FLD_SE_PLAY(45);
+    WAIT(150);
+    CAM_SEL_FOVY(SEARCH_ID("01cam_02"));
+    WAIT(30);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(98) /* F045_AREA29_IZA001 */;
+    CAM_SEL_FOVY(SEARCH_ID("01cam_03"));
+    itfMesMngMessage(99) /* F045_AREA29_IZA002 */;
+    CAM_SEL_FOVY(SEARCH_ID("01cam_02"));
+    itfMesMngMessage(100) /* F045_AREA29_IZA003 */;
+    CAM_SEL_FOVY(SEARCH_ID("01cam_01"));
+    var0 = MODEL_PLAYER();
+    MODEL_POS(var0, SEARCH_ID("01pos_04"));
+    itfMesMngMessage(101) /* F045_AREA29_IZA003_02 */;
+    itfMesMngMessage(102) /* F045_AREA29_IZA004 */;
+    itfMesMngCloseWindow();
+    COMM_217(86);
+    DIST_BLUR_OFF(0);
+    BLUR2_PARA(0.02f, 1.136f, 1);
+    BLUR2_RGBA(128, 128, 128, 86);
+    BLUR2_AREA(0, 0);
+    BLUR2_ON(20);
+    WAIT(18);
+    PAD_ACT(1, 250, 8);
+    WAIT(2);
+    FADE_IN(1, 10);
+    WAIT(10);
+    CAM_SEL_FOVY(SEARCH_ID("01cam_04"));
+    FADE_IN(1, 10);
+    WAIT(2);
+    PAD_ACT(1, 250, 8);
+    WAIT(8);
+    BLUR2_OFF(20);
+    DIST_BLUR_ON(0);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(103) /* F045_AREA29_IZA005 */;
+    itfMesMngMessage(104) /* F045_AREA29_IZA005_002 */;
+    CAM_SEL_FOVY(SEARCH_ID("01cam_02"));
+    itfMesMngMessage(105) /* F045_AREA29_IZA006 */;
+    BIT_ON(2240);
+    CAM_SEL_FOVY(SEARCH_ID("01cam_01"));
+    itfMesMngMessage(106) /* F045_AREA29_IZA007 */;
+    itfMesMngCloseWindow();
+    WAIT(30);
+    DIST_BLUR_OFF(0);
+    DIST_BLUR_PARA(60, 175, 2, 0.1f, 0.0f, 0.13f, 0);
+    DIST_BLUR_RGBA(132, 132, 132, 101);
+    DIST_BLUR_AREA(256, 0, 0);
+    DIST_BLUR_ON(1);
+    WAIT(30);
+    FLD_SE_PLAY(56);
+    FADE_OUT(1, 30);
+    WAIT(30);
+    DIST_BLUR_OFF(0);
+    FLD_CALL_WAPEX(172);
+    return;
+}
+
+void 030_voice()
+{
+    PAD_DISABLE();
+    SET_ALLPANEL(0);
+    CAM_SEL_FOVY(SEARCH_ID("01cam_03"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_03"), SEARCH_ID("01cam_03_MOTION"));
+    FADE_IN(1, 30);
+    DIST_BLUR_OFF(80);
+    WAIT(120);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(107) /* F045_AREA30_ROSINSI00 */;
+    itfMesMngCloseWindow();
+    CAM_SEL_FOVY(SEARCH_ID("01cam_04"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_04"), SEARCH_ID("01cam_04_MOTION"));
+    CAM_PATH_WAIT(SEARCH_ID("01cam_04"));
+    WAIT(40);
+    FADE_OUT(1, 5);
+    WAIT(5);
+    local87 = MODEL_DSP(3, 23);
+    FLD_MODEL_LIGHT(local87);
+    MODEL_POS(local87, SEARCH_ID("01pos_06"));
+    FADE_IN(1, 5);
+    WAIT(5);
+    WAIT(30);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(108) /* F045_AREA30_ROSINSI01 */;
+    CAM_SEL_FOVY(SEARCH_ID("01cam_05"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_05"), SEARCH_ID("01cam_05_MOTION"));
+    itfMesMngMessage(109) /* F045_AREA30_ROSINSI02 */;
+    itfMesMngCloseWindow();
+    CAM_SEL_FOVY(SEARCH_ID("01cam_04"));
+    WAIT(30);
+    FADE_OUT(1, 5);
+    WAIT(5);
+    MODEL_CLS(local87);
+    FADE_IN(1, 5);
+    WAIT(5);
+    WAIT(30);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(110) /* F045_AREA30_ROSINSI03 */;
+    itfMesMngCloseWindow();
+    FADE_OUT(0, 15);
+    WAIT(15);
+    SET_CHASE_CAMERA();
+    CAM_SEL(- 1);
+    FADE_IN(0, 15);
+    WAIT(15);
+    SET_ALLPANEL(3);
+    PAD_ENABLE();
+}
+
+void 030_01npc_01()
+{
+    while (1)
+    {
+        if (ACT_WIN_DSP(1))
+        {
+            PAD_DISABLE();
+            SET_NPC_CAMERA("01npc_01");
+            SET_ALLPANEL(6);
+            FLD_BGM_FADE();
+            FLD_BGM_PLAY(134);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(115) /* F045_AREA30_KUROJAKU */;
+            prm_PARTY_KAIFUKU();
+            itfMesMngMessage(116) /* F045_AREA30_KAIFUKU02 */;
+            itfMesMngCloseWindow();
+            FLD_BGM_FADE();
+            FLD_BGM_PLAY(1);
+            SET_ALLPANEL(7);
+            SET_CHASE_CAMERA();
+            PAD_ENABLE();
+        }
+        SYNC();
+    }
+}
+
+void 030_01eve_01()
+{
+    if (BIT_CHK(2032) == 0)
+    {
+        PAD_DISABLE();
+        BIT_ON(2032);
+        SET_ALLPANEL(2);
+        CAM_SEL(SEARCH_ID("01cam_01"));
+        local89 = EFFBED_LOAD("/fld/f/bin/DEVILGEN.BED");
+        WAIT(30);
+        COMM_217(1);
+        EFFECT_POS(local89, SEARCH_ID("01pos_05"));
+        EFFBED_START(local89, 0);
+        WAIT(10);
+        QUAKE_ON(10, 300);
+        PAD_ACT(1, 170, 10);
+        PAD_ACT(0, 1, 10);
+        WAIT(20);
+        CALL_NEXT(1, 45, 505);
+        CALL_BATTLE(1266);
+        return;
+    }
+}
+
+void 030_01eve_02()
+{
+    if (BIT_CHK(2033) == 0)
+    {
+        PAD_DISABLE();
+        BIT_ON(2033);
+        SET_ALLPANEL(2);
+        CAM_SEL(SEARCH_ID("01cam_02"));
+        local90 = EFFBED_LOAD("/fld/f/bin/DEVILGEN.BED");
+        WAIT(30);
+        COMM_217(1);
+        EFFECT_POS(local90, SEARCH_ID("01pos_04"));
+        EFFBED_START(local90, 0);
+        WAIT(10);
+        QUAKE_ON(10, 300);
+        PAD_ACT(1, 170, 10);
+        PAD_ACT(0, 1, 10);
+        WAIT(20);
+        CALL_NEXT(1, 45, 506);
+        CALL_BATTLE(1267);
+        return;
+    }
+}
+
+void 031_01eve_01()
+{
+    if (BIT_CHK(2034) == 0)
+    {
+        PAD_DISABLE();
+        BIT_ON(2034);
+        SET_ALLPANEL(2);
+        CAM_SEL(SEARCH_ID("01cam_01"));
+        local91 = EFFBED_LOAD("/fld/f/bin/DEVILGEN.BED");
+        WAIT(30);
+        COMM_217(1);
+        EFFECT_POS(local91, SEARCH_ID("01pos_03"));
+        EFFBED_START(local91, 0);
+        WAIT(10);
+        QUAKE_ON(10, 300);
+        PAD_ACT(1, 170, 10);
+        PAD_ACT(0, 1, 10);
+        WAIT(20);
+        CALL_NEXT(1, 45, 507);
+        CALL_BATTLE(1268);
+        return;
+    }
+}
+
+void 031_01eve_03()
+{
+    if (BIT_CHK(2036) == 0)
+    {
+        PAD_DISABLE();
+        BIT_ON(2036);
+        SET_ALLPANEL(2);
+        CAM_SEL(SEARCH_ID("01cam_03"));
+        local92 = EFFBED_LOAD("/fld/f/bin/DEVILGEN.BED");
+        WAIT(30);
+        COMM_217(1);
+        EFFECT_POS(local92, SEARCH_ID("01pos_08"));
+        EFFBED_START(local92, 0);
+        WAIT(10);
+        QUAKE_ON(10, 300);
+        PAD_ACT(1, 170, 10);
+        PAD_ACT(0, 1, 10);
+        WAIT(20);
+        CALL_NEXT(1, 45, 508);
+        CALL_BATTLE(1269);
+        return;
+    }
+}
+
+void 031_01eve_02()
+{
+    if (BIT_CHK(2035) == 0)
+    {
+        PAD_DISABLE();
+        BIT_ON(2035);
+        SET_ALLPANEL(2);
+        FADE_OUT(0, 15);
+        WAIT(15);
+        CAM_SEL_FOVY(SEARCH_ID("01cam_02"));
+        var0 = MODEL_PLAYER();
+        MODEL_POS(var0, SEARCH_ID("01pos_05"));
+        FADE_IN(0, 15);
+        WAIT(15);
+        WAIT(30);
+        CAM_PATH_MOVE(SEARCH_ID("01cam_02"), SEARCH_ID("01cam_02_MOTION"));
+        CAM_PATH_WAIT(SEARCH_ID("01cam_02"));
+        FADE_OUT(1, 5);
+        WAIT(5);
+        local93 = MODEL_DSP(3, 23);
+        FLD_MODEL_LIGHT(local93);
+        MODEL_POS(local93, SEARCH_ID("01pos_06"));
+        FADE_IN(1, 5);
+        WAIT(5);
+        WAIT(15);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(108) /* F045_AREA30_ROSINSI01 */;
+        itfMesMngMessage(111) /* F045_AREA30_ROSINSI04 */;
+        itfMesMngCloseWindow();
+        FADE_OUT(1, 5);
+        WAIT(5);
+        MODEL_CLS(local93);
+        FADE_IN(1, 5);
+        WAIT(5);
+        WAIT(30);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(110) /* F045_AREA30_ROSINSI03 */;
+        itfMesMngCloseWindow();
+        FADE_OUT(0, 15);
+        WAIT(15);
+        SET_CHASE_CAMERA();
+        CAM_SEL(- 1);
+        FADE_IN(0, 15);
+        WAIT(15);
+        SET_ALLPANEL(3);
+        PAD_ENABLE();
+    }
+}
+
+void 027_lui()
+{
+    PAD_DISABLE();
+    SET_ALLPANEL(0);
+    var0 = MODEL_PLAYER();
+    MODEL_POS(var0, SEARCH_ID("01pos_05"));
+    CAM_SEL_FOVY(SEARCH_ID("01cam_02"));
+    MODEL_MOTION2(var0, 4, 3, 15, 1);
+    MODEL_MOVE(var0, SEARCH_ID("01pos_06"), 0, 75, 8);
+    WAIT(30);
+    MODEL_WAIT(var0);
+    MODEL_MOTION2(var0, 9, 10, 10, 1);
+    WAIT(45);
+    CAM_SEL_FOVY(SEARCH_ID("01cam_03"));
+    MODEL_POS(var0, SEARCH_ID("01pos_03"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_03"), SEARCH_ID("01cam_03_MOTION"));
+    WAIT(30);
+    FADE_OUT(1, 5);
+    WAIT(5);
+    local94 = MODEL_DSP(3, 23);
+    FLD_MODEL_LIGHT(local94);
+    MODEL_POS(local94, SEARCH_ID("01pos_04"));
+    MODEL_MOTION2(local94, 1, 0, 0, 1);
+    FADE_IN(1, 5);
+    WAIT(5);
+    WAIT(30);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(108) /* F045_AREA30_ROSINSI01 */;
+    itfMesMngMessage(112) /* F045_AREA30_ROSINSI05 */;
+    itfMesMngCloseWindow();
+    CAM_SEL_FOVY(SEARCH_ID("01cam_04"));
+    MODEL_POS(local94, SEARCH_ID("01pos_07"));
+    WAIT(30);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(113) /* F045_AREA30_ROSINSI06 */;
+    itfMesMngCloseWindow();
+    CAM_SEL_FOVY(SEARCH_ID("01cam_05"));
+    MODEL_POS(local94, SEARCH_ID("01pos_04"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_05"), SEARCH_ID("01cam_05_MOTION"));
+    itfMesMngOpenWindow();
+    itfMesMngMessage(114) /* F045_AREA30_ROSINSI07 */;
+    itfMesMngCloseWindow();
+    WAIT(30);
+    MODEL_MOTION2(local94, 2, 10, 10, 2);
+    MODEL_WAIT(local94);
+    DIST_BLUR_PARA(60, 175, 2, 0.1f, 0.0f, 0.13f, 0);
+    DIST_BLUR_RGBA(132, 132, 132, 101);
+    DIST_BLUR_AREA(256, 0, 0);
+    DIST_BLUR_ON(1);
+    WAIT(30);
+    FLD_SE_PLAY(56);
+    FADE_OUT(1, 30);
+    WAIT(30);
+    DIST_BLUR_OFF(0);
+    BIT_ON(1088);
+    FLD_CALL_WAPEX(171);
+    return;
+}
+
+void 028_lets_go()
+{
+    PAD_DISABLE();
+    SET_ALLPANEL(0);
+    WAIT(30);
+    DIST_BLUR_OFF(30);
+    WAIT(30);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(117) /* F045_AREA28_KERU_LETSGO */;
+    itfMesMngCloseWindow();
+    SET_ALLPANEL(3);
+    PAD_ENABLE();
+}
+

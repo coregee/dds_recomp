@@ -1,0 +1,46 @@
+// game/dds3/event/scr/gameover.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void gameover()
+{
+    // not decompiled; see the .flowasm
+}
+
+void gameover_take()
+{
+    FADE_IN(1, 60);
+    WAIT(30);
+    var1 = MODEL_DSP(3, 10);
+    MODEL_POS(var1, 196622);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(1) /* TAKE_01 */;
+    itfMesMngCloseWindow();
+    WAIT(30);
+    FADE_OUT(1, 60);
+    WAIT(30);
+}
+
+void gameover_anato()
+{
+    var1 = MODEL_DSP(3, 10);
+    MODEL_POS(var1, 196622);
+    var3 = MODEL_DSP(3, 4);
+    MODEL_POS(var3, 196620);
+    MODEL_MOTION(var3, 2, 10, 10);
+    MODEL_WAIT_MOT(var3, 3);
+    CAM_SEL(131073);
+    FADE_IN(1, 60);
+    WAIT(30);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* ANA_01 */;
+    itfMesMngCloseWindow();
+    WAIT(30);
+    FADE_OUT(1, 60);
+    WAIT(30);
+}
+
+void status_clear()
+{
+    // not decompiled; see the .flowasm
+}
+

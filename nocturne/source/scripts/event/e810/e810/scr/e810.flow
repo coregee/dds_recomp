@@ -1,0 +1,31 @@
+// game/dds3/event/e810/e810/scr/e810.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e810_main()
+{
+    local0 = TEX_LOAD("/event/e810/e810/effect/tgs_end01.tmx");
+    local1 = TEX_LOAD("/event/e810/e810/effect/tgs_end02.tmx");
+    TEX_SIZE(local0, 512, 512, 512, 512);
+    TEX_SIZE(local1, 512, 512, 512, 512);
+    COMM_1E3(local0, 0, 0, 0, 0, 1);
+    COMM_1E3(local1, 0, 0, 0, 0, 1);
+    TEX_PRI(local0, 0);
+    TEX_PRI(local1, 1);
+    TEX_ALP(local1, 256, 0, 1);
+    TEX_ON(local0);
+    TEX_ON(local1);
+    TEX_OT(local0, 1);
+    TEX_OT(local1, 1);
+    FADE_IN(0, 30);
+    WAIT(210);
+    TEX_ALP(local0, 256, 0, 30);
+    TEX_ALP(local1, 0, 256, 30);
+    WAIT(210);
+    FADE_OUT(0, 30);
+    WAIT(30);
+    TEX_CLS(local0);
+    TEX_CLS(local1);
+    WAIT(5);
+    RTRN_TITLE();
+}
+

@@ -48,6 +48,8 @@ src/
   fusion/*.cpp                      cmb / fclCombineCalcCore, by topic
   libc/*.cpp                        C library functions whose exact behaviour matters
   platform/legacy_bridge.cpp        external.hpp -> legacy C ABI
+scripts/                 FlowScript: .flow (readable) and .flowasm (exact) per script;
+                         exe/ai.flow is the enemy AI (see docs/flowscript.md)
 tests/
   differential/          every rewritten function vs. its legacy C, on the real game data
   tables/                generated tables vs. the executable's bytes; Ghidra header vs. records

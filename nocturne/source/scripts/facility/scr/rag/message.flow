@@ -1,0 +1,143 @@
+// game/dds3/facility/scr/rag/message.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void rag_1st()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(0) /* msg_1st */;
+    jump endless_loop;
+}
+
+void rag_item()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(1) /* msg_item */;
+    jump endless_loop;
+}
+
+void rag_seirei()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(2) /* msg_seirei */;
+    jump endless_loop;
+}
+
+void rag_mitama()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(3) /* msg_mitama */;
+    endless_loop();
+    jump endless_loop;
+}
+
+void rag_err_item_max()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(4) /* msg_err_item_max */;
+}
+
+void rag_err_devil()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(5) /* msg_err_devil */;
+}
+
+void rag_err_stock()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(6) /* msg_err_stock */;
+}
+
+void rag_err_level()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(7) /* msg_err_level */;
+}
+
+void rag_confirm()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngSelectDefKey(3, 1);
+    if (fclGetVal(9) == 0)
+    {
+        itfMesMngSetVarScr(2, fclGetVal(8), 3);
+        itfMesMngMessage(8) /* msg_confirm_item */;
+    }
+    else
+    {
+        itfMesMngSetVarScr(1, fclGetVal(8), 1);
+        itfMesMngMessage(9) /* msg_confirm_devil */;
+    }
+    if (itfMesMngSelect(16) == 1)
+    {
+        fclSignal(2);
+    }
+}
+
+void rag_thanks()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(10) /* msg_thanks */;
+}
+
+void rag_2nd()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(11) /* msg_2nd */;
+    jump endless_loop;
+}
+
+void rag_talk()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    if (fclGetVal(4) == 0)
+    {
+        itfMesMngMessage(13) /* msg_talk_hearts_no */;
+    }
+    else
+    {
+        itfMesMngMessage(14) /* msg_talk_hearts_aru */;
+    }
+}
+
+void rag_exit()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(15) /* msg_exit */;
+}
+
+void endless_loop()
+{
+    fclSignal(0);
+    while (1)
+    {
+        WAIT(1);
+    }
+}
+

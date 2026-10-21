@@ -1,0 +1,61 @@
+// game/dds3/facility/scr/terminal/message.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void trm_1st()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(0) /* msg_1st */;
+    jump endless_loop;
+}
+
+void trm_1st_2()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(1) /* msg_1st_2 */;
+    jump endless_loop;
+}
+
+void trm_trans()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(2) /* msg_trans */;
+    jump endless_loop;
+}
+
+void trm_confirm()
+{
+    itfMesMngSetVarScr(0, fclGetVal(0), 6);
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngSelectDefKey(3, 1);
+    itfMesMngMessage(3) /* msg_confirm */;
+    if (itfMesMngSelect(5) == 1)
+    {
+        fclSignal(2);
+    }
+}
+
+void trm_exit()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(4) /* msg_exit */;
+}
+
+void endless_loop()
+{
+    fclSignal(0);
+    while (1)
+    {
+        WAIT(1);
+    }
+}
+

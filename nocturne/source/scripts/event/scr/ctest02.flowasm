@@ -1,0 +1,59 @@
+; FlowScript assembly. tools/flowscript.py assemble rebuilds the original bytes.
+.header 00000000c4010000464c57300000000004000000000000000000000000000000
+.sections procedures labels code messages
+.labels _1 _2
+
+.procedure ctest01
+    PROC
+    PUSHIS 11
+    COMM FIELD_DSP
+    PUSHIS 120
+    POPIX 0
+_1:
+    PUSHIS 1
+    IF _2
+    PUSHI 131073
+    COMM CAM_SEL
+    PUSHIX 0
+    COMM WAIT
+    PUSHI 131074
+    COMM CAM_SEL
+    PUSHIX 0
+    COMM WAIT
+    PUSHI 131075
+    COMM CAM_SEL
+    PUSHI 196620
+    PUSHI 131075
+    COMM CAM_PATH_MOVE
+    PUSHI 131075
+    COMM CAM_PATH_WAIT
+    PUSHIX 0
+    COMM WAIT
+    PUSHI 131076
+    COMM CAM_SEL
+    PUSHIX 0
+    COMM WAIT
+    PUSHI 131077
+    COMM CAM_SEL
+    PUSHIX 0
+    COMM WAIT
+    PUSHI 131078
+    COMM CAM_SEL
+    PUSHIX 0
+    COMM WAIT
+    PUSHI 131079
+    COMM CAM_SEL
+    PUSHI 196621
+    PUSHI 131079
+    COMM CAM_PATH_MOVE
+    PUSHI 131079
+    COMM CAM_PATH_WAIT
+    PUSHIX 0
+    COMM WAIT
+    PUSHI 131080
+    COMM CAM_SEL
+    PUSHIX 0
+    COMM WAIT
+    GOTO _1
+_2:
+    END

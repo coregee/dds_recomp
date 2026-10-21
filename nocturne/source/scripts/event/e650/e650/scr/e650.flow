@@ -1,0 +1,98 @@
+// game/dds3/event/e650/e650/scr/e650.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e650_main()
+{
+    LOAD_BE(650);
+    LOAD_SOUND_E(617);
+    FIELD_BE(650, 3);
+    SCENE_LIGHT_RGB(0, 0.62f, 0.57f, 0.57f);
+    SCENE_LIGHT_DIR(0, 0.72f, 0.45f, 0.53f);
+    SCENE_AMBIENT(0, 0.45f, 0.45f, 0.4f);
+    SCENE_FOG_RGB(0, 0.118f, 0.098f, 0.118f);
+    SCENE_FOG_PARA(0, 255, 600, 0, 20000);
+    FADE_OUT(1, 1);
+    var1 = MODEL_BE(650, 5);
+    var2 = MODEL_BE(650, 4);
+    MODEL_OFF(var2);
+    MODEL_POS(var1, SEARCH_ID("pos02"));
+    SET_SKY(41, 1, 0);
+    SET_SKY_A(0, - 40);
+    FILTER2_PARA(1);
+    FILTER2_RGBA(88, 58, 58, 45);
+    FILTER2_ON(0);
+    MODEL_SHADOW_ON(var1);
+    BGM_PLAY_E(617, 1);
+    SCR_WAIT(SCR_RUN(1, - 1));
+    FADE_OUT(0, 45);
+    WAIT(45);
+    MODEL_CLS(var2);
+    MODEL_CLS(var1);
+    FIELD_CLS_STOP();
+    BLUR_ALLOFF();
+    FILTER_ALLOFF();
+    BGM_STOP();
+    EXIT_EVENT();
+}
+
+void e650_010()
+{
+    var11 = CAM_CREATE();
+    CAM_POS_XYZ(var11, 12.35f, - 97.43f, 106.25f);
+    CAM_ROT_Q(var11, 0.03f, 0.02f, 0.0f, 1.0f);
+    CAM_SEL(var11);
+    FADE_IN(1, 35);
+    WAIT(35);
+    WAIT(30);
+    itfMesMngWindowTypeAlpha(1, 70);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngCloseWindow();
+    WAIT(5);
+    MODEL_MOTION2(var1, 1, 0, 10, 0);
+    WAIT(210);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngCloseWindow();
+    WAIT(10);
+    var12 = CAM_CREATE();
+    CAM_POS_XYZ(var12, - 77.69f, - 103.72f, 626.88f);
+    CAM_ROT_Q(var12, - 0.14f, - 0.28f, 0.04f, 0.95f);
+    CAM_SEL(var12);
+    WAIT(20);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngMessage(3) /* MSG_004 */;
+    itfMesMngCloseWindow();
+    WAIT(10);
+    var13 = CAM_CREATE();
+    CAM_POS_XYZ(var13, 92.48f, - 53.93f, 701.92f);
+    CAM_ROT_Q(var13, - 0.11f, 0.62f, - 0.08f, 0.78f);
+    CAM_SEL(var13);
+    WAIT(35);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(4) /* MSG_005 */;
+    itfMesMngCloseWindow();
+    WAIT(30);
+    CAM_POS_XYZ(var11, 12.35f, - 97.43f, 106.25f);
+    CAM_ROT_Q(var11, 0.03f, 0.02f, 0.0f, 1.0f);
+    CAM_SEL(var11);
+    WAIT(25);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(5) /* MSG_006 */;
+    itfMesMngCloseWindow();
+    WAIT(40);
+    FADE_OUT(1, 10);
+    WAIT(10);
+    BGM_STOP();
+    MODEL_CLS(var2);
+    MODEL_CLS(var1);
+    FADE_IN(1, 10);
+    WAIT(10);
+    WAIT(20);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(6) /* MSG_007 */;
+    itfMesMngCloseWindow();
+    WAIT(30);
+}
+

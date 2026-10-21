@@ -1,0 +1,473 @@
+# FlowScript command table (0x52E350): index, argument count, PS2 handler, script name, original method, name source
+index	args	handler	name	method	source
+0	1	001cd2e0	itfMesMngMessage	itfMesManager.itfMesMngMessage	hd
+1	0	001cd5b0	itfMesMngOpenWindow	itfMesManager.itfMesMngOpenWindow	hd
+2	0	001cd5f8	itfMesMngCloseWindow	itfMesManager.itfMesMngCloseWindow	hd
+3	1	001cd408	itfMesMngSelect	itfMesManager.itfMesMngSelect	hd
+4	0	001cd700	itfMesMngOpenSelectWindow	itfMesManager.itfMesMngOpenSelectWindow	hd
+5	0	001cd708	itfMesMngCloseSelectWindow	itfMesManager.itfMesMngCloseSelectWindow	hd
+6	1	001cd510	itfMesMngMaskSelect	itfMesManager.itfMesMngMaskSelect	hd
+7	1	0010b888	BIT_CHK	scrCommonCommand.scrCommand_BIT_CHK	hd
+8	1	0010b8b8	BIT_ON	scrCommonCommand.scrCommand_BIT_ON	hd
+9	1	0010b8e0	BIT_OFF	scrCommonCommand.scrCommand_BIT_OFF	hd
+10	1	0010b908	RND	scrCommonCommand.scrCommand_RND	hd
+11	1	002263b8	SE_PLAY	sndScript.sndScrCmd_SE_PLAY	hd
+12	1	00226390	BGM_PLAY	sndScript.sndScrCmd_BGM_PLAY	hd
+13	0	0010b940	SYNC	scrCommonCommand.scrCommand_SYNC	hd
+14	1	0010b960	WAIT	scrCommonCommand.scrCommand_WAIT	hd
+15	2	0010ba38	FADE_IN	scrCommonCommand.scrCommand_FADE_IN	hd
+16	2	0010bad8	FADE_OUT	scrCommonCommand.scrCommand_FADE_OUT	hd
+17	8	0010bb78	SEL_JMP	scrCommonCommand.scrCommand_SEL_JMP	hd
+18	1	001e76d0	CAM_SEL	evtCommand.evtCommand_CAM_SEL	hd
+19	2	001e77d8	CAM_PATH_MOVE	evtCommand.evtCommand_CAM_PATH_MOVE	hd
+20	3	001e8ea0	SET_SKY	evtCommand.evtCommand_SET_SKY	hd
+21	2	001e4bd0	MODEL_DSP	evtCommand.evtCommand_MODEL_DSP	hd
+22	1	001e54b8	MODEL_CLS	evtCommand.evtCommand_MODEL_CLS	hd
+23	5	001e5510	MODEL_MOVE	evtCommand.evtCommand_MODEL_MOVE	hd
+24	4	001e50c0	MODEL_MOTION	evtCommand.evtCommand_MODEL_MOTION	hd
+25	1	001e7750	CAM_SEL_FOVY	evtCommand.evtCommand_CAM_SEL_FOVY	hd
+26	3	0010bc40	PAD_ACT	scrCommonCommand.scrCommand_PAD_ACT	hd
+27	4	001e5020	MODEL_SCL_XYZ	evtCommand.evtCommand_MODEL_SCL_XYZ	hd
+28	1	0010d030	prm_MAKA_CHECK	scrParameterCommand.prm_MAKA_CHECK	hd
+29	0	0010d3d0	prm_STOCK_FULL_CHECK	scrParameterCommand.prm_STOCK_FULL_CHECK	hd
+30	2	0010d440	prm_PLAYER_ADD_PARAM	scrParameterCommand.prm_PLAYER_ADD_PARAM	hd
+32	1	0010cfa0	prm_DH_EQUIP	scrParameterCommand.prm_DH_EQUIP	hd
+33	2	001e8198	PMV_LOAD	evtCommand.evtCommand_PMV_LOAD	hd
+34	1	001e82a0	PMV_RUN2	evtCommand.evtCommand_PMV_RUN2	hd
+35	0	001e75e0	FIELD_CLS_STOP	evtCommand.evtCommand_FIELD_CLS_STOP	hd
+36	1	0010b9a8	PUT	scrCommonCommand.scrCommand_PUT	hd
+37	0	001e7ee0	GET_MOON	evtCommand.evtCommand_GET_MOON	hd
+38	0	001e7650	UNIT_CLS	evtCommand.evtCommand_UNIT_CLS	hd
+39	0	001e7f08	GET_MOON16	evtCommand.evtCommand_GET_MOON16	hd
+40	2	001e72b8	RESTORE_BATTLE	evtCommand.evtCommand_RESTORE_BATTLE	hd
+41	0	001e7688	UNIT_CLS_STOP	evtCommand.evtCommand_UNIT_CLS_STOP	hd
+42	1	001e8990	TEX_LOAD	evtCommand.evtCommand_TEX_LOAD	hd
+43	1	001e8a20	TEX_ON	evtCommand.evtCommand_TEX_ON	hd
+44	1	001e8a68	TEX_OFF	evtCommand.evtCommand_TEX_OFF	hd
+45	1	001e8ab0	TEX_CLS	evtCommand.evtCommand_TEX_CLS	hd
+46	0	001e7168	EXIT_EVENT	evtCommand.evtCommand_EXIT_EVENT	hd
+47	1	00288980	AI_TBL	nbAiScript.nbCommand_AI_TBL	hd
+48	0	00287d78	AI_ACT_ATTACK	nbAiScript.nbCommand_AI_ACT_ATTACK	hd
+49	0	00287da8	AI_ACT_ESCAPE	nbAiScript.nbCommand_AI_ACT_ESCAPE	hd
+50	0	00287dd8	AI_ACT_WAIT	nbAiScript.nbCommand_AI_ACT_WAIT	hd
+51	1	00287e08	AI_ACT_SKILL	nbAiScript.nbCommand_AI_ACT_SKILL	hd
+52	0	00287ee0	AI_TAR_AI	nbAiScript.nbCommand_AI_TAR_AI	hd
+53	0	00287f30	AI_TAR_LIFEMIN	nbAiScript.nbCommand_AI_TAR_LIFEMIN	hd
+54	1	00288068	AI_TAR_BAD	nbAiScript.nbCommand_AI_TAR_BAD	hd
+55	1	002880d8	AI_TAR_ID	nbAiScript.nbCommand_AI_TAR_ID	hd
+56	1	00288ae0	BTL_EVENT	nbAiScript.nbCommand_BTL_EVENT	hd
+57	0	00288148	AI_TAR_LIGHT	nbAiScript.nbCommand_AI_TAR_LIGHT	hd
+58	0	002881b0	AI_TAR_DARK	nbAiScript.nbCommand_AI_TAR_DARK	hd
+59	0	00288218	AI_TAR_PLAYER	nbAiScript.nbCommand_AI_TAR_PLAYER	hd
+60	0	00288280	AI_TAR_RND	nbAiScript.nbCommand_AI_TAR_RND	hd
+61	0	00288958	AI	nbAiScript.nbCommand_AI	hd
+62	0	00288ab0	BTL_PNL_OFF	nbAiScript.nbCommand_BTL_PNL_OFF	hd
+63	0	00288ad8	BTL_PNL_ON	nbAiScript.nbCommand_BTL_PNL_ON	hd
+64	1	001cd560	itfMesMng_SEL_SELNO	itfMesManager.itfMesMng_SEL_SELNO	hd
+65	1	0010cb20	BLUR2_ON	scrCommonCommand.scrCommand_BLUR2_ON	hd
+66	1	0010cb48	BLUR2_OFF	scrCommonCommand.scrCommand_BLUR2_OFF	hd
+67	0	0010cec8	BLUR_ALLOFF	scrCommonCommand.scrCommand_BLUR_ALLOFF	hd
+68	2	001e5440	MODEL_EXWAIT	evtCommand.evtCommand_MODEL_EXWAIT	hd
+69	0	002263e8	BGM_STOP	sndScript.sndScrCmd_BGM_STOP	hd
+70	0	001e6e00	RTRN_TITLE	evtCommand.evtCommand_RTRN_TITLE	hd
+71	3	0010c280	SOFTEN_BIAS	scrCommonCommand.scrCommand_SOFTEN_BIAS	hd
+72	2	001e8f08	SET_SKY_A	evtCommand.evtCommand_SET_SKY_A	hd
+73	1	001e5400	MODEL_WAIT	evtCommand.evtCommand_MODEL_WAIT	hd
+74	2	001e4d10	MODEL_POS	evtCommand.evtCommand_MODEL_POS	hd
+75	2	001e56f0	MODEL_WAIT_MOT	evtCommand.evtCommand_MODEL_WAIT_MOT	hd
+76	2	001e5798	MODEL_MOVE_MOT	evtCommand.evtCommand_MODEL_MOVE_MOT	hd
+77	2	001e74a0	FIELD_DSP	evtCommand.evtCommand_FIELD_DSP	hd
+78	0	001e7570	FIELD_CLS	evtCommand.evtCommand_FIELD_CLS	hd
+79	0	001cc040	itfCamp	itfMisc.itfCamp	hd
+80	1	0022b880	MOVIE_PLAY	mviScript.mviScrCmd_MOVIE_PLAY	hd
+81	0	0022b8a8	MOVIE_STOP	mviScript.mviScrCmd_MOVIE_STOP	hd
+82	0	0022b8c8	MOVIE_CHK	mviScript.mviScrCmd_MOVIE_CHK	hd
+83	1	0010bbd0	PAD_TRIG	scrCommonCommand.scrCommand_PAD_TRIG	hd
+84	1	0010bc08	PAD_PRESS	scrCommonCommand.scrCommand_PAD_PRESS	hd
+85	1	001e7878	CAM_PATH_WAIT	evtCommand.evtCommand_CAM_PATH_WAIT	hd
+86	3	001e5808	MODEL_ROT	evtCommand.evtCommand_MODEL_ROT	hd
+87	1	001e7040	CALL_PUZZLEBOY	evtCommand.evtCommand_CALL_PUZZLEBOY	hd
+88	1	001e6e90	CALL_COMBINE	evtCommand.evtCommand_CALL_COMBINE	hd
+89	2	001e6ff0	CALL_SAVE	evtCommand.evtCommand_CALL_SAVE	hd
+90	1	001e6ee8	CALL_RECOVER	evtCommand.evtCommand_CALL_RECOVER	hd
+91	1	001e6f40	CALL_SHOP	evtCommand.evtCommand_CALL_SHOP	hd
+92	1	001e6f98	CALL_RAG	evtCommand.evtCommand_CALL_RAG	hd
+93	3	001e72f8	CALL_FIELD	evtCommand.evtCommand_CALL_FIELD	hd
+94	1	00157f18	ACT_WIN_DSP	fldCommand.fldCommand_ACT_WIN_DSP	hd
+95	1	00158158	DIR_HIT_CNTR	fldCommand.fldCommand_DIR_HIT_CNTR	hd
+96	0	00158218	PAD_DISABLE	fldCommand.fldCommand_PAD_DISABLE	hd
+97	0	00158258	PAD_ENABLE	fldCommand.fldCommand_PAD_ENABLE	hd
+98	0	002286a0	dds3Title	dds3TitleMain.dds3Title	hd
+99	0	001e7ea0	MOON_START	evtCommand.evtCommand_MOON_START	hd
+100	0	001e7ec0	MOON_STOP	evtCommand.evtCommand_MOON_STOP	hd
+101	1	001e7f30	CHG_MOON	evtCommand.evtCommand_CHG_MOON	hd
+102	1	001e7118	CALL_EVENT	evtCommand.evtCommand_CALL_EVENT	hd
+103	1	001e71f8	CALL_BATTLE	evtCommand.evtCommand_CALL_BATTLE	hd
+104	0	001e4b90	MODEL_PLAYER	evtCommand.evtCommand_MODEL_PLAYER	hd
+105	1	001e5878	MODEL_ON	evtCommand.evtCommand_MODEL_ON	hd
+106	1	001e58c0	MODEL_OFF	evtCommand.evtCommand_MODEL_OFF	hd
+107	3	001e7bf0	OBJ_PATH_MOVE	evtCommand.evtCommand_OBJ_PATH_MOVE	hd
+108	1	001e7de0	OBJ_PATH_WAIT	evtCommand.evtCommand_OBJ_PATH_WAIT	hd
+109	1	0010bc98	SET_FOVY	scrCommonCommand.scrCommand_SET_FOVY	hd
+110	0	001582b0	ENCOUNT_ON	fldCommand.fldCommand_ENCOUNT_ON	hd
+111	0	001582d0	ENCOUNT_OFF	fldCommand.fldCommand_ENCOUNT_OFF	hd
+112	2	0010cf38	prm_ITEM_PLUS	scrParameterCommand.prm_ITEM_PLUS	hd
+113	3	001cd710	itfMesMngSetVarScr	itfMesManager.itfMesMngSetVarScr	hd
+114	1	0010b9f0	PUTS	scrCommonCommand.scrCommand_PUTS	hd
+115	5	001e5158	MODEL_MOTION2	evtCommand.evtCommand_MODEL_MOTION2	hd
+116	3	001e5740	MODEL_WAIT_HOKAN	evtCommand.evtCommand_MODEL_WAIT_HOKAN	hd
+117	0	001e7900	CAM_CREATE	evtCommand.evtCommand_CAM_CREATE	hd
+118	1	001e7990	CAM_CLS	evtCommand.evtCommand_CAM_CLS	hd
+119	4	001e79d0	CAM_POS_XYZ	evtCommand.evtCommand_CAM_POS_XYZ	hd
+120	4	001e7a78	CAM_ROT_XYZ	evtCommand.evtCommand_CAM_ROT_XYZ	hd
+121	4	001e4ea0	MODEL_POS_XYZ	evtCommand.evtCommand_MODEL_POS_XYZ	hd
+122	4	001e4f38	MODEL_ROT_XYZ	evtCommand.evtCommand_MODEL_ROT_XYZ	hd
+123	1	002883a8	AI_CHK_MYHP	nbAiScript.nbCommand_AI_CHK_MYHP	hd
+124	1	00288408	AI_CHK_FRHP	nbAiScript.nbCommand_AI_CHK_FRHP	hd
+125	1	00288438	AI_CHK_DMGCNT	nbAiScript.nbCommand_AI_CHK_DMGCNT	hd
+126	1	00288468	AI_CHK_FRCNT	nbAiScript.nbCommand_AI_CHK_FRCNT	hd
+127	1	00288498	AI_CHK_ENCNT	nbAiScript.nbCommand_AI_CHK_ENCNT	hd
+128	1	002884c8	AI_CHK_MYBAD	nbAiScript.nbCommand_AI_CHK_MYBAD	hd
+129	1	002884f8	AI_CHK_FRBAD	nbAiScript.nbCommand_AI_CHK_FRBAD	hd
+130	1	00288528	AI_CHK_ENBAD	nbAiScript.nbCommand_AI_CHK_ENBAD	hd
+131	1	00288558	AI_CHK_ENALLBAD	nbAiScript.nbCommand_AI_CHK_ENALLBAD	hd
+132	1	00288588	AI_CHK_ENID	nbAiScript.nbCommand_AI_CHK_ENID	hd
+133	1	002885b8	AI_CHK_FRID	nbAiScript.nbCommand_AI_CHK_FRID	hd
+134	1	002885e8	AI_CHK_ENHOJO	nbAiScript.nbCommand_AI_CHK_ENHOJO	hd
+135	1	00288618	AI_CHK_FRHOJO	nbAiScript.nbCommand_AI_CHK_FRHOJO	hd
+136	0	002886a8	AI_CHK_BA	nbAiScript.nbCommand_AI_CHK_BA	hd
+137	0	002886c8	AI_CHK_ENLIGHT	nbAiScript.nbCommand_AI_CHK_ENLIGHT	hd
+138	0	002886e8	AI_CHK_ENDARK	nbAiScript.nbCommand_AI_CHK_ENDARK	hd
+139	7	001e55b8	MODEL_MOVE2	evtCommand.evtCommand_MODEL_MOVE2	hd
+140	0	00288708	AI_CHK_POW	nbAiScript.nbCommand_AI_CHK_POW	hd
+141	1	001e8fc0	LOAD_SOUND_E	evtCommand.evtCommand_LOAD_SOUND_E	hd
+142	2	001e9018	BGM_PLAY_E	evtCommand.evtCommand_BGM_PLAY_E	hd
+143	2	001e9128	SE_PLAY_E	evtCommand.evtCommand_SE_PLAY_E	hd
+144	2	001e9098	FADEOUT_E	evtCommand.evtCommand_FADEOUT_E	hd
+145	0	001e90d8	BGM_VOL_DOWN	evtCommand.evtCommand_BGM_VOL_DOWN	hd
+146	0	001e9100	BGM_VOL_UP	evtCommand.evtCommand_BGM_VOL_UP	hd
+147	1	001cd790	itfMesMngIgnoreConfig	itfMesManager.itfMesMngIgnoreConfig	hd
+148	1	001e6d68	SEARCH_ID	evtCommand.evtCommand_SEARCH_ID	hd
+149	6	001e51f8	MODEL_EXMOTION	evtCommand.evtCommand_MODEL_EXMOTION	hd
+150	3	001e5688	MODEL_WAIT_EXMOT	evtCommand.evtCommand_MODEL_WAIT_EXMOT	hd
+151	3	001e7098	CALL_NEXT	evtCommand.evtCommand_CALL_NEXT	hd
+152	2	001e7378	CALL_FIELD2	evtCommand.evtCommand_CALL_FIELD2	hd
+153	0	0010cf10	FILTER_ALLOFF	scrCommonCommand.scrCommand_FILTER_ALLOFF	hd
+154	1	001e5ea8	EFFECT_LOAD	evtCommand.evtCommand_EFFECT_LOAD	hd
+155	1	001e65b0	EFFECT_CLS	evtCommand.evtCommand_EFFECT_CLS	hd
+156	4	001e65f0	EFFECT_POS_XYZ	evtCommand.evtCommand_EFFECT_POS_XYZ	hd
+157	2	001e6798	EFFECT_POS	evtCommand.evtCommand_EFFECT_POS	hd
+158	1	001e6a50	EFFECT_ON	evtCommand.evtCommand_EFFECT_ON	hd
+159	1	001e6c20	EFFECT_OFF	evtCommand.evtCommand_EFFECT_OFF	hd
+160	2	001e6aa8	EFFECT_LINK	evtCommand.evtCommand_EFFECT_LINK	hd
+161	3	001e6b38	EFFECT_LINK2	evtCommand.evtCommand_EFFECT_LINK2	hd
+162	1	001e6be0	EFFECT_UNLINK	evtCommand.evtCommand_EFFECT_UNLINK	hd
+163	1	001582f0	SET_FIX_CAMERA	fldCommand.fldCommand_SET_FIX_CAMERA	hd
+164	0	00158388	SET_CHASE_CAMERA	fldCommand.fldCommand_SET_CHASE_CAMERA	hd
+165	2	0010bd20	SCR_RUN	scrCommonCommand.scrCommand_SCR_RUN	hd
+166	1	0010bde0	SCR_KILL	scrCommonCommand.scrCommand_SCR_KILL	hd
+167	1	0010be28	SCR_WAIT	scrCommonCommand.scrCommand_SCR_WAIT	hd
+168	1	0010be50	SCR_STAT	scrCommonCommand.scrCommand_SCR_STAT	hd
+169	1	0010be98	SCR_TIME	scrCommonCommand.scrCommand_SCR_TIME	hd
+170	2	001e8328	PMV_RUN	evtCommand.evtCommand_PMV_RUN	hd
+171	2	0010bef8	QUAKE_ON	scrCommonCommand.scrCommand_QUAKE_ON	hd
+172	0	0010bf38	QUAKE_OFF	scrCommonCommand.scrCommand_QUAKE_OFF	hd
+173	2	001e5930	MODEL_LIGHT_OFF	evtCommand.evtCommand_MODEL_LIGHT_OFF	hd
+174	1	001e5900	MODEL_LIGHT_ON	evtCommand.evtCommand_MODEL_LIGHT_ON	hd
+175	8	001e59a8	MODEL_LIGHT_RGB	evtCommand.evtCommand_MODEL_LIGHT_RGB	hd
+176	5	001e5ad0	MODEL_LIGHT_DIR	evtCommand.evtCommand_MODEL_LIGHT_DIR	hd
+177	1	001e5978	MODEL_LIGHT_WAIT	evtCommand.evtCommand_MODEL_LIGHT_WAIT	hd
+178	5	001e5ba8	MODEL_RGB	evtCommand.evtCommand_MODEL_RGB	hd
+179	3	001e5c68	MODEL_A	evtCommand.evtCommand_MODEL_A	hd
+180	4	0010bf58	SCENE_LIGHT_RGB	scrCommonCommand.scrCommand_SCENE_LIGHT_RGB	hd
+181	4	0010bfd0	SCENE_LIGHT_DIR	scrCommonCommand.scrCommand_SCENE_LIGHT_DIR	hd
+182	4	0010c080	SCENE_AMBIENT	scrCommonCommand.scrCommand_SCENE_AMBIENT	hd
+183	1	001e83c8	PATH_STOP	evtCommand.evtCommand_PATH_STOP	hd
+184	1	001e8448	PATH_START	evtCommand.evtCommand_PATH_START	hd
+185	2	001e84c8	PATH_RATE	evtCommand.evtCommand_PATH_RATE	hd
+186	2	001e85e0	PATH_DIR	evtCommand.evtCommand_PATH_DIR	hd
+187	4	0010c0f0	SCENE_FOG_RGB	scrCommonCommand.scrCommand_SCENE_FOG_RGB	hd
+188	5	0010c148	SCENE_FOG_PARA	scrCommonCommand.scrCommand_SCENE_FOG_PARA	hd
+189	3	0010c2d8	BLUR	scrCommonCommand.scrCommand_BLUR	hd
+190	2	00158948	SET_CASH_F	fldCommand.fldCommand_SET_CASH_F	hd
+191	0	001589b8	FREE_CASH_F	fldCommand.fldCommand_FREE_CASH_F	hd
+192	0	00158548	SET_LOCK_CAMERA	fldCommand.fldCommand_SET_LOCK_CAMERA	hd
+193	1	00158560	CAM_DIR	fldCommand.fldCommand_CAM_DIR	hd
+194	2	00158730	CAM_SEL_PHOKAN	fldCommand.fldCommand_CAM_SEL_PHOKAN	hd
+195	1	00158898	SET_ALLPANEL	fldCommand.fldCommand_SET_ALLPANEL	hd
+196	3	001e5d00	MODEL_LIGHT_LINK	evtCommand.evtCommand_MODEL_LIGHT_LINK	hd
+197	2	001e5d78	MODEL_LIGHT_UNLINK	evtCommand.evtCommand_MODEL_LIGHT_UNLINK	hd
+198	2	001e87f0	LIGHT_PATH_MOVE	evtCommand.evtCommand_LIGHT_PATH_MOVE	hd
+199	1	001e8868	LIGHT_PATH_WAIT	evtCommand.evtCommand_LIGHT_PATH_WAIT	hd
+200	1	001e7f58	LOAD_BE	evtCommand.evtCommand_LOAD_BE	hd
+201	2	001e4c18	MODEL_BE	evtCommand.evtCommand_MODEL_BE	hd
+202	2	001e7448	FIELD_BE	evtCommand.evtCommand_FIELD_BE	hd
+203	2	001e5dc0	EFFECT_BE	evtCommand.evtCommand_EFFECT_BE	hd
+204	2	001e88c0	TEX_BE	evtCommand.evtCommand_TEX_BE	hd
+205	1	001e5f60	EFFBED_LOAD	evtCommand.evtCommand_EFFBED_LOAD	hd
+206	2	001e6100	EFFBED_START	evtCommand.evtCommand_EFFBED_START	hd
+207	4	001e66b8	EFFECT_ROT_XYZ	evtCommand.evtCommand_EFFECT_ROT_XYZ	hd
+208	2	001e6020	EFFBED_BE	evtCommand.evtCommand_EFFBED_BE	hd
+209	2	001e6c60	EFFECT_PATH_MOVE	evtCommand.evtCommand_EFFECT_PATH_MOVE	hd
+210	1	001e6cf0	EFFECT_PATH_WAIT	evtCommand.evtCommand_EFFECT_PATH_WAIT	hd
+211	1	001e62c0	EFFMG1_LOAD	evtCommand.evtCommand_EFFMG1_LOAD	hd
+212	2	001e6350	EFFMG1_BE	evtCommand.evtCommand_EFFMG1_BE	hd
+213	1	001e63f8	EFFMG2_LOAD	evtCommand.evtCommand_EFFMG2_LOAD	hd
+214	2	001e6488	EFFMG2_BE	evtCommand.evtCommand_EFFMG2_BE	hd
+215	3	001e6870	COMM_0D7		-
+216	5	001e6930	EFFMG2_POS	evtCommand.evtCommand_EFFMG2_POS	hd
+217	2	001e9168	SE_STOP_E	evtCommand.evtCommand_SE_STOP_E	hd
+218	5	001e7b50	CAM_ROT_Q	evtCommand.evtCommand_CAM_ROT_Q	hd
+219	1	001e7510	FIELD_ANIME_START	evtCommand.evtCommand_FIELD_ANIME_START	hd
+220	1	001e7540	FIELD_ANIME_STOP	evtCommand.evtCommand_FIELD_ANIME_STOP	hd
+221	1	001e4dc0	MODEL_SHADOW_ON2	evtCommand.evtCommand_MODEL_SHADOW_ON2	hd
+222	1	00288728	AI_CHK_PLV	nbAiScript.nbCommand_AI_CHK_PLV	hd
+223	1	00288758	AI_CHK_PPARTYLV	nbAiScript.nbCommand_AI_CHK_PPARTYLV	hd
+224	0	00288788	AI_GET_TURN	nbAiScript.nbCommand_AI_GET_TURN	hd
+225	3	0010d0f0	prm_DV_PLUS	scrParameterCommand.prm_DV_PLUS	hd
+226	2	00287e50	AI_ACT_SUMMON	nbAiScript.nbCommand_AI_ACT_SUMMON	hd
+227	1	001e6530	EFFMG2_PRESET	evtCommand.evtCommand_EFFMG2_PRESET	hd
+228	0	00288b20	BTL_TAIKYO	nbAiScript.nbCommand_BTL_TAIKYO	hd
+229	0	00288b60	BTL_ALLTAIKYO	nbAiScript.nbCommand_BTL_ALLTAIKYO	hd
+230	0	00288ba0	BTL_PRESS	nbAiScript.nbCommand_BTL_PRESS	hd
+231	0	00288be0	BTL_NAKAMA	nbAiScript.nbCommand_BTL_NAKAMA	hd
+232	1	001e86f0	COMM_0E8		-
+233	1	001e8770	PATH_LOOP_OFF	evtCommand.evtCommand_PATH_LOOP_OFF	hd
+234	3	0010c330	MUL_BLUR_PARA	scrCommonCommand.scrCommand_MUL_BLUR_PARA	hd
+235	4	0010c3b8	MUL_BLUR_RGBA	scrCommonCommand.scrCommand_MUL_BLUR_RGBA	hd
+236	3	0010c440	MUL_BLUR_AREA	scrCommonCommand.scrCommand_MUL_BLUR_AREA	hd
+237	1	0010c4c0	MUL_BLUR_ON	scrCommonCommand.scrCommand_MUL_BLUR_ON	hd
+238	1	0010c4e8	MUL_BLUR_OFF	scrCommonCommand.scrCommand_MUL_BLUR_OFF	hd
+239	7	0010c510	DIST_BLUR_PARA	scrCommonCommand.scrCommand_DIST_BLUR_PARA	hd
+240	4	0010c5f8	DIST_BLUR_RGBA	scrCommonCommand.scrCommand_DIST_BLUR_RGBA	hd
+241	3	0010c680	DIST_BLUR_AREA	scrCommonCommand.scrCommand_DIST_BLUR_AREA	hd
+242	1	0010c700	DIST_BLUR_ON	scrCommonCommand.scrCommand_DIST_BLUR_ON	hd
+243	1	0010c728	DIST_BLUR_OFF	scrCommonCommand.scrCommand_DIST_BLUR_OFF	hd
+244	7	002889c0	BTL_CAM_SET	nbAiScript.nbCommand_BTL_CAM_SET	hd
+245	0	00288a50	BTL_CAM_ORG	nbAiScript.nbCommand_BTL_CAM_ORG	hd
+246	0	00287eb0	AI_SET_CRITICAL	nbAiScript.nbCommand_AI_SET_CRITICAL	hd
+247	1	001e8038	READ_BE	evtCommand.evtCommand_READ_BE	hd
+248	1	001e80b8	CHK_BE	evtCommand.evtCommand_CHK_BE	hd
+249	1	001e8138	COMM_0F9		-
+250	0	00288a58	BTL_CAM_1SHOT	nbAiScript.nbCommand_BTL_CAM_1SHOT	hd
+251	0	00288a80	BTL_CAM_2SHOT	nbAiScript.nbCommand_BTL_CAM_2SHOT	hd
+252	0	00288a88	BTL_CAM_BOUGAI	nbAiScript.nbCommand_BTL_CAM_BOUGAI	hd
+253	0	00159bd0	FLD_CHK_BTL	fldCommand.fldCommand_FLD_CHK_BTL	hd
+254	0	00159c08	FLD_CHK_ANA	fldCommand.fldCommand_FLD_CHK_ANA	hd
+255	0	00159c40	FLD_CHK_SISETU	fldCommand.fldCommand_FLD_CHK_SISETU	hd
+256	2	001e73e0	CALL_FIELD3	evtCommand.evtCommand_CALL_FIELD3	hd
+257	2	00158af0	FLD_KANKYO	fldCommand.fldCommand_FLD_KANKYO	hd
+258	4	00158b38	FLD_FILTER	fldCommand.fldCommand_FLD_FILTER	hd
+259	4	00158bb0	FLD_MODEL_ON	fldCommand.fldCommand_FLD_MODEL_ON	hd
+260	4	00158d88	FLD_MODEL_OFF	fldCommand.fldCommand_FLD_MODEL_OFF	hd
+261	4	00158fa8	FLD_ANIME_ON	fldCommand.fldCommand_FLD_ANIME_ON	hd
+262	4	00159168	FLD_ANIME_OFF	fldCommand.fldCommand_FLD_ANIME_OFF	hd
+263	3	00159308	FLD_ATARI_ON	fldCommand.fldCommand_FLD_ATARI_ON	hd
+264	3	001593c8	FLD_ATARI_OFF	fldCommand.fldCommand_FLD_ATARI_OFF	hd
+265	3	00159488	FLD_MODEL_ON2	fldCommand.fldCommand_FLD_MODEL_ON2	hd
+266	3	00159510	COMM_10A		-
+267	3	00159598	FLD_ANIME_ON2	fldCommand.fldCommand_FLD_ANIME_ON2	hd
+268	3	00159620	FLD_ANIME_OFF2	fldCommand.fldCommand_FLD_ANIME_OFF2	hd
+269	4	001596a8	FLD_ANIME_ID2	fldCommand.fldCommand_FLD_ANIME_ID2	hd
+270	3	00159858	FLD_NPC_ON	fldCommand.fldCommand_FLD_NPC_ON	hd
+271	3	00159988	FLD_NPC_OFF	fldCommand.fldCommand_FLD_NPC_OFF	hd
+272	4	00159ab8	FLD_GIMIC_HOJI	fldCommand.fldCommand_FLD_GIMIC_HOJI	hd
+273	3	00159748	FLD_MAP_ON	fldCommand.fldCommand_FLD_MAP_ON	hd
+274	3	001597d0	FLD_MAP_OFF	fldCommand.fldCommand_FLD_MAP_OFF	hd
+275	1	00158ac8	SET_CAMTBL	fldCommand.fldCommand_SET_CAMTBL	hd
+276	1	00159cb0	FLD_GET_TAKARA_TBL	fldCommand.fldCommand_FLD_GET_TAKARA_TBL	hd
+277	0	00159dc8	FLD_SET_TAKARA_OPEN	fldCommand.fldCommand_FLD_SET_TAKARA_OPEN	hd
+278	0	00159df8	FLD_CHK_TAKARA_OPEN	fldCommand.fldCommand_FLD_CHK_TAKARA_OPEN	hd
+279	2	001cd7f8	COMM_117		-
+280	0	001cd860	itfMesMngSetMesPosDefault	itfMesManager.itfMesMngSetMesPosDefault	hd
+281	1	001cd8a0	itfMesMngValidateNext	itfMesManager.itfMesMngValidateNext	hd
+282	2	00210a00	fclTerminal	fclTerminalInit.fclTerminal	hd
+283	1	00210af8	fclTerminalMenuMask	fclTerminalInit.fclTerminalMenuMask	hd
+284	0	00210b38	fclTerminalMenuMaskDef	fclTerminalInit.fclTerminalMenuMaskDef	hd
+285	1	00214428	fclSignal	fclMisc.fclSignal	hd
+286	1	00214458	fclGetVal	fclMisc.fclGetVal	hd
+287	0	00210b68	fclTerminalEnableTalk	fclTerminalInit.fclTerminalEnableTalk	hd
+288	0	00210b90	fclTerminalDisableTalk	fclTerminalInit.fclTerminalDisableTalk	hd
+289	2	00298698	nmeNameEntry	Nme_Init.nmeNameEntry	hd
+290	1	0010cf78	prm_DH_PLUS	scrParameterCommand.prm_DH_PLUS	hd
+291	1	001e4d50	MODEL_SHADOW_ON	evtCommand.evtCommand_MODEL_SHADOW_ON	hd
+292	1	001e4e30	MODEL_SHADOW_OFF	evtCommand.evtCommand_MODEL_SHADOW_OFF	hd
+293	0	001e8f80	BOKASI_ON	evtCommand.evtCommand_BOKASI_ON	hd
+294	0	001e8fa0	BOKASI_OFF	evtCommand.evtCommand_BOKASI_OFF	hd
+295	1	0010c498	MUL_BLUR_SWAP	scrCommonCommand.scrCommand_MUL_BLUR_SWAP	hd
+296	1	0010c6d8	COMM_128		-
+297	3	0010c990	BLUR2_PARA	scrCommonCommand.scrCommand_BLUR2_PARA	hd
+298	4	0010ca30	BLUR2_RGBA	scrCommonCommand.scrCommand_BLUR2_RGBA	hd
+299	2	0010cab8	BLUR2_AREA	scrCommonCommand.scrCommand_BLUR2_AREA	hd
+300	1	0010caf8	BLUR2_SWAP	scrCommonCommand.scrCommand_BLUR2_SWAP	hd
+301	1	0010cb70	FILTER2_PARA	scrCommonCommand.scrCommand_FILTER2_PARA	hd
+302	4	0010cbf0	FILTER2_RGBA	scrCommonCommand.scrCommand_FILTER2_RGBA	hd
+303	1	0010cc78	FILTER2_SWAP	scrCommonCommand.scrCommand_FILTER2_SWAP	hd
+304	1	0010cca0	FILTER2_ON	scrCommonCommand.scrCommand_FILTER2_ON	hd
+305	1	0010ccc8	FILTER2_OFF	scrCommonCommand.scrCommand_FILTER2_OFF	hd
+306	1	0010ccf0	MFILTER_PARA	scrCommonCommand.scrCommand_MFILTER_PARA	hd
+307	4	0010cd70	MFILTER_RGBA	scrCommonCommand.scrCommand_MFILTER_RGBA	hd
+308	3	0010cdf8	MFILTER_AREA	scrCommonCommand.scrCommand_MFILTER_AREA	hd
+309	1	0010ce50	MFILTER_SWAP	scrCommonCommand.scrCommand_MFILTER_SWAP	hd
+310	1	0010ce78	MFILTER_ON	scrCommonCommand.scrCommand_MFILTER_ON	hd
+311	1	0010cea0	MFILTER_OFF	scrCommonCommand.scrCommand_MFILTER_OFF	hd
+312	2	001e9058	BGM_TRANS_E	evtCommand.evtCommand_BGM_TRANS_E	hd
+313	1	0010cfe0	COMM_139		-
+314	1	0010d078	prm_PARTY_DAMAGE	scrParameterCommand.prm_PARTY_DAMAGE	hd
+315	1	001cd920	itfMesMngWindowType	itfMesManager.itfMesMngWindowType	hd
+316	2	001cd9d8	itfMesMngSelectDefKey	itfMesManager.itfMesMngSelectDefKey	hd
+317	2	001e91a8	POINT_ADD	evtCommand.evtCommand_POINT_ADD	hd
+318	1	001e91e8	POINT_GET	evtCommand.evtCommand_POINT_GET	hd
+319	0	001e9220	POINT_1ST	evtCommand.evtCommand_POINT_1ST	hd
+320	0	001e9248	POINT_2ND	evtCommand.evtCommand_POINT_2ND	hd
+321	0	001e9270	POINT_3RD	evtCommand.evtCommand_POINT_3RD	hd
+322	1	0010c940	RIP_BLUR_ON	scrCommonCommand.scrCommand_RIP_BLUR_ON	hd
+323	1	0010c968	RIP_BLUR_OFF	scrCommonCommand.scrCommand_RIP_BLUR_OFF	hd
+324	7	0010c750	RIP_BLUR_PARA	scrCommonCommand.scrCommand_RIP_BLUR_PARA	hd
+325	4	0010c838	RIP_BLUR_RGBA	scrCommonCommand.scrCommand_RIP_BLUR_RGBA	hd
+326	3	0010c8c0	RIP_BLUR_AREA	scrCommonCommand.scrCommand_RIP_BLUR_AREA	hd
+327	1	0010c918	RIP_BLUR_SWAP	scrCommonCommand.scrCommand_RIP_BLUR_SWAP	hd
+328	2	001e9298	DIST_BLUR_TEX_BE	evtCommand.evtCommand_DIST_BLUR_TEX_BE	hd
+329	0	001e92d8	DIST_BLUR_TEX_DEF	evtCommand.evtCommand_DIST_BLUR_TEX_DEF	hd
+330	1	001e6570	COMM_14A		-
+331	1	002883d8	AI_CHK_MYMP	nbAiScript.nbCommand_AI_CHK_MYMP	hd
+332	0	002887f0	AI_GET_PRESSKOUDO	nbAiScript.nbCommand_AI_GET_PRESSKOUDO	hd
+333	0	002887b8	AI_GET_ALLKOUDO	nbAiScript.nbCommand_AI_GET_ALLKOUDO	hd
+334	0	00288828	AI_GET_MYLV	nbAiScript.nbCommand_AI_GET_MYLV	hd
+335	1	0010d1f0	prm_UDV_LEAVE	scrParameterCommand.prm_UDV_LEAVE	hd
+336	1	0010d248	prm_UDV_CHECK	scrParameterCommand.prm_UDV_CHECK	hd
+337	1	0010d2c8	prm_UDV_DELETE_OK	scrParameterCommand.prm_UDV_DELETE_OK	hd
+338	1	0010d330	prm_UDV_DELETE_NG	scrParameterCommand.prm_UDV_DELETE_NG	hd
+339	0	00288c20	BTL_FORM_ALL_ON	nbAiScript.nbCommand_BTL_FORM_ALL_ON	hd
+340	0	00288c40	BTL_FORM_PLY_ON	nbAiScript.nbCommand_BTL_FORM_PLY_ON	hd
+341	0	00288c68	BTL_FORM_ENE_ON	nbAiScript.nbCommand_BTL_FORM_ENE_ON	hd
+342	0	00288858	AI_GET_MYAISYO	nbAiScript.nbCommand_AI_GET_MYAISYO	hd
+343	0	001e6e30	CALL_STAFF	evtCommand.evtCommand_CALL_STAFF	hd
+344	1	0010d390	prm_STOCK_PLUS	scrParameterCommand.prm_STOCK_PLUS	hd
+345	0	00287f98	AI_TAR_BAARLV	nbAiScript.nbCommand_AI_TAR_BAARLV	hd
+346	1	0010d298	prm_UDV_GETID	scrParameterCommand.prm_UDV_GETID	hd
+347	0	00288000	AI_TAR_LVMIN	nbCommand_AI_TAR_LVMIN	ps2
+348	1	0010d410	prm_PLAYER_GET_PARAM	scrParameterCommand.prm_PLAYER_GET_PARAM	hd
+349	0	00288890	AI_GET_FUREA	nbAiScript.nbCommand_AI_GET_FUREA	hd
+350	0	001e6e60	CALL_ENDSAVE	evtCommand.evtCommand_CALL_ENDSAVE	hd
+351	3	001e5360	KUTI	evtCommand.evtCommand_KUTI	hd
+352	2	001cd970	itfMesMngWindowTypeAlpha	itfMesManager.itfMesMngWindowTypeAlpha	hd
+353	0	0015a620	FLD_ANAHORI_INIT	fldCommand.fldCommand_FLD_ANAHORI_INIT	hd
+354	0	0015a640	FLD_ANAHORI_GET	fldCommand.fldCommand_FLD_ANAHORI_GET	hd
+355	0	0015a668	FLD_ANAHORI_NEXT	fldCommand.fldCommand_FLD_ANAHORI_NEXT	hd
+356	0	0015a688	FLD_ANAHORI_DEL	fldCommand.fldCommand_FLD_ANAHORI_DEL	hd
+357	3	001e52c8	KUTISET	evtCommand.evtCommand_KUTISET	hd
+358	1	001e7290	CALL_BATTLE2	evtCommand.evtCommand_CALL_BATTLE2	hd
+359	3	001e60f8	EFFBED_BE_EVO	evtCommand.evtCommand_EFFBED_BE_EVO	hd
+360	3	001e6210	COMM_168		-
+361	0	002888c0	AI_CHK_ESCAPE	nbAiScript.nbCommand_AI_CHK_ESCAPE	hd
+362	1	001e92f8	DRAWSTOP	evtCommand.evtCommand_DRAWSTOP	hd
+363	0	0022b8f0	MOVIE_CHKDRAW	mviScript.mviScrCmd_MOVIE_CHKDRAW	hd
+368	2	0010d658	prm_BOSS_PRESS_REC	scrParameterCommand.prm_BOSS_PRESS_REC	hd
+369	2	0010d480	prm_NAKAMA_GET_PARAM	scrParameterCommand.prm_NAKAMA_GET_PARAM	hd
+370	0	0010d4c8	COMM_172		-
+371	1	0010d518	prm_NAKAMA_DEAD	scrParameterCommand.prm_NAKAMA_DEAD	hd
+372	1	0010d540	prm_NAKAMA_CHK_PIKUKO	scrParameterCommand.prm_NAKAMA_CHK_PIKUKO	hd
+373	0	0010d5e8	prm_PIKUKO_GETID	scrParameterCommand.prm_PIKUKO_GETID	hd
+374	0	0010d0a0	prm_PARTY_KAIFUKU	scrParameterCommand.prm_PARTY_KAIFUKU	hd
+375	2	0010d6a0	prm_DV_COPY_PARAM	scrParameterCommand.prm_DV_COPY_PARAM	hd
+376	0	00288c90	BTL_AI_ROT_CLR	nbAiScript.nbCommand_BTL_AI_ROT_CLR	hd
+377	1	00288ca0	BTL_AI_ROT_NEXT	nbAiScript.nbCommand_BTL_AI_ROT_NEXT	hd
+378	0	00288ce8	BTL_AI_ROT_GET	nbAiScript.nbCommand_BTL_AI_ROT_GET	hd
+379	1	00288648	AI_CHK_ENHOJOMAX	nbAiScript.nbCommand_AI_CHK_ENHOJOMAX	hd
+380	1	00288678	AI_CHK_FRHOJOMAX	nbAiScript.nbCommand_AI_CHK_FRHOJOMAX	hd
+381	0	00288d10	BTL_AI_CHANGE_OFF	nbAiScript.nbCommand_BTL_AI_CHANGE_OFF	hd
+382	0	00288d48	BTL_AI_CHANGE_ON	nbAiScript.nbCommand_BTL_AI_CHANGE_ON	hd
+383	0	00288908	AI_CHK_ENHAMAMHK	nbCommand_AI_CHK_ENHAMAMHK	ps2
+384	0	002882e8	AI_TAR_JOKEN	nbAiScript.nbCommand_AI_TAR_JOKEN	hd
+385	1	00288928	AI_CHK_SKILLNOMP	nbAiScript.nbCommand_AI_CHK_SKILLNOMP	hd
+386	0	0010d4f0	prm_PLAYER_GET_LEVEL	scrParameterCommand.prm_PLAYER_GET_LEVEL	hd
+387	1	0010d008	prm_MAKA_PLUS_PER	scrParameterCommand.prm_MAKA_PLUS_PER	hd
+388	1	0010d1a0	prm_DV_CHECK	scrParameterCommand.prm_DV_CHECK	hd
+389	1	001e82f8	PMV_LOAD_END_WAIT	evtCommand.evtCommand_PMV_LOAD_END_WAIT	hd
+390	0	0010d0d0	prm_PARTY_KAIFUKU2	scrParameterCommand.prm_PARTY_KAIFUKU2	hd
+480	4	001e8af8	TEX_SWAP	evtCommand.evtCommand_TEX_SWAP	hd
+481	2	001e8bd0	TEX_PRI	evtCommand.evtCommand_TEX_PRI	hd
+482	5	001e8c10	TEX_SIZE	evtCommand.evtCommand_TEX_SIZE	hd
+483	6	001e8c98	COMM_1E3		-
+484	4	001e8d38	TEX_ALP	evtCommand.evtCommand_TEX_ALP	hd
+485	4	001e8da8	TEX_ZOOM	evtCommand.evtCommand_TEX_ZOOM	hd
+486	2	001e8b90	TEX_OT	evtCommand.evtCommand_TEX_OT	hd
+487	2	001e8e18	TEX_STAT	evtCommand.evtCommand_TEX_STAT	hd
+496	2	0015a418	FLD_TITLE_START2	fldCommand.fldCommand_FLD_TITLE_START2	hd
+497	1	0015a6d0	FLD_GET_KIRETA	fldCommand.fldCommand_FLD_GET_KIRETA	hd
+498	0	0015a7c8	FLD_GET_ITEMBOX_RND	fldCommand.fldCommand_FLD_GET_ITEMBOX_RND	hd
+499	2	0015a390	FLD_MSE_PLAY2	fldCommand.fldCommand_FLD_MSE_PLAY2	hd
+500	2	0015a3d0	FLD_MSE_STOP2	fldCommand.fldCommand_FLD_MSE_STOP2	hd
+501	1	00158858	SET_NPC_CAMERA	fldCommand.fldCommand_SET_NPC_CAMERA	hd
+502	0	0015a850	FLD_MODEL_DANTE	fldCommand.fldCommand_FLD_MODEL_DANTE	hd
+503	0	0015a888	FLD_DANTE_AI_STOP	fldCommand.fldCommand_FLD_DANTE_AI_STOP	hd
+504	0	0015a8a8	FLD_DANTE_AI_START	fldCommand.fldCommand_FLD_DANTE_AI_START	hd
+505	1	0015a8c8	FLD_DANTE_STANCE	fldCommand.fldCommand_FLD_DANTE_STANCE	hd
+506	0	0015a200	FLD_BGM_RELOAD	fldCommand.fldCommand_FLD_BGM_RELOAD	hd
+507	0	0015a220	FLD_BGM_RELOAD_WAIT	fldCommand.fldCommand_FLD_BGM_RELOAD_WAIT	hd
+512	1	00159fd8	FLD_WARP_ELV_GETTBL	fldCommand.fldCommand_FLD_WARP_ELV_GETTBL	hd
+513	1	0015a008	FLD_WARP_ELV_EXIT	fldCommand.fldCommand_FLD_WARP_ELV_EXIT	hd
+514	0	00159e48	FLD_WARP_CALL_FIELD	fldCommand.fldCommand_FLD_WARP_CALL_FIELD	hd
+515	0	00159ee8	FLD_WARP_CASH_F	fldCommand.fldCommand_FLD_WARP_CASH_F	hd
+516	0	0015a0e8	FLD_WARP_RUN_START	fldCommand.fldCommand_FLD_WARP_RUN_START	hd
+517	2	0015a130	FLD_INF_NEXT	fldCommand.fldCommand_FLD_INF_NEXT	hd
+518	2	0015a178	COMM_206		-
+519	0	0015a1c0	FLD_INF_GETPANEL	fldCommand.fldCommand_FLD_INF_GETPANEL	hd
+520	1	00159fa8	FLD_WARP_HASIGO_GETTBL	fldCommand.fldCommand_FLD_WARP_HASIGO_GETTBL	hd
+521	2	0015a030	FLD_ELV_FLOORSTART	fldCommand.fldCommand_FLD_ELV_FLOORSTART	hd
+522	0	0015a070	FLD_ELV_FLOOREND	fldCommand.fldCommand_FLD_ELV_FLOOREND	hd
+523	0	0015a090	FLD_ELV_ENDCHK	fldCommand.fldCommand_FLD_ELV_ENDCHK	hd
+524	1	0015a0b8	FLD_WARP_GET_DOOR	fldCommand.fldCommand_FLD_WARP_GET_DOOR	hd
+525	0	0015a480	FLD_EXIT_CAMERA	fldCommand.fldCommand_FLD_EXIT_CAMERA	hd
+526	0	0015a1e0	FLD_INF_GOWAP	fldCommand.fldCommand_FLD_INF_GOWAP	hd
+527	1	00159eb0	FLD_CALL_WAPEX	fldCommand.fldCommand_FLD_CALL_WAPEX	hd
+528	1	0015a240	FLD_BGM_PLAY	fldCommand.fldCommand_FLD_BGM_PLAY	hd
+529	1	0015a280	FLD_BGM_CONTINUE	fldCommand.fldCommand_FLD_BGM_CONTINUE	hd
+530	0	0015a2b0	FLD_BGM_PAUSE	fldCommand.fldCommand_FLD_BGM_PAUSE	hd
+531	0	0015a2d0	FLD_BGM_STOP	fldCommand.fldCommand_FLD_BGM_STOP	hd
+532	1	0015a310	FLD_SE_PLAY	fldCommand.fldCommand_FLD_SE_PLAY	hd
+533	1	0015a338	FLD_SE_STOP	fldCommand.fldCommand_FLD_SE_STOP	hd
+534	0	0015a2f0	FLD_BGM_FADE	fldCommand.fldCommand_FLD_BGM_FADE	hd
+535	1	0015a360	COMM_217		-
+536	1	0015a6a8	FLD_NPC_SINEN	fldCommand.fldCommand_FLD_NPC_SINEN	hd
+537	0	0015a4b8	FLD_WARP_GET_WARPEFF	fldCommand.fldCommand_FLD_WARP_GET_WARPEFF	hd
+538	1	0015a410	FLD_TITLE_START	fldCommand.fldCommand_FLD_TITLE_START	hd
+539	1	00158008	ACT_WIN_DSP2	fldCommand.fldCommand_ACT_WIN_DSP2	hd
+540	1	0015a458	FLD_SET_ENCOUNT	fldCommand.fldCommand_FLD_SET_ENCOUNT	hd
+541	1	001580f8	ACT_WIN_DSP3	fldCommand.fldCommand_ACT_WIN_DSP3	hd
+542	1	0015a4e0	FLD_MODEL_LIGHT	fldCommand.fldCommand_FLD_MODEL_LIGHT	hd
+543	1	0015a510	FLD_SAGASI_AKUMA	fldCommand.fldCommand_FLD_SAGASI_AKUMA	hd
+544	1090520	0010a3c0	COMM_220		-
+545	1090592	0010a3f8	COMM_221		-
+546	0	0010a3c0	COMM_222		-
+548	1090752	0010a490	COMM_224		-
+549	1090824	0010a4d8	COMM_225		-
+550	0	0010a4b0	COMM_226		-
+552	1092592	0010abd8	COMM_228		-
+553	1092640	0010ac08	COMM_229		-
+554	1092704	0010ac40	COMM_22A		-
+555	1092760	0010ac80	COMM_22B		-
+556	1092816	0010acb0	COMM_22C		-
+557	1092864	0010acf0	COMM_22D		-
+558	1093000	0010ad70	COMM_22E		-
+559	1093048	0010ada0	COMM_22F		-
+560	1093192	0010add8	COMM_230		-
+561	1093360	0010aeb8	COMM_231		-
+562	1093480	0010af30	COMM_232		-
+563	1093592	0010afa0	COMM_233		-
+564	1093992	0010b148	COMM_234		-
+565	1094072	0010b188	COMM_235		-
+566	0	0010b1e0	COMM_236		-
+568	1094232	0010b238	COMM_238		-
+569	1094232	0010b238	COMM_239		-
+570	0	0010b27c	COMM_23A		-
+572	1094832	0010b4a0	COMM_23C		-
+573	1094832	0010b4a0	COMM_23D		-
+574	0	0010b4c8	COMM_23E		-
+576	1095192	0010b608	COMM_240		-
+577	1095256	0010b638	COMM_241		-
+578	0	0010b608	COMM_242		-
+580	1095392	0010b6c8	COMM_244		-
+581	1095448	0010b6f0	COMM_245		-
+582	0	0010b6c8	COMM_246		-

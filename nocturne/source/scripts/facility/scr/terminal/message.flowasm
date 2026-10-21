@@ -1,0 +1,96 @@
+; FlowScript assembly. tools/flowscript.py assemble rebuilds the original bytes.
+.header 00000000fe040000464c57300000000005000000000000000000000000000000
+.sections procedures labels code messages strings
+.messages message.bmd
+.strings 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+.labels _1 _3 _4
+
+.procedure trm_1st
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngValidateNext
+    PUSHIS 0
+    COMM itfMesMngMessage
+    JUMP endless_loop
+    END
+
+.procedure trm_1st_2
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngValidateNext
+    PUSHIS 1
+    COMM itfMesMngMessage
+    JUMP endless_loop
+    END
+
+.procedure trm_trans
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngValidateNext
+    PUSHIS 2
+    COMM itfMesMngMessage
+    JUMP endless_loop
+    END
+
+.procedure trm_confirm
+    PROC
+    PUSHIS 6
+    PUSHIS 0
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 1
+    PUSHIS 3
+    COMM itfMesMngSelectDefKey
+    PUSHIS 3
+    COMM itfMesMngMessage
+    PUSHIS 1
+    PUSHIS 5
+    COMM itfMesMngSelect
+    PUSHREG
+    EQ
+    IF _1
+    PUSHIS 2
+    COMM fclSignal
+    GOTO _1
+_1:
+    END
+
+.procedure trm_exit
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 4
+    COMM itfMesMngMessage
+    END
+
+.procedure endless_loop
+    PROC
+    PUSHIS 0
+    COMM fclSignal
+_3:
+    PUSHIS 1
+    IF _4
+    PUSHIS 1
+    COMM WAIT
+    GOTO _3
+_4:
+    END

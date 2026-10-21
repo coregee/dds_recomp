@@ -1,0 +1,3596 @@
+; FlowScript assembly. tools/flowscript.py assemble rebuilds the original bytes.
+.header 00000000445a0000464c57300000000005000000190000000000000000000000
+.sections procedures labels code messages strings
+.strings 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+.labels _1 _4 _5 _3 _8 _9 _7 _10 _11 _12 _13 _14 _19 _18 _21 _20 _25 _27 _30 _29 _31 _34 _33 _36 _37 _38 _35 _39 _23 _24 _42 _41 _43 _46 _45 _16 _17 _49 _52 _51 _54 _53 _56 _57 _58 _55 _60 _63 _62 _65 _66 _64 _67 _47 _48 _70 _71 _72 _73 _74 _75 _76 _77 _78 _69 _81 _82 _83 _84 _85 _86 _87 _88 _89 _80 _92 _93 _94 _95 _96 _97 _98 _99 _100 _91 _103 _104 _105 _106 _107 _108 _109 _110 _111 _102 _114 _115 _116 _113 _119 _120 _121 _122 _123 _124 _125 _126 _127 _118 _130 _129 _131 _133 _134 _136 _135 _139 _140 _141 _142 _143 _144 _145 _146 _147 _138 _150 _151 _149 _153 _154 _152 _156 _157 _158 _155 _160 _159 _162 _163 _161 _165 _166 _167 _168 _164 _170 _171 _172 _173 _169 _175 _176 _177 _178 _174 _180 _179 _182 _181 _184 _185 _186 _187 _188 _189 _190 _191 _192 _183 _195 _196 _197 _198 _199 _200 _201 _202 _203 _194 _206 _207 _208 _209 _205 _212 _213 _214 _211 _217 _216 _220 _221 _219 _223 _222 _225 _224 _227 _226 _229 _230 _231 _228 _233 _232 _234 _237 _238 _239 _236 _241 _240 _244 _243 _245 _247 _250 _251 _252 _249 _254 _253 _256 _255 _259 _258 _260 _263 _264 _262 _266 _265 _268 _267 _269 _271 _273 _276 _277 _278 _279 _280 _275 _284 _286 _288 _290 _292 _294 _296 _298 _300 _302 _304 _306 _308 _310 _312 _314 _316 _318 _320 _322 _324 _282 _283 _326 _329 _328 _330 _332 _335 _334 _337 _336 _339 _338 _341 _340 _343 _344 _345 _342 _347 _348
+
+.procedure start
+    PROC
+    PUSHIS 0
+    POPLIX 0
+    PUSHIS 0
+    POPLIX 1
+    PUSHIS 0
+    POPLIX 2
+    PUSHIS 0
+    POPLIX 3
+    PUSHIS 0
+    POPLIX 4
+    PUSHIS 0
+    POPLIX 7
+    PUSHIS 0
+    POPLIX 5
+    PUSHIS 0
+    POPLIX 6
+    PUSHIS 0
+    POPLIX 8
+    PUSHIS 0
+    POPLIX 9
+    PUSHIS 0
+    POPLIX 10
+    PUSHIS 0
+    POPLIX 11
+    PUSHIS 0
+    POPLIX 12
+    PUSHIS 0
+    POPLIX 13
+    PUSHIS 0
+    POPLIX 14
+    PUSHIS 0
+    POPLIX 15
+    PUSHIS 0
+    POPLIX 16
+    PUSHIS 0
+    POPLIX 17
+    PUSHIS 0
+    POPLIX 18
+    PUSHIS 0
+    POPLIX 19
+    PUSHIS 0
+    POPLIX 20
+    PUSHIS 0
+    POPLIX 21
+    PUSHIS 0
+    POPLIX 22
+    PUSHIS 0
+    POPLIX 23
+    PUSHIS 0
+    POPLIX 24
+    PUSHIS 0
+    POPIX 12
+    PUSHIS 0
+    POPIX 23
+    PUSHIS 0
+    POPIX 14
+    PUSHIS 0
+    POPIX 13
+    PUSHIS 0
+    POPIX 16
+    PUSHIS 0
+    POPIX 20
+    COMM #41
+    PUSHREG
+    POPLIX 5
+    COMM #35
+    PUSHREG
+    POPLIX 6
+    PUSHLIX 5
+    COMM #53
+    PUSHREG
+    POPIX 31
+    PUSHIS 10
+    PUSHIX 31
+    ADD
+    POPIX 31
+    PUSHIX 31
+    PUSHLIX 5
+    COMM #54
+    PUSHLIX 6
+    COMM #50
+    PUSHREG
+    POPLIX 14
+    PUSHLIX 5
+    COMM #49
+    PUSHREG
+    POPLIX 18
+    PUSHLIX 6
+    COMM #49
+    PUSHREG
+    POPLIX 19
+    COMM #37
+    PUSHREG
+    POPIX 23
+    PUSHLIX 6
+    COMM #51
+    PUSHREG
+    POPLIX 0
+    PUSHIS 0
+    PUSHLIX 0
+    EQ
+    IF _4
+    PUSHIS 3
+    PUSHIX 23
+    MUL
+    PUSHLIX 14
+    SUB
+    POPLIX 14
+    GOTO _3
+_4:
+    PUSHIS 1
+    PUSHLIX 0
+    EQ
+    IF _5
+    PUSHIS 3
+    PUSHIX 23
+    PUSHIS 8
+    SUB
+    MUL
+    PUSHLIX 14
+    SUB
+    POPLIX 14
+    GOTO _3
+_5:
+    PUSHIS 2
+    PUSHLIX 0
+    EQ
+    IF _3
+    PUSHIS 2
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _1
+    PUSHIS 3
+    PUSHIX 23
+    MUL
+    PUSHLIX 14
+    ADD
+    POPLIX 14
+    GOTO _1
+_1:
+    GOTO _3
+_3:
+    PUSHIS 70
+    PUSHLIX 14
+    LE
+    IF _8
+    PUSHIS 11
+    POPLIX 13
+    GOTO _7
+_8:
+    PUSHIS 30
+    PUSHLIX 14
+    SE
+    IF _9
+    PUSHIS 12
+    POPLIX 13
+    GOTO _7
+_9:
+    PUSHIS 0
+    POPLIX 13
+    GOTO _7
+_7:
+    PUSHIS 1
+    PUSHLIX 5
+    PUSHIS 0
+    COMM #113
+    PUSHIS 1
+    PUSHLIX 6
+    PUSHIS 1
+    COMM #113
+    PUSHIS 1
+    PUSHIS 0
+    PUSHIS 0
+    COMM #71
+    PUSHIS 1
+    PUSHIS 0
+    PUSHIS 1
+    COMM #71
+    CALL devil_id_check
+    PUSHIS 0
+    PUSHLIX 7
+    EQ
+    IF _14
+    PUSHIS 1
+    PUSHIS 4
+    COMM #123
+_10:
+    PUSHIS 0
+    COMM #145
+    PUSHREG
+    EQ
+    IF _11
+    COMM #13
+    GOTO _10
+_11:
+    COMM #1
+    PUSHIS 6
+    COMM #67
+    COMM #2
+    PUSHIS 1
+    PUSHIS 2
+    COMM #123
+_12:
+    PUSHIS 0
+    COMM #145
+    PUSHREG
+    EQ
+    IF _13
+    COMM #13
+    GOTO _12
+_13:
+    COMM #1
+    PUSHIS 0
+    COMM #68
+    COMM #2
+    PUSHIS 20
+    COMM #14
+    GOTO _14
+_14:
+    JUMP main
+    END
+
+.procedure main
+    PROC
+    PUSHIS 1
+    COMM #149
+    PUSHREG
+    POPLIX 24
+    PUSHIS 0
+    COMM #72
+    CALL plan_compati
+    PUSHIS 0
+    POPLIX 14
+    PUSHIS 0
+    POPLIX 15
+_16:
+    PUSHIS 0
+    PUSHLIX 8
+    EQ
+    IF _17
+    PUSHLIX 18
+    COMM #36
+    PUSHLIX 19
+    COMM #36
+    PUSHLIX 20
+    COMM #36
+    PUSHIS 100
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHLIX 3
+    PUSHLIX 20
+    L
+    IF _19
+    PUSHIS 100
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHLIX 3
+    PUSHLIX 14
+    ADD
+    POPLIX 14
+    PUSHIS 0
+    POPLIX 13
+    GOTO _18
+_19:
+    PUSHIS 100
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHLIX 3
+    PUSHLIX 15
+    ADD
+    POPLIX 15
+    PUSHIS 1
+    POPLIX 13
+    GOTO _18
+_18:
+    PUSHIS 100
+    PUSHLIX 14
+    L
+    IF _21
+    PUSHIS 1
+    POPLIX 8
+    PUSHIS 0
+    POPLIX 13
+    GOTO _20
+_21:
+    PUSHIS 0
+    PUSHLIX 20
+    EQ
+    PUSHIS 100
+    PUSHLIX 15
+    L
+    OR
+    IF _20
+    PUSHIS 1
+    POPLIX 8
+    PUSHIS 1
+    POPLIX 13
+    GOTO _20
+_20:
+    CALL chance_get
+    CALL main_motion
+    PUSHIS 1
+    PUSHLIX 21
+    ADD
+    POPLIX 21
+    PUSHIS 0
+    PUSHLIX 8
+    EQ
+    PUSHIS 0
+    PUSHLIX 13
+    EQ
+    PUSHLIX 22
+    PUSHLIX 21
+    SE
+    AND
+    AND
+    IF _46
+    PUSHIS 320
+    PUSHIS 280
+    COMM #124
+    PUSHIS 0
+    COMM #127
+    CALL demand
+    PUSHIS 2
+    POPIX 12
+    PUSHIX 12
+    COMM #128
+    PUSHIS 1
+    COMM #125
+    COMM #126
+    PUSHLIX 24
+    IF _42
+    CALL auto_nego
+    GOTO _41
+_42:
+    PUSHIS 0
+    POPLIX 8
+_23:
+    PUSHIS 0
+    PUSHLIX 8
+    EQ
+    IF _24
+    PUSHIS 2
+    PUSHIX 12
+    EQ
+    IF _25
+    PUSHIS 1
+    COMM #6
+    GOTO _25
+_25:
+    PUSHIS 46
+    COMM #144
+    PUSHREG
+    POPLIX 0
+    PUSHIS 2
+    PUSHLIX 0
+    NEQ
+    PUSHIS 8
+    PUSHLIX 19
+    EQ
+    AND
+    IF _36
+    PUSHIS 1
+    POPLIX 8
+    PUSHIS 1
+    POPLIX 13
+    PUSHIS 1
+    POPLIX 2
+    GOTO _35
+_36:
+    PUSHIS 0
+    PUSHLIX 0
+    EQ
+    IF _37
+    PUSHIS 1
+    PUSHLIX 21
+    ADD
+    POPLIX 21
+    PUSHIS 255
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 128
+    PUSHLIX 3
+    S
+    PUSHIS 2
+    PUSHIX 12
+    S
+    PUSHLIX 22
+    PUSHLIX 21
+    SE
+    AND
+    AND
+    IF _30
+    PUSHIS 1
+    PUSHIX 12
+    ADD
+    POPIX 12
+    PUSHIS 0
+    POPLIX 13
+    GOTO _29
+_30:
+    PUSHIS 1
+    POPLIX 13
+    PUSHLIX 22
+    PUSHLIX 21
+    L
+    IF _27
+    PUSHIS 1
+    POPLIX 8
+    GOTO _27
+_27:
+    GOTO _29
+_29:
+    PUSHIX 12
+    COMM #128
+    PUSHIS 1
+    POPLIX 2
+    GOTO _35
+_37:
+    PUSHIS 1
+    PUSHLIX 0
+    EQ
+    IF _38
+    PUSHIS 1
+    PUSHLIX 21
+    ADD
+    POPLIX 21
+    PUSHIS 255
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 128
+    PUSHLIX 3
+    S
+    PUSHLIX 22
+    PUSHLIX 21
+    SE
+    AND
+    IF _34
+    PUSHLIX 10
+    COMM #129
+    CALL demand
+    PUSHIS 0
+    POPLIX 13
+    GOTO _33
+_34:
+    PUSHIS 1
+    POPLIX 13
+    PUSHLIX 22
+    PUSHLIX 21
+    L
+    IF _31
+    PUSHIS 1
+    POPLIX 8
+    GOTO _31
+_31:
+    GOTO _33
+_33:
+    PUSHIS 1
+    POPLIX 2
+    GOTO _35
+_38:
+    CALL sel_demand
+    PUSHIS 0
+    POPLIX 2
+    PUSHIS 1
+    POPLIX 8
+    GOTO _35
+_35:
+    PUSHIS 1
+    PUSHLIX 2
+    EQ
+    IF _39
+    CALL main_motion
+    GOTO _39
+_39:
+    COMM #126
+    COMM #13
+    GOTO _23
+_24:
+    PUSHIS 1
+    POPLIX 8
+    GOTO _41
+_41:
+    GOTO _45
+_46:
+    PUSHLIX 22
+    PUSHLIX 21
+    LE
+    IF _43
+    PUSHIS 1
+    POPLIX 8
+    GOTO _43
+_43:
+    GOTO _45
+_45:
+    PUSHIS 0
+    COMM #125
+    COMM #126
+    COMM #13
+    GOTO _16
+_17:
+    PUSHIS 0
+    COMM #92
+    CALL end_main
+    PUSHIX 20
+    COMM #36
+    PUSHLIX 17
+    COMM #36
+    END
+
+.procedure auto_nego
+    PROC
+    PUSHIS 0
+    POPLIX 8
+_47:
+    PUSHIS 0
+    PUSHLIX 8
+    EQ
+    IF _48
+    PUSHIS 1
+    PUSHIX 12
+    SE
+    IF _65
+    PUSHIS 100
+    COMM #36
+    PUSHIS 1
+    PUSHLIX 21
+    ADD
+    POPLIX 21
+    PUSHIS 255
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 128
+    PUSHLIX 3
+    S
+    PUSHIS 2
+    PUSHIX 12
+    S
+    PUSHLIX 22
+    PUSHLIX 21
+    SE
+    AND
+    AND
+    IF _52
+    PUSHIS 1
+    PUSHIX 12
+    ADD
+    POPIX 12
+    PUSHIS 0
+    POPLIX 13
+    GOTO _51
+_52:
+    PUSHIS 1
+    POPLIX 13
+    PUSHLIX 22
+    PUSHLIX 21
+    L
+    IF _49
+    PUSHIS 1
+    POPLIX 8
+    PUSHIS 1
+    POPIX 16
+    GOTO _49
+_49:
+    GOTO _51
+_51:
+    PUSHIX 12
+    COMM #128
+    PUSHIS 1
+    POPLIX 2
+    GOTO _64
+_65:
+    PUSHIS 4
+    PUSHLIX 10
+    COMM #140
+    PUSHREG
+    NEQ
+    PUSHIS 3
+    PUSHLIX 18
+    EQ
+    AND
+    PUSHIS 3
+    PUSHLIX 10
+    COMM #140
+    PUSHREG
+    NEQ
+    PUSHIS 2
+    PUSHLIX 10
+    COMM #140
+    PUSHREG
+    NEQ
+    OR
+    PUSHIS 2
+    PUSHLIX 18
+    EQ
+    AND
+    PUSHIS 1
+    PUSHLIX 10
+    COMM #140
+    PUSHREG
+    NEQ
+    PUSHIS 1
+    PUSHLIX 18
+    EQ
+    AND
+    PUSHIS 0
+    PUSHLIX 10
+    COMM #140
+    PUSHREG
+    NEQ
+    PUSHIS 0
+    PUSHLIX 18
+    EQ
+    AND
+    OR
+    OR
+    OR
+    IF _66
+    PUSHIS 200
+    COMM #36
+    PUSHIS 1
+    PUSHLIX 21
+    ADD
+    POPLIX 21
+    PUSHIS 255
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 128
+    PUSHLIX 3
+    S
+    PUSHLIX 22
+    PUSHLIX 21
+    SE
+    AND
+    IF _63
+    PUSHLIX 10
+    COMM #129
+    PUSHIS 0
+    PUSHLIX 18
+    EQ
+    IF _56
+    COMM #134
+    PUSHREG
+    POPLIX 10
+    GOTO _55
+_56:
+    PUSHIS 1
+    PUSHLIX 18
+    EQ
+    IF _57
+    PUSHIS 4
+    COMM #10
+    PUSHREG
+    COMM #135
+    PUSHREG
+    POPLIX 10
+    GOTO _55
+_57:
+    PUSHIS 2
+    PUSHLIX 18
+    EQ
+    IF _58
+    PUSHIS 1
+    PUSHIS 2
+    COMM #10
+    PUSHREG
+    EQ
+    IF _54
+    COMM #136
+    PUSHREG
+    POPLIX 10
+    GOTO _53
+_54:
+    COMM #137
+    PUSHREG
+    POPLIX 10
+    GOTO _53
+_53:
+    GOTO _55
+_58:
+    PUSHIS 3
+    PUSHLIX 18
+    EQ
+    IF _55
+    PUSHIS 0
+    COMM #138
+    PUSHREG
+    POPLIX 10
+    GOTO _55
+_55:
+    PUSHIS 0
+    POPLIX 13
+    GOTO _62
+_63:
+    PUSHIS 1
+    POPLIX 13
+    PUSHLIX 22
+    PUSHLIX 21
+    L
+    IF _60
+    PUSHIS 1
+    POPLIX 8
+    GOTO _60
+_60:
+    GOTO _62
+_62:
+    PUSHIS 1
+    POPLIX 2
+    GOTO _64
+_66:
+    PUSHIS 1
+    POPLIX 8
+    GOTO _64
+_64:
+    PUSHIS 1
+    PUSHLIX 2
+    EQ
+    IF _67
+    CALL main_motion
+    GOTO _67
+_67:
+    COMM #126
+    COMM #13
+    GOTO _47
+_48:
+    END
+
+.procedure plan_compati
+    PROC
+    PUSHIS 0
+    PUSHLIX 18
+    EQ
+    IF _114
+    PUSHIS 4
+    PUSHLIX 19
+    EQ
+    IF _70
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _69
+_70:
+    PUSHIS 5
+    PUSHLIX 19
+    EQ
+    IF _71
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _69
+_71:
+    PUSHIS 6
+    PUSHLIX 19
+    EQ
+    IF _72
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _69
+_72:
+    PUSHIS 7
+    PUSHLIX 19
+    EQ
+    IF _73
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _69
+_73:
+    PUSHIS 8
+    PUSHLIX 19
+    EQ
+    IF _74
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _69
+_74:
+    PUSHIS 9
+    PUSHLIX 19
+    EQ
+    IF _75
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _69
+_75:
+    PUSHIS 10
+    PUSHLIX 19
+    EQ
+    IF _76
+    PUSHIS 0
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _69
+_76:
+    PUSHIS 11
+    PUSHLIX 19
+    EQ
+    IF _77
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _69
+_77:
+    PUSHIS 12
+    PUSHLIX 19
+    EQ
+    IF _78
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _69
+_78:
+    PUSHIS 13
+    PUSHLIX 19
+    EQ
+    IF _69
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _69
+_69:
+    GOTO _113
+_114:
+    PUSHIS 1
+    PUSHLIX 18
+    EQ
+    IF _115
+    PUSHIS 4
+    PUSHLIX 19
+    EQ
+    IF _81
+    PUSHIS 0
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _80
+_81:
+    PUSHIS 5
+    PUSHLIX 19
+    EQ
+    IF _82
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _80
+_82:
+    PUSHIS 6
+    PUSHLIX 19
+    EQ
+    IF _83
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _80
+_83:
+    PUSHIS 7
+    PUSHLIX 19
+    EQ
+    IF _84
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _80
+_84:
+    PUSHIS 8
+    PUSHLIX 19
+    EQ
+    IF _85
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _80
+_85:
+    PUSHIS 9
+    PUSHLIX 19
+    EQ
+    IF _86
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _80
+_86:
+    PUSHIS 10
+    PUSHLIX 19
+    EQ
+    IF _87
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _80
+_87:
+    PUSHIS 11
+    PUSHLIX 19
+    EQ
+    IF _88
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _80
+_88:
+    PUSHIS 12
+    PUSHLIX 19
+    EQ
+    IF _89
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _80
+_89:
+    PUSHIS 13
+    PUSHLIX 19
+    EQ
+    IF _80
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _80
+_80:
+    GOTO _113
+_115:
+    PUSHIS 2
+    PUSHLIX 18
+    EQ
+    IF _116
+    PUSHIS 4
+    PUSHLIX 19
+    EQ
+    IF _92
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _91
+_92:
+    PUSHIS 5
+    PUSHLIX 19
+    EQ
+    IF _93
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _91
+_93:
+    PUSHIS 6
+    PUSHLIX 19
+    EQ
+    IF _94
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _91
+_94:
+    PUSHIS 7
+    PUSHLIX 19
+    EQ
+    IF _95
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _91
+_95:
+    PUSHIS 8
+    PUSHLIX 19
+    EQ
+    IF _96
+    PUSHIS 0
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _91
+_96:
+    PUSHIS 9
+    PUSHLIX 19
+    EQ
+    IF _97
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _91
+_97:
+    PUSHIS 10
+    PUSHLIX 19
+    EQ
+    IF _98
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _91
+_98:
+    PUSHIS 11
+    PUSHLIX 19
+    EQ
+    IF _99
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _91
+_99:
+    PUSHIS 12
+    PUSHLIX 19
+    EQ
+    IF _100
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _91
+_100:
+    PUSHIS 13
+    PUSHLIX 19
+    EQ
+    IF _91
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _91
+_91:
+    GOTO _113
+_116:
+    PUSHIS 3
+    PUSHLIX 18
+    EQ
+    IF _113
+    PUSHIS 4
+    PUSHLIX 19
+    EQ
+    IF _103
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _102
+_103:
+    PUSHIS 5
+    PUSHLIX 19
+    EQ
+    IF _104
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _102
+_104:
+    PUSHIS 6
+    PUSHLIX 19
+    EQ
+    IF _105
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _102
+_105:
+    PUSHIS 7
+    PUSHLIX 19
+    EQ
+    IF _106
+    PUSHIS 0
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _102
+_106:
+    PUSHIS 8
+    PUSHLIX 19
+    EQ
+    IF _107
+    PUSHIS 0
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _102
+_107:
+    PUSHIS 9
+    PUSHLIX 19
+    EQ
+    IF _108
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _102
+_108:
+    PUSHIS 10
+    PUSHLIX 19
+    EQ
+    IF _109
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _102
+_109:
+    PUSHIS 11
+    PUSHLIX 19
+    EQ
+    IF _110
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _102
+_110:
+    PUSHIS 12
+    PUSHLIX 19
+    EQ
+    IF _111
+    PUSHIS 100
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _102
+_111:
+    PUSHIS 13
+    PUSHLIX 19
+    EQ
+    IF _102
+    PUSHIS 0
+    POPLIX 20
+    PUSHIS 0
+    POPIX 12
+    GOTO _102
+_102:
+    GOTO _113
+_113:
+    END
+
+.procedure devil_id_check
+    PROC
+    PUSHIS 36
+    PUSHLIX 6
+    EQ
+    IF _119
+    PUSHIS 0
+    POPLIX 2
+    GOTO _118
+_119:
+    PUSHIS 70
+    PUSHLIX 6
+    EQ
+    IF _120
+    PUSHIS 1
+    POPLIX 2
+    GOTO _118
+_120:
+    PUSHIS 71
+    PUSHLIX 6
+    EQ
+    IF _121
+    PUSHIS 2
+    POPLIX 2
+    GOTO _118
+_121:
+    PUSHIS 73
+    PUSHLIX 6
+    EQ
+    IF _122
+    PUSHIS 3
+    POPLIX 2
+    GOTO _118
+_122:
+    PUSHIS 86
+    PUSHLIX 6
+    EQ
+    IF _123
+    PUSHIS 4
+    POPLIX 2
+    GOTO _118
+_123:
+    PUSHIS 90
+    PUSHLIX 6
+    EQ
+    IF _124
+    PUSHIS 5
+    POPLIX 2
+    GOTO _118
+_124:
+    PUSHIS 93
+    PUSHLIX 6
+    EQ
+    IF _125
+    PUSHIS 6
+    POPLIX 2
+    GOTO _118
+_125:
+    PUSHIS 111
+    PUSHLIX 6
+    EQ
+    IF _126
+    PUSHIS 7
+    POPLIX 2
+    GOTO _118
+_126:
+    PUSHIS 131
+    PUSHLIX 6
+    EQ
+    IF _127
+    PUSHIS 8
+    POPLIX 2
+    GOTO _118
+_127:
+    PUSHIS 164
+    PUSHLIX 6
+    EQ
+    IF _118
+    PUSHIS 9
+    POPLIX 2
+    GOTO _118
+_118:
+    PUSHLIX 2
+    PUSHIS 36
+    ADD
+    COMM #7
+    PUSHREG
+    POPLIX 3
+    PUSHIS 0
+    PUSHLIX 3
+    EQ
+    IF _130
+    PUSHLIX 2
+    PUSHIS 36
+    ADD
+    COMM #8
+    PUSHIS 0
+    POPLIX 7
+    GOTO _129
+_130:
+    PUSHIS 1
+    POPLIX 7
+    GOTO _129
+_129:
+    END
+
+.procedure main_motion
+    PROC
+    PUSHIS 2
+    PUSHLIX 12
+    L
+    IF _131
+    PUSHIS 2
+    POPLIX 12
+    GOTO _131
+_131:
+    PUSHIS 4
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 30
+    COMM #14
+    PUSHIS 30
+    COMM #14
+    PUSHIS 0
+    PUSHLIX 13
+    PUSHIS 11
+    ADD
+    PUSHIS 0
+    COMM #71
+_133:
+    PUSHIS 40
+    PUSHIS 0
+    COMM #146
+    PUSHREG
+    S
+    IF _134
+    COMM #13
+    GOTO _133
+_134:
+    PUSHIS 1
+    PUSHIS 0
+    PUSHIS 0
+    COMM #71
+    PUSHLIX 21
+    COMM #36
+    PUSHLIX 22
+    COMM #36
+    PUSHLIX 22
+    PUSHLIX 21
+    LE
+    IF _136
+    PUSHIS 2
+    POPLIX 12
+    GOTO _135
+_136:
+    PUSHIS 1
+    PUSHLIX 22
+    SUB
+    PUSHLIX 21
+    LE
+    IF _135
+    PUSHIS 1
+    POPLIX 12
+    GOTO _135
+_135:
+    PUSHIS 1
+    PUSHLIX 12
+    PUSHIS 1
+    COMM #71
+    END
+
+.procedure chance_get
+    PROC
+    PUSHIS 4
+    PUSHLIX 19
+    EQ
+    IF _139
+    PUSHIS 3
+    POPLIX 22
+    GOTO _138
+_139:
+    PUSHIS 5
+    PUSHLIX 19
+    EQ
+    IF _140
+    PUSHIS 3
+    POPLIX 22
+    GOTO _138
+_140:
+    PUSHIS 6
+    PUSHLIX 19
+    EQ
+    IF _141
+    PUSHIS 3
+    POPLIX 22
+    GOTO _138
+_141:
+    PUSHIS 7
+    PUSHLIX 19
+    EQ
+    IF _142
+    PUSHIS 3
+    POPLIX 22
+    GOTO _138
+_142:
+    PUSHIS 8
+    PUSHLIX 19
+    EQ
+    IF _143
+    PUSHIS 1
+    POPLIX 22
+    GOTO _138
+_143:
+    PUSHIS 9
+    PUSHLIX 19
+    EQ
+    IF _144
+    PUSHIS 5
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHLIX 3
+    POPLIX 22
+    GOTO _138
+_144:
+    PUSHIS 10
+    PUSHLIX 19
+    EQ
+    IF _145
+    PUSHIS 5
+    POPLIX 22
+    GOTO _138
+_145:
+    PUSHIS 11
+    PUSHLIX 19
+    EQ
+    IF _146
+    PUSHIS 5
+    POPLIX 22
+    GOTO _138
+_146:
+    PUSHIS 12
+    PUSHLIX 19
+    EQ
+    IF _147
+    PUSHIS 1
+    POPLIX 22
+    GOTO _138
+_147:
+    PUSHIS 13
+    PUSHLIX 19
+    EQ
+    IF _138
+    PUSHIS 3
+    POPLIX 22
+    GOTO _138
+_138:
+    END
+
+.procedure demand
+    PROC
+    PUSHIS 4
+    PUSHLIX 19
+    EQ
+    IF _184
+    PUSHIS 3
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _150
+    COMM #136
+    PUSHREG
+    POPLIX 10
+    GOTO _149
+_150:
+    PUSHIS 2
+    PUSHLIX 3
+    EQ
+    IF _151
+    COMM #137
+    PUSHREG
+    POPLIX 10
+    GOTO _149
+_151:
+    PUSHIS 0
+    COMM #138
+    PUSHREG
+    POPLIX 10
+    GOTO _149
+_149:
+    GOTO _183
+_184:
+    PUSHIS 5
+    PUSHLIX 19
+    EQ
+    IF _185
+    PUSHIS 3
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _153
+    COMM #136
+    PUSHREG
+    POPLIX 10
+    GOTO _152
+_153:
+    PUSHIS 2
+    PUSHLIX 3
+    EQ
+    IF _154
+    COMM #137
+    PUSHREG
+    POPLIX 10
+    GOTO _152
+_154:
+    PUSHIS 0
+    COMM #138
+    PUSHREG
+    POPLIX 10
+    GOTO _152
+_152:
+    GOTO _183
+_185:
+    PUSHIS 6
+    PUSHLIX 19
+    EQ
+    IF _186
+    PUSHIS 4
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _156
+    COMM #134
+    PUSHREG
+    POPLIX 10
+    GOTO _155
+_156:
+    PUSHIS 2
+    PUSHLIX 3
+    EQ
+    IF _157
+    PUSHIS 4
+    COMM #10
+    PUSHREG
+    COMM #135
+    PUSHREG
+    POPLIX 10
+    GOTO _155
+_157:
+    PUSHIS 3
+    PUSHLIX 3
+    EQ
+    IF _158
+    COMM #136
+    PUSHREG
+    POPLIX 10
+    GOTO _155
+_158:
+    COMM #137
+    PUSHREG
+    POPLIX 10
+    GOTO _155
+_155:
+    GOTO _183
+_186:
+    PUSHIS 7
+    PUSHLIX 19
+    EQ
+    IF _187
+    PUSHIS 2
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _160
+    COMM #134
+    PUSHREG
+    POPLIX 10
+    GOTO _159
+_160:
+    PUSHIS 4
+    COMM #10
+    PUSHREG
+    COMM #135
+    PUSHREG
+    POPLIX 10
+    GOTO _159
+_159:
+    GOTO _183
+_187:
+    PUSHIS 8
+    PUSHLIX 19
+    EQ
+    IF _188
+    PUSHIS 3
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _162
+    COMM #134
+    PUSHREG
+    POPLIX 10
+    GOTO _161
+_162:
+    PUSHIS 2
+    PUSHLIX 3
+    EQ
+    IF _163
+    PUSHIS 4
+    COMM #10
+    PUSHREG
+    COMM #135
+    PUSHREG
+    POPLIX 10
+    GOTO _161
+_163:
+    PUSHIS 0
+    COMM #138
+    PUSHREG
+    POPLIX 10
+    GOTO _161
+_161:
+    GOTO _183
+_188:
+    PUSHIS 9
+    PUSHLIX 19
+    EQ
+    IF _189
+    PUSHIS 5
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _165
+    COMM #134
+    PUSHREG
+    POPLIX 10
+    GOTO _164
+_165:
+    PUSHIS 2
+    PUSHLIX 3
+    EQ
+    IF _166
+    PUSHIS 4
+    COMM #10
+    PUSHREG
+    COMM #135
+    PUSHREG
+    POPLIX 10
+    GOTO _164
+_166:
+    PUSHIS 3
+    PUSHLIX 3
+    EQ
+    IF _167
+    COMM #136
+    PUSHREG
+    POPLIX 10
+    GOTO _164
+_167:
+    PUSHIS 4
+    PUSHLIX 3
+    EQ
+    IF _168
+    COMM #137
+    PUSHREG
+    POPLIX 10
+    GOTO _164
+_168:
+    PUSHIS 0
+    COMM #138
+    PUSHREG
+    POPLIX 10
+    GOTO _164
+_164:
+    GOTO _183
+_189:
+    PUSHIS 10
+    PUSHLIX 19
+    EQ
+    IF _190
+    PUSHIS 5
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _170
+    COMM #134
+    PUSHREG
+    POPLIX 10
+    GOTO _169
+_170:
+    PUSHIS 2
+    PUSHLIX 3
+    EQ
+    IF _171
+    PUSHIS 4
+    COMM #10
+    PUSHREG
+    COMM #135
+    PUSHREG
+    POPLIX 10
+    GOTO _169
+_171:
+    PUSHIS 3
+    PUSHLIX 3
+    EQ
+    IF _172
+    COMM #136
+    PUSHREG
+    POPLIX 10
+    GOTO _169
+_172:
+    PUSHIS 4
+    PUSHLIX 3
+    EQ
+    IF _173
+    COMM #137
+    PUSHREG
+    POPLIX 10
+    GOTO _169
+_173:
+    PUSHIS 0
+    COMM #138
+    PUSHREG
+    POPLIX 10
+    GOTO _169
+_169:
+    GOTO _183
+_190:
+    PUSHIS 11
+    PUSHLIX 19
+    EQ
+    IF _191
+    PUSHIS 5
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _175
+    COMM #134
+    PUSHREG
+    POPLIX 10
+    GOTO _174
+_175:
+    PUSHIS 2
+    PUSHLIX 3
+    EQ
+    IF _176
+    PUSHIS 4
+    COMM #10
+    PUSHREG
+    COMM #135
+    PUSHREG
+    POPLIX 10
+    GOTO _174
+_176:
+    PUSHIS 3
+    PUSHLIX 3
+    EQ
+    IF _177
+    COMM #136
+    PUSHREG
+    POPLIX 10
+    GOTO _174
+_177:
+    PUSHIS 4
+    PUSHLIX 3
+    EQ
+    IF _178
+    COMM #137
+    PUSHREG
+    POPLIX 10
+    GOTO _174
+_178:
+    PUSHIS 0
+    COMM #138
+    PUSHREG
+    POPLIX 10
+    GOTO _174
+_174:
+    GOTO _183
+_191:
+    PUSHIS 12
+    PUSHLIX 19
+    EQ
+    IF _192
+    PUSHIS 2
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _180
+    COMM #134
+    PUSHREG
+    POPLIX 10
+    GOTO _179
+_180:
+    PUSHIS 4
+    COMM #10
+    PUSHREG
+    COMM #135
+    PUSHREG
+    POPLIX 10
+    GOTO _179
+_179:
+    GOTO _183
+_192:
+    PUSHIS 13
+    PUSHLIX 19
+    EQ
+    IF _183
+    PUSHIS 2
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _182
+    COMM #134
+    PUSHREG
+    POPLIX 10
+    GOTO _181
+_182:
+    PUSHIS 4
+    COMM #10
+    PUSHREG
+    COMM #135
+    PUSHREG
+    POPLIX 10
+    GOTO _181
+_181:
+    GOTO _183
+_183:
+    END
+
+.procedure sel_demand
+    PROC
+    PUSHLIX 10
+    COMM #36
+    PUSHIS 0
+    PUSHLIX 10
+    COMM #140
+    PUSHREG
+    EQ
+    IF _206
+    PUSHIS 4
+    PUSHLIX 19
+    EQ
+    IF _195
+    PUSHIS 10
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 10
+    PUSHLIX 3
+    MUL
+    POPLIX 3
+    PUSHIS 450
+    PUSHLIX 3
+    ADD
+    POPLIX 11
+    GOTO _194
+_195:
+    PUSHIS 5
+    PUSHLIX 19
+    EQ
+    IF _196
+    PUSHIS 10
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 10
+    PUSHLIX 3
+    MUL
+    POPLIX 3
+    PUSHIS 450
+    PUSHLIX 3
+    ADD
+    POPLIX 11
+    GOTO _194
+_196:
+    PUSHIS 6
+    PUSHLIX 19
+    EQ
+    IF _197
+    PUSHIS 10
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 10
+    PUSHLIX 3
+    MUL
+    POPLIX 3
+    PUSHIS 450
+    PUSHLIX 3
+    ADD
+    POPLIX 11
+    GOTO _194
+_197:
+    PUSHIS 7
+    PUSHLIX 19
+    EQ
+    IF _198
+    PUSHIS 10
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 10
+    PUSHLIX 3
+    MUL
+    POPLIX 3
+    PUSHIS 450
+    PUSHLIX 3
+    ADD
+    POPLIX 11
+    GOTO _194
+_198:
+    PUSHIS 8
+    PUSHLIX 19
+    EQ
+    IF _199
+    PUSHIS 10
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 10
+    PUSHLIX 3
+    MUL
+    POPLIX 3
+    PUSHIS 450
+    PUSHLIX 3
+    ADD
+    POPLIX 11
+    GOTO _194
+_199:
+    PUSHIS 9
+    PUSHLIX 19
+    EQ
+    IF _200
+    PUSHIS 10
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 10
+    PUSHLIX 3
+    MUL
+    POPLIX 3
+    PUSHIS 450
+    PUSHLIX 3
+    ADD
+    POPLIX 11
+    GOTO _194
+_200:
+    PUSHIS 10
+    PUSHLIX 19
+    EQ
+    IF _201
+    PUSHIS 10
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 10
+    PUSHLIX 3
+    MUL
+    POPLIX 3
+    PUSHIS 450
+    PUSHLIX 3
+    ADD
+    POPLIX 11
+    GOTO _194
+_201:
+    PUSHIS 11
+    PUSHLIX 19
+    EQ
+    IF _202
+    PUSHIS 10
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 10
+    PUSHLIX 3
+    MUL
+    POPLIX 3
+    PUSHIS 450
+    PUSHLIX 3
+    ADD
+    POPLIX 11
+    GOTO _194
+_202:
+    PUSHIS 12
+    PUSHLIX 19
+    EQ
+    IF _203
+    PUSHIS 10
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 10
+    PUSHLIX 3
+    MUL
+    POPLIX 3
+    PUSHIS 450
+    PUSHLIX 3
+    ADD
+    POPLIX 11
+    GOTO _194
+_203:
+    PUSHIS 13
+    PUSHLIX 19
+    EQ
+    IF _194
+    PUSHIS 10
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 10
+    PUSHLIX 3
+    MUL
+    POPLIX 3
+    PUSHIS 900
+    PUSHLIX 3
+    ADD
+    POPLIX 11
+    GOTO _194
+_194:
+    GOTO _205
+_206:
+    PUSHIS 1
+    PUSHLIX 10
+    COMM #140
+    PUSHREG
+    EQ
+    IF _207
+    PUSHIS 1
+    POPLIX 11
+    GOTO _205
+_207:
+    PUSHIS 2
+    PUSHLIX 10
+    COMM #140
+    PUSHREG
+    EQ
+    IF _208
+    PUSHIS 3
+    POPLIX 11
+    GOTO _205
+_208:
+    PUSHIS 3
+    PUSHLIX 10
+    COMM #140
+    PUSHREG
+    EQ
+    IF _209
+    PUSHIS 4
+    POPLIX 11
+    GOTO _205
+_209:
+    PUSHIS 4
+    PUSHLIX 10
+    COMM #140
+    PUSHREG
+    EQ
+    IF _205
+    PUSHIS 10
+    PUSHIS 140
+    COMM #10
+    PUSHREG
+    ADD
+    POPLIX 11
+    GOTO _205
+_205:
+    PUSHIS 0
+    COMM #125
+    PUSHIS 1
+    PUSHIS 3
+    COMM #123
+    PUSHIS 50
+    PUSHIS 280
+    COMM #124
+    PUSHLIX 11
+    PUSHIS 2
+    PUSHLIX 10
+    COMM #133
+    PUSHIS 1
+    COMM #127
+    PUSHIS 1
+    COMM #125
+    COMM #126
+    COMM #1
+    PUSHIS 47
+    COMM #67
+    PUSHIS 48
+    COMM #144
+    PUSHREG
+    POPLIX 0
+    PUSHIS 0
+    PUSHLIX 0
+    EQ
+    IF _217
+    PUSHLIX 10
+    COMM #140
+    PUSHREG
+    POPLIX 2
+    PUSHIS 0
+    PUSHLIX 2
+    EQ
+    IF _212
+    PUSHIS 3
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHLIX 3
+    PUSHIS 1
+    PUSHIS 49
+    SUB
+    ADD
+    COMM #67
+    PUSHIS 0
+    COMM #125
+    COMM #126
+    GOTO _211
+_212:
+    PUSHIS 1
+    PUSHLIX 2
+    EQ
+    IF _213
+    PUSHIS 3
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHLIX 3
+    PUSHIS 1
+    PUSHIS 49
+    SUB
+    ADD
+    COMM #67
+    PUSHIS 0
+    COMM #125
+    COMM #126
+    GOTO _211
+_213:
+    PUSHIS 2
+    PUSHLIX 2
+    EQ
+    IF _214
+    PUSHIS 52
+    COMM #67
+    PUSHIS 0
+    COMM #125
+    COMM #126
+    PUSHIS 0
+    PUSHIS 1
+    COMM #123
+    CALL question
+    GOTO _211
+_214:
+    PUSHIS 3
+    PUSHLIX 2
+    EQ
+    IF _211
+    PUSHIS 53
+    COMM #67
+    PUSHIS 0
+    COMM #125
+    COMM #126
+    GOTO _211
+_211:
+    PUSHIS 100
+    POPLIX 14
+    GOTO _216
+_217:
+    PUSHIS 1
+    PUSHLIX 0
+    EQ
+    IF _216
+    PUSHIS 54
+    COMM #67
+    PUSHIS 0
+    POPLIX 14
+    GOTO _216
+_216:
+    COMM #2
+    END
+
+.procedure question
+    PROC
+    PUSHIS 4
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    COMM #1
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _229
+    PUSHIS 47
+    COMM #68
+    PUSHIS 48
+    COMM #3
+    PUSHREG
+    POPLIX 0
+    PUSHIS 2
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 0
+    PUSHLIX 0
+    EQ
+    IF _220
+    PUSHIS 1
+    PUSHLIX 3
+    PUSHIS 49
+    ADD
+    SUB
+    COMM #68
+    GOTO _219
+_220:
+    PUSHIS 1
+    PUSHLIX 0
+    EQ
+    IF _221
+    PUSHIS 1
+    PUSHLIX 3
+    PUSHIS 51
+    ADD
+    SUB
+    COMM #68
+    GOTO _219
+_221:
+    PUSHIS 1
+    PUSHLIX 3
+    PUSHIS 53
+    ADD
+    SUB
+    COMM #68
+    GOTO _219
+_219:
+    GOTO _228
+_229:
+    PUSHIS 2
+    PUSHLIX 3
+    EQ
+    IF _230
+    PUSHIS 55
+    COMM #68
+    PUSHIS 56
+    COMM #3
+    PUSHREG
+    POPLIX 0
+    PUSHIS 1
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 0
+    PUSHLIX 0
+    EQ
+    IF _223
+    PUSHIS 1
+    PUSHLIX 3
+    PUSHIS 57
+    ADD
+    SUB
+    COMM #68
+    GOTO _222
+_223:
+    PUSHIS 1
+    PUSHLIX 3
+    PUSHIS 59
+    ADD
+    SUB
+    COMM #68
+    GOTO _222
+_222:
+    GOTO _228
+_230:
+    PUSHIS 3
+    PUSHLIX 3
+    EQ
+    IF _231
+    PUSHIS 61
+    COMM #68
+    PUSHIS 62
+    COMM #3
+    PUSHREG
+    POPLIX 0
+    PUSHIS 1
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 0
+    PUSHLIX 0
+    EQ
+    IF _225
+    PUSHIS 1
+    PUSHLIX 3
+    PUSHIS 63
+    ADD
+    SUB
+    COMM #68
+    GOTO _224
+_225:
+    PUSHIS 1
+    PUSHLIX 3
+    PUSHIS 65
+    ADD
+    SUB
+    COMM #68
+    GOTO _224
+_224:
+    GOTO _228
+_231:
+    PUSHIS 67
+    COMM #68
+    PUSHIS 68
+    COMM #3
+    PUSHREG
+    POPLIX 0
+    PUSHIS 1
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 0
+    PUSHLIX 0
+    EQ
+    IF _227
+    PUSHIS 1
+    PUSHLIX 3
+    PUSHIS 69
+    ADD
+    SUB
+    COMM #68
+    GOTO _226
+_227:
+    PUSHIS 1
+    PUSHLIX 3
+    PUSHIS 71
+    ADD
+    SUB
+    COMM #68
+    GOTO _226
+_226:
+    GOTO _228
+_228:
+    COMM #2
+    END
+
+.procedure active_cutin
+    PROC
+    CALL pos_n_player
+    COMM #1
+    PUSHIS 8
+    COMM #67
+    PUSHIS 9
+    COMM #3
+    PUSHREG
+    POPLIX 0
+    PUSHIS 1
+    PUSHLIX 0
+    ADD
+    POPLIX 12
+    PUSHLIX 5
+    COMM #49
+    PUSHREG
+    PUSHLIX 0
+    EQ
+    IF _233
+    PUSHIS 11
+    PUSHLIX 0
+    ADD
+    COMM #67
+    GOTO _232
+_233:
+    PUSHIS 10
+    COMM #67
+    COMM #2
+    PUSHIS 20
+    PUSHIS 0
+    COMM #16
+    PUSHIS 30
+    COMM #14
+    PUSHIS 1
+    PUSHLIX 12
+    PUSHIS 1
+    COMM #71
+    PUSHIS 4
+    COMM #72
+    PUSHIS 20
+    PUSHIS 0
+    COMM #15
+    PUSHIS 30
+    COMM #14
+    COMM #1
+    PUSHIS 11
+    PUSHLIX 0
+    ADD
+    COMM #67
+    GOTO _232
+_232:
+    PUSHIS 1
+    PUSHLIX 12
+    PUSHIS 1
+    COMM #71
+    COMM #2
+    PUSHLIX 0
+    POPLIX 18
+    CALL plan_compati
+    CALL pos_normal
+    END
+
+.procedure passive_cutin
+    PROC
+    PUSHIS 4
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 29
+    COMM #35
+    PUSHREG
+    EQ
+    IF _234
+    PUSHIS 2
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    GOTO _234
+_234:
+    PUSHIS 70
+    PUSHLIX 14
+    LE
+    PUSHIS 30
+    PUSHLIX 14
+    SE
+    OR
+    IF _237
+    CALL pc_situation
+    GOTO _236
+_237:
+    PUSHIS 2
+    PUSHLIX 3
+    EQ
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    OR
+    IF _238
+    CALL pc_request
+    GOTO _236
+_238:
+    PUSHIS 4
+    PUSHLIX 3
+    EQ
+    PUSHIS 3
+    PUSHLIX 3
+    EQ
+    OR
+    IF _239
+    CALL pc_question
+    GOTO _236
+_239:
+    CALL pc_terms
+    GOTO _236
+_236:
+    CALL pos_normal
+    END
+
+.procedure pc_situation
+    PROC
+    CALL pos_n_enemy
+    COMM #1
+    PUSHIS 70
+    PUSHLIX 14
+    LE
+    IF _241
+    PUSHIS 4
+    COMM #72
+    PUSHIS 15
+    COMM #67
+    PUSHIS 2
+    COMM #72
+    PUSHIS 1
+    COMM #68
+    GOTO _240
+_241:
+    PUSHIS 30
+    PUSHLIX 14
+    SE
+    IF _240
+    PUSHIS 4
+    COMM #72
+    PUSHIS 16
+    COMM #67
+    PUSHIS 2
+    COMM #72
+    PUSHIS 2
+    COMM #68
+    GOTO _240
+_240:
+    COMM #2
+    END
+
+.procedure pc_request
+    PROC
+    CALL pos_n_player
+    COMM #1
+    PUSHIS 0
+    POPLIX 3
+    PUSHIS 0
+    PUSHLIX 3
+    EQ
+    IF _245
+    PUSHIS 17
+    COMM #67
+    PUSHIS 18
+    COMM #3
+    PUSHREG
+    POPLIX 0
+    PUSHIS 19
+    COMM #67
+    COMM #2
+    CALL pos_n_enemy
+    COMM #1
+    PUSHIS 20
+    PUSHLIX 0
+    ADD
+    COMM #67
+    PUSHIS 2
+    COMM #72
+    PUSHIS 3
+    PUSHLIX 0
+    ADD
+    COMM #68
+    PUSHIS 0
+    PUSHLIX 0
+    EQ
+    IF _244
+    PUSHIS 20
+    PUSHLIX 4
+    ADD
+    POPLIX 4
+    PUSHIS 20
+    PUSHIX 30
+    ADD
+    POPIX 30
+    GOTO _243
+_244:
+    PUSHIS 20
+    PUSHLIX 4
+    SUB
+    POPLIX 4
+    PUSHIS 20
+    PUSHIX 30
+    SUB
+    POPIX 30
+    GOTO _243
+_243:
+    GOTO _245
+_245:
+    COMM #2
+    END
+
+.procedure pc_question
+    PROC
+    CALL pos_n_player
+    COMM #1
+    PUSHIS 22
+    COMM #67
+    COMM #2
+    CALL pos_e_player
+    COMM #1
+    PUSHIS 2
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 29
+    COMM #35
+    PUSHREG
+    EQ
+    IF _247
+    PUSHIS 1
+    POPLIX 3
+    GOTO _247
+_247:
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _256
+    PUSHIS 5
+    COMM #68
+    PUSHIS 6
+    COMM #3
+    PUSHREG
+    POPLIX 0
+    PUSHIS 0
+    PUSHLIX 0
+    EQ
+    IF _250
+    PUSHIS 7
+    COMM #68
+    GOTO _249
+_250:
+    PUSHIS 1
+    PUSHLIX 0
+    EQ
+    IF _251
+    PUSHIS 8
+    COMM #68
+    GOTO _249
+_251:
+    PUSHIS 2
+    PUSHLIX 0
+    EQ
+    IF _252
+    PUSHIS 11
+    COMM #68
+    GOTO _249
+_252:
+    PUSHIS 12
+    COMM #68
+    GOTO _249
+_249:
+    GOTO _255
+_256:
+    PUSHIS 2
+    PUSHLIX 3
+    EQ
+    IF _255
+    PUSHIS 9
+    COMM #68
+    PUSHIS 10
+    COMM #3
+    PUSHREG
+    POPLIX 0
+    PUSHIS 0
+    PUSHLIX 0
+    EQ
+    IF _254
+    PUSHIS 11
+    COMM #68
+    GOTO _253
+_254:
+    PUSHIS 12
+    COMM #68
+    GOTO _253
+_253:
+    GOTO _255
+_255:
+    COMM #2
+    END
+
+.procedure pc_terms
+    PROC
+    CALL pos_n_player
+    COMM #1
+    PUSHIS 22
+    COMM #67
+    COMM #2
+    CALL pos_e_player
+    COMM #1
+    PUSHIS 1
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _260
+    PUSHIS 13
+    COMM #68
+    PUSHIS 14
+    COMM #3
+    PUSHREG
+    POPLIX 0
+    PUSHIS 0
+    PUSHLIX 0
+    EQ
+    IF _259
+    PUSHIS 15
+    COMM #68
+    GOTO _258
+_259:
+    PUSHIS 16
+    COMM #68
+    GOTO _258
+_258:
+    GOTO _260
+_260:
+    COMM #2
+    PUSHIS 600
+    COMM #58
+    PUSHIS 1
+    POPIX 13
+    END
+
+.procedure end_main
+    PROC
+    PUSHIS 1
+    PUSHIX 13
+    NEQ
+    IF _269
+    PUSHIS 1
+    PUSHIS 2
+    COMM #123
+    PUSHIS 1
+    PUSHLIX 23
+    NEQ
+    IF _268
+    PUSHIS 1
+    PUSHIX 16
+    NEQ
+    IF _266
+    PUSHIS 70
+    PUSHLIX 14
+    LE
+    IF _263
+    CALL end_success
+    GOTO _262
+_263:
+    PUSHIS 30
+    PUSHLIX 14
+    SE
+    IF _264
+    CALL end_fail
+    GOTO _262
+_264:
+    PUSHIS 1
+    POPIX 16
+    PUSHIS 0
+    POPIX 19
+    CALL end_fail
+    GOTO _262
+_262:
+    GOTO _265
+_266:
+    CALL end_fail
+    GOTO _265
+_265:
+    GOTO _267
+_268:
+    CALL end_success
+    GOTO _267
+_267:
+    GOTO _269
+_269:
+    PUSHIX 20
+    COMM #66
+    END
+
+.procedure end_success
+    PROC
+    PUSHIS 1
+    PUSHLIX 23
+    NEQ
+    PUSHIS 1
+    PUSHIX 14
+    NEQ
+    AND
+    IF _271
+    COMM #60
+    PUSHREG
+    POPIX 18
+    GOTO _271
+_271:
+    PUSHIX 18
+    COMM #36
+    COMM #1
+    PUSHIS 3
+    PUSHLIX 10
+    COMM #140
+    PUSHREG
+    EQ
+    IF _276
+    PUSHIS 1
+    PUSHIS 2
+    COMM #123
+    PUSHIS 1
+    PUSHIS 11
+    PUSHIS 0
+    COMM #71
+    PUSHIS 60
+    COMM #14
+    PUSHIS 76
+    COMM #68
+    COMM #2
+    GOTO _275
+_276:
+    PUSHIS 0
+    PUSHIX 18
+    EQ
+    IF _277
+    PUSHLIX 6
+    COMM #33
+    PUSHIS 2
+    COMM #72
+    PUSHIS 1
+    PUSHIS 11
+    PUSHIS 0
+    COMM #71
+    PUSHIS 60
+    COMM #14
+    PUSHIS 17
+    COMM #68
+    PUSHIS 1
+    PUSHIS 0
+    PUSHIS 1
+    COMM #71
+    PUSHIS 4
+    COMM #72
+    PUSHIS 23
+    COMM #67
+    COMM #2
+    PUSHIS 0
+    POPLIX 13
+    CALL pos_e_player
+    COMM #1
+    PUSHIS 18
+    COMM #68
+    PUSHIS 29
+    PUSHLIX 6
+    NEQ
+    PUSHIS 1
+    PUSHLIX 6
+    COMM #61
+    PUSHREG
+    EQ
+    AND
+    IF _273
+    PUSHIS 21
+    COMM #68
+    CALL infomation
+    GOTO _273
+_273:
+    GOTO _275
+_277:
+    PUSHIS 1
+    PUSHIX 18
+    EQ
+    IF _278
+    PUSHIS 2
+    COMM #72
+    PUSHIS 1
+    PUSHIS 11
+    PUSHIS 0
+    COMM #71
+    PUSHIS 60
+    COMM #14
+    COMM #1
+    PUSHIS 19
+    COMM #68
+    CALL infomation
+    GOTO _275
+_278:
+    PUSHIS 2
+    PUSHIX 18
+    EQ
+    IF _279
+    PUSHIS 2
+    COMM #72
+    PUSHIS 1
+    PUSHIS 11
+    PUSHIS 0
+    COMM #71
+    PUSHIS 60
+    COMM #14
+    PUSHIS 22
+    COMM #68
+    COMM #2
+    PUSHIS 0
+    COMM #72
+    PUSHIS 60
+    PUSHIS 0
+    COMM #16
+    PUSHIS 60
+    COMM #14
+    PUSHIS 3
+    COMM #72
+    PUSHIS 20
+    PUSHIS 0
+    COMM #15
+    PUSHIS 30
+    COMM #14
+    COMM #1
+    PUSHIS 26
+    COMM #67
+    GOTO _275
+_279:
+    PUSHIS 3
+    PUSHIX 18
+    EQ
+    IF _280
+    PUSHIS 2
+    COMM #72
+    PUSHIS 1
+    PUSHIS 11
+    PUSHIS 0
+    COMM #71
+    PUSHIS 60
+    COMM #14
+    PUSHIS 23
+    COMM #68
+    COMM #2
+    PUSHIS 0
+    COMM #72
+    PUSHIS 60
+    PUSHIS 0
+    COMM #16
+    PUSHIS 60
+    COMM #14
+    PUSHIS 1
+    PUSHIS 0
+    PUSHIS 1
+    COMM #71
+    PUSHIS 20
+    PUSHIS 0
+    COMM #15
+    PUSHIS 30
+    COMM #14
+    PUSHIS 3
+    COMM #72
+    COMM #1
+    PUSHIS 27
+    COMM #67
+    GOTO _275
+_280:
+    PUSHIS 4
+    PUSHIX 18
+    EQ
+    IF _275
+    PUSHIS 2
+    COMM #72
+    PUSHIS 1
+    PUSHIS 11
+    PUSHIS 0
+    COMM #71
+    PUSHIS 60
+    COMM #14
+    PUSHIS 26
+    COMM #68
+    COMM #2
+    PUSHIS 0
+    COMM #72
+    PUSHIS 30
+    PUSHIS 0
+    COMM #16
+    PUSHIS 30
+    COMM #14
+    PUSHIS 3
+    COMM #72
+    PUSHIS 20
+    PUSHIS 0
+    COMM #15
+    PUSHIS 30
+    COMM #14
+    COMM #1
+    PUSHIS 29
+    COMM #67
+    GOTO _275
+_275:
+    COMM #2
+    PUSHIS 20
+    COMM #14
+    PUSHIS 2
+    POPIX 20
+    END
+
+.procedure infomation
+    PROC
+    PUSHIS 0
+    POPLIX 2
+    PUSHIS 0
+    POPIX 12
+    PUSHIS 0
+    POPIX 6
+_282:
+    PUSHIS 255
+    PUSHLIX 2
+    S
+    PUSHIS 0
+    PUSHIX 12
+    EQ
+    AND
+    IF _283
+    PUSHIS 7
+    COMM #10
+    PUSHREG
+    POPLIX 3
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _288
+    PUSHIS 0
+    PUSHIS 12
+    COMM #7
+    PUSHREG
+    EQ
+    PUSHIS 0
+    PUSHIS 3
+    COMM #7
+    PUSHREG
+    EQ
+    AND
+    IF _286
+    PUSHIS 40
+    COMM #68
+    PUSHIS 0
+    PUSHIS 2
+    COMM #7
+    PUSHREG
+    EQ
+    IF _284
+    PUSHIS 2
+    COMM #8
+    PUSHIS 1
+    POPIX 6
+    GOTO _284
+_284:
+    PUSHIS 1
+    POPIX 12
+    GOTO _286
+_286:
+    GOTO _288
+_288:
+    PUSHIS 2
+    PUSHLIX 3
+    EQ
+    IF _294
+    PUSHIS 136
+    PUSHLIX 6
+    NEQ
+    PUSHIS 0
+    PUSHIS 4
+    COMM #7
+    PUSHREG
+    EQ
+    PUSHIS 1
+    PUSHIS 3
+    COMM #7
+    PUSHREG
+    EQ
+    AND
+    AND
+    IF _292
+    PUSHIS 41
+    COMM #68
+    PUSHIS 0
+    PUSHIS 4
+    COMM #7
+    PUSHREG
+    EQ
+    IF _290
+    PUSHIS 4
+    COMM #8
+    PUSHIS 1
+    POPIX 6
+    GOTO _290
+_290:
+    PUSHIS 1
+    POPIX 12
+    GOTO _292
+_292:
+    GOTO _294
+_294:
+    PUSHIS 3
+    PUSHLIX 3
+    EQ
+    IF _300
+    PUSHIS 136
+    PUSHLIX 6
+    NEQ
+    PUSHIS 0
+    PUSHIS 7
+    COMM #7
+    PUSHREG
+    EQ
+    PUSHIS 1
+    PUSHIS 5
+    COMM #7
+    PUSHREG
+    EQ
+    AND
+    AND
+    IF _298
+    PUSHIS 42
+    COMM #68
+    PUSHIS 0
+    PUSHIS 6
+    COMM #7
+    PUSHREG
+    EQ
+    IF _296
+    PUSHIS 6
+    COMM #8
+    PUSHIS 1
+    POPIX 6
+    GOTO _296
+_296:
+    PUSHIS 1
+    POPIX 12
+    GOTO _298
+_298:
+    GOTO _300
+_300:
+    PUSHIS 4
+    PUSHLIX 3
+    EQ
+    IF _306
+    PUSHIS 136
+    COMM #35
+    PUSHREG
+    EQ
+    PUSHIS 0
+    PUSHIS 7
+    COMM #7
+    PUSHREG
+    EQ
+    PUSHIS 1
+    PUSHIS 3
+    COMM #7
+    PUSHREG
+    EQ
+    AND
+    AND
+    IF _304
+    PUSHIS 20
+    COMM #68
+    PUSHIS 0
+    PUSHIS 7
+    COMM #7
+    PUSHREG
+    EQ
+    IF _302
+    PUSHIS 7
+    COMM #8
+    PUSHIS 1
+    POPIX 6
+    GOTO _302
+_302:
+    PUSHIS 1
+    POPIX 12
+    GOTO _304
+_304:
+    GOTO _306
+_306:
+    PUSHIS 5
+    PUSHLIX 3
+    EQ
+    IF _312
+    PUSHIS 0
+    PUSHIS 10
+    COMM #7
+    PUSHREG
+    EQ
+    PUSHIS 1
+    PUSHIS 8
+    COMM #7
+    PUSHREG
+    EQ
+    AND
+    IF _310
+    PUSHIS 43
+    COMM #68
+    PUSHIS 127
+    PUSHLIX 6
+    NEQ
+    PUSHIS 30
+    PUSHLIX 6
+    NEQ
+    PUSHIS 73
+    PUSHLIX 6
+    NEQ
+    PUSHIS 67
+    PUSHLIX 6
+    NEQ
+    PUSHIS 0
+    PUSHIS 9
+    COMM #7
+    PUSHREG
+    EQ
+    AND
+    AND
+    AND
+    AND
+    IF _308
+    PUSHIS 9
+    COMM #8
+    PUSHIS 1
+    POPIX 6
+    GOTO _308
+_308:
+    PUSHIS 1
+    POPIX 12
+    GOTO _310
+_310:
+    GOTO _312
+_312:
+    PUSHIS 6
+    PUSHLIX 3
+    EQ
+    IF _318
+    PUSHIS 0
+    PUSHIS 14
+    COMM #7
+    PUSHREG
+    EQ
+    PUSHIS 1
+    PUSHIS 12
+    COMM #7
+    PUSHREG
+    EQ
+    AND
+    IF _316
+    PUSHIS 44
+    COMM #68
+    PUSHIS 0
+    PUSHIS 13
+    COMM #7
+    PUSHREG
+    EQ
+    IF _314
+    PUSHIS 13
+    COMM #8
+    PUSHIS 1
+    POPIX 6
+    GOTO _314
+_314:
+    PUSHIS 1
+    POPIX 12
+    GOTO _316
+_316:
+    GOTO _318
+_318:
+    PUSHIS 7
+    PUSHLIX 3
+    EQ
+    IF _324
+    PUSHIS 1
+    PUSHIS 13
+    COMM #7
+    PUSHREG
+    EQ
+    IF _322
+    PUSHIS 45
+    COMM #68
+    PUSHIS 0
+    PUSHIS 14
+    COMM #7
+    PUSHREG
+    EQ
+    IF _320
+    PUSHIS 14
+    COMM #8
+    PUSHIS 1
+    POPIX 6
+    GOTO _320
+_320:
+    PUSHIS 1
+    POPIX 12
+    GOTO _322
+_322:
+    GOTO _324
+_324:
+    PUSHIS 1
+    PUSHLIX 2
+    ADD
+    POPLIX 2
+    GOTO _282
+_283:
+    PUSHIS 0
+    PUSHIX 12
+    EQ
+    IF _329
+    PUSHIS 20
+    COMM #68
+    GOTO _328
+_329:
+    PUSHIS 4
+    COMM #72
+    PUSHIS 24
+    COMM #67
+    COMM #2
+    PUSHIS 20
+    COMM #14
+    PUSHIS 1
+    PUSHIX 6
+    EQ
+    IF _326
+    PUSHIS 0
+    COMM #72
+    PUSHIS 60
+    PUSHIS 0
+    COMM #16
+    PUSHIS 60
+    COMM #14
+    PUSHIS 3
+    COMM #72
+    PUSHIS 20
+    PUSHIS 0
+    COMM #15
+    PUSHIS 30
+    COMM #14
+    COMM #1
+    PUSHIS 25
+    COMM #67
+    COMM #2
+    PUSHIS 20
+    COMM #14
+    GOTO _326
+_326:
+    GOTO _328
+_328:
+    END
+
+.procedure end_fail
+    PROC
+    PUSHIS 1
+    PUSHIX 16
+    NEQ
+    IF _330
+    PUSHIS 3
+    COMM #10
+    PUSHREG
+    POPIX 19
+    PUSHIX 19
+    COMM #36
+    GOTO _330
+_330:
+    PUSHIS 29
+    COMM #35
+    PUSHREG
+    EQ
+    IF _332
+    PUSHIS 3
+    POPIX 19
+    GOTO _332
+_332:
+    COMM #1
+    PUSHIS 0
+    PUSHIX 19
+    EQ
+    IF _343
+    PUSHIS 1
+    PUSHIS 0
+    PUSHIS 0
+    COMM #71
+    PUSHIS 30
+    COMM #14
+    PUSHIS 23
+    COMM #68
+    COMM #2
+    PUSHIS 30
+    PUSHIS 0
+    COMM #16
+    PUSHIS 30
+    COMM #14
+    PUSHIS 3
+    COMM #72
+    PUSHIS 20
+    PUSHIS 0
+    COMM #15
+    PUSHIS 30
+    COMM #14
+    PUSHIS 1
+    PUSHIS 0
+    PUSHIS 1
+    COMM #71
+    COMM #1
+    PUSHIS 28
+    COMM #67
+    PUSHIS 2
+    POPIX 20
+    GOTO _342
+_343:
+    PUSHIS 1
+    PUSHIX 19
+    EQ
+    IF _344
+    PUSHIS 1
+    PUSHIS 12
+    PUSHIS 0
+    COMM #71
+    PUSHIS 60
+    COMM #14
+    PUSHIS 0
+    PUSHLIX 20
+    EQ
+    IF _335
+    PUSHIS 74
+    COMM #68
+    GOTO _334
+_335:
+    PUSHIS 25
+    COMM #68
+    GOTO _334
+_334:
+    COMM #2
+    PUSHIS 0
+    POPIX 20
+    GOTO _342
+_344:
+    PUSHIS 2
+    PUSHIX 19
+    EQ
+    IF _345
+    PUSHIS 1
+    PUSHIS 12
+    PUSHIS 0
+    COMM #71
+    PUSHIS 60
+    COMM #14
+    PUSHIS 0
+    PUSHLIX 20
+    EQ
+    IF _337
+    PUSHIS 75
+    COMM #68
+    GOTO _336
+_337:
+    PUSHIS 27
+    COMM #68
+    GOTO _336
+_336:
+    PUSHIS 1
+    POPIX 20
+    GOTO _342
+_345:
+    PUSHIS 3
+    PUSHIX 19
+    EQ
+    IF _342
+    PUSHIS 1
+    PUSHIS 12
+    PUSHIS 0
+    COMM #71
+    PUSHIS 60
+    COMM #14
+    PUSHIS 0
+    PUSHLIX 20
+    EQ
+    IF _339
+    PUSHIS 73
+    COMM #68
+    GOTO _338
+_339:
+    PUSHIS 24
+    COMM #68
+    GOTO _338
+_338:
+    COMM #2
+    CALL pos_n_player
+    COMM #1
+    PUSHIS 0
+    PUSHLIX 20
+    EQ
+    IF _341
+    PUSHIS 55
+    COMM #67
+    GOTO _340
+_341:
+    PUSHIS 28
+    COMM #67
+    GOTO _340
+_340:
+    PUSHIS 2
+    POPIX 20
+    GOTO _342
+_342:
+    COMM #2
+    END
+
+.procedure special
+    PROC
+    COMM #1
+    PUSHIS 0
+    POPLIX 2
+_347:
+    PUSHIS 12
+    PUSHLIX 2
+    SE
+    IF _348
+    PUSHIS 4
+    COMM #72
+    PUSHIS 30
+    PUSHLIX 2
+    ADD
+    COMM #67
+    PUSHIS 2
+    COMM #72
+    PUSHIS 28
+    PUSHLIX 2
+    ADD
+    COMM #68
+    PUSHIS 1
+    PUSHLIX 2
+    ADD
+    POPLIX 2
+    COMM #13
+    GOTO _347
+_348:
+    COMM #2
+    PUSHIS 20
+    COMM #14
+    END
+
+.procedure pos_normal
+    PROC
+    PUSHIS 20
+    PUSHIS 0
+    COMM #16
+    PUSHIS 30
+    COMM #14
+    PUSHIS 0
+    COMM #72
+    PUSHIS 20
+    PUSHIS 0
+    COMM #15
+    PUSHIS 30
+    COMM #14
+    END
+
+.procedure pos_n_player
+    PROC
+    PUSHIS 20
+    PUSHIS 0
+    COMM #16
+    PUSHIS 30
+    COMM #14
+    PUSHIS 3
+    COMM #72
+    PUSHIS 1
+    PUSHIS 0
+    PUSHIS 1
+    COMM #71
+    PUSHIS 20
+    PUSHIS 0
+    COMM #15
+    PUSHIS 30
+    COMM #14
+    END
+
+.procedure pos_n_enemy
+    PROC
+    PUSHIS 20
+    PUSHIS 0
+    COMM #16
+    PUSHIS 30
+    COMM #14
+    PUSHIS 4
+    COMM #72
+    PUSHIS 1
+    PUSHLIX 12
+    PUSHIS 1
+    COMM #71
+    PUSHIS 20
+    PUSHIS 0
+    COMM #15
+    PUSHIS 30
+    COMM #14
+    END
+
+.procedure pos_e_player
+    PROC
+    PUSHIS 20
+    PUSHIS 0
+    COMM #16
+    PUSHIS 30
+    COMM #14
+    PUSHIS 1
+    COMM #72
+    PUSHIS 1
+    PUSHLIX 13
+    PUSHIS 0
+    COMM #71
+    PUSHIS 20
+    PUSHIS 0
+    COMM #15
+    PUSHIS 30
+    COMM #14
+    END
+
+.procedure pos_e_nego
+    PROC
+    PUSHIS 20
+    PUSHIS 0
+    COMM #16
+    PUSHIS 30
+    COMM #14
+    PUSHIS 2
+    COMM #72
+    PUSHIS 1
+    PUSHLIX 13
+    PUSHIS 0
+    COMM #71
+    PUSHIS 20
+    PUSHIS 0
+    COMM #15
+    PUSHIS 30
+    COMM #14
+    END

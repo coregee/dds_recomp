@@ -1,0 +1,122 @@
+// game/dds3/event/e800/e809/scr/e809.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e809_main()
+{
+    local0 = fclGetVal(4);
+    local1 = fclGetVal(5);
+    LOAD_BE(809);
+    FIELD_BE(809, 3);
+    SYNC();
+    var11 = CAM_CREATE();
+    CAM_POS_XYZ(var11, 0.0f, - 1e+02f, - 6e+02f);
+    CAM_ROT_Q(var11, 0.0f, 0.0f, 0.0f, 1.0f);
+    CAM_SEL(var11);
+    SET_SKY(90, 1, 0);
+    SET_SKY_A(0, - 100);
+    SCENE_LIGHT_RGB(0, 0.48f, 0.3f, 0.28f);
+    SCENE_LIGHT_DIR(0, 0.63f, 0.58f, - 0.51f);
+    SCENE_AMBIENT(0, 0.38f, 0.25f, 0.49f);
+    SCENE_FOG_RGB(0, 0.0f, 0.157f, 0.275f);
+    SCENE_FOG_PARA(0, 255, 1008, 150, 81026);
+    SOFTEN_BIAS(0, 5, 0);
+    var12 = MODEL_BE(809, 6);
+    MODEL_OFF(var12);
+    MODEL_LIGHT_LINK(var12, 40, SEARCH_ID("light03"));
+    LIGHT_PATH_MOVE(SEARCH_ID("light03"), SEARCH_ID("light03_MOTION"));
+    COMM_0E8(SEARCH_ID("light03"));
+    var15 = SCR_RUN(2, - 1);
+    while (fclGetVal(2))
+    {
+        WAIT(1);
+    }
+    SCR_KILL(var15);
+    EFFECT_CLS(var14);
+    if (fclGetVal(1))
+    {
+        return;
+    }
+    MODEL_LIGHT_LINK(var12, 30, SEARCH_ID("light04"));
+    LIGHT_PATH_MOVE(SEARCH_ID("light04"), SEARCH_ID("light04_MOTION"));
+    COMM_0E8(SEARCH_ID("light04"));
+    WAIT(30);
+    var6 = EFFBED_BE(809, 12);
+    COMM_168(var6, 1, local0);
+    WAIT(125);
+    MUL_BLUR_PARA(0.01f, 0.926f, 1);
+    MUL_BLUR_RGBA(128, 128, 128, 32);
+    MUL_BLUR_AREA(150, 0, 0);
+    MUL_BLUR_ON(5);
+    WAIT(5);
+    fclSignal(0);
+    FILTER2_PARA(0);
+    FILTER2_RGBA(255, 255, 255, 255);
+    FILTER2_ON(1);
+    MUL_BLUR_OFF(1);
+    EFFECT_CLS(var6);
+    EFFECT_CLS(var7);
+    FILTER2_OFF(80);
+    var8 = EFFBED_BE(809, 15);
+    EFFECT_POS_XYZ(var8, 0, fclGetVal(6), 0);
+    COMM_168(var8, 1, local1);
+    WAIT(100);
+    MODEL_LIGHT_LINK(var12, 130, SEARCH_ID("light03"));
+    LIGHT_PATH_MOVE(SEARCH_ID("light03"), SEARCH_ID("light03_MOTION"));
+    COMM_0E8(SEARCH_ID("light03"));
+    var13 = SCR_RUN(1, - 1);
+    WAIT(80);
+    fclSignal(1);
+    WAIT(20);
+    while (fclGetVal(3))
+    {
+        WAIT(1);
+    }
+    SCR_KILL(var13);
+    EFFECT_CLS(var9);
+    FADE_OUT(0, 15);
+    WAIT(15);
+    FIELD_CLS_STOP();
+}
+
+void e809_010_1()
+{
+    local3 = fclGetVal(5);
+    var9 = EFFBED_BE(809, 9);
+    COMM_168(var9, 1, local3);
+    local2 = 0;
+    while (1)
+    {
+        if (local2 == 0)
+        {
+            COMM_168(var9, 1, local3);
+        }
+        local2 = local2 + 1;
+        if (local2 >= 270)
+        {
+            local2 = 0;
+        }
+        SYNC();
+    }
+}
+
+void e809_010_2()
+{
+    local5 = fclGetVal(4);
+    var14 = EFFBED_BE(809, 9);
+    COMM_168(var14, 1, local5);
+    local4 = 0;
+    while (1)
+    {
+        if (local4 == 0)
+        {
+            COMM_168(var14, 1, local5);
+        }
+        local4 = local4 + 1;
+        if (local4 >= 270)
+        {
+            local4 = 0;
+        }
+        SYNC();
+    }
+}
+

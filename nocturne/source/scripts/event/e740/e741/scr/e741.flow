@@ -1,0 +1,152 @@
+// game/dds3/event/e740/e741/scr/e741.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e741_main()
+{
+    if (BIT_CHK(266) == 1)
+    {
+        goto START;
+    }
+    LOAD_SOUND_E(741);
+    LOAD_BE(741);
+    FIELD_BE(741, 3);
+    FADE_OUT(1, 1);
+    SCENE_LIGHT_RGB(0, 0.7f, 0.7f, 0.7f);
+    SCENE_LIGHT_DIR(0, 0.05f, 0.05f, 0.05f);
+    SCENE_AMBIENT(0, 0.7f, 0.7f, 0.7f);
+    SOFTEN_BIAS(0, 5, - 0.4f);
+    SCENE_FOG_RGB(0, 0.329f, 0.588f, 0.573f);
+    SCENE_FOG_PARA(0, 255, 8000, 255, 20000);
+    var4 = MODEL_BE(741, 5);
+    var1 = MODEL_BE(741, 4);
+    var3 = MODEL_BE(741, 6);
+    var8 = MODEL_BE(741, 7);
+    var9 = MODEL_BE(741, 8);
+    MODEL_POS(var4, SEARCH_ID("01pos_02"));
+    MODEL_POS(var1, SEARCH_ID("01pos_01"));
+    MODEL_POS(var3, SEARCH_ID("01pos_01"));
+    MODEL_POS(var8, SEARCH_ID("01pos_01"));
+    MODEL_POS(var9, SEARCH_ID("01pos_01"));
+    MODEL_SHADOW_ON(var4);
+    MODEL_OFF(var1);
+    MODEL_OFF(var3);
+    MODEL_OFF(var9);
+    BGM_PLAY_E(741, 0);
+    SE_PLAY_E(741, 32);
+    SCR_WAIT(SCR_RUN(1, - 1));
+    FADE_OUT(1, 1);
+    BIT_ON(266);
+    FADEOUT_E(741, 0);
+    SE_STOP_E(741, 32);
+    BLUR_ALLOFF();
+    FILTER_ALLOFF();
+    FIELD_CLS_STOP();
+    if (BIT_CHK(320) == 1)
+    {
+        BIT_OFF(266);
+        WAIT(3);
+        SE_PLAY(15);
+        WAIT(180);
+        CALL_EVENT(810);
+        return;
+    }
+    else
+    {
+        RESTORE_BATTLE(1029, 741);
+        return;
+    }
+    EXIT_EVENT();
+START:
+    LOAD_BE(744);
+    FIELD_BE(744, 3);
+    FADE_OUT(1, 1);
+    SCENE_LIGHT_RGB(0, 0.7f, 0.7f, 0.7f);
+    SCENE_LIGHT_DIR(0, 0.05f, 0.05f, 0.05f);
+    SCENE_AMBIENT(0, 0.7f, 0.7f, 0.7f);
+    SOFTEN_BIAS(0, 5, - 0.4f);
+    var4 = MODEL_BE(744, 4);
+    MODEL_POS(var4, SEARCH_ID("01pos_02"));
+    BLUR2_PARA(0.0f, 1.0f, 0);
+    BLUR2_RGBA(190, 130, 120, 55);
+    BLUR2_AREA(- 6, 26);
+    BLUR2_ON(1);
+    var13 = CAM_CREATE();
+    CAM_POS_XYZ(var13, 49.54f, - 159.77f, - 864.64f);
+    CAM_ROT_Q(var13, 0.04f, 0.12f, 0.01f, 0.99f);
+    CAM_SEL(var13);
+    FADE_IN(1, 30);
+    WAIT(30);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(3) /* MSG_003 */;
+    itfMesMngCloseWindow();
+    BIT_ON(1000);
+    BIT_ON(2338);
+    WAIT(20);
+    FADE_OUT(1, 60);
+    WAIT(60);
+    BLUR_ALLOFF();
+    FILTER_ALLOFF();
+    FIELD_CLS_STOP();
+    EXIT_EVENT();
+}
+
+void e741_010()
+{
+    CAM_SEL(SEARCH_ID("01cam_01"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_01"), SEARCH_ID("01cam_01_MOTION"));
+    FADE_IN(1, 30);
+    BLUR2_PARA(0.0f, 1.02f, 1);
+    BLUR2_RGBA(190, 130, 120, 45);
+    BLUR2_AREA(- 6, 26);
+    BLUR2_ON(1);
+    WAIT(230);
+    CAM_SEL(SEARCH_ID("01cam_02"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_02"), SEARCH_ID("01cam_02_MOTION"));
+    MODEL_MOTION2(var4, 1, 0, 0, 2);
+    WAIT(112);
+    FADE_OUT(1, 10);
+    WAIT(10);
+    CAM_SEL(SEARCH_ID("01cam_03"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_03"), SEARCH_ID("01cam_03_MOTION"));
+    MODEL_OFF(var4);
+    MODEL_OFF(var8);
+    MODEL_ON(var9);
+    MODEL_ON(var3);
+    MODEL_ON(var1);
+    FADE_IN(1, 20);
+    MODEL_MOVE2(var9, SEARCH_ID("01path_01"), 1, 0, 0, 0, 0);
+    WAIT(100);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* MSG_001 */;
+    WAIT(100);
+    itfMesMngCloseWindow();
+    WAIT(30);
+    CAM_SEL(SEARCH_ID("01cam_04"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_04"), SEARCH_ID("01cam_04_MOTION"));
+    itfMesMngOpenWindow();
+    itfMesMngMessage(1) /* MSG_002 */;
+    WAIT(100);
+    itfMesMngCloseWindow();
+    WAIT(30);
+    CAM_SEL(SEARCH_ID("01cam_05"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_05"), SEARCH_ID("01cam_05_MOTION"));
+    MODEL_ON(var4);
+    MODEL_MOTION2(var4, 2, 0, 0, 2);
+    MODEL_MOVE2(var9, SEARCH_ID("01path_02"), 1, 0, 0, 0, 0);
+    MODEL_MOVE2(var4, SEARCH_ID("01path_02"), 1, 0, 0, 0, 0);
+    MODEL_MOTION2(var1, 1, 0, 0, 2);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(2) /* MSG_002B */;
+    WAIT(40);
+    PATH_STOP(var4);
+    PATH_STOP(var9);
+    WAIT(60);
+    itfMesMngCloseWindow();
+    BLUR2_PARA(- 0.0f, 0.938f, 1);
+    BLUR2_RGBA(98, 98, 98, 160);
+    BLUR2_AREA(- 3, - 82);
+    WAIT(12);
+    BLUR2_SWAP(35);
+    WAIT(35);
+}
+

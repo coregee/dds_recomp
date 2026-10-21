@@ -1,0 +1,88 @@
+; FlowScript assembly. tools/flowscript.py assemble rebuilds the original bytes.
+.header 0000000025080000464c57300000000004000000000000000000000000000000
+.sections procedures labels code messages
+.messages scene09.bmd
+.labels _2 _3 _1
+
+.procedure sc09
+    PROC
+    PUSHIS 60
+    PUSHIS 0
+    COMM FADE_IN
+    PUSHIS 30
+    COMM WAIT
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngMessage
+    COMM itfMesMngOpenSelectWindow
+    PUSHIS 1
+    COMM itfMesMngSelect
+    PUSHREG
+    POPIX 0
+    PUSHIS 0
+    PUSHIX 0
+    EQ
+    IF _2
+    CALL arasuji_b
+    GOTO _1
+_2:
+    PUSHIS 1
+    PUSHIX 0
+    EQ
+    IF _3
+    CALL koryaku_b
+    GOTO _1
+_3:
+    CALL sugu_b
+    GOTO _1
+_1:
+    JUMP finish_b
+    END
+
+.procedure arasuji_b
+    PROC
+    PUSHIS 2
+    COMM itfMesMngMessage
+    PUSHIS 3
+    COMM itfMesMngMessage
+    PUSHIS 60
+    PUSHIS 0
+    COMM FADE_OUT
+    PUSHIS 30
+    COMM WAIT
+    PUSHIS 12
+    COMM BIT_ON
+    END
+
+.procedure koryaku_b
+    PROC
+    PUSHIS 3
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    PUSHIS 60
+    PUSHIS 0
+    COMM FADE_OUT
+    PUSHIS 30
+    COMM WAIT
+    PUSHIS 12
+    COMM BIT_ON
+    END
+
+.procedure sugu_b
+    PROC
+    COMM itfMesMngCloseWindow
+    PUSHIS 60
+    PUSHIS 0
+    COMM FADE_OUT
+    PUSHIS 30
+    COMM WAIT
+    END
+
+.procedure finish_b
+    PROC
+    PUSHIS 1
+    POPIX 0
+    PUSHI 196661
+    PUSHIS 1
+    COMM CALL_FIELD
+    END

@@ -1,0 +1,217 @@
+; FlowScript assembly. tools/flowscript.py assemble rebuilds the original bytes.
+.header 00000000f30c0000464c57300000000005000000000000000000000000000000
+.sections procedures labels code messages strings
+.messages message.bmd
+.strings 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+.labels _2 _1 _3 _6 _5 _7 _8
+
+.procedure rag_1st
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngValidateNext
+    PUSHIS 0
+    COMM itfMesMngMessage
+    JUMP endless_loop
+    END
+
+.procedure rag_item
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngValidateNext
+    PUSHIS 1
+    COMM itfMesMngMessage
+    JUMP endless_loop
+    END
+
+.procedure rag_seirei
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngValidateNext
+    PUSHIS 2
+    COMM itfMesMngMessage
+    JUMP endless_loop
+    END
+
+.procedure rag_mitama
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngValidateNext
+    PUSHIS 3
+    COMM itfMesMngMessage
+    CALL endless_loop
+    JUMP endless_loop
+    END
+
+.procedure rag_err_item_max
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 4
+    COMM itfMesMngMessage
+    END
+
+.procedure rag_err_devil
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 5
+    COMM itfMesMngMessage
+    END
+
+.procedure rag_err_stock
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 6
+    COMM itfMesMngMessage
+    END
+
+.procedure rag_err_level
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 7
+    COMM itfMesMngMessage
+    END
+
+.procedure rag_confirm
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 1
+    PUSHIS 3
+    COMM itfMesMngSelectDefKey
+    PUSHIS 0
+    PUSHIS 9
+    COMM fclGetVal
+    PUSHREG
+    EQ
+    IF _2
+    PUSHIS 3
+    PUSHIS 8
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 2
+    COMM itfMesMngSetVarScr
+    PUSHIS 8
+    COMM itfMesMngMessage
+    GOTO _1
+_2:
+    PUSHIS 1
+    PUSHIS 8
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 1
+    COMM itfMesMngSetVarScr
+    PUSHIS 9
+    COMM itfMesMngMessage
+    GOTO _1
+_1:
+    PUSHIS 1
+    PUSHIS 16
+    COMM itfMesMngSelect
+    PUSHREG
+    EQ
+    IF _3
+    PUSHIS 2
+    COMM fclSignal
+    GOTO _3
+_3:
+    END
+
+.procedure rag_thanks
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 10
+    COMM itfMesMngMessage
+    END
+
+.procedure rag_2nd
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngValidateNext
+    PUSHIS 11
+    COMM itfMesMngMessage
+    JUMP endless_loop
+    END
+
+.procedure rag_talk
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 0
+    PUSHIS 4
+    COMM fclGetVal
+    PUSHREG
+    EQ
+    IF _6
+    PUSHIS 13
+    COMM itfMesMngMessage
+    GOTO _5
+_6:
+    PUSHIS 14
+    COMM itfMesMngMessage
+    GOTO _5
+_5:
+    END
+
+.procedure rag_exit
+    PROC
+    PUSHIS 2
+    COMM itfMesMngWindowType
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 15
+    COMM itfMesMngMessage
+    END
+
+.procedure endless_loop
+    PROC
+    PUSHIS 0
+    COMM fclSignal
+_7:
+    PUSHIS 1
+    IF _8
+    PUSHIS 1
+    COMM WAIT
+    GOTO _7
+_8:
+    END

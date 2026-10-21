@@ -1,0 +1,27 @@
+// game/dds3/pb/pbmsg.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void pb_start_message()
+{
+    itfMesMngWindowType(0);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(fclGetVal(0));
+    itfMesMngCloseWindow();
+}
+
+void pb_end_message()
+{
+    itfMesMngWindowType(0);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(5) /* pb_mes_end */;
+    itfMesMngSelectDefKey(3, 1);
+    itfMesMng_SEL_SELNO(1);
+    if (itfMesMngSelect(6) == 1)
+    {
+        itfMesMngCloseWindow();
+        return;
+    }
+    fclSignal(0);
+    itfMesMngCloseWindow();
+}
+

@@ -1,0 +1,477 @@
+// game/dds3/event/e710/e712/scr/e712.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e712_main()
+{
+    LOAD_SOUND_E(712);
+    if (BIT_CHK(279) == 1)
+    {
+        goto ITIMAI;
+    }
+    else if (BIT_CHK(293) == 1)
+    {
+        goto ITIMAI;
+    }
+    else if (BIT_CHK(298) == 1)
+    {
+        goto ITIMAI;
+    }
+    else if (BIT_CHK(301) == 1)
+    {
+        goto ITIMAI;
+    }
+    MOVIE_PLAY(21);
+    MOVIE_CHKDRAW();
+    while (MOVIE_CHK())
+    {
+        SYNC();
+        if (PAD_TRIG(3) != 0)
+        {
+            goto TOBASI;
+        }
+    }
+TOBASI:
+    MOVIE_STOP();
+    FADE_OUT(1, 1);
+    LOAD_BE(712);
+    FIELD_BE(712, 3);
+    var1 = MODEL_BE(712, 6);
+    MODEL_POS(var1, SEARCH_ID("01pos_01"));
+    var2 = MODEL_BE(712, 4);
+    MODEL_POS(var2, SEARCH_ID("01pos_02"));
+    var6 = MODEL_BE(712, 5);
+    MODEL_POS(var6, SEARCH_ID("01pos_03"));
+    MODEL_SHADOW_ON(var1);
+    SET_SKY(95, 1, 0);
+    SET_SKY_A(0, - 100);
+    SCENE_LIGHT_RGB(0, 0.8f, 0.7f, 0.7f);
+    SCENE_LIGHT_DIR(0, - 0.3f, 0.4f, 0.5f);
+    SCENE_AMBIENT(0, 0.2f, 0.2f, 0.1f);
+    SOFTEN_BIAS(0, 5, 0);
+    var8 = EFFECT_BE(712, 7);
+    var9 = EFFECT_BE(712, 9);
+    var10 = EFFECT_BE(712, 10);
+    var11 = EFFECT_BE(712, 8);
+    var12 = EFFECT_BE(712, 8);
+    var13 = EFFECT_BE(712, 7);
+    EFFECT_ON(var11);
+    EFFECT_ON(var8);
+    EFFECT_ON(var9);
+    EFFECT_ON(var10);
+    EFFECT_ON(var12);
+    EFFECT_ON(var13);
+    EFFECT_POS(var11, SEARCH_ID("01pos_04"));
+    EFFECT_POS(var8, SEARCH_ID("01pos_06"));
+    EFFECT_POS(var13, SEARCH_ID("01pos_07"));
+    EFFECT_POS(var9, SEARCH_ID("01pos_08"));
+    EFFECT_POS(var12, SEARCH_ID("01pos_05"));
+    EFFECT_POS(var10, SEARCH_ID("01pos_09"));
+    MODEL_LIGHT_LINK(var1, 0, SEARCH_ID("light01"));
+    CAM_SEL(SEARCH_ID("01cam_01"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_01"), SEARCH_ID("01cam_01_MOTION"));
+    FADE_IN(1, 60);
+    BGM_PLAY_E(712, 1);
+    MODEL_MOTION2(var2, 0, 0, 0, 2);
+    SE_PLAY_E(712, 111);
+    WAIT(60);
+    DIST_BLUR_PARA(60, 136, 15, 0.222f, 0.005f, 0.13f, 0);
+    DIST_BLUR_RGBA(132, 132, 132, 35);
+    DIST_BLUR_AREA(256, 0, 0);
+    DIST_BLUR_ON(0);
+    WAIT(60);
+    MODEL_MOTION2(var6, 1, 0, 0, 2);
+    WAIT(180);
+    CAM_SEL(SEARCH_ID("01cam_02"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_02"), SEARCH_ID("01cam_02_MOTION"));
+    KUTISET(var1, 2, 1);
+    SE_STOP_E(712, 111);
+    WAIT(80);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngCloseWindow();
+    WAIT(20);
+    CAM_SEL(SEARCH_ID("01cam_03"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_03"), SEARCH_ID("01cam_03_MOTION"));
+    WAIT(20);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngCloseWindow();
+    WAIT(15);
+    SE_PLAY_E(712, 110);
+    FADE_OUT(1, 5);
+    WAIT(5);
+    FILTER_ALLOFF();
+    SET_SKY(0, 1, 0);
+    SET_SKY_A(0, 0);
+    BGM_STOP();
+    FIELD_CLS_STOP();
+ITIMAI:
+    BGM_PLAY_E(712, 2);
+    DIST_BLUR_PARA(60, 136, 15, 0.222f, 0.005f, 0.13f, 0);
+    DIST_BLUR_RGBA(132, 132, 132, 35);
+    DIST_BLUR_AREA(256, 0, 0);
+    DIST_BLUR_ON(0);
+    FADE_IN(1, 30);
+    local0 = TEX_LOAD("/event/e710/e712/effect/e712_p001.tmx");
+    local2 = TEX_LOAD("/event/e710/e712/effect/e712_p003.tmx");
+    local1 = TEX_LOAD("/event/e710/e712/effect/e712_p012.tmx");
+    local3 = TEX_LOAD("/event/e710/e712/effect/e712_p013.tmx");
+    local4 = TEX_LOAD("/event/e710/e712/effect/e712_p016.tmx");
+    TEX_SIZE(local0, 512, 1002, 512, 1002);
+    TEX_SIZE(local2, 512, 1002, 512, 1012);
+    TEX_SIZE(local1, 512, 512, 512, 512);
+    TEX_SIZE(local3, 512, 512, 512, 512);
+    TEX_SIZE(local4, 512, 512, 512, 512);
+    COMM_1E3(local0, 0, 0, 0, - 548, 1);
+    COMM_1E3(local2, 0, 0, 0, - 60, 1);
+    COMM_1E3(local3, 0, 0, 0, 0, 1);
+    COMM_1E3(local1, 0, 0, 0, 0, 1);
+    COMM_1E3(local4, 0, 0, 0, 0, 1);
+    TEX_OT(local0, 1);
+    TEX_OT(local1, 1);
+    TEX_OT(local2, 1);
+    TEX_OT(local3, 1);
+    TEX_PRI(local0, 0);
+    TEX_PRI(local2, 3);
+    TEX_PRI(local1, 1);
+    TEX_PRI(local3, 2);
+    TEX_ON(local0);
+    TEX_ON(local2);
+    TEX_ON(local3);
+    TEX_ON(local1);
+    itfMesMngWindowTypeAlpha(1, 40);
+    COMM_1E3(local0, 0, - 548, 0, - 434, 300);
+    WAIT(60);
+    FADE_OUT(1, 4);
+    WAIT(4);
+    SE_PLAY_E(712, 109);
+    TEX_ALP(local0, 256, 0, 1);
+    FADE_IN(1, 12);
+    TEX_ZOOM(local1, 100, 105, 28);
+    WAIT(24);
+    FADE_OUT(1, 4);
+    WAIT(4);
+    SE_PLAY_E(712, 109);
+    TEX_OFF(local1);
+    FADE_IN(1, 16);
+    TEX_ZOOM(local3, 100, 105, 34);
+    WAIT(30);
+    FADE_OUT(1, 4);
+    WAIT(4);
+    SE_PLAY_E(712, 109);
+    TEX_ON(local4);
+    FADE_IN(1, 18);
+    TEX_ZOOM(local4, 100, 105, 36);
+    WAIT(34);
+    FADE_OUT(1, 4);
+    WAIT(4);
+    SE_PLAY_E(712, 109);
+    TEX_OFF(local3);
+    TEX_OFF(local4);
+    TEX_ALP(local0, 0, 256, 1);
+    FADE_IN(1, 28);
+    WAIT(28);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(3) /* MSG_004 */;
+    itfMesMngCloseWindow();
+    TEX_ALP(local0, 256, 0, 100);
+    WAIT(50);
+    COMM_1E3(local2, 0, - 60, 0, - 552, 410);
+    WAIT(20);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(4) /* MSG_004B */;
+    itfMesMngCloseWindow();
+    itfMesMngOpenWindow();
+    itfMesMngMessage(5) /* MSG_005 */;
+    itfMesMngCloseWindow();
+    itfMesMngOpenWindow();
+    itfMesMngMessage(6) /* MSG_005B */;
+    itfMesMngCloseWindow();
+    WAIT(60);
+    FADE_OUT(1, 60);
+    WAIT(46);
+    TEX_OFF(local0);
+    TEX_OFF(local1);
+    WAIT(4);
+    TEX_CLS(local0);
+    TEX_CLS(local1);
+    TEX_OFF(local2);
+    TEX_OFF(local3);
+    TEX_OFF(local4);
+    WAIT(4);
+    TEX_CLS(local2);
+    TEX_CLS(local3);
+    TEX_CLS(local4);
+    WAIT(6);
+    local4 = TEX_LOAD("/event/e710/e712/effect/e712_p005.tmx");
+    local5 = TEX_LOAD("/event/e710/e712/effect/e712_p006.tmx");
+    local6 = TEX_LOAD("/event/e710/e712/effect/e712_p007.tmx");
+    COMM_1E3(local4, 0, 0, 0, 0, 1);
+    COMM_1E3(local5, 0, 0, 0, 0, 1);
+    COMM_1E3(local6, 0, 0, 0, 0, 1);
+    TEX_OT(local4, 1);
+    TEX_OT(local5, 1);
+    TEX_OT(local6, 1);
+    TEX_ZOOM(local4, 100, 120, 1);
+    TEX_ZOOM(local5, 100, 120, 1);
+    TEX_ZOOM(local6, 100, 120, 1);
+    WAIT(1);
+    TEX_PRI(local4, 0);
+    TEX_PRI(local5, 1);
+    TEX_PRI(local6, 2);
+    TEX_ON(local4);
+    TEX_ON(local5);
+    TEX_ON(local6);
+    FADE_IN(1, 60);
+    WAIT(30);
+    SCR_RUN(1, - 1);
+    TEX_ZOOM(local4, 120, 100, 90);
+    WAIT(50);
+    TEX_ALP(local4, 256, 0, 40);
+    TEX_ZOOM(local5, 140, 100, 90);
+    WAIT(50);
+    TEX_OFF(local4);
+    WAIT(4);
+    TEX_CLS(local4);
+    WAIT(6);
+    local0 = TEX_LOAD("/event/e710/e712/effect/e712_p008.tmx");
+    COMM_1E3(local0, 0, 0, 0, 0, 1);
+    TEX_PRI(local5, 0);
+    TEX_PRI(local6, 1);
+    TEX_PRI(local0, 2);
+    TEX_OT(local0, 1);
+    TEX_OT(local5, 1);
+    TEX_OT(local6, 1);
+    WAIT(1);
+    TEX_ALP(local5, 256, 0, 40);
+    TEX_ZOOM(local6, 140, 100, 90);
+    WAIT(90);
+    while (BIT_CHK(259) == 0)
+    {
+        SYNC();
+    }
+    local1 = TEX_LOAD("/event/e710/e712/effect/e712_p009.tmx");
+    local2 = TEX_LOAD("/event/e710/e712/effect/e712_p010.tmx");
+    COMM_1E3(local1, 0, 0, 0, 0, 1);
+    COMM_1E3(local2, 0, 0, 0, 0, 1);
+    TEX_PRI(local6, 0);
+    TEX_PRI(local0, 1);
+    TEX_PRI(local1, 2);
+    TEX_PRI(local2, 3);
+    TEX_OT(local0, 1);
+    TEX_OT(local1, 1);
+    TEX_OT(local2, 1);
+    TEX_OT(local6, 1);
+    TEX_ON(local0);
+    TEX_ON(local1);
+    TEX_ON(local2);
+    WAIT(30);
+    TEX_ALP(local6, 256, 0, 11);
+    WAIT(11);
+    TEX_OFF(local5);
+    TEX_OFF(local6);
+    WAIT(4);
+    TEX_CLS(local5);
+    TEX_CLS(local6);
+    local3 = TEX_LOAD("/event/e710/e712/effect/e712_p011.tmx");
+    COMM_1E3(local3, 0, 0, 0, 0, 1);
+    TEX_PRI(local0, 0);
+    TEX_PRI(local1, 1);
+    TEX_PRI(local2, 2);
+    TEX_PRI(local3, 3);
+    TEX_OT(local0, 1);
+    TEX_OT(local1, 1);
+    TEX_OT(local2, 1);
+    TEX_OT(local3, 1);
+    TEX_ON(local3);
+    WAIT(18);
+    TEX_ALP(local0, 256, 0, 40);
+    WAIT(40);
+    WAIT(60);
+    TEX_ALP(local1, 256, 0, 15);
+    WAIT(15);
+    WAIT(18);
+    TEX_ALP(local2, 256, 0, 43);
+    WAIT(43);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(8) /* MSG_007 */;
+    itfMesMngCloseWindow();
+    FADE_OUT(1, 15);
+    WAIT(4);
+    SE_PLAY_E(712, 109);
+    WAIT(11);
+    TEX_OFF(local0);
+    TEX_OFF(local1);
+    TEX_OFF(local2);
+    WAIT(4);
+    TEX_CLS(local0);
+    TEX_CLS(local1);
+    TEX_CLS(local2);
+    WAIT(4);
+    local0 = TEX_LOAD("/event/e710/e712/effect/e712_p014.tmx");
+    local1 = TEX_LOAD("/event/e710/e712/effect/e712_p015.tmx");
+    COMM_1E3(local0, 0, 0, 0, 0, 1);
+    COMM_1E3(local1, 0, 0, 0, 0, 1);
+    TEX_PRI(local0, 1);
+    TEX_PRI(local1, 2);
+    TEX_PRI(local3, 0);
+    TEX_OT(local0, 1);
+    TEX_OT(local1, 1);
+    TEX_OT(local3, 1);
+    TEX_ON(local0);
+    TEX_ON(local1);
+    TEX_OFF(local3);
+    WAIT(3);
+    FADE_IN(1, 20);
+    WAIT(20);
+    SCR_RUN(3, - 1);
+    TEX_ALP(local0, 256, 0, 140);
+    TEX_ZOOM(local1, 100, 120, 360);
+    WAIT(30);
+    while (BIT_CHK(260) == 0)
+    {
+        SYNC();
+    }
+    FADE_OUT(1, 10);
+    SE_PLAY_E(712, 110);
+    WAIT(30);
+    TEX_OFF(local0);
+    TEX_OFF(local1);
+    TEX_OFF(local2);
+    TEX_OFF(local3);
+    WAIT(4);
+    TEX_CLS(local0);
+    TEX_CLS(local1);
+    TEX_CLS(local2);
+    TEX_CLS(local3);
+    WAIT(5);
+    BIT_OFF(259);
+    BIT_OFF(260);
+    if (BIT_CHK(279) == 1)
+    {
+        FILTER_ALLOFF();
+        FIELD_CLS_STOP();
+        BGM_STOP();
+        CALL_EVENT(717);
+        return;
+    }
+    else if (BIT_CHK(293) == 1)
+    {
+        FILTER_ALLOFF();
+        FIELD_CLS_STOP();
+        BGM_STOP();
+        CALL_EVENT(720);
+        return;
+    }
+    else if (BIT_CHK(298) == 1)
+    {
+        FILTER_ALLOFF();
+        FIELD_CLS_STOP();
+        BGM_STOP();
+        CALL_EVENT(721);
+        return;
+    }
+    else if (BIT_CHK(301) == 1)
+    {
+        FILTER_ALLOFF();
+        FIELD_CLS_STOP();
+        BGM_STOP();
+        CALL_EVENT(722);
+        return;
+    }
+    BGM_STOP();
+    FIELD_CLS_STOP();
+    LOAD_BE(712);
+    BGM_PLAY_E(712, 3);
+    FIELD_BE(712, 3);
+    var1 = MODEL_BE(712, 6);
+    MODEL_POS(var1, SEARCH_ID("01pos_01"));
+    var2 = MODEL_BE(712, 4);
+    MODEL_POS(var2, SEARCH_ID("01pos_02"));
+    var6 = MODEL_BE(712, 5);
+    MODEL_POS(var6, SEARCH_ID("01pos_03"));
+    MODEL_SHADOW_ON(var1);
+    SET_SKY(95, 1, 0);
+    SET_SKY_A(0, - 100);
+    SCENE_LIGHT_RGB(0, 0.8f, 0.7f, 0.7f);
+    SCENE_LIGHT_DIR(0, - 0.3f, 0.4f, 0.5f);
+    SCENE_AMBIENT(0, 0.2f, 0.2f, 0.1f);
+    SOFTEN_BIAS(0, 5, 0);
+    var8 = EFFECT_BE(712, 7);
+    var9 = EFFECT_BE(712, 9);
+    var10 = EFFECT_BE(712, 10);
+    var11 = EFFECT_BE(712, 8);
+    var12 = EFFECT_BE(712, 8);
+    var13 = EFFECT_BE(712, 7);
+    EFFECT_ON(var11);
+    EFFECT_ON(var8);
+    EFFECT_ON(var9);
+    EFFECT_ON(var10);
+    EFFECT_ON(var12);
+    EFFECT_ON(var13);
+    EFFECT_POS(var11, SEARCH_ID("01pos_04"));
+    EFFECT_POS(var8, SEARCH_ID("01pos_06"));
+    EFFECT_POS(var13, SEARCH_ID("01pos_07"));
+    EFFECT_POS(var9, SEARCH_ID("01pos_08"));
+    EFFECT_POS(var12, SEARCH_ID("01pos_05"));
+    EFFECT_POS(var10, SEARCH_ID("01pos_09"));
+    MODEL_LIGHT_LINK(var1, 0, SEARCH_ID("light01"));
+    MODEL_MOTION2(var2, 0, 0, 0, 2);
+    MODEL_MOTION2(var6, 0, 0, 0, 2);
+    MODEL_OFF(var6);
+    MODEL_OFF(var2);
+    KUTISET(var1, 2, 1);
+    CAM_SEL(SEARCH_ID("01cam_02"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_02"), SEARCH_ID("01cam_02_MOTION"));
+    FADE_IN(1, 60);
+    WAIT(80);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(10) /* MSG_222 */;
+    itfMesMngCloseWindow();
+    WAIT(20);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(11) /* MSG_223 */;
+    itfMesMngCloseWindow();
+    CAM_SEL(SEARCH_ID("01cam_05"));
+    CAM_PATH_MOVE(SEARCH_ID("01cam_05"), SEARCH_ID("01cam_05_MOTION"));
+    MODEL_ON(var6);
+    MODEL_ON(var2);
+    MODEL_MOTION2(var6, 2, 0, 0, 2);
+    MODEL_MOTION2(var2, 1, 0, 0, 2);
+    SE_PLAY_E(712, 111);
+    BIT_ON(269);
+    BIT_ON(270);
+    WAIT(280);
+    FADE_OUT(0, 100);
+    FADEOUT_E(712, 3);
+    WAIT(100);
+    SE_STOP_E(712, 111);
+    BLUR_ALLOFF();
+    FILTER_ALLOFF();
+    FIELD_CLS_STOP();
+    EXIT_EVENT();
+}
+
+void e712_010_1()
+{
+    itfMesMngOpenWindow();
+    itfMesMngMessage(7) /* MSG_006 */;
+    itfMesMngCloseWindow();
+    BIT_ON(259);
+}
+
+void e712_010_4()
+{
+    WAIT(540);
+    SE_STOP_E(712, 111);
+}
+
+void e712_010_3()
+{
+    itfMesMngOpenWindow();
+    itfMesMngMessage(9) /* MSG_111 */;
+    itfMesMngCloseWindow();
+    BIT_ON(260);
+}
+

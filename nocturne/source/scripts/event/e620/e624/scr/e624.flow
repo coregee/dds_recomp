@@ -1,0 +1,91 @@
+// game/dds3/event/e620/e624/scr/e624.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e624_main()
+{
+    LOAD_BE(624);
+    FIELD_BE(624, 3);
+    FADE_OUT(0, 1);
+    LOAD_SOUND_E(624);
+    BOKASI_ON();
+    SET_SKY(98, 1, 0);
+    SET_SKY_A(0, - 60);
+    SOFTEN_BIAS(0, 22.0f, 0.0f);
+    SYNC();
+    var2 = MODEL_BE(624, 4);
+    MODEL_SHADOW_OFF(var2);
+    MODEL_LIGHT_ON(var2);
+    MODEL_LIGHT_DIR(var2, 0, 0.88f, 0.42f, - 0.54f);
+    MODEL_LIGHT_RGB(var2, 0, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+    FADE_IN(1, 40);
+    SCR_WAIT(SCR_RUN(4, - 1));
+    FADE_OUT(1, 70);
+    WAIT(70);
+    MODEL_CLS(var2);
+    FIELD_CLS();
+    BLUR_ALLOFF();
+    EXIT_EVENT();
+}
+
+void dist_blur01()
+{
+    WAIT(0);
+    DIST_BLUR_PARA(60, 136, 15, 0.222f, 0.015f, 0.13f, 0);
+    DIST_BLUR_RGBA(152, 152, 152, 0);
+    DIST_BLUR_AREA(86, 0, - 59);
+    DIST_BLUR_ON(60);
+}
+
+void dist_blur02()
+{
+    WAIT(0);
+    DIST_BLUR_PARA(60, 136, 20, 0.162f, 0.015f, 0.4f, 0);
+    DIST_BLUR_RGBA(172, 172, 172, 51);
+    DIST_BLUR_AREA(156, 0, - 62);
+    DIST_BLUR_ON(50);
+}
+
+void dist_blur03()
+{
+    WAIT(0);
+    DIST_BLUR_PARA(60, 166, 60, 0.062f, 0.015f, 0.4f, 0);
+    DIST_BLUR_RGBA(132, 114, 114, 41);
+    DIST_BLUR_AREA(156, 0, - 68);
+    DIST_BLUR_ON(0);
+}
+
+void e624_010()
+{
+    CAM_SEL(SEARCH_ID("cam01"));
+    CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));
+    SCR_RUN(2, - 1);
+    WAIT(20);
+    MODEL_LIGHT_RGB(var2, 70, 1.0f, 0.9f, 0.9f, 0.9f, 0.5f, 0.4f);
+    WAIT(70);
+    SYNC();
+    CAM_SEL(SEARCH_ID("cam02"));
+    CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
+    SCR_RUN(3, - 1);
+    WAIT(120);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* YUUKO_001 */;
+    itfMesMngCloseWindow();
+    CAM_SEL(SEARCH_ID("cam03"));
+    CAM_PATH_MOVE(SEARCH_ID("cam03"), SEARCH_ID("cam03_MOTION"));
+    MODEL_LIGHT_RGB(var2, 80, 0.9f, 0.9f, 0.9f, 0.6f, 0.3f, 0.3f);
+    SCR_RUN(5, - 1);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(1) /* YUUKO_002 */;
+    itfMesMngCloseWindow();
+    MODEL_RGB(var2, 100, 0.0f, 0.0f, 0.0f);
+    WAIT(100);
+}
+
+void e624_010_1()
+{
+    SCR_RUN(3, - 1);
+    MUL_BLUR_PARA(0.24f, 1.046f, 0);
+    MUL_BLUR_RGBA(128, 108, 108, 70);
+    MUL_BLUR_AREA(130, 0, - 57);
+}
+

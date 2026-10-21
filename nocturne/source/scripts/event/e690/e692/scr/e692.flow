@@ -1,0 +1,47 @@
+// game/dds3/event/e690/e692/scr/e692.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e692_main()
+{
+    SYNC();
+    if (BIT_CHK(148) == 1)
+    {
+        var2 = PMV_LOAD(694, 2);
+        SCR_WAIT(PMV_RUN2(var2));
+        FIELD_CLS_STOP();
+        BLUR_ALLOFF();
+        FILTER_ALLOFF();
+        CALL_ENDSAVE();
+    }
+    else if (BIT_CHK(149) == 1)
+    {
+        FADE_IN(0, 20);
+        WAIT(70);
+        COMM_117(110, 200);
+        itfMesMngMessage(0) /* MSG_001 */;
+        WAIT(60);
+        itfMesMngCloseWindow();
+        WAIT(60);
+        COMM_117(135, 200);
+        itfMesMngMessage(1) /* MSG_002 */;
+        WAIT(60);
+        itfMesMngCloseWindow();
+        WAIT(60);
+        COMM_117(115, 200);
+        itfMesMngMessage(2) /* MSG_003 */;
+        WAIT(60);
+        itfMesMngCloseWindow();
+        WAIT(100);
+        BLUR_ALLOFF();
+        FILTER_ALLOFF();
+        CALL_ENDSAVE();
+    }
+    else
+    {
+        WAIT(30);
+        CALL_ENDSAVE();
+    }
+    WAIT(1);
+    EXIT_EVENT();
+}
+

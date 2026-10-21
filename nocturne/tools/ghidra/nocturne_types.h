@@ -33,6 +33,12 @@ typedef struct datDevilAI {
     u16 deadscriptid, deadeventno;
 } datDevilAI;
 
+/* scrCommandTable_t: FlowScript command table entry (0x52E350). */
+typedef struct scrCommandTable {
+    PTR32(void) comm;
+    s32 paranum;
+} scrCommandTable;
+
 #endif
 
 typedef unsigned char u8;
@@ -401,5 +407,11 @@ typedef struct datDevilAI {
     datDevilAITbl aitable[3][5];
     u16 deadscriptid, deadeventno;
 } datDevilAI;
+
+/* scrCommandTable_t: FlowScript command table entry (0x52E350). */
+typedef struct scrCommandTable {
+    PTR32(void) comm;
+    s32 paranum;
+} scrCommandTable;
 
 #endif

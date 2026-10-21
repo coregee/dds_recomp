@@ -1,0 +1,249 @@
+// game/dds3/event/e600/e601/scr/e601.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e601_main()
+{
+    LOAD_BE(601);
+    FIELD_BE(601, 4);
+    LOAD_SOUND_E(601);
+    BOKASI_ON();
+    SET_SKY(20, 1, 0);
+    SET_SKY_A(0, 0);
+    SCENE_LIGHT_RGB(0, 0.7f, 0.7f, 0.7f);
+    SCENE_LIGHT_DIR(0, 0.33f, 0.42f, - 0.84f);
+    SCENE_AMBIENT(0, 0.3f, 0.3f, 0.3f);
+    SOFTEN_BIAS(0, 15, 0.28f);
+    SCENE_FOG_RGB(0, 0.784f, 0.784f, 0.784f);
+    SCENE_FOG_PARA(0, 255, 0, 0, 20000);
+    SCENE_FOG_RGB(0, 0.784f, 0.784f, 0.784f);
+    SCENE_FOG_PARA(100, 255, 200, 0, 20000);
+    SYNC();
+    var2 = MODEL_BE(601, 3);
+    MODEL_POS(var2, SEARCH_ID("p01"));
+    MODEL_SHADOW_OFF(var2);
+    var6 = MODEL_BE(601, 7);
+    var7 = MODEL_BE(601, 6);
+    var8 = MODEL_BE(601, 5);
+    var9 = MODEL_BE(601, 8);
+    var10 = MODEL_BE(601, 10);
+    var11 = MODEL_BE(601, 9);
+    MODEL_OFF(var6);
+    MODEL_OFF(var7);
+    MODEL_OFF(var8);
+    MODEL_OFF(var9);
+    MODEL_OFF(var10);
+    MODEL_OFF(var11);
+    SYNC();
+    FADE_IN(1, 10);
+    SCR_WAIT(SCR_RUN(3, - 1));
+    SCR_WAIT(SCR_RUN(7, - 1));
+    FILTER2_PARA(0);
+    FILTER2_RGBA(255, 255, 255, 255);
+    FILTER2_ON(60);
+    WAIT(60);
+    BIT_ON(18);
+    BLUR_ALLOFF();
+    WAIT(35);
+    FADE_OUT(0, 60);
+    WAIT(60);
+    FILTER2_OFF(0);
+    MODEL_CLS(var2);
+    FIELD_CLS();
+    EXIT_EVENT();
+}
+
+void dist_blur01()
+{
+    WAIT(0);
+    DIST_BLUR_PARA(40, 137, 33, 0.114f, 0.023f, 0.22f, 1);
+    DIST_BLUR_RGBA(104, 104, 104, 4);
+    DIST_BLUR_AREA(156, 0, - 65);
+    DIST_BLUR_ON(0);
+}
+
+void dist_blur02()
+{
+    WAIT(0);
+    DIST_BLUR_PARA(40, 157, 33, 0.114f, 0.023f, 0.22f, 1);
+    DIST_BLUR_RGBA(104, 104, 104, 9);
+    DIST_BLUR_AREA(156, 0, - 65);
+    DIST_BLUR_ON(50);
+}
+
+void e601_010()
+{
+    CAM_SEL(SEARCH_ID("cam01"));
+    CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));
+    COMM_0E8(SEARCH_ID("cam01"));
+    SCR_RUN(1, - 1);
+    BGM_PLAY_E(601, 14);
+    MUL_BLUR_PARA(0, 0.98f, 0);
+    MUL_BLUR_RGBA(128, 128, 128, 95);
+    MUL_BLUR_AREA(360, 3, - 30);
+    MUL_BLUR_ON(0);
+    SYNC();
+    WAIT(135);
+    SCR_RUN(5, - 1);
+    itfMesMngWindowTypeAlpha(1, 35);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* YUUKO_001 */;
+    itfMesMngMessage(1) /* YUUKO_002 */;
+    itfMesMngCloseWindow();
+    WAIT(45);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(2) /* YUUKO_003 */;
+    itfMesMngCloseWindow();
+    if (BIT_CHK(2208) == 1)
+    {
+        itfMesMngOpenWindow();
+        itfMesMngMessage(12) /* YUUKO_003_2SYUUME */;
+        var12 = itfMesMngSelect(13);
+        itfMesMngCloseWindow();
+        if (var12 == 0)
+        {
+            itfMesMngOpenWindow();
+            itfMesMngMessage(15) /* HUKU_SIN */;
+            itfMesMngCloseWindow();
+            prm_PLAYER_ADD_PARAM(0, 2);
+            prm_PLAYER_ADD_PARAM(3, 1);
+        }
+        else if (var12 == 1)
+        {
+            BIT_ON(2224);
+            WAIT(5);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(14) /* HUKU_KYUU */;
+            itfMesMngCloseWindow();
+            prm_PLAYER_ADD_PARAM(2, 2);
+            prm_PLAYER_ADD_PARAM(4, 1);
+        }
+    }
+    SCR_RUN(4, - 1);
+    MODEL_WAIT_MOT(var2, 2);
+    MODEL_MOTION2(var2, 1, 0, 10, 0);
+    WAIT(160);
+}
+
+void e601_010_1()
+{
+    WAIT(30);
+    CAM_SEL(SEARCH_ID("cam02"));
+    CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
+    COMM_0E8(SEARCH_ID("cam02"));
+    FADEOUT_E(601, 1);
+    BGM_PLAY_E(601, 6);
+    SCENE_FOG_RGB(0, 0.784f, 0.784f, 0.784f);
+    SCENE_FOG_PARA(0, 255, 150, 0, 20000);
+    SCR_RUN(2, - 1);
+    WAIT(5);
+    WAIT(5);
+    MODEL_ON(var10);
+    MODEL_A(var10, 39, 0.5f);
+    WAIT(40);
+    MODEL_A(var10, 10, 0);
+    WAIT(10);
+    MODEL_OFF(var10);
+    CAM_SEL(SEARCH_ID("cam02"));
+    CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
+}
+
+void e601_010_2()
+{
+    BGM_PLAY_E(601, 1);
+}
+
+void e601_010_3()
+{
+    BGM_TRANS_E(601, - 1);
+}
+
+void e601_020()
+{
+    itfMesMngWindowTypeAlpha(1, 35);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(3) /* YUUKO_004 */;
+    itfMesMngCloseWindow();
+    WAIT(45);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(4) /* YUUKO_004_1 */;
+    itfMesMngCloseWindow();
+    FADE_OUT(1, 80);
+    BGM_TRANS_E(601, - 1);
+    WAIT(80);
+    nmeNameEntry(0, 0);
+    FADE_IN(1, 80);
+    WAIT(80);
+    itfMesMngWindowTypeAlpha(1, 35);
+    itfMesMngOpenWindow();
+    BGM_TRANS_E(601, 9);
+    itfMesMngMessage(5) /* YUUKO_005 */;
+    var4 = itfMesMngSelect(6);
+    itfMesMngCloseWindow();
+    if (var4 == 0)
+    {
+        itfMesMngOpenWindow();
+        itfMesMngMessage(7) /* YUUKO_006 */;
+        itfMesMngCloseWindow();
+    }
+    else if (var4 == 1)
+    {
+        itfMesMngOpenWindow();
+        itfMesMngMessage(8) /* YUUKO_007 */;
+        itfMesMngCloseWindow();
+    }
+    SCR_RUN(9, - 1);
+    WAIT(40);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(9) /* YUUKO_008 */;
+    BGM_TRANS_E(601, - 1);
+    itfMesMngCloseWindow();
+    FADE_OUT(1, 80);
+    WAIT(80);
+    nmeNameEntry(1, 1);
+    FADE_IN(1, 80);
+    WAIT(80);
+    itfMesMngWindowTypeAlpha(1, 35);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(10) /* YUUKO_009 */;
+    itfMesMngCloseWindow();
+    FADEOUT_E(601, 1);
+    FADEOUT_E(601, 2);
+    FADEOUT_E(601, 3);
+    FADEOUT_E(601, 4);
+    FADEOUT_E(601, 5);
+    FADEOUT_E(601, 6);
+    FADEOUT_E(601, 7);
+    FADEOUT_E(601, 8);
+    FADEOUT_E(601, 9);
+    FADEOUT_E(601, 10);
+    FADEOUT_E(601, 11);
+    FADEOUT_E(601, 12);
+    FADEOUT_E(601, 13);
+    FADEOUT_E(601, 14);
+    WAIT(30);
+    itfMesMngOpenWindow();
+    SCR_RUN(8, - 1);
+    WAIT(35);
+    itfMesMngMessage(11) /* YUUKO_010 */;
+    itfMesMngCloseWindow();
+    WAIT(30);
+}
+
+void e601_020_1()
+{
+    SE_PLAY_E(601, 111);
+}
+
+void e601_020_2()
+{
+    WAIT(5);
+    CAM_SEL(SEARCH_ID("cam02"));
+    CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
+    MODEL_ON(var11);
+    MODEL_A(var11, 39, 0.5f);
+    WAIT(40);
+    MODEL_A(var11, 10, 0);
+    WAIT(10);
+    MODEL_OFF(var11);
+}
+

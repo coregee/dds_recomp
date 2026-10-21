@@ -3194,6 +3194,7 @@ symbol	002e6b30	Function	ps2SoftDoubleToUint64	Global
 symbol	002e6c48	Function	ps2SoftDoubleDiv	Global
 symbol	002e6d88	Function	ps2SoftDoubleFromInt64	Global
 symbol	002e6e30	Function	ps2GetRuntimeState	Global
+symbol	003267a8	Label	script_3267a8_bf	Global
 symbol	0032d270	Label	fclCombineTbl	Global
 symbol	0032d670	Label	fclCombineCurseTbl	Global
 symbol	0032da70	Label	fclRankUpDownTbl	Global
@@ -3227,6 +3228,8 @@ symbol	003d7998	Label	datNormalSkill_tbl	Global
 symbol	003dc1e0	Label	datSpecialSkill_tbl	Global
 symbol	003dc4a0	Label	datItem_tbl	Global
 symbol	004f0788	Label	nbAiFuncTbl	Global
+symbol	004f0800	Label	nbAiScript_bf	Global
+symbol	0052e350	Label	scrCommandTable	Global
 symbol	0053d6e8	Label	fclItemHeartsTbl	Global
 symbol	0054ff18	Label	datDevilNums	Global
 signature	00100418		ps2KernelGetFontContextIndex	ulonglong ps2KernelGetFontContextIndex(void)

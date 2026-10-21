@@ -1,0 +1,103 @@
+// game/dds3/event/e720/e727/scr/e727.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e727_main()
+{
+    FADE_IN(0, 1);
+    MOVIE_PLAY(19);
+    MOVIE_CHKDRAW();
+    SCR_RUN(1, 0);
+    SCR_RUN(2, 0);
+    SCR_RUN(3, 0);
+    SCR_RUN(4, 0);
+    SCR_RUN(5, 0);
+    while (MOVIE_CHK())
+    {
+        SYNC();
+    }
+    MOVIE_STOP();
+    SYNC();
+    itfMesMngIgnoreConfig(1);
+    itfMesMngWindowTypeAlpha(1, 20);
+    WAIT(50);
+    COMM_117(130, 220);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(6) /* MSG_YHVH01 */;
+    WAIT(120);
+    itfMesMngCloseWindow();
+    COMM_117(110, 200);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(7) /* MSG_YHVH02 */;
+    WAIT(120);
+    itfMesMngCloseWindow();
+    COMM_117(110, 200);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(8) /* MSG_YHVH03 */;
+    WAIT(120);
+    itfMesMngCloseWindow();
+    itfMesMngIgnoreConfig(0);
+    FADE_OUT(0, 1);
+    FIELD_CLS_STOP();
+    BLUR_ALLOFF();
+    FILTER_ALLOFF();
+    CALL_STAFF();
+    EXIT_EVENT();
+}
+
+void e727_010_10()
+{
+    itfMesMngWindowTypeAlpha(1, 20);
+    WAIT(300);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* MSG_001 */;
+    WAIT(50);
+    itfMesMngCloseWindow();
+}
+
+void e727_010_20()
+{
+    itfMesMngWindowTypeAlpha(1, 20);
+    WAIT(810);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(1) /* MSG_002 */;
+    WAIT(35);
+    itfMesMngCloseWindow();
+    WAIT(40);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(2) /* MSG_002B */;
+    WAIT(35);
+    itfMesMngCloseWindow();
+}
+
+void e727_010_30()
+{
+    itfMesMngWindowTypeAlpha(1, 20);
+    WAIT(1110);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(3) /* MSG_003 */;
+    WAIT(70);
+    itfMesMngCloseWindow();
+}
+
+void e727_010_40()
+{
+    itfMesMngWindowTypeAlpha(1, 20);
+    WAIT(1400);
+    COMM_117(180, 370);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(4) /* MSG_004 */;
+    WAIT(65);
+    itfMesMngCloseWindow();
+}
+
+void e727_010_50()
+{
+    itfMesMngWindowTypeAlpha(1, 20);
+    WAIT(1790);
+    COMM_117(150, 370);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(5) /* MSG_005 */;
+    WAIT(120);
+    itfMesMngCloseWindow();
+}
+

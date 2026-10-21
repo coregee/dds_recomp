@@ -1,0 +1,31 @@
+// game/dds3/event/e800/e806/scr/e806.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e806_main()
+{
+    LOAD_BE(806);
+    FIELD_BE(806, 3);
+    FADE_OUT(0, 1);
+    var1 = MODEL_BE(806, 4);
+    SET_SKY(98, 1, 0);
+    SET_SKY_A(0, - 60);
+    BLUR2_PARA(0.02f, 0.986f, 0);
+    BLUR2_RGBA(170, 128, 128, 60);
+    BLUR2_AREA(0, 0);
+    BLUR2_ON(0);
+    CAM_SEL(SEARCH_ID("cam01"));
+    CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));
+    FADE_IN(0, 15);
+    WAIT(15);
+    while (fclTerminal(0, 1))
+    {
+        WAIT(1);
+    }
+    FADE_OUT(0, 15);
+    WAIT(15);
+    MODEL_CLS(var1);
+    FIELD_CLS();
+    BLUR2_OFF(0);
+    EXIT_EVENT();
+}
+

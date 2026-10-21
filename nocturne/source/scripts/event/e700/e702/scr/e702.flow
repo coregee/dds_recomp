@@ -1,0 +1,17 @@
+// game/dds3/event/e700/e702/scr/e702.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e702_main()
+{
+    SYNC();
+    if (BIT_CHK(85) == 0)
+    {
+        CALL_EVENT(672);
+    }
+    else if (BIT_CHK(86) == 0)
+    {
+        CALL_EVENT(673);
+    }
+    EXIT_EVENT();
+}
+

@@ -1,0 +1,238 @@
+// game/dds3/event/e800/e800/scr/e800.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e800_main()
+{
+    FADE_OUT(0, 0);
+    LOAD_BE(800);
+    if (BIT_CHK(10) == 0)
+    {
+        var5 = PMV_LOAD(800, 10);
+        FADE_IN(0, 15);
+        SCR_WAIT(PMV_RUN2(var5));
+        FIELD_CLS_STOP();
+        BIT_ON(10);
+        FIELD_BE(800, 3);
+        SET_SKY(90, 1, 0);
+        SET_SKY_A(0, - 100);
+        SCENE_LIGHT_RGB(0, 0.7f, 0.8f, 0.9f);
+        SCENE_LIGHT_DIR(0, 0.7f, 0.8f, 0.9f);
+        SCENE_AMBIENT(0, 0.4f, 0.4f, 0.4f);
+        SCENE_FOG_RGB(0, 0.0f, 0.157f, 0.275f);
+        SCENE_FOG_PARA(0, 255, 1008, 150, 81026);
+        SOFTEN_BIAS(0, 5, 0);
+        var1 = MODEL_BE(800, 4);
+        MODEL_POS(var1, SEARCH_ID("j00"));
+        MODEL_LIGHT_LINK(var1, 0, SEARCH_ID("light01"));
+        LIGHT_PATH_MOVE(SEARCH_ID("light01"), SEARCH_ID("light01_MOTION"));
+        COMM_0E8(SEARCH_ID("light01"));
+        CAM_SEL(SEARCH_ID("cam01_0"));
+        CAM_PATH_MOVE(SEARCH_ID("cam01_0"), SEARCH_ID("cam01_0_MOTION"));
+        var6 = EFFECT_BE(800, 8);
+        EFFECT_POS(var6, SEARCH_ID("s01"));
+        var7 = EFFECT_BE(800, 9);
+        EFFECT_POS(var7, SEARCH_ID("s02"));
+        var8 = EFFECT_BE(800, 11);
+        EFFECT_POS(var8, SEARCH_ID("ss01"));
+        var9 = EFFECT_BE(800, 11);
+        EFFECT_POS(var9, SEARCH_ID("ss02"));
+        WAIT(10);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(0) /* MSG_001 */;
+        itfMesMngCloseWindow();
+        goto START2;
+    }
+    FIELD_BE(800, 3);
+    CAM_SEL(SEARCH_ID("cam02_1"));
+    CAM_PATH_MOVE(SEARCH_ID("cam02_1"), SEARCH_ID("cam02_1_MOTION"));
+    SET_SKY(90, 1, 0);
+    SET_SKY_A(0, - 100);
+    SCENE_LIGHT_RGB(0, 0.7f, 0.8f, 0.9f);
+    SCENE_LIGHT_DIR(0, 0.7f, 0.8f, 0.9f);
+    SCENE_AMBIENT(0, 0.4f, 0.4f, 0.4f);
+    SCENE_FOG_RGB(0, 0.0f, 0.157f, 0.275f);
+    SCENE_FOG_PARA(0, 255, 1008, 150, 81026);
+    SOFTEN_BIAS(0, 5, 0);
+    var1 = MODEL_BE(800, 4);
+    MODEL_POS(var1, SEARCH_ID("j00"));
+    SYNC();
+    FADE_IN(0, 15);
+    MODEL_LIGHT_LINK(var1, 0, SEARCH_ID("light01"));
+    LIGHT_PATH_MOVE(SEARCH_ID("light01"), SEARCH_ID("light01_MOTION"));
+    COMM_0E8(SEARCH_ID("light01"));
+    if (BIT_CHK(2322) == 1 && BIT_CHK(40) == 0)
+    {
+        if (BIT_CHK(2208) == 1)
+        {
+            BIT_ON(40);
+            goto START2;
+        }
+        var6 = EFFECT_BE(800, 8);
+        EFFECT_POS(var6, SEARCH_ID("s01"));
+        var7 = EFFECT_BE(800, 9);
+        EFFECT_POS(var7, SEARCH_ID("s02"));
+        var8 = EFFECT_BE(800, 11);
+        EFFECT_POS(var8, SEARCH_ID("ss01"));
+        var9 = EFFECT_BE(800, 11);
+        EFFECT_POS(var9, SEARCH_ID("ss02"));
+        CAM_SEL(SEARCH_ID("cam02_1"));
+        CAM_PATH_MOVE(SEARCH_ID("cam02_1"), SEARCH_ID("cam02_1_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(2) /* MSG_001_ZENSYO */;
+        itfMesMngCloseWindow();
+        CAM_SEL(SEARCH_ID("cam01_0"));
+        CAM_PATH_MOVE(SEARCH_ID("cam01_0"), SEARCH_ID("cam01_0_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(10) /* MSG_AKUMA01 */;
+        itfMesMngCloseWindow();
+        CAM_SEL(SEARCH_ID("cam01_2"));
+        CAM_PATH_MOVE(SEARCH_ID("cam01_2"), SEARCH_ID("cam01_2_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(11) /* MSG_AKUMA02 */;
+        itfMesMngMessage(12) /* MSG_AKUMA03 */;
+        itfMesMngCloseWindow();
+        BIT_ON(40);
+        goto START2;
+    }
+    if (BIT_CHK(2324) == 1 && BIT_CHK(37) == 0)
+    {
+        var6 = EFFECT_BE(800, 8);
+        EFFECT_POS(var6, SEARCH_ID("s01"));
+        var7 = EFFECT_BE(800, 9);
+        EFFECT_POS(var7, SEARCH_ID("s02"));
+        var8 = EFFECT_BE(800, 11);
+        EFFECT_POS(var8, SEARCH_ID("ss01"));
+        var9 = EFFECT_BE(800, 11);
+        EFFECT_POS(var9, SEARCH_ID("ss02"));
+        CAM_SEL(SEARCH_ID("cam02_1"));
+        CAM_PATH_MOVE(SEARCH_ID("cam02_1"), SEARCH_ID("cam02_1_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(1) /* MSG_001_IKENIE */;
+        itfMesMngCloseWindow();
+        CAM_SEL(SEARCH_ID("cam01_0"));
+        CAM_PATH_MOVE(SEARCH_ID("cam01_0"), SEARCH_ID("cam01_0_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(3) /* MSG_IKENIE */;
+        itfMesMngCloseWindow();
+        CAM_SEL(SEARCH_ID("cam01_1"));
+        CAM_PATH_MOVE(SEARCH_ID("cam01_1"), SEARCH_ID("cam01_1_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(4) /* MSG_IKENIE01 */;
+        itfMesMngCloseWindow();
+        WAIT(20);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(5) /* MSG_IKENIE02 */;
+        itfMesMngCloseWindow();
+        BIT_ON(37);
+        goto START2;
+    }
+    if (BIT_CHK(1005) == 1 && BIT_CHK(164) == 0)
+    {
+        var6 = EFFECT_BE(800, 8);
+        EFFECT_POS(var6, SEARCH_ID("s01"));
+        var7 = EFFECT_BE(800, 9);
+        EFFECT_POS(var7, SEARCH_ID("s02"));
+        var8 = EFFECT_BE(800, 11);
+        EFFECT_POS(var8, SEARCH_ID("ss01"));
+        var9 = EFFECT_BE(800, 11);
+        EFFECT_POS(var9, SEARCH_ID("ss02"));
+        CAM_SEL(SEARCH_ID("cam02_1"));
+        CAM_PATH_MOVE(SEARCH_ID("cam02_1"), SEARCH_ID("cam02_1_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(6) /* MSG_MANIN_01 */;
+        itfMesMngCloseWindow();
+        CAM_SEL(SEARCH_ID("cam01_0"));
+        CAM_PATH_MOVE(SEARCH_ID("cam01_0"), SEARCH_ID("cam01_0_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(7) /* MSG_MANIN_02 */;
+        itfMesMngCloseWindow();
+        CAM_SEL(SEARCH_ID("cam01_1"));
+        CAM_PATH_MOVE(SEARCH_ID("cam01_1"), SEARCH_ID("cam01_1_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(8) /* MSG_MANIN_03 */;
+        itfMesMngCloseWindow();
+        WAIT(20);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(9) /* MSG_MANIN_04 */;
+        itfMesMngCloseWindow();
+        BIT_ON(164);
+        goto START2;
+    }
+    if (BIT_CHK(2144) == 1 && BIT_CHK(163) == 0)
+    {
+        CAM_SEL(SEARCH_ID("cam02_1"));
+        CAM_PATH_MOVE(SEARCH_ID("cam02_1"), SEARCH_ID("cam02_1_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(17) /* MSG_001_DH */;
+        itfMesMngCloseWindow();
+        CAM_SEL(SEARCH_ID("cam01_0"));
+        CAM_PATH_MOVE(SEARCH_ID("cam01_0"), SEARCH_ID("cam01_0_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(18) /* MSG_002_DH */;
+        itfMesMngMessage(19) /* MSG_003_DH */;
+        itfMesMngCloseWindow();
+        CAM_SEL(SEARCH_ID("cam01_1"));
+        CAM_PATH_MOVE(SEARCH_ID("cam01_1"), SEARCH_ID("cam01_1_MOTION"));
+        WAIT(10);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(20) /* MSG_004_DH */;
+        itfMesMngMessage(21) /* MSG_005_DH */;
+        itfMesMngCloseWindow();
+        CAM_SEL(SEARCH_ID("cam01_2"));
+        CAM_PATH_MOVE(SEARCH_ID("cam01_2"), SEARCH_ID("cam01_2_MOTION"));
+        WAIT(10);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(22) /* MSG_006_DH */;
+        itfMesMngMessage(23) /* MSG_007_DH */;
+        itfMesMngCloseWindow();
+        BIT_ON(163);
+        BIT_ON(988);
+        goto START2;
+    }
+    if (BIT_CHK(2323) == 1 && BIT_CHK(162) == 0)
+    {
+        CAM_SEL(SEARCH_ID("cam02_1"));
+        CAM_PATH_MOVE(SEARCH_ID("cam02_1"), SEARCH_ID("cam02_1_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(13) /* MSG_001_ALL */;
+        itfMesMngCloseWindow();
+        CAM_SEL(SEARCH_ID("cam01_0"));
+        CAM_PATH_MOVE(SEARCH_ID("cam01_0"), SEARCH_ID("cam01_0_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(14) /* MSG_002_ALL */;
+        itfMesMngMessage(15) /* MSG_003_ALL */;
+        itfMesMngCloseWindow();
+        WAIT(10);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(16) /* MSG_004_ALL */;
+        itfMesMngCloseWindow();
+        BIT_ON(162);
+        goto START2;
+    }
+START2:
+    CAM_SEL(SEARCH_ID("cam02_1"));
+    CAM_PATH_MOVE(SEARCH_ID("cam02_1"), SEARCH_ID("cam02_1_MOTION"));
+    var6 = EFFECT_BE(800, 8);
+    EFFECT_POS(var6, SEARCH_ID("s01"));
+    var7 = EFFECT_BE(800, 9);
+    EFFECT_POS(var7, SEARCH_ID("s02"));
+    var8 = EFFECT_BE(800, 11);
+    EFFECT_POS(var8, SEARCH_ID("ss01"));
+    var9 = EFFECT_BE(800, 11);
+    EFFECT_POS(var9, SEARCH_ID("ss02"));
+    fclSignal(1);
+    while (fclGetVal(1) != 0)
+    {
+        if (fclGetVal(1) == 100)
+        {
+            FIELD_CLS();
+            return;
+        }
+        WAIT(1);
+    }
+    FADE_OUT(0, 15);
+    WAIT(15);
+    FIELD_CLS();
+    fclSignal(1);
+}
+

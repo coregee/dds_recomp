@@ -1,0 +1,224 @@
+// game/dds3/event/e800/e801/scr/e801.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e801_main()
+{
+    LOAD_BE(801);
+    FIELD_BE(801, 4);
+    CAM_SEL(SEARCH_ID("cam01"));
+    FADE_OUT(0, 1);
+    SET_SKY(85, 1, 0);
+    SET_SKY_A(0, - 87);
+    SCENE_LIGHT_RGB(0, 0.49f, 0.55f, 0.56f);
+    SCENE_LIGHT_DIR(0, - 0.73f, - 0.57f, 0.38f);
+    SCENE_AMBIENT(0, 0.3f, 0.3f, 0.2f);
+    SOFTEN_BIAS(0, 15, 0);
+    var1 = MODEL_BE(801, 3);
+    MODEL_POS(var1, SEARCH_ID("p02"));
+    MODEL_LIGHT_LINK(var1, 0, SEARCH_ID("light02"));
+    LIGHT_PATH_MOVE(SEARCH_ID("light02"), SEARCH_ID("light02_MOTION"));
+    COMM_0E8(SEARCH_ID("light02"));
+    CAM_SEL(SEARCH_ID("cam01"));
+    CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));
+    if (BIT_CHK(161) == 0 && BIT_CHK(2230) == 0)
+    {
+        FADE_IN(0, 45);
+        WAIT(45);
+        CAM_SEL(SEARCH_ID("cam02"));
+        CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
+        itfMesMngOpenWindow();
+        itfMesMngMessage(1) /* MSG_002 */;
+        itfMesMngCloseWindow();
+        CAM_SEL(SEARCH_ID("cam01"));
+        CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));
+        BIT_ON(161);
+    }
+    else if (BIT_CHK(161) == 0 && BIT_CHK(2230) == 1)
+    {
+        FADE_IN(0, 45);
+        WAIT(45);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(2) /* MSG_003 */;
+        itfMesMngCloseWindow();
+        CAM_SEL(SEARCH_ID("cam02"));
+        CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
+        WAIT(25);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(3) /* MSG_003_002 */;
+        itfMesMngCloseWindow();
+        BLUR2_PARA(0.02f, 0.986f, 1);
+        BLUR2_RGBA(128, 128, 128, 96);
+        BLUR2_AREA(- 6, 26);
+        BLUR2_ON(20);
+        SE_PLAY(3145730);
+        WAIT(20);
+        FADE_OUT(1, 10);
+        WAIT(20);
+        FADE_IN(1, 15);
+        BLUR2_OFF(40);
+        WAIT(25);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(4) /* MSG_UP */;
+        itfMesMngCloseWindow();
+        prm_PLAYER_ADD_PARAM(0, 1);
+        prm_PLAYER_ADD_PARAM(2, 1);
+        prm_PLAYER_ADD_PARAM(3, 1);
+        prm_PLAYER_ADD_PARAM(4, 1);
+        prm_PLAYER_ADD_PARAM(5, 1);
+    }
+    else
+    {
+        WAIT(1);
+    }
+    if (BIT_CHK(161) == 0 && BIT_CHK(2231) == 1)
+    {
+        WAIT(25);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(5) /* MSG_004 */;
+        itfMesMngCloseWindow();
+        BLUR2_PARA(0.02f, 0.986f, 1);
+        BLUR2_RGBA(128, 128, 128, 96);
+        BLUR2_AREA(- 6, 26);
+        BLUR2_ON(20);
+        SE_PLAY(3145730);
+        WAIT(20);
+        FADE_OUT(1, 10);
+        WAIT(20);
+        FADE_IN(1, 15);
+        BLUR2_OFF(40);
+        WAIT(25);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(4) /* MSG_UP */;
+        itfMesMngCloseWindow();
+        prm_PLAYER_ADD_PARAM(0, 1);
+        prm_PLAYER_ADD_PARAM(2, 1);
+        prm_PLAYER_ADD_PARAM(3, 1);
+        prm_PLAYER_ADD_PARAM(4, 1);
+        prm_PLAYER_ADD_PARAM(5, 1);
+    }
+    else
+    {
+        WAIT(1);
+    }
+    if (BIT_CHK(161) == 0 && BIT_CHK(2232) == 1)
+    {
+        WAIT(25);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(5) /* MSG_004 */;
+        itfMesMngCloseWindow();
+        BLUR2_PARA(0.02f, 0.986f, 1);
+        BLUR2_RGBA(128, 128, 128, 96);
+        BLUR2_AREA(- 6, 26);
+        BLUR2_ON(20);
+        SE_PLAY(3145730);
+        WAIT(20);
+        FADE_OUT(1, 10);
+        WAIT(20);
+        FADE_IN(1, 15);
+        BLUR2_OFF(40);
+        WAIT(25);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(4) /* MSG_UP */;
+        itfMesMngCloseWindow();
+        prm_PLAYER_ADD_PARAM(0, 1);
+        prm_PLAYER_ADD_PARAM(2, 1);
+        prm_PLAYER_ADD_PARAM(3, 1);
+        prm_PLAYER_ADD_PARAM(4, 1);
+        prm_PLAYER_ADD_PARAM(5, 1);
+    }
+    else
+    {
+        WAIT(1);
+    }
+    if (BIT_CHK(161) == 0 && BIT_CHK(2233) == 1)
+    {
+        WAIT(25);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(5) /* MSG_004 */;
+        itfMesMngCloseWindow();
+        BLUR2_PARA(0.02f, 0.986f, 1);
+        BLUR2_RGBA(128, 128, 128, 96);
+        BLUR2_AREA(- 6, 26);
+        BLUR2_ON(20);
+        SE_PLAY(3145730);
+        WAIT(20);
+        FADE_OUT(1, 10);
+        WAIT(20);
+        FADE_IN(1, 15);
+        BLUR2_OFF(40);
+        WAIT(25);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(4) /* MSG_UP */;
+        itfMesMngCloseWindow();
+        prm_PLAYER_ADD_PARAM(0, 1);
+        prm_PLAYER_ADD_PARAM(2, 1);
+        prm_PLAYER_ADD_PARAM(3, 1);
+        prm_PLAYER_ADD_PARAM(4, 1);
+        prm_PLAYER_ADD_PARAM(5, 1);
+    }
+    else
+    {
+        WAIT(1);
+    }
+    if (BIT_CHK(161) == 0 && BIT_CHK(2234) == 1)
+    {
+        WAIT(25);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(5) /* MSG_004 */;
+        itfMesMngCloseWindow();
+        BLUR2_PARA(0.02f, 0.986f, 1);
+        BLUR2_RGBA(128, 128, 128, 96);
+        BLUR2_AREA(- 6, 26);
+        BLUR2_ON(20);
+        SE_PLAY(3145730);
+        WAIT(20);
+        FADE_OUT(1, 10);
+        WAIT(20);
+        FADE_IN(1, 15);
+        BLUR2_OFF(40);
+        WAIT(25);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(4) /* MSG_UP */;
+        itfMesMngCloseWindow();
+        prm_PLAYER_ADD_PARAM(0, 1);
+        prm_PLAYER_ADD_PARAM(2, 1);
+        prm_PLAYER_ADD_PARAM(3, 1);
+        prm_PLAYER_ADD_PARAM(4, 1);
+        prm_PLAYER_ADD_PARAM(5, 1);
+        WAIT(20);
+        var5 = CAM_CREATE();
+        CAM_POS_XYZ(var5, - 144.05f, - 76.98f, - 124.01f);
+        CAM_ROT_Q(var5, - 0.08f, - 0.32f, 0.03f, 0.94f);
+        CAM_SEL(var5);
+        WAIT(20);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(6) /* MSG_005 */;
+        itfMesMngCloseWindow();
+    }
+    else
+    {
+        WAIT(1);
+    }
+    BIT_ON(161);
+    FADE_OUT(0, 0);
+    CAM_SEL(SEARCH_ID("cam01"));
+    CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));
+    FADE_IN(0, 45);
+    WAIT(45);
+    fclSignal(1);
+    while (fclGetVal(1) != 0)
+    {
+        if (fclGetVal(1) == 100)
+        {
+            FIELD_CLS();
+            return;
+        }
+        WAIT(1);
+    }
+    FADE_OUT(0, 15);
+    WAIT(15);
+    MODEL_CLS(var1);
+    FIELD_CLS_STOP();
+    fclSignal(1);
+}
+

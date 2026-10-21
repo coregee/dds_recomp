@@ -1,0 +1,33 @@
+// game/dds3/event/e800/e805/scr/e805.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e805_main()
+{
+    LOAD_BE(805);
+    FIELD_BE(805, 3);
+    FADE_OUT(0, 1);
+    var1 = MODEL_BE(805, 4);
+    SCENE_LIGHT_RGB(0, 1.0f, 1.03f, 1.01f);
+    SCENE_LIGHT_DIR(0, - 0.73f, - 0.57f, 0.38f);
+    SCENE_AMBIENT(0, 0.4f, 0.4f, 0.4f);
+    SOFTEN_BIAS(0, 15, 0);
+    SCENE_FOG_RGB(0, 0.118f, 0.137f, 0.137f);
+    SCENE_FOG_PARA(0, 255, 230, 200, 450);
+    SET_SKY(90, 1, 0);
+    SET_SKY_A(0, - 100);
+    MODEL_LIGHT_LINK(var1, 0, SEARCH_ID("light_00"));
+    CAM_SEL(SEARCH_ID("Cam01"));
+    CAM_PATH_MOVE(SEARCH_ID("Cam01"), SEARCH_ID("Cam01_MOTION"));
+    FADE_IN(0, 15);
+    WAIT(15);
+    while (fclTerminal(0, 1))
+    {
+        WAIT(1);
+    }
+    FADE_OUT(0, 15);
+    WAIT(15);
+    MODEL_CLS(var1);
+    FIELD_CLS();
+    EXIT_EVENT();
+}
+

@@ -1,0 +1,66 @@
+// game/dds3/event/e600/e607/scr/e607.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e607_main()
+{
+    LOAD_BE(651);
+    FIELD_BE(651, 3);
+    FADE_OUT(0, 1);
+    LOAD_SOUND_E(607);
+    BOKASI_ON();
+    var2 = MODEL_BE(651, 5);
+    MODEL_POS_XYZ(var2, - 827.44f, - 175.66f, 1000.07f);
+    MODEL_RGB(var2, 10, 0.1f, 0.1f, 0.1f);
+    MUL_BLUR_PARA(0.01f, 0.848f, 1);
+    MUL_BLUR_RGBA(50, 128, 50, 128);
+    MUL_BLUR_AREA(112, 0, 0);
+    MUL_BLUR_ON(0);
+    SYNC();
+    BGM_PLAY_E(607, 1);
+    CAM_CREATE();
+    var4 = CAM_CREATE();
+    CAM_SEL(var4);
+    CAM_POS_XYZ(var4, - 1117.69f, - 201.23f, 878.67f);
+    CAM_ROT_Q(var4, - 0.0f, - 0.53f, 0.0f, 0.85f);
+    SET_FOVY(9e+01f);
+    WAIT(40);
+    FADE_IN(0, 30);
+    MUL_BLUR_PARA(0.01f, 0.848f, 2);
+    MUL_BLUR_RGBA(128, 128, 128, 128);
+    MUL_BLUR_AREA(112, 0, 0);
+    MUL_BLUR_ON(50);
+    WAIT(50);
+    MODEL_RGB(var2, 100, 0.6f, 0.6f, 0.6f);
+    WAIT(300);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* TIAKI_001 */;
+    itfMesMngCloseWindow();
+    BLUR2_PARA(1.1f, 0.1f, 2);
+    BLUR2_RGBA(128, 128, 128, 112);
+    BLUR2_AREA(6, - 3);
+    BLUR2_ON(1);
+    MUL_BLUR_PARA(0.07f, 0.926f, 0);
+    MUL_BLUR_RGBA(128, 128, 128, 112);
+    MUL_BLUR_AREA(150, 6, - 3);
+    MUL_BLUR_ON(30);
+    FADE_OUT(0, 45);
+    FADEOUT_E(601, 1);
+    WAIT(45);
+    MODEL_CLS(var2);
+    FIELD_CLS();
+    EXIT_EVENT();
+}
+
+void dist_blur01()
+{
+    DIST_BLUR_PARA(30, 130, 7, 0.114f, 0.023f, 0.22f, 0);
+    DIST_BLUR_RGBA(104, 104, 104, 2);
+    DIST_BLUR_AREA(156, 0, 0);
+    DIST_BLUR_ON(40);
+}
+
+void e607_010_1()
+{
+    SCR_RUN(1, - 1);
+}
+

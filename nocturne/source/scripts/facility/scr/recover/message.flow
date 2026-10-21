@@ -1,0 +1,117 @@
+// game/dds3/facility/scr/recover/message.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void rcv_1st()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(0) /* msg_1st */;
+    jump endless_loop;
+}
+
+void rcv_recover()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(1) /* msg_recover */;
+    jump endless_loop;
+}
+
+void rcv_dispel()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngSelectDefKey(3, 1);
+    itfMesMngMessage(2) /* msg_dispel */;
+    if (itfMesMngSelect(12) == 1)
+    {
+        fclSignal(2);
+    }
+}
+
+void rcv_revive()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(3) /* msg_revive */;
+    jump endless_loop;
+}
+
+void rcv_thanks()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(4) /* msg_thanks */;
+}
+
+void rcv_2nd()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(5) /* msg_2nd */;
+    jump endless_loop;
+}
+
+void rcv_talk()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(6) /* msg_talk */;
+}
+
+void rcv_exit()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(11) /* msg_exit */;
+}
+
+void rcv_err_recover()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(7) /* msg_err_recover */;
+}
+
+void rcv_err_dispel()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(8) /* msg_err_dispel */;
+}
+
+void rcv_err_revive()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(9) /* msg_err_revive */;
+}
+
+void rcv_err_money()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(10) /* msg_err_money */;
+}
+
+void endless_loop()
+{
+    fclSignal(0);
+    while (1)
+    {
+        WAIT(1);
+    }
+}
+

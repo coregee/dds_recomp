@@ -1,0 +1,234 @@
+// game/dds3/facility/scr/shop/mes_f.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void shp_1st()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(0) /* msg_1st */;
+    jump endless_loop;
+}
+
+void shp_buy01()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(1) /* msg_buy01 */;
+    jump endless_loop;
+}
+
+void shp_buy02()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(2) /* msg_buy02 */;
+    jump endless_loop;
+}
+
+void shp_sell01()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngSelectDefKey(3, 1);
+    itfMesMngMessage(3) /* msg_sell01 */;
+    jump endless_loop;
+}
+
+void shp_sell02()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngSelectDefKey(3, 1);
+    itfMesMngMessage(4) /* msg_sell02 */;
+    jump endless_loop;
+}
+
+void shp_err_nums_max()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(5) /* msg_err_nums_max */;
+}
+
+void shp_confirm()
+{
+    itfMesMngSetVarScr(3, fclGetVal(0), 0);
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngSelectDefKey(3, 1);
+    if (fclGetVal(7) == 0)
+    {
+        itfMesMngMessage(6) /* msg_confirm */;
+    }
+    else
+    {
+        itfMesMngMessage(7) /* msg_confirm_maka_max */;
+    }
+    if (itfMesMngSelect(24) == 1)
+    {
+        fclSignal(2);
+    }
+}
+
+void shp_thanks()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(8) /* msg_thanks */;
+}
+
+void shp_2nd()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(9) /* msg_2nd */;
+    jump endless_loop;
+}
+
+void shp_talk()
+{
+    if (BIT_CHK(1925) == 1)
+    {
+        if (BIT_CHK(1008) == 0)
+        {
+            itfMesMngWindowType(2);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(29) /* msg_roki_item */;
+            if (itfMesMngSelect(30) == 0)
+            {
+                itfMesMngMessage(31) /* msg_roki_yes */;
+                BIT_ON(1008);
+            }
+            else
+            {
+                itfMesMngMessage(32) /* msg_roki_no */;
+            }
+            return;
+        }
+    }
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    local0 = fclGetVal(3);
+    if (fclGetVal(4) == 0)
+    {
+        if (local0 == 1)
+        {
+            itfMesMngMessage(11) /* msg_talk_sibuya_hearts_n */;
+        }
+        else if (local0 == 2)
+        {
+            itfMesMngMessage(13) /* msg_talk_tikado_hearts_n */;
+        }
+        else if (local0 == 3)
+        {
+            itfMesMngMessage(15) /* msg_talk_ikebuk_hearts_n */;
+        }
+        else if (local0 == 4)
+        {
+            itfMesMngMessage(17) /* msg_talk_asak_1_hearts_n */;
+        }
+        else if (local0 == 5)
+        {
+            itfMesMngMessage(19) /* msg_talk_asak_2_hearts_n */;
+        }
+        else if (local0 == 6)
+        {
+            itfMesMngMessage(21) /* msg_talk_kagutu_hearts_n */;
+        }
+        else
+        {
+            itfMesMngMessage(10) /* msg_talk */;
+        }
+    }
+    else
+    {
+        if (local0 == 1)
+        {
+            itfMesMngMessage(12) /* msg_talk_sibuya_hearts_a */;
+        }
+        else if (local0 == 2)
+        {
+            itfMesMngMessage(14) /* msg_talk_tikado_hearts_a */;
+        }
+        else if (local0 == 3)
+        {
+            itfMesMngMessage(16) /* msg_talk_ikebuk_hearts_a */;
+        }
+        else if (local0 == 4)
+        {
+            itfMesMngMessage(18) /* msg_talk_asak_1_hearts_a */;
+        }
+        else if (local0 == 5)
+        {
+            itfMesMngMessage(20) /* msg_talk_asak_2_hearts_a */;
+        }
+        else if (local0 == 6)
+        {
+            itfMesMngMessage(22) /* msg_talk_kagutu_hearts_a */;
+        }
+        else
+        {
+            itfMesMngMessage(10) /* msg_talk */;
+        }
+    }
+}
+
+void shp_exit()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(23) /* msg_exit */;
+}
+
+void shp_ticket()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(25) /* msg_ticket */;
+}
+
+void shp_ticket_item()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(26) /* msg_ticket_item */;
+    local1 = itfMesMngSelect(28);
+    if (local1 == 0)
+    {
+        itfMesMngSetVarScr(3, fclGetVal(4), 3);
+    }
+    else if (local1 == 1)
+    {
+        fclSignal(4);
+        itfMesMngSetVarScr(3, fclGetVal(5), 3);
+    }
+    else if (local1 == 2)
+    {
+        fclSignal(5);
+        itfMesMngSetVarScr(3, fclGetVal(6), 3);
+    }
+    itfMesMngMessage(27) /* msg_ticket_item2 */;
+}
+
+void endless_loop()
+{
+    fclSignal(0);
+    while (1)
+    {
+        WAIT(1);
+    }
+}
+

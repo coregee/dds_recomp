@@ -104,6 +104,56 @@ A summon action marks empty enemy slots, up to the encounter's party size,
 as summon slots (`nbSetEnemySummonFormation`, when the battle allows it)
 and sizes them for the devil to be called.
 
+## The AI scripts
+
+The scripts are one FlowScript embedded in the executable at 0x4F0800, with
+141 procedures; a devil's `scriptid` is the procedure index
+(`nbInitAiScript`). Decompiled source: `source/scripts/exe/ai.flow` (see
+[flowscript.md](flowscript.md)); every procedure recompiles to the original
+code. 120 procedures are in use:
+
+- **`tousou`** ("escape", 逃走), shared by 122 devils: when the Demi-fiend is
+  at least 15 levels above the devil, the battle allows escape, and the devil
+  is at or below 60% HP, it flees 30% of the time. Otherwise it runs the table
+  AI.
+
+  ```c
+  void tousou()
+  {
+      if (AI_CHK_PLV(AI_GET_MYLV() + 15) == 1)
+      {
+          if (AI_CHK_ESCAPE() == 1)
+          {
+              if (AI_CHK_MYHP(60) == 1)
+              {
+                  local68 = RND(100);
+                  if (local68 <= 30)
+                  {
+                      AI_ACT_ESCAPE();
+                      AI_TAR_AI();
+                      return;
+                  }
+              }
+          }
+      }
+      AI();
+  }
+  ```
+- **Bosses** (`boss_*`, `metatoron`, `dante2`, `kagutool`, the Fiends
+  `masa_*` …) script their fights: talking (`itfMesMngMessage`), camera
+  moves (`BTL_CAM_*`), one-time events tracked with event bits
+  (`BIT_CHK`/`BIT_ON`), and HP thresholds that change their pattern, before
+  falling back to the table AI or choosing skills directly
+  (`AI_ACT_SKILL` + `AI_TAR_AI`). Several share a template: `boss_aasona`,
+  `boss_yurizen`, `boss_ruva` … (Albion's companions) play an event once
+  Albion (devil 278) is no longer on their side, and otherwise run the table
+  AI.
+- A `*_end` procedure is the matching boss's `deadscriptid` script (Kin-Ki,
+  Sui-Ki, Fuu-Ki, Ongyo-Ki, Aciel, Skadi, Futomimi, Sakahagi, Orthrus,
+  Yaksini, the Four Heavenly Kings, Thor); other bosses (Forneus, Ahriman,
+  Noah, Kagutsuchi, Baal Avatar, Metatron, Beelzebub) use `deadeventno`
+  instead.
+
 ## Script commands
 
 `AI_CHK_*` evaluate a condition (parameter from the script) and return the

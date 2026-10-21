@@ -24,9 +24,9 @@ Their record types are in `source/include/nocturne/data/`; their contents
 are generated as source by `tools/gen_tables.py` into `source/src/data/`
 (skills `datSkill` and `datNormalSkill`, passives `datSpecialSkill`, devils,
 encounters, encounter tables, affinities) and checked byte-for-byte against
-the executable by `source/tests/tables`. Still to do: items (`datItem`,
-just after `datSpecialSkill` at 0x3DC4A0), level-up skills (0x333CF4),
-Magatama, fusion tables, shops.
+the executable by `source/tests/tables`. Also generated: items, level-up / growth
+tables, Magatama, inheritance, every fusion table and the enemy AI records.
+Still to do: shops.
 
 **In the archive** (`python tools/dds3_archive.py list`):
 
@@ -37,10 +37,11 @@ Magatama, fusion tables, shops.
 | `.inf`, `.npl`, `.dat` | ~125 | field/area configuration (not yet decoded) |
 
 All `.bf` and `.bmd` files are extracted under `game/dds3/`. Flowscript is a
-bytecode for a VM in the executable (`scr*` functions); its source equivalent
-is decompiled flow script. The Atlus Script Tools project is the likely
-starting point (it targets several DDS3-engine games) but its Nocturne
-support needs checking against this executable's command table.
+bytecode for a VM in the executable (`scr*` functions); `tools/flowscript.py`
+decompiles all of them (and the AI scripts embedded in the executable) into
+`source/scripts/`, verified against the original code. See
+[flowscript.md](flowscript.md). The message tables (`.bmd`, MSG1) are kept
+raw for now; decoding their text is still to do.
 
 Not code: `.tb` (field texture banks, 826 files / 360 MB), `.tmx`, `.pb`,
 `.lb`, `.smg`, `.f1/.f2`, `.d3p`, `.p2a`, `.bed`, `.pm1/.pm2`.

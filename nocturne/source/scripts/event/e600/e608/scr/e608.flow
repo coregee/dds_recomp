@@ -1,0 +1,90 @@
+// game/dds3/event/e600/e608/scr/e608.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e608_main()
+{
+    FIELD_DSP(608, 1);
+    var1 = MODEL_DSP(3, 53);
+    var2 = MODEL_DSP(3, 52);
+    MODEL_POS(var1, SEARCH_ID("p00"));
+    MODEL_POS(var2, SEARCH_ID("p02"));
+    SCENE_LIGHT_RGB(0, 0.7f, 0.7f, 0.7f);
+    SCENE_LIGHT_DIR(0, 0.61f, 0.43f, 0.17f);
+    SCENE_AMBIENT(0, 0.3f, 0.3f, 0.3f);
+    CAM_SEL(SEARCH_ID("Cam01"));
+    CAM_PATH_MOVE(SEARCH_ID("Cam01"), SEARCH_ID("Cam01_MOTION"));
+    FADE_IN(0, 20);
+    SCR_WAIT(SCR_RUN(1, - 1));
+    SCR_WAIT(SCR_RUN(2, - 1));
+    SCR_WAIT(SCR_RUN(3, - 1));
+    SCR_WAIT(SCR_RUN(4, - 1));
+    FADE_OUT(0, 30);
+    WAIT(30);
+    MODEL_CLS(var1);
+    MODEL_CLS(var2);
+    FIELD_CLS();
+    EXIT_EVENT();
+}
+
+void e608_010()
+{
+    MODEL_MOTION2(var1, 0, 0, 0, 0);
+    MODEL_WAIT_MOT(var1, 1);
+    WAIT(45);
+}
+
+void e608_020()
+{
+    CAM_SEL(SEARCH_ID("Cam02"));
+    WAIT(15);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* ISAMU_001 */;
+    itfMesMngCloseWindow();
+    WAIT(5);
+    MODEL_MOTION2(var1, 2, 0, 0, 2);
+    WAIT(60);
+    MODEL_MOTION2(var1, 3, 0, 10, 3);
+    WAIT(20);
+    WAIT(5);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(1) /* ISAMU_002 */;
+    itfMesMngCloseWindow();
+    WAIT(20);
+    CAM_PATH_MOVE(SEARCH_ID("Cam02"), SEARCH_ID("Cam02_MOTION"));
+    MODEL_MOTION2(var1, 4, 0, 10, 3);
+    WAIT(30);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(2) /* ISAMU_003 */;
+    itfMesMngCloseWindow();
+    WAIT(20);
+}
+
+void e608_030()
+{
+    CAM_SEL(SEARCH_ID("Cam03"));
+    CAM_PATH_MOVE(SEARCH_ID("Cam03"), SEARCH_ID("Cam03_MOTION"));
+    WAIT(10);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(3) /* ISAMU_004 */;
+    itfMesMngCloseWindow();
+    WAIT(0);
+    WAIT(20);
+}
+
+void e608_040()
+{
+    CAM_SEL(SEARCH_ID("Cam04"));
+    CAM_PATH_MOVE(SEARCH_ID("Cam04"), SEARCH_ID("Cam04_MOTION"));
+    MODEL_POS(var1, SEARCH_ID("p01"));
+    MODEL_MOTION2(var1, 5, 0, 0, 3);
+    WAIT(5);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(4) /* ISAMU_005 */;
+    itfMesMngMessage(5) /* ISAMU_006 */;
+    itfMesMngCloseWindow();
+    WAIT(5);
+    MODEL_MOTION2(var1, 6, 0, 0, 2);
+    MODEL_MOTION2(var2, 1, 0, 0, 2);
+    WAIT(160);
+}
+

@@ -1,0 +1,353 @@
+; FlowScript assembly. tools/flowscript.py assemble rebuilds the original bytes.
+.header 00000000d20f0000464c57300000000004000000000000000000000000000000
+.sections procedures labels code messages
+.messages scene02.bmd
+.labels _2 _1 _4 _5 _3
+
+.procedure sc02
+    PROC
+    PUSHIS 11
+    COMM FIELD_DSP
+    PUSHI 131073
+    COMM CAM_SEL
+    PUSHIS 9
+    PUSHIS 3
+    COMM MODEL_DSP
+    PUSHREG
+    POPIX 4
+    PUSHIS 8
+    PUSHIS 3
+    COMM MODEL_DSP
+    PUSHREG
+    POPIX 5
+    PUSHI 196628
+    PUSHIX 5
+    COMM MODEL_POS
+    PUSHIX 5
+    COMM MODEL_OFF
+    PUSHIS 0
+    PUSHIS 3
+    COMM MODEL_DSP
+    PUSHREG
+    POPIX 2
+    PUSHI 196627
+    PUSHIX 2
+    COMM MODEL_POS
+    PUSHIS 6
+    PUSHIS 3
+    COMM MODEL_DSP
+    PUSHREG
+    POPIX 3
+    PUSHI 196625
+    PUSHIX 3
+    COMM MODEL_POS
+    PUSHIX 3
+    COMM MODEL_OFF
+    PUSHIS 2
+    PUSHIX 2
+    COMM MODEL_MOVE_MOT
+    PUSHIS 8
+    PUSHIS 20
+    PUSHIS 0
+    PUSHI 196622
+    PUSHIX 2
+    COMM MODEL_MOVE
+    PUSHIS 60
+    PUSHIS 0
+    COMM FADE_IN
+    PUSHIX 2
+    COMM MODEL_WAIT
+    PUSHI 131074
+    COMM CAM_SEL
+    PUSHI 196623
+    PUSHIX 2
+    COMM MODEL_POS
+    PUSHIS 2
+    PUSHIX 2
+    COMM MODEL_MOVE_MOT
+    PUSHIS 8
+    PUSHIS 19
+    PUSHIS 0
+    PUSHI 196624
+    PUSHIX 2
+    COMM MODEL_MOVE
+    PUSHIX 2
+    COMM MODEL_WAIT
+    PUSHIS 10
+    PUSHIS 10
+    PUSHIS 4
+    PUSHIX 2
+    COMM MODEL_MOTION
+    PUSHIX 2
+    COMM MODEL_WAIT
+    PUSHIX 3
+    COMM MODEL_ON
+    PUSHI 131075
+    COMM CAM_SEL
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    PUSHIS 0
+    PUSHIS 0
+    PUSHIS 11
+    PUSHIX 3
+    COMM MODEL_MOTION
+    PUSHI 196620
+    PUSHI 131075
+    COMM CAM_PATH_MOVE
+    PUSHI 131075
+    COMM CAM_PATH_WAIT
+    PUSHIS 10
+    PUSHIS 10
+    PUSHIS 1
+    PUSHIX 3
+    COMM MODEL_MOTION
+    PUSHIS 2
+    PUSHIX 3
+    COMM MODEL_WAIT_MOT
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngMessage
+    PUSHIS 20
+    PUSHIS 20
+    PUSHIS 3
+    PUSHIX 3
+    COMM MODEL_MOTION
+    PUSHIS 0
+    PUSHIX 3
+    COMM MODEL_WAIT_MOT
+    PUSHIS 2
+    COMM itfMesMngMessage
+    PUSHIS 3
+    COMM itfMesMngMessage
+    PUSHIS 30
+    COMM WAIT
+    PUSHIS 4
+    COMM itfMesMngMessage
+    PUSHIS 10
+    PUSHIS 10
+    PUSHIS 4
+    PUSHIX 3
+    COMM MODEL_MOTION
+    PUSHIS 5
+    PUSHIX 3
+    COMM MODEL_WAIT_MOT
+    PUSHIS 5
+    COMM itfMesMngMessage
+    PUSHI 131076
+    COMM CAM_SEL
+    PUSHIS 6
+    COMM itfMesMngMessage
+    COMM itfMesMngOpenSelectWindow
+    PUSHIS 7
+    COMM itfMesMngSelect
+    PUSHREG
+    POPIX 1
+    PUSHIS 0
+    PUSHIX 1
+    EQ
+    IF _2
+    CALL yes
+    GOTO _1
+_2:
+    CALL no
+    GOTO _1
+_1:
+    JUMP finish
+    END
+
+.procedure yes
+    PROC
+    COMM itfMesMngCloseSelectWindow
+    PUSHI 131074
+    COMM CAM_SEL
+    PUSHIS 15
+    PUSHIS 15
+    PUSHIS 4
+    PUSHIX 3
+    COMM MODEL_MOTION
+    PUSHIS 5
+    PUSHIX 3
+    COMM MODEL_WAIT_MOT
+    PUSHIS 8
+    COMM itfMesMngMessage
+    PUSHI 131077
+    COMM CAM_SEL
+    PUSHIS 15
+    PUSHIS 15
+    PUSHIS 1
+    PUSHIX 3
+    COMM MODEL_MOTION
+    PUSHIS 2
+    PUSHIX 3
+    COMM MODEL_WAIT_MOT
+    PUSHIS 9
+    COMM itfMesMngMessage
+    PUSHI 131078
+    COMM CAM_SEL
+    PUSHIS 60
+    COMM WAIT
+    PUSHIS 15
+    PUSHIS 15
+    PUSHIS 4
+    PUSHIX 3
+    COMM MODEL_MOTION
+    PUSHIS 5
+    PUSHIX 3
+    COMM MODEL_WAIT_MOT
+    PUSHIS 10
+    COMM itfMesMngMessage
+    PUSHIS 11
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    PUSHIS 60
+    PUSHIS 0
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    PUSHIS 3
+    COMM BIT_ON
+    END
+
+.procedure no
+    PROC
+    COMM itfMesMngCloseSelectWindow
+    PUSHI 131074
+    COMM CAM_SEL
+    PUSHIS 10
+    PUSHIS 10
+    PUSHIS 6
+    PUSHIX 3
+    COMM MODEL_MOTION
+    PUSHIS 7
+    PUSHIX 3
+    COMM MODEL_WAIT_MOT
+    PUSHI 131078
+    COMM CAM_SEL
+    PUSHIS 12
+    COMM itfMesMngMessage
+    PUSHIS 9
+    PUSHIX 3
+    COMM MODEL_WAIT_MOT
+    PUSHIS 13
+    COMM itfMesMngMessage
+    PUSHI 131079
+    COMM CAM_SEL
+    PUSHIX 4
+    COMM MODEL_CLS
+    PUSHIX 5
+    COMM MODEL_ON
+    PUSHIS 0
+    PUSHIS 0
+    PUSHIS 0
+    PUSHIX 5
+    COMM MODEL_MOTION
+    PUSHI 196621
+    PUSHI 131079
+    COMM CAM_PATH_MOVE
+    PUSHI 131079
+    COMM CAM_PATH_WAIT
+    PUSHIS 20
+    COMM WAIT
+    PUSHIS 30
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    PUSHIS 30
+    PUSHIS 1
+    COMM FADE_IN
+    PUSHI 131080
+    COMM CAM_SEL
+    PUSHIS 10
+    PUSHIS 10
+    PUSHIS 10
+    PUSHIX 3
+    COMM MODEL_MOTION
+    PUSHIS 7
+    PUSHIX 3
+    COMM MODEL_WAIT_MOT
+    PUSHIS 1
+    PUSHIX 2
+    COMM MODEL_WAIT_MOT
+    PUSHIS 14
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    PUSHIS 60
+    PUSHIS 0
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    COMM FIELD_CLS
+    PUSHIS 450
+    COMM CALL_BATTLE
+    PUSHREG
+    POPIX 6
+    PUSHIS 1
+    PUSHIX 6
+    EQ
+    IF _4
+    CALL sc11
+    GOTO _3
+_4:
+    PUSHIS 2
+    PUSHIX 6
+    EQ
+    IF _5
+    PUSHIS 10
+    COMM CALL_EVENT
+    GOTO _3
+_5:
+    CALL sc11
+    GOTO _3
+_3:
+    END
+
+.procedure sc11
+    PROC
+    PUSHIS 11
+    COMM FIELD_DSP
+    PUSHIS 0
+    PUSHIS 3
+    COMM MODEL_DSP
+    PUSHREG
+    POPIX 2
+    PUSHI 196624
+    PUSHIX 2
+    COMM MODEL_POS
+    PUSHI 131080
+    COMM CAM_SEL
+    PUSHIS 60
+    PUSHIS 0
+    COMM FADE_IN
+    PUSHIS 60
+    COMM WAIT
+    COMM itfMesMngOpenWindow
+    PUSHIS 15
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    PUSHIS 100
+    COMM WAIT
+    PUSHIS 60
+    PUSHIS 0
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    COMM FIELD_CLS
+    PUSHIS 12
+    COMM BIT_ON
+    PUSHI 196663
+    PUSHIS 1
+    COMM CALL_FIELD
+    END
+
+.procedure finish
+    PROC
+    PUSHIS 1
+    POPIX 1
+    COMM FIELD_CLS
+    PUSHI 196662
+    PUSHIS 1
+    COMM CALL_FIELD
+    END

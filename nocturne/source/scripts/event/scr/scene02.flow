@@ -1,0 +1,85 @@
+// game/dds3/event/scr/scene02.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void sc02()
+{
+    // not decompiled; see the .flowasm
+}
+
+void yes()
+{
+    itfMesMngCloseSelectWindow();
+    CAM_SEL(131074);
+    MODEL_MOTION(var3, 4, 15, 15);
+    MODEL_WAIT_MOT(var3, 5);
+    itfMesMngMessage(8) /* TAKE_02_Y_01 */;
+    CAM_SEL(131077);
+    MODEL_MOTION(var3, 1, 15, 15);
+    MODEL_WAIT_MOT(var3, 2);
+    itfMesMngMessage(9) /* TAKE_02_Y_02 */;
+    CAM_SEL(131078);
+    WAIT(60);
+    MODEL_MOTION(var3, 4, 15, 15);
+    MODEL_WAIT_MOT(var3, 5);
+    itfMesMngMessage(10) /* TAKE_02_Y_03 */;
+    itfMesMngMessage(11) /* TAKE_02_Y_04 */;
+    itfMesMngCloseWindow();
+    FADE_OUT(0, 60);
+    WAIT(60);
+    BIT_ON(3);
+}
+
+void no()
+{
+    itfMesMngCloseSelectWindow();
+    CAM_SEL(131074);
+    MODEL_MOTION(var3, 6, 10, 10);
+    MODEL_WAIT_MOT(var3, 7);
+    CAM_SEL(131078);
+    itfMesMngMessage(12) /* TAKE_02_N_01 */;
+    MODEL_WAIT_MOT(var3, 9);
+    itfMesMngMessage(13) /* TAKE_02_N_02 */;
+    CAM_SEL(131079);
+    MODEL_CLS(var4);
+    MODEL_ON(var5);
+    MODEL_MOTION(var5, 0, 0, 0);
+    CAM_PATH_MOVE(131079, 196621);
+    CAM_PATH_WAIT(131079);
+    WAIT(20);
+    FADE_OUT(1, 30);
+    WAIT(60);
+    FADE_IN(1, 30);
+    CAM_SEL(131080);
+    MODEL_MOTION(var3, 10, 10, 10);
+    MODEL_WAIT_MOT(var3, 7);
+    MODEL_WAIT_MOT(var2, 1);
+    itfMesMngMessage(14) /* TAKE_02_N_03 */;
+    itfMesMngCloseWindow();
+    FADE_OUT(0, 60);
+    WAIT(60);
+    FIELD_CLS();
+    var6 = CALL_BATTLE(450);
+    if (var6 == 1)
+    {
+        sc11();
+    }
+    else if (var6 == 2)
+    {
+        CALL_EVENT(10);
+    }
+    else
+    {
+        sc11();
+    }
+}
+
+void sc11()
+{
+    // not decompiled; see the .flowasm
+}
+
+void finish()
+{
+    // not decompiled; see the .flowasm
+}
+

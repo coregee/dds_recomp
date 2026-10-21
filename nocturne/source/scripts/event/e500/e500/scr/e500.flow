@@ -1,0 +1,635 @@
+// game/dds3/event/e500/e500/scr/e500.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void test_a()
+{
+    test_moviebug();
+}
+
+void test_moviebug()
+{
+    LOAD_SOUND_E(673);
+restart:
+    local0 = PMV_LOAD(673, 30);
+    WAIT(30);
+    MOVIE_PLAY(8);
+    while (MOVIE_CHK())
+    {
+        SYNC();
+    }
+    MOVIE_STOP();
+    SCR_WAIT(PMV_RUN2(local0));
+    FILTER_ALLOFF();
+    FIELD_CLS_STOP();
+    goto restart;
+}
+
+void test_blurtex()
+{
+    LOAD_BE(501);
+    FIELD_DSP(14, 1);
+    DIST_BLUR_PARA(79, 167, 15, 0.222f, 0.005f, 0.13f, 0);
+    DIST_BLUR_RGBA(150, 150, 150, 120);
+    DIST_BLUR_AREA(256, 0, 0);
+    DIST_BLUR_ON(0);
+    WAIT(150);
+    DIST_BLUR_TEX_BE(501, 1);
+    WAIT(150);
+    DIST_BLUR_TEX_DEF();
+    WAIT(150);
+    DIST_BLUR_TEX_BE(501, 2);
+    WAIT(10000);
+}
+
+void test_be()
+{
+    WAIT(150);
+    PUTS("READ_BE");
+    READ_BE(800);
+    while (!CHK_BE(800))
+    {
+        PUTS("WAIT..");
+        SYNC();
+    }
+    PUTS("BE_OK!");
+    WAIT(150);
+    PUTS("BE_DEL");
+    COMM_0F9(800);
+}
+
+void disp_kotowari()
+{
+    PUTS("YOSUGA");
+    PUT(POINT_GET(1));
+    PUTS("MUSUBI");
+    PUT(POINT_GET(2));
+    PUTS("SIZIMA");
+    PUT(POINT_GET(3));
+}
+
+void test_kotowari()
+{
+    disp_kotowari();
+    POINT_ADD(1, 3);
+    POINT_ADD(2, - 10);
+    POINT_ADD(3, 256);
+    disp_kotowari();
+    PUTS("1ST");
+    PUT(POINT_1ST());
+    PUTS("2ND");
+    PUT(POINT_2ND());
+    PUTS("3RD");
+    PUT(POINT_3RD());
+}
+
+void test_param()
+{
+    WAIT(150);
+}
+
+void test_fieldanime()
+{
+    FIELD_DSP(636, 1);
+    local1 = MODEL_DSP(1, 256);
+    WAIT(120);
+    FIELD_ANIME_STOP(2);
+    WAIT(150);
+    FIELD_ANIME_START(2);
+}
+
+void test_cam2()
+{
+    FIELD_DSP(636, 1);
+    WAIT(150);
+    local2 = MODEL_DSP(3, 1);
+}
+
+void test_mg2()
+{
+    LOAD_BE(501);
+    FIELD_DSP(636, 1);
+    local5 = EFFMG2_BE(501, 4);
+    EFFMG2_POS(local5, SEARCH_ID("m_01"), SEARCH_ID("m_02"), SEARCH_ID("m_03"), SEARCH_ID("m_04"));
+    WAIT(150);
+    WAIT(10000);
+}
+
+void test_mg1()
+{
+    LOAD_BE(501);
+    FIELD_DSP(636, 1);
+    local7 = EFFMG1_BE(501, 5);
+    COMM_0D7(local7, SEARCH_ID("m_05"), SEARCH_ID("m_06"));
+    WAIT(150);
+    WAIT(10000);
+}
+
+void test_bed()
+{
+    LOAD_SOUND_E(699);
+    LOAD_BE(501);
+    FIELD_DSP(108, 1);
+    local10 = MODEL_BE(501, 3);
+    local11 = EFFBED_BE(501, 1);
+    local12 = EFFBED_BE(501, 2);
+    WAIT(60);
+    flocal4 = 0.0f;
+    flocal5 = 0.0f;
+    while (1)
+    {
+        EFFECT_ROT_XYZ(local11, 0.0f, flocal5, 0.0f);
+        EFFBED_START(local11, 2);
+        flocal5 = flocal5 + 3e+01f;
+        if (flocal5 >= 3.6e+02f)
+        {
+            flocal5 = flocal5 - 3.6e+02f;
+        }
+        WAIT(60);
+        EFFECT_POS_XYZ(local12, flocal4, 0.0f, 0.0f);
+        EFFBED_START(local12, 2);
+        flocal4 = flocal4 + 1e+02f;
+        WAIT(90);
+        MODEL_MOTION2(local10, 8, 15, 15, 0);
+        WAIT(60);
+        MODEL_MOTION2(local10, 7, 15, 15, 0);
+        WAIT(60);
+    }
+    EXIT_EVENT();
+}
+
+void test_bokasi()
+{
+    FIELD_DSP(29, 4);
+    local13 = MODEL_DSP(1, 256);
+    WAIT(150);
+    BOKASI_ON();
+    WAIT(150);
+    BOKASI_OFF();
+    while (1)
+    {
+        SYNC();
+    }
+    EXIT_EVENT();
+}
+
+void test_shadow()
+{
+    LOAD_BE(621);
+    FIELD_BE(621, 1);
+    local15 = MODEL_DSP(3, 65);
+    MODEL_POS(local15, SEARCH_ID("p02"));
+    MODEL_SHADOW_ON2(local15);
+    WAIT(150);
+    WAIT(150);
+}
+
+void test_bgm_se()
+{
+    LOAD_SOUND_E(900);
+    FIELD_DSP(636, 1);
+    local17 = MODEL_DSP(1, 256);
+    WAIT(90);
+    PUTS("BGM_PLAY_E");
+    BGM_PLAY_E(900, 1);
+    WAIT(10000);
+    BGM_PLAY_E(601, 1);
+    WAIT(120);
+    BGM_TRANS_E(601, 2);
+    WAIT(120);
+    BGM_TRANS_E(601, - 1);
+    WAIT(10000);
+    while (1)
+    {
+        if (PAD_TRIG(1))
+        {
+            BGM_TRANS_E(699, - 1);
+        }
+        if (PAD_TRIG(3))
+        {
+            BGM_TRANS_E(699, 3);
+        }
+        SYNC();
+    }
+    EXIT_EVENT();
+}
+
+void test_callbattle()
+{
+    FIELD_DSP(108, 1);
+    local18 = MODEL_DSP(3, 3);
+    WAIT(150);
+    CALL_BATTLE(2);
+}
+
+void test_exmotion()
+{
+    FIELD_DSP(108, 1);
+    local20 = MODEL_DSP(3, 60);
+    WAIT(400);
+    MODEL_EXMOTION(local20, 1, 0, 0, 0, 1);
+    WAIT(100);
+    MODEL_EXMOTION(local20, 3, 0, 0, 0, 2);
+    WAIT(10000);
+    WAIT(90);
+    MODEL_EXMOTION(local20, 1, 0, 0, 0, 0);
+    MODEL_EXWAIT(local20, 1);
+    MODEL_EXMOTION(local20, 2, 0, 0, 0, 2);
+    while (1)
+    {
+        MODEL_MOTION2(local20, 1, 0, 10, 0);
+        WAIT(90);
+        MODEL_MOTION2(local20, 0, 0, 10, 0);
+        WAIT(90);
+    }
+    EXIT_EVENT();
+}
+
+void test_soften_bias()
+{
+    FIELD_DSP(659, 1);
+    local23 = MODEL_DSP(3, 95);
+    MODEL_POS_XYZ(local23, 2e+02f, 0.0f, - 5e+01f);
+    local22 = MODEL_DSP(2, 0);
+    MODEL_MOTION2(local22, 10, 0, 0, 3);
+    while (1)
+    {
+        SOFTEN_BIAS(120, 35.0f, - 1.1f);
+        WAIT(120);
+        SOFTEN_BIAS(120, 7.0f, 0.0f);
+        WAIT(120);
+    }
+    EXIT_EVENT();
+}
+
+void test_sky()
+{
+    FIELD_DSP(636, 1);
+    SET_SKY(34, 1, 60);
+    local25 = MODEL_DSP(3, 48);
+    MODEL_ROT_XYZ(local25, 0.0f, 9e+01f, 0.0f);
+    MODEL_MOTION2(local25, 5, 0, 0, 3);
+    WAIT(90);
+    while (1)
+    {
+        SET_SKY(34, 1, 60);
+        SET_SKY_A(60, - 40);
+        WAIT(90);
+        SET_SKY(84, 1, 60);
+        SET_SKY_A(60, - 100);
+        WAIT(90);
+    }
+    EXIT_EVENT();
+}
+
+void test_msg()
+{
+    itfMesMngMessage(0) /* MSG_001 */;
+}
+
+void test_picture()
+{
+    while (1)
+    {
+        local29 = TEX_LOAD("/battle/tmx/Target.tmx");
+        local30 = TEX_LOAD("/font/sample/bg01.tmx");
+        FIELD_DSP(108, 1);
+        local28 = MODEL_DSP(3, 48);
+        MODEL_ROT_XYZ(local28, 0.0f, 9e+01f, 0.0f);
+        MODEL_MOTION2(local28, 5, 0, 0, 3);
+        WAIT(230);
+        FIELD_CLS_STOP();
+        TEX_ON(local29);
+        WAIT(120);
+        TEX_CLS(local29);
+        TEX_ON(local30);
+        WAIT(120);
+        TEX_CLS(local30);
+        WAIT(2);
+        goto _24;
+    }
+_24:
+    EXIT_EVENT();
+}
+
+void test_cutcut()
+{
+    while (1)
+    {
+        PUTS("astart");
+        local32 = PMV_LOAD(500, 2);
+        PUTS("aend");
+        local33 = PMV_LOAD(505, 10);
+        local34 = PMV_LOAD(505, 50);
+        PUTS("cend");
+        PUTS("dend");
+        FIELD_DSP(108, 1);
+        local31 = MODEL_DSP(3, 48);
+        MODEL_ROT_XYZ(local31, 0.0f, 9e+01f, 0.0f);
+        MODEL_MOTION2(local31, 5, 0, 0, 3);
+        WAIT(230);
+        FIELD_CLS_STOP();
+        SCR_WAIT(PMV_RUN2(local33));
+        FIELD_CLS_STOP();
+        SCR_WAIT(PMV_RUN2(local32));
+        FIELD_CLS_STOP();
+        SCR_WAIT(PMV_RUN2(local34));
+        FIELD_CLS();
+        WAIT(90);
+    }
+}
+
+void test_movie()
+{
+    WAIT(90);
+    MOVIE_PLAY(2);
+    while (MOVIE_CHK())
+    {
+        SYNC();
+    }
+    MOVIE_STOP();
+}
+
+void test_pmv2()
+{
+    LOAD_SOUND_E(601);
+    BGM_PLAY_E(601, 5);
+    SCR_WAIT(PMV_RUN(601, 1));
+}
+
+void test_pmv()
+{
+    local36 = PMV_RUN(800, 10);
+    SCR_WAIT(local36);
+    FADE_OUT(0, 0);
+}
+
+void test_basiclight3()
+{
+    FIELD_DSP(662, 1);
+    local37 = MODEL_DSP(3, 0);
+    WAIT(90);
+    MODEL_LIGHT_LINK(local37, 0, SEARCH_ID("light01"));
+}
+
+void test_basiclight2()
+{
+    FIELD_DSP(500, 4);
+    local38 = MODEL_DSP(2, 0);
+    local39 = MODEL_DSP(2, 0);
+    local40 = MODEL_DSP(2, 0);
+    local42 = EFFECT_LOAD("/event/e500/e501/effect/e_effe08.D3P");
+    EFFECT_LINK(local42, SEARCH_ID("light02"));
+    MODEL_LIGHT_LINK(local38, 10, SEARCH_ID("light02"));
+    MODEL_LIGHT_LINK(local39, 10, SEARCH_ID("light02"));
+    MODEL_LIGHT_LINK(local40, 10, SEARCH_ID("light02"));
+    MODEL_POS_XYZ(local38, 1.0f * 5e+01f, 0.0f, 0.0f);
+    MODEL_POS_XYZ(local39, - 0.5f * 1e+02f, 0.0f, 0.86f * 1e+02f);
+    MODEL_POS_XYZ(local40, - 0.5f * 1e+02f, 0.0f, - 0.86f * 1e+02f);
+    while (1)
+    {
+        LIGHT_PATH_MOVE(SEARCH_ID("light02"), SEARCH_ID("light02_MOTION"));
+        LIGHT_PATH_WAIT(SEARCH_ID("light02"));
+    }
+}
+
+void test_basiclight1()
+{
+    FIELD_DSP(500, 4);
+    local43 = MODEL_DSP(2, 0);
+    local44 = MODEL_DSP(2, 0);
+    local45 = MODEL_DSP(2, 0);
+    local46 = EFFECT_LOAD("/event/e500/e501/effect/e_effe08.D3P");
+    EFFECT_LINK(local46, SEARCH_ID("light01"));
+    MODEL_LIGHT_LINK(local43, 10, SEARCH_ID("light01"));
+    MODEL_LIGHT_LINK(local44, 10, SEARCH_ID("light01"));
+    MODEL_LIGHT_LINK(local45, 10, SEARCH_ID("light01"));
+    MODEL_POS_XYZ(local43, 1.0f * 5e+01f, 0.0f, 0.0f);
+    MODEL_POS_XYZ(local44, - 0.5f * 1e+02f, 0.0f, 0.86f * 1e+02f);
+    while (1)
+    {
+        MODEL_MOTION2(local45, 1, 0, 10, 1);
+        MODEL_MOVE2(local45, SEARCH_ID("path02"), 0, 0, 0, 30, 10);
+        MODEL_WAIT(local45);
+    }
+}
+
+void test_sceneanime()
+{
+    FIELD_DSP(501, 1);
+    local48 = MODEL_DSP(3, 38);
+    while (1)
+    {
+        SCENE_FOG_RGB(120, 0.25f, 0.31f, 0.37f);
+        SCENE_FOG_PARA(120, 255, 5000, 0, 10000);
+        WAIT(150);
+        SCENE_FOG_RGB(120, 0.0f, 0.78f, 0.0f);
+        SCENE_FOG_PARA(120, 255, 300, 0, 6000);
+        WAIT(150);
+    }
+}
+
+void test_camerapath()
+{
+    FIELD_DSP(501, 1);
+    local49 = MODEL_DSP(3, 38);
+    while (1)
+    {
+        local50 = SEARCH_ID("Cam07");
+        CAM_SEL(local50);
+        CAM_PATH_MOVE(local50, SEARCH_ID("Cam07_MOTION"));
+        CAM_PATH_WAIT(local50);
+        CAM_PATH_MOVE(local50, SEARCH_ID("Cam07_MOTION"));
+        PATH_RATE(local50, 1.0f);
+        PATH_DIR(local50, 1);
+        CAM_PATH_WAIT(local50);
+        WAIT(90);
+        CAM_PATH_MOVE(local50, SEARCH_ID("Cam07_MOTION"));
+        PATH_RATE(local50, 0.5f);
+        PATH_STOP(local50);
+        WAIT(90);
+        PATH_START(local50);
+        CAM_PATH_WAIT(local50);
+        WAIT(90);
+    }
+}
+
+void test_scenelight()
+{
+    FIELD_DSP(501, 1);
+    local51 = MODEL_DSP(3, 39);
+    MODEL_MOTION2(local51, 13, 0, 0, 3);
+    while (1)
+    {
+        SCENE_AMBIENT(120, 0.4f, 0.0f, 0.0f);
+        WAIT(150);
+        SCENE_LIGHT_DIR(120, 0.0f, - 1.0f, 0.0f);
+        WAIT(150);
+        SCENE_AMBIENT(120, 0.2f, 0.7f, 0.2f);
+        SCENE_LIGHT_DIR(120, 0.0f, 1.0f, 0.5f);
+        WAIT(150);
+    }
+}
+
+void test_modellight_2()
+{
+    while (1)
+    {
+        SCENE_LIGHT_DIR(120, 0.0f, - 1.0f, 0.0f);
+        SCENE_LIGHT_RGB(120, 0.7f, 0.7f, 0.7f);
+        SCENE_AMBIENT(120, 0.2f, 0.2f, 0.2f);
+        WAIT(120);
+        SCENE_LIGHT_DIR(120, 0.0f, 1.0f, 0.5f);
+        SCENE_LIGHT_RGB(120, 0.6f, 0.0f, 0.0f);
+        SCENE_AMBIENT(120, 0.2f, 0.0f, 0.0f);
+        WAIT(120);
+    }
+}
+
+void test_modellight()
+{
+    FIELD_DSP(501, 1);
+    local53 = MODEL_DSP(3, 39);
+    MODEL_MOTION2(local53, 13, 0, 0, 3);
+    MODEL_POS_XYZ(local53, 1.5e+02f, 0.0f, 0.0f);
+    local52 = MODEL_DSP(3, 39);
+    MODEL_MOTION2(local52, 13, 0, 0, 3);
+    SCR_RUN(31, 0);
+    while (1)
+    {
+        WAIT(150);
+        MODEL_LIGHT_OFF(local52, 120);
+        WAIT(150);
+        MODEL_RGB(local52, 120, 0.0f, 0.0f, 0.0f);
+        WAIT(150);
+        MODEL_A(local52, 120, 0.0f);
+        WAIT(150);
+        MODEL_A(local52, 120, 1.0f);
+        MODEL_RGB(local52, 120, 1.0f, 1.0f, 1.0f);
+        WAIT(150);
+        MODEL_LIGHT_DIR(local52, 120, - 1.0f, 0.0f, 0.0f);
+        WAIT(150);
+        MODEL_LIGHT_RGB(local52, 90, 0.78f, 0.0f, 0.0f, 0.2f, 0.0f, 0.0f);
+        MODEL_LIGHT_DIR(local52, 120, 1.0f, 0.0f, 0.0f);
+        MODEL_LIGHT_ON(local52);
+        WAIT(150);
+        MODEL_LIGHT_RGB(local52, 90, 0.0f, 0.58f, 0.0f, 0.0f, 0.11f, 0.0f);
+        MODEL_LIGHT_DIR(local52, 120, 0.0f, 1.0f, 0.0f);
+        MODEL_LIGHT_ON(local52);
+        WAIT(150);
+        MODEL_LIGHT_DIR(local52, 120, 0.0f, - 1.0f, 0.0f);
+        WAIT(150);
+    }
+}
+
+void test_modelpath()
+{
+    FIELD_DSP(500, 3);
+    local54 = MODEL_DSP(3, 38);
+    while (1)
+    {
+        MODEL_MOTION2(local54, 7, 0, 10, 1);
+        WAIT(3);
+        MODEL_MOVE2(local54, SEARCH_ID("path00"), 0, 0, 0, 20, 10);
+        MODEL_WAIT(local54);
+        MODEL_MOTION2(local54, 10, 8, 10, 1);
+        WAIT(90);
+        MODEL_MOTION2(local54, 7, 0, 10, 1);
+        WAIT(3);
+        MODEL_MOVE2(local54, SEARCH_ID("path01"), 0, 0, 0, 20, 10);
+        MODEL_WAIT(local54);
+        MODEL_MOTION2(local54, 10, 8, 10, 1);
+        WAIT(90);
+    }
+}
+
+void test_effect()
+{
+    FIELD_DSP(623, 1);
+    local63 = EFFECT_LOAD("/event/e500/e501/effect/e_effe07.D3P");
+    WAIT(90);
+    EFFECT_OFF(local63);
+    WAIT(90);
+    EFFECT_ON(local63);
+    WAIT(300);
+    local65 = 0;
+    while (1)
+    {
+        local56 = EFFECT_LOAD("/event/e500/e501/effect/e_effe00.D3P");
+        local57 = EFFECT_LOAD("/event/e500/e501/effect/e_effe01.D3P");
+        local58 = EFFECT_LOAD("/event/e500/e501/effect/e_effe02.D3P");
+        local59 = EFFECT_LOAD("/event/e500/e501/effect/e_effe03.D3P");
+        local60 = EFFECT_LOAD("/event/e500/e501/effect/e_effe04.D3P");
+        local61 = EFFECT_LOAD("/event/e500/e501/effect/e_effe05.D3P");
+        local62 = EFFECT_LOAD("/event/e500/e501/effect/e_effe06.D3P");
+        local63 = EFFECT_LOAD("/event/e500/e501/effect/e_effe07.D3P");
+        local64 = EFFECT_LOAD("/event/e500/e501/effect/e_effe08.D3P");
+        WAIT(300);
+        EFFECT_OFF(local56);
+        EFFECT_OFF(local57);
+        EFFECT_OFF(local58);
+        EFFECT_OFF(local59);
+        EFFECT_OFF(local60);
+        EFFECT_OFF(local61);
+        EFFECT_OFF(local62);
+        EFFECT_OFF(local63);
+        EFFECT_OFF(local64);
+        WAIT(120);
+        EFFECT_CLS(local56);
+        EFFECT_CLS(local57);
+        EFFECT_CLS(local58);
+        EFFECT_CLS(local59);
+        EFFECT_CLS(local60);
+        EFFECT_CLS(local61);
+        EFFECT_CLS(local62);
+        EFFECT_CLS(local63);
+        EFFECT_CLS(local64);
+        WAIT(100);
+    }
+}
+
+void test_blur()
+{
+    FIELD_DSP(14, 1);
+    while (1)
+    {
+        RIP_BLUR_PARA(4, 0.04f, 0.2f, 0.025f, 0.14f, 0.22f, 0);
+        RIP_BLUR_RGBA(128, 128, 128, 0);
+        RIP_BLUR_AREA(256, 0, 0);
+        RIP_BLUR_ON(0);
+        WAIT(150);
+        RIP_BLUR_PARA(4, 0.04f, 0.2f, 0.025f, 0.14f, 0.22f, 0);
+        RIP_BLUR_RGBA(128, 128, 128, 128);
+        RIP_BLUR_AREA(256, 0, 0);
+        RIP_BLUR_SWAP(300);
+        WAIT(150);
+        goto _48;
+    }
+_48:
+}
+
+void test_autowait()
+{
+    FIELD_DSP(500, 2);
+    local67 = MODEL_DSP(3, 48);
+    MODEL_ROT_XYZ(local67, 0.0f, 9e+01f, 0.0f);
+    while (1)
+    {
+        MODEL_MOTION2(local67, 5, 0, 0, 3);
+        WAIT(200);
+        MODEL_MOTION2(local67, 6, 0, 0, 3);
+        WAIT(200);
+        MODEL_MOTION2(local67, 7, 0, 0, 3);
+        WAIT(200);
+    }
+    local67 = MODEL_DSP(3, 39);
+    while (1)
+    {
+        MODEL_MOTION2(local67, 7, 0, 0, 3);
+        WAIT(150);
+        MODEL_MOTION2(local67, 8, 0, 0, 3);
+        WAIT(150);
+        MODEL_MOTION2(local67, 13, 0, 0, 3);
+        WAIT(150);
+    }
+}
+

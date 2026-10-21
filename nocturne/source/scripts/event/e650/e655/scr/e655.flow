@@ -1,0 +1,605 @@
+// game/dds3/event/e650/e655/scr/e655.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e655_main()
+{
+    LOAD_BE(655);
+    LOAD_SOUND_E(655);
+    if (BIT_CHK(68) == 1)
+    {
+        FIELD_BE(655, 3);
+        var1 = MODEL_BE(655, 7);
+        var2 = MODEL_BE(655, 6);
+        var3 = MODEL_BE(655, 4);
+        var38 = MODEL_BE(655, 17);
+        var39 = MODEL_BE(655, 16);
+        MODEL_POS(var1, SEARCH_ID("p05"));
+        MODEL_POS(var2, SEARCH_ID("p04"));
+        MODEL_POS(var3, SEARCH_ID("p01"));
+        MODEL_POS(var38, SEARCH_ID("p08"));
+        MODEL_POS(var39, SEARCH_ID("p07"));
+        BGM_PLAY_E(655, 3);
+        MODEL_WAIT_MOT(var2, 4);
+        MODEL_MOTION2(var2, 3, 0, 0, 0);
+        MODEL_MOTION2(var39, 3, 0, 0, 2);
+        MODEL_LIGHT_LINK(var2, 0, SEARCH_ID("light06"));
+        CAM_SEL(SEARCH_ID("cam02a"));
+        CAM_PATH_MOVE(SEARCH_ID("cam02a"), SEARCH_ID("cam02a_MOTION"));
+        SCENE_LIGHT_RGB(0, 1.0f, 1.03f, 1.01f);
+        SCENE_LIGHT_DIR(0, - 0.73f, - 0.57f, 0.38f);
+        SCENE_AMBIENT(0, 0.4f, 0.4f, 0.4f);
+        SOFTEN_BIAS(0, 15, 0);
+        SCENE_FOG_RGB(0, 0.118f, 0.137f, 0.137f);
+        SCENE_FOG_PARA(0, 255, 230, 200, 450);
+        SET_SKY(90, 1, 0);
+        SET_SKY_A(0, - 100);
+        BLUR2_PARA(0.02f, 0.986f, 0);
+        BLUR2_AREA(0, 0);
+        BLUR2_RGBA(170, 128, 128, 65);
+        BLUR2_ON(0);
+        itfMesMngWindowTypeAlpha(1, 80);
+        FADE_IN(1, 65);
+        WAIT(60);
+        KUTI(var2, 3, 1);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(0) /* MSG_010_1 */;
+        itfMesMngCloseWindow();
+        SYNC();
+        var40 = CAM_CREATE();
+        CAM_POS_XYZ(var40, - 88.64f, - 146.77f, - 46.82f);
+        CAM_ROT_Q(var40, 0.08f, - 0.46f, - 0.04f, 0.88f);
+        CAM_SEL(var40);
+        WAIT(25);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(1) /* MSG_010_2 */;
+        var5 = itfMesMngSelect(2);
+        itfMesMngCloseWindow();
+        if (var5 == 0)
+        {
+            BIT_ON(99);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(3) /* MSG_010_3 */;
+            itfMesMngCloseWindow();
+            var41 = CAM_CREATE();
+            CAM_POS_XYZ(var41, 191.09f, - 103.69f, - 161.46f);
+            CAM_ROT_Q(var41, - 0.0f, 0.54f, - 0.0f, 0.84f);
+            CAM_SEL(var41);
+            WAIT(20);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(5) /* MSG_010_5 */;
+            itfMesMngCloseWindow();
+            var56 = CAM_CREATE();
+            CAM_POS_XYZ(var56, - 394.62f, - 9e+01f, - 15.61f);
+            CAM_ROT_Q(var56, 0.0f, - 0.69f, 0.0f, 0.72f);
+            CAM_SEL(var56);
+            DIST_BLUR_PARA(60, 255, 50, 0.1f, 0.1f, 0.18f, 0);
+            DIST_BLUR_RGBA(130, 130, 130, 40);
+            DIST_BLUR_AREA(255, 0, 0);
+            DIST_BLUR_ON(0);
+            WAIT(90);
+            DIST_BLUR_PARA(60, 255, 50, 0.1f, 0.1f, 0.18f, 0);
+            DIST_BLUR_RGBA(130, 130, 130, 0);
+            DIST_BLUR_AREA(255, 0, 0);
+            COMM_128(30);
+            WAIT(30);
+            FADE_IN(1, 5);
+            MODEL_OFF(var2);
+            MODEL_OFF(var39);
+            WAIT(30);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(7) /* MSG_010_7 */;
+            itfMesMngCloseWindow();
+        }
+        else if (var5 == 1)
+        {
+            itfMesMngOpenWindow();
+            itfMesMngMessage(4) /* MSG_010_4 */;
+            itfMesMngCloseWindow();
+            var41 = CAM_CREATE();
+            CAM_POS_XYZ(var41, 191.09f, - 103.69f, - 161.46f);
+            CAM_ROT_Q(var41, - 0.0f, 0.54f, - 0.0f, 0.84f);
+            CAM_SEL(var41);
+            WAIT(20);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(6) /* MSG_010_6 */;
+            itfMesMngCloseWindow();
+            var56 = CAM_CREATE();
+            CAM_POS_XYZ(var56, - 394.62f, - 9e+01f, - 15.61f);
+            CAM_ROT_Q(var56, 0.0f, - 0.69f, 0.0f, 0.72f);
+            CAM_SEL(var56);
+            DIST_BLUR_PARA(60, 255, 50, 0.1f, 0.1f, 0.18f, 0);
+            DIST_BLUR_RGBA(130, 130, 130, 40);
+            DIST_BLUR_AREA(255, 0, 0);
+            DIST_BLUR_ON(0);
+            WAIT(40);
+            WAIT(50);
+            DIST_BLUR_PARA(60, 255, 50, 0.1f, 0.1f, 0.18f, 0);
+            DIST_BLUR_RGBA(130, 130, 130, 0);
+            DIST_BLUR_AREA(255, 0, 0);
+            COMM_128(30);
+            WAIT(20);
+            FADE_IN(1, 5);
+            MODEL_OFF(var2);
+            MODEL_OFF(var39);
+            WAIT(30);
+            itfMesMngOpenWindow();
+            itfMesMngMessage(7) /* MSG_010_7 */;
+            itfMesMngCloseWindow();
+        }
+        FADE_OUT(0, 65);
+        itfMesMngWindowType(0);
+        BIT_OFF(58);
+        WAIT(65);
+        CALL_NEXT(1, 30, 662);
+        FADEOUT_E(655, 3);
+        goto EN;
+    }
+    var7 = PMV_LOAD(655, 10);
+    FADE_IN(0, 30);
+    WAIT(30);
+    SCR_WAIT(PMV_RUN2(var7));
+    FIELD_CLS_STOP();
+    BLUR_ALLOFF();
+    FILTER_ALLOFF();
+    FIELD_BE(655, 3);
+    var1 = MODEL_BE(655, 7);
+    var2 = MODEL_BE(655, 6);
+    var38 = MODEL_BE(655, 17);
+    var39 = MODEL_BE(655, 16);
+    var3 = MODEL_BE(655, 4);
+    BGM_PLAY_E(655, 2);
+    SCR_WAIT(SCR_RUN(2, - 1));
+    SCR_WAIT(SCR_RUN(3, - 1));
+    FADEOUT_E(655, 2);
+    BGM_PLAY_E(655, 3);
+    SCR_WAIT(SCR_RUN(4, - 1));
+    FADEOUT_E(655, 3);
+    SCR_WAIT(SCR_RUN(5, - 1));
+    SCR_WAIT(SCR_RUN(23, - 1));
+    BIT_ON(68);
+EN:
+    BLUR_ALLOFF();
+    FILTER_ALLOFF();
+    itfMesMngWindowType(0);
+    FIELD_CLS_STOP();
+    EXIT_EVENT();
+}
+
+void e655_010_1()
+{
+    WAIT(480);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* MSG_010_1 */;
+    WAIT(10);
+    itfMesMngCloseWindow();
+}
+
+void e655_020()
+{
+    MODEL_POS(var1, SEARCH_ID("p05"));
+    MODEL_POS(var2, SEARCH_ID("p04"));
+    MODEL_POS(var38, SEARCH_ID("p08"));
+    MODEL_POS(var39, SEARCH_ID("p07"));
+    MODEL_POS(var3, SEARCH_ID("p01"));
+    MODEL_LIGHT_LINK(var1, 0, SEARCH_ID("light02"));
+    MODEL_LIGHT_LINK(var2, 0, SEARCH_ID("light03"));
+    MODEL_LIGHT_LINK(var38, 0, SEARCH_ID("light04"));
+    MODEL_LIGHT_LINK(var39, 0, SEARCH_ID("light05"));
+    SCENE_LIGHT_RGB(0, 0.7f, 0.7f, 0.7f);
+    SCENE_LIGHT_DIR(0, 0.7f, 0.4f, 0.7f);
+    SCENE_AMBIENT(0, 0.2f, 0.2f, 0.2f);
+    SCENE_FOG_RGB(0, 1.0f, 0.98f, 0.882f);
+    SCENE_FOG_PARA(0, 255, 5000, 150, 20000);
+    BLUR2_PARA(0.02f, 0.986f, 0);
+    BLUR2_AREA(0, 0);
+    BLUR2_RGBA(170, 128, 128, 65);
+    BLUR2_SWAP(40);
+    BLUR2_ON(0);
+    SET_SKY(98, 1, 0);
+    SET_SKY_A(0, - 60);
+    CAM_SEL(SEARCH_ID("cam02"));
+    CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
+    MODEL_WAIT_MOT(var2, 2);
+    MODEL_MOTION2(var2, 1, 0, 0, 0);
+    MODEL_WAIT_MOT(var39, 2);
+    MODEL_MOTION2(var39, 1, 0, 0, 0);
+    MODEL_MOTION2(var38, 1, 0, 0, 1);
+    MODEL_MOTION2(var1, 1, 0, 0, 1);
+    MODEL_OFF(var4);
+    itfMesMngWindowTypeAlpha(1, 80);
+    WAIT(40);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(8) /* MSG_020_1 */;
+    itfMesMngCloseWindow();
+    WAIT(30);
+}
+
+void e655_030()
+{
+    CAM_SEL(SEARCH_ID("cam02a"));
+    CAM_PATH_MOVE(SEARCH_ID("cam02a"), SEARCH_ID("cam02a_MOTION"));
+    MODEL_CLS(var38);
+    itfMesMngWindowTypeAlpha(1, 80);
+    WAIT(20);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(9) /* MSG_030_1 */;
+    itfMesMngCloseWindow();
+    WAIT(30);
+}
+
+void e655_040()
+{
+    CAM_SEL(SEARCH_ID("cam03"));
+    CAM_PATH_MOVE(SEARCH_ID("cam03"), SEARCH_ID("cam03_MOTION"));
+    PATH_STOP(SEARCH_ID("cam03"));
+    MODEL_CLS(var1);
+    itfMesMngWindowTypeAlpha(1, 80);
+    WAIT(20);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(10) /* MSG_040_1 */;
+    itfMesMngCloseWindow();
+    WAIT(30);
+    MODEL_WAIT_MOT(var2, 4);
+    MODEL_MOTION2(var2, 3, 0, 10, 0);
+    MODEL_MOTION2(var39, 3, 0, 0, 2);
+    PATH_START(SEARCH_ID("cam03"));
+    LIGHT_PATH_MOVE(SEARCH_ID("light03"), SEARCH_ID("light03_MOTION"));
+    LIGHT_PATH_MOVE(SEARCH_ID("light05"), SEARCH_ID("light05_MOTION"));
+    WAIT(200);
+    KUTI(var2, 3, 1);
+    MODEL_CLS(var39);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(11) /* MSG_040_2 */;
+    itfMesMngCloseWindow();
+    WAIT(30);
+}
+
+void e655_050()
+{
+    CAM_SEL(SEARCH_ID("cam04"));
+    CAM_PATH_MOVE(SEARCH_ID("cam04"), SEARCH_ID("cam04_MOTION"));
+    var4 = MODEL_BE(655, 5);
+    MODEL_POS(var4, SEARCH_ID("p02"));
+    var11 = MODEL_BE(655, 8);
+    var12 = MODEL_BE(655, 9);
+    var13 = MODEL_BE(655, 10);
+    var14 = MODEL_BE(655, 11);
+    var15 = MODEL_BE(655, 12);
+    var16 = MODEL_BE(655, 13);
+    var17 = MODEL_BE(655, 14);
+    var18 = MODEL_BE(655, 15);
+    var19 = MODEL_BE(655, 9);
+    var20 = MODEL_BE(655, 13);
+    var21 = MODEL_BE(655, 14);
+    var31 = MODEL_BE(655, 8);
+    var32 = MODEL_BE(655, 9);
+    var33 = MODEL_BE(655, 10);
+    var34 = MODEL_BE(655, 11);
+    var35 = MODEL_BE(655, 12);
+    var36 = MODEL_BE(655, 13);
+    var37 = MODEL_BE(655, 14);
+    MODEL_OFF(var11);
+    MODEL_OFF(var12);
+    MODEL_OFF(var13);
+    MODEL_OFF(var14);
+    MODEL_OFF(var15);
+    MODEL_OFF(var16);
+    MODEL_OFF(var17);
+    MODEL_OFF(var18);
+    MODEL_OFF(var19);
+    MODEL_OFF(var20);
+    MODEL_OFF(var21);
+    MODEL_OFF(var31);
+    MODEL_OFF(var32);
+    MODEL_OFF(var33);
+    MODEL_OFF(var34);
+    MODEL_OFF(var35);
+    MODEL_OFF(var36);
+    MODEL_OFF(var37);
+    WAIT(1);
+    BGM_PLAY_E(655, 4);
+    itfMesMngWindowTypeAlpha(1, 80);
+    SCR_RUN(6, - 1);
+    SCR_RUN(7, - 1);
+    WAIT(40);
+    MODEL_ON(var4);
+    MODEL_OFF(var3);
+    var8 = 0;
+    var49 = SCR_RUN(8, - 1);
+    var50 = SCR_RUN(9, - 1);
+    var51 = SCR_RUN(10, - 1);
+    var52 = SCR_RUN(11, - 1);
+    var53 = SCR_RUN(12, - 1);
+    var54 = SCR_RUN(13, - 1);
+    var55 = SCR_RUN(14, - 1);
+    SCR_RUN(15, - 1);
+    WAIT(120);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(12) /* MSG_050_1 */;
+    var5 = itfMesMngSelect(13);
+    if (var5 == 0)
+    {
+        WAIT(30);
+        BIT_ON(69);
+        POINT_ADD(2, 32);
+        itfMesMngMessage(14) /* MSG_050_3 */;
+    }
+    else if (var5 == 1)
+    {
+        WAIT(30);
+        itfMesMngMessage(15) /* MSG_050_4 */;
+    }
+    else if (var5 == 2)
+    {
+        WAIT(30);
+        itfMesMngMessage(16) /* MSG_050_5 */;
+    }
+    itfMesMngCloseWindow();
+    WAIT(10);
+    var8 = 1;
+    MODEL_MOVE2(var18, SEARCH_ID("path27"), 1, 2, 0, 0, 0);
+    MODEL_ON(var18);
+    MODEL_MOVE2(var19, SEARCH_ID("path28"), 1, 2, 0, 0, 0);
+    MODEL_ON(var19);
+    MODEL_MOVE2(var20, SEARCH_ID("path29"), 1, 2, 0, 0, 0);
+    MODEL_ON(var20);
+    MODEL_MOVE2(var21, SEARCH_ID("path30"), 1, 2, 0, 0, 0);
+    MODEL_ON(var21);
+    WAIT(90);
+    MODEL_CLS(var2);
+    WAIT(60);
+    FADEOUT_E(655, 4);
+}
+
+void e655_050_1()
+{
+    SCENE_FOG_RGB(40, 1.0f, 0.98f, 0.882f);
+    SCENE_FOG_PARA(40, 0, 5000, 0, 20000);
+    WAIT(40);
+    SCENE_FOG_RGB(40, 1.0f, 0.98f, 0.882f);
+    SCENE_FOG_PARA(40, 255, 480, 83, 999999);
+    WAIT(40);
+}
+
+void e655_050_2()
+{
+    BLUR2_PARA(0.02f, 0.986f, 0);
+    BLUR2_AREA(0, 0);
+    BLUR2_RGBA(120, 128, 128, 60);
+    BLUR2_SWAP(40);
+    WAIT(40);
+}
+
+void e655_050_3()
+{
+SINEN1_START:
+    MODEL_MOVE2(var11, SEARCH_ID("path20"), 1, 2, 0, 0, 0);
+    MODEL_WAIT(var11);
+    SYNC();
+    goto SINEN1_START;
+}
+
+void e655_050_4()
+{
+SINEN2_START:
+    MODEL_MOVE2(var12, SEARCH_ID("path21"), 1, 2, 0, 0, 0);
+    MODEL_ON(var12);
+    MODEL_WAIT(var12);
+    SYNC();
+    goto SINEN2_START;
+}
+
+void e655_050_5()
+{
+SINEN3_START:
+    MODEL_MOVE2(var13, SEARCH_ID("path22"), 1, 2, 0, 0, 0);
+    MODEL_ON(var13);
+    MODEL_WAIT(var13);
+    SYNC();
+    goto SINEN3_START;
+}
+
+void e655_050_6()
+{
+SINEN4_START:
+    MODEL_MOVE2(var14, SEARCH_ID("path23"), 1, 2, 0, 0, 0);
+    MODEL_ON(var14);
+    MODEL_WAIT(var14);
+    SYNC();
+    goto SINEN4_START;
+}
+
+void e655_050_7()
+{
+SINEN5_START:
+    MODEL_MOVE2(var15, SEARCH_ID("path24"), 1, 2, 0, 0, 0);
+    MODEL_ON(var15);
+    MODEL_WAIT(var15);
+    SYNC();
+    goto SINEN5_START;
+}
+
+void e655_050_8()
+{
+SINEN6_START:
+    MODEL_MOVE2(var16, SEARCH_ID("path25"), 1, 2, 0, 0, 0);
+    MODEL_ON(var16);
+    MODEL_WAIT(var16);
+    SYNC();
+    goto SINEN6_START;
+}
+
+void e655_050_9()
+{
+SINEN7_START:
+    MODEL_MOVE2(var17, SEARCH_ID("path26"), 1, 2, 0, 0, 0);
+    MODEL_ON(var17);
+    MODEL_WAIT(var17);
+    SYNC();
+    goto SINEN7_START;
+}
+
+void e655_050_R()
+{
+    WAIT(70);
+    var42 = SCR_RUN(16, - 1);
+    WAIT(5);
+    var43 = SCR_RUN(17, - 1);
+    WAIT(5);
+    var44 = SCR_RUN(18, - 1);
+    WAIT(5);
+    var45 = SCR_RUN(19, - 1);
+    WAIT(5);
+    var46 = SCR_RUN(20, - 1);
+    WAIT(5);
+    var47 = SCR_RUN(21, - 1);
+    WAIT(5);
+    var48 = SCR_RUN(22, - 1);
+}
+
+void e655_050_3R()
+{
+SINEN1R_START:
+    MODEL_MOVE2(var31, SEARCH_ID("path20"), 1, 2, 0, 0, 0);
+    MODEL_WAIT(var31);
+    SYNC();
+    goto SINEN1R_START;
+}
+
+void e655_050_4R()
+{
+SINEN2R_START:
+    MODEL_MOVE2(var32, SEARCH_ID("path21"), 1, 2, 0, 0, 0);
+    MODEL_ON(var32);
+    MODEL_WAIT(var32);
+    SYNC();
+    goto SINEN2R_START;
+}
+
+void e655_050_5R()
+{
+SINEN3R_START:
+    MODEL_MOVE2(var33, SEARCH_ID("path22"), 1, 2, 0, 0, 0);
+    MODEL_ON(var33);
+    MODEL_WAIT(var33);
+    SYNC();
+    goto SINEN3R_START;
+}
+
+void e655_050_6R()
+{
+SINEN4R_START:
+    MODEL_MOVE2(var34, SEARCH_ID("path23"), 1, 2, 0, 0, 0);
+    MODEL_ON(var34);
+    MODEL_WAIT(var34);
+    SYNC();
+    goto SINEN4R_START;
+}
+
+void e655_050_7R()
+{
+SINEN5R_START:
+    MODEL_MOVE2(var35, SEARCH_ID("path24"), 1, 2, 0, 0, 0);
+    MODEL_ON(var35);
+    MODEL_WAIT(var35);
+    SYNC();
+    goto SINEN5R_START;
+}
+
+void e655_050_8R()
+{
+SINEN6R_START:
+    MODEL_MOVE2(var36, SEARCH_ID("path25"), 1, 2, 0, 0, 0);
+    MODEL_ON(var36);
+    MODEL_WAIT(var36);
+    SYNC();
+    goto SINEN6R_START;
+}
+
+void e655_050_9R()
+{
+SINEN7R_START:
+    MODEL_MOVE2(var37, SEARCH_ID("path26"), 1, 2, 0, 0, 0);
+    MODEL_ON(var37);
+    MODEL_WAIT(var37);
+    SYNC();
+    goto SINEN7R_START;
+}
+
+void e655_060()
+{
+    CAM_SEL(SEARCH_ID("cam05"));
+    CAM_PATH_MOVE(SEARCH_ID("cam05"), SEARCH_ID("cam05_MOTION"));
+    var1 = MODEL_BE(655, 7);
+    var38 = MODEL_BE(655, 17);
+    MODEL_OFF(var1);
+    MODEL_OFF(var38);
+    itfMesMngWindowTypeAlpha(1, 80);
+    SCR_RUN(24, - 1);
+    SCR_RUN(25, - 1);
+    WAIT(50);
+    MODEL_POS(var3, SEARCH_ID("p03"));
+    MODEL_ON(var3);
+    MODEL_OFF(var4);
+    MODEL_POS(var1, SEARCH_ID("p06"));
+    MODEL_POS(var38, SEARCH_ID("p09"));
+    MODEL_ON(var1);
+    MODEL_ON(var38);
+    MODEL_MOTION2(var1, 1, 0, 0, 1);
+    MODEL_MOTION2(var38, 1, 0, 0, 1);
+    SCR_KILL(var49);
+    SCR_KILL(var50);
+    SCR_KILL(var51);
+    SCR_KILL(var52);
+    SCR_KILL(var53);
+    SCR_KILL(var54);
+    SCR_KILL(var55);
+    SCR_KILL(var42);
+    SCR_KILL(var43);
+    SCR_KILL(var44);
+    SCR_KILL(var45);
+    SCR_KILL(var46);
+    SCR_KILL(var47);
+    SCR_KILL(var48);
+    MODEL_OFF(var11);
+    MODEL_OFF(var12);
+    MODEL_OFF(var13);
+    MODEL_OFF(var14);
+    MODEL_OFF(var15);
+    MODEL_OFF(var16);
+    MODEL_OFF(var17);
+    MODEL_OFF(var18);
+    MODEL_OFF(var19);
+    MODEL_OFF(var20);
+    MODEL_OFF(var21);
+    MODEL_OFF(var31);
+    MODEL_OFF(var32);
+    MODEL_OFF(var33);
+    MODEL_OFF(var34);
+    MODEL_OFF(var35);
+    MODEL_OFF(var36);
+    MODEL_OFF(var37);
+    WAIT(160);
+    FADE_OUT(0, 40);
+    WAIT(40);
+}
+
+void e655_060_1()
+{
+    SCENE_FOG_RGB(50, 1.0f, 0.98f, 0.882f);
+    SCENE_FOG_PARA(50, 0, 5000, 0, 20000);
+    WAIT(50);
+    SCENE_FOG_RGB(100, 1.0f, 0.98f, 0.882f);
+    SCENE_FOG_PARA(100, 255, 5000, 150, 20000);
+    WAIT(100);
+}
+
+void e655_060_2()
+{
+    BLUR2_PARA(0.02f, 0.986f, 0);
+    BLUR2_AREA(0, 0);
+    BLUR2_RGBA(170, 128, 128, 60);
+    BLUR2_SWAP(150);
+    WAIT(150);
+}
+

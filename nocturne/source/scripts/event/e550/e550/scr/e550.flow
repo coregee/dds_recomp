@@ -1,0 +1,67 @@
+// game/dds3/event/e550/e550/scr/e550.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e550_main()
+{
+    FIELD_DSP(550, 1);
+    FADE_OUT(0, 1);
+    SET_SKY(20, 1, 0);
+    SET_SKY_A(0, 50);
+    SCENE_LIGHT_RGB(0, 0.8f, 0.8f, 0.8f);
+    SCENE_LIGHT_DIR(0, 0.7f, 0.4f, 0.7f);
+    SCENE_AMBIENT(0, 0.2f, 0.2f, 0);
+    SCENE_FOG_RGB(0, 255, 250, 225);
+    SCENE_FOG_PARA(0, 255, 5000, 150, 20000);
+    var2 = MODEL_DSP(3, 63);
+    MODEL_POS(var2, SEARCH_ID("p01"));
+    MODEL_MOTION2(var2, 1, 0, 0, 2);
+    SYNC();
+    SCR_WAIT(SCR_RUN(1, - 1));
+    BIT_ON(0);
+    FADE_OUT(0, 45);
+    WAIT(45);
+    MODEL_CLS(var2);
+    FIELD_CLS();
+    EXIT_EVENT();
+}
+
+void e550_010()
+{
+    CAM_SEL(SEARCH_ID("cam05"));
+    CAM_PATH_MOVE(SEARCH_ID("cam05"), SEARCH_ID("cam05_MOTION"));
+    FADE_IN(0, 30);
+    WAIT(0);
+    SE_PLAY_E(650, 64);
+    MODEL_WAIT_MOT(var2, 1);
+    MODEL_MOTION2(var2, 0, 0, 0, 0);
+    WAIT(80);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* MSG_010_1 */;
+    itfMesMngMessage(1) /* MSG_010_2 */;
+    itfMesMngMessage(2) /* MSG_010_3 */;
+    itfMesMngCloseWindow();
+    FADE_OUT(0, 30);
+    WAIT(30);
+    MODEL_CLS(var2);
+    FIELD_CLS();
+    FADE_IN(0, 10);
+    WAIT(10);
+    nmeNameEntry(2, 1);
+    FADE_OUT(0, 10);
+    WAIT(10);
+    FIELD_DSP(550, 1);
+    CAM_SEL(SEARCH_ID("cam05"));
+    CAM_PATH_MOVE(SEARCH_ID("cam05"), SEARCH_ID("cam05_MOTION"));
+    var2 = MODEL_DSP(3, 63);
+    MODEL_POS(var2, SEARCH_ID("p01"));
+    MODEL_MOTION2(var2, 1, 0, 0, 2);
+    FADE_IN(0, 35);
+    WAIT(35);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(3) /* MSG_010_4 */;
+    itfMesMngCloseWindow();
+    MODEL_WAIT_MOT(var2, 3);
+    MODEL_MOTION2(var2, 2, 0, 10, 0);
+    WAIT(18);
+}
+

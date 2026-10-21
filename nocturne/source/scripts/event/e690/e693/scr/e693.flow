@@ -1,0 +1,228 @@
+// game/dds3/event/e690/e693/scr/e693.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e693_main()
+{
+    LOAD_SOUND_E(693);
+    QUAKE_OFF();
+    WAIT(75);
+    if (BIT_CHK(2224) == 0)
+    {
+        var2 = PMV_RUN(693, 5);
+        var5 = PMV_LOAD(693, 2);
+        WAIT(30);
+        SCR_RUN(1, - 1);
+        SCR_WAIT(var2);
+        FIELD_CLS_STOP();
+        FILTER_ALLOFF();
+        var2 = PMV_LOAD(693, 3);
+        SCR_WAIT(PMV_RUN2(var5));
+        FIELD_CLS_STOP();
+        FILTER_ALLOFF();
+        BLUR_ALLOFF();
+        var5 = PMV_LOAD(693, 6);
+        SCR_WAIT(PMV_RUN2(var2));
+        FIELD_CLS_STOP();
+        FILTER_ALLOFF();
+        SCR_WAIT(PMV_RUN2(var5));
+        FIELD_CLS_STOP();
+        FILTER_ALLOFF();
+        while (BIT_CHK(39) == 0)
+        {
+            SYNC();
+        }
+        WAIT(75);
+        FADE_IN(1, 60);
+        WAIT(60);
+        CALL_STAFF();
+        EXIT_EVENT();
+    }
+    else
+    {
+        var2 = PMV_RUN(693, 1);
+        var5 = PMV_LOAD(693, 2);
+        WAIT(30);
+        SCR_RUN(1, - 1);
+        SCR_WAIT(var2);
+        FIELD_CLS_STOP();
+        FILTER_ALLOFF();
+        var2 = PMV_LOAD(693, 3);
+        SCR_WAIT(PMV_RUN2(var5));
+        FIELD_CLS_STOP();
+        FILTER_ALLOFF();
+        BLUR_ALLOFF();
+        var5 = PMV_LOAD(693, 4);
+        SCR_WAIT(PMV_RUN2(var2));
+        FIELD_CLS_STOP();
+        FILTER_ALLOFF();
+        SCR_WAIT(PMV_RUN2(var5));
+        FIELD_CLS_STOP();
+        FILTER_ALLOFF();
+        while (BIT_CHK(39) == 0)
+        {
+            SYNC();
+        }
+        WAIT(75);
+        FADE_IN(1, 60);
+        WAIT(60);
+        CALL_STAFF();
+        EXIT_EVENT();
+    }
+}
+
+void e693_010_1()
+{
+    itfMesMngIgnoreConfig(1);
+    SCR_RUN(2, - 1);
+    SCR_RUN(3, - 1);
+    SCR_RUN(4, - 1);
+    SCR_RUN(5, - 1);
+    SCR_RUN(6, - 1);
+    SCR_RUN(7, - 1);
+    SCR_RUN(8, - 1);
+    SCR_RUN(9, - 1);
+    SCR_RUN(10, - 1);
+    SCR_RUN(11, - 1);
+    SCR_RUN(12, - 1);
+    SCR_RUN(13, - 1);
+    while (BIT_CHK(39) == 0)
+    {
+        SYNC();
+    }
+    itfMesMngIgnoreConfig(0);
+}
+
+void e693_010_2()
+{
+    WAIT(50);
+    itfMesMngWindowTypeAlpha(1, 50);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* MSG_001 */;
+    WAIT(20);
+    itfMesMngCloseWindow();
+}
+
+void e693_010_3()
+{
+    WAIT(280);
+    itfMesMngWindowTypeAlpha(1, 50);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(1) /* MSG_002 */;
+    WAIT(50);
+    itfMesMngCloseWindow();
+    WAIT(620);
+    itfMesMngWindowTypeAlpha(1, 50);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(2) /* MSG_002B */;
+    WAIT(50);
+    itfMesMngCloseWindow();
+}
+
+void e693_010_4()
+{
+    WAIT(1220);
+    itfMesMngWindowTypeAlpha(1, 50);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(3) /* MSG_003 */;
+    WAIT(70);
+    itfMesMngCloseWindow();
+}
+
+void e693_010_5()
+{
+    WAIT(1420);
+    itfMesMngWindowTypeAlpha(1, 50);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(4) /* MSG_004 */;
+    WAIT(80);
+    itfMesMngCloseWindow();
+}
+
+void e693_010_6()
+{
+    WAIT(1670);
+    itfMesMngWindowTypeAlpha(1, 50);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(5) /* MSG_005 */;
+    WAIT(70);
+    itfMesMngCloseWindow();
+}
+
+void e693_010_7()
+{
+    WAIT(1870);
+    itfMesMngWindowTypeAlpha(1, 50);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(6) /* MSG_006 */;
+    WAIT(70);
+    itfMesMngCloseWindow();
+}
+
+void e693_010_8()
+{
+    WAIT(2150);
+    itfMesMngWindowTypeAlpha(1, 50);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(7) /* MSG_007 */;
+    WAIT(60);
+    itfMesMngCloseWindow();
+}
+
+void e693_010_9()
+{
+    WAIT(2410);
+    itfMesMngWindowTypeAlpha(1, 50);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(8) /* MSG_008 */;
+    WAIT(60);
+    itfMesMngCloseWindow();
+}
+
+void e693_010_10()
+{
+    WAIT(2600);
+    itfMesMngWindowTypeAlpha(1, 50);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(9) /* MSG_009 */;
+    WAIT(60);
+    itfMesMngCloseWindow();
+}
+
+void e693_010_11()
+{
+    WAIT(2810);
+    itfMesMngWindowTypeAlpha(1, 50);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(10) /* MSG_010 */;
+    WAIT(70);
+    itfMesMngCloseWindow();
+}
+
+void e693_010_12()
+{
+    WAIT(3010);
+    itfMesMngWindowTypeAlpha(1, 50);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(11) /* MSG_011 */;
+    WAIT(60);
+    itfMesMngCloseWindow();
+}
+
+void e693_010_13()
+{
+    WAIT(3220);
+    itfMesMngWindowTypeAlpha(1, 50);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(12) /* MSG_012 */;
+    WAIT(70);
+    itfMesMngCloseWindow();
+    WAIT(70);
+    itfMesMngWindowTypeAlpha(1, 50);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(13) /* MSG_013 */;
+    WAIT(60);
+    itfMesMngCloseWindow();
+    itfMesMngIgnoreConfig(0);
+    BIT_ON(39);
+}
+

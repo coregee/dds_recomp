@@ -1,0 +1,635 @@
+; FlowScript assembly. tools/flowscript.py assemble rebuilds the original bytes.
+.header 00000000f9150000464c57300000000005000000000000000000000000000000
+.sections procedures labels code messages strings
+.messages e601.bmd
+.strings 7030310063616d30310063616d30310063616d30315f4d4f54494f4e0063616d30310063616d30320063616d30320063616d30325f4d4f54494f4e0063616d30320063616d30320063616d30320063616d30325f4d4f54494f4e0063616d30320063616d30320063616d30325f4d4f54494f4e00
+.string-count 48
+.labels _2 _1 _4 _7 _6
+
+.procedure e601_main
+    PROC
+    PUSHIS 601
+    COMM LOAD_BE
+    PUSHIS 4
+    PUSHIS 601
+    COMM FIELD_BE
+    PUSHIS 601
+    COMM LOAD_SOUND_E
+    COMM BOKASI_ON
+    PUSHIS 0
+    PUSHIS 1
+    PUSHIS 20
+    COMM SET_SKY
+    PUSHIS 0
+    PUSHIS 0
+    COMM SET_SKY_A
+    PUSHF 0.7
+    PUSHF 0.7
+    PUSHF 0.7
+    PUSHIS 0
+    COMM SCENE_LIGHT_RGB
+    PUSHF 0.84
+    MINUS
+    PUSHF 0.42
+    PUSHF 0.33
+    PUSHIS 0
+    COMM SCENE_LIGHT_DIR
+    PUSHF 0.3
+    PUSHF 0.3
+    PUSHF 0.3
+    PUSHIS 0
+    COMM SCENE_AMBIENT
+    PUSHF 0.28
+    PUSHIS 15
+    PUSHIS 0
+    COMM SOFTEN_BIAS
+    PUSHF 0.784
+    PUSHF 0.784
+    PUSHF 0.784
+    PUSHIS 0
+    COMM SCENE_FOG_RGB
+    PUSHIS 20000
+    PUSHIS 0
+    PUSHIS 0
+    PUSHIS 255
+    PUSHIS 0
+    COMM SCENE_FOG_PARA
+    PUSHF 0.784
+    PUSHF 0.784
+    PUSHF 0.784
+    PUSHIS 0
+    COMM SCENE_FOG_RGB
+    PUSHIS 20000
+    PUSHIS 0
+    PUSHIS 200
+    PUSHIS 255
+    PUSHIS 100
+    COMM SCENE_FOG_PARA
+    COMM SYNC
+    PUSHIS 3
+    PUSHIS 601
+    COMM MODEL_BE
+    PUSHREG
+    POPIX 2
+    PUSHSTR 0
+    COMM SEARCH_ID
+    PUSHREG
+    PUSHIX 2
+    COMM MODEL_POS
+    PUSHIX 2
+    COMM MODEL_SHADOW_OFF
+    PUSHIS 7
+    PUSHIS 601
+    COMM MODEL_BE
+    PUSHREG
+    POPIX 6
+    PUSHIS 6
+    PUSHIS 601
+    COMM MODEL_BE
+    PUSHREG
+    POPIX 7
+    PUSHIS 5
+    PUSHIS 601
+    COMM MODEL_BE
+    PUSHREG
+    POPIX 8
+    PUSHIS 8
+    PUSHIS 601
+    COMM MODEL_BE
+    PUSHREG
+    POPIX 9
+    PUSHIS 10
+    PUSHIS 601
+    COMM MODEL_BE
+    PUSHREG
+    POPIX 10
+    PUSHIS 9
+    PUSHIS 601
+    COMM MODEL_BE
+    PUSHREG
+    POPIX 11
+    PUSHIX 6
+    COMM MODEL_OFF
+    PUSHIX 7
+    COMM MODEL_OFF
+    PUSHIX 8
+    COMM MODEL_OFF
+    PUSHIX 9
+    COMM MODEL_OFF
+    PUSHIX 10
+    COMM MODEL_OFF
+    PUSHIX 11
+    COMM MODEL_OFF
+    COMM SYNC
+    PUSHIS 10
+    PUSHIS 1
+    COMM FADE_IN
+    PUSHIS 1
+    MINUS
+    PUSHIS 3
+    COMM SCR_RUN
+    PUSHREG
+    COMM SCR_WAIT
+    PUSHIS 1
+    MINUS
+    PUSHIS 7
+    COMM SCR_RUN
+    PUSHREG
+    COMM SCR_WAIT
+    PUSHIS 0
+    COMM FILTER2_PARA
+    PUSHIS 255
+    PUSHIS 255
+    PUSHIS 255
+    PUSHIS 255
+    COMM FILTER2_RGBA
+    PUSHIS 60
+    COMM FILTER2_ON
+    PUSHIS 60
+    COMM WAIT
+    PUSHIS 18
+    COMM BIT_ON
+    COMM BLUR_ALLOFF
+    PUSHIS 35
+    COMM WAIT
+    PUSHIS 60
+    PUSHIS 0
+    COMM FADE_OUT
+    PUSHIS 60
+    COMM WAIT
+    PUSHIS 0
+    COMM FILTER2_OFF
+    PUSHIX 2
+    COMM MODEL_CLS
+    COMM FIELD_CLS
+    COMM EXIT_EVENT
+    END
+
+.procedure dist_blur01
+    PROC
+    PUSHIS 0
+    COMM WAIT
+    PUSHIS 1
+    PUSHF 0.22
+    PUSHF 0.023
+    PUSHF 0.114
+    PUSHIS 33
+    PUSHIS 137
+    PUSHIS 40
+    COMM DIST_BLUR_PARA
+    PUSHIS 4
+    PUSHIS 104
+    PUSHIS 104
+    PUSHIS 104
+    COMM DIST_BLUR_RGBA
+    PUSHIS 65
+    MINUS
+    PUSHIS 0
+    PUSHIS 156
+    COMM DIST_BLUR_AREA
+    PUSHIS 0
+    COMM DIST_BLUR_ON
+    END
+
+.procedure dist_blur02
+    PROC
+    PUSHIS 0
+    COMM WAIT
+    PUSHIS 1
+    PUSHF 0.22
+    PUSHF 0.023
+    PUSHF 0.114
+    PUSHIS 33
+    PUSHIS 157
+    PUSHIS 40
+    COMM DIST_BLUR_PARA
+    PUSHIS 9
+    PUSHIS 104
+    PUSHIS 104
+    PUSHIS 104
+    COMM DIST_BLUR_RGBA
+    PUSHIS 65
+    MINUS
+    PUSHIS 0
+    PUSHIS 156
+    COMM DIST_BLUR_AREA
+    PUSHIS 50
+    COMM DIST_BLUR_ON
+    END
+
+.procedure e601_010
+    PROC
+    PUSHSTR 4
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_SEL
+    PUSHSTR 16
+    COMM SEARCH_ID
+    PUSHREG
+    PUSHSTR 10
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_PATH_MOVE
+    PUSHSTR 29
+    COMM SEARCH_ID
+    PUSHREG
+    COMM COMM_0E8
+    PUSHIS 1
+    MINUS
+    PUSHIS 1
+    COMM SCR_RUN
+    PUSHIS 14
+    PUSHIS 601
+    COMM BGM_PLAY_E
+    PUSHIS 0
+    PUSHF 0.98
+    PUSHIS 0
+    COMM MUL_BLUR_PARA
+    PUSHIS 95
+    PUSHIS 128
+    PUSHIS 128
+    PUSHIS 128
+    COMM MUL_BLUR_RGBA
+    PUSHIS 30
+    MINUS
+    PUSHIS 3
+    PUSHIS 360
+    COMM MUL_BLUR_AREA
+    PUSHIS 0
+    COMM MUL_BLUR_ON
+    COMM SYNC
+    PUSHIS 135
+    COMM WAIT
+    PUSHIS 1
+    MINUS
+    PUSHIS 5
+    COMM SCR_RUN
+    PUSHIS 35
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngMessage
+    PUSHIS 1
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    PUSHIS 45
+    COMM WAIT
+    COMM itfMesMngOpenWindow
+    PUSHIS 2
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    PUSHIS 1
+    PUSHIS 2208
+    COMM BIT_CHK
+    PUSHREG
+    EQ
+    IF _4
+    COMM itfMesMngOpenWindow
+    PUSHIS 12
+    COMM itfMesMngMessage
+    PUSHIS 13
+    COMM itfMesMngSelect
+    PUSHREG
+    POPIX 12
+    COMM itfMesMngCloseWindow
+    PUSHIS 0
+    PUSHIX 12
+    EQ
+    IF _2
+    COMM itfMesMngOpenWindow
+    PUSHIS 15
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    PUSHIS 2
+    PUSHIS 0
+    COMM prm_PLAYER_ADD_PARAM
+    PUSHIS 1
+    PUSHIS 3
+    COMM prm_PLAYER_ADD_PARAM
+    GOTO _1
+_2:
+    PUSHIS 1
+    PUSHIX 12
+    EQ
+    IF _1
+    PUSHIS 2224
+    COMM BIT_ON
+    PUSHIS 5
+    COMM WAIT
+    COMM itfMesMngOpenWindow
+    PUSHIS 14
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    PUSHIS 2
+    PUSHIS 2
+    COMM prm_PLAYER_ADD_PARAM
+    PUSHIS 1
+    PUSHIS 4
+    COMM prm_PLAYER_ADD_PARAM
+    GOTO _1
+_1:
+    GOTO _4
+_4:
+    PUSHIS 1
+    MINUS
+    PUSHIS 4
+    COMM SCR_RUN
+    PUSHIS 2
+    PUSHIX 2
+    COMM MODEL_WAIT_MOT
+    PUSHIS 0
+    PUSHIS 10
+    PUSHIS 0
+    PUSHIS 1
+    PUSHIX 2
+    COMM MODEL_MOTION2
+    PUSHIS 160
+    COMM WAIT
+    END
+
+.procedure e601_010_1
+    PROC
+    PUSHIS 30
+    COMM WAIT
+    PUSHSTR 35
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_SEL
+    PUSHSTR 47
+    COMM SEARCH_ID
+    PUSHREG
+    PUSHSTR 41
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_PATH_MOVE
+    PUSHSTR 60
+    COMM SEARCH_ID
+    PUSHREG
+    COMM COMM_0E8
+    PUSHIS 1
+    PUSHIS 601
+    COMM FADEOUT_E
+    PUSHIS 6
+    PUSHIS 601
+    COMM BGM_PLAY_E
+    PUSHF 0.784
+    PUSHF 0.784
+    PUSHF 0.784
+    PUSHIS 0
+    COMM SCENE_FOG_RGB
+    PUSHIS 20000
+    PUSHIS 0
+    PUSHIS 150
+    PUSHIS 255
+    PUSHIS 0
+    COMM SCENE_FOG_PARA
+    PUSHIS 1
+    MINUS
+    PUSHIS 2
+    COMM SCR_RUN
+    PUSHIS 5
+    COMM WAIT
+    PUSHIS 5
+    COMM WAIT
+    PUSHIX 10
+    COMM MODEL_ON
+    PUSHF 0.5
+    PUSHIS 39
+    PUSHIX 10
+    COMM MODEL_A
+    PUSHIS 40
+    COMM WAIT
+    PUSHIS 0
+    PUSHIS 10
+    PUSHIX 10
+    COMM MODEL_A
+    PUSHIS 10
+    COMM WAIT
+    PUSHIX 10
+    COMM MODEL_OFF
+    PUSHSTR 66
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_SEL
+    PUSHSTR 78
+    COMM SEARCH_ID
+    PUSHREG
+    PUSHSTR 72
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_PATH_MOVE
+    END
+
+.procedure e601_010_2
+    PROC
+    PUSHIS 1
+    PUSHIS 601
+    COMM BGM_PLAY_E
+    END
+
+.procedure e601_010_3
+    PROC
+    PUSHIS 1
+    MINUS
+    PUSHIS 601
+    COMM BGM_TRANS_E
+    END
+
+.procedure e601_020
+    PROC
+    PUSHIS 35
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    COMM itfMesMngOpenWindow
+    PUSHIS 3
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    PUSHIS 45
+    COMM WAIT
+    COMM itfMesMngOpenWindow
+    PUSHIS 4
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    PUSHIS 80
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 1
+    MINUS
+    PUSHIS 601
+    COMM BGM_TRANS_E
+    PUSHIS 80
+    COMM WAIT
+    PUSHIS 0
+    PUSHIS 0
+    COMM nmeNameEntry
+    PUSHIS 80
+    PUSHIS 1
+    COMM FADE_IN
+    PUSHIS 80
+    COMM WAIT
+    PUSHIS 35
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    COMM itfMesMngOpenWindow
+    PUSHIS 9
+    PUSHIS 601
+    COMM BGM_TRANS_E
+    PUSHIS 5
+    COMM itfMesMngMessage
+    PUSHIS 6
+    COMM itfMesMngSelect
+    PUSHREG
+    POPIX 4
+    COMM itfMesMngCloseWindow
+    PUSHIS 0
+    PUSHIX 4
+    EQ
+    IF _7
+    COMM itfMesMngOpenWindow
+    PUSHIS 7
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    GOTO _6
+_7:
+    PUSHIS 1
+    PUSHIX 4
+    EQ
+    IF _6
+    COMM itfMesMngOpenWindow
+    PUSHIS 8
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    GOTO _6
+_6:
+    PUSHIS 1
+    MINUS
+    PUSHIS 9
+    COMM SCR_RUN
+    PUSHIS 40
+    COMM WAIT
+    COMM itfMesMngOpenWindow
+    PUSHIS 9
+    COMM itfMesMngMessage
+    PUSHIS 1
+    MINUS
+    PUSHIS 601
+    COMM BGM_TRANS_E
+    COMM itfMesMngCloseWindow
+    PUSHIS 80
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 80
+    COMM WAIT
+    PUSHIS 1
+    PUSHIS 1
+    COMM nmeNameEntry
+    PUSHIS 80
+    PUSHIS 1
+    COMM FADE_IN
+    PUSHIS 80
+    COMM WAIT
+    PUSHIS 35
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    COMM itfMesMngOpenWindow
+    PUSHIS 10
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    PUSHIS 1
+    PUSHIS 601
+    COMM FADEOUT_E
+    PUSHIS 2
+    PUSHIS 601
+    COMM FADEOUT_E
+    PUSHIS 3
+    PUSHIS 601
+    COMM FADEOUT_E
+    PUSHIS 4
+    PUSHIS 601
+    COMM FADEOUT_E
+    PUSHIS 5
+    PUSHIS 601
+    COMM FADEOUT_E
+    PUSHIS 6
+    PUSHIS 601
+    COMM FADEOUT_E
+    PUSHIS 7
+    PUSHIS 601
+    COMM FADEOUT_E
+    PUSHIS 8
+    PUSHIS 601
+    COMM FADEOUT_E
+    PUSHIS 9
+    PUSHIS 601
+    COMM FADEOUT_E
+    PUSHIS 10
+    PUSHIS 601
+    COMM FADEOUT_E
+    PUSHIS 11
+    PUSHIS 601
+    COMM FADEOUT_E
+    PUSHIS 12
+    PUSHIS 601
+    COMM FADEOUT_E
+    PUSHIS 13
+    PUSHIS 601
+    COMM FADEOUT_E
+    PUSHIS 14
+    PUSHIS 601
+    COMM FADEOUT_E
+    PUSHIS 30
+    COMM WAIT
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    MINUS
+    PUSHIS 8
+    COMM SCR_RUN
+    PUSHIS 35
+    COMM WAIT
+    PUSHIS 11
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    PUSHIS 30
+    COMM WAIT
+    END
+
+.procedure e601_020_1
+    PROC
+    PUSHIS 111
+    PUSHIS 601
+    COMM SE_PLAY_E
+    END
+
+.procedure e601_020_2
+    PROC
+    PUSHIS 5
+    COMM WAIT
+    PUSHSTR 91
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_SEL
+    PUSHSTR 103
+    COMM SEARCH_ID
+    PUSHREG
+    PUSHSTR 97
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_PATH_MOVE
+    PUSHIX 11
+    COMM MODEL_ON
+    PUSHF 0.5
+    PUSHIS 39
+    PUSHIX 11
+    COMM MODEL_A
+    PUSHIS 40
+    COMM WAIT
+    PUSHIS 0
+    PUSHIS 10
+    PUSHIX 11
+    COMM MODEL_A
+    PUSHIS 10
+    COMM WAIT
+    PUSHIX 11
+    COMM MODEL_OFF
+    END

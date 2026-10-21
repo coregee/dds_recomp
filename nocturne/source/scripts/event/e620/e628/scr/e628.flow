@@ -1,0 +1,274 @@
+// game/dds3/event/e620/e628/scr/e628.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e628_main()
+{
+    SYNC();
+    if (BIT_CHK(22) == 1 && BIT_CHK(23) == 0)
+    {
+        CALL_EVENT(635);
+        return;
+    }
+    else if (BIT_CHK(34) == 1)
+    {
+        CALL_NEXT(1, 24, 528);
+        EXIT_EVENT();
+        return;
+    }
+    LOAD_BE(628);
+    WAIT(30);
+    FIELD_BE(628, 6);
+    FADE_OUT(0, 1);
+    LOAD_SOUND_E(628);
+    BOKASI_ON();
+    SET_SKY(24, 1, 0);
+    SET_SKY_A(0, - 70);
+    var1 = MODEL_BE(628, 4);
+    var3 = MODEL_BE(628, 3);
+    var4 = MODEL_BE(628, 5);
+    var2 = MODEL_BE(628, 7);
+    var5 = MODEL_BE(628, 8);
+    var6 = MODEL_BE(628, 9);
+    var7 = MODEL_BE(628, 10);
+    MODEL_OFF(var7);
+    MODEL_OFF(var2);
+    MODEL_OFF(var5);
+    MODEL_OFF(var6);
+    MODEL_MOTION2(var3, 0, 0, 0, 1);
+    MODEL_MOTION2(var4, 0, 0, 0, 1);
+    MODEL_SHADOW_ON2(var1);
+    MODEL_SHADOW_ON2(var4);
+    MODEL_SHADOW_ON(var3);
+    MODEL_LIGHT_LINK(var1, 0, SEARCH_ID("light03"));
+    MODEL_LIGHT_LINK(var4, 0, SEARCH_ID("light10"));
+    MODEL_LIGHT_LINK(var3, 0, SEARCH_ID("light01"));
+    MODEL_LIGHT_LINK(var7, 0, SEARCH_ID("light01"));
+    SCENE_FOG_RGB(0, 0.078f, 0, 0);
+    SCENE_FOG_PARA(0, 255, 1500, 200, 20000);
+    SCENE_LIGHT_RGB(0, 0.8f, 0.5f, 0.3f);
+    SCENE_LIGHT_DIR(0, 0.3f, 0.25f, 0.2f);
+    SCENE_AMBIENT(0, 0.3f, 0.25f, 0.2f);
+    var9 = EFFBED_BE(628, 11);
+    var10 = EFFBED_BE(628, 11);
+    var11 = EFFBED_BE(628, 11);
+    var12 = EFFBED_BE(628, 11);
+    var13 = EFFBED_BE(628, 11);
+    var14 = EFFBED_BE(628, 11);
+    var15 = EFFBED_BE(628, 11);
+    var16 = EFFBED_BE(628, 11);
+    var17 = EFFBED_BE(628, 11);
+    var18 = EFFBED_BE(628, 11);
+    var19 = EFFBED_BE(628, 11);
+    var20 = EFFBED_BE(628, 11);
+    EFFBED_START(var9, 1);
+    EFFBED_START(var10, 1);
+    EFFBED_START(var11, 1);
+    EFFBED_START(var12, 1);
+    EFFBED_START(var13, 1);
+    EFFBED_START(var14, 1);
+    EFFBED_START(var15, 1);
+    EFFBED_START(var16, 1);
+    EFFBED_START(var17, 1);
+    EFFBED_START(var18, 1);
+    EFFBED_START(var19, 1);
+    EFFBED_START(var20, 1);
+    EFFECT_POS(var9, SEARCH_ID("p01"));
+    EFFECT_POS(var10, SEARCH_ID("p02"));
+    EFFECT_POS(var11, SEARCH_ID("p03"));
+    EFFECT_POS(var12, SEARCH_ID("p04"));
+    EFFECT_POS(var13, SEARCH_ID("p05"));
+    EFFECT_POS(var14, SEARCH_ID("p06"));
+    EFFECT_POS(var15, SEARCH_ID("p07"));
+    EFFECT_POS(var16, SEARCH_ID("p08"));
+    EFFECT_POS(var17, SEARCH_ID("p09"));
+    EFFECT_POS(var18, SEARCH_ID("p10"));
+    EFFECT_POS(var19, SEARCH_ID("p11"));
+    EFFECT_POS(var20, SEARCH_ID("p12"));
+    SYNC();
+    BGM_PLAY_E(628, 1);
+    SE_PLAY_E(628, 106);
+    var8 = PMV_LOAD(628, 50);
+    SCR_WAIT(SCR_RUN(1, - 1));
+    SCR_WAIT(SCR_RUN(2, - 1));
+    SCR_WAIT(SCR_RUN(3, - 1));
+    FIELD_CLS_STOP();
+    FILTER_ALLOFF();
+    SCR_WAIT(PMV_RUN2(var8));
+    FIELD_CLS_STOP();
+    FIELD_BE(628, 6);
+    var3 = MODEL_BE(628, 3);
+    var2 = MODEL_BE(628, 7);
+    var5 = MODEL_BE(628, 8);
+    var6 = MODEL_BE(628, 9);
+    MODEL_SHADOW_ON(var2);
+    MODEL_SHADOW_ON(var5);
+    MODEL_SHADOW_ON(var6);
+    var9 = EFFBED_BE(628, 11);
+    var10 = EFFBED_BE(628, 11);
+    var11 = EFFBED_BE(628, 11);
+    var12 = EFFBED_BE(628, 11);
+    var13 = EFFBED_BE(628, 11);
+    var14 = EFFBED_BE(628, 11);
+    var15 = EFFBED_BE(628, 11);
+    var16 = EFFBED_BE(628, 11);
+    var17 = EFFBED_BE(628, 11);
+    var18 = EFFBED_BE(628, 11);
+    var19 = EFFBED_BE(628, 11);
+    var20 = EFFBED_BE(628, 11);
+    EFFBED_START(var9, 1);
+    EFFBED_START(var10, 1);
+    EFFBED_START(var11, 1);
+    EFFBED_START(var12, 1);
+    EFFBED_START(var13, 1);
+    EFFBED_START(var14, 1);
+    EFFBED_START(var15, 1);
+    EFFBED_START(var16, 1);
+    EFFBED_START(var17, 1);
+    EFFBED_START(var18, 1);
+    EFFBED_START(var19, 1);
+    EFFBED_START(var20, 1);
+    EFFECT_POS(var9, SEARCH_ID("p01"));
+    EFFECT_POS(var10, SEARCH_ID("p02"));
+    EFFECT_POS(var11, SEARCH_ID("p03"));
+    EFFECT_POS(var12, SEARCH_ID("p04"));
+    EFFECT_POS(var13, SEARCH_ID("p05"));
+    EFFECT_POS(var14, SEARCH_ID("p06"));
+    EFFECT_POS(var15, SEARCH_ID("p07"));
+    EFFECT_POS(var16, SEARCH_ID("p08"));
+    EFFECT_POS(var17, SEARCH_ID("p09"));
+    EFFECT_POS(var18, SEARCH_ID("p10"));
+    EFFECT_POS(var19, SEARCH_ID("p11"));
+    EFFECT_POS(var20, SEARCH_ID("p12"));
+    CAM_SEL(SEARCH_ID("cam06"));
+    CAM_PATH_MOVE(SEARCH_ID("cam06"), SEARCH_ID("cam06_MOTION"));
+    SE_PLAY_E(628, 106);
+    DRAWSTOP(0);
+    SCR_WAIT(SCR_RUN(6, - 1));
+    SCR_WAIT(SCR_RUN(7, - 1));
+    BGM_STOP();
+    FADEOUT_E(628, 2);
+    FADE_OUT(0, 60);
+    SE_STOP_E(628, 106);
+    WAIT(60);
+    BIT_ON(34);
+    FIELD_CLS_STOP();
+    EXIT_EVENT();
+}
+
+void e628_010()
+{
+    CAM_SEL(SEARCH_ID("cam01"));
+    CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));
+    WAIT(10);
+    FADE_IN(0, 30);
+    WAIT(230);
+    MODEL_WAIT_MOT(var1, 0);
+    MODEL_MOTION2(var1, 5, 0, 10, 0);
+    WAIT(30);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* MSG_010_1 */;
+    itfMesMngCloseWindow();
+    WAIT(30);
+}
+
+void e628_020()
+{
+    CAM_SEL(SEARCH_ID("cam02"));
+    CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
+    MODEL_OFF(var4);
+    BGM_STOP();
+    BGM_PLAY_E(628, 2);
+    SET_SKY(24, 1, 0);
+    SET_SKY_A(0, - 110);
+    SCENE_FOG_RGB(0, 0.078f, 0, 0);
+    SCENE_FOG_PARA(0, 255, 1500, 0, 20000);
+    MODEL_WAIT_MOT(var1, 2);
+    MODEL_MOTION2(var1, 1, 0, 10, 0);
+    WAIT(100);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(1) /* MSG_020_1 */;
+    itfMesMngCloseWindow();
+    WAIT(20);
+}
+
+void e628_030()
+{
+    CAM_SEL(SEARCH_ID("cam03"));
+    CAM_PATH_MOVE(SEARCH_ID("cam03"), SEARCH_ID("cam03_MOTION"));
+    SCR_RUN(4, - 1);
+    itfMesMngOpenWindow();
+    itfMesMngIgnoreConfig(1);
+    itfMesMngMessage(2) /* MSG_030_1 */;
+    WAIT(15);
+    itfMesMngIgnoreConfig(0);
+    itfMesMngCloseWindow();
+    WAIT(3);
+    BGM_STOP();
+    itfMesMngOpenWindow();
+    itfMesMngIgnoreConfig(1);
+    itfMesMngMessage(3) /* MSG_040_1 */;
+    WAIT(10);
+    itfMesMngIgnoreConfig(0);
+    itfMesMngCloseWindow();
+    WAIT(50);
+}
+
+void e628_030_1()
+{
+    MODEL_MOTION2(var1, 3, 0, 10, 2);
+    MODEL_ON(var7);
+    MODEL_MOTION2(var3, 1, 0, 10, 2);
+    MODEL_MOTION2(var7, 0, 0, 0, 2);
+}
+
+void e628_040()
+{
+    CAM_SEL(SEARCH_ID("cam04"));
+    CAM_PATH_MOVE(SEARCH_ID("cam04"), SEARCH_ID("cam04_MOTION"));
+    itfMesMngOpenWindow();
+    itfMesMngMessage(3) /* MSG_040_1 */;
+    WAIT(8);
+    itfMesMngCloseWindow();
+    WAIT(30);
+}
+
+void e628_060()
+{
+    DRAWSTOP(0);
+    SCENE_LIGHT_RGB(0, 0.8f, 0.5f, 0.3f);
+    SCENE_LIGHT_DIR(0, 0.3f, 0.25f, 0.2f);
+    SCENE_AMBIENT(0, 0.3f, 0.25f, 0.2f);
+    SOFTEN_BIAS(0, 10, 0);
+    MODEL_LIGHT_LINK(var3, 0, SEARCH_ID("light02"));
+    MODEL_LIGHT_LINK(var2, 0, SEARCH_ID("light02"));
+    MODEL_LIGHT_LINK(var5, 0, SEARCH_ID("light02"));
+    MODEL_LIGHT_LINK(var6, 0, SEARCH_ID("light02"));
+    MODEL_OFF(var7);
+    MODEL_ON(var2);
+    MODEL_ON(var5);
+    MODEL_ON(var6);
+    MODEL_WAIT_MOT(var3, 5);
+    MODEL_MOTION2(var3, 4, 0, 0, 0);
+    WAIT(50);
+    MODEL_EXMOTION(var3, 1, 0, 0, 10, 2);
+    WAIT(15);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(4) /* MSG_060_1 */;
+    itfMesMngCloseWindow();
+    WAIT(20);
+    MODEL_MOTION2(var3, 6, 0, 10, 2);
+    MODEL_MOTION2(var2, 1, 0, 10, 2);
+    WAIT(40);
+}
+
+void e628_070()
+{
+    CAM_SEL(SEARCH_ID("cam07"));
+    CAM_PATH_MOVE(SEARCH_ID("cam07"), SEARCH_ID("cam07_MOTION"));
+    WAIT(55);
+    MODEL_MOTION2(var5, 1, 0, 10, 2);
+    WAIT(75);
+    MODEL_MOTION2(var6, 1, 0, 10, 2);
+    WAIT(5);
+}
+

@@ -1,0 +1,162 @@
+// game/dds3/result2/scr/message.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void rst_player_levup()
+{
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(0) /* msg_player_levup */;
+}
+
+void rst_player_param_cfm()
+{
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(2) /* msg_player_param_cfm */;
+    jump endless_loop;
+}
+
+void rst_devil_levup()
+{
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngSetVarScr(0, fclGetVal(0), 1);
+    itfMesMngMessage(3) /* msg_devil_levup */;
+}
+
+void rst_default_skill()
+{
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngSetVarScr(0, fclGetVal(0), 5);
+    itfMesMngMessage(6) /* msg_default_skill */;
+}
+
+void rst_select_skill()
+{
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(7) /* msg_select_skill */;
+    jump endless_loop;
+}
+
+void rst_destroy_skill()
+{
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngSetVarScr(0, fclGetVal(0), 5);
+    itfMesMngMessage(10) /* msg_destroy_skill */;
+}
+
+void rst_dh()
+{
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngSetVarScr(0, fclGetVal(0), 1);
+    itfMesMngMessage(11) /* msg_dh */;
+}
+
+void rst_zensyo()
+{
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngSetVarScr(0, fclGetVal(0), 1);
+    itfMesMngMessage(12) /* msg_zensyo */;
+}
+
+void rst_powerup_yesno()
+{
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    COMM_117(37, 310);
+    itfMesMngSetVarScr(0, fclGetVal(0), 5);
+    itfMesMngMessage(13) /* msg_powerup_yesno */;
+    jump endless_loop;
+}
+
+void rst_powerup_no()
+{
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(14) /* msg_powerup_no */;
+}
+
+void rst_powerup_success()
+{
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngSetVarScr(0, fclGetVal(0), 5);
+    itfMesMngSetVarScr(1, fclGetVal(1), 5);
+    itfMesMngMessage(15) /* msg_powerup_success */;
+}
+
+void rst_mutation()
+{
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngSetVarScr(0, fclGetVal(0), 5);
+    itfMesMngSetVarScr(1, fclGetVal(1), 5);
+    itfMesMngMessage(16) /* msg_mutation */;
+}
+
+void rst_powerup_fail()
+{
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngSetVarScr(0, fclGetVal(0), 5);
+    itfMesMngSetVarScr(1, fclGetVal(1), 5);
+    itfMesMngMessage(17) /* msg_powerup_fail */;
+}
+
+void rst_evo_err_1()
+{
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngSetVarScr(0, fclGetVal(0), 1);
+    itfMesMngMessage(19) /* msg_evo_err_1 */;
+}
+
+void rst_evo_err_2()
+{
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngSetVarScr(0, fclGetVal(0), 1);
+    itfMesMngMessage(20) /* msg_evo_err_2 */;
+}
+
+void rst_evo_yesno()
+{
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    COMM_117(37, 310);
+    itfMesMngSetVarScr(0, fclGetVal(0), 1);
+    itfMesMngMessage(21) /* msg_evo_yesno */;
+    jump endless_loop;
+}
+
+void rst_evo_yes()
+{
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngSetVarScr(0, fclGetVal(0), 1);
+    itfMesMngSetVarScr(1, fclGetVal(1), 1);
+    itfMesMngMessage(22) /* msg_evo_yes */;
+}
+
+void rst_evo_no()
+{
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngSetVarScr(0, fclGetVal(0), 1);
+    itfMesMngMessage(23) /* msg_evo_no */;
+}
+
+void endless_loop()
+{
+    fclSignal(0);
+    while (1)
+    {
+        WAIT(1);
+    }
+}
+

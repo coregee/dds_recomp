@@ -1,0 +1,87 @@
+// game/dds3/event/e610/e614/scr/e614.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e614_main()
+{
+    LOAD_BE(614);
+    LOAD_SOUND_E(614);
+    BLUR_ALLOFF();
+    FILTER_ALLOFF();
+    FIELD_BE(614, 1);
+    SCENE_LIGHT_RGB(0, 0.8f, 0.8f, 1.0f);
+    SCENE_LIGHT_DIR(0, - 0.5f, 0.2f, 0.85f);
+    SCENE_AMBIENT(0, 0.3f, 0.3f, 0.3f);
+    SCENE_FOG_RGB(0, 0.812f, 0.947f, 0.886f);
+    SCENE_FOG_PARA(0, 255, 23200, 0, 30000);
+    SOFTEN_BIAS(0, 15, 0);
+    BGM_PLAY_E(614, 1);
+    SCR_WAIT(SCR_RUN(1, - 1));
+    FILTER2_PARA(0);
+    FILTER2_RGBA(255, 255, 255, 255);
+    FILTER2_SWAP(200);
+    WAIT(220);
+    BLUR_ALLOFF();
+    FADEOUT_E(614, 1);
+    FADE_OUT(0, 200);
+    WAIT(220);
+    FILTER_ALLOFF();
+    MODEL_CLS(var1);
+    FIELD_CLS();
+    EXIT_EVENT();
+    CALL_EVENT(617);
+}
+
+void e614_010()
+{
+    CAM_SEL(SEARCH_ID("cam01"));
+    CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));
+    WAIT(180);
+    FADE_IN(1, 120);
+    FILTER2_PARA(0);
+    FILTER2_RGBA(168, 178, 218, 80);
+    FILTER2_ON(0);
+    DIST_BLUR_PARA(100, 260, 25, 0.1f, 0.255f, 0.4f, 1);
+    DIST_BLUR_RGBA(102, 102, 132, 15);
+    DIST_BLUR_AREA(350, 0, 0);
+    DIST_BLUR_ON(0);
+    RIP_BLUR_PARA(1, 0.005f, 0.1f, 0.075f, 0.1f, 0.25f, 0);
+    RIP_BLUR_RGBA(128, 128, 128, 148);
+    RIP_BLUR_AREA(410, 0, - 30);
+    RIP_BLUR_ON(0);
+    WAIT(60);
+    SCR_RUN(2, - 1);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* MSG_001 */;
+    itfMesMngCloseWindow();
+    WAIT(100);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(1) /* MSG_002 */;
+    itfMesMngCloseWindow();
+    WAIT(30);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(2) /* MSG_003 */;
+    itfMesMngCloseWindow();
+    WAIT(20);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(3) /* MSG_004 */;
+    itfMesMngCloseWindow();
+}
+
+void e614_010_1()
+{
+LOOP:
+    BLUR2_PARA(0.0f, 0.936f, 0);
+    BLUR2_RGBA(128, 128, 128, 76);
+    BLUR2_AREA(0, - 30);
+    BLUR2_ON(300);
+    WAIT(310);
+    BLUR2_PARA(0.0f, 0.936f, 0);
+    BLUR2_RGBA(128, 128, 128, 0);
+    BLUR2_AREA(0, - 30);
+    BLUR2_SWAP(300);
+    WAIT(310);
+    BLUR2_OFF(1);
+    WAIT(1);
+    goto LOOP;
+}
+

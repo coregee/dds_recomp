@@ -1,0 +1,136 @@
+// game/dds3/event/e670/e679/scr/e679.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e679_main()
+{
+    LOAD_BE(679);
+    FIELD_BE(679, 3);
+    FADE_OUT(0, 1);
+    LOAD_SOUND_E(679);
+    BOKASI_ON();
+    SET_SKY(34, 1, 0);
+    SET_SKY_A(0, - 40);
+    var1 = MODEL_BE(679, 4);
+    var4 = MODEL_BE(679, 5);
+    var2 = MODEL_BE(679, 6);
+    var3 = MODEL_BE(679, 7);
+    var5 = MODEL_BE(679, 8);
+    var6 = MODEL_BE(679, 9);
+    MODEL_LIGHT_LINK(var4, 0, SEARCH_ID("light01"));
+    MODEL_OFF(var5);
+    SCENE_FOG_RGB(0, 0.114f, 0, 0.114f);
+    SCENE_FOG_PARA(0, 215, 1000, 180, 20000);
+    SCENE_LIGHT_RGB(0, 0.4f, 0.4f, 0.4f);
+    SCENE_LIGHT_DIR(0, 0.22f, 0.92f, - 0.34f);
+    SCENE_AMBIENT(0, 0.2f, 0.2f, 0.2f);
+    SOFTEN_BIAS(0, 15.0f, 0);
+    var9 = EFFECT_BE(679, 10);
+    EFFBED_START(var9, 1);
+    EFFECT_POS(var9, SEARCH_ID("p01"));
+    WAIT(100);
+    SYNC();
+    BGM_PLAY_E(679, 1);
+    SCR_WAIT(SCR_RUN(1, - 1));
+    SCR_WAIT(SCR_RUN(2, - 1));
+    SCR_WAIT(SCR_RUN(3, - 1));
+    FADEOUT_E(679, 1);
+    FADE_OUT(0, 70);
+    WAIT(70);
+    BIT_ON(132);
+    BIT_ON(990);
+    FIELD_CLS_STOP();
+    FILTER_ALLOFF();
+    BLUR_ALLOFF();
+    EXIT_EVENT();
+}
+
+void e679_010()
+{
+    CAM_SEL(SEARCH_ID("cam01"));
+    CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));
+    MODEL_MOTION2(var1, 1, 0, 0, 1);
+    MODEL_MOTION2(var2, 1, 0, 0, 2);
+    WAIT(10);
+    FADE_IN(0, 80);
+    FILTER2_PARA(1);
+    FILTER2_RGBA(20, 5, 10, 44);
+    FILTER2_ON(0);
+    WAIT(100);
+    SET_SKY(84, 1, 200);
+    SET_SKY_A(200, - 100);
+    WAIT(320);
+    if (BIT_CHK(145) == 1)
+    {
+        itfMesMngWindowTypeAlpha(1, 50);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(1) /* MSG_010_B1 */;
+        itfMesMngCloseWindow();
+    }
+    else
+    {
+        itfMesMngWindowTypeAlpha(1, 50);
+        itfMesMngOpenWindow();
+        itfMesMngMessage(0) /* MSG_010_A1 */;
+        itfMesMngCloseWindow();
+    }
+    WAIT(30);
+    WAIT(10);
+}
+
+void e679_020()
+{
+    CAM_SEL(SEARCH_ID("cam02"));
+    CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
+    FADE_IN(1, 30);
+    MODEL_ON(var5);
+    var10 = EFFBED_BE(679, 11);
+    EFFBED_START(var10, 1);
+    EFFECT_POS(var10, SEARCH_ID("p03"));
+    SE_PLAY_E(679, 111);
+    MODEL_MOTION2(var5, 1, 0, 10, 2);
+    MODEL_MOTION2(var6, 1, 0, 0, 2);
+    BLUR2_PARA(0, 1.075f, 0);
+    BLUR2_RGBA(157, 157, 157, 70);
+    BLUR2_AREA(- 5, - 15);
+    BLUR2_ON(40);
+    MUL_BLUR_PARA(0.025f, 1.06f, 0);
+    MUL_BLUR_RGBA(165, 205, 207, 70);
+    MUL_BLUR_AREA(273, 9, - 19);
+    MUL_BLUR_ON(30);
+    WAIT(5);
+    var9 = EFFBED_BE(677, 11);
+    EFFBED_START(var9, 1);
+    EFFECT_POS(var9, SEARCH_ID("p03"));
+    WAIT(35);
+    BLUR2_OFF(30);
+    MUL_BLUR_PARA(0, 0.99f, 0);
+    MUL_BLUR_RGBA(165, 195, 197, 60);
+    MUL_BLUR_AREA(183, - 4, 35);
+    MUL_BLUR_SWAP(30);
+    WAIT(30);
+    MUL_BLUR_PARA(0, 0.99f, 0);
+    MUL_BLUR_RGBA(165, 195, 197, 30);
+    MUL_BLUR_AREA(183, - 4, 35);
+    MUL_BLUR_SWAP(170);
+    WAIT(30);
+    CAM_SEL(SEARCH_ID("cam06"));
+    CAM_PATH_MOVE(SEARCH_ID("cam06"), SEARCH_ID("cam06_MOTION"));
+    SE_PLAY_E(679, 110);
+    WAIT(115);
+}
+
+void e679_030()
+{
+    CAM_SEL(SEARCH_ID("cam03"));
+    CAM_PATH_MOVE(SEARCH_ID("cam03"), SEARCH_ID("cam03_MOTION"));
+    MODEL_MOTION2(var4, 1, 0, 10, 1);
+    MODEL_MOTION2(var3, 1, 0, 10, 2);
+    WAIT(170);
+    itfMesMngWindowTypeAlpha(1, 50);
+    SE_PLAY(25);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(2) /* MSG_020_1_E */;
+    itfMesMngCloseWindow();
+    WAIT(20);
+}
+

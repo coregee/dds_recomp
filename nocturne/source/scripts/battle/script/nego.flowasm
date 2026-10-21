@@ -1,0 +1,1105 @@
+; FlowScript assembly. tools/flowscript.py assemble rebuilds the original bytes.
+.header 00000000002a0000464c573000000000050000002a0000000000000000000000
+.sections procedures labels code messages strings
+.messages nego.bmd
+.strings 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+.labels _3 _5 _1 _2 _8 _7 _9 _11 _14 _13 _16 _15 _18 _17 _20 _23 _24 _22 _26 _27 _25 _29 _28 _31 _30 _33 _34 _32 _36 _35 _38 _37 _42 _41 _44 _43 _46 _45 _39 _40 _47 _49 _52 _51 _54 _53 _56 _55 _58 _57 _59 _62 _63 _61 _65 _66 _64 _68 _69 _67 _71 _72 _70
+
+.procedure NormalNegoStart
+    PROC
+    CALL NegoInit
+    JUMP NegoMain
+    END
+
+.procedure FailNegoStart
+    PROC
+    CALL NegoInit
+    PUSHIS 100
+    POPLIX 0
+    COMM #251
+    PUSHIS 0
+    POPLIX 13
+    PUSHIS 0
+    PUSHIS 1
+    PUSHLIX 2
+    COMM #215
+    PUSHIS 0
+    PUSHIS 1
+    MINUS
+    COMM #219
+    PUSHIS 1
+    PUSHLIX 2
+    COMM #219
+    COMM #213
+    PUSHIS 42
+    COMM #0
+    CALL NegoExit
+    PUSHIS 0
+    COMM #252
+    END
+
+.procedure NegoInit
+    PROC
+    PUSHIS 0
+    POPLIX 0
+    COMM #200
+    PUSHREG
+    POPLIX 1
+    COMM #201
+    PUSHREG
+    POPLIX 2
+    PUSHLIX 1
+    COMM #212
+    PUSHREG
+    POPLIX 3
+    PUSHLIX 2
+    COMM #212
+    PUSHREG
+    POPLIX 4
+    COMM #210
+    PUSHREG
+    POPLIX 5
+    COMM #211
+    PUSHREG
+    POPLIX 6
+    PUSHIS 4
+    PUSHIS 1
+    PUSHLIX 5
+    SUB
+    DIV
+    POPLIX 7
+    PUSHIS 1
+    PUSHIS 4
+    PUSHLIX 7
+    MUL
+    PUSHIS 1
+    PUSHLIX 5
+    SUB
+    SUB
+    ADD
+    POPLIX 7
+    PUSHIS 1
+    POPLIX 13
+    PUSHIS 1
+    PUSHLIX 3
+    PUSHIS 1
+    COMM #113
+    PUSHIS 1
+    PUSHLIX 4
+    PUSHIS 0
+    COMM #113
+    END
+
+.procedure NegoMain
+    PROC
+    COMM #244
+    PUSHREG
+    POPLIX 14
+    PUSHIS 0
+    POPLIX 15
+_1:
+    PUSHLIX 14
+    PUSHLIX 15
+    S
+    IF _2
+    PUSHLIX 15
+    COMM #245
+    PUSHREG
+    POPLIX 8
+    PUSHLIX 8
+    PUSHLIX 2
+    NEQ
+    IF _5
+    PUSHIS 1
+    PUSHLIX 14
+    COMM #10
+    PUSHREG
+    SUB
+    POPLIX 16
+    PUSHIS 0
+    PUSHLIX 16
+    EQ
+    IF _3
+    JUMP NegoFailIntr
+    GOTO _3
+_3:
+    GOTO _5
+_5:
+    PUSHIS 1
+    PUSHLIX 15
+    ADD
+    POPLIX 15
+    GOTO _1
+_2:
+    PUSHIS 0
+    PUSHLIX 2
+    COMM #204
+    PUSHIS 0
+    PUSHLIX 1
+    COMM #204
+    PUSHIS 16
+    PUSHLIX 1
+    PUSHLIX 2
+    COMM #228
+    PUSHIS 16
+    PUSHLIX 2
+    PUSHLIX 1
+    COMM #228
+    PUSHIS 16
+    PUSHLIX 2
+    PUSHLIX 1
+    COMM #226
+    PUSHLIX 1
+    COMM #227
+    PUSHIS 0
+    PUSHIS 1
+    MINUS
+    COMM #219
+    PUSHIS 1
+    PUSHLIX 1
+    COMM #219
+    PUSHIS 1
+    PUSHLIX 2
+    COMM #219
+    PUSHIS 0
+    PUSHIS 0
+    PUSHLIX 2
+    PUSHLIX 1
+    COMM #216
+    PUSHLIX 5
+    COMM #229
+    PUSHIS 0
+    PUSHIS 11
+    PUSHLIX 1
+    COMM #205
+    PUSHIS 30
+    PUSHIS 1
+    MUL
+    COMM #14
+    COMM #213
+    PUSHIS 1
+    IF _8
+    CALL NegoStartTest
+    GOTO _7
+_8:
+    PUSHIS 0
+    POPLIX 10
+    CALL NegoFail
+    GOTO _7
+_7:
+    JUMP NegoExit
+    END
+
+.procedure NegoExit
+    PROC
+    PUSHIS 1
+    PUSHIS 1
+    MINUS
+    COMM #219
+    PUSHIS 0
+    PUSHLIX 13
+    NEQ
+    IF _9
+    PUSHIS 0
+    PUSHIS 0
+    COMM #217
+    GOTO _9
+_9:
+    COMM #214
+    COMM #230
+    PUSHIS 1
+    PUSHLIX 1
+    COMM #219
+    PUSHIS 0
+    PUSHLIX 1
+    COMM #204
+    PUSHIS 16
+    PUSHIS 1
+    MINUS
+    PUSHLIX 1
+    COMM #228
+    PUSHIS 16
+    PUSHIS 1
+    MINUS
+    PUSHLIX 1
+    COMM #226
+    PUSHIS 0
+    PUSHLIX 2
+    LE
+    IF _11
+    PUSHIS 1
+    PUSHLIX 2
+    COMM #219
+    PUSHIS 0
+    PUSHLIX 2
+    COMM #204
+    PUSHIS 16
+    PUSHIS 1
+    MINUS
+    PUSHLIX 2
+    COMM #228
+    GOTO _11
+_11:
+    PUSHLIX 2
+    COMM #246
+    PUSHLIX 0
+    COMM #209
+    END
+
+.procedure NegoFail
+    PROC
+    PUSHIS 1
+    PUSHIS 3
+    COMM #10
+    PUSHREG
+    SUB
+    POPLIX 17
+    PUSHIS 0
+    PUSHLIX 17
+    EQ
+    IF _14
+    JUMP NegoFailEscape
+    GOTO _13
+_14:
+    JUMP NegoFailAttack
+    GOTO _13
+_13:
+    END
+
+.procedure NegoFailIntr
+    PROC
+    PUSHLIX 8
+    COMM #212
+    PUSHREG
+    POPLIX 18
+    PUSHIS 1
+    PUSHLIX 18
+    PUSHIS 0
+    COMM #113
+    PUSHIS 8
+    PUSHIS 5
+    PUSHLIX 8
+    COMM #248
+    PUSHIS 8
+    COMM #14
+    PUSHIS 0
+    PUSHIS 12
+    PUSHLIX 8
+    COMM #205
+    PUSHIS 8
+    PUSHIS 1
+    PUSHLIX 8
+    COMM #215
+    COMM #213
+    PUSHIS 0
+    COMM #0
+    PUSHIS 0
+    PUSHLIX 8
+    COMM #204
+    COMM #214
+    PUSHIS 0
+    POPLIX 0
+    PUSHLIX 0
+    COMM #209
+    END
+
+.procedure NegoFailAttack
+    PROC
+    PUSHIS 0
+    POPLIX 0
+    COMM #230
+    PUSHIS 0
+    PUSHLIX 1
+    COMM #219
+    PUSHIS 0
+    PUSHIS 1
+    PUSHLIX 2
+    COMM #215
+    PUSHIS 0
+    PUSHIS 12
+    PUSHLIX 2
+    COMM #205
+    PUSHLIX 10
+    COMM #0
+    END
+
+.procedure NegoFailEscape
+    PROC
+    PUSHIS 3
+    POPLIX 0
+    COMM #230
+    PUSHIS 0
+    PUSHLIX 1
+    COMM #219
+    PUSHIS 0
+    PUSHIS 1
+    PUSHLIX 2
+    COMM #215
+    PUSHIS 0
+    PUSHIS 12
+    PUSHLIX 2
+    COMM #205
+    PUSHIS 0
+    PUSHLIX 12
+    EQ
+    IF _16
+    PUSHIS 1
+    POPLIX 19
+    GOTO _15
+_16:
+    PUSHIS 2
+    POPLIX 19
+    GOTO _15
+_15:
+    PUSHLIX 19
+    COMM #0
+    PUSHIS 30
+    PUSHIS 0
+    PUSHLIX 2
+    COMM #206
+    PUSHLIX 2
+    COMM #207
+    PUSHLIX 2
+    COMM #247
+    PUSHIS 1
+    MINUS
+    POPLIX 2
+    END
+
+.procedure NegoStart
+    PROC
+    PUSHIS 0
+    POPLIX 20
+    PUSHIS 86
+    PUSHLIX 4
+    EQ
+    IF _20
+    PUSHIS 1
+    PUSHLIX 7
+    EQ
+    IF _18
+    PUSHIS 1
+    POPLIX 20
+    GOTO _17
+_18:
+    PUSHIS 3
+    PUSHLIX 7
+    EQ
+    IF _17
+    PUSHIS 2
+    POPLIX 20
+    GOTO _17
+_17:
+    GOTO _20
+_20:
+    PUSHIS 1
+    PUSHLIX 20
+    EQ
+    IF _23
+    JUMP AftyBad
+    GOTO _22
+_23:
+    PUSHIS 0
+    PUSHLIX 20
+    EQ
+    IF _24
+    JUMP AftyNormal
+    GOTO _22
+_24:
+    JUMP AftyPerfect
+    GOTO _22
+_22:
+    END
+
+.procedure NegoStartTest
+    PROC
+    PUSHIS 0
+    POPLIX 21
+    PUSHLIX 7
+    PUSHLIX 2
+    PUSHLIX 1
+    COMM #250
+    PUSHREG
+    POPLIX 21
+    PUSHIS 0
+    PUSHLIX 21
+    EQ
+    IF _26
+    JUMP AftyNormal
+    GOTO _25
+_26:
+    PUSHIS 0
+    PUSHLIX 21
+    S
+    IF _27
+    PUSHIS 1
+    PUSHIS 1
+    MINUS
+    PUSHLIX 21
+    MUL
+    SUB
+    POPLIX 10
+    JUMP AftyBad
+    GOTO _25
+_27:
+    PUSHIS 1
+    PUSHLIX 21
+    SUB
+    POPLIX 10
+    JUMP AftyPerfect
+    GOTO _25
+_25:
+    END
+
+.procedure AftyBad
+    PROC
+    PUSHIS 15
+    PUSHLIX 10
+    ADD
+    POPLIX 10
+    JUMP NegoFailAttack
+    END
+
+.procedure AftyNormal
+    PROC
+    PUSHIS 2
+    PUSHLIX 6
+    EQ
+    IF _29
+    JUMP RemunareMain
+    GOTO _28
+_29:
+    PUSHIS 1
+    PUSHLIX 6
+    PUSHIS 10
+    ADD
+    SUB
+    COMM #0
+    JUMP DealMain
+    GOTO _28
+_28:
+    END
+
+.procedure AftyGood
+    PROC
+    PUSHIS 0
+    POPLIX 22
+    PUSHIS 0
+    PUSHLIX 22
+    S
+    IF _31
+    JUMP DealSuccess
+    GOTO _30
+_31:
+    JUMP DealMain
+    GOTO _30
+_30:
+    END
+
+.procedure AftyPerfect
+    PROC
+    PUSHIS 13
+    PUSHLIX 10
+    ADD
+    POPLIX 10
+    PUSHLIX 10
+    COMM #0
+    JUMP RemunareMain
+    END
+
+.procedure DealMain
+    PROC
+    PUSHIS 1
+    PUSHIS 3
+    COMM #10
+    PUSHREG
+    SUB
+    POPLIX 24
+    PUSHIS 0
+    POPLIX 12
+    PUSHIS 0
+    PUSHLIX 24
+    EQ
+    IF _33
+    CALL DealMoney
+    GOTO _32
+_33:
+    PUSHIS 1
+    PUSHLIX 24
+    EQ
+    IF _34
+    CALL DealMag
+    GOTO _32
+_34:
+    CALL DealItem
+    GOTO _32
+_32:
+    PUSHIS 0
+    PUSHLIX 12
+    EQ
+    IF _38
+    PUSHIS 10000
+    COMM #10
+    PUSHREG
+    POPLIX 23
+    PUSHIS 5000
+    PUSHLIX 23
+    S
+    IF _36
+    PUSHIS 25
+    COMM #0
+    JUMP DealMain
+    GOTO _35
+_36:
+    JUMP DealSuccess
+    GOTO _35
+_35:
+    GOTO _37
+_38:
+    JUMP DealFail
+    GOTO _37
+_37:
+    END
+
+.procedure DealMoney
+    PROC
+    PUSHLIX 4
+    COMM #40
+    PUSHREG
+    POPLIX 11
+    PUSHIS 1000
+    PUSHLIX 11
+    MUL
+    POPLIX 11
+    PUSHIS 1
+    PUSHLIX 1
+    COMM #231
+    PUSHREG
+    POPLIX 26
+    PUSHIS 0
+    POPLIX 27
+_39:
+    PUSHIS 1
+    IF _40
+    PUSHIS 0
+    PUSHIS 11
+    PUSHLIX 2
+    COMM #205
+    PUSHIS 0
+    PUSHLIX 11
+    PUSHIS 2
+    COMM #113
+    PUSHLIX 27
+    PUSHIS 18
+    ADD
+    COMM #0
+    PUSHIS 24
+    COMM #3
+    PUSHREG
+    POPLIX 25
+    PUSHIS 0
+    PUSHLIX 25
+    EQ
+    IF _46
+    PUSHIS 0
+    COMM #31
+    PUSHREG
+    POPLIX 28
+    PUSHLIX 11
+    PUSHLIX 28
+    LE
+    IF _42
+    PUSHLIX 11
+    MINUS
+    COMM #31
+    PUSHIS 0
+    POPLIX 12
+    GOTO _41
+_42:
+    PUSHIS 6
+    COMM #0
+    PUSHIS 2
+    POPLIX 12
+    GOTO _41
+_41:
+    GOTO _40
+    GOTO _45
+_46:
+    PUSHLIX 27
+    PUSHLIX 26
+    SE
+    IF _44
+    PUSHIS 3
+    COMM #0
+    PUSHIS 1
+    POPLIX 12
+    GOTO _40
+    GOTO _43
+_44:
+    PUSHLIX 27
+    COMM #222
+    PUSHREG
+    POPLIX 8
+    PUSHLIX 27
+    COMM #223
+    PUSHREG
+    POPLIX 9
+    CALL DealMoneyIntr
+    PUSHIS 1
+    PUSHLIX 27
+    ADD
+    POPLIX 27
+    GOTO _43
+_43:
+    GOTO _45
+_45:
+    GOTO _39
+_40:
+    END
+
+.procedure DealMoneyIntr
+    PROC
+    COMM #214
+    PUSHLIX 1
+    PUSHLIX 8
+    NEQ
+    IF _47
+    PUSHLIX 1
+    POPLIX 29
+    COMM #230
+    PUSHIS 0
+    PUSHLIX 1
+    COMM #204
+    PUSHIS 16
+    PUSHIS 1
+    MINUS
+    PUSHLIX 1
+    COMM #228
+    PUSHIS 16
+    PUSHIS 1
+    MINUS
+    PUSHLIX 1
+    COMM #226
+    PUSHLIX 8
+    POPLIX 1
+    PUSHIS 16
+    PUSHLIX 1
+    PUSHLIX 2
+    COMM #228
+    PUSHIS 1
+    PUSHLIX 1
+    COMM #219
+    PUSHIS 0
+    PUSHLIX 1
+    COMM #204
+    PUSHIS 16
+    PUSHLIX 2
+    PUSHLIX 1
+    COMM #228
+    PUSHIS 16
+    PUSHLIX 2
+    PUSHLIX 1
+    COMM #226
+    PUSHLIX 1
+    COMM #227
+    PUSHIS 0
+    PUSHLIX 29
+    COMM #219
+    GOTO _47
+_47:
+    PUSHLIX 9
+    POPLIX 5
+    PUSHLIX 5
+    COMM #229
+    PUSHIS 0
+    PUSHIS 11
+    PUSHLIX 1
+    COMM #205
+    PUSHIS 30
+    PUSHIS 1
+    MUL
+    COMM #14
+    PUSHIS 0
+    PUSHIS 11
+    PUSHLIX 2
+    COMM #205
+    COMM #213
+    PUSHIS 4113
+    PUSHLIX 9
+    EQ
+    IF _49
+    PUSHIS 2
+    PUSHLIX 11
+    DIV
+    POPLIX 11
+    GOTO _49
+_49:
+    END
+
+.procedure DealMag
+    PROC
+    PUSHIS 0
+    PUSHIS 11
+    PUSHLIX 2
+    COMM #205
+    PUSHLIX 4
+    COMM #40
+    PUSHREG
+    POPLIX 11
+    PUSHIS 0
+    PUSHLIX 11
+    PUSHIS 2
+    COMM #113
+    PUSHIS 22
+    COMM #0
+    PUSHIS 24
+    COMM #3
+    PUSHREG
+    POPLIX 31
+    PUSHIS 0
+    PUSHLIX 31
+    EQ
+    IF _54
+    PUSHIS 0
+    COMM #31
+    PUSHREG
+    POPLIX 30
+    PUSHLIX 11
+    PUSHLIX 30
+    LE
+    IF _52
+    PUSHLIX 11
+    MINUS
+    COMM #31
+    PUSHIS 0
+    POPLIX 12
+    GOTO _51
+_52:
+    PUSHIS 4
+    COMM #0
+    PUSHIS 2
+    POPLIX 12
+    GOTO _51
+_51:
+    GOTO _53
+_54:
+    PUSHIS 4
+    COMM #0
+    PUSHIS 1
+    POPLIX 12
+    GOTO _53
+_53:
+    END
+
+.procedure DealItem
+    PROC
+    PUSHIS 0
+    PUSHIS 11
+    PUSHLIX 2
+    COMM #205
+    PUSHIS 4
+    COMM #10
+    PUSHREG
+    POPLIX 11
+    PUSHIS 3
+    PUSHLIX 11
+    PUSHIS 2
+    COMM #113
+    PUSHIS 23
+    COMM #0
+    PUSHIS 24
+    COMM #3
+    PUSHREG
+    POPLIX 33
+    PUSHIS 0
+    PUSHLIX 33
+    EQ
+    IF _58
+    PUSHIS 0
+    PUSHLIX 11
+    COMM #112
+    PUSHREG
+    POPLIX 32
+    PUSHIS 0
+    PUSHLIX 32
+    L
+    IF _56
+    PUSHIS 1
+    MINUS
+    PUSHLIX 11
+    COMM #112
+    PUSHIS 0
+    POPLIX 12
+    GOTO _55
+_56:
+    PUSHIS 5
+    COMM #0
+    PUSHIS 2
+    POPLIX 12
+    GOTO _55
+_55:
+    GOTO _57
+_58:
+    PUSHIS 5
+    COMM #0
+    PUSHIS 1
+    POPLIX 12
+    GOTO _57
+_57:
+    END
+
+.procedure DealSuccess
+    PROC
+    PUSHIS 1
+    PUSHIS 3
+    COMM #10
+    PUSHREG
+    SUB
+    POPLIX 34
+    PUSHIS 0
+    PUSHLIX 34
+    EQ
+    IF _59
+    JUMP NegoFailEscape
+    GOTO _59
+_59:
+    JUMP RemunareMain
+    END
+
+.procedure DealFail
+    PROC
+    JUMP RaptureMain
+    END
+
+.procedure RemunareMain
+    PROC
+    PUSHIS 3
+    POPLIX 0
+    PUSHLIX 6
+    POPLIX 35
+    PUSHIS 1
+    PUSHLIX 35
+    EQ
+    IF _62
+    JUMP RemunareJoin
+    GOTO _61
+_62:
+    PUSHIS 2
+    PUSHLIX 35
+    EQ
+    IF _63
+    JUMP RemunareMoneyAndGoods
+    GOTO _61
+_63:
+    JUMP RemunareInfo
+    GOTO _61
+_61:
+    END
+
+.procedure RemunareJoin
+    PROC
+    COMM #230
+    PUSHIS 0
+    PUSHLIX 1
+    COMM #219
+    PUSHIS 0
+    PUSHIS 1
+    PUSHLIX 2
+    COMM #215
+    PUSHIS 0
+    PUSHIS 11
+    PUSHLIX 2
+    COMM #205
+    PUSHIS 32
+    COMM #0
+    PUSHIS 30
+    PUSHIS 0
+    PUSHLIX 2
+    COMM #206
+    PUSHLIX 2
+    COMM #207
+    PUSHLIX 2
+    COMM #208
+    PUSHIS 1
+    MINUS
+    POPLIX 2
+    END
+
+.procedure RemunareMoneyAndGoods
+    PROC
+    PUSHIS 1
+    PUSHIS 3
+    COMM #10
+    PUSHREG
+    SUB
+    POPLIX 36
+    PUSHIS 0
+    PUSHLIX 36
+    EQ
+    IF _65
+    JUMP RemunareMoney
+    GOTO _64
+_65:
+    PUSHIS 1
+    PUSHLIX 36
+    EQ
+    IF _66
+    JUMP RemunareMag
+    GOTO _64
+_66:
+    JUMP RemunareItem
+    GOTO _64
+_64:
+    END
+
+.procedure RemunareMoney
+    PROC
+    PUSHLIX 4
+    COMM #40
+    PUSHREG
+    POPLIX 37
+    PUSHIS 0
+    PUSHLIX 37
+    PUSHIS 2
+    COMM #113
+    PUSHIS 0
+    PUSHIS 11
+    PUSHLIX 2
+    COMM #205
+    PUSHIS 33
+    COMM #0
+    END
+
+.procedure RemunareMag
+    PROC
+    PUSHLIX 4
+    COMM #40
+    PUSHREG
+    POPLIX 38
+    PUSHIS 0
+    PUSHLIX 38
+    PUSHIS 2
+    COMM #113
+    PUSHIS 0
+    PUSHIS 11
+    PUSHLIX 2
+    COMM #205
+    PUSHIS 34
+    COMM #0
+    END
+
+.procedure RemunareItem
+    PROC
+    PUSHIS 0
+    PUSHLIX 4
+    COMM #39
+    PUSHREG
+    POPLIX 39
+    PUSHIS 3
+    PUSHLIX 39
+    PUSHIS 2
+    COMM #113
+    PUSHIS 0
+    PUSHIS 11
+    PUSHLIX 2
+    COMM #205
+    PUSHIS 35
+    COMM #0
+    END
+
+.procedure RemunareInfo
+    PROC
+    PUSHIS 0
+    PUSHIS 11
+    PUSHLIX 2
+    COMM #205
+    PUSHIS 36
+    COMM #0
+    END
+
+.procedure RaptureMain
+    PROC
+    PUSHIS 0
+    POPLIX 0
+    PUSHLIX 6
+    POPLIX 40
+    PUSHIS 1
+    PUSHLIX 40
+    EQ
+    IF _68
+    JUMP RaptureJoin
+    GOTO _67
+_68:
+    PUSHIS 2
+    PUSHLIX 40
+    EQ
+    IF _69
+    JUMP RaptureMoneyAndGoods
+    GOTO _67
+_69:
+    JUMP RaptureInfo
+    GOTO _67
+_67:
+    END
+
+.procedure RaptureJoin
+    PROC
+    PUSHIS 37
+    POPLIX 10
+    JUMP NegoFail
+    END
+
+.procedure RaptureMoneyAndGoods
+    PROC
+    PUSHIS 1
+    PUSHIS 3
+    COMM #10
+    PUSHREG
+    SUB
+    POPLIX 41
+    PUSHIS 0
+    PUSHLIX 41
+    EQ
+    IF _71
+    JUMP RaptureMoney
+    GOTO _70
+_71:
+    PUSHIS 1
+    PUSHLIX 41
+    EQ
+    IF _72
+    JUMP RaptureMag
+    GOTO _70
+_72:
+    JUMP RaptureItem
+    GOTO _70
+_70:
+    END
+
+.procedure RaptureMoney
+    PROC
+    PUSHIS 38
+    POPLIX 10
+    JUMP NegoFail
+    END
+
+.procedure RaptureMag
+    PROC
+    PUSHIS 39
+    POPLIX 10
+    JUMP NegoFail
+    END
+
+.procedure RaptureItem
+    PROC
+    PUSHIS 40
+    POPLIX 10
+    JUMP NegoFail
+    END
+
+.procedure RaptureInfo
+    PROC
+    PUSHIS 41
+    POPLIX 10
+    JUMP NegoFail
+    END

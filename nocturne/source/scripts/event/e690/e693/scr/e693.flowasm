@@ -1,0 +1,433 @@
+; FlowScript assembly. tools/flowscript.py assemble rebuilds the original bytes.
+.header 000000005b0f0000464c57300000000005000000000000000000000000000000
+.sections procedures labels code messages strings
+.messages e693.bmd
+.strings 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+.labels _1 _2 _3 _4 _6 _5 _7 _8
+
+.procedure e693_main
+    PROC
+    PUSHIS 693
+    COMM LOAD_SOUND_E
+    COMM QUAKE_OFF
+    PUSHIS 75
+    COMM WAIT
+    PUSHIS 0
+    PUSHIS 2224
+    COMM BIT_CHK
+    PUSHREG
+    EQ
+    IF _6
+    PUSHIS 5
+    PUSHIS 693
+    COMM PMV_RUN
+    PUSHREG
+    POPIX 2
+    PUSHIS 2
+    PUSHIS 693
+    COMM PMV_LOAD
+    PUSHREG
+    POPIX 5
+    PUSHIS 30
+    COMM WAIT
+    PUSHIS 1
+    MINUS
+    PUSHIS 1
+    COMM SCR_RUN
+    PUSHIX 2
+    COMM SCR_WAIT
+    COMM FIELD_CLS_STOP
+    COMM FILTER_ALLOFF
+    PUSHIS 3
+    PUSHIS 693
+    COMM PMV_LOAD
+    PUSHREG
+    POPIX 2
+    PUSHIX 5
+    COMM PMV_RUN2
+    PUSHREG
+    COMM SCR_WAIT
+    COMM FIELD_CLS_STOP
+    COMM FILTER_ALLOFF
+    COMM BLUR_ALLOFF
+    PUSHIS 6
+    PUSHIS 693
+    COMM PMV_LOAD
+    PUSHREG
+    POPIX 5
+    PUSHIX 2
+    COMM PMV_RUN2
+    PUSHREG
+    COMM SCR_WAIT
+    COMM FIELD_CLS_STOP
+    COMM FILTER_ALLOFF
+    PUSHIX 5
+    COMM PMV_RUN2
+    PUSHREG
+    COMM SCR_WAIT
+    COMM FIELD_CLS_STOP
+    COMM FILTER_ALLOFF
+_1:
+    PUSHIS 0
+    PUSHIS 39
+    COMM BIT_CHK
+    PUSHREG
+    EQ
+    IF _2
+    COMM SYNC
+    GOTO _1
+_2:
+    PUSHIS 75
+    COMM WAIT
+    PUSHIS 60
+    PUSHIS 1
+    COMM FADE_IN
+    PUSHIS 60
+    COMM WAIT
+    COMM CALL_STAFF
+    COMM EXIT_EVENT
+    GOTO _5
+_6:
+    PUSHIS 1
+    PUSHIS 693
+    COMM PMV_RUN
+    PUSHREG
+    POPIX 2
+    PUSHIS 2
+    PUSHIS 693
+    COMM PMV_LOAD
+    PUSHREG
+    POPIX 5
+    PUSHIS 30
+    COMM WAIT
+    PUSHIS 1
+    MINUS
+    PUSHIS 1
+    COMM SCR_RUN
+    PUSHIX 2
+    COMM SCR_WAIT
+    COMM FIELD_CLS_STOP
+    COMM FILTER_ALLOFF
+    PUSHIS 3
+    PUSHIS 693
+    COMM PMV_LOAD
+    PUSHREG
+    POPIX 2
+    PUSHIX 5
+    COMM PMV_RUN2
+    PUSHREG
+    COMM SCR_WAIT
+    COMM FIELD_CLS_STOP
+    COMM FILTER_ALLOFF
+    COMM BLUR_ALLOFF
+    PUSHIS 4
+    PUSHIS 693
+    COMM PMV_LOAD
+    PUSHREG
+    POPIX 5
+    PUSHIX 2
+    COMM PMV_RUN2
+    PUSHREG
+    COMM SCR_WAIT
+    COMM FIELD_CLS_STOP
+    COMM FILTER_ALLOFF
+    PUSHIX 5
+    COMM PMV_RUN2
+    PUSHREG
+    COMM SCR_WAIT
+    COMM FIELD_CLS_STOP
+    COMM FILTER_ALLOFF
+_3:
+    PUSHIS 0
+    PUSHIS 39
+    COMM BIT_CHK
+    PUSHREG
+    EQ
+    IF _4
+    COMM SYNC
+    GOTO _3
+_4:
+    PUSHIS 75
+    COMM WAIT
+    PUSHIS 60
+    PUSHIS 1
+    COMM FADE_IN
+    PUSHIS 60
+    COMM WAIT
+    COMM CALL_STAFF
+    COMM EXIT_EVENT
+    GOTO _5
+_5:
+    END
+
+.procedure e693_010_1
+    PROC
+    PUSHIS 1
+    COMM itfMesMngIgnoreConfig
+    PUSHIS 1
+    MINUS
+    PUSHIS 2
+    COMM SCR_RUN
+    PUSHIS 1
+    MINUS
+    PUSHIS 3
+    COMM SCR_RUN
+    PUSHIS 1
+    MINUS
+    PUSHIS 4
+    COMM SCR_RUN
+    PUSHIS 1
+    MINUS
+    PUSHIS 5
+    COMM SCR_RUN
+    PUSHIS 1
+    MINUS
+    PUSHIS 6
+    COMM SCR_RUN
+    PUSHIS 1
+    MINUS
+    PUSHIS 7
+    COMM SCR_RUN
+    PUSHIS 1
+    MINUS
+    PUSHIS 8
+    COMM SCR_RUN
+    PUSHIS 1
+    MINUS
+    PUSHIS 9
+    COMM SCR_RUN
+    PUSHIS 1
+    MINUS
+    PUSHIS 10
+    COMM SCR_RUN
+    PUSHIS 1
+    MINUS
+    PUSHIS 11
+    COMM SCR_RUN
+    PUSHIS 1
+    MINUS
+    PUSHIS 12
+    COMM SCR_RUN
+    PUSHIS 1
+    MINUS
+    PUSHIS 13
+    COMM SCR_RUN
+_7:
+    PUSHIS 0
+    PUSHIS 39
+    COMM BIT_CHK
+    PUSHREG
+    EQ
+    IF _8
+    COMM SYNC
+    GOTO _7
+_8:
+    PUSHIS 0
+    COMM itfMesMngIgnoreConfig
+    END
+
+.procedure e693_010_2
+    PROC
+    PUSHIS 50
+    COMM WAIT
+    PUSHIS 50
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngMessage
+    PUSHIS 20
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    END
+
+.procedure e693_010_3
+    PROC
+    PUSHIS 280
+    COMM WAIT
+    PUSHIS 50
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngMessage
+    PUSHIS 50
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    PUSHIS 620
+    COMM WAIT
+    PUSHIS 50
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    COMM itfMesMngOpenWindow
+    PUSHIS 2
+    COMM itfMesMngMessage
+    PUSHIS 50
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    END
+
+.procedure e693_010_4
+    PROC
+    PUSHIS 1220
+    COMM WAIT
+    PUSHIS 50
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    COMM itfMesMngOpenWindow
+    PUSHIS 3
+    COMM itfMesMngMessage
+    PUSHIS 70
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    END
+
+.procedure e693_010_5
+    PROC
+    PUSHIS 1420
+    COMM WAIT
+    PUSHIS 50
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    COMM itfMesMngOpenWindow
+    PUSHIS 4
+    COMM itfMesMngMessage
+    PUSHIS 80
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    END
+
+.procedure e693_010_6
+    PROC
+    PUSHIS 1670
+    COMM WAIT
+    PUSHIS 50
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    COMM itfMesMngOpenWindow
+    PUSHIS 5
+    COMM itfMesMngMessage
+    PUSHIS 70
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    END
+
+.procedure e693_010_7
+    PROC
+    PUSHIS 1870
+    COMM WAIT
+    PUSHIS 50
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    COMM itfMesMngOpenWindow
+    PUSHIS 6
+    COMM itfMesMngMessage
+    PUSHIS 70
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    END
+
+.procedure e693_010_8
+    PROC
+    PUSHIS 2150
+    COMM WAIT
+    PUSHIS 50
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    COMM itfMesMngOpenWindow
+    PUSHIS 7
+    COMM itfMesMngMessage
+    PUSHIS 60
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    END
+
+.procedure e693_010_9
+    PROC
+    PUSHIS 2410
+    COMM WAIT
+    PUSHIS 50
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    COMM itfMesMngOpenWindow
+    PUSHIS 8
+    COMM itfMesMngMessage
+    PUSHIS 60
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    END
+
+.procedure e693_010_10
+    PROC
+    PUSHIS 2600
+    COMM WAIT
+    PUSHIS 50
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    COMM itfMesMngOpenWindow
+    PUSHIS 9
+    COMM itfMesMngMessage
+    PUSHIS 60
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    END
+
+.procedure e693_010_11
+    PROC
+    PUSHIS 2810
+    COMM WAIT
+    PUSHIS 50
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    COMM itfMesMngOpenWindow
+    PUSHIS 10
+    COMM itfMesMngMessage
+    PUSHIS 70
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    END
+
+.procedure e693_010_12
+    PROC
+    PUSHIS 3010
+    COMM WAIT
+    PUSHIS 50
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    COMM itfMesMngOpenWindow
+    PUSHIS 11
+    COMM itfMesMngMessage
+    PUSHIS 60
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    END
+
+.procedure e693_010_13
+    PROC
+    PUSHIS 3220
+    COMM WAIT
+    PUSHIS 50
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    COMM itfMesMngOpenWindow
+    PUSHIS 12
+    COMM itfMesMngMessage
+    PUSHIS 70
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    PUSHIS 70
+    COMM WAIT
+    PUSHIS 50
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    COMM itfMesMngOpenWindow
+    PUSHIS 13
+    COMM itfMesMngMessage
+    PUSHIS 60
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    PUSHIS 0
+    COMM itfMesMngIgnoreConfig
+    PUSHIS 39
+    COMM BIT_ON
+    END

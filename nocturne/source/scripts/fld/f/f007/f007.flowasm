@@ -1,0 +1,1592 @@
+; FlowScript assembly. tools/flowscript.py assemble rebuilds the original bytes.
+.header 0000000003350000464c57300000000005000000250000000000000000000000
+.sections procedures labels code messages strings
+.messages f007.bmd
+.strings 303163616d5f3031003031616c6c5f643031003031706174685f3031003031616c6c5f643032003031706174685f3032003031616c6c5f64303100303163616d5f3031002f666c642f662f663030372f663030375f626730312e746d7800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+.labels _1 _3 _5 _7 _12 _11 _14 _13 _16 _15 _17 _20 _19 _22 _23 _24 _21 _27 _28 _29 _30 _31 _32 _26 _34 _33 _36 _35 _38 _37 _39 _9 _10 _41 _46 _45 _47 _43 _44 _52 _51 _54 _53 _55 _49 _50 _59 _57 _58 _63 _61 _62 _67 _65 _66 _71 _73 _76 _75 _77 _69 _70 _80 _79 _83 _85 _87 _89 _91 _93 _95 _97 _100 _101 _102 _103 _104 _105 _106 _107 _108 _109 _110 _99 _112 _81 _82 _116 _118 _121 _120 _124 _123 _126 _125 _127 _129 _131 _133 _135 _114 _115 _138 _139 _140 _141 _142 _137 _146 _144 _145 _149 _150 _148 _151
+
+.procedure takarasagasi_label
+    PROC
+    COMM PAD_DISABLE
+    COMM itfMesMngOpenWindow
+    PUSHIS 6
+    COMM SET_ALLPANEL
+    PUSHIS 1
+    COMM FLD_SAGASI_AKUMA
+    PUSHREG
+    POPLIX 0
+    PUSHIS 1
+    POPLIX 1
+    PUSHIS 0
+    COMM FLD_SAGASI_AKUMA
+    PUSHREG
+    POPLIX 2
+    PUSHIS 3
+    PUSHLIX 0
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 0
+    PUSHLIX 1
+    PUSHIS 1
+    COMM itfMesMngSetVarScr
+    PUSHIS 1
+    PUSHLIX 2
+    PUSHIS 2
+    COMM itfMesMngSetVarScr
+    PUSHIS 43
+    COMM FLD_SE_PLAY
+    PUSHIS 19
+    COMM itfMesMngMessage
+    PUSHLIX 1
+    PUSHLIX 0
+    COMM prm_ITEM_PLUS
+    COMM itfMesMngCloseWindow
+    COMM PAD_ENABLE
+    PUSHIS 7
+    COMM SET_ALLPANEL
+    END
+
+.procedure hirakenai_label
+    PROC
+    COMM PAD_DISABLE
+    COMM itfMesMngOpenWindow
+    PUSHIS 6
+    COMM SET_ALLPANEL
+    PUSHIS 20
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    COMM PAD_ENABLE
+    PUSHIS 7
+    COMM SET_ALLPANEL
+    END
+
+.procedure kireta_label
+    PROC
+    COMM PAD_DISABLE
+    COMM itfMesMngOpenWindow
+    PUSHIS 6
+    COMM SET_ALLPANEL
+    PUSHIS 1
+    PUSHIS 0
+    COMM FLD_GET_KIRETA
+    PUSHREG
+    EQ
+    IF _1
+    PUSHIS 21
+    COMM itfMesMngMessage
+    GOTO _1
+_1:
+    PUSHIS 1
+    PUSHIS 1
+    COMM FLD_GET_KIRETA
+    PUSHREG
+    EQ
+    IF _3
+    PUSHIS 24
+    COMM itfMesMngMessage
+    GOTO _3
+_3:
+    PUSHIS 1
+    PUSHIS 2
+    COMM FLD_GET_KIRETA
+    PUSHREG
+    EQ
+    IF _5
+    PUSHIS 23
+    COMM itfMesMngMessage
+    GOTO _5
+_5:
+    PUSHIS 1
+    PUSHIS 3
+    COMM FLD_GET_KIRETA
+    PUSHREG
+    EQ
+    IF _7
+    PUSHIS 22
+    COMM itfMesMngMessage
+    GOTO _7
+_7:
+    COMM itfMesMngCloseWindow
+    COMM PAD_ENABLE
+    PUSHIS 7
+    COMM SET_ALLPANEL
+    END
+
+.procedure itembox_label
+    PROC
+_9:
+    PUSHIS 1
+    IF _10
+    PUSHIS 1
+    PUSHIS 9
+    COMM ACT_WIN_DSP
+    PUSHREG
+    EQ
+    IF _39
+    COMM PAD_DISABLE
+    COMM itfMesMngOpenWindow
+    PUSHIS 6
+    COMM SET_ALLPANEL
+    COMM FLD_CHK_TAKARA_OPEN
+    PUSHREG
+    IF _38
+    PUSHIS 13
+    COMM itfMesMngMessage
+    GOTO _37
+_38:
+    PUSHIS 0
+    COMM FLD_GET_TAKARA_TBL
+    PUSHREG
+    POPLIX 3
+    PUSHIS 1
+    COMM FLD_GET_TAKARA_TBL
+    PUSHREG
+    POPLIX 4
+    PUSHIS 2
+    COMM FLD_GET_TAKARA_TBL
+    PUSHREG
+    POPLIX 5
+    PUSHIS 3
+    COMM FLD_GET_TAKARA_TBL
+    PUSHREG
+    POPLIX 6
+    PUSHIS 4
+    COMM FLD_GET_TAKARA_TBL
+    PUSHREG
+    POPLIX 7
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _12
+    PUSHIS 6
+    COMM itfMesMngMessage
+    GOTO _11
+_12:
+    PUSHIS 10
+    COMM itfMesMngMessage
+    GOTO _11
+_11:
+    PUSHIS 1
+    PUSHIS 3
+    COMM itfMesMngSelectDefKey
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _14
+    PUSHIS 7
+    COMM itfMesMngSelect
+    PUSHREG
+    POPLIX 8
+    GOTO _13
+_14:
+    PUSHIS 11
+    COMM itfMesMngSelect
+    PUSHREG
+    POPLIX 8
+    GOTO _13
+_13:
+    PUSHIS 0
+    PUSHLIX 8
+    EQ
+    IF _36
+    PUSHIS 1
+    PUSHLIX 6
+    EQ
+    IF _27
+    COMM FLD_SET_TAKARA_OPEN
+    PUSHLIX 7
+    COMM CALL_BATTLE2
+    END
+    GOTO _26
+_27:
+    PUSHIS 2
+    PUSHLIX 6
+    EQ
+    IF _28
+    COMM FLD_SET_TAKARA_OPEN
+    PUSHIS 34
+    COMM FLD_SE_PLAY
+    PUSHIS 100
+    PUSHIS 15
+    COMM QUAKE_ON
+    PUSHIS 15
+    PUSHIS 1
+    PUSHIS 0
+    COMM PAD_ACT
+    PUSHIS 15
+    PUSHIS 100
+    PUSHIS 1
+    COMM PAD_ACT
+    PUSHIS 1
+    COMM prm_PARTY_DAMAGE
+    PUSHIS 17
+    COMM itfMesMngMessage
+    GOTO _26
+_28:
+    PUSHIS 3
+    PUSHLIX 6
+    EQ
+    IF _29
+    COMM FLD_SET_TAKARA_OPEN
+    PUSHIS 34
+    COMM FLD_SE_PLAY
+    PUSHIS 200
+    PUSHIS 20
+    COMM QUAKE_ON
+    PUSHIS 20
+    PUSHIS 1
+    PUSHIS 0
+    COMM PAD_ACT
+    PUSHIS 20
+    PUSHIS 200
+    PUSHIS 1
+    COMM PAD_ACT
+    PUSHIS 2
+    COMM prm_PARTY_DAMAGE
+    PUSHIS 17
+    COMM itfMesMngMessage
+    GOTO _26
+_29:
+    PUSHIS 4
+    PUSHLIX 6
+    EQ
+    IF _30
+    COMM FLD_SET_TAKARA_OPEN
+    PUSHIS 34
+    COMM FLD_SE_PLAY
+    PUSHIS 200
+    PUSHIS 20
+    COMM QUAKE_ON
+    PUSHIS 20
+    PUSHIS 1
+    PUSHIS 0
+    COMM PAD_ACT
+    PUSHIS 20
+    PUSHIS 200
+    PUSHIS 1
+    COMM PAD_ACT
+    PUSHIS 4
+    COMM prm_PARTY_DAMAGE
+    PUSHIS 17
+    COMM itfMesMngMessage
+    GOTO _26
+_30:
+    PUSHIS 5
+    PUSHLIX 6
+    EQ
+    IF _31
+    COMM FLD_SET_TAKARA_OPEN
+    PUSHIS 34
+    COMM FLD_SE_PLAY
+    PUSHIS 200
+    PUSHIS 20
+    COMM QUAKE_ON
+    PUSHIS 20
+    PUSHIS 1
+    PUSHIS 0
+    COMM PAD_ACT
+    PUSHIS 20
+    PUSHIS 200
+    PUSHIS 1
+    COMM PAD_ACT
+    PUSHIS 5
+    COMM prm_PARTY_DAMAGE
+    PUSHIS 17
+    COMM itfMesMngMessage
+    GOTO _26
+_31:
+    PUSHIS 6
+    PUSHLIX 6
+    EQ
+    IF _32
+    COMM FLD_SET_TAKARA_OPEN
+    PUSHIS 34
+    COMM FLD_SE_PLAY
+    PUSHIS 200
+    PUSHIS 20
+    COMM QUAKE_ON
+    PUSHIS 20
+    PUSHIS 1
+    PUSHIS 0
+    COMM PAD_ACT
+    PUSHIS 20
+    PUSHIS 200
+    PUSHIS 1
+    COMM PAD_ACT
+    PUSHIS 6
+    COMM prm_PARTY_DAMAGE
+    PUSHIS 17
+    COMM itfMesMngMessage
+    GOTO _26
+_32:
+    PUSHIS 0
+    PUSHLIX 3
+    EQ
+    IF _22
+    COMM FLD_SET_TAKARA_OPEN
+    PUSHIS 0
+    PUSHLIX 4
+    EQ
+    IF _16
+    PUSHIS 18
+    COMM itfMesMngMessage
+    GOTO _15
+_16:
+    PUSHIS 32
+    COMM FLD_SE_PLAY
+    PUSHIS 3
+    PUSHLIX 4
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 0
+    PUSHLIX 5
+    PUSHIS 1
+    COMM itfMesMngSetVarScr
+    PUSHIS 14
+    COMM itfMesMngMessage
+    PUSHLIX 5
+    PUSHLIX 4
+    COMM prm_ITEM_PLUS
+    GOTO _15
+_15:
+    GOTO _21
+_22:
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _23
+    COMM FLD_SET_TAKARA_OPEN
+    PUSHIS 0
+    PUSHLIX 4
+    EQ
+    IF _20
+    PUSHIS 18
+    COMM itfMesMngMessage
+    GOTO _19
+_20:
+    PUSHIS 0
+    COMM FLD_GET_ITEMBOX_RND
+    PUSHREG
+    EQ
+    IF _17
+    PUSHIS 3
+    POPLIX 4
+    PUSHIS 1
+    POPLIX 5
+    GOTO _17
+_17:
+    PUSHIS 33
+    COMM FLD_SE_PLAY
+    PUSHIS 3
+    PUSHLIX 4
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 0
+    PUSHLIX 5
+    PUSHIS 1
+    COMM itfMesMngSetVarScr
+    PUSHIS 9
+    COMM itfMesMngMessage
+    PUSHLIX 5
+    PUSHLIX 4
+    COMM prm_ITEM_PLUS
+    GOTO _19
+_19:
+    GOTO _21
+_23:
+    PUSHIS 2
+    PUSHLIX 3
+    EQ
+    IF _24
+    COMM FLD_SET_TAKARA_OPEN
+    PUSHIS 32
+    COMM FLD_SE_PLAY
+    PUSHIS 9
+    PUSHLIX 4
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 15
+    COMM itfMesMngMessage
+    PUSHLIX 4
+    COMM prm_DH_PLUS
+    GOTO _21
+_24:
+    PUSHIS 3
+    PUSHLIX 3
+    EQ
+    IF _21
+    COMM FLD_SET_TAKARA_OPEN
+    PUSHIS 32
+    COMM FLD_SE_PLAY
+    PUSHIS 0
+    PUSHLIX 7
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 16
+    COMM itfMesMngMessage
+    PUSHLIX 7
+    COMM COMM_139
+    GOTO _21
+_21:
+    GOTO _26
+_26:
+    GOTO _35
+_36:
+    PUSHIS 1
+    PUSHLIX 3
+    EQ
+    IF _34
+    PUSHIS 8
+    COMM itfMesMngMessage
+    GOTO _33
+_34:
+    PUSHIS 12
+    COMM itfMesMngMessage
+    GOTO _33
+_33:
+    GOTO _35
+_35:
+    GOTO _37
+_37:
+    COMM itfMesMngCloseWindow
+    COMM PAD_ENABLE
+    PUSHIS 7
+    COMM SET_ALLPANEL
+    END
+    GOTO _39
+_39:
+    COMM SYNC
+    GOTO _9
+_10:
+    END
+
+.procedure warp_label
+    PROC
+    COMM PAD_DISABLE
+    COMM FLD_WARP_GET_WARPEFF
+    PUSHREG
+    POPLIX 9
+    PUSHIS 1
+    PUSHLIX 9
+    EQ
+    IF _41
+    COMM FLD_WARP_RUN_START
+    PUSHIS 20
+    COMM WAIT
+    PUSHIS 0
+    PUSHF 0.13
+    PUSHF 0.0
+    PUSHF 0.1
+    PUSHIS 2
+    PUSHIS 175
+    PUSHIS 60
+    COMM DIST_BLUR_PARA
+    PUSHIS 101
+    PUSHIS 132
+    PUSHIS 132
+    PUSHIS 132
+    COMM DIST_BLUR_RGBA
+    PUSHIS 0
+    PUSHIS 0
+    PUSHIS 256
+    COMM DIST_BLUR_AREA
+    PUSHIS 1
+    COMM DIST_BLUR_ON
+    PUSHIS 20
+    COMM WAIT
+    PUSHIS 30
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 30
+    COMM WAIT
+    PUSHIS 0
+    COMM DIST_BLUR_OFF
+    GOTO _41
+_41:
+    COMM FLD_WARP_CALL_FIELD
+    END
+    END
+
+.procedure doorwarp_label
+    PROC
+_43:
+    PUSHIS 1
+    IF _44
+    COMM FLD_WARP_CASH_F
+    PUSHIS 1
+    PUSHIS 2
+    COMM ACT_WIN_DSP
+    PUSHREG
+    EQ
+    IF _47
+    COMM PAD_DISABLE
+    PUSHIS 0
+    COMM FLD_WARP_GET_DOOR
+    PUSHREG
+    POPLIX 10
+    COMM FLD_WARP_RUN_START
+    PUSHIS 40
+    PUSHLIX 10
+    EQ
+    IF _46
+    PUSHIS 20
+    COMM WAIT
+    PUSHIS 20
+    PUSHIS 0
+    COMM FADE_OUT
+    PUSHIS 20
+    COMM WAIT
+    GOTO _45
+_46:
+    PUSHIS 20
+    PUSHIS 0
+    COMM FADE_OUT
+    PUSHIS 20
+    COMM WAIT
+    GOTO _45
+_45:
+    COMM FLD_WARP_CALL_FIELD
+    END
+    GOTO _47
+_47:
+    COMM SYNC
+    GOTO _43
+_44:
+    END
+
+.procedure dexitwarp_label
+    PROC
+_49:
+    PUSHIS 1
+    IF _50
+    PUSHIS 1
+    PUSHIS 10
+    COMM ACT_WIN_DSP
+    PUSHREG
+    EQ
+    IF _55
+    COMM PAD_DISABLE
+    PUSHIS 6
+    COMM SET_ALLPANEL
+    COMM FLD_EXIT_CAMERA
+    COMM itfMesMngOpenWindow
+    PUSHIS 4
+    COMM itfMesMngMessage
+    PUSHIS 1
+    PUSHIS 3
+    COMM itfMesMngSelectDefKey
+    PUSHIS 0
+    PUSHIS 5
+    COMM itfMesMngSelect
+    PUSHREG
+    EQ
+    IF _52
+    COMM itfMesMngCloseWindow
+    GOTO _51
+_52:
+    COMM itfMesMngCloseWindow
+    PUSHIS 1
+    MINUS
+    COMM CAM_SEL
+    COMM PAD_ENABLE
+    PUSHIS 7
+    COMM SET_ALLPANEL
+    END
+    GOTO _51
+_51:
+    PUSHIS 0
+    COMM FLD_WARP_GET_DOOR
+    PUSHREG
+    POPLIX 11
+    COMM FLD_WARP_RUN_START
+    PUSHIS 40
+    PUSHLIX 11
+    EQ
+    IF _54
+    PUSHIS 20
+    COMM WAIT
+    PUSHIS 45
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 45
+    COMM WAIT
+    GOTO _53
+_54:
+    PUSHIS 45
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 45
+    COMM WAIT
+    GOTO _53
+_53:
+    COMM FLD_WARP_CALL_FIELD
+    END
+    GOTO _55
+_55:
+    COMM SYNC
+    GOTO _49
+_50:
+    END
+
+.procedure dinwarp_label
+    PROC
+_57:
+    PUSHIS 1
+    IF _58
+    PUSHIS 1
+    PUSHIS 11
+    COMM ACT_WIN_DSP
+    PUSHREG
+    EQ
+    IF _59
+    COMM PAD_DISABLE
+    COMM FLD_WARP_RUN_START
+    PUSHIS 45
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 45
+    COMM WAIT
+    COMM FLD_WARP_CALL_FIELD
+    END
+    GOTO _59
+_59:
+    COMM SYNC
+    GOTO _57
+_58:
+    END
+
+.procedure runwarp_label
+    PROC
+    COMM FLD_WARP_CASH_F
+    COMM PAD_DISABLE
+    COMM FLD_WARP_RUN_START
+    PUSHIS 15
+    COMM WAIT
+    COMM FLD_WARP_CALL_FIELD
+    END
+
+.procedure anawarp_label
+    PROC
+    COMM PAD_DISABLE
+    COMM FLD_WARP_CASH_F
+    COMM FLD_WARP_RUN_START
+    COMM MODEL_PLAYER
+    PUSHREG
+    POPIX 0
+    PUSHIS 0
+    PUSHIS 4
+    PUSHIS 4
+    PUSHIS 12
+    PUSHIX 0
+    COMM MODEL_MOTION2
+    PUSHIX 0
+    COMM MODEL_WAIT
+    COMM FLD_WARP_CALL_FIELD
+    END
+
+.procedure tobiwarp_label
+    PROC
+_61:
+    PUSHIS 1
+    IF _62
+    PUSHIS 1
+    PUSHIS 3
+    COMM ACT_WIN_DSP
+    PUSHREG
+    EQ
+    IF _63
+    COMM PAD_DISABLE
+    COMM FLD_WARP_CASH_F
+    COMM MODEL_PLAYER
+    PUSHREG
+    POPIX 0
+    PUSHIS 0
+    PUSHIS 4
+    PUSHIS 4
+    PUSHIS 11
+    PUSHIX 0
+    COMM MODEL_MOTION2
+    PUSHIS 70
+    COMM WAIT
+    COMM FLD_WARP_CALL_FIELD
+    END
+    GOTO _63
+_63:
+    COMM SYNC
+    GOTO _61
+_62:
+    END
+
+.procedure tobi2warp_label
+    PROC
+_65:
+    PUSHIS 1
+    IF _66
+    PUSHIS 1
+    PUSHIS 3
+    COMM ACT_WIN_DSP
+    PUSHREG
+    EQ
+    IF _67
+    COMM PAD_DISABLE
+    COMM FLD_WARP_CASH_F
+    COMM MODEL_PLAYER
+    PUSHREG
+    POPIX 0
+    PUSHIS 0
+    PUSHIS 4
+    PUSHIS 4
+    PUSHIS 11
+    PUSHIX 0
+    COMM MODEL_MOTION2
+    PUSHIS 30
+    COMM WAIT
+    COMM FLD_WARP_CALL_FIELD
+    END
+    GOTO _67
+_67:
+    COMM SYNC
+    GOTO _65
+_66:
+    END
+
+.procedure hasigo_label
+    PROC
+    PUSHIS 0
+    COMM FLD_WARP_HASIGO_GETTBL
+    PUSHREG
+    POPLIX 13
+    PUSHIS 1
+    POPLIX 12
+_69:
+    PUSHLIX 12
+    IF _70
+    COMM FLD_WARP_CASH_F
+    PUSHIS 0
+    PUSHLIX 13
+    EQ
+    IF _76
+    PUSHIS 1
+    PUSHIS 6
+    COMM ACT_WIN_DSP
+    PUSHREG
+    EQ
+    IF _71
+    PUSHIS 0
+    POPLIX 12
+    GOTO _71
+_71:
+    GOTO _75
+_76:
+    PUSHIS 1
+    PUSHIS 7
+    COMM ACT_WIN_DSP
+    PUSHREG
+    EQ
+    IF _73
+    PUSHIS 0
+    POPLIX 12
+    GOTO _73
+_73:
+    GOTO _75
+_75:
+    PUSHIS 1
+    PUSHLIX 12
+    EQ
+    IF _77
+    COMM SYNC
+    GOTO _77
+_77:
+    GOTO _69
+_70:
+    COMM PAD_DISABLE
+    PUSHIS 6
+    COMM SET_ALLPANEL
+    PUSHIS 15
+    PUSHIS 0
+    COMM FADE_OUT
+    PUSHIS 15
+    COMM WAIT
+    PUSHIS 1
+    COMM FLD_WARP_HASIGO_GETTBL
+    PUSHREG
+    POPLIX 14
+    PUSHIS 2
+    COMM FLD_WARP_HASIGO_GETTBL
+    PUSHREG
+    POPLIX 15
+    PUSHLIX 15
+    COMM CAM_SEL
+    COMM MODEL_PLAYER
+    PUSHREG
+    POPIX 0
+    PUSHLIX 14
+    PUSHIX 0
+    COMM MODEL_POS
+    COMM FLD_WARP_RUN_START
+    PUSHIS 0
+    PUSHLIX 13
+    EQ
+    IF _80
+    PUSHIS 1
+    PUSHIS 0
+    PUSHIS 0
+    PUSHIS 14
+    PUSHIX 0
+    COMM MODEL_MOTION2
+    GOTO _79
+_80:
+    PUSHIS 1
+    PUSHIS 0
+    PUSHIS 0
+    PUSHIS 15
+    PUSHIX 0
+    COMM MODEL_MOTION2
+    GOTO _79
+_79:
+    PUSHIS 15
+    PUSHIS 0
+    COMM FADE_IN
+    PUSHIS 60
+    COMM WAIT
+    PUSHIS 20
+    PUSHIS 0
+    COMM FADE_OUT
+    PUSHIS 20
+    COMM WAIT
+    COMM FLD_WARP_CALL_FIELD
+    END
+
+.procedure npctalk_label
+    PROC
+    COMM FLD_INF_GETPANEL
+    PUSHREG
+    POPLIX 22
+    PUSHIS 1
+    POPLIX 23
+_81:
+    PUSHLIX 23
+    IF _82
+    PUSHIS 0
+    PUSHLIX 22
+    EQ
+    IF _100
+    PUSHIS 0
+    POPLIX 23
+    END
+    GOTO _99
+_100:
+    PUSHIS 1
+    PUSHLIX 22
+    EQ
+    IF _101
+    PUSHIS 1
+    PUSHIS 1
+    COMM ACT_WIN_DSP
+    PUSHREG
+    EQ
+    IF _83
+    PUSHIS 0
+    POPLIX 23
+    GOTO _83
+_83:
+    GOTO _99
+_101:
+    PUSHIS 2
+    PUSHLIX 22
+    EQ
+    IF _102
+    PUSHIS 1
+    PUSHIS 9
+    COMM ACT_WIN_DSP
+    PUSHREG
+    EQ
+    IF _85
+    PUSHIS 0
+    POPLIX 23
+    GOTO _85
+_85:
+    GOTO _99
+_102:
+    PUSHIS 100
+    PUSHLIX 22
+    EQ
+    IF _103
+    PUSHIS 1
+    PUSHIS 2
+    COMM ACT_WIN_DSP
+    PUSHREG
+    EQ
+    IF _87
+    PUSHIS 0
+    POPLIX 23
+    GOTO _87
+_87:
+    GOTO _99
+_103:
+    PUSHIS 101
+    PUSHLIX 22
+    EQ
+    IF _104
+    PUSHIS 0
+    POPLIX 23
+    GOTO _99
+_104:
+    PUSHIS 102
+    PUSHLIX 22
+    EQ
+    IF _105
+    PUSHIS 1
+    PUSHIS 3
+    COMM ACT_WIN_DSP
+    PUSHREG
+    EQ
+    IF _89
+    PUSHIS 0
+    POPLIX 23
+    GOTO _89
+_89:
+    GOTO _99
+_105:
+    PUSHIS 103
+    PUSHLIX 22
+    EQ
+    IF _106
+    PUSHIS 0
+    POPLIX 23
+    GOTO _99
+_106:
+    PUSHIS 104
+    PUSHLIX 22
+    EQ
+    IF _107
+    PUSHIS 1
+    PUSHIS 6
+    COMM ACT_WIN_DSP
+    PUSHREG
+    EQ
+    IF _91
+    PUSHIS 0
+    POPLIX 23
+    GOTO _91
+_91:
+    GOTO _99
+_107:
+    PUSHIS 105
+    PUSHLIX 22
+    EQ
+    IF _108
+    PUSHIS 1
+    PUSHIS 7
+    COMM ACT_WIN_DSP
+    PUSHREG
+    EQ
+    IF _93
+    PUSHIS 0
+    POPLIX 23
+    GOTO _93
+_93:
+    GOTO _99
+_108:
+    PUSHIS 106
+    PUSHLIX 22
+    EQ
+    IF _109
+    PUSHIS 1
+    PUSHIS 10
+    COMM ACT_WIN_DSP
+    PUSHREG
+    EQ
+    IF _95
+    PUSHIS 0
+    POPLIX 23
+    GOTO _95
+_95:
+    GOTO _99
+_109:
+    PUSHIS 107
+    PUSHLIX 22
+    EQ
+    IF _110
+    PUSHIS 1
+    PUSHIS 11
+    COMM ACT_WIN_DSP
+    PUSHREG
+    EQ
+    IF _97
+    PUSHIS 0
+    POPLIX 23
+    GOTO _97
+_97:
+    GOTO _99
+_110:
+    PUSHIS 199
+    PUSHLIX 22
+    EQ
+    IF _99
+    PUSHIS 0
+    POPLIX 23
+    GOTO _99
+_99:
+    PUSHIS 1
+    PUSHLIX 23
+    EQ
+    IF _112
+    COMM SYNC
+    GOTO _112
+_112:
+    GOTO _81
+_82:
+    COMM PAD_DISABLE
+    PUSHIS 6
+    COMM SET_ALLPANEL
+    PUSHIS 1
+    POPLIX 17
+    PUSHIS 0
+    POPLIX 21
+_114:
+    PUSHIS 1
+    IF _115
+    PUSHIS 10
+    PUSHLIX 17
+    S
+    IF _126
+    PUSHIS 1
+    MINUS
+    PUSHLIX 17
+    COMM FLD_INF_NEXT
+    PUSHREG
+    POPLIX 17
+    GOTO _125
+_126:
+    PUSHIS 0
+    POPLIX 16
+    PUSHIS 0
+    PUSHLIX 17
+    COMM COMM_206
+    PUSHREG
+    POPLIX 18
+    PUSHIS 1
+    MINUS
+    PUSHLIX 18
+    EQ
+    IF _124
+    PUSHIS 1
+    PUSHLIX 21
+    EQ
+    IF _116
+    COMM itfMesMngCloseWindow
+    PUSHIS 0
+    POPLIX 21
+    GOTO _116
+_116:
+    GOTO _123
+_124:
+    PUSHIS 1
+    PUSHLIX 17
+    COMM COMM_206
+    PUSHREG
+    POPLIX 19
+    PUSHIS 0
+    PUSHLIX 21
+    EQ
+    IF _118
+    PUSHIS 1
+    POPLIX 21
+    COMM itfMesMngOpenWindow
+    GOTO _118
+_118:
+    PUSHIS 0
+    PUSHLIX 18
+    EQ
+    IF _121
+    PUSHLIX 19
+    COMM itfMesMngMessage
+    GOTO _120
+_121:
+    PUSHIS 1
+    PUSHLIX 18
+    EQ
+    IF _120
+    PUSHLIX 19
+    COMM itfMesMngSelect
+    PUSHREG
+    POPLIX 16
+    GOTO _120
+_120:
+    GOTO _123
+_123:
+    PUSHLIX 16
+    PUSHLIX 17
+    COMM FLD_INF_NEXT
+    PUSHREG
+    POPLIX 17
+    COMM SYNC
+    GOTO _125
+_125:
+    PUSHIS 200
+    PUSHLIX 17
+    LE
+    IF _127
+    END
+    GOTO _127
+_127:
+    PUSHIS 100
+    PUSHLIX 17
+    EQ
+    IF _131
+    PUSHIS 1
+    PUSHLIX 21
+    EQ
+    IF _129
+    COMM itfMesMngCloseWindow
+    PUSHIS 0
+    POPLIX 21
+    GOTO _129
+_129:
+    COMM FLD_INF_GOWAP
+    END
+    GOTO _131
+_131:
+    PUSHIS 0
+    PUSHLIX 17
+    EQ
+    IF _135
+    PUSHIS 1
+    PUSHLIX 21
+    EQ
+    IF _133
+    COMM itfMesMngCloseWindow
+    PUSHIS 0
+    POPLIX 21
+    GOTO _133
+_133:
+    PUSHIS 7
+    COMM SET_ALLPANEL
+    PUSHIS 1
+    MINUS
+    COMM CAM_SEL
+    COMM PAD_ENABLE
+    END
+    GOTO _135
+_135:
+    GOTO _114
+_115:
+    COMM PAD_ENABLE
+    END
+    END
+
+.procedure elvstart_label
+    PROC
+    COMM MODEL_PLAYER
+    PUSHREG
+    POPIX 0
+    PUSHSTR 0
+    COMM SEARCH_ID
+    PUSHREG
+    POPLIX 25
+    PUSHIS 0
+    COMM FLD_WARP_ELV_GETTBL
+    PUSHREG
+    POPLIX 26
+    PUSHIS 14
+    COMM FLD_WARP_ELV_GETTBL
+    PUSHREG
+    POPLIX 33
+    PUSHIS 2
+    COMM FLD_WARP_ELV_GETTBL
+    PUSHREG
+    POPLIX 27
+    PUSHIS 3
+    COMM FLD_WARP_ELV_GETTBL
+    PUSHREG
+    POPLIX 28
+    PUSHIS 4
+    COMM FLD_WARP_ELV_GETTBL
+    PUSHREG
+    POPLIX 29
+    PUSHIS 5
+    COMM FLD_WARP_ELV_GETTBL
+    PUSHREG
+    POPLIX 30
+    PUSHIS 6
+    COMM FLD_WARP_ELV_GETTBL
+    PUSHREG
+    POPLIX 31
+    PUSHIS 7
+    COMM FLD_WARP_ELV_GETTBL
+    PUSHREG
+    POPLIX 32
+    COMM PAD_DISABLE
+    PUSHIS 4
+    COMM SET_ALLPANEL
+    PUSHIS 1
+    PUSHIS 0
+    PUSHIS 0
+    PUSHIS 8
+    PUSHIX 0
+    COMM MODEL_MOTION2
+    PUSHLIX 25
+    COMM CAM_SEL
+    PUSHIS 15
+    PUSHIS 0
+    COMM FADE_IN
+    PUSHLIX 33
+    PUSHLIX 33
+    COMM FLD_ELV_FLOORSTART
+    COMM itfMesMngOpenWindow
+    PUSHIS 25
+    COMM itfMesMngMessage
+    PUSHIS 1
+    PUSHLIX 26
+    EQ
+    IF _138
+    PUSHIS 4
+    PUSHLIX 27
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 1
+    PUSHIS 3
+    COMM itfMesMngSelectDefKey
+    PUSHIS 26
+    COMM itfMesMngSelect
+    PUSHREG
+    POPLIX 24
+    GOTO _137
+_138:
+    PUSHIS 2
+    PUSHLIX 26
+    EQ
+    IF _139
+    PUSHIS 4
+    PUSHLIX 27
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 4
+    PUSHLIX 28
+    PUSHIS 1
+    COMM itfMesMngSetVarScr
+    PUSHLIX 33
+    COMM itfMesMng_SEL_SELNO
+    PUSHIS 2
+    PUSHIS 3
+    COMM itfMesMngSelectDefKey
+    PUSHIS 27
+    COMM itfMesMngSelect
+    PUSHREG
+    POPLIX 24
+    GOTO _137
+_139:
+    PUSHIS 3
+    PUSHLIX 26
+    EQ
+    IF _140
+    PUSHIS 4
+    PUSHLIX 27
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 4
+    PUSHLIX 28
+    PUSHIS 1
+    COMM itfMesMngSetVarScr
+    PUSHIS 4
+    PUSHLIX 29
+    PUSHIS 2
+    COMM itfMesMngSetVarScr
+    PUSHLIX 33
+    COMM itfMesMng_SEL_SELNO
+    PUSHIS 3
+    PUSHIS 3
+    COMM itfMesMngSelectDefKey
+    PUSHIS 28
+    COMM itfMesMngSelect
+    PUSHREG
+    POPLIX 24
+    GOTO _137
+_140:
+    PUSHIS 4
+    PUSHLIX 26
+    EQ
+    IF _141
+    PUSHIS 4
+    PUSHLIX 27
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 4
+    PUSHLIX 28
+    PUSHIS 1
+    COMM itfMesMngSetVarScr
+    PUSHIS 4
+    PUSHLIX 29
+    PUSHIS 2
+    COMM itfMesMngSetVarScr
+    PUSHIS 4
+    PUSHLIX 30
+    PUSHIS 3
+    COMM itfMesMngSetVarScr
+    PUSHLIX 33
+    COMM itfMesMng_SEL_SELNO
+    PUSHIS 4
+    PUSHIS 3
+    COMM itfMesMngSelectDefKey
+    PUSHIS 29
+    COMM itfMesMngSelect
+    PUSHREG
+    POPLIX 24
+    GOTO _137
+_141:
+    PUSHIS 5
+    PUSHLIX 26
+    EQ
+    IF _142
+    PUSHIS 4
+    PUSHLIX 27
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 4
+    PUSHLIX 28
+    PUSHIS 1
+    COMM itfMesMngSetVarScr
+    PUSHIS 4
+    PUSHLIX 29
+    PUSHIS 2
+    COMM itfMesMngSetVarScr
+    PUSHIS 4
+    PUSHLIX 30
+    PUSHIS 3
+    COMM itfMesMngSetVarScr
+    PUSHIS 4
+    PUSHLIX 31
+    PUSHIS 4
+    COMM itfMesMngSetVarScr
+    PUSHLIX 33
+    COMM itfMesMng_SEL_SELNO
+    PUSHIS 5
+    PUSHIS 3
+    COMM itfMesMngSelectDefKey
+    PUSHIS 30
+    COMM itfMesMngSelect
+    PUSHREG
+    POPLIX 24
+    GOTO _137
+_142:
+    PUSHIS 6
+    PUSHLIX 26
+    EQ
+    IF _137
+    PUSHIS 4
+    PUSHLIX 27
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 4
+    PUSHLIX 28
+    PUSHIS 1
+    COMM itfMesMngSetVarScr
+    PUSHIS 4
+    PUSHLIX 29
+    PUSHIS 2
+    COMM itfMesMngSetVarScr
+    PUSHIS 4
+    PUSHLIX 30
+    PUSHIS 3
+    COMM itfMesMngSetVarScr
+    PUSHIS 4
+    PUSHLIX 31
+    PUSHIS 4
+    COMM itfMesMngSetVarScr
+    PUSHIS 4
+    PUSHLIX 32
+    PUSHIS 5
+    COMM itfMesMngSetVarScr
+    PUSHLIX 33
+    COMM itfMesMng_SEL_SELNO
+    PUSHIS 6
+    PUSHIS 3
+    COMM itfMesMngSelectDefKey
+    PUSHIS 31
+    COMM itfMesMngSelect
+    PUSHREG
+    POPLIX 24
+    GOTO _137
+_137:
+    COMM itfMesMngCloseWindow
+    PUSHLIX 26
+    PUSHLIX 24
+    EQ
+    IF _149
+    PUSHIS 4
+    COMM WAIT
+    GOTO _148
+_149:
+    PUSHLIX 33
+    PUSHLIX 24
+    EQ
+    IF _150
+    PUSHIS 4
+    COMM WAIT
+    GOTO _148
+_150:
+    PUSHIS 0
+    PUSHIS 20
+    PUSHIS 4
+    PUSHIS 16
+    PUSHIX 0
+    COMM MODEL_MOTION2
+    PUSHIX 0
+    COMM MODEL_WAIT
+    PUSHIS 4
+    COMM WAIT
+    PUSHIS 46
+    COMM FLD_SE_PLAY
+    PUSHLIX 24
+    PUSHLIX 33
+    COMM FLD_ELV_FLOORSTART
+    PUSHIS 4
+    COMM WAIT
+    PUSHIS 20
+    COMM WAIT
+    COMM FLD_ELV_ENDCHK
+    PUSHREG
+    POPLIX 34
+_144:
+    PUSHIS 1
+    PUSHLIX 34
+    NEQ
+    IF _145
+    PUSHIS 2
+    PUSHLIX 34
+    EQ
+    IF _146
+    PUSHIS 15
+    PUSHIS 0
+    COMM FADE_OUT
+    PUSHIS 15
+    COMM WAIT
+    PUSHIS 46
+    COMM FLD_SE_STOP
+    COMM FLD_ELV_FLOOREND
+    PUSHLIX 24
+    COMM FLD_WARP_ELV_EXIT
+    END
+    GOTO _146
+_146:
+    COMM SYNC
+    COMM FLD_ELV_ENDCHK
+    PUSHREG
+    POPLIX 34
+    GOTO _144
+_145:
+    PUSHIS 20
+    COMM WAIT
+    PUSHIS 46
+    COMM FLD_SE_STOP
+    PUSHIS 47
+    COMM FLD_SE_PLAY
+    PUSHIS 20
+    COMM WAIT
+    GOTO _148
+_148:
+    PUSHIS 48
+    COMM FLD_SE_PLAY
+    PUSHIS 0
+    PUSHSTR 19
+    COMM SEARCH_ID
+    PUSHREG
+    PUSHSTR 9
+    COMM SEARCH_ID
+    PUSHREG
+    COMM OBJ_PATH_MOVE
+    PUSHIS 0
+    PUSHSTR 39
+    COMM SEARCH_ID
+    PUSHREG
+    PUSHSTR 29
+    COMM SEARCH_ID
+    PUSHREG
+    COMM OBJ_PATH_MOVE
+    PUSHSTR 49
+    COMM SEARCH_ID
+    PUSHREG
+    COMM OBJ_PATH_WAIT
+    PUSHIS 20
+    COMM WAIT
+    PUSHIS 15
+    PUSHIS 0
+    COMM FADE_OUT
+    PUSHIS 15
+    COMM WAIT
+    COMM FLD_ELV_FLOOREND
+    PUSHLIX 24
+    COMM FLD_WARP_ELV_EXIT
+    END
+
+.procedure 002_bg01
+    PROC
+    COMM PAD_DISABLE
+    PUSHIS 0
+    COMM SET_ALLPANEL
+    PUSHIS 5
+    COMM WAIT
+    COMM BGM_VOL_DOWN
+    PUSHSTR 59
+    COMM SEARCH_ID
+    PUSHREG
+    COMM CAM_SEL
+    PUSHSTR 68
+    COMM TEX_LOAD
+    PUSHREG
+    POPLIX 35
+    PUSHLIX 35
+    COMM TEX_ON
+    PUSHIS 5
+    PUSHIS 1
+    COMM FADE_IN
+    PUSHIS 5
+    COMM WAIT
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngMessage
+    PUSHIS 988
+    COMM BIT_CHK
+    PUSHREG
+    IF _151
+    COMM itfMesMngCloseWindow
+    PUSHIS 10
+    PUSHIS 150
+    PUSHIS 1
+    COMM PAD_ACT
+    PUSHIS 10
+    COMM WAIT
+    COMM itfMesMngOpenWindow
+    PUSHIS 2
+    COMM itfMesMngMessage
+    COMM itfMesMngCloseWindow
+    PUSHIS 30
+    COMM WAIT
+    PUSHIS 45
+    PUSHIS 1
+    COMM FADE_OUT
+    PUSHIS 45
+    COMM WAIT
+    COMM PAD_ENABLE
+    END
+    GOTO _151
+_151:
+    COMM itfMesMngCloseWindow
+    PUSHIS 15
+    PUSHIS 0
+    COMM FADE_OUT
+    PUSHIS 15
+    COMM WAIT
+    COMM SET_CHASE_CAMERA
+    PUSHIS 1
+    MINUS
+    COMM CAM_SEL
+    PUSHLIX 35
+    COMM TEX_OFF
+    PUSHLIX 35
+    COMM TEX_CLS
+    COMM BGM_VOL_UP
+    COMM PAD_ENABLE
+    END
+    END

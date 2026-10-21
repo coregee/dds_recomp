@@ -1,0 +1,127 @@
+// game/dds3/event/e670/e678/scr/e678.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void e678_main()
+{
+    LOAD_BE(678);
+    FIELD_BE(678, 3);
+    FADE_OUT(0, 1);
+    LOAD_SOUND_E(678);
+    SET_SKY(84, 1, 0);
+    SET_SKY_A(0, - 100);
+    var4 = MODEL_BE(678, 5);
+    var1 = MODEL_BE(678, 4);
+    var2 = MODEL_BE(678, 6);
+    var3 = MODEL_BE(678, 7);
+    BOKASI_ON();
+    SCENE_FOG_RGB(0, 0.114f, 0, 0.114f);
+    SCENE_FOG_PARA(0, 215, 1000, 180, 20000);
+    SCENE_LIGHT_RGB(0, 0.4f, 0.4f, 0.4f);
+    SCENE_LIGHT_DIR(0, 0.01f, 0.84f, - 0.54f);
+    SCENE_AMBIENT(0, 0.2f, 0.2f, 0.2f);
+    SOFTEN_BIAS(0, 15, 0.3f);
+    MODEL_LIGHT_LINK(var1, 0, SEARCH_ID("light01"));
+    MODEL_LIGHT_LINK(var4, 0, SEARCH_ID("light02"));
+    WAIT(100);
+    SYNC();
+    BGM_PLAY_E(678, 1);
+    SCR_WAIT(SCR_RUN(1, - 1));
+    SCR_WAIT(SCR_RUN(2, - 1));
+    SCR_WAIT(SCR_RUN(3, - 1));
+    SCR_WAIT(SCR_RUN(4, - 1));
+    FADE_OUT(0, 60);
+    FADEOUT_E(678, 1);
+    BIT_ON(116);
+    BIT_ON(991);
+    WAIT(60);
+    FIELD_CLS_STOP();
+    FILTER_ALLOFF();
+    BLUR_ALLOFF();
+    EXIT_EVENT();
+}
+
+void e678_010()
+{
+    CAM_SEL(SEARCH_ID("cam01"));
+    CAM_PATH_MOVE(SEARCH_ID("cam01"), SEARCH_ID("cam01_MOTION"));
+    MODEL_MOTION2(var4, 1, 0, 0, 1);
+    WAIT(10);
+    FADE_IN(0, 40);
+    WAIT(320);
+    itfMesMngWindowTypeAlpha(1, 60);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(0) /* MSG_010_1 */;
+    itfMesMngCloseWindow();
+    WAIT(10);
+}
+
+void e678_015()
+{
+    CAM_SEL(SEARCH_ID("cam04"));
+    CAM_PATH_MOVE(SEARCH_ID("cam04"), SEARCH_ID("cam04_MOTION"));
+    itfMesMngWindowTypeAlpha(1, 60);
+    WAIT(30);
+}
+
+void e678_020()
+{
+    CAM_SEL(SEARCH_ID("cam02"));
+    CAM_PATH_MOVE(SEARCH_ID("cam02"), SEARCH_ID("cam02_MOTION"));
+    WAIT(0);
+    FADE_IN(1, 30);
+    SE_PLAY_E(678, 111);
+    var9 = EFFBED_BE(678, 8);
+    EFFBED_START(var9, 1);
+    EFFECT_POS(var9, SEARCH_ID("p03"));
+    MODEL_MOTION2(var3, 1, 0, 0, 2);
+    MODEL_MOTION2(var2, 1, 0, 0, 2);
+    BLUR2_PARA(0, 1.075f, 0);
+    BLUR2_RGBA(157, 157, 157, 70);
+    BLUR2_AREA(- 5, - 15);
+    BLUR2_ON(40);
+    MUL_BLUR_PARA(0.025f, 1.06f, 0);
+    MUL_BLUR_RGBA(165, 205, 207, 70);
+    MUL_BLUR_AREA(273, 9, - 19);
+    MUL_BLUR_ON(30);
+    WAIT(5);
+    var9 = EFFBED_BE(677, 11);
+    EFFBED_START(var9, 1);
+    EFFECT_POS(var9, SEARCH_ID("p03"));
+    WAIT(35);
+    BLUR2_OFF(30);
+    MUL_BLUR_PARA(0, 0.99f, 0);
+    MUL_BLUR_RGBA(165, 195, 197, 60);
+    MUL_BLUR_AREA(183, - 4, 35);
+    MUL_BLUR_SWAP(30);
+    WAIT(30);
+    MUL_BLUR_PARA(0, 0.99f, 0);
+    MUL_BLUR_RGBA(165, 195, 197, 30);
+    MUL_BLUR_AREA(183, - 4, 35);
+    MUL_BLUR_SWAP(170);
+    WAIT(30);
+    CAM_SEL(SEARCH_ID("cam07"));
+    CAM_PATH_MOVE(SEARCH_ID("cam07"), SEARCH_ID("cam07_MOTION"));
+    SE_PLAY_E(678, 110);
+    WAIT(115);
+}
+
+void e678_030()
+{
+    CAM_SEL(SEARCH_ID("cam03"));
+    CAM_PATH_MOVE(SEARCH_ID("cam03"), SEARCH_ID("cam03_MOTION"));
+    SCENE_LIGHT_RGB(0, 0.4f, 0.4f, 0.4f);
+    SCENE_LIGHT_DIR(0, - 0.01f, 0.81f, - 0.58f);
+    SCENE_AMBIENT(0, 0.2f, 0.2f, 0.2f);
+    SOFTEN_BIAS(0, 15.0f, 0.3f);
+    SCENE_LIGHT_RGB(225, 0.4f, 0.4f, 0.4f);
+    SCENE_LIGHT_DIR(225, 0.23f, 0.94f, 0.25f);
+    SCENE_AMBIENT(225, 0.2f, 0.2f, 0.2f);
+    SOFTEN_BIAS(225, 15.0f, 0.0f);
+    WAIT(100);
+    itfMesMngWindowTypeAlpha(1, 60);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(2) /* MSG_020_1_E */;
+    itfMesMngCloseWindow();
+    WAIT(50);
+}
+

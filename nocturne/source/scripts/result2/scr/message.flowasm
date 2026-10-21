@@ -1,0 +1,299 @@
+; FlowScript assembly. tools/flowscript.py assemble rebuilds the original bytes.
+.header 000000000c630000464c57300000000005000000000000000000000000000000
+.sections procedures labels code messages strings
+.messages message.bmd
+.strings 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+.labels _1 _2
+
+.procedure rst_player_levup
+    PROC
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 0
+    COMM itfMesMngMessage
+    END
+
+.procedure rst_player_param_cfm
+    PROC
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngValidateNext
+    PUSHIS 2
+    COMM itfMesMngMessage
+    JUMP endless_loop
+    END
+
+.procedure rst_devil_levup
+    PROC
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 1
+    PUSHIS 0
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 3
+    COMM itfMesMngMessage
+    END
+
+.procedure rst_default_skill
+    PROC
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 5
+    PUSHIS 0
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 6
+    COMM itfMesMngMessage
+    END
+
+.procedure rst_select_skill
+    PROC
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngValidateNext
+    PUSHIS 7
+    COMM itfMesMngMessage
+    JUMP endless_loop
+    END
+
+.procedure rst_destroy_skill
+    PROC
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 5
+    PUSHIS 0
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 10
+    COMM itfMesMngMessage
+    END
+
+.procedure rst_dh
+    PROC
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 1
+    PUSHIS 0
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 11
+    COMM itfMesMngMessage
+    END
+
+.procedure rst_zensyo
+    PROC
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 1
+    PUSHIS 0
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 12
+    COMM itfMesMngMessage
+    END
+
+.procedure rst_powerup_yesno
+    PROC
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngValidateNext
+    PUSHIS 310
+    PUSHIS 37
+    COMM COMM_117
+    PUSHIS 5
+    PUSHIS 0
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 13
+    COMM itfMesMngMessage
+    JUMP endless_loop
+    END
+
+.procedure rst_powerup_no
+    PROC
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 14
+    COMM itfMesMngMessage
+    END
+
+.procedure rst_powerup_success
+    PROC
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 5
+    PUSHIS 0
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 5
+    PUSHIS 1
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 1
+    COMM itfMesMngSetVarScr
+    PUSHIS 15
+    COMM itfMesMngMessage
+    END
+
+.procedure rst_mutation
+    PROC
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 5
+    PUSHIS 0
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 5
+    PUSHIS 1
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 1
+    COMM itfMesMngSetVarScr
+    PUSHIS 16
+    COMM itfMesMngMessage
+    END
+
+.procedure rst_powerup_fail
+    PROC
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 5
+    PUSHIS 0
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 5
+    PUSHIS 1
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 1
+    COMM itfMesMngSetVarScr
+    PUSHIS 17
+    COMM itfMesMngMessage
+    END
+
+.procedure rst_evo_err_1
+    PROC
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 1
+    PUSHIS 0
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 19
+    COMM itfMesMngMessage
+    END
+
+.procedure rst_evo_err_2
+    PROC
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 1
+    PUSHIS 0
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 20
+    COMM itfMesMngMessage
+    END
+
+.procedure rst_evo_yesno
+    PROC
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngValidateNext
+    PUSHIS 310
+    PUSHIS 37
+    COMM COMM_117
+    PUSHIS 1
+    PUSHIS 0
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 21
+    COMM itfMesMngMessage
+    JUMP endless_loop
+    END
+
+.procedure rst_evo_yes
+    PROC
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 1
+    PUSHIS 0
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 1
+    PUSHIS 1
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 1
+    COMM itfMesMngSetVarScr
+    PUSHIS 22
+    COMM itfMesMngMessage
+    END
+
+.procedure rst_evo_no
+    PROC
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngValidateNext
+    PUSHIS 1
+    PUSHIS 0
+    COMM fclGetVal
+    PUSHREG
+    PUSHIS 0
+    COMM itfMesMngSetVarScr
+    PUSHIS 23
+    COMM itfMesMngMessage
+    END
+
+.procedure endless_loop
+    PROC
+    PUSHIS 0
+    COMM fclSignal
+_1:
+    PUSHIS 1
+    IF _2
+    PUSHIS 1
+    COMM WAIT
+    GOTO _1
+_2:
+    END

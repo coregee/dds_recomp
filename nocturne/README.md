@@ -41,6 +41,10 @@ sacrifices, accidents, Fiends), Magatama (bonuses, skills, mastery, the
 Demi-fiend's race), the compendium (`fclEncyc`) and the enemy AI (`nbAi`:
 conditions, action tables, target choice, AI script commands, targeting),
 plus the C library `qsort` the game sorts with.
+Scripts as source: every FlowScript — the enemy AI scripts embedded in the
+executable and the 191 event / field / facility scripts on disc — decompiled
+into `source/scripts/` and verified to recompile to the original code
+([docs/flowscript.md](docs/flowscript.md)).
 Game data as source: devils, skills, items, level-up/growth tables, Magatama,
 encounters, affinities, enemy AI, inheritance and every fusion table (`source/src/data/`);
 see [docs/fusion.md](docs/fusion.md) for how fusion works and

@@ -1,0 +1,173 @@
+; FlowScript assembly. tools/flowscript.py assemble rebuilds the original bytes.
+.header 00000000d5070000464c57300000000005000000000000000000000000000000
+.sections procedures labels code messages strings
+.messages e727.bmd
+.strings 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+.labels _1 _2
+
+.procedure e727_main
+    PROC
+    PUSHIS 1
+    PUSHIS 0
+    COMM FADE_IN
+    PUSHIS 19
+    COMM MOVIE_PLAY
+    COMM MOVIE_CHKDRAW
+    PUSHIS 0
+    PUSHIS 1
+    COMM SCR_RUN
+    PUSHIS 0
+    PUSHIS 2
+    COMM SCR_RUN
+    PUSHIS 0
+    PUSHIS 3
+    COMM SCR_RUN
+    PUSHIS 0
+    PUSHIS 4
+    COMM SCR_RUN
+    PUSHIS 0
+    PUSHIS 5
+    COMM SCR_RUN
+_1:
+    COMM MOVIE_CHK
+    PUSHREG
+    IF _2
+    COMM SYNC
+    GOTO _1
+_2:
+    COMM MOVIE_STOP
+    COMM SYNC
+    PUSHIS 1
+    COMM itfMesMngIgnoreConfig
+    PUSHIS 20
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    PUSHIS 50
+    COMM WAIT
+    PUSHIS 220
+    PUSHIS 130
+    COMM COMM_117
+    COMM itfMesMngOpenWindow
+    PUSHIS 6
+    COMM itfMesMngMessage
+    PUSHIS 120
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    PUSHIS 200
+    PUSHIS 110
+    COMM COMM_117
+    COMM itfMesMngOpenWindow
+    PUSHIS 7
+    COMM itfMesMngMessage
+    PUSHIS 120
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    PUSHIS 200
+    PUSHIS 110
+    COMM COMM_117
+    COMM itfMesMngOpenWindow
+    PUSHIS 8
+    COMM itfMesMngMessage
+    PUSHIS 120
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    PUSHIS 0
+    COMM itfMesMngIgnoreConfig
+    PUSHIS 1
+    PUSHIS 0
+    COMM FADE_OUT
+    COMM FIELD_CLS_STOP
+    COMM BLUR_ALLOFF
+    COMM FILTER_ALLOFF
+    COMM CALL_STAFF
+    COMM EXIT_EVENT
+    END
+
+.procedure e727_010_10
+    PROC
+    PUSHIS 20
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    PUSHIS 300
+    COMM WAIT
+    COMM itfMesMngOpenWindow
+    PUSHIS 0
+    COMM itfMesMngMessage
+    PUSHIS 50
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    END
+
+.procedure e727_010_20
+    PROC
+    PUSHIS 20
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    PUSHIS 810
+    COMM WAIT
+    COMM itfMesMngOpenWindow
+    PUSHIS 1
+    COMM itfMesMngMessage
+    PUSHIS 35
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    PUSHIS 40
+    COMM WAIT
+    COMM itfMesMngOpenWindow
+    PUSHIS 2
+    COMM itfMesMngMessage
+    PUSHIS 35
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    END
+
+.procedure e727_010_30
+    PROC
+    PUSHIS 20
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    PUSHIS 1110
+    COMM WAIT
+    COMM itfMesMngOpenWindow
+    PUSHIS 3
+    COMM itfMesMngMessage
+    PUSHIS 70
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    END
+
+.procedure e727_010_40
+    PROC
+    PUSHIS 20
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    PUSHIS 1400
+    COMM WAIT
+    PUSHIS 370
+    PUSHIS 180
+    COMM COMM_117
+    COMM itfMesMngOpenWindow
+    PUSHIS 4
+    COMM itfMesMngMessage
+    PUSHIS 65
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    END
+
+.procedure e727_010_50
+    PROC
+    PUSHIS 20
+    PUSHIS 1
+    COMM itfMesMngWindowTypeAlpha
+    PUSHIS 1790
+    COMM WAIT
+    PUSHIS 370
+    PUSHIS 150
+    COMM COMM_117
+    COMM itfMesMngOpenWindow
+    PUSHIS 5
+    COMM itfMesMngMessage
+    PUSHIS 120
+    COMM WAIT
+    COMM itfMesMngCloseWindow
+    END

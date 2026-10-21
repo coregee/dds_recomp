@@ -1,0 +1,298 @@
+// game/dds3/facility/scr/combine/message.bf
+// Decompiled by tools/flowscript.py for reading; the exact form is the .flowasm.
+
+void cmb_1st()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(0) /* msg_1st */;
+    jump endless_loop;
+}
+
+void cmb_1st_fullmoon()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(1) /* msg_1st_fullmoon */;
+    jump endless_loop;
+}
+
+void cmb_1st_curse()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(2) /* msg_1st_curse */;
+    jump endless_loop;
+}
+
+void cmb_encyc_top()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(11) /* msg_encyc_top */;
+    jump endless_loop;
+}
+
+void cmb_err_dev_nums()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(3) /* msg_err_dev_nums */;
+}
+
+void cmb_err_dev_lev()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(6) /* msg_err_dev_lev */;
+}
+
+void cmb_err_dev_dbl()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(7) /* msg_err_dev_dbl */;
+}
+
+void cmb_sacrifice()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngSelectDefKey(3, 1);
+    itfMesMng_SEL_SELNO(0);
+    itfMesMngMessage(4) /* msg_sacrifice */;
+    if (itfMesMngSelect(21) == 1)
+    {
+        fclSignal(2);
+    }
+}
+
+void cmb_confirm()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngSelectDefKey(3, 1);
+    itfMesMng_SEL_SELNO(1);
+    itfMesMngMessage(5) /* msg_confirm */;
+    if (itfMesMngSelect(21) == 1)
+    {
+        fclSignal(2);
+    }
+}
+
+void cmb_2nd()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(10) /* msg_2nd */;
+    jump endless_loop;
+}
+
+void cmb_talk()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(0);
+    itfMesMngMessage(19) /* msg_talk */;
+    jump endless_loop;
+}
+
+void cmb_exit()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(20) /* msg_exit */;
+}
+
+void cmb_birth()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    if (fclGetVal(3) == 1)
+    {
+        itfMesMngMessage(8) /* msg_trouble_change */;
+    }
+    else if (fclGetVal(3) == 2)
+    {
+        itfMesMngMessage(9) /* msg_trouble_enhance */;
+    }
+    itfMesMngSetVarScr(0, fclGetVal(9), 1);
+    itfMesMngSetVarScr(4, fclGetVal(10), 8);
+    local0 = fclGetVal(9);
+    if (fclGetVal(7) != 0)
+    {
+        if (fclGetVal(7) > 0)
+        {
+            itfMesMngSetVarScr(5, fclGetVal(7), 3);
+            itfMesMngMessage(35) /* msg_manin_item_follow */;
+        }
+        if (local0 == 199)
+        {
+            itfMesMngMessage(53) /* birth_msg_0xC7 */;
+        }
+        else if (local0 == 200)
+        {
+            itfMesMngMessage(54) /* birth_msg_0xC8 */;
+        }
+        else if (local0 == 201)
+        {
+            itfMesMngMessage(55) /* birth_msg_0xC9 */;
+        }
+        else if (local0 == 196)
+        {
+            itfMesMngMessage(56) /* birth_msg_0xC4 */;
+        }
+        else if (local0 == 197)
+        {
+            itfMesMngMessage(57) /* birth_msg_0xC5 */;
+        }
+        else if (local0 == 198)
+        {
+            itfMesMngMessage(58) /* birth_msg_0xC6 */;
+        }
+        else if (local0 == 195)
+        {
+            itfMesMngMessage(59) /* birth_msg_0xC3 */;
+        }
+        else if (local0 == 202)
+        {
+            itfMesMngMessage(60) /* birth_msg_0xCA */;
+        }
+        else
+        {
+            itfMesMngMessage(61) /* birth_msg_0xCB */;
+        }
+    }
+    else
+    {
+        if (local0 == 207)
+        {
+            itfMesMngMessage(66) /* birth_msg_0xCF */;
+        }
+        else if (local0 == 193)
+        {
+            itfMesMngMessage(63) /* birth_msg_0xC1 */;
+        }
+        else if (local0 == 204)
+        {
+            itfMesMngMessage(64) /* birth_msg_0xCC */;
+        }
+        else if (local0 == 205)
+        {
+            itfMesMngMessage(65) /* birth_msg_0xCD */;
+        }
+        else
+        {
+            itfMesMngMessage(36 + fclGetVal(8));
+        }
+    }
+}
+
+void cmb_exp()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(67 + fclGetVal(8));
+    fclSignal(0);
+}
+
+void endless_loop()
+{
+    fclSignal(0);
+    while (1)
+    {
+        WAIT(1);
+    }
+}
+
+void encyc_regist_top()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(22) /* msg_encyc_regist_top */;
+    fclSignal(0);
+    jump endless_loop;
+}
+
+void encyc_regist_confirm()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(23) /* msg_encyc_regist_confirm */;
+    itfMesMngSelectDefKey(3, 1);
+    if (itfMesMngSelect(21) == 1)
+    {
+        return;
+    }
+    fclSignal(0);
+    itfMesMngMessage(24) /* msg_encyc_regist_confirm */;
+    if (fclGetVal(8) == 1)
+    {
+        itfMesMngMessage(25) /* msg_encyc_regist_confirm */;
+    }
+}
+
+void encyc_summon()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(26) /* msg_encyc_summon */;
+    itfMesMngSelectDefKey(3, 1);
+    if (itfMesMngSelect(21) == 1)
+    {
+        return;
+    }
+    fclSignal(0);
+    itfMesMngMessage(27) /* msg_encyc_summon_result */;
+}
+
+void encyc_summon_error()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(28 + fclGetVal(8));
+}
+
+void encyc_regist_all()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngMessage(33) /* msg_encyc_registall */;
+    itfMesMngSelectDefKey(3, 1);
+    if (itfMesMngSelect(21) == 1)
+    {
+        return;
+    }
+    fclSignal(0);
+    itfMesMngMessage(34) /* msg_encyc_registall_done */;
+}
+
+void cmb_write_err_nobody()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(12) /* msg_write_err_nobody */;
+}
+
+void cmb_see_err_nocontents()
+{
+    itfMesMngWindowType(2);
+    itfMesMngOpenWindow();
+    itfMesMngValidateNext(1);
+    itfMesMngMessage(13) /* msg_see_err_nocontents */;
+}
+
