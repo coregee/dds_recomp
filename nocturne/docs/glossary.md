@@ -28,6 +28,9 @@ and records the evidence for every value used in the rewrite.
 | hojo | 補助 | support: buffs and debuffs (-kaja/-nda) |
 | hougyoku | 宝玉 | Bead (item 4) |
 | jyoken | 条件 | condition |
+| kuisibari | 食いしばり | gritting one's teeth: Endure / Never Yield |
+| buturi | 物理 | physical |
+| waza | 技 | skill (power) |
 | kaifuku | 回復 | recovery |
 | kakutoku | 獲得 | earned |
 | keisyo | 継承 | inheritance (fusion) |
@@ -93,6 +96,21 @@ From the [Nocturne Randomizer](https://github.com/nmarkro/Nocturne-Randomizer)
 `datSpecialSkill` (0x3DC1E0, indexed from 0x128) holds their numbers: Fast
 Retreat 150 (escape x1.5), Mind's Eye 3 (ambush /3), Might 300 (crit x3),
 Anti-*X* 50 (half damage).
+
+### Buff counters (Party::count, "hojo")
+
+4 Attack, 5 Magic, 6 Evasion, 7 Defense, 8 Accuracy (range −4..4); 9 Ice,
+10 Fire, 11 Death, 12 Expel temporary nulls; 13 Makarakarn, 14 Tetrakarn;
+15 Focus; 19 affinity-row override. Evidence: nbGetButuriAttack reads 4 for
+the attacker and 7 for the defender, nbGetMagicAttack 5, hit chance 8 (attacker)
+and 6 (defender); nbGetAisyo maps Fire→10, Ice→9, Expel→12, Death→11 and
+magic/physical skills to 13/14; nbGetHojoRitu multiplies counter 4 by 2.5
+when 15 is set.
+
+### Element boosts
+
+`0x134 + element` lands exactly on Fire/Ice/Elec/Force Boost (0x135–0x138),
+confirming elements 1–4 independently of the passive resistance families.
 
 ### Difficulty
 

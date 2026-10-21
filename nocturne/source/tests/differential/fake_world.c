@@ -18,6 +18,8 @@
 #include "libc_printf.h"
 #include "script_compare.h"
 #include "unit_progression.h"
+#include "battle_power.h"
+#include "battle_effects.h"
 #include "combat_calculation.h"
 
 uint8_t *fw_ram;
@@ -47,9 +49,7 @@ uint32_t fw_address_of(const void *pointer)
 
 void *nocturneResolveCombatCalculationAddress(uint32_t address) { return fw_resolve(address); }
 
-static uint16_t r16(uint32_t a) { uint16_t v; memcpy(&v, fw_resolve(a), 2); return v; }
 static uint32_t r32(uint32_t a) { uint32_t v; memcpy(&v, fw_resolve(a), 4); return v; }
-static uint64_t sx(int32_t v) { return (uint64_t)(int64_t)v; }
 
 int fw_load_elf(const char *path)
 {
@@ -63,6 +63,8 @@ int fw_load_elf(const char *path)
     fclose(f);
 
     fw_ram = calloc(1, FW_RAM_SIZE);
+    g_datGlobalWork = (datGlobalWork_PS2 *)(fw_ram + FW_GLOBAL);
+    g_datDevilSkillTable = (const datDevilSkillRecord_PS2 *)(fw_ram + 0x3497c0);
     uint32_t phoff; uint16_t phnum;
     memcpy(&phoff, elf + 0x1c, 4);
     memcpy(&phnum, elf + 0x2c, 2);
@@ -152,6 +154,10 @@ int fw_print_arg_count(uint32_t format)
     case 0x00544da8: return 4; /* back attack */
     case 0x00544df0: return 2; /* consecutive */
     case 0x00551140: return 0; /* MISS */
+    case 0x00544d00: case 0x00544d10: case 0x00544be8: return 1; /* %f ratios */
+    case 0x00544d30: return 3; /* magic heal */
+    case 0x00544b48: case 0x00544b68: case 0x00544b88: return 0;
+    case 0x00544ba8: return 4; /* ailment chance */
     default:
         fprintf(stderr, "fake world: unknown print format %08x\n", format);
         abort();
@@ -174,9 +180,9 @@ uint64_t ps2LibcPrintf(uint64_t format, ...)
     int count = fw_print_arg_count((uint32_t)format);
     va_list ap;
     va_start(ap, format);
-    /* The legacy passes sign-extended 64-bit register values; keep the
-     * 32-bit value they represent. */
-    for (int i = 0; i < count; ++i) args[i] = (int32_t)va_arg(ap, uint64_t);
+    /* Arguments are 64-bit register images: sign-extended integers or
+     * software-double bits. Both sides pass the same images. */
+    for (int i = 0; i < count; ++i) args[i] = (int64_t)va_arg(ap, uint64_t);
     va_end(ap);
     fw_record_print((uint32_t)format, args);
     return 0;
@@ -192,9 +198,15 @@ uint32_t EE_FPU_COMPARE_S(uint32_t a, uint32_t b, unsigned predicate)
     return predicate == 0 ? av == bv : predicate == 1 ? av < bv : predicate == 2 ? av <= bv : 0;
 }
 
-/* ---- battle and data fakes --------------------------------------------- */
+/* ---- the engine boundary ------------------------------------------------- */
+/* Everything below the battle calculations runs as real code on both sides
+ * (legacy C vs. rewrite). Only lookups into engine state, events, RNG and
+ * output are faked here. */
 
-static datUnitWork_PS2 *unit_at(uint32_t address) { return (datUnitWork_PS2 *)fw_resolve(address); }
+datGlobalWork_PS2 *g_datGlobalWork;
+const datDevilSkillRecord_PS2 *g_datDevilSkillTable;
+
+_Noreturn void nocturne_break(uint32_t code) { fw_trap(code); }
 
 uint64_t nbGetMainProcessData(void) { return FW_MAIN; }
 
@@ -214,108 +226,7 @@ uint64_t nbGetUnitWorkPointer(uint64_t main_data, uint64_t party)
     return nbGetUnitWorkFromFormindex(((uint32_t)party - FW_PARTY) / 128);
 }
 
-uint64_t nbGetNormalSkillAttr(uint64_t skill)
-{
-    return sx((int32_t)(fw_hash(1, skill, 0) % 17) - 1); /* -1 .. 15 */
-}
-
-uint64_t nbGetAisyo(uint64_t skill, uint64_t target, uint64_t attribute)
-{
-    static const uint32_t values[] = {
-        100, 100, 100, 50, 0x80000096u, 0x10000, 0x20000, 0x40000, 0x110000, 200, 0x80100000u, 10,
-    };
-    return sx((int32_t)values[fw_hash(2, skill * 64 + target, attribute) % 12]);
-}
-
-int32_t nbHatudoCheckSkill(datUnitWork_PS2 *work, int32_t skill)
-{
-    return fw_hash(3, fw_address_of(work), (uint64_t)skill) % 4 == 0;
-}
-
-float nbGetHojoRitu(uint64_t formation, uint64_t type)
-{
-    static const float values[] = { 0.5f, 0.75f, 1.0f, 1.0f, 1.0f, 1.25f, 1.5f, 2.0f };
-    return values[fw_hash(4, formation, type) % 8];
-}
-
-uint64_t nbGetDevilFormatFlag(uint64_t form) { return fw_hash(5, form, 0) % 3 == 0 ? 0x800 : 0; }
-
-uint64_t nbGetBadStat(uint64_t form)
-{
-    uint32_t unit = (uint32_t)nbGetUnitWorkFromFormindex(form);
-    return unit ? r16(unit + 0xe) & 0xfffu : 0;
-}
-
-uint64_t nbCheckFormationPlayerSide(uint64_t form) { return form < 4; }
-
-uint64_t nbGetUnitID(uint64_t work) { return r16((uint32_t)work + 4) % 300u; }
-
-uint64_t datGet3Zokusei(uint64_t unit) { return sx((int32_t)(fw_hash(6, unit, 0) % 3) - 1); }
-
-int32_t datGetParam(datUnitWork_PS2 *work, int32_t paratype)
-{
-    int32_t value = work->param[paratype];
-    if (!(work->flag & 4)) value += work->mitamaparam[paratype];
-    if (value < 1) value = 1;
-    if (value > 40) value = 40;
-    if ((work->badstat & 0xfff) == 0x200 && paratype != 4) value = 1;
-    return value;
-}
-
-uint32_t datAddHp(datUnitWork_PS2 *work, int32_t hp)
-{
-    int32_t value = work->hp + hp;
-    if (value < 0) value = 0;
-    if (value > work->maxhp) value = work->maxhp;
-    work->hp = (uint16_t)value;
-    return work->hp;
-}
-
-uint32_t datAddMp(datUnitWork_PS2 *work, int32_t mp)
-{
-    int32_t value = work->mp + mp;
-    if (value < 0) value = 0;
-    if (value > work->maxmp) value = work->maxmp;
-    work->mp = (uint16_t)value;
-    return work->mp;
-}
-
-void datSetBadStat(datUnitWork_PS2 *work, uint32_t badstat)
-{
-    if (badstat == 0x8000) work->badstat |= 0x8000;
-    else if ((work->badstat & 0xfffu) < badstat)
-        work->badstat = (uint16_t)((work->badstat & 0xf000u) | (badstat & 0xfffu));
-}
-
-void datResetBadStat(datUnitWork_PS2 *work, uint32_t badstat)
-{
-    if (badstat == 0x8000) work->badstat &= 0x7fff;
-    else if ((work->badstat & 0xfffu) == badstat) work->badstat &= 0xf000;
-}
-
-int32_t datCheckSyojiSkill(datUnitWork_PS2 *work, uint32_t skill)
-{
-    return fw_hash(7, fw_address_of(work), skill) % 2;
-}
-
-int32_t datCheckSkillInParty(int32_t skillid) { return fw_hash(8, (uint64_t)skillid, 0) % 3 == 0; }
-
-int32_t datGetPlayerLevel(void) { return r16(FW_GLOBAL + 0xa54 + 0x14); }
-
 int32_t datBossRashChk(int32_t eid) { return fw_hash(9, (uint64_t)eid, 0) % 5 == 0; }
-
-uint64_t ps2UnitEvasionPower_00242D50(uint64_t unit)
-{
-    datUnitWork_PS2 *w = unit_at((uint32_t)unit);
-    return sx(datGetParam(w, 4) * 2 + w->level);
-}
-
-uint64_t ps2UnitMagicHitPower_00242CB0(uint64_t unit)
-{
-    datUnitWork_PS2 *w = unit_at((uint32_t)unit);
-    /* Zero now and then, to exercise the divide-by-zero trap. */
-    return fw_hash(10, unit, 0) % 50 == 0 ? 0 : sx(datGetParam(w, 2) * 2 + w->level / 2);
-}
 
 uint32_t evtBitCheck(int32_t no)
 {
@@ -324,3 +235,36 @@ uint32_t evtBitCheck(int32_t no)
 }
 
 uint32_t evtGetAgeOfMoon(void) { return case_moon; }
+
+/* ---- per-file address resolvers ----------------------------------------- */
+
+void *nocturneResolveBattleActionStatusAddress(uint32_t a) { return fw_resolve(a); }
+void *nocturneResolveBattleAffinityAddress(uint32_t a) { return fw_resolve(a); }
+void *nocturneResolveBattleEffectsAddress(uint32_t a) { return fw_resolve(a); }
+void *nocturneResolveBattlePowerAddress(uint32_t a) { return fw_resolve(a); }
+void *nocturneResolveBattleSupportAddress(uint32_t a) { return fw_resolve(a); }
+void *nocturneResolveBattleTargetingAddress(uint32_t a) { return fw_resolve(a); }
+void *nocturneResolveUnitProgressionAddress(uint32_t a) { return fw_resolve(a); }
+
+/* ---- not reached ---------------------------------------------------------- */
+/* Called only by other functions in the same legacy files, never by the code
+ * under test. Reaching one means the test drifted outside its scope. */
+
+static _Noreturn void unreachable(const char *name)
+{
+    fprintf(stderr, "fake world: %s should not be reached\n", name);
+    abort();
+}
+
+int32_t g_nbDebugEnabled;
+void evtBitOff(int32_t no) { (void)no; unreachable("evtBitOff"); }
+uint64_t dds3GetProcessData(uint64_t process) { (void)process; unreachable("dds3GetProcessData"); }
+uint64_t dds3SearchProcessName(uint64_t name) { (void)name; unreachable("dds3SearchProcessName"); }
+int32_t fclEncycRegist(datUnitWork_PS2 *unit, int32_t overwrite) { (void)unit; (void)overwrite; unreachable("fclEncycRegist"); }
+int8_t cmbGetHeartsParam(int8_t id, int8_t index) { (void)id; (void)index; unreachable("cmbGetHeartsParam"); }
+uint32_t cmbCalcLevelUpExp(const datUnitWork_PS2 *unit, int32_t level) { (void)unit; (void)level; unreachable("cmbCalcLevelUpExp"); }
+uint8_t cmbGetPlayerRaceID(datUnitWork_PS2 *unit) { (void)unit; unreachable("cmbGetPlayerRaceID"); }
+void *ps2Memset(void *destination, int32_t value, uint32_t count) { (void)destination; (void)value; (void)count; unreachable("ps2Memset"); }
+void cmbSubHeartsParam(uint8_t id, datUnitWork_PS2 *unit) { (void)id; (void)unit; unreachable("cmbSubHeartsParam"); }
+void ps2HeartsAddParam(uint8_t id, datUnitWork_PS2 *unit) { (void)id; (void)unit; unreachable("ps2HeartsAddParam"); }
+void ps2ScriptDiagnosticDisabled(uint64_t format, ...) { (void)format; unreachable("ps2ScriptDiagnosticDisabled"); }

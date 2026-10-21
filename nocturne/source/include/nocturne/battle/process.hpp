@@ -68,6 +68,8 @@ inline constexpr uint16_t Active     = 0x001;
 inline constexpr uint16_t EnemySide  = 0x002;
 inline constexpr uint16_t Inactive   = 0x004; // tentative
 inline constexpr uint16_t AlwaysCrit = 0x100; // tentative: forces critical hits
+inline constexpr uint16_t EndureFired = 0x200; // Endure / Never Yield saved this unit
+inline constexpr uint16_t EndureSpent = 0x400; // ... and cannot again this battle
 } // namespace PartyFlag
 
 // nbMainProcessData: the battle as a whole.
@@ -122,7 +124,7 @@ static_assert(offsetof(MainProcessData, exp) == 0xa4);
 static_assert(offsetof(MainProcessData, piercedResistance) == 0x14c);
 
 namespace BattleStat {
-inline constexpr uint32_t Unknown01           = 0x00000001; // gates Holy/Evil Melody immunity
+inline constexpr uint32_t BossBattle          = 0x00000001; // tentative: Stinger ("DANTE SUTING BOSS NG") and the Melody instant kills fail
 inline constexpr uint32_t InitiativeRolled    = 0x00000008;
 inline constexpr uint32_t BackAttack          = 0x00000010;
 inline constexpr uint32_t EnemiesFirst        = 0x00000080;

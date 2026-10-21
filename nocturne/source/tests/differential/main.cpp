@@ -1,11 +1,13 @@
-// Differential test: rewritten nb::calc vs. the legacy combat_calculation.c.
+// Differential test: the rewritten battle and unit code vs. the legacy C.
 //
 // For every case, a random battle state is written into fake PS2 RAM. The
 // legacy function runs, then the state is restored and the rewrite runs.
 // The two must agree on the return value, any trap, the RNG draws, the debug
-// prints and every byte of dynamic RAM.
+// prints and every byte of dynamic RAM. Callees run as real code on both
+// sides (legacy callees vs. rewritten callees); only the engine boundary is
+// faked (fake_world.c).
 //
-// usage: differential <path to SLUS_209.11> [cases per function] [seed]
+// usage: differential <path to SLUS_209.11> [cases per function] [seed] [name filter]
 #include <csetjmp>
 #include <cstdint>
 #include <cstdio>
@@ -17,11 +19,50 @@
 #include <vector>
 
 #include "fake_world.h"
+#include "nocturne/battle/affinity.hpp"
+#include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/calc.hpp"
+#include "nocturne/battle/combatant.hpp"
+#include "nocturne/battle/damage.hpp"
 #include "nocturne/data/tables.hpp"
+#include "nocturne/data/unit.hpp"
 
 extern "C" {
+#include "battle_affinity.h"
+#include "battle_effects.h"
+#include "battle_power.h"
+#include "battle_support_access.h"
+#include "battle_targeting.h"
 #include "combat_calculation.h"
+
+// From nocturne.h, battle_action_status.h and unit_progression.h, which use
+// C-only constructs.
+struct datUnitWork_PS2;
+int32_t datGetBaseParam(datUnitWork_PS2* work, int32_t paratype);
+int32_t datGetParam(datUnitWork_PS2* work, int32_t paratype);
+int32_t datGetBaseMaxHp(datUnitWork_PS2* work);
+int32_t datGetBaseMaxMp(datUnitWork_PS2* work);
+uint32_t datGetMaxHp(datUnitWork_PS2* work);
+uint32_t datGetMaxMp(datUnitWork_PS2* work);
+int32_t datGetPlayerLevel(void);
+int32_t datGetRace(datUnitWork_PS2* work);
+int32_t datCheckSyojiSkill(datUnitWork_PS2* work, uint32_t skill);
+int32_t datCheckSkillInParty(int32_t skillid);
+void datSetBadStat(datUnitWork_PS2* work, uint32_t badstat);
+void datResetBadStat(datUnitWork_PS2* work, uint32_t badstat);
+void datOverwriteBadStat(datUnitWork_PS2* work, uint32_t badstat);
+int32_t datGetBadStatusAttr(int32_t bad);
+uint32_t datAddHp(datUnitWork_PS2* work, int32_t hp);
+uint32_t datAddMp(datUnitWork_PS2* work, int32_t mp);
+int32_t datCheckDying(datUnitWork_PS2* work);
+int32_t nbHatudoCheckSkill(datUnitWork_PS2* work, int32_t skill);
+uint64_t nbGetDevilFormatFlag(uint64_t form);
+uint64_t nbCheckKuisibariSkill(uint64_t form);
+uint64_t nbCheckKuisibari2Skill(uint64_t form);
+void nbSetKuisibariStop(uint64_t form);
+uint64_t nbGetUnitID(uint64_t work);
+uint64_t ps2UnitMagicHitPower_00242CB0(uint64_t unit);
+uint64_t ps2UnitEvasionPower_00242D50(uint64_t unit);
 }
 
 using namespace nocturne;
@@ -52,23 +93,65 @@ struct Gen {
 
 const uint16_t kAilments[] = {0, 0, 0, 0, 0x1, 0x2, 0x4, 0x8, 0x10, 0x20, 0x40, 0x80, 0x100, 0x200, 0x400, 0x800};
 
+// Skills that change battle calculations, so random units own them often.
+int32_t interestingSkill(Gen& g)
+{
+    static const int32_t kFixed[] = {
+        skill::Pierce, skill::Might, skill::BrightMight, skill::DarkMight, skill::MindsEye, skill::FastRetreat,
+        skill::LifeBonus, skill::LifeGain, skill::LifeSurge, skill::ManaBonus, skill::ManaGain, skill::ManaSurge,
+        skill::SonsOath, skill::Endure, skill::NeverYield, skill::HolyMelody, skill::EvilMelody,
+    };
+    switch (g.below(6)) {
+    case 0: return g.pick(kFixed);
+    case 1: return skill::AntiPhys + g.range(0, 9);
+    case 2: return skill::VoidPhys + g.range(0, 9);
+    case 3: return g.chance(50) ? skill::PhysDrain + g.range(0, 4) : skill::PhysRepel + g.range(0, 4);
+    case 4: return skill::FireBoost + g.range(0, 3);
+    default: return g.range(0, 0x1ff);
+    }
+}
+
 void randomUnit(Gen& g, UnitWork& u, bool enemy)
 {
     std::memset(&u, 0, sizeof u);
     static const uint32_t kPlayerFlags[] = {1, 3, 3, 3, 7, 5, 0, 0x23};
     static const uint32_t kEnemyFlags[] = {0x21, 0x21, 0x23, 0x25, 0x01};
     u.flag = enemy ? g.pick(kEnemyFlags) : g.pick(kPlayerFlags);
-    u.id = static_cast<uint16_t>(g.range(1, 0x17f));
-    u.maxhp = static_cast<uint16_t>(g.range(1, 999));
+    u.id = static_cast<uint16_t>(g.chance(5) ? 0x125 : g.range(1, 0x17f));
+    u.maxhp = static_cast<uint16_t>(g.chance(3) ? 0 : g.range(1, 999));
     u.hp = static_cast<uint16_t>(g.chance(10) ? 0 : g.range(0, u.maxhp));
     u.maxmp = static_cast<uint16_t>(g.range(0, 500));
     u.mp = static_cast<uint16_t>(g.range(0, u.maxmp));
     u.badstat = g.pick(kAilments) | (g.chance(10) ? 0x8000 : 0);
-    u.level = static_cast<uint16_t>(g.range(1, 99));
+    u.level = static_cast<uint16_t>(g.chance(3) ? g.range(100, 255) : g.range(1, 99));
     for (int i = 0; i < 6; ++i) {
-        u.param[i] = static_cast<int8_t>(g.range(0, 40));
+        u.param[i] = static_cast<int8_t>(g.range(-2, 40));
+        u.skillparam[i] = static_cast<int8_t>(g.chance(20) ? g.range(-3, 5) : 0);
         u.mitamaparam[i] = static_cast<int8_t>(g.range(0, 5));
     }
+    u.skillcnt = static_cast<uint16_t>(g.range(0, 10));
+    for (int i = 0; i < u.skillcnt; ++i)
+        u.skill[i] = static_cast<uint16_t>(interestingSkill(g));
+}
+
+uint32_t randomAffinity(Gen& g)
+{
+    static const uint32_t kValues[] = {
+        100, 100, 100, 100, 50, 0x80000096u, 0x10000, 0x20000, 0x40000, 0x110000, 0x100064, 10, 200, 0,
+    };
+    return g.pick(kValues);
+}
+
+void randomParty(Gen& g, nb::Party& p)
+{
+    for (int i = 4; i <= 8; ++i)
+        p.count[i] = static_cast<int16_t>(g.chance(50) ? g.range(-4, 4) : 0);
+    for (int i = 9; i <= 15; ++i)
+        p.count[i] = static_cast<int16_t>(g.chance(15) ? 1 : 0);
+    if (g.chance(5))
+        p.count[19] = static_cast<int16_t>(g.range(1, 447));
+    for (uint32_t& a : p.aisyo)
+        a = randomAffinity(g);
 }
 
 void randomWorld(Gen& g)
@@ -107,8 +190,11 @@ void randomWorld(Gen& g)
         if (f >= 4) flag |= 2;
         if (g.chance(10)) flag |= 4;
         if (g.chance(10)) flag |= 0x100;
+        if (g.chance(15)) flag |= 0x200;
+        if (g.chance(15)) flag |= 0x400;
         party[f].flag = flag;
         party[f].formindex = static_cast<int16_t>(f);
+        randomParty(g, party[f]);
     }
 
     nb::MainProcessData& data = at<nb::MainProcessData>(FW_MAIN);
@@ -151,9 +237,50 @@ int occupiedForm(Gen& g, int lo = 0, int hi = 13)
 
 int32_t randomSkill(Gen& g)
 {
-    static const int32_t kSpecial[] = {0, 0, 0, Skill::HolyMelody, Skill::EvilMelody, 0xbe, 0xc7, 0xd4};
+    static const int32_t kSpecial[] = {0, 0, 0, skill::HolyMelody, skill::EvilMelody, 0xbe, 0xc7, 0xd4};
     return g.chance(35) ? g.pick(kSpecial) : g.range(0, 0x17f);
 }
+
+// An active skill with a NormalSkill record, including the special-cased
+// ones. Skips random-ailment skills with an empty mask, where the original
+// reads an uninitialised choice.
+int32_t activeSkill(Gen& g)
+{
+    static const int32_t kSpecial[] = {0, 0x110, skill::Stinger, 0x103, 0x104, 0x4f, 0xd2, 0xc0};
+    // Skills by category, so each code path is reached often.
+    static std::vector<int32_t> byBadtype[4], byHptype[17], byMptype[17];
+    if (byBadtype[0].empty()) {
+        for (int32_t s = 0; s < 0x120; ++s) {
+            const NormalSkill& n = dat::normalSkill(s);
+            if (n.badtype < 4) byBadtype[n.badtype].push_back(s);
+            if (n.hptype < 17) byHptype[n.hptype].push_back(s);
+            if (n.mptype < 17) byMptype[n.mptype].push_back(s);
+        }
+    }
+    for (;;) {
+        int32_t s;
+        uint32_t mode = g.below(10);
+        if (mode < 2) {
+            s = g.pick(kSpecial);
+        } else if (mode < 5) {
+            auto& list = byBadtype[g.below(4)];
+            s = list.empty() ? 0 : list[g.below(static_cast<uint32_t>(list.size()))];
+        } else if (mode < 7) {
+            auto& list = (g.chance(50) ? byHptype : byMptype)[g.below(17)];
+            s = list.empty() ? 0 : list[g.below(static_cast<uint32_t>(list.size()))];
+        } else {
+            s = g.range(0, 0x11f);
+        }
+        const NormalSkill& n = dat::normalSkill(s);
+        if (n.badtype == 3 && (n.badstatus & 0x3fff) == 0)
+            continue;
+        return s;
+    }
+}
+
+datUnitWork_PS2* legacyUnit(uint32_t address) { return static_cast<datUnitWork_PS2*>(fw_resolve(address)); }
+
+const float kRatios[] = {0.0f, 0.5f, 1.0f, 1.0f, 1.5f, 2.0f, 0.25f, 1.25f};
 
 // ---- running a case ---------------------------------------------------------------
 
@@ -381,6 +508,245 @@ std::vector<TestCase> tests()
         return Pair{[=] { return norm(ps2CombatModelScaleDescriptor_00259A60(unit)); },
                     [=] { return norm(static_cast<int32_t>(guest::addressOf(&nb::unitVisual(unitAt(unit))))); }};
     }});
+
+    // ---- datCalc: unit stats -------------------------------------------------
+    auto unitTest = [&t](const char* name, auto legacy, auto rewrite) {
+        t.push_back({name, [=](Gen& g) {
+            uint32_t unit = formUnit(occupiedForm(g));
+            int32_t stat = g.range(0, 5);
+            return Pair{[=] { return legacy(unit, stat); }, [=] { return rewrite(unitAt(unit), stat); }};
+        }});
+    };
+    unitTest("datGetBaseParam", [](uint32_t u, int32_t s) { return norm(datGetBaseParam(legacyUnit(u), s)); },
+             [](UnitWork& u, int32_t s) { return norm(dat::baseParam(u, static_cast<Param>(s))); });
+    unitTest("datGetParam", [](uint32_t u, int32_t s) { return norm(datGetParam(legacyUnit(u), s)); },
+             [](UnitWork& u, int32_t s) { return norm(dat::param(u, static_cast<Param>(s))); });
+    unitTest("datGetNormalAtkPow", [](uint32_t u, int32_t) { return norm(datGetNormalAtkPow(u)); },
+             [](UnitWork& u, int32_t) { return norm(dat::attackPower(u)); });
+    unitTest("datGetDefPow", [](uint32_t u, int32_t) { return norm(datGetDefPow(u)); },
+             [](UnitWork& u, int32_t) { return norm(dat::defensePower(u)); });
+    unitTest("datGetMagicHitPow", [](uint32_t u, int32_t) { return norm(ps2UnitMagicHitPower_00242CB0(u)); },
+             [](UnitWork& u, int32_t) { return norm(dat::magicAccuracy(u)); });
+    unitTest("datGetSakePow", [](uint32_t u, int32_t) { return norm(ps2UnitEvasionPower_00242D50(u)); },
+             [](UnitWork& u, int32_t) { return norm(dat::evasionPower(u)); });
+    unitTest("datGetBaseMaxHp", [](uint32_t u, int32_t) { return norm(datGetBaseMaxHp(legacyUnit(u))); },
+             [](UnitWork& u, int32_t) { return norm(dat::baseMaxHp(u)); });
+    unitTest("datGetBaseMaxMp", [](uint32_t u, int32_t) { return norm(datGetBaseMaxMp(legacyUnit(u))); },
+             [](UnitWork& u, int32_t) { return norm(dat::baseMaxMp(u)); });
+    unitTest("datGetMaxHp", [](uint32_t u, int32_t) { return uint64_t{datGetMaxHp(legacyUnit(u))}; },
+             [](UnitWork& u, int32_t) { return uint64_t{dat::maxHp(u)}; });
+    unitTest("datGetMaxMp", [](uint32_t u, int32_t) { return uint64_t{datGetMaxMp(legacyUnit(u))}; },
+             [](UnitWork& u, int32_t) { return uint64_t{dat::maxMp(u)}; });
+    unitTest("datGetRace", [](uint32_t u, int32_t) { return norm(datGetRace(legacyUnit(u))); },
+             [](UnitWork& u, int32_t) { return norm(static_cast<int32_t>(dat::race(u))); });
+    unitTest("datGet3Zokusei", [](uint32_t u, int32_t) { return norm(datGet3Zokusei(u)); },
+             [](UnitWork& u, int32_t) { return norm(dat::alignment(u)); });
+    unitTest("datCheckDying", [](uint32_t u, int32_t) { return norm(datCheckDying(legacyUnit(u))); },
+             [](UnitWork& u, int32_t) { return norm(dat::isDying(u)); });
+    t.push_back({"datGetPlayerLevel", [](Gen&) {
+        return Pair{[] { return norm(datGetPlayerLevel()); }, [] { return norm(dat::playerLevel()); }};
+    }});
+    t.push_back({"datGetAisyo", [](Gen& g) {
+        uint32_t unit = formUnit(occupiedForm(g));
+        int32_t attr = g.range(-1, 15);
+        return Pair{[=] { return norm(datGetAisyo(unit, sx(attr))); },
+                    [=] { return norm(static_cast<int32_t>(dat::affinity(unitAt(unit), static_cast<Attribute>(attr)))); }};
+    }});
+    t.push_back({"datCheckSyojiSkill", [](Gen& g) {
+        uint32_t unit = formUnit(occupiedForm(g));
+        UnitWork& u = unitAt(unit);
+        int32_t skill = g.chance(50) && u.skillcnt ? u.skill[g.below(u.skillcnt)] : interestingSkill(g);
+        return Pair{[=] { return norm(datCheckSyojiSkill(legacyUnit(unit), static_cast<uint32_t>(skill))); },
+                    [=] { return norm(dat::hasSkill(unitAt(unit), skill)); }};
+    }});
+    t.push_back({"datCheckSkillInParty", [](Gen& g) {
+        int32_t skill = interestingSkill(g);
+        return Pair{[=] { return norm(datCheckSkillInParty(skill)); }, [=] { return norm(dat::partyHasSkill(skill)); }};
+    }});
+    auto ailmentWrite = [&t](const char* name, void (*legacy)(datUnitWork_PS2*, uint32_t), void (*rewrite)(UnitWork&, uint32_t)) {
+        t.push_back({name, [=](Gen& g) {
+            uint32_t unit = formUnit(occupiedForm(g));
+            uint32_t bad = g.chance(15) ? 0x8000u : (g.chance(80) ? g.pick(kAilments) : g.below(0x10000));
+            return Pair{[=] { legacy(legacyUnit(unit), bad); return uint64_t{0}; },
+                        [=] { rewrite(unitAt(unit), bad); return uint64_t{0}; }};
+        }});
+    };
+    ailmentWrite("datSetBadStat", datSetBadStat, dat::setAilment);
+    ailmentWrite("datResetBadStat", datResetBadStat, dat::clearAilment);
+    ailmentWrite("datOverwriteBadStat", datOverwriteBadStat, dat::overwriteAilment);
+    t.push_back({"datGetBadStatusAttr", [](Gen& g) {
+        int32_t bad = g.chance(70) ? (1 << g.range(0, 15)) : g.range(-2, 0x5000);
+        return Pair{[=] { return norm(datGetBadStatusAttr(bad)); },
+                    [=] { return norm(static_cast<int32_t>(dat::ailmentElement(static_cast<uint32_t>(bad)))); }};
+    }});
+    t.push_back({"datAddHp", [](Gen& g) {
+        uint32_t unit = formUnit(occupiedForm(g));
+        int32_t amount = g.range(-1200, 1200);
+        return Pair{[=] { return uint64_t{datAddHp(legacyUnit(unit), amount)}; }, [=] { return uint64_t{dat::addHp(unitAt(unit), amount)}; }};
+    }});
+    t.push_back({"datAddMp", [](Gen& g) {
+        uint32_t unit = formUnit(occupiedForm(g));
+        int32_t amount = g.range(-1200, 1200);
+        return Pair{[=] { return uint64_t{datAddMp(legacyUnit(unit), amount)}; }, [=] { return uint64_t{dat::addMp(unitAt(unit), amount)}; }};
+    }});
+
+    // ---- nbCalc: combatant queries ---------------------------------------------
+    t.push_back({"nbGetBadStat", [](Gen& g) {
+        int32_t f = g.range(0, 15);
+        return Pair{[=] { return norm(nbGetBadStat(sx(f))); }, [=] { return uint64_t{nb::badStat(f)}; }};
+    }});
+    t.push_back({"nbGetNormalSkillAttr", [](Gen& g) {
+        int32_t skill = g.range(0, 0x1ff);
+        return Pair{[=] { return norm(nbGetNormalSkillAttr(sx(skill))); },
+                    [=] { return norm(static_cast<int32_t>(nb::skillAttribute(skill))); }};
+    }});
+    t.push_back({"nbCheckFormationPlayerSide", [](Gen& g) {
+        int32_t f = g.range(-3, 15);
+        return Pair{[=] { return norm(nbCheckFormationPlayerSide(sx(f))); }, [=] { return norm(nb::isPlayerSide(f)); }};
+    }});
+    t.push_back({"nbHatudoCheckSkill", [](Gen& g) {
+        uint32_t unit = formUnit(occupiedForm(g));
+        UnitWork& u = unitAt(unit);
+        int32_t skill = g.chance(30) ? (g.chance(50) ? skill::BrightMight : skill::DarkMight)
+                      : g.chance(50) && u.skillcnt ? u.skill[g.below(u.skillcnt)] : interestingSkill(g);
+        return Pair{[=] { return norm(nbHatudoCheckSkill(legacyUnit(unit), skill)); },
+                    [=] { return norm(nb::passiveActive(unitAt(unit), skill)); }};
+    }});
+    t.push_back({"nbGetDevilFormatFlag", [](Gen& g) {
+        int32_t f = g.range(0, 15);
+        return Pair{[=] { return norm(nbGetDevilFormatFlag(sx(f))); },
+                    [=] { return norm(static_cast<int32_t>(nb::devilFormatFlag(f))); }};
+    }});
+    t.push_back({"nbGetUnitID", [](Gen& g) {
+        uint32_t unit = formUnit(occupiedForm(g));
+        return Pair{[=] { return norm(nbGetUnitID(unit)); }, [=] { return norm(nb::unitModelId(unitAt(unit))); }};
+    }});
+    t.push_back({"nbCheckKuisibariSkill", [](Gen& g) {
+        int32_t f = occupiedForm(g);
+        if (g.chance(50)) { UnitWork& u = unitAt(formUnit(f)); u.skill[0] = skill::Endure; if (!u.skillcnt) u.skillcnt = 1; }
+        return Pair{[=] { return norm(nbCheckKuisibariSkill(sx(f))); }, [=] { return norm(nb::checkEndure(f)); }};
+    }});
+    t.push_back({"nbCheckKuisibari2Skill", [](Gen& g) {
+        int32_t f = occupiedForm(g);
+        if (g.chance(50)) { UnitWork& u = unitAt(formUnit(f)); u.skill[0] = skill::NeverYield; if (!u.skillcnt) u.skillcnt = 1; }
+        return Pair{[=] { return norm(nbCheckKuisibari2Skill(sx(f))); }, [=] { return norm(nb::checkNeverYield(f)); }};
+    }});
+    t.push_back({"nbSetKuisibariStop", [](Gen& g) {
+        int32_t f = g.range(0, 15);
+        return Pair{[=] { nbSetKuisibariStop(sx(f)); return uint64_t{0}; }, [=] { nb::markEndureUsed(f); return uint64_t{0}; }};
+    }});
+
+    // ---- nbCalc: buffs ---------------------------------------------------------
+    t.push_back({"nbGetHojoCounter", [](Gen& g) {
+        int32_t f = g.range(0, 15), type = g.range(0, 19);
+        return Pair{[=] { return norm(nbGetHojoCounter(sx(f), sx(type))); }, [=] { return norm(nb::buffCounter(f, type)); }};
+    }});
+    t.push_back({"nbSetHojoCounter", [](Gen& g) {
+        int32_t f = g.range(0, 15), type = g.range(0, 19), value = g.range(-40000, 40000);
+        return Pair{[=] { nbSetHojoCounter(sx(f), sx(type), sx(value)); return uint64_t{0}; },
+                    [=] { nb::setBuffCounter(f, type, value); return uint64_t{0}; }};
+    }});
+    t.push_back({"nbGetHojoCounterMax", [](Gen& g) {
+        int32_t type = g.range(-2, 22);
+        return Pair{[=] { return norm(nbGetHojoCounterMax(sx(type))); }, [=] { return norm(nb::buffMax(type)); }};
+    }});
+    t.push_back({"nbGetHojoCounterMin", [](Gen& g) {
+        int32_t type = g.range(-2, 22);
+        return Pair{[=] { return norm(nbGetHojoCounterMin(sx(type))); }, [=] { return norm(nb::buffMin(type)); }};
+    }});
+    t.push_back({"nbSetHojoAddCounter", [](Gen& g) {
+        int32_t f = g.range(0, 15), type = g.range(0, 19), delta = g.range(-6, 6), preview = g.range(0, 1);
+        return Pair{[=] { return norm(nbSetHojoAddCounter(sx(f), sx(type), sx(delta), sx(preview))); },
+                    [=] { return norm(nb::addBuff(f, type, delta, preview != 0)); }};
+    }});
+    t.push_back({"nbSetHojoKouka", [](Gen& g) {
+        int32_t f = g.range(0, 15), amount = g.range(-2, 4), preview = g.range(0, 1);
+        uint32_t mask = static_cast<uint32_t>(g.rng()) & (g.chance(50) ? 0x10403ffu : 0x1ffffffu);
+        return Pair{[=] { return norm(nbSetHojoKouka(sx(f), mask, sx(amount), sx(preview))); },
+                    [=] { return norm(nb::applyBuffs(f, mask, amount, preview != 0)); }};
+    }});
+    t.push_back({"nbGetHojoRitu", [](Gen& g) {
+        int32_t f = occupiedForm(g), type = g.range(4, 8);
+        return Pair{[=] { return floatBits(nbGetHojoRitu(sx(f), sx(type))); },
+                    [=] { return uint64_t{nb::buffMultiplier(f, type).bits()}; }};
+    }});
+
+    // ---- nbCalc: affinity -----------------------------------------------------
+    t.push_back({"nbGetAisyo", [](Gen& g) {
+        int32_t skill = g.chance(15) ? -1 : activeSkill(g), f = occupiedForm(g), attr = g.range(-1, 15);
+        return Pair{[=] { return norm(nbGetAisyo(sx(skill), sx(f), sx(attr))); },
+                    [=] { return norm(static_cast<int32_t>(nb::affinity(skill, f, static_cast<Attribute>(attr)).raw)); }};
+    }});
+    t.push_back({"nbGetVirtualAisyo", [](Gen& g) {
+        int32_t skill = activeSkill(g), s = occupiedForm(g), d = occupiedForm(g);
+        return Pair{[=] { return norm(nbGetVirtualAisyo(sx(skill), sx(s), sx(d))); },
+                    [=] { return norm(static_cast<int32_t>(nb::virtualAffinity(skill, s, d))); }};
+    }});
+    t.push_back({"nbGetAisyoRitu", [](Gen& g) {
+        int32_t skill = activeSkill(g), s = occupiedForm(g), d = occupiedForm(g);
+        return Pair{[=] { return floatBits(nbGetAisyoRitu(sx(skill), sx(s), sx(d))); },
+                    [=] { return uint64_t{nb::damageRatio(skill, s, d).bits()}; }};
+    }});
+
+    // ---- nbCalc: power, effects, ailments -------------------------------------
+    auto powerTest = [&t](const char* name, uint64_t (*legacy)(uint64_t, uint64_t, uint64_t, uint64_t),
+                          int32_t (*rewrite)(int32_t, int32_t, int32_t, int32_t)) {
+        t.push_back({name, [=](Gen& g) {
+            int32_t skill = activeSkill(g), s = occupiedForm(g), d = occupiedForm(g), power = g.range(0, 300);
+            return Pair{[=] { return norm(legacy(sx(skill), sx(s), sx(d), sx(power))); },
+                        [=] { return norm(rewrite(skill, s, d, power)); }};
+        }});
+    };
+    powerTest("nbGetButuriAttack", nbGetButuriAttack, nb::physicalPower);
+    powerTest("nbGetButuriKaifuku", nbGetButuriKaifuku, nb::physicalHealPower);
+    powerTest("nbGetMagicAttack", nbGetMagicAttack, nb::magicPower);
+    powerTest("nbGetMagicKaifuku", nbGetMagicKaifuku, nb::magicHealPower);
+    powerTest("nbGetMaxHpWazaPoint", nbGetMaxHpWazaPoint, nb::maxHpPower);
+
+    auto effectTest = [&t](const char* name, uint64_t (*legacy)(float, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t),
+                           int32_t (*rewrite)(ee::Float, bool, int32_t, int32_t, int32_t, int32_t)) {
+        t.push_back({name, [=](Gen& g) {
+            int32_t skill = activeSkill(g), s = occupiedForm(g), d = occupiedForm(g), count = g.range(0, 4);
+            int32_t damage = g.range(0, 1);
+            float ratio = g.pick(kRatios);
+            return Pair{[=] { return norm(legacy(ratio, sx(damage), sx(skill), sx(s), sx(d), sx(count))); },
+                        [=] { return norm(rewrite(ratio, damage != 0, skill, s, d, count)); }};
+        }});
+    };
+    effectTest("nbGetKoukaHp", nbGetKoukaHp, nb::hpEffect);
+    effectTest("nbGetKoukaMp", nbGetKoukaMp, nb::mpEffect);
+
+    auto ailmentTest = [&t](const char* name, uint64_t (*legacy)(float, uint64_t, uint64_t, uint64_t, uint64_t),
+                            uint32_t (*rewrite)(ee::Float, int32_t, int32_t, int32_t, bool)) {
+        t.push_back({name, [=](Gen& g) {
+            int32_t skill = activeSkill(g), s = occupiedForm(g), d = occupiedForm(g), preview = g.chance(20) ? 1 : 0;
+            float ratio = g.pick(kRatios);
+            return Pair{[=] { return norm(legacy(ratio, sx(skill), sx(s), sx(d), sx(preview))); },
+                        [=] { return norm(static_cast<int32_t>(rewrite(ratio, skill, s, d, preview != 0))); }};
+        }});
+    };
+    ailmentTest("nbGetKoukaBadDamage", nbGetKoukaBadDamage, nb::rollAilmentInflict);
+    ailmentTest("nbGetKoukaBadKaifuku", nbGetKoukaBadKaifuku, nb::rollAilmentCure);
+
+    // Every curing skill in the shipped data has badlevel 255 (always works),
+    // so the cure-chance roll is dead in practice. Exercise it anyway by
+    // patching a chance into the skill record for the duration of the call.
+    t.push_back({"nbGetKoukaBadKaifuku (patched chance)", [](Gen& g) {
+        int32_t s = occupiedForm(g), d = occupiedForm(g), preview = g.chance(10) ? 1 : 0;
+        int32_t skill = 0x2c + static_cast<int32_t>(g.below(6));   // Me Patra .. Recarm
+        uint8_t chance = static_cast<uint8_t>(g.range(1, 200));
+        float ratio = g.pick(kRatios);
+        auto patched = [=](auto call) {
+            uint8_t& badlevel = const_cast<NormalSkill&>(dat::normalSkill(skill)).badlevel;
+            uint8_t original = badlevel;
+            badlevel = chance;
+            uint64_t result = call();
+            badlevel = original;
+            return result;
+        };
+        return Pair{[=] { return patched([&] { return norm(nbGetKoukaBadKaifuku(ratio, sx(skill), sx(s), sx(d), sx(preview))); }); },
+                    [=] { return patched([&] { return norm(static_cast<int32_t>(nb::rollAilmentCure(ratio, skill, s, d, preview != 0))); }); }};
+    }});
     return t;
 }
 
@@ -398,10 +764,13 @@ int main(int argc, char** argv)
     }
     int cases = argc > 2 ? std::atoi(argv[2]) : 2000;
     uint64_t seed = argc > 3 ? std::strtoull(argv[3], nullptr, 0) : 1;
+    const char* filter = argc > 4 ? argv[4] : "";
 
     std::vector<uint8_t> saved(FW_DYNAMIC_END - FW_DYNAMIC_BEGIN);
     int failedFunctions = 0;
     for (const TestCase& test : tests()) {
+        if (!std::strstr(test.name, filter))
+            continue;
         int failures = 0, traps = 0;
         uint64_t draws = 0;
         for (int i = 0; i < cases; ++i) {

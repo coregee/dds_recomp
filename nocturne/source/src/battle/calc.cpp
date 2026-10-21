@@ -8,7 +8,11 @@
 
 #include <cstdlib>
 
+#include "nocturne/battle/affinity.hpp"
+#include "nocturne/battle/buffs.hpp"
+#include "nocturne/battle/combatant.hpp"
 #include "nocturne/data/tables.hpp"
+#include "nocturne/data/unit.hpp"
 #include "nocturne/data/types.hpp"
 #include "nocturne/external.hpp"
 
@@ -35,7 +39,7 @@ bool percentRoll(int32_t chance) { return sdf::GetRandInt(100) < chance; }
 // Agility relative to level, x100. Used for physical accuracy.
 int32_t agilityScore(const UnitWork& unit)
 {
-    return dat::GetParam(unit, Param::Agility) / (unit.level / 5 + 3) * 100;
+    return dat::param(unit, Param::Agility) / (unit.level / 5 + 3) * 100;
 }
 
 // Base accuracy of a physical skill: 100 - failpoint, nudged by 1/16 of the
@@ -69,8 +73,8 @@ InitiativeStats initiativeStats(MainProcessData& data)
     s.enemyLuck = averageEncounterParam(data, Side::Enemy, Param::Luck);
     const UnitWork& demiFiend = dat::globalWork().units[0];
     s.playerLevel = demiFiend.level;
-    s.playerAgility = dat::GetParam(demiFiend, Param::Agility);
-    s.playerLuck = dat::GetParam(demiFiend, Param::Luck);
+    s.playerAgility = dat::param(demiFiend, Param::Agility);
+    s.playerLuck = dat::param(demiFiend, Param::Luck);
     return s;
 }
 
@@ -89,24 +93,24 @@ HitType rollCritical(ActionProcessData& action, int32_t skill, int32_t source, i
     UnitWork& attacker = *GetUnitWorkFromFormindex(source);
     UnitWork& defender = *GetUnitWorkFromFormindex(target);
 
-    Attribute attr = GetNormalSkillAttr(skill);
+    Attribute attr = skillAttribute(skill);
     if (attr == Attribute::None || (attr >= Attribute(12) && attr <= Attribute(15)))
         return HitType::Normal;
-    Affinity affinity = GetAisyo(skill, target, attr);
+    Affinity targetAffinity = affinity(skill, target, attr);
 
     // Bright Might / Dark Might: guaranteed critical when they activate.
-    if (skill == Skill::NormalAttack) {
-        if (HatudoCheckSkill(attacker, Skill::BrightMight)) {
-            action.autoskill = Skill::BrightMight;
+    if (skill == skill::NormalAttack) {
+        if (passiveActive(attacker, skill::BrightMight)) {
+            action.autoskill = skill::BrightMight;
             return HitType::Critical;
         }
-        if (HatudoCheckSkill(attacker, Skill::DarkMight)) {
-            action.autoskill = Skill::DarkMight;
+        if (passiveActive(attacker, skill::DarkMight)) {
+            action.autoskill = skill::DarkMight;
             return HitType::Critical;
         }
     }
 
-    if (affinity.has(Affinity::Weak))
+    if (targetAffinity.has(Affinity::Weak))
         return HitType::Weakness;
 
     if (GetPartyFromFormindex(source)->flag & PartyFlag::AlwaysCrit)
@@ -124,9 +128,9 @@ HitType rollCritical(ActionProcessData& action, int32_t skill, int32_t source, i
 
     // Might: normal attacks crit n/100 times as often (n = 300).
     bool mightFired = false;
-    if (skill == Skill::NormalAttack && HatudoCheckSkill(attacker, Skill::Might)) {
+    if (skill == skill::NormalAttack && passiveActive(attacker, skill::Might)) {
         mightFired = true;
-        multiplier = multiplier * (Float::fromInt(dat::specialSkill(Skill::Might).n) / 100.0f);
+        multiplier = multiplier * (Float::fromInt(dat::specialSkill(skill::Might).n) / 100.0f);
     }
 
     const NormalSkill& s = dat::normalSkill(skill);
@@ -146,14 +150,14 @@ HitType rollCritical(ActionProcessData& action, int32_t skill, int32_t source, i
     if (!percentRoll(threshold))
         return HitType::Normal;
     if (mightFired)
-        action.autoskill = Skill::Might;
+        action.autoskill = skill::Might;
     return HitType::Critical;
 }
 
 // nbGet3Zokusei @ 0x00265868
 AlignmentClass alignmentClass(int32_t formindex)
 {
-    switch (dat::Get3Zokusei(*GetUnitWorkFromFormindex(formindex))) {
+    switch (dat::alignment(*GetUnitWorkFromFormindex(formindex))) {
     case -1: return AlignmentClass::Minus;
     case 1:  return AlignmentClass::Plus;
     default: return AlignmentClass::Neutral;
@@ -198,32 +202,32 @@ EffectResult resolveEffect(int32_t skill, int32_t source, int32_t target)
 
     UnitWork& attacker = *GetUnitWorkFromFormindex(source);
     UnitWork& defender = *GetUnitWorkFromFormindex(target);
-    uint32_t formatFlag = GetDevilFormatFlag(target);
+    uint32_t formatFlag = devilFormatFlag(target);
 
     if (data.stat & BattleStat::DebugAlwaysRepel) return EffectResult::Repel;
     if (data.stat & BattleStat::DebugAlwaysHit)   return EffectResult::Hit;
 
-    if (skill == Skill::HolyMelody && (data.stat & BattleStat::Unknown01) && data.encno != 0x408 && defender.isEnemy())
+    if (skill == skill::HolyMelody && (data.stat & BattleStat::BossBattle) && data.encno != 0x408 && defender.isEnemy())
         return EffectResult::Fail;
-    if (skill == Skill::EvilMelody && (data.stat & BattleStat::Unknown01) && defender.isEnemy())
+    if (skill == skill::EvilMelody && (data.stat & BattleStat::BossBattle) && defender.isEnemy())
         return EffectResult::Fail;
 
     // Affinity. Classes 12..14 have none.
-    Attribute attr = GetNormalSkillAttr(skill);
+    Attribute attr = skillAttribute(skill);
     if (attr != Attribute::None && (attr < Attribute(12) || attr > Attribute(14))) {
-        Affinity affinity = GetAisyo(skill, target, attr);
+        Affinity targetAffinity = affinity(skill, target, attr);
         // A frozen target loses physical Null/Repel/Drain.
         if (hasAilment(defender, Ailment::Freeze) && s.koukatype == 0)
-            affinity.raw &= ~(Affinity::Null | Affinity::Repel | Affinity::Drain);
-        if (affinity.has(Affinity::Repel))
+            targetAffinity.raw &= ~(Affinity::Null | Affinity::Repel | Affinity::Drain);
+        if (targetAffinity.has(Affinity::Repel))
             return EffectResult::Repel;
         // Pierce lets physical skills through Null and Drain (not Repel).
-        if (dat::CheckSyojiSkill(attacker, Skill::Pierce) && s.koukatype == 0) {
-            if (affinity.raw & (Affinity::Null | Affinity::Drain))
+        if (dat::hasSkill(attacker, skill::Pierce) && s.koukatype == 0) {
+            if (targetAffinity.raw & (Affinity::Null | Affinity::Drain))
                 data.piercedResistance = 1;
         } else {
-            if (affinity.has(Affinity::Drain)) return EffectResult::Drain;
-            if (affinity.has(Affinity::Null))  return EffectResult::Null;
+            if (targetAffinity.has(Affinity::Drain)) return EffectResult::Drain;
+            if (targetAffinity.has(Affinity::Null))  return EffectResult::Null;
         }
     }
 
@@ -265,8 +269,8 @@ EffectResult resolveEffect(int32_t skill, int32_t source, int32_t target)
     if (isNormalDifficulty() && s.hptype == 3 && s.hpn == 1 && !defender.isEnemy())
         hitRate = hitRate * 0.7f;
 
-    Float attackerAccuracyBuff = GetHojoRitu(source, 8);
-    Float defenderEvasionBuff = GetHojoRitu(target, 6);
+    Float attackerAccuracyBuff = buffMultiplier(source, 8);
+    Float defenderEvasionBuff = buffMultiplier(target, 6);
 
     Float accuracy;
     if (s.koukatype == 0) {
@@ -275,8 +279,8 @@ EffectResult resolveEffect(int32_t skill, int32_t source, int32_t target)
         // Magic: evasion as a percentage of the caster's magic accuracy,
         // halved, on top of 100 (95 for enemy casters).
         Float base = attacker.isEnemy() ? 95.0f : 100.0f;
-        int32_t evasion = dat::GetSakePow(defender);
-        int32_t magicAccuracy = dat::GetMagicHitPow(attacker);
+        int32_t evasion = dat::evasionPower(defender);
+        int32_t magicAccuracy = dat::magicAccuracy(attacker);
         if (magicAccuracy == 0)
             divideByZeroTrap();
         int32_t evasionPercent = evasion * 100 / magicAccuracy;
@@ -290,7 +294,7 @@ EffectResult resolveEffect(int32_t skill, int32_t source, int32_t target)
     if (accuracy > 100.0f) accuracy = 100.0f;
     // A stunned attacker hits a quarter as often (this is applied after the
     // 50% floor).
-    if (GetBadStat(source) == static_cast<uint32_t>(Ailment::Stun))
+    if (badStat(source) == static_cast<uint32_t>(Ailment::Stun))
         accuracy = accuracy * 0.25f;
 
     int32_t threshold = accuracy.toInt();
@@ -308,13 +312,13 @@ EffectResult resolveEffect(int32_t skill, int32_t source, int32_t target)
 bool rollStoneShatter(int32_t skill, int32_t target)
 {
     UnitWork* unit = GetUnitWorkFromFormindex(target);
-    if (!unit || GetBadStat(target) != static_cast<uint32_t>(Ailment::Stone))
+    if (!unit || badStat(target) != static_cast<uint32_t>(Ailment::Stone))
         return false;
-    Attribute attr = GetNormalSkillAttr(skill);
+    Attribute attr = skillAttribute(skill);
     if (attr != Attribute::Physical && attr != Attribute::Force)
         return false;
 
-    int32_t luck = dat::GetParam(*unit, Param::Luck);
+    int32_t luck = dat::param(*unit, Param::Luck);
     Float luckDivisor = (Float::fromInt(unit->level) + 20.0f) / 5.0f;
     Float resistance = Float::fromInt(luck) / luckDivisor * (unit->isPlayerCharacter() ? 40.0f : 20.0f);
     int32_t chance = (Float(100.0f) - resistance).toInt();
@@ -361,7 +365,7 @@ bool checkAilment(const UnitWork* unit, AilmentCheck check)
     case Ailment::Charm:                     k = 40.0f; break;
     default: return false;
     }
-    int32_t luck = dat::GetParam(*unit, Param::Luck);
+    int32_t luck = dat::param(*unit, Param::Luck);
     int32_t luckDivisor = (unit->level + 20) / 5;
     Float luckRatio = Float::fromInt(luck) / Float::fromInt(luckDivisor);
     int32_t chance = (k * luckRatio).toInt();
@@ -425,9 +429,9 @@ void addHpMp(int32_t formindex, Resource resource, int32_t amount)
     if (!unit)
         return;
     if (resource == Resource::Hp)
-        dat::AddHp(*unit, amount);
+        dat::addHp(*unit, amount);
     else if (resource == Resource::Mp)
-        dat::AddMp(*unit, amount);
+        dat::addMp(*unit, amount);
 }
 
 // nbSetBadStat @ 0x002674D0
@@ -437,9 +441,9 @@ void setAilment(int32_t formindex, bool set, uint32_t badstat)
     if (!unit)
         return;
     if (set)
-        dat::SetBadStat(*unit, badstat);
+        dat::setAilment(*unit, badstat);
     else
-        dat::ResetBadStat(*unit, badstat);
+        dat::clearAilment(*unit, badstat);
 }
 
 // nbCheckBadCurse @ 0x002677B8
@@ -452,7 +456,7 @@ bool isCursed(int32_t formindex)
 // nbCheckFormationFriend @ 0x0026A470
 bool sameSide(int32_t formindex1, int32_t formindex2)
 {
-    return CheckFormationPlayerSide(formindex1) == CheckFormationPlayerSide(formindex2);
+    return isPlayerSide(formindex1) == isPlayerSide(formindex2);
 }
 
 // nbCheckBadPanicAction @ 0x0026A688
@@ -480,7 +484,7 @@ bool isPartyPetrified()
 // 0x00259A60 (unnamed): the model record for a unit.
 const UnitVisual& unitVisual(const UnitWork& unit)
 {
-    int32_t id = GetUnitID(unit);
+    int32_t id = unitModelId(unit);
     if (id == 0)
         return *guest::table<const UnitVisual>(dat::address::DefaultUnitVisual);
     return guest::table<const UnitVisual>(dat::address::UnitVisual)[id];
@@ -560,7 +564,7 @@ int32_t averageParam(MainProcessData& data, Side side, Param stat)
         bool enemy = (flags & PartyFlag::EnemySide) != 0;
         if (enemy != (side == Side::Enemy))
             continue;
-        sum += dat::GetParam(*GetUnitWorkPointer(data, party), stat);
+        sum += dat::param(*GetUnitWorkPointer(data, party), stat);
         ++count;
     }
     return count ? sum / count : 0;
@@ -573,7 +577,7 @@ int32_t averageEncounterParam(MainProcessData& data, Side side, Param stat)
     if (side == Side::Player) {
         for (const UnitWork& unit : dat::globalWork().units) {
             if ((unit.flag & (UnitFlag::Valid | UnitFlag::InParty)) == (UnitFlag::Valid | UnitFlag::InParty)) {
-                sum += dat::GetParam(unit, stat);
+                sum += dat::param(unit, stat);
                 ++count;
             }
         }
@@ -645,8 +649,8 @@ bool rollBackAttack(MainProcessData& data)
     int32_t playerScore = s.playerLevel + s.playerLuck / 2 + s.playerAgility + 10;
 
     int32_t chance = 12;
-    if (dat::CheckSkillInParty(Skill::MindsEye)) {
-        int32_t divisor = dat::specialSkill(Skill::MindsEye).n;
+    if (dat::partyHasSkill(skill::MindsEye)) {
+        int32_t divisor = dat::specialSkill(skill::MindsEye).n;
         if (divisor == 0)
             divideByZeroTrap();
         chance = 12 / divisor;
@@ -690,8 +694,8 @@ bool rollEscape(MainProcessData& data)
     int32_t enemyLuck = averageParam(data, Side::Enemy, Param::Luck);
     Float statRatio = Float::fromInt(partyAgility + partyLuck) / Float::fromInt(enemyAgility + enemyLuck) * 20.0f;
     int32_t chance = (Float::fromInt(data.esccnt * 20) + statRatio).toInt();
-    if (dat::CheckSkillInParty(Skill::FastRetreat))
-        chance = chance * dat::specialSkill(Skill::FastRetreat).n / 100;
+    if (dat::partyHasSkill(skill::FastRetreat))
+        chance = chance * dat::specialSkill(skill::FastRetreat).n / 100;
 
     bool normal = isNormalDifficulty();
     chance *= 2;
@@ -805,7 +809,7 @@ void addDefeatRewards(const UnitWork& defeated)
     // levels above, /1.8 at 12+. Enemies of level 70+ only get the /1.3,
     // from 6 levels up.
     int32_t exp = devil.dropexp;
-    int32_t levelGap = dat::GetPlayerLevel() - defeated.level;
+    int32_t levelGap = dat::playerLevel() - defeated.level;
     Float divisor;
     bool reduced = false;
     if (defeated.level < 70) {
@@ -829,25 +833,25 @@ void addDefeatRewards(const UnitWork& defeated)
 
     // At most one item: the special drop (if its event bit is set), else
     // the ordinary drops in order, else a Bead, else a Life Stone.
-    uint8_t item = 0;
+    uint8_t drop = 0;
     if (devil.specialbit == 0 || evt::BitCheck(devil.specialbit)) {
         if (devil.specialitem && percentRoll(devil.specialpoint))
-            item = devil.specialitem;
+            drop = devil.specialitem;
     }
-    if (!item) {
-        for (int i = 0; i < 2 && !item; ++i) {
+    if (!drop) {
+        for (int i = 0; i < 2 && !drop; ++i) {
             if (devil.dropitem[i] && percentRoll(devil.droppoint[i]))
-                item = devil.dropitem[i];
+                drop = devil.dropitem[i];
         }
     }
     // The Bead and Life Stone rolls happen even when an item already dropped.
     bool bead = percentRoll(devil.hougyokupoint);
-    if (bead && !item) item = Item::Bead;
+    if (bead && !drop) drop = item::Bead;
     bool lifeStone = percentRoll(devil.masekipoint);
-    if (lifeStone && !item) item = Item::LifeStone;
+    if (lifeStone && !drop) drop = item::LifeStone;
 
-    if (item)
-        addSpoils(data, item, 1);   // lost if the spoils are full
+    if (drop)
+        addSpoils(data, drop, 1);   // lost if the spoils are full
 }
 
 // nbGetMakaBaramaki @ 0x0026A4B0 ("baramaki" = ばら撒き, scattering)
@@ -865,12 +869,12 @@ int32_t scatteredMacca(const UnitWork& unit)
     if (unit.isEnemy()) {
         const UnitWork& demiFiend = global.units[0];
         Float luckDivisor = Float::fromInt(demiFiend.level) / 5.0f + 4.0f;
-        int32_t luck = dat::GetParam(demiFiend, Param::Luck);
+        int32_t luck = dat::param(demiFiend, Param::Luck);
         Float luckRatio = Float::fromInt(luck) / luckDivisor;
         base = (Float::fromInt(dat::devilFormat(unit.id).dropmakka) * luckRatio).toInt();
     } else {
         Float luckDivisor = Float::fromInt(unit.level) / 5.0f + 4.0f;
-        int32_t luck = dat::GetParam(unit, Param::Luck);
+        int32_t luck = dat::param(unit, Param::Luck);
         Float luckRatio = Float::fromInt(luck) / luckDivisor;
         base = (kLuckRatioEpsilon <= luckRatio.abs()) ? (cashShare / luckRatio).toInt() : 0;
     }

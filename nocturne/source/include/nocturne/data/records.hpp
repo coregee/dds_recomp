@@ -9,6 +9,7 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "nocturne/data/types.hpp"
 #include "nocturne/ee/float.hpp"
 #include "nocturne/guest.hpp"
 
@@ -99,6 +100,17 @@ static_assert(offsetof(NormalSkill, hojotype) == 0x28);
 static_assert(offsetof(NormalSkill, program) == 0x30);
 static_assert(offsetof(NormalSkill, criticalpoint) == 0x34);
 
+// datSkill: what every skill ID is. Table at 0x3D6998, 8 bytes, 512 entries.
+struct SkillInfo {
+    int8_t skillattr;         // element (Attribute); -1 none
+    int8_t type;              // 0 active (has a NormalSkill), 1 passive, -1 unused
+    int16_t index;
+    uint16_t keisyoform;      // which demons can inherit it (mask)
+    int8_t capacity;
+    uint8_t flag;
+};
+static_assert(sizeof(SkillInfo) == 8);
+
 // datSpecialSkill: tuning numbers for passive/auto skills. Table at 0x3DC1E0,
 // indexed by (skill - 0x128). E.g. Fast Retreat n=150, Might n=300,
 // Mind's Eye n=3, Anti-<element> n=50.
@@ -110,10 +122,10 @@ static_assert(sizeof(SpecialSkill) == 8);
 // datDevilFormat: species data for each devil ID. Table at 0x3497C0, 60 bytes.
 struct DevilFormat {
     uint32_t flag;
-    uint8_t race;
+    Race race;
     uint8_t level;
     uint16_t hp, maxhp, mp, maxmp;
-    int16_t aisyoid;          // row in the affinity table
+    int16_t aisyoid;          // row in the affinity table; doubles as a model/species ID
     int8_t param[6];
     uint16_t skill[8];
     int16_t keisyotype;

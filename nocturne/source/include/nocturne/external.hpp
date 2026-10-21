@@ -17,17 +17,6 @@
 namespace nocturne {
 
 namespace dat {
-int32_t GetParam(const UnitWork& unit, Param paratype);  // stat incl. Mitama bonus, clamped 1..40
-int32_t Get3Zokusei(const UnitWork& unit);               // raw alignment: -1, 0 or 1
-int32_t GetSakePow(const UnitWork& unit);                // evasion power ("sake" = 避け)
-int32_t GetMagicHitPow(const UnitWork& unit);            // magic accuracy power
-void AddHp(UnitWork& unit, int32_t amount);
-void AddMp(UnitWork& unit, int32_t amount);
-void SetBadStat(UnitWork& unit, uint32_t badstat);
-void ResetBadStat(UnitWork& unit, uint32_t badstat);
-bool CheckSyojiSkill(const UnitWork& unit, int32_t skill); // does the unit own this skill
-bool CheckSkillInParty(int32_t skill);                     // does any active party member
-int32_t GetPlayerLevel();
 bool BossRashChk(int32_t encno);                           // boss refight (reduced rewards)
 } // namespace dat
 
@@ -36,14 +25,6 @@ MainProcessData* GetMainProcessData();
 UnitWork* GetUnitWorkFromFormindex(int32_t formindex);   // null for an empty slot
 Party* GetPartyFromFormindex(int32_t formindex);
 UnitWork* GetUnitWorkPointer(MainProcessData& data, Party& party);
-Attribute GetNormalSkillAttr(int32_t nskill);
-Affinity GetAisyo(int32_t nskill, int32_t formindex, Attribute attr);
-bool HatudoCheckSkill(const UnitWork& unit, int32_t skill);  // does a passive activate now ("hatudo" = 発動)
-ee::Float GetHojoRitu(int32_t formindex, int32_t type);      // buff multiplier
-uint32_t GetDevilFormatFlag(int32_t formindex);
-uint32_t GetBadStat(int32_t formindex);
-bool CheckFormationPlayerSide(int32_t formindex);
-int32_t GetUnitID(const UnitWork& unit);                     // model ID, 0 = default model
 } // namespace nb
 
 namespace evt {
@@ -70,8 +51,17 @@ enum class Message : uint32_t {
     EscapeRate       = 0x00544de0, // 逃走率 = %d
     ConsecutiveRate  = 0x00544df0, // "renzoku ritu = %d, index = %d"
     Miss             = 0x00551140, // "MISS!!"
+    AttackRatio      = 0x00544d00, // "atkritu = %f"
+    DefenseRatio     = 0x00544d10, // "defritu = %f"
+    MagicHeal        = 0x00544d30, // 回復 waza = %d, atkritu = %f 回復値=%d (heal: power, ratio, amount)
+    StingerVsBoss    = 0x00544b48, // "DANTE SUTING BOSS NG..."
+    CurseKillBlocked = 0x00544b68, // "SIBAE JYUSATU TAISEI ARI NG..." (target resists Death)
+    PestilenceNoPoison = 0x00544b88, // "PESTO POISON NASI NG..."
+    AilmentChance    = 0x00544ba8, // バッドステータス反映確率 waza:%d aisyo:%d ritu:%d rnd:%d
+    AilmentCureRate  = 0x00544be8, // "bad ritu:%f"
 };
-void print(Message message, int32_t a = 0, int32_t b = 0, int32_t c = 0, int32_t d = 0, int32_t e = 0);
+// Integer arguments are passed sign-extended; %f arguments are ee::Double bits.
+void print(Message message, int64_t a = 0, int64_t b = 0, int64_t c = 0, int64_t d = 0, int64_t e = 0);
 } // namespace diag
 
 // The original code divides with a trap on zero (MIPS BREAK 7).

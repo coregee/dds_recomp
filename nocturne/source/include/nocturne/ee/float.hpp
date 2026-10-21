@@ -61,4 +61,23 @@ private:
 
 static_assert(sizeof(Float) == 4);
 
+// A float constant as the original toolchain stored it. Its compiler rounded
+// decimal literals toward zero, so 0.6 is 0x3f199999 where a modern compiler
+// gives 0x3f19999a. Use this for every non-exact constant from the game.
+consteval Float literal(double value)
+{
+    float nearest = static_cast<float>(value);
+    uint32_t bits = std::bit_cast<uint32_t>(nearest);
+    double magnitude = value < 0 ? -value : value;
+    double rounded = nearest < 0 ? -static_cast<double>(nearest) : static_cast<double>(nearest);
+    if (rounded > magnitude)
+        --bits;   // one step toward zero
+    return Float::fromBits(bits);
+}
+
+static_assert(literal(0.6).bits() == 0x3f199999);
+static_assert(literal(0.1).bits() == 0x3dcccccc);
+static_assert(literal(0.01).bits() == 0x3c23d70a);
+static_assert(literal(1.3).bits() == 0x3fa66666);
+
 } // namespace nocturne::ee

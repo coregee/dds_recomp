@@ -1,0 +1,278 @@
+id	name
+001	Vishnu
+002	Mithra
+003	Amaterasu
+004	Odin
+005	Atavaka
+006	Horus
+007	Laksmi
+008	Scathach
+009	Sarasvati
+00a	Sati
+00b	Uzume
+00c	Shiva
+00d	Beiji-Weng
+00e	Wu Kong
+00f	Dionysus
+010	Kali
+011	Skadi
+012	Parvati
+013	Kushinada
+014	Kikuri-Hime
+015	Bishamon
+016	Thor
+017	Jikoku
+018	Mikazuchi
+019	Okuninushi
+01a	Koumoku
+01b	Zouchou
+01c	Minakata
+01d	Chimera
+01e	Baihu
+01f	Senri
+020	Feng Huang
+021	Shiisaa
+022	Cai-Zhi
+023	Unicorn
+024	Flaemis
+025	Aquans
+026	Aeros
+027	Erthys
+028	Saki Mitama
+029	Kusi Mitama
+02a	Nigi Mitama
+02b	Ara Mitama
+02c	Efreet
+02d	Purski
+02e	Onkot
+02f	Jinn
+030	Karasu
+031	Dis
+032	Isora
+033	Apsaras
+034	Koppa
+035	Titania
+036	Oberon
+037	Troll
+038	Setanta
+039	Kelpie
+03a	Pyro Jack
+03b	High Pixie
+03c	Jack Frost
+03d	Pixie
+03e	Throne
+03f	Dominion
+040	Virtue
+041	Power
+042	Principality
+043	Archangel
+044	Angel
+045	Flauros
+046	Decarabia
+047	Ose
+048	Berith
+049	Eligor
+04a	Forneus
+04b	Yurlungur
+04c	Quetzacoatl
+04d	Raja Naga
+04e	Mizuchi
+04f	Naga
+050	Nozuchi
+051	Cerberus
+052	Orthrus
+053	Sparna
+054	Badb Catha
+055	Inugami
+056	Nekomata
+057	Gogmagog
+058	Titan
+059	Sarutahiko
+05a	Sudama
+05b	Hua Po
+05c	Kodama
+05d	Shiki-Ouji
+05e	Oni
+05f	Ikusa
+060	Momunofu
+061	Shikigami
+062	Rangda
+063	Dakini
+064	Yaksini
+065	Shikome
+066	Taraka
+067	Datsue-Ba
+068	Mada
+069	Girimehkala
+06a	Tao Tie
+06b	Pazuzu
+06c	Baphomet
+06d	Mot
+06e	Aciel
+06f	Surt
+070	Abaddon
+071	Loki
+072	Lilith
+073	Nyx
+074	Queen Mab
+075	Succubus
+076	Incubus
+077	Fomor
+078	Lilim
+079	Hresvelgr
+07a	Mothman
+07b	Raiju
+07c	Nue
+07d	Bicorn
+07e	Zhen
+07f	Rakshasa
+080	Legion
+081	Yaka
+082	Choronzon
+083	Preta
+084	Shadow
+085	Black Ooze
+086	Blob
+087	Slime
+088	Mou-Ryo
+089	Will o' Wisp
+08a	Michael
+08b	Gabriel
+08c	Raphael
+08d	Uriel
+08e	Ganesha
+08f	Valkyrie
+090	Arahabaki
+091	Kurama
+092	Hanuman
+093	Cu Chulainn
+094	Long
+095	Gui Xian
+096	Barong
+097	Makami
+098	Garuda
+099	Yatagarasu
+09a	Gurr
+09b	Albion
+0a1	Samael
+0a7	Pisaca
+0a8	Kaiwan
+0a9	Kin-Ki
+0aa	Sui-Ki
+0ab	Fuu-Ki
+0ac	Ongyo-Ki
+0ad	Clotho
+0ae	Lachesis
+0af	Atropos
+0b0	Loa
+0b1	Chatterskull
+0b2	Phantom
+0c0	Dante
+0c1	Metatron
+0c2	Beelzebub (Fly)
+0c3	Pale Rider
+0c4	White Rider
+0c5	Red Rider
+0c6	Black Rider
+0c7	Matador
+0c8	Hell Biker
+0c9	Daisoujou
+0ca	The Harlot
+0cb	Trumpeter
+0cc	Futomimi
+0cd	Sakahagi
+0ce	Black Frost
+0cf	Beelzebub
+0d0	Pisaca (Shady Broker)
+0d1	Nue (Shady Broker)
+0d2	Arahabaki (Shady Broker)
+0d3	Preta (Shady Broker)
+0d4	Mothman (Shady Broker)
+0d5	Girimehkala (Shady Broker)
+100	Forneus (Boss)
+101	Specter 1 (Boss)
+102	Ahriman 2nd Form (Boss)
+103	Noah 2nd Form (Boss)
+104	Incubus (Boss)
+105	Koppa (Boss)
+106	Kaiwan (Boss)
+107	Ose (Boss)
+108	Kagutsuchi 2nd Form (Boss)
+109	Tiny Mizuchi (Boss)
+10a	Kin-Ki (Boss)
+10b	Sui-Ki (Boss)
+10c	Fuu-Ki (Boss)
+10d	Ongyo-Ki (Boss)
+10e	Clotho 1 (Boss)
+10f	Lachesis 1 (Boss)
+110	Atropos 1 (Boss)
+111	Specter 2 (Boss)
+112	Girimehkala (Boss)
+113	Specter 3 (Boss)
+114	Aciel (Boss)
+115	Skadi (Boss)
+116	Albion (Boss)
+117	Luvah (Boss)
+118	Urizen (Boss)
+119	Tharmas (Boss)
+11a	Urthona (Boss)
+11b	Futomimi (Boss)
+11c	Gabriel (Boss)
+11d	Raphael (Boss)
+11e	Uriel (Boss)
+11f	Samael (Boss)
+120	Baal Avatar (Boss)
+121	Ose Hallel (Boss)
+122	Flauros Hallel (Boss)
+123	Ahriman 1st Form (Boss)
+124	Noah 1st Form (Boss)
+125	Kagutsuchi 1st Form (Boss)
+126	Specter 1 6 Fuse (Boss)
+127	Specter 1 4/5 Fuse (Boss)
+128	Specter 1 2/3 Fuse (Boss)
+129	Mizuchi (Boss)
+12b	Sakahagi (Boss)
+12c	Orthrus (Boss)
+12d	Yaksini (Boss)
+12e	Thor 1 (Boss)
+12f	Black Frost (Boss)
+136	Kelpie (Boss)
+137	Kelpie (Boss)
+138	Berith (Boss)
+139	Succubus (Boss)
+13d	Troll (Boss)
+13e	Will o' Wisp (Tutorial)
+13f	Preta (Tutorial)
+140	Bishamon 1 (Boss)
+141	Mara (Boss)
+142	Bishamon 2 (Boss)
+143	Jikoku (Boss)
+144	Koumoku (Boss)
+145	Zouchou (Boss)
+146	Clotho 2 (Boss)
+147	Lachesis 2 (Boss)
+148	Atropos 2 (Boss)
+149	Mithra (Boss)
+14d	Mada (Boss)
+14e	Mot (Boss)
+14f	Surt (Boss)
+151	Thor 2 (Boss)
+153	Dante 1 (Boss)
+154	Fake Dante 2 (Boss)
+155	Dante 2 (Boss)
+156	Metatron (Boss)
+157	Beelzebub Fly (Boss)
+158	Lucifer (Boss)
+159	Pale Rider (Boss)
+15a	White Rider (Boss)
+15b	Red Rider (Boss)
+15c	Black Rider (Boss)
+15d	Matador (Boss)
+15e	Hell Biker (Boss)
+15f	Daisoujou (Boss)
+160	The Harlot (Boss)
+161	Trumpeter (Boss)
+166	Loa (Boss)
+167	Virtue (Boss)
+168	Power (Boss)
+169	Legion (Boss)

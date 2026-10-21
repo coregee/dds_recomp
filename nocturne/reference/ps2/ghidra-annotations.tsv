@@ -3190,6 +3190,12 @@ symbol	002e6b30	Function	ps2SoftDoubleToUint64	Global
 symbol	002e6c48	Function	ps2SoftDoubleDiv	Global
 symbol	002e6d88	Function	ps2SoftDoubleFromInt64	Global
 symbol	002e6e30	Function	ps2GetRuntimeState	Global
+symbol	003497c0	Label	datDevilFormat_tbl	Global
+symbol	003a7fe0	Label	datAisyo_tbl	Global
+symbol	003aefe0	Label	datEncount_tbl	Global
+symbol	003bade0	Label	datEncountPack_tbl	Global
+symbol	003d7998	Label	datNormalSkill_tbl	Global
+symbol	003dc1e0	Label	datSpecialSkill_tbl	Global
 signature	00100418		ps2KernelGetFontContextIndex	ulonglong ps2KernelGetFontContextIndex(void)
 function_repeatable_comment	00100418		ps2KernelGetFontContextIndex	Thirteen complete PS2 context/font splice/recycle, panel, message/selection/window/32-variable/manager cleanup and script release/all-release/shutdown bodies. Actual recovered memory-handle coalescing, pool release, field initializers, lists, process removal and shutdown callback, printf/formatter and creation dependencies execute. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. Original BF inputs traverse actual construction before release; populated ownership fixtures exercise real font recycling, handle coalescing, optional allocations, mixed owned/unowned script lists and repeat null-work shutdown. HD provides semantic roles only: managed offsets/ownership and font positioning differ. Returning finite backed ownership graphs; arbitrary invalid/cyclic pointers, exhaustive alias/OOM states, shipped VM execution, physical hardware and matching executable remain unproved. Diagnostic output uses the actual formatter with a bounded string-buffer FILE.
 signature	001005e8		dds3DeleteProcessList	void dds3DeleteProcessList(ulonglong arg_0)
@@ -8176,13 +8182,13 @@ variable	001dfcf8	a1:8	arg_1	ulonglong
 variable	001dfcf8	a2:8	arg_2	ulonglong
 signature	001e0e38		evtBitAllOff	void __stdcall evtBitAllOff(void)
 function_repeatable_comment	001e0e38		evtBitAllOff	Reviewed static counterpart: EventBit$$evtBitAllOff at HD VA 0x18203f170. Clear 128 uint event-bit words starting at global work+0x840; HD also clears128 words. Platform differences/limits: PS2 selective-clear routine001e0e70 remains a distinct unnamed helper. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-signature	001e0ed0		evtBitOn	void __stdcall evtBitOn(int no)
+signature	001e0ed0		evtBitOn	void evtBitOn(int no)
 function_repeatable_comment	001e0ed0		evtBitOn	Reviewed static counterpart: EventBit$$evtBitOn at HD VA 0x18203f4d0. Word index no/32; bit mask1<<(no&31); OR into global event word. Platform differences/limits: HD adds unlock/achievement handling after the retained bit-set core. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	001e0ed0	a0_lo:4	no	int
-signature	001e0f10		evtBitOff	void __stdcall evtBitOff(int no)
+signature	001e0f10		evtBitOff	void evtBitOff(int no)
 function_repeatable_comment	001e0f10		evtBitOff	Reviewed static counterpart: EventBit$$evtBitOff at HD VA 0x18203f420. Same indexed event word; AND with complemented bit mask. Platform differences/limits: HD managed uint-array access; signed negative-index adjustment remains visible. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	001e0f10	a0_lo:4	no	int
-signature	001e0f50		evtBitCheck	uint __stdcall evtBitCheck(int no)
+signature	001e0f50		evtBitCheck	uint evtBitCheck(int no)
 function_repeatable_comment	001e0f50		evtBitCheck	Reviewed static counterpart: EventBit$$evtBitCheck at HD VA 0x18203f220. Same indexed event word; right shift and mask1; caller use includes item, Hearts and field-damage paths. Platform differences/limits: HD adds edition-specific event overrides and enemy/unlock checks; its metadata return is bool. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	001e0f50	a0_lo:4	no	int
 signature	001e1688		ps2FieldInfControllerNative_001E1688	void ps2FieldInfControllerNative_001E1688(ulonglong arg_0, ulonglong arg_1)
@@ -8285,7 +8291,7 @@ signature	001e7878		evtCommand_CAM_PATH_WAIT	ulonglong evtCommand_CAM_PATH_WAIT(
 function_repeatable_comment	001e7878		evtCommand_CAM_PATH_WAIT	27 complete native object-control/path/spline/camera command bodies;actual recovered pool,handle allocation/coalescing,memset,scene search,parameters,printf and VM bodies execute. Declared RAM,defined raw returns,Status,CPU primitives,callee saves and ordered VM targets compared. Raw f0 adapter and reviewed COP1 sites use the existing EE value model;FCSR cause flags,timing and physical scheduling remain outside scope. Finite backed inputs,including flat curves,special float words,unsigned frame keys,owned allocation/replacement/release,aliased header allocation and dirty high argument lanes. Native unchecked pointers and allocator failure behavior are retained;malformed/unbacked graphs,all production assets,live camera movement,matching executable and DDS execution remain unproved. HD managed layouts/bounds/GC and float operation grouping differ;PS2 lifetime routines are aliases where HD has no nonempty body.
 signature	001e7900		evtCommand_CAM_CREATE	ulonglong evtCommand_CAM_CREATE(void)
 function_repeatable_comment	001e7900		evtCommand_CAM_CREATE	Six complete original camera/inverse/look-at/creation/command bodies. Actual basic/scene/mover/control/pose/pool/spline and VM dependencies execute,with unchanged original callback/command tables. Complete declared RAM,defined results,Status,processor primitives,callee saves,ordered VM calls and32 VU registers/ACC-overflow/Q compared. Native operation grouping,raw floats,nonunit matrices/quaternions,degenerate view directions,mode1 versusothermode,target/up/pose/output aliases and unchecked allocation retained. Private command words use host address adaptation,not an original symbol. VU result model excludes full flags/timing;HD math grouping/layout/managed guards differ. Actual camera scheduling/rendering/destruction,arbitrary malformed graphs,DDS execution and matching executable remain unproved.
-signature	001e9998		evtGetAgeOfMoon	uint __stdcall evtGetAgeOfMoon(void)
+signature	001e9998		evtGetAgeOfMoon	uint evtGetAgeOfMoon(void)
 function_repeatable_comment	001e9998		evtGetAgeOfMoon	Reviewed static counterpart: evtMoon$$evtGetAgeOfMoon at HD VA 0x1821a58d0. Read raw phase; when greater8 return8-(phase&7), otherwise phase. nbHatudoCheckSkill caller agrees with HD full/new-moon skill tests. Platform differences/limits: PS2 phase unsigned byte at globalA41; HD managed signed int uses signed modulo8. Valid0..15 phases agree; widened/negative HD values are not PS2 inputs. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 signature	001e99c0		evtGetAgeOfMoon16	uint __stdcall evtGetAgeOfMoon16(void)
 function_repeatable_comment	001e99c0		evtGetAgeOfMoon16	Reviewed static counterpart: evtMoon$$evtGetAgeOfMoon16 at HD VA 0x1821a5860. Direct raw moon-phase getter sharing globalA41 with folded accessor and setter. HD reads same Age field used by folded accessor. Platform differences/limits: PS2 returns unsigned byte; HD returns signed managed int. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
@@ -9314,24 +9320,24 @@ signature	00242a18		ps2ShopItemEligible_00242A18	ulonglong ps2ShopItemEligible_0
 function_repeatable_comment	00242a18		ps2ShopItemEligible_00242A18	Ten complete shop list/price/quantity/value/filter bodies,1476B; actual588668 original/1336 strict C cases and independent completeRAM+return set/table/arithmetic model. All369 original words decoded,all308 ordinary PCs observed;61 delay words decoded,not all asserted executed. DIVU1 exact20746C isolated provider checked. Real list producers,event and Hearts ownership,raw64 Index sign,low8 modes/quantity,negative facility writes and inherited BuyList V0=1 retained. Original source return typedef for the HDVOID BuyList role remains unresolved; raw native transport is explicit. Payment2092E8,full constructor/UI/scheduler/hardware and arbitrary table overrides remain outside. No canonical/count mutation.
 variable	00242a18	a0:8	arg_0	ulonglong
 variable	00242a18	a1:8	arg_1	ulonglong
-signature	00242a88		datGetBaseMaxHp	int __stdcall datGetBaseMaxHp(datUnitWork_PS2 * work)
+signature	00242a88		datGetBaseMaxHp	int datGetBaseMaxHp(datUnitWork * work)
 function_repeatable_comment	00242a88		datGetBaseMaxHp	Reviewed static counterpart: datCalc$$datGetBaseMaxHp at HD VA 0x181ccc980. (level + param[3]) * 6; cap 999 unless flag 0x20. Platform differences/limits: HD reads managed object fields. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00242a88	a0_lo:4	work	datUnitWork_PS2 *
-signature	00242ae8		datGetBaseMaxMp	int __stdcall datGetBaseMaxMp(datUnitWork_PS2 * work)
+variable	00242a88	a0_lo:4	work	datUnitWork *
+signature	00242ae8		datGetBaseMaxMp	int datGetBaseMaxMp(datUnitWork * work)
 function_repeatable_comment	00242ae8		datGetBaseMaxMp	Reviewed static counterpart: datCalc$$datGetBaseMaxMp at HD VA 0x181ccca40. (level + param[2]) * 3; cap 999 unless flag 0x20. Platform differences/limits: PS2 computes through software floating point; HD uses integer arithmetic. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00242ae8	a0_lo:4	work	datUnitWork_PS2 *
-signature	00242b68		datGetNormalAtkPow	ulonglong __stdcall datGetNormalAtkPow(ulonglong arg_0)
+variable	00242ae8	a0_lo:4	work	datUnitWork *
+signature	00242b68		datGetNormalAtkPow	int datGetNormalAtkPow(datUnitWork * work)
 function_repeatable_comment	00242b68		datGetNormalAtkPow	Ten complete native bodies: attack/defense/affinity/alignment/item-skill queries, action targeting rules, real named target-manager lookup, eligibility and sixteen-slot candidate marking/list ordering. Real parameter/passive/RNG/process dependencies execute; no game-result hooks. Full declared RAM,defined raw64 returns,Status,processor primitives,callee saves and ordered VM targets compared; original C.LT.S site and FCSR condition checked using existing EE value boundary. Raw64 guards/equality, signed16 rows and indices, three output aliases/store order, cached-item RNG consumption, side reversal and flag filters covered. The list marks16 slots but appends0..13 and uses strict pairwise swaps, not stable sorting. One impossible byte-mode dispatch branch is separately proved. Backed finite tables and acyclic named process queues; missing manager, arbitrary invalid indices/aliases or malformed counts remain unproved. HD managed arrays/guards and float representation differ. Original automatic AI scoring/selection, scheduling, matching binary and physical PS2 execution remain outstanding. No full-suite run or checkpoint.
-variable	00242b68	a0:8	arg_0	ulonglong
-signature	00242cb0		datGetMagicHitPow	ulonglong __stdcall datGetMagicHitPow(ulonglong arg_0)
+variable	00242b68	a0_lo:4	work	datUnitWork *
+signature	00242cb0		datGetMagicHitPow	int datGetMagicHitPow(datUnitWork * work)
 function_repeatable_comment	00242cb0		datGetMagicHitPow	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	00242cb0	a0:8	arg_0	ulonglong
-signature	00242d18		datGetDefPow	ulonglong __stdcall datGetDefPow(ulonglong arg_0)
+variable	00242cb0	a0_lo:4	work	datUnitWork *
+signature	00242d18		datGetDefPow	int datGetDefPow(datUnitWork * work)
 function_repeatable_comment	00242d18		datGetDefPow	Ten complete native bodies: attack/defense/affinity/alignment/item-skill queries, action targeting rules, real named target-manager lookup, eligibility and sixteen-slot candidate marking/list ordering. Real parameter/passive/RNG/process dependencies execute; no game-result hooks. Full declared RAM,defined raw64 returns,Status,processor primitives,callee saves and ordered VM targets compared; original C.LT.S site and FCSR condition checked using existing EE value boundary. Raw64 guards/equality, signed16 rows and indices, three output aliases/store order, cached-item RNG consumption, side reversal and flag filters covered. The list marks16 slots but appends0..13 and uses strict pairwise swaps, not stable sorting. One impossible byte-mode dispatch branch is separately proved. Backed finite tables and acyclic named process queues; missing manager, arbitrary invalid indices/aliases or malformed counts remain unproved. HD managed arrays/guards and float representation differ. Original automatic AI scoring/selection, scheduling, matching binary and physical PS2 execution remain outstanding. No full-suite run or checkpoint.
-variable	00242d18	a0:8	arg_0	ulonglong
-signature	00242d50		datGetSakePow	ulonglong __stdcall datGetSakePow(ulonglong arg_0)
+variable	00242d18	a0_lo:4	work	datUnitWork *
+signature	00242d50		datGetSakePow	int datGetSakePow(datUnitWork * work)
 function_repeatable_comment	00242d50		datGetSakePow	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-variable	00242d50	a0:8	arg_0	ulonglong
+variable	00242d50	a0_lo:4	work	datUnitWork *
 signature	00242e00		ps2FieldSkillPhysicalPower_00242E00	ulonglong __stdcall ps2FieldSkillPhysicalPower_00242E00(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
 function_repeatable_comment	00242e00		ps2FieldSkillPhysicalPower_00242E00	Field-skill/party hazards16 descriptive native aliases,5224 recognized/5284 spanbytes. Explicit raw64 A0..A3 calling slots, F0:4 binary32 only002432D0, four typedvoid party routines; remaining definedreturns V0:8. Original and HD alias names/comments remain in analysis/field-skill-native-interfaces.json. Fullnative bank/privateframe/HI1LO1 and hardwareclaims are separate from the standalone704 semantic proof. Metadata changes neither source/executable bytes nor registration. Current original-processor export C is reference only.
 variable	00242e00	a0:8	arg_0	ulonglong
@@ -9383,58 +9389,58 @@ function_repeatable_comment	00243998		ps2FieldSkillExecute_00243998	Field-skill/
 variable	00243998	a0:8	arg_0	ulonglong
 variable	00243998	a1:8	arg_1	ulonglong
 variable	00243998	a2:8	arg_2	ulonglong
-signature	00243b98		datOverwriteBadStat	void __stdcall datOverwriteBadStat(datUnitWork_PS2 * work, uint badstat)
+signature	00243b98		datOverwriteBadStat	void datOverwriteBadStat(datUnitWork * work, uint badstat)
 function_repeatable_comment	00243b98		datOverwriteBadStat	Reviewed static counterpart: datCalc$$datOverwriteBadStat at HD VA 0x181ccf1a0. Status 0x8000 is ORed; otherwise preserve high 0xF000 and replace low 0xFFF. Platform differences/limits: HD adds status bookkeeping outside the retained core. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00243b98	a0_lo:4	work	datUnitWork_PS2 *
+variable	00243b98	a0_lo:4	work	datUnitWork *
 variable	00243b98	a1_lo:4	badstat	uint
-signature	00243bd0		datSetBadStat	void __stdcall datSetBadStat(datUnitWork_PS2 * work, uint badstat)
+signature	00243bd0		datSetBadStat	void datSetBadStat(datUnitWork * work, uint badstat)
 function_repeatable_comment	00243bd0		datSetBadStat	Reviewed static counterpart: datCalc$$datSetBadStat at HD VA 0x181cd1430. Status 0x8000 is ORed; low 0xFFF is replaced only if the new value is larger. Platform differences/limits: HD adds status bookkeeping and achievement calls. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00243bd0	a0_lo:4	work	datUnitWork_PS2 *
+variable	00243bd0	a0_lo:4	work	datUnitWork *
 variable	00243bd0	a1_lo:4	badstat	uint
-signature	00243c10		datResetBadStat	void __stdcall datResetBadStat(datUnitWork_PS2 * work, uint badstat)
+signature	00243c10		datResetBadStat	void datResetBadStat(datUnitWork * work, uint badstat)
 function_repeatable_comment	00243c10		datResetBadStat	Reviewed static counterpart: datCalc$$datResetBadStat at HD VA 0x181cd0e20. Halfword status at work+0xE is ANDed with the complement of the supplied mask. Platform differences/limits: HD inlines this operation at several call sites. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00243c10	a0_lo:4	work	datUnitWork_PS2 *
+variable	00243c10	a0_lo:4	work	datUnitWork *
 variable	00243c10	a1_lo:4	badstat	uint
-signature	00243c28		datGetMaxHp	uint __stdcall datGetMaxHp(datUnitWork_PS2 * work)
+signature	00243c28		datGetMaxHp	uint datGetMaxHp(datUnitWork * work)
 function_repeatable_comment	00243c28		datGetMaxHp	Reviewed static counterpart: datCalc$$datGetMaxHp at HD VA 0x181ccd0c0. Skills 0x122/0x123/0x124 add 10/20/30 percent; cap 999 unless flag 0x20. Platform differences/limits: HD inlines some base-resource calculation. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00243c28	a0_lo:4	work	datUnitWork_PS2 *
-signature	00243d28		datGetMaxMp	uint __stdcall datGetMaxMp(datUnitWork_PS2 * work)
+variable	00243c28	a0_lo:4	work	datUnitWork *
+signature	00243d28		datGetMaxMp	uint datGetMaxMp(datUnitWork * work)
 function_repeatable_comment	00243d28		datGetMaxMp	Reviewed static counterpart: datCalc$$datGetMaxMp at HD VA 0x181ccd200. Skills 0x125/0x126/0x127 add 10/20/30 percent; cap 999 unless flag 0x20. Platform differences/limits: HD inlines some base-resource calculation. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00243d28	a0_lo:4	work	datUnitWork_PS2 *
-signature	00243e28		datAddHp	uint __stdcall datAddHp(datUnitWork_PS2 * work, int hp)
+variable	00243d28	a0_lo:4	work	datUnitWork *
+signature	00243e28		datAddHp	uint datAddHp(datUnitWork * work, int hp)
 function_repeatable_comment	00243e28		datAddHp	Reviewed static counterpart: datCalc$$datAddHp at HD VA 0x181cc9810. Signed addition; clamp zero..stored maximum; halfword write; result in v0. Platform differences/limits: HD uses the managed object header and the same retained core. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00243e28	a0_lo:4	work	datUnitWork_PS2 *
+variable	00243e28	a0_lo:4	work	datUnitWork *
 variable	00243e28	a1_lo:4	hp	int
-signature	00243e50		datAddMp	uint __stdcall datAddMp(datUnitWork_PS2 * work, int mp)
+signature	00243e50		datAddMp	uint datAddMp(datUnitWork * work, int mp)
 function_repeatable_comment	00243e50		datAddMp	Reviewed static counterpart: datCalc$$datAddMp at HD VA 0x181cc9db0. Signed addition; clamp zero..stored maximum; halfword write; result in v0. Platform differences/limits: HD uses the managed object header and the same retained core. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00243e50	a0_lo:4	work	datUnitWork_PS2 *
+variable	00243e50	a0_lo:4	work	datUnitWork *
 variable	00243e50	a1_lo:4	mp	int
-signature	00243e78		datGetBaseParam	int __stdcall datGetBaseParam(datUnitWork_PS2 * work, int paratype)
+signature	00243e78		datGetBaseParam	int datGetBaseParam(datUnitWork * work, datParam paratype)
 function_repeatable_comment	00243e78		datGetBaseParam	Reviewed static counterpart: datCalc$$datGetBaseParam at HD VA 0x181cccb00. Signed bytes at 0x16, 0x1C and, unless flag 4, 0x7A; clamp sum to 1..40. Platform differences/limits: HD stores these values in managed arrays. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00243e78	a0_lo:4	work	datUnitWork_PS2 *
-variable	00243e78	a1_lo:4	paratype	int
-signature	00243ee0		datGetParam	int __stdcall datGetParam(datUnitWork_PS2 * work, int paratype)
+variable	00243e78	a0_lo:4	work	datUnitWork *
+variable	00243e78	a1_lo:4	paratype	datParam
+signature	00243ee0		datGetParam	int datGetParam(datUnitWork * work, datParam paratype)
 function_repeatable_comment	00243ee0		datGetParam	Reviewed static counterpart: datCalc$$datGetParam at HD VA 0x181ccd5d0. Base parameter lookup; status 0x200 forces value 1 unless parameter index 4; minimum 1. Platform differences/limits: HD inlines base parameter lookup. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00243ee0	a0_lo:4	work	datUnitWork_PS2 *
-variable	00243ee0	a1_lo:4	paratype	int
-signature	00243f40		datCheckSyojiSkill	int __stdcall datCheckSyojiSkill(datUnitWork_PS2 * work, uint skill)
+variable	00243ee0	a0_lo:4	work	datUnitWork *
+variable	00243ee0	a1_lo:4	paratype	datParam
+signature	00243f40		datCheckSyojiSkill	int datCheckSyojiSkill(datUnitWork * work, uint skill)
 function_repeatable_comment	00243f40		datCheckSyojiSkill	Reviewed static counterpart: datCalc$$datCheckSyojiSkill at HD VA 0x181ccb2a0. Flag 0x20 selects devil-format skills; otherwise count at 0x38 and halfword skills at 0x3A. Platform differences/limits: HD skill list uses managed integer arrays and a different layout. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00243f40	a0_lo:4	work	datUnitWork_PS2 *
+variable	00243f40	a0_lo:4	work	datUnitWork *
 variable	00243f40	a1_lo:4	skill	uint
-signature	00243fe8		datGetAisyo	ulonglong __stdcall datGetAisyo(ulonglong arg_0, ulonglong arg_1)
+signature	00243fe8		datGetAisyo	uint datGetAisyo(datUnitWork * work, nbAttr attr)
 function_repeatable_comment	00243fe8		datGetAisyo	Ten complete native bodies: attack/defense/affinity/alignment/item-skill queries, action targeting rules, real named target-manager lookup, eligibility and sixteen-slot candidate marking/list ordering. Real parameter/passive/RNG/process dependencies execute; no game-result hooks. Full declared RAM,defined raw64 returns,Status,processor primitives,callee saves and ordered VM targets compared; original C.LT.S site and FCSR condition checked using existing EE value boundary. Raw64 guards/equality, signed16 rows and indices, three output aliases/store order, cached-item RNG consumption, side reversal and flag filters covered. The list marks16 slots but appends0..13 and uses strict pairwise swaps, not stable sorting. One impossible byte-mode dispatch branch is separately proved. Backed finite tables and acyclic named process queues; missing manager, arbitrary invalid indices/aliases or malformed counts remain unproved. HD managed arrays/guards and float representation differ. Original automatic AI scoring/selection, scheduling, matching binary and physical PS2 execution remain outstanding. No full-suite run or checkpoint.
-variable	00243fe8	a0:8	arg_0	ulonglong
-variable	00243fe8	a1:8	arg_1	ulonglong
+variable	00243fe8	a0_lo:4	work	datUnitWork *
+variable	00243fe8	a1_lo:4	attr	nbAttr
 signature	00244098		ps2UnitAffinityFlags_00244098	ulonglong __stdcall ps2UnitAffinityFlags_00244098(ulonglong arg_0, ulonglong arg_1)
 function_repeatable_comment	00244098		ps2UnitAffinityFlags_00244098	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
 variable	00244098	a0:8	arg_0	ulonglong
 variable	00244098	a1:8	arg_1	ulonglong
-signature	002440c0		datGetBadStatusAttr	int __stdcall datGetBadStatusAttr(int bad)
+signature	002440c0		datGetBadStatusAttr	nbAttr datGetBadStatusAttr(int bad)
 function_repeatable_comment	002440c0		datGetBadStatusAttr	Reviewed static counterpart: datCalc$$datGetBadStatusAttr at HD VA 0x181ccc7b0. Same bit-to-attribute map for statuses 1..0x400; HD encoded constants independently decoded from disk. Platform differences/limits: HD maps 0x800 to attribute 5 and gates higher statuses through cfgGetBit(9); PS2 returns -1 for 0x800. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002440c0	a0_lo:4	bad	int
-signature	00244200		datCheckDying	int __stdcall datCheckDying(datUnitWork_PS2 * work)
+signature	00244200		datCheckDying	int datCheckDying(datUnitWork * work)
 function_repeatable_comment	00244200		datCheckDying	Reviewed static counterpart: datCalc$$datCheckDying at HD VA 0x181ccab80. Integer HP * 100 / maxHP < 25. Platform differences/limits: HD adds a null check and event-bit exclusions E80/E83. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00244200	a0_lo:4	work	datUnitWork_PS2 *
+variable	00244200	a0_lo:4	work	datUnitWork *
 signature	00244238		datAddMaka	void __stdcall datAddMaka(int addmaka)
 function_repeatable_comment	00244238		datAddMaka	Reviewed static counterpart: datCalc$$datAddMaka at HD VA 0x181cc9d00. Global field +0xA48; signed addition; clamp 0..9999999. Platform differences/limits: HD global object field +0x48. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00244238	a0_lo:4	addmaka	int
@@ -9455,16 +9461,16 @@ variable	002443f8	a1_lo:4	num	int
 signature	00244410		datCheckItemFull	int __stdcall datCheckItemFull(int id)
 function_repeatable_comment	00244410		datCheckItemFull	Reviewed static counterpart: datCalc$$datCheckItemFull at HD VA 0x181ccabe0. IDs below 0x70 use count >=99; higher IDs use nonzero count. Platform differences/limits: PS2 retains a redundant split at ID 0x60. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00244410	a0_lo:4	id	int
-signature	00244470		datGetRace	int __stdcall datGetRace(datUnitWork_PS2 * work)
+signature	00244470		datGetRace	int datGetRace(datUnitWork * work)
 function_repeatable_comment	00244470		datGetRace	Reviewed static counterpart: datCalc$$datGetRace at HD VA 0x181ccda20. Flag 4 returns zero; otherwise ID*0x3C devil-format byte +4. Platform differences/limits: HD datDevilFormat.Get record field +0x14. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00244470	a0_lo:4	work	datUnitWork_PS2 *
+variable	00244470	a0_lo:4	work	datUnitWork *
 signature	002444a8		datCheckTalk	ulonglong __stdcall datCheckTalk(ulonglong arg_0)
 function_repeatable_comment	002444a8		datCheckTalk	Twenty-one complete original CHECK1 prerequisites. Actual process lookup, unit/party routing and skill search execute. All384 unchanged AI record endings are read by each of three death queries. Native A4 record stride, A0/A2 unsigned death halfwords, signed LH forms, signed LW descriptor flags, full64 predicates, fixed32 timers/12 order bytes/16 stock slots, positive HP wrap and live stack-count reloads retained. Bounded backed RAM, finite queues and selected aliases; arbitrary invalid pointers, unchecked excessive IDs, outer CHECK1 callbacks, physical battle runtime and a matching executable remain unproved. Twenty-one HD roles and attributed community record/build/source-unit context reviewed; complete DDS comparison is separate. One rolling capture, no checkpoints.
 variable	002444a8	a0:8	arg_0	ulonglong
 signature	00244530		datSearchDevilStock	ulonglong __stdcall datSearchDevilStock(ulonglong arg_0)
 function_repeatable_comment	00244530		datSearchDevilStock	Twenty-one complete original CHECK1 prerequisites. Actual process lookup, unit/party routing and skill search execute. All384 unchanged AI record endings are read by each of three death queries. Native A4 record stride, A0/A2 unsigned death halfwords, signed LH forms, signed LW descriptor flags, full64 predicates, fixed32 timers/12 order bytes/16 stock slots, positive HP wrap and live stack-count reloads retained. Bounded backed RAM, finite queues and selected aliases; arbitrary invalid pointers, unchecked excessive IDs, outer CHECK1 callbacks, physical battle runtime and a matching executable remain unproved. Twenty-one HD roles and attributed community record/build/source-unit context reviewed; complete DDS comparison is separate. One rolling capture, no checkpoints.
 variable	00244530	a0:8	arg_0	ulonglong
-signature	00244598		datGetPlayerLevel	int __stdcall datGetPlayerLevel(void)
+signature	00244598		datGetPlayerLevel	int datGetPlayerLevel(void)
 function_repeatable_comment	00244598		datGetPlayerLevel	Reviewed static counterpart: datCalc$$datGetPlayerLevel at HD VA 0x181ccd830. Player slot level at global+0xA68, equal to unit base+0x14. Platform differences/limits: HD returns ushort level +0x24 through array slot zero. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 signature	002445c0		ps2UnitPlayerParameter_002445C0	ulonglong __stdcall ps2UnitPlayerParameter_002445C0(ulonglong arg_0)
 function_repeatable_comment	002445c0		ps2UnitPlayerParameter_002445C0	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
@@ -9494,9 +9500,9 @@ variable	00244cc0	a0:8	arg_0	ulonglong
 variable	00244cc0	a1:8	arg_1	ulonglong
 signature	00244dd8		ps2FieldSkillPartyRecover_00244DD8	void __stdcall ps2FieldSkillPartyRecover_00244DD8(void)
 function_repeatable_comment	00244dd8		ps2FieldSkillPartyRecover_00244DD8	Field-skill/party hazards16 descriptive native aliases,5224 recognized/5284 spanbytes. Explicit raw64 A0..A3 calling slots, F0:4 binary32 only002432D0, four typedvoid party routines; remaining definedreturns V0:8. Original and HD alias names/comments remain in analysis/field-skill-native-interfaces.json. Fullnative bank/privateframe/HI1LO1 and hardwareclaims are separate from the standalone704 semantic proof. Metadata changes neither source/executable bytes nor registration. Current original-processor export C is reference only.
-signature	00244e68		datGet3Zokusei	ulonglong __stdcall datGet3Zokusei(ulonglong arg_0)
+signature	00244e68		datGet3Zokusei	int datGet3Zokusei(datUnitWork * work)
 function_repeatable_comment	00244e68		datGet3Zokusei	Ten complete native bodies: attack/defense/affinity/alignment/item-skill queries, action targeting rules, real named target-manager lookup, eligibility and sixteen-slot candidate marking/list ordering. Real parameter/passive/RNG/process dependencies execute; no game-result hooks. Full declared RAM,defined raw64 returns,Status,processor primitives,callee saves and ordered VM targets compared; original C.LT.S site and FCSR condition checked using existing EE value boundary. Raw64 guards/equality, signed16 rows and indices, three output aliases/store order, cached-item RNG consumption, side reversal and flag filters covered. The list marks16 slots but appends0..13 and uses strict pairwise swaps, not stable sorting. One impossible byte-mode dispatch branch is separately proved. Backed finite tables and acyclic named process queues; missing manager, arbitrary invalid indices/aliases or malformed counts remain unproved. HD managed arrays/guards and float representation differ. Original automatic AI scoring/selection, scheduling, matching binary and physical PS2 execution remain outstanding. No full-suite run or checkpoint.
-variable	00244e68	a0:8	arg_0	ulonglong
+variable	00244e68	a0_lo:4	work	datUnitWork *
 signature	00244eb8		datCheckStockFull	int __stdcall datCheckStockFull(void)
 function_repeatable_comment	00244eb8		datCheckStockFull	Reviewed static counterpart: datCalc$$datCheckStockFull at HD VA 0x181ccb1a0. Count occupied flags in slots4..15; compare with global capacity+0xA50. Platform differences/limits: HD counts managed array slots4..15 and compares global field+0x50. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 signature	00244ef8		ps2UnitInitializeCompanion_00244EF8	void __stdcall ps2UnitInitializeCompanion_00244EF8(ulonglong arg_0, ulonglong arg_1)
@@ -9536,7 +9542,7 @@ variable	00245478	a0:8	arg_0	ulonglong
 variable	00245478	a1:8	arg_1	ulonglong
 signature	002455b8		ps2UnitRecoverFieldParty_002455B8	void __stdcall ps2UnitRecoverFieldParty_002455B8(void)
 function_repeatable_comment	002455b8		ps2UnitRecoverFieldParty_002455B8	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-signature	00245638		datCheckSkillInParty	int __stdcall datCheckSkillInParty(int skillid)
+signature	00245638		datCheckSkillInParty	int datCheckSkillInParty(int skillid)
 function_repeatable_comment	00245638		datCheckSkillInParty	Reviewed static counterpart: datCalc$$datCheckSkillInParty at HD VA 0x181ccae50. 16 slots; occupied and party bits1/2; owned-skill helper; return1 on first match, else0. Platform differences/limits: HD managed arrays and an encoded true constant. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00245638	a0_lo:4	skillid	int
 signature	002456d0		ps2UnitFindTreasureSkillOwner_002456D0	ulonglong __stdcall ps2UnitFindTreasureSkillOwner_002456D0(void)
@@ -9578,21 +9584,21 @@ signature	00245f68		datBossRashUpdRec	void __stdcall datBossRashUpdRec(int eid, 
 function_repeatable_comment	00245f68		datBossRashUpdRec	Reviewed static counterpart: datCalc$$datBossRashUpdRec at HD VA 0x181cca880. Remap3E1->1D8/3E0->14E; zero press->1; scan40; require event bit; store last signed16 result; compare GetRec(type0), update best and completion event bit if lower. Platform differences/limits: HD managed results are32-bit; PS2 truncates writes to16 bits. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00245f68	a0_lo:4	eid	int
 variable	00245f68	a1_lo:4	press	int
-signature	00246038		datBossRashChk	int __stdcall datBossRashChk(int eid)
+signature	00246038		datBossRashChk	int datBossRashChk(int eid)
 function_repeatable_comment	00246038		datBossRashChk	Reviewed static counterpart: datCalc$$datBossRashChk at HD VA 0x181cca310. Scan40 enemy IDs at table+8/stride16; require matching entry event bit; return1 or0. Platform differences/limits: HD managed array bounds/null checks. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00246038	a0_lo:4	eid	int
-signature	002469a0		nbGetMainProcessData	ulonglong nbGetMainProcessData(void)
+signature	002469a0		nbGetMainProcessData	nbMainProcessData * nbGetMainProcessData(void)
 function_repeatable_comment	002469a0		nbGetMainProcessData	Six complete PS2 bodies. Real priority search/data getters, party and unit resolution, actor action reset and BF startup execute. All inspected enemy IDs0..383 use unchanged AI record headers and original embedded BF; actual constructors/message actor-name/parent linking dependencies run. Full declared RAM,defined raw64 returns,Status,CPU primitives,callee saves and ordered VM targets compared. Signed64 form guards,signed16 indices,flag2 precedence,three queue order and high-lane priority mismatches included. Two generic dispatch branches are statically unreachable for the fixed queue loop. Backed acyclic queues and successful finite allocation; missing main process would cause the original unconditional null data read and is not given an HD null guard. Native AI decision/targeting/scheduling and physical runtime remain unproved. Community DDS span/source aliases are reference evidence,not matching Nocturne C or original Atlus spelling. No new full regression or checkpoint.
-signature	002469c0		nbGetUnitWorkPointer	ulonglong nbGetUnitWorkPointer(ulonglong arg_0, ulonglong arg_1)
+signature	002469c0		nbGetUnitWorkPointer	datUnitWork * nbGetUnitWorkPointer(nbMainProcessData * data, nbParty * party)
 function_repeatable_comment	002469c0		nbGetUnitWorkPointer	Six complete PS2 bodies. Real priority search/data getters, party and unit resolution, actor action reset and BF startup execute. All inspected enemy IDs0..383 use unchanged AI record headers and original embedded BF; actual constructors/message actor-name/parent linking dependencies run. Full declared RAM,defined raw64 returns,Status,CPU primitives,callee saves and ordered VM targets compared. Signed64 form guards,signed16 indices,flag2 precedence,three queue order and high-lane priority mismatches included. Two generic dispatch branches are statically unreachable for the fixed queue loop. Backed acyclic queues and successful finite allocation; missing main process would cause the original unconditional null data read and is not given an HD null guard. Native AI decision/targeting/scheduling and physical runtime remain unproved. Community DDS span/source aliases are reference evidence,not matching Nocturne C or original Atlus spelling. No new full regression or checkpoint.
-variable	002469c0	a0:8	arg_0	ulonglong
-variable	002469c0	a1:8	arg_1	ulonglong
-signature	00246a40		nbGetPartyFromFormindex	ulonglong nbGetPartyFromFormindex(ulonglong arg_0)
+variable	002469c0	a0_lo:4	data	nbMainProcessData *
+variable	002469c0	a1_lo:4	party	nbParty *
+signature	00246a40		nbGetPartyFromFormindex	nbParty * nbGetPartyFromFormindex(int formindex)
 function_repeatable_comment	00246a40		nbGetPartyFromFormindex	Six complete PS2 bodies. Real priority search/data getters, party and unit resolution, actor action reset and BF startup execute. All inspected enemy IDs0..383 use unchanged AI record headers and original embedded BF; actual constructors/message actor-name/parent linking dependencies run. Full declared RAM,defined raw64 returns,Status,CPU primitives,callee saves and ordered VM targets compared. Signed64 form guards,signed16 indices,flag2 precedence,three queue order and high-lane priority mismatches included. Two generic dispatch branches are statically unreachable for the fixed queue loop. Backed acyclic queues and successful finite allocation; missing main process would cause the original unconditional null data read and is not given an HD null guard. Native AI decision/targeting/scheduling and physical runtime remain unproved. Community DDS span/source aliases are reference evidence,not matching Nocturne C or original Atlus spelling. No new full regression or checkpoint.
-variable	00246a40	a0:8	arg_0	ulonglong
-signature	00246ab8		nbGetUnitWorkFromFormindex	ulonglong nbGetUnitWorkFromFormindex(ulonglong arg_0)
+variable	00246a40	a0_lo:4	formindex	int
+signature	00246ab8		nbGetUnitWorkFromFormindex	datUnitWork * nbGetUnitWorkFromFormindex(int formindex)
 function_repeatable_comment	00246ab8		nbGetUnitWorkFromFormindex	Six complete PS2 bodies. Real priority search/data getters, party and unit resolution, actor action reset and BF startup execute. All inspected enemy IDs0..383 use unchanged AI record headers and original embedded BF; actual constructors/message actor-name/parent linking dependencies run. Full declared RAM,defined raw64 returns,Status,CPU primitives,callee saves and ordered VM targets compared. Signed64 form guards,signed16 indices,flag2 precedence,three queue order and high-lane priority mismatches included. Two generic dispatch branches are statically unreachable for the fixed queue loop. Backed acyclic queues and successful finite allocation; missing main process would cause the original unconditional null data read and is not given an HD null guard. Native AI decision/targeting/scheduling and physical runtime remain unproved. Community DDS span/source aliases are reference evidence,not matching Nocturne C or original Atlus spelling. No new full regression or checkpoint.
-variable	00246ab8	a0:8	arg_0	ulonglong
+variable	00246ab8	a0_lo:4	formindex	int
 signature	00246b68		nbGetSelectBit	ulonglong nbGetSelectBit(ulonglong arg_0)
 function_repeatable_comment	00246b68		nbGetSelectBit	Eleven complete native action/normal-skill/selection/rotation/no-op bodies. Original command descriptors, real VM parameter/data/return helpers, passive skill lookup and printf execute. Full declared RAM, defined raw64 results, Status, CPU primitives, returning callee saves and ordered VM targets compared. All141 embedded BF procedure records traverse actual script/message construction; native header omits240 trailing string bytes, which remain backed. Synthetic connected programs execute actual action and rotation commands; original AI decision paths, automatic targeting, AI startup, scheduling and physical battle runtime remain unproved. Zero divisor reaches original BREAK7 after visible increment; no return or unwinding contract is assigned. Unity roles and community names corroborate identity, not PS2 layouts. No new full-suite run.
 variable	00246b68	a0:8	arg_0	ulonglong
@@ -9953,19 +9959,19 @@ signature	002594b0		ps2BattleRoster_002594B0	ulonglong ps2BattleRoster_002594B0(
 function_repeatable_comment	002594b0		ps2BattleRoster_002594B0	Recovered whole original battle roster/order3 native scalar interfaces. Actual original/probe608 proof is required before metadata application, including all defined connected child results. Order is genuineVOID; recruit and enemy append define raw64 V0. Enemy nativeABI has two slots, unlike its HD three-argument counterpart. Descriptive names, ordinaryRAM/callee-save semantic profile; fullvolatile/privateframes/physical gameplay unclaimed. See analysis/battle-roster-C-validation.json.
 variable	002594b0	a0:8	arg_0	ulonglong
 variable	002594b0	a1:8	arg_1	ulonglong
-signature	00259658		nbSetEncounterAndReset	void nbSetEncounterAndReset(ulonglong arg_0)
+signature	00259658		nbSetEncounterAndReset	void nbSetEncounterAndReset(int encno)
 function_repeatable_comment	00259658		nbSetEncounterAndReset	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	00259658	a0:8	arg_0	ulonglong
+variable	00259658	a0_lo:4	encno	int
 signature	00259740		ps2BattleFormation_00259740	void ps2BattleFormation_00259740(ulonglong arg_0, ulonglong arg_1)
 function_repeatable_comment	00259740		ps2BattleFormation_00259740	Whole Formation8/1274 original instructions; seven scalarVOID and one raw64 return, canonical A0..A3 slots. Getter0028A2E0 defines actual128bit VF10 independently of scalarVOID. Genuine registered formation/pose/quaternion/motion/encounter dependencies. Original and probe full-cohort proof required before application; descriptive names and finite ordinaryRAM/value semantics, no physical timing or fullvolatile/privateframe claim.
 variable	00259740	a0:8	arg_0	ulonglong
 variable	00259740	a1:8	arg_1	ulonglong
-signature	00259a30		nbGetUnitID	ulonglong nbGetUnitID(ulonglong arg_0)
+signature	00259a30		nbGetUnitID	int nbGetUnitID(datUnitWork * work)
 function_repeatable_comment	00259a30		nbGetUnitID	Twenty-one complete original CHECK1 prerequisites. Actual process lookup, unit/party routing and skill search execute. All384 unchanged AI record endings are read by each of three death queries. Native A4 record stride, A0/A2 unsigned death halfwords, signed LH forms, signed LW descriptor flags, full64 predicates, fixed32 timers/12 order bytes/16 stock slots, positive HP wrap and live stack-count reloads retained. Bounded backed RAM, finite queues and selected aliases; arbitrary invalid pointers, unchecked excessive IDs, outer CHECK1 callbacks, physical battle runtime and a matching executable remain unproved. Twenty-one HD roles and attributed community record/build/source-unit context reviewed; complete DDS comparison is separate. One rolling capture, no checkpoints.
-variable	00259a30	a0:8	arg_0	ulonglong
-signature	00259a60		nbGetUnitVisual	ulonglong nbGetUnitVisual(ulonglong arg_0)
+variable	00259a30	a0_lo:4	work	datUnitWork *
+signature	00259a60		nbGetUnitVisual	void * nbGetUnitVisual(datUnitWork * unit)
 function_repeatable_comment	00259a60		nbGetUnitVisual	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	00259a60	a0:8	arg_0	ulonglong
+variable	00259a60	a0_lo:4	unit	datUnitWork *
 signature	00259ab0		nbCheckEventDead	ulonglong nbCheckEventDead(ulonglong arg_0)
 function_repeatable_comment	00259ab0		nbCheckEventDead	Twenty-one complete original CHECK1 prerequisites. Actual process lookup, unit/party routing and skill search execute. All384 unchanged AI record endings are read by each of three death queries. Native A4 record stride, A0/A2 unsigned death halfwords, signed LH forms, signed LW descriptor flags, full64 predicates, fixed32 timers/12 order bytes/16 stock slots, positive HP wrap and live stack-count reloads retained. Bounded backed RAM, finite queues and selected aliases; arbitrary invalid pointers, unchecked excessive IDs, outer CHECK1 callbacks, physical battle runtime and a matching executable remain unproved. Twenty-one HD roles and attributed community record/build/source-unit context reviewed; complete DDS comparison is separate. One rolling capture, no checkpoints.
 variable	00259ab0	a0:8	arg_0	ulonglong
@@ -10321,175 +10327,175 @@ function_repeatable_comment	002645a8		nbMakeBadKaifukuPacket	Thirteen complete n
 variable	002645a8	a0:8	arg_0	ulonglong
 variable	002645a8	a1:8	arg_1	ulonglong
 variable	002645a8	a2:8	arg_2	ulonglong
-signature	002654b8		nbGetHitType	ulonglong nbGetHitType(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+signature	002654b8		nbGetHitType	int nbGetHitType(nbActionProcessData * ad, int nskill, int sformindex, int dformindex)
 function_repeatable_comment	002654b8		nbGetHitType	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	002654b8	a0:8	arg_0	ulonglong
-variable	002654b8	a1:8	arg_1	ulonglong
-variable	002654b8	a2:8	arg_2	ulonglong
-variable	002654b8	a3:8	arg_3	ulonglong
-signature	00265868		nbGet3Zokusei	ulonglong nbGet3Zokusei(ulonglong arg_0)
+variable	002654b8	a0_lo:4	ad	nbActionProcessData *
+variable	002654b8	a1_lo:4	nskill	int
+variable	002654b8	a2_lo:4	sformindex	int
+variable	002654b8	a3_lo:4	dformindex	int
+signature	00265868		nbGet3Zokusei	int nbGet3Zokusei(int formindex)
 function_repeatable_comment	00265868		nbGet3Zokusei	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	00265868	a0:8	arg_0	ulonglong
-signature	002658b8		nbCheckKoukaJyoken	ulonglong nbCheckKoukaJyoken(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	00265868	a0_lo:4	formindex	int
+signature	002658b8		nbCheckKoukaJyoken	int nbCheckKoukaJyoken(int nskill, int sformindex, int dformindex)
 function_repeatable_comment	002658b8		nbCheckKoukaJyoken	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	002658b8	a0:8	arg_0	ulonglong
-variable	002658b8	a1:8	arg_1	ulonglong
-variable	002658b8	a2:8	arg_2	ulonglong
-signature	00265948		nbGetKoukaType	ulonglong nbGetKoukaType(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	002658b8	a0_lo:4	nskill	int
+variable	002658b8	a1_lo:4	sformindex	int
+variable	002658b8	a2_lo:4	dformindex	int
+signature	00265948		nbGetKoukaType	int nbGetKoukaType(int nskill, int sformindex, int dformindex)
 function_repeatable_comment	00265948		nbGetKoukaType	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	00265948	a0:8	arg_0	ulonglong
-variable	00265948	a1:8	arg_1	ulonglong
-variable	00265948	a2:8	arg_2	ulonglong
-signature	002660c0		nbAddHpMp	void nbAddHpMp(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	00265948	a0_lo:4	nskill	int
+variable	00265948	a1_lo:4	sformindex	int
+variable	00265948	a2_lo:4	dformindex	int
+signature	002660c0		nbAddHpMp	void nbAddHpMp(int formindex, int type, int n)
 function_repeatable_comment	002660c0		nbAddHpMp	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	002660c0	a0:8	arg_0	ulonglong
-variable	002660c0	a1:8	arg_1	ulonglong
-variable	002660c0	a2:8	arg_2	ulonglong
-signature	00266130		nbGetAisyoRitu	float nbGetAisyoRitu(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	002660c0	a0_lo:4	formindex	int
+variable	002660c0	a1_lo:4	type	int
+variable	002660c0	a2_lo:4	n	int
+signature	00266130		nbGetAisyoRitu	float nbGetAisyoRitu(int nskill, int sformindex, int dformindex)
 function_repeatable_comment	00266130		nbGetAisyoRitu	Six complete native effect evaluators. Actual unit/party/scheduler,affinity/passives/support,power,parameters,eventbit,default RNG,software-double and libc printf/formatter/dtoa/heap execute;no game-result hooks. RawF12/rawF0 and raw64 word results,full declared RAM,Status,FCSR condition,CPU primitives,libc traces and callee saves compared. HP/MP native switch tables,word products,signed halfwords,lowword selector,full64 count/special-skill/preview guards,all support flags including preview-independent clears,random status selection and probability rolls exercised. Native COP1 sites body/opcode pinned;arithmetic FCSR flags,timing and PS2 gameplay unproved. Bounded valid queues/pointers/string stdout,nonempty random masks and nonzero RNG/division limits;dirty highlane count with zero low divisor retains native trap in source but is not captured here. MP dead conversion block and constant100/10 trap continuations proved from original tables/branches. HD and community roles/context do not establish binary/layout/numeric identity. Automatic target scorer,matching executable and new full regression outstanding. No checkpoint.
-variable	00266130	a0:8	arg_0	ulonglong
-variable	00266130	a1:8	arg_1	ulonglong
-variable	00266130	a2:8	arg_2	ulonglong
-signature	00266350		nbGetKoukaHp	ulonglong nbGetKoukaHp(float arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4, ulonglong arg_5)
+variable	00266130	a0_lo:4	nskill	int
+variable	00266130	a1_lo:4	sformindex	int
+variable	00266130	a2_lo:4	dformindex	int
+signature	00266350		nbGetKoukaHp	int nbGetKoukaHp(float ritu, int sw, int nskill, int sformindex, int dformindex, int cnt)
 function_repeatable_comment	00266350		nbGetKoukaHp	Six complete native effect evaluators. Actual unit/party/scheduler,affinity/passives/support,power,parameters,eventbit,default RNG,software-double and libc printf/formatter/dtoa/heap execute;no game-result hooks. RawF12/rawF0 and raw64 word results,full declared RAM,Status,FCSR condition,CPU primitives,libc traces and callee saves compared. HP/MP native switch tables,word products,signed halfwords,lowword selector,full64 count/special-skill/preview guards,all support flags including preview-independent clears,random status selection and probability rolls exercised. Native COP1 sites body/opcode pinned;arithmetic FCSR flags,timing and PS2 gameplay unproved. Bounded valid queues/pointers/string stdout,nonempty random masks and nonzero RNG/division limits;dirty highlane count with zero low divisor retains native trap in source but is not captured here. MP dead conversion block and constant100/10 trap continuations proved from original tables/branches. HD and community roles/context do not establish binary/layout/numeric identity. Automatic target scorer,matching executable and new full regression outstanding. No checkpoint.
-variable	00266350	f12:4	arg_0	float
-variable	00266350	a0:8	arg_1	ulonglong
-variable	00266350	a1:8	arg_2	ulonglong
-variable	00266350	a2:8	arg_3	ulonglong
-variable	00266350	a3:8	arg_4	ulonglong
-variable	00266350	t0:8	arg_5	ulonglong
-signature	00266878		nbGetKoukaMp	ulonglong nbGetKoukaMp(float arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4, ulonglong arg_5)
+variable	00266350	f12:4	ritu	float
+variable	00266350	a0_lo:4	sw	int
+variable	00266350	a1_lo:4	nskill	int
+variable	00266350	a2_lo:4	sformindex	int
+variable	00266350	a3_lo:4	dformindex	int
+variable	00266350	t0_lo:4	cnt	int
+signature	00266878		nbGetKoukaMp	int nbGetKoukaMp(float ritu, int sw, int nskill, int sformindex, int dformindex, int cnt)
 function_repeatable_comment	00266878		nbGetKoukaMp	Six complete native effect evaluators. Actual unit/party/scheduler,affinity/passives/support,power,parameters,eventbit,default RNG,software-double and libc printf/formatter/dtoa/heap execute;no game-result hooks. RawF12/rawF0 and raw64 word results,full declared RAM,Status,FCSR condition,CPU primitives,libc traces and callee saves compared. HP/MP native switch tables,word products,signed halfwords,lowword selector,full64 count/special-skill/preview guards,all support flags including preview-independent clears,random status selection and probability rolls exercised. Native COP1 sites body/opcode pinned;arithmetic FCSR flags,timing and PS2 gameplay unproved. Bounded valid queues/pointers/string stdout,nonempty random masks and nonzero RNG/division limits;dirty highlane count with zero low divisor retains native trap in source but is not captured here. MP dead conversion block and constant100/10 trap continuations proved from original tables/branches. HD and community roles/context do not establish binary/layout/numeric identity. Automatic target scorer,matching executable and new full regression outstanding. No checkpoint.
-variable	00266878	f12:4	arg_0	float
-variable	00266878	a0:8	arg_1	ulonglong
-variable	00266878	a1:8	arg_2	ulonglong
-variable	00266878	a2:8	arg_3	ulonglong
-variable	00266878	a3:8	arg_4	ulonglong
-variable	00266878	t0:8	arg_5	ulonglong
-signature	00266c90		nbGetHpDrainRitu	float nbGetHpDrainRitu(ulonglong arg_0)
+variable	00266878	f12:4	ritu	float
+variable	00266878	a0_lo:4	sw	int
+variable	00266878	a1_lo:4	nskill	int
+variable	00266878	a2_lo:4	sformindex	int
+variable	00266878	a3_lo:4	dformindex	int
+variable	00266878	t0_lo:4	cnt	int
+signature	00266c90		nbGetHpDrainRitu	float nbGetHpDrainRitu(int nskill)
 function_repeatable_comment	00266c90		nbGetHpDrainRitu	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	00266c90	a0:8	arg_0	ulonglong
-signature	00266cd8		nbGetMpDrainRitu	float nbGetMpDrainRitu(ulonglong arg_0)
+variable	00266c90	a0_lo:4	nskill	int
+signature	00266cd8		nbGetMpDrainRitu	float nbGetMpDrainRitu(int nskill)
 function_repeatable_comment	00266cd8		nbGetMpDrainRitu	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	00266cd8	a0:8	arg_0	ulonglong
-signature	00266d20		nbGetGensyoRitu	float nbGetGensyoRitu(ulonglong arg_0)
+variable	00266cd8	a0_lo:4	nskill	int
+signature	00266d20		nbGetGensyoRitu	float nbGetGensyoRitu(int nskill)
 function_repeatable_comment	00266d20		nbGetGensyoRitu	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	00266d20	a0:8	arg_0	ulonglong
-signature	00266d60		nbGetKoukaBadDamage	ulonglong nbGetKoukaBadDamage(float arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4)
+variable	00266d20	a0_lo:4	nskill	int
+signature	00266d60		nbGetKoukaBadDamage	uint nbGetKoukaBadDamage(float ai, int nskill, int sformindex, int dformindex, int nvirtual)
 function_repeatable_comment	00266d60		nbGetKoukaBadDamage	Six complete native effect evaluators. Actual unit/party/scheduler,affinity/passives/support,power,parameters,eventbit,default RNG,software-double and libc printf/formatter/dtoa/heap execute;no game-result hooks. RawF12/rawF0 and raw64 word results,full declared RAM,Status,FCSR condition,CPU primitives,libc traces and callee saves compared. HP/MP native switch tables,word products,signed halfwords,lowword selector,full64 count/special-skill/preview guards,all support flags including preview-independent clears,random status selection and probability rolls exercised. Native COP1 sites body/opcode pinned;arithmetic FCSR flags,timing and PS2 gameplay unproved. Bounded valid queues/pointers/string stdout,nonempty random masks and nonzero RNG/division limits;dirty highlane count with zero low divisor retains native trap in source but is not captured here. MP dead conversion block and constant100/10 trap continuations proved from original tables/branches. HD and community roles/context do not establish binary/layout/numeric identity. Automatic target scorer,matching executable and new full regression outstanding. No checkpoint.
-variable	00266d60	f12:4	arg_0	float
-variable	00266d60	a0:8	arg_1	ulonglong
-variable	00266d60	a1:8	arg_2	ulonglong
-variable	00266d60	a2:8	arg_3	ulonglong
-variable	00266d60	a3:8	arg_4	ulonglong
-signature	00267180		nbGetKoukaBadKaifuku	ulonglong nbGetKoukaBadKaifuku(float arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4)
+variable	00266d60	f12:4	ai	float
+variable	00266d60	a0_lo:4	nskill	int
+variable	00266d60	a1_lo:4	sformindex	int
+variable	00266d60	a2_lo:4	dformindex	int
+variable	00266d60	a3_lo:4	nvirtual	int
+signature	00267180		nbGetKoukaBadKaifuku	uint nbGetKoukaBadKaifuku(float ai, int nskill, int sformindex, int dformindex, int nvirtual)
 function_repeatable_comment	00267180		nbGetKoukaBadKaifuku	Six complete native effect evaluators. Actual unit/party/scheduler,affinity/passives/support,power,parameters,eventbit,default RNG,software-double and libc printf/formatter/dtoa/heap execute;no game-result hooks. RawF12/rawF0 and raw64 word results,full declared RAM,Status,FCSR condition,CPU primitives,libc traces and callee saves compared. HP/MP native switch tables,word products,signed halfwords,lowword selector,full64 count/special-skill/preview guards,all support flags including preview-independent clears,random status selection and probability rolls exercised. Native COP1 sites body/opcode pinned;arithmetic FCSR flags,timing and PS2 gameplay unproved. Bounded valid queues/pointers/string stdout,nonempty random masks and nonzero RNG/division limits;dirty highlane count with zero low divisor retains native trap in source but is not captured here. MP dead conversion block and constant100/10 trap continuations proved from original tables/branches. HD and community roles/context do not establish binary/layout/numeric identity. Automatic target scorer,matching executable and new full regression outstanding. No checkpoint.
-variable	00267180	f12:4	arg_0	float
-variable	00267180	a0:8	arg_1	ulonglong
-variable	00267180	a1:8	arg_2	ulonglong
-variable	00267180	a2:8	arg_3	ulonglong
-variable	00267180	a3:8	arg_4	ulonglong
-signature	00267370		nbCheckHitEffect	ulonglong nbCheckHitEffect(ulonglong arg_0)
+variable	00267180	f12:4	ai	float
+variable	00267180	a0_lo:4	nskill	int
+variable	00267180	a1_lo:4	sformindex	int
+variable	00267180	a2_lo:4	dformindex	int
+variable	00267180	a3_lo:4	nvirtual	int
+signature	00267370		nbCheckHitEffect	int nbCheckHitEffect(int nskill)
 function_repeatable_comment	00267370		nbCheckHitEffect	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	00267370	a0:8	arg_0	ulonglong
+variable	00267370	a0_lo:4	nskill	int
 signature	00267388		ps2CombatDeadType_00267388	ulonglong ps2CombatDeadType_00267388(void)
 function_repeatable_comment	00267388		ps2CombatDeadType_00267388	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-signature	00267390		nbCheckStoneDead	ulonglong nbCheckStoneDead(ulonglong arg_0, ulonglong arg_1)
+signature	00267390		nbCheckStoneDead	int nbCheckStoneDead(int nskill, int dformindex)
 function_repeatable_comment	00267390		nbCheckStoneDead	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	00267390	a0:8	arg_0	ulonglong
-variable	00267390	a1:8	arg_1	ulonglong
-signature	002674d0		nbSetBadStat	void nbSetBadStat(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	00267390	a0_lo:4	nskill	int
+variable	00267390	a1_lo:4	dformindex	int
+signature	002674d0		nbSetBadStat	void nbSetBadStat(int formindex, int sw, uint badstat)
 function_repeatable_comment	002674d0		nbSetBadStat	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	002674d0	a0:8	arg_0	ulonglong
-variable	002674d0	a1:8	arg_1	ulonglong
-variable	002674d0	a2:8	arg_2	ulonglong
-signature	00267530		nbCheckBadKaifuku	ulonglong nbCheckBadKaifuku(ulonglong arg_0, ulonglong arg_1)
+variable	002674d0	a0_lo:4	formindex	int
+variable	002674d0	a1_lo:4	sw	int
+variable	002674d0	a2_lo:4	badstat	uint
+signature	00267530		nbCheckBadKaifuku	int nbCheckBadKaifuku(datUnitWork * work, int type)
 function_repeatable_comment	00267530		nbCheckBadKaifuku	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	00267530	a0:8	arg_0	ulonglong
-variable	00267530	a1:8	arg_1	ulonglong
-signature	00267788		nbGetBadStat	ulonglong nbGetBadStat(ulonglong arg_0)
+variable	00267530	a0_lo:4	work	datUnitWork *
+variable	00267530	a1_lo:4	type	int
+signature	00267788		nbGetBadStat	uint nbGetBadStat(int formindex)
 function_repeatable_comment	00267788		nbGetBadStat	Seven complete native scoring input/support bodies, including original twenty-way max/min switch arms restored in place. Actual scheduler/party/unit access execute;no game-result hooks. Full declared RAM,raw64 returns,Status,primitives,callee saves and ordered VM targets compared. Zeroextended low12 status,signed LB attributes,signed LH counter returns,low16 stores,signed64 formation4/16 guards,full64 unsigned type20 limits and negative/backed counter offsets covered.64 setter/getter sequences execute original stores then real reads. Finite backed acyclic queues/indices and table prefix;arbitrary invalid addresses/private stack aliases remain unproved. HD managed checks/arrays differ. Original scoring/automatic AI,physical gameplay,matching executable and new full regression remain outstanding. No checkpoint.
-variable	00267788	a0:8	arg_0	ulonglong
-signature	002677b8		nbCheckBadCurse	ulonglong nbCheckBadCurse(ulonglong arg_0)
+variable	00267788	a0_lo:4	formindex	int
+signature	002677b8		nbCheckBadCurse	int nbCheckBadCurse(int formindex)
 function_repeatable_comment	002677b8		nbCheckBadCurse	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	002677b8	a0:8	arg_0	ulonglong
+variable	002677b8	a0_lo:4	formindex	int
 signature	002677e8		nbGetAisyoTable	ulonglong nbGetAisyoTable(ulonglong arg_0)
 function_repeatable_comment	002677e8		nbGetAisyoTable	Eighteen complete native basic-AI/query/summon bodies with actual predicates,work,costs,RNG,targeting,model scales,VM and printf/formatter dependencies. All384 original A4 AI records execute through each three-condition choice and ordinary decision runner in declared constructed battle states; separate constructed tables cover special action kinds,rejections,all-excluded/zero weights and mode1/2. Retail and constructed data distinguished. Full RAM,defined raw64 returns,Status,FCSR condition,primitives,ordered actual VM/predicate/libc calls and native returning callee saves compared. Weighted fallback86988 is proved unreachable for five stable unsigned16 weights and actual bounded RNG. Invalid pointers/out-of-domain table/index layouts,unrecovered original BF presentation/event paths,dynamic scheduling,physical gameplay,arithmetic FCSR flags,timing and matching executable unproved. One rolling capture;no checkpoints.
 variable	002677e8	a0:8	arg_0	ulonglong
-signature	00267890		nbGetAisyo	ulonglong nbGetAisyo(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+signature	00267890		nbGetAisyo	uint nbGetAisyo(int nskill, int formindex, nbAttr attr)
 function_repeatable_comment	00267890		nbGetAisyo	Four complete original support/affinity bodies. Actual scheduler,party/unit resolution,support bounds/counters,skill attribute,datGetAisyo,passive skill scans and folded moon execute;no game-result hooks. Full declared RAM,raw64 integer/rawF0 results,Status,CPU primitives,callee saves and ordered VM traces compared. Signed16 counters,wordwrap delta/rate product,full64 guards/sentinels,preview high lanes,status200/400,passive combinations,temporary effect precedence,charge and unit125 moon adjustment covered. COP1 value boundary is opcode/body pinned;FCSR arithmetic flags,timing and physical hardware remain unproved. Finite backed indices/table prefixes/acyclic queues;arbitrary invalid pointers,counts,private stack aliases and all gameplay paths unproved. HD roles and DDS documentation are context,not byte/layout identity;HD add-counter pseudocode contains a damaged switch. Automatic AI scoring/selection,matching executable and a new full regression remain outstanding. No checkpoint.
-variable	00267890	a0:8	arg_0	ulonglong
-variable	00267890	a1:8	arg_1	ulonglong
-variable	00267890	a2:8	arg_2	ulonglong
-signature	00267e38		nbGetNormalSkillAttr	ulonglong nbGetNormalSkillAttr(ulonglong arg_0)
+variable	00267890	a0_lo:4	nskill	int
+variable	00267890	a1_lo:4	formindex	int
+variable	00267890	a2_lo:4	attr	nbAttr
+signature	00267e38		nbGetNormalSkillAttr	nbAttr nbGetNormalSkillAttr(int nskill)
 function_repeatable_comment	00267e38		nbGetNormalSkillAttr	Seven complete native scoring input/support bodies, including original twenty-way max/min switch arms restored in place. Actual scheduler/party/unit access execute;no game-result hooks. Full declared RAM,raw64 returns,Status,primitives,callee saves and ordered VM targets compared. Zeroextended low12 status,signed LB attributes,signed LH counter returns,low16 stores,signed64 formation4/16 guards,full64 unsigned type20 limits and negative/backed counter offsets covered.64 setter/getter sequences execute original stores then real reads. Finite backed acyclic queues/indices and table prefix;arbitrary invalid addresses/private stack aliases remain unproved. HD managed checks/arrays differ. Original scoring/automatic AI,physical gameplay,matching executable and new full regression remain outstanding. No checkpoint.
-variable	00267e38	a0:8	arg_0	ulonglong
-signature	00267e50		nbSetHojoCounter	void nbSetHojoCounter(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	00267e38	a0_lo:4	nskill	int
+signature	00267e50		nbSetHojoCounter	void nbSetHojoCounter(int formindex, int type, int point)
 function_repeatable_comment	00267e50		nbSetHojoCounter	Seven complete native scoring input/support bodies, including original twenty-way max/min switch arms restored in place. Actual scheduler/party/unit access execute;no game-result hooks. Full declared RAM,raw64 returns,Status,primitives,callee saves and ordered VM targets compared. Zeroextended low12 status,signed LB attributes,signed LH counter returns,low16 stores,signed64 formation4/16 guards,full64 unsigned type20 limits and negative/backed counter offsets covered.64 setter/getter sequences execute original stores then real reads. Finite backed acyclic queues/indices and table prefix;arbitrary invalid addresses/private stack aliases remain unproved. HD managed checks/arrays differ. Original scoring/automatic AI,physical gameplay,matching executable and new full regression remain outstanding. No checkpoint.
-variable	00267e50	a0:8	arg_0	ulonglong
-variable	00267e50	a1:8	arg_1	ulonglong
-variable	00267e50	a2:8	arg_2	ulonglong
-signature	00267e90		nbGetHojoCounter	ulonglong nbGetHojoCounter(ulonglong arg_0, ulonglong arg_1)
+variable	00267e50	a0_lo:4	formindex	int
+variable	00267e50	a1_lo:4	type	int
+variable	00267e50	a2_lo:4	point	int
+signature	00267e90		nbGetHojoCounter	int nbGetHojoCounter(int formindex, int type)
 function_repeatable_comment	00267e90		nbGetHojoCounter	Seven complete native scoring input/support bodies, including original twenty-way max/min switch arms restored in place. Actual scheduler/party/unit access execute;no game-result hooks. Full declared RAM,raw64 returns,Status,primitives,callee saves and ordered VM targets compared. Zeroextended low12 status,signed LB attributes,signed LH counter returns,low16 stores,signed64 formation4/16 guards,full64 unsigned type20 limits and negative/backed counter offsets covered.64 setter/getter sequences execute original stores then real reads. Finite backed acyclic queues/indices and table prefix;arbitrary invalid addresses/private stack aliases remain unproved. HD managed checks/arrays differ. Original scoring/automatic AI,physical gameplay,matching executable and new full regression remain outstanding. No checkpoint.
-variable	00267e90	a0:8	arg_0	ulonglong
-variable	00267e90	a1:8	arg_1	ulonglong
-signature	00267ec8		nbGetHojoCounterMax	ulonglong nbGetHojoCounterMax(ulonglong arg_0)
+variable	00267e90	a0_lo:4	formindex	int
+variable	00267e90	a1_lo:4	type	int
+signature	00267ec8		nbGetHojoCounterMax	int nbGetHojoCounterMax(int hojotype)
 function_repeatable_comment	00267ec8		nbGetHojoCounterMax	Seven complete native scoring input/support bodies, including original twenty-way max/min switch arms restored in place. Actual scheduler/party/unit access execute;no game-result hooks. Full declared RAM,raw64 returns,Status,primitives,callee saves and ordered VM targets compared. Zeroextended low12 status,signed LB attributes,signed LH counter returns,low16 stores,signed64 formation4/16 guards,full64 unsigned type20 limits and negative/backed counter offsets covered.64 setter/getter sequences execute original stores then real reads. Finite backed acyclic queues/indices and table prefix;arbitrary invalid addresses/private stack aliases remain unproved. HD managed checks/arrays differ. Original scoring/automatic AI,physical gameplay,matching executable and new full regression remain outstanding. No checkpoint.
-variable	00267ec8	a0:8	arg_0	ulonglong
-signature	00267f18		nbGetHojoCounterMin	ulonglong nbGetHojoCounterMin(ulonglong arg_0)
+variable	00267ec8	a0_lo:4	hojotype	int
+signature	00267f18		nbGetHojoCounterMin	int nbGetHojoCounterMin(int hojotype)
 function_repeatable_comment	00267f18		nbGetHojoCounterMin	Seven complete native scoring input/support bodies, including original twenty-way max/min switch arms restored in place. Actual scheduler/party/unit access execute;no game-result hooks. Full declared RAM,raw64 returns,Status,primitives,callee saves and ordered VM targets compared. Zeroextended low12 status,signed LB attributes,signed LH counter returns,low16 stores,signed64 formation4/16 guards,full64 unsigned type20 limits and negative/backed counter offsets covered.64 setter/getter sequences execute original stores then real reads. Finite backed acyclic queues/indices and table prefix;arbitrary invalid addresses/private stack aliases remain unproved. HD managed checks/arrays differ. Original scoring/automatic AI,physical gameplay,matching executable and new full regression remain outstanding. No checkpoint.
-variable	00267f18	a0:8	arg_0	ulonglong
-signature	00267f58		nbSetHojoAddCounter	ulonglong nbSetHojoAddCounter(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+variable	00267f18	a0_lo:4	hojotype	int
+signature	00267f58		nbSetHojoAddCounter	int nbSetHojoAddCounter(int formindex, int type, int point, int nvirtual)
 function_repeatable_comment	00267f58		nbSetHojoAddCounter	Four complete original support/affinity bodies. Actual scheduler,party/unit resolution,support bounds/counters,skill attribute,datGetAisyo,passive skill scans and folded moon execute;no game-result hooks. Full declared RAM,raw64 integer/rawF0 results,Status,CPU primitives,callee saves and ordered VM traces compared. Signed16 counters,wordwrap delta/rate product,full64 guards/sentinels,preview high lanes,status200/400,passive combinations,temporary effect precedence,charge and unit125 moon adjustment covered. COP1 value boundary is opcode/body pinned;FCSR arithmetic flags,timing and physical hardware remain unproved. Finite backed indices/table prefixes/acyclic queues;arbitrary invalid pointers,counts,private stack aliases and all gameplay paths unproved. HD roles and DDS documentation are context,not byte/layout identity;HD add-counter pseudocode contains a damaged switch. Automatic AI scoring/selection,matching executable and a new full regression remain outstanding. No checkpoint.
-variable	00267f58	a0:8	arg_0	ulonglong
-variable	00267f58	a1:8	arg_1	ulonglong
-variable	00267f58	a2:8	arg_2	ulonglong
-variable	00267f58	a3:8	arg_3	ulonglong
-signature	00268030		nbSetHojoKouka	ulonglong nbSetHojoKouka(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+variable	00267f58	a0_lo:4	formindex	int
+variable	00267f58	a1_lo:4	type	int
+variable	00267f58	a2_lo:4	point	int
+variable	00267f58	a3_lo:4	nvirtual	int
+signature	00268030		nbSetHojoKouka	int nbSetHojoKouka(int formindex, uint hojotype, int hojopoint, int nvirtual)
 function_repeatable_comment	00268030		nbSetHojoKouka	Six complete native effect evaluators. Actual unit/party/scheduler,affinity/passives/support,power,parameters,eventbit,default RNG,software-double and libc printf/formatter/dtoa/heap execute;no game-result hooks. RawF12/rawF0 and raw64 word results,full declared RAM,Status,FCSR condition,CPU primitives,libc traces and callee saves compared. HP/MP native switch tables,word products,signed halfwords,lowword selector,full64 count/special-skill/preview guards,all support flags including preview-independent clears,random status selection and probability rolls exercised. Native COP1 sites body/opcode pinned;arithmetic FCSR flags,timing and PS2 gameplay unproved. Bounded valid queues/pointers/string stdout,nonempty random masks and nonzero RNG/division limits;dirty highlane count with zero low divisor retains native trap in source but is not captured here. MP dead conversion block and constant100/10 trap continuations proved from original tables/branches. HD and community roles/context do not establish binary/layout/numeric identity. Automatic target scorer,matching executable and new full regression outstanding. No checkpoint.
-variable	00268030	a0:8	arg_0	ulonglong
-variable	00268030	a1:8	arg_1	ulonglong
-variable	00268030	a2:8	arg_2	ulonglong
-variable	00268030	a3:8	arg_3	ulonglong
-signature	002684b0		nbGetHojoRitu	float nbGetHojoRitu(ulonglong arg_0, ulonglong arg_1)
+variable	00268030	a0_lo:4	formindex	int
+variable	00268030	a1_lo:4	hojotype	uint
+variable	00268030	a2_lo:4	hojopoint	int
+variable	00268030	a3_lo:4	nvirtual	int
+signature	002684b0		nbGetHojoRitu	float nbGetHojoRitu(int formindex, int type)
 function_repeatable_comment	002684b0		nbGetHojoRitu	Four complete original support/affinity bodies. Actual scheduler,party/unit resolution,support bounds/counters,skill attribute,datGetAisyo,passive skill scans and folded moon execute;no game-result hooks. Full declared RAM,raw64 integer/rawF0 results,Status,CPU primitives,callee saves and ordered VM traces compared. Signed16 counters,wordwrap delta/rate product,full64 guards/sentinels,preview high lanes,status200/400,passive combinations,temporary effect precedence,charge and unit125 moon adjustment covered. COP1 value boundary is opcode/body pinned;FCSR arithmetic flags,timing and physical hardware remain unproved. Finite backed indices/table prefixes/acyclic queues;arbitrary invalid pointers,counts,private stack aliases and all gameplay paths unproved. HD roles and DDS documentation are context,not byte/layout identity;HD add-counter pseudocode contains a damaged switch. Automatic AI scoring/selection,matching executable and a new full regression remain outstanding. No checkpoint.
-variable	002684b0	a0:8	arg_0	ulonglong
-variable	002684b0	a1:8	arg_1	ulonglong
-signature	00268620		nbGetButuriAttack	ulonglong nbGetButuriAttack(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+variable	002684b0	a0_lo:4	formindex	int
+variable	002684b0	a1_lo:4	type	int
+signature	00268620		nbGetButuriAttack	int nbGetButuriAttack(int nskill, int sformindex, int dformindex, int waza)
 function_repeatable_comment	00268620		nbGetButuriAttack	Five complete native power evaluators,including exact physical-heal tail call. Actual work/support/parameter/baseHP/eventbit/defaultRNG/software-double/printf/formatter/cvt/dtoa/bigint/heap/strings execute;no game-result hooks or skipped diagnostics. Full declared RAM,raw64 signedword returns,Status,CPU primitives,ordered libc kernel/CPU trace,VM calls and callee saves includingF25 compared. Native COP1 operations are body/opcode pinned;C.LT.S condition checked,arithmetic FCSR flags/timing unproved. Full64 physical skill-zero guard,lowword power/skill offsets,signed skill base/cap,level160 cap,flag20 andAF2 corrections,word product/conversion extremes,real healing RNG and repeated-current-level PS2 magic loop exercised. HD uses advancing hypothetical levels and different difficulty handling;no direct numeric/layout transfer. Bounded valid string stdout/cache/heap,acyclic queues/backed indices and returning finite loops;arbitrary malformed pointers/private stack aliases,physical IO/gameplay,matching executable and new full regression remain unproved. No checkpoint.
-variable	00268620	a0:8	arg_0	ulonglong
-variable	00268620	a1:8	arg_1	ulonglong
-variable	00268620	a2:8	arg_2	ulonglong
-variable	00268620	a3:8	arg_3	ulonglong
-signature	002688b8		nbGetButuriKaifuku	ulonglong nbGetButuriKaifuku(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+variable	00268620	a0_lo:4	nskill	int
+variable	00268620	a1_lo:4	sformindex	int
+variable	00268620	a2_lo:4	dformindex	int
+variable	00268620	a3_lo:4	waza	int
+signature	002688b8		nbGetButuriKaifuku	int nbGetButuriKaifuku(int nskill, int sformindex, int dformindex, int waza)
 function_repeatable_comment	002688b8		nbGetButuriKaifuku	Five complete native power evaluators,including exact physical-heal tail call. Actual work/support/parameter/baseHP/eventbit/defaultRNG/software-double/printf/formatter/cvt/dtoa/bigint/heap/strings execute;no game-result hooks or skipped diagnostics. Full declared RAM,raw64 signedword returns,Status,CPU primitives,ordered libc kernel/CPU trace,VM calls and callee saves includingF25 compared. Native COP1 operations are body/opcode pinned;C.LT.S condition checked,arithmetic FCSR flags/timing unproved. Full64 physical skill-zero guard,lowword power/skill offsets,signed skill base/cap,level160 cap,flag20 andAF2 corrections,word product/conversion extremes,real healing RNG and repeated-current-level PS2 magic loop exercised. HD uses advancing hypothetical levels and different difficulty handling;no direct numeric/layout transfer. Bounded valid string stdout/cache/heap,acyclic queues/backed indices and returning finite loops;arbitrary malformed pointers/private stack aliases,physical IO/gameplay,matching executable and new full regression remain unproved. No checkpoint.
-variable	002688b8	a0:8	arg_0	ulonglong
-variable	002688b8	a1:8	arg_1	ulonglong
-variable	002688b8	a2:8	arg_2	ulonglong
-variable	002688b8	a3:8	arg_3	ulonglong
-signature	002688d0		nbGetMagicAttack	ulonglong nbGetMagicAttack(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+variable	002688b8	a0_lo:4	nskill	int
+variable	002688b8	a1_lo:4	sformindex	int
+variable	002688b8	a2_lo:4	dformindex	int
+variable	002688b8	a3_lo:4	waza	int
+signature	002688d0		nbGetMagicAttack	int nbGetMagicAttack(int nskill, int sformindex, int dformindex, int waza)
 function_repeatable_comment	002688d0		nbGetMagicAttack	Five complete native power evaluators,including exact physical-heal tail call. Actual work/support/parameter/baseHP/eventbit/defaultRNG/software-double/printf/formatter/cvt/dtoa/bigint/heap/strings execute;no game-result hooks or skipped diagnostics. Full declared RAM,raw64 signedword returns,Status,CPU primitives,ordered libc kernel/CPU trace,VM calls and callee saves includingF25 compared. Native COP1 operations are body/opcode pinned;C.LT.S condition checked,arithmetic FCSR flags/timing unproved. Full64 physical skill-zero guard,lowword power/skill offsets,signed skill base/cap,level160 cap,flag20 andAF2 corrections,word product/conversion extremes,real healing RNG and repeated-current-level PS2 magic loop exercised. HD uses advancing hypothetical levels and different difficulty handling;no direct numeric/layout transfer. Bounded valid string stdout/cache/heap,acyclic queues/backed indices and returning finite loops;arbitrary malformed pointers/private stack aliases,physical IO/gameplay,matching executable and new full regression remain unproved. No checkpoint.
-variable	002688d0	a0:8	arg_0	ulonglong
-variable	002688d0	a1:8	arg_1	ulonglong
-variable	002688d0	a2:8	arg_2	ulonglong
-variable	002688d0	a3:8	arg_3	ulonglong
-signature	00268c60		nbGetMagicKaifuku	ulonglong nbGetMagicKaifuku(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+variable	002688d0	a0_lo:4	nskill	int
+variable	002688d0	a1_lo:4	sformindex	int
+variable	002688d0	a2_lo:4	dformindex	int
+variable	002688d0	a3_lo:4	waza	int
+signature	00268c60		nbGetMagicKaifuku	int nbGetMagicKaifuku(int nskill, int sformindex, int dformindex, int waza)
 function_repeatable_comment	00268c60		nbGetMagicKaifuku	Five complete native power evaluators,including exact physical-heal tail call. Actual work/support/parameter/baseHP/eventbit/defaultRNG/software-double/printf/formatter/cvt/dtoa/bigint/heap/strings execute;no game-result hooks or skipped diagnostics. Full declared RAM,raw64 signedword returns,Status,CPU primitives,ordered libc kernel/CPU trace,VM calls and callee saves includingF25 compared. Native COP1 operations are body/opcode pinned;C.LT.S condition checked,arithmetic FCSR flags/timing unproved. Full64 physical skill-zero guard,lowword power/skill offsets,signed skill base/cap,level160 cap,flag20 andAF2 corrections,word product/conversion extremes,real healing RNG and repeated-current-level PS2 magic loop exercised. HD uses advancing hypothetical levels and different difficulty handling;no direct numeric/layout transfer. Bounded valid string stdout/cache/heap,acyclic queues/backed indices and returning finite loops;arbitrary malformed pointers/private stack aliases,physical IO/gameplay,matching executable and new full regression remain unproved. No checkpoint.
-variable	00268c60	a0:8	arg_0	ulonglong
-variable	00268c60	a1:8	arg_1	ulonglong
-variable	00268c60	a2:8	arg_2	ulonglong
-variable	00268c60	a3:8	arg_3	ulonglong
-signature	00268d60		nbGetMaxHpWazaPoint	ulonglong nbGetMaxHpWazaPoint(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+variable	00268c60	a0_lo:4	nskill	int
+variable	00268c60	a1_lo:4	sformindex	int
+variable	00268c60	a2_lo:4	dformindex	int
+variable	00268c60	a3_lo:4	waza	int
+signature	00268d60		nbGetMaxHpWazaPoint	int nbGetMaxHpWazaPoint(int nskill, int sformindex, int dformindex, int waza)
 function_repeatable_comment	00268d60		nbGetMaxHpWazaPoint	Five complete native power evaluators,including exact physical-heal tail call. Actual work/support/parameter/baseHP/eventbit/defaultRNG/software-double/printf/formatter/cvt/dtoa/bigint/heap/strings execute;no game-result hooks or skipped diagnostics. Full declared RAM,raw64 signedword returns,Status,CPU primitives,ordered libc kernel/CPU trace,VM calls and callee saves includingF25 compared. Native COP1 operations are body/opcode pinned;C.LT.S condition checked,arithmetic FCSR flags/timing unproved. Full64 physical skill-zero guard,lowword power/skill offsets,signed skill base/cap,level160 cap,flag20 andAF2 corrections,word product/conversion extremes,real healing RNG and repeated-current-level PS2 magic loop exercised. HD uses advancing hypothetical levels and different difficulty handling;no direct numeric/layout transfer. Bounded valid string stdout/cache/heap,acyclic queues/backed indices and returning finite loops;arbitrary malformed pointers/private stack aliases,physical IO/gameplay,matching executable and new full regression remain unproved. No checkpoint.
-variable	00268d60	a0:8	arg_0	ulonglong
-variable	00268d60	a1:8	arg_1	ulonglong
-variable	00268d60	a2:8	arg_2	ulonglong
-variable	00268d60	a3:8	arg_3	ulonglong
-signature	00268eb8		nbGetVirtualAisyo	ulonglong nbGetVirtualAisyo(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	00268d60	a0_lo:4	nskill	int
+variable	00268d60	a1_lo:4	sformindex	int
+variable	00268d60	a2_lo:4	dformindex	int
+variable	00268d60	a3_lo:4	waza	int
+signature	00268eb8		nbGetVirtualAisyo	uint nbGetVirtualAisyo(int nskill, int sformindex, int dformindex)
 function_repeatable_comment	00268eb8		nbGetVirtualAisyo	Four complete original support/affinity bodies. Actual scheduler,party/unit resolution,support bounds/counters,skill attribute,datGetAisyo,passive skill scans and folded moon execute;no game-result hooks. Full declared RAM,raw64 integer/rawF0 results,Status,CPU primitives,callee saves and ordered VM traces compared. Signed16 counters,wordwrap delta/rate product,full64 guards/sentinels,preview high lanes,status200/400,passive combinations,temporary effect precedence,charge and unit125 moon adjustment covered. COP1 value boundary is opcode/body pinned;FCSR arithmetic flags,timing and physical hardware remain unproved. Finite backed indices/table prefixes/acyclic queues;arbitrary invalid pointers,counts,private stack aliases and all gameplay paths unproved. HD roles and DDS documentation are context,not byte/layout identity;HD add-counter pseudocode contains a damaged switch. Automatic AI scoring/selection,matching executable and a new full regression remain outstanding. No checkpoint.
-variable	00268eb8	a0:8	arg_0	ulonglong
-variable	00268eb8	a1:8	arg_1	ulonglong
-variable	00268eb8	a2:8	arg_2	ulonglong
+variable	00268eb8	a0_lo:4	nskill	int
+variable	00268eb8	a1_lo:4	sformindex	int
+variable	00268eb8	a2_lo:4	dformindex	int
 signature	00268f68		nbGetVirtualKoukaPoint	ulonglong nbGetVirtualKoukaPoint(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
 function_repeatable_comment	00268f68		nbGetVirtualKoukaPoint	Three complete native bodies using actual work/scheduler,affinity/effects/power/support,default RNG,parameters,software-double and libc dependencies;no game-result hooks. Raw64 results,full declared RAM,Status,FCSR condition,primitives,ordered libc traces and native callee saves compared. AI header modes1/2 and changed action/encounter/model tables are constructed branch states;retail384 AI modes are separately audited and all0. Preview estimator retains RNG/support-clear side effects;mode2 compact winning ordinal remaps across every flags4 slot. Summon clears4..13 before availability,reads encounter byte+22,stride26,loops unbounded unsigned byte count and uses full64 signed devil guard with lowword model address. Arithmetic FCSR flags,timing,physical gameplay and matching binary unproved. Bounded valid nonaliasing contexts,queues,units and libc stdout;selector orchestration/command52 remain outstanding. No checkpoint.
 variable	00268f68	a0:8	arg_0	ulonglong
@@ -10503,92 +10509,92 @@ signature	00269280		nbCheckSkillUse	ulonglong nbCheckSkillUse(ulonglong arg_0, u
 function_repeatable_comment	00269280		nbCheckSkillUse	Eighteen complete native basic-AI/query/summon bodies with actual predicates,work,costs,RNG,targeting,model scales,VM and printf/formatter dependencies. All384 original A4 AI records execute through each three-condition choice and ordinary decision runner in declared constructed battle states; separate constructed tables cover special action kinds,rejections,all-excluded/zero weights and mode1/2. Retail and constructed data distinguished. Full RAM,defined raw64 returns,Status,FCSR condition,primitives,ordered actual VM/predicate/libc calls and native returning callee saves compared. Weighted fallback86988 is proved unreachable for five stable unsigned16 weights and actual bounded RNG. Invalid pointers/out-of-domain table/index layouts,unrecovered original BF presentation/event paths,dynamic scheduling,physical gameplay,arithmetic FCSR flags,timing and matching executable unproved. One rolling capture;no checkpoints.
 variable	00269280	a0:8	arg_0	ulonglong
 variable	00269280	a1:8	arg_1	ulonglong
-signature	00269318		nbGetEncountTableItem	void nbGetEncountTableItem(ulonglong arg_0)
+signature	00269318		nbGetEncountTableItem	void nbGetEncountTableItem(nbMainProcessData * data)
 function_repeatable_comment	00269318		nbGetEncountTableItem	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	00269318	a0:8	arg_0	ulonglong
-signature	00269448		nbGetExpMakaItem	void nbGetExpMakaItem(ulonglong arg_0)
+variable	00269318	a0_lo:4	data	nbMainProcessData *
+signature	00269448		nbGetExpMakaItem	void nbGetExpMakaItem(datUnitWork * w)
 function_repeatable_comment	00269448		nbGetExpMakaItem	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	00269448	a0:8	arg_0	ulonglong
+variable	00269448	a0_lo:4	w	datUnitWork *
 signature	002696f8		nbGetLvAvg	ulonglong nbGetLvAvg(ulonglong arg_0, ulonglong arg_1)
 function_repeatable_comment	002696f8		nbGetLvAvg	Complete retail predicate table27 unique callbacks/28 nonzero slots,2 full support-condition switches,packed dispatcher/script bridge,actual skill cost and party average plus24 command wrappers. Original descriptors,table and branch bytes checked;community names and named HD roles provide context. Native HP zero traps,mask accumulation/intersection,full64 leaf comparisons,word SRL/low16 dispatch,unclamped indices,counter side effects,actual parameters/work/support/affinity/cost and VM return helpers retained. Bounded valid backed contexts/parties/units;original and constructed flags,counters,costs and table targets distinguished. Full RAM,defined raw64 returns,Status,FCSR condition,CPU primitives,ordered libc/VM/predicate callbacks and returning native callee saves compared. No result hooks. Native null/arbitrary invalid callback dereferences,malformed party pointers,dynamic scheduling,whole original AI decision execution,physical gameplay,arithmetic FCSR flags,timing and matching binary unproved. One rolling capture;no checkpoints.
 variable	002696f8	a0:8	arg_0	ulonglong
 variable	002696f8	a1:8	arg_1	ulonglong
-signature	002697d8		nbGetLvAvg2	ulonglong nbGetLvAvg2(ulonglong arg_0, ulonglong arg_1)
+signature	002697d8		nbGetLvAvg2	int nbGetLvAvg2(nbMainProcessData * data, int side)
 function_repeatable_comment	002697d8		nbGetLvAvg2	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	002697d8	a0:8	arg_0	ulonglong
-variable	002697d8	a1:8	arg_1	ulonglong
-signature	002698c0		nbGetParamAvg	ulonglong nbGetParamAvg(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	002697d8	a0_lo:4	data	nbMainProcessData *
+variable	002697d8	a1_lo:4	side	int
+signature	002698c0		nbGetParamAvg	int nbGetParamAvg(nbMainProcessData * data, int side, datParam paratype)
 function_repeatable_comment	002698c0		nbGetParamAvg	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	002698c0	a0:8	arg_0	ulonglong
-variable	002698c0	a1:8	arg_1	ulonglong
-variable	002698c0	a2:8	arg_2	ulonglong
-signature	002699b0		nbGetParamAvg2	ulonglong nbGetParamAvg2(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	002698c0	a0_lo:4	data	nbMainProcessData *
+variable	002698c0	a1_lo:4	side	int
+variable	002698c0	a2_lo:4	paratype	datParam
+signature	002699b0		nbGetParamAvg2	int nbGetParamAvg2(nbMainProcessData * data, int side, datParam paratype)
 function_repeatable_comment	002699b0		nbGetParamAvg2	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	002699b0	a0:8	arg_0	ulonglong
-variable	002699b0	a1:8	arg_1	ulonglong
-variable	002699b0	a2:8	arg_2	ulonglong
-signature	00269ad8		nbCheckSensei	ulonglong nbCheckSensei(ulonglong arg_0)
+variable	002699b0	a0_lo:4	data	nbMainProcessData *
+variable	002699b0	a1_lo:4	side	int
+variable	002699b0	a2_lo:4	paratype	datParam
+signature	00269ad8		nbCheckSensei	int nbCheckSensei(nbMainProcessData * data)
 function_repeatable_comment	00269ad8		nbCheckSensei	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	00269ad8	a0:8	arg_0	ulonglong
-signature	00269d20		nbCheckBackAttack	ulonglong nbCheckBackAttack(ulonglong arg_0)
+variable	00269ad8	a0_lo:4	data	nbMainProcessData *
+signature	00269d20		nbCheckBackAttack	int nbCheckBackAttack(nbMainProcessData * data)
 function_repeatable_comment	00269d20		nbCheckBackAttack	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	00269d20	a0:8	arg_0	ulonglong
-signature	00269e98		nbCheckEscape	ulonglong nbCheckEscape(ulonglong arg_0)
+variable	00269d20	a0_lo:4	data	nbMainProcessData *
+signature	00269e98		nbCheckEscape	int nbCheckEscape(nbMainProcessData * data)
 function_repeatable_comment	00269e98		nbCheckEscape	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	00269e98	a0:8	arg_0	ulonglong
+variable	00269e98	a0_lo:4	data	nbMainProcessData *
 signature	0026a110		nbGetEscapeSwitch	ulonglong nbGetEscapeSwitch(ulonglong arg_0)
 function_repeatable_comment	0026a110		nbGetEscapeSwitch	Eighteen complete native basic-AI/query/summon bodies with actual predicates,work,costs,RNG,targeting,model scales,VM and printf/formatter dependencies. All384 original A4 AI records execute through each three-condition choice and ordinary decision runner in declared constructed battle states; separate constructed tables cover special action kinds,rejections,all-excluded/zero weights and mode1/2. Retail and constructed data distinguished. Full RAM,defined raw64 returns,Status,FCSR condition,primitives,ordered actual VM/predicate/libc calls and native returning callee saves compared. Weighted fallback86988 is proved unreachable for five stable unsigned16 weights and actual bounded RNG. Invalid pointers/out-of-domain table/index layouts,unrecovered original BF presentation/event paths,dynamic scheduling,physical gameplay,arithmetic FCSR flags,timing and matching executable unproved. One rolling capture;no checkpoints.
 variable	0026a110	a0:8	arg_0	ulonglong
-signature	0026a158		nbCheckRenzokuEncount	ulonglong nbCheckRenzokuEncount(ulonglong arg_0)
+signature	0026a158		nbCheckRenzokuEncount	int nbCheckRenzokuEncount(nbMainProcessData * data)
 function_repeatable_comment	0026a158		nbCheckRenzokuEncount	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	0026a158	a0:8	arg_0	ulonglong
-signature	0026a2d8		nbCheckKuisibariSkill	ulonglong nbCheckKuisibariSkill(ulonglong arg_0)
+variable	0026a158	a0_lo:4	data	nbMainProcessData *
+signature	0026a2d8		nbCheckKuisibariSkill	int nbCheckKuisibariSkill(int formindex)
 function_repeatable_comment	0026a2d8		nbCheckKuisibariSkill	Twenty-one complete original CHECK1 prerequisites. Actual process lookup, unit/party routing and skill search execute. All384 unchanged AI record endings are read by each of three death queries. Native A4 record stride, A0/A2 unsigned death halfwords, signed LH forms, signed LW descriptor flags, full64 predicates, fixed32 timers/12 order bytes/16 stock slots, positive HP wrap and live stack-count reloads retained. Bounded backed RAM, finite queues and selected aliases; arbitrary invalid pointers, unchecked excessive IDs, outer CHECK1 callbacks, physical battle runtime and a matching executable remain unproved. Twenty-one HD roles and attributed community record/build/source-unit context reviewed; complete DDS comparison is separate. One rolling capture, no checkpoints.
-variable	0026a2d8	a0:8	arg_0	ulonglong
-signature	0026a338		nbCheckKuisibari2Skill	ulonglong nbCheckKuisibari2Skill(ulonglong arg_0)
+variable	0026a2d8	a0_lo:4	formindex	int
+signature	0026a338		nbCheckKuisibari2Skill	int nbCheckKuisibari2Skill(int formindex)
 function_repeatable_comment	0026a338		nbCheckKuisibari2Skill	Twenty-one complete original CHECK1 prerequisites. Actual process lookup, unit/party routing and skill search execute. All384 unchanged AI record endings are read by each of three death queries. Native A4 record stride, A0/A2 unsigned death halfwords, signed LH forms, signed LW descriptor flags, full64 predicates, fixed32 timers/12 order bytes/16 stock slots, positive HP wrap and live stack-count reloads retained. Bounded backed RAM, finite queues and selected aliases; arbitrary invalid pointers, unchecked excessive IDs, outer CHECK1 callbacks, physical battle runtime and a matching executable remain unproved. Twenty-one HD roles and attributed community record/build/source-unit context reviewed; complete DDS comparison is separate. One rolling capture, no checkpoints.
-variable	0026a338	a0:8	arg_0	ulonglong
-signature	0026a398		nbSetKuisibariStop	void nbSetKuisibariStop(ulonglong arg_0)
+variable	0026a338	a0_lo:4	formindex	int
+signature	0026a398		nbSetKuisibariStop	void nbSetKuisibariStop(int formindex)
 function_repeatable_comment	0026a398		nbSetKuisibariStop	Twenty-one complete original CHECK1 prerequisites. Actual process lookup, unit/party routing and skill search execute. All384 unchanged AI record endings are read by each of three death queries. Native A4 record stride, A0/A2 unsigned death halfwords, signed LH forms, signed LW descriptor flags, full64 predicates, fixed32 timers/12 order bytes/16 stock slots, positive HP wrap and live stack-count reloads retained. Bounded backed RAM, finite queues and selected aliases; arbitrary invalid pointers, unchecked excessive IDs, outer CHECK1 callbacks, physical battle runtime and a matching executable remain unproved. Twenty-one HD roles and attributed community record/build/source-unit context reviewed; complete DDS comparison is separate. One rolling capture, no checkpoints.
-variable	0026a398	a0:8	arg_0	ulonglong
-signature	0026a3d8		nbHatudoCheckSkill	int __stdcall nbHatudoCheckSkill(datUnitWork_PS2 * work, int skill)
+variable	0026a398	a0_lo:4	formindex	int
+signature	0026a3d8		nbHatudoCheckSkill	int nbHatudoCheckSkill(datUnitWork * work, int skill)
 function_repeatable_comment	0026a3d8		nbHatudoCheckSkill	Reviewed static counterpart: nbCalc$$nbHatudoCheckSkill at HD VA 0x18264a3e0. Call owned-skill check; skill300 requires moon8,301 requires moon0,others need ownership only. Same skill constants,branches,owned-skill and moon accessor in HD. Platform differences/limits: HD adds runtime class initialization/method argument; PS2 uses inline unit and unsigned-byte moon state. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	0026a3d8	a0_lo:4	work	datUnitWork_PS2 *
+variable	0026a3d8	a0_lo:4	work	datUnitWork *
 variable	0026a3d8	a1_lo:4	skill	int
-signature	0026a448		nbCheckSingleTargetSkill	ulonglong nbCheckSingleTargetSkill(ulonglong arg_0)
+signature	0026a448		nbCheckSingleTargetSkill	int nbCheckSingleTargetSkill(int skillid)
 function_repeatable_comment	0026a448		nbCheckSingleTargetSkill	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	0026a448	a0:8	arg_0	ulonglong
-signature	0026a468		nbCheckFormationPlayerSide	ulonglong nbCheckFormationPlayerSide(ulonglong arg_0)
+variable	0026a448	a0_lo:4	skillid	int
+signature	0026a468		nbCheckFormationPlayerSide	int nbCheckFormationPlayerSide(int formindex)
 function_repeatable_comment	0026a468		nbCheckFormationPlayerSide	Seven complete native scoring input/support bodies, including original twenty-way max/min switch arms restored in place. Actual scheduler/party/unit access execute;no game-result hooks. Full declared RAM,raw64 returns,Status,primitives,callee saves and ordered VM targets compared. Zeroextended low12 status,signed LB attributes,signed LH counter returns,low16 stores,signed64 formation4/16 guards,full64 unsigned type20 limits and negative/backed counter offsets covered.64 setter/getter sequences execute original stores then real reads. Finite backed acyclic queues/indices and table prefix;arbitrary invalid addresses/private stack aliases remain unproved. HD managed checks/arrays differ. Original scoring/automatic AI,physical gameplay,matching executable and new full regression remain outstanding. No checkpoint.
-variable	0026a468	a0:8	arg_0	ulonglong
-signature	0026a470		nbCheckFormationFriend	ulonglong nbCheckFormationFriend(ulonglong arg_0, ulonglong arg_1)
+variable	0026a468	a0_lo:4	formindex	int
+signature	0026a470		nbCheckFormationFriend	int nbCheckFormationFriend(int formindex1, int formindex2)
 function_repeatable_comment	0026a470		nbCheckFormationFriend	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	0026a470	a0:8	arg_0	ulonglong
-variable	0026a470	a1:8	arg_1	ulonglong
-signature	0026a4b0		nbGetMakaBaramaki	ulonglong nbGetMakaBaramaki(ulonglong arg_0)
+variable	0026a470	a0_lo:4	formindex1	int
+variable	0026a470	a1_lo:4	formindex2	int
+signature	0026a4b0		nbGetMakaBaramaki	int nbGetMakaBaramaki(datUnitWork * w)
 function_repeatable_comment	0026a4b0		nbGetMakaBaramaki	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	0026a4b0	a0:8	arg_0	ulonglong
-signature	0026a688		nbCheckBadPanicAction	ulonglong nbCheckBadPanicAction(ulonglong arg_0)
+variable	0026a4b0	a0_lo:4	w	datUnitWork *
+signature	0026a688		nbCheckBadPanicAction	int nbCheckBadPanicAction(datUnitWork * w)
 function_repeatable_comment	0026a688		nbCheckBadPanicAction	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	0026a688	a0:8	arg_0	ulonglong
-signature	0026a6d8		nbCheckBadStatusGameOver	ulonglong nbCheckBadStatusGameOver(void)
+variable	0026a688	a0_lo:4	w	datUnitWork *
+signature	0026a6d8		nbCheckBadStatusGameOver	int nbCheckBadStatusGameOver(void)
 function_repeatable_comment	0026a6d8		nbCheckBadStatusGameOver	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-signature	0026a740		nbSetHpScale	void nbSetHpScale(ulonglong arg_0)
+signature	0026a740		nbSetHpScale	void nbSetHpScale(nbFormation * form)
 function_repeatable_comment	0026a740		nbSetHpScale	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	0026a740	a0:8	arg_0	ulonglong
-signature	0026a7d0		nbGetDevilFormatFlag	ulonglong nbGetDevilFormatFlag(ulonglong arg_0)
+variable	0026a740	a0_lo:4	form	nbFormation *
+signature	0026a7d0		nbGetDevilFormatFlag	uint nbGetDevilFormatFlag(int formindex)
 function_repeatable_comment	0026a7d0		nbGetDevilFormatFlag	Twenty-one complete original CHECK1 prerequisites. Actual process lookup, unit/party routing and skill search execute. All384 unchanged AI record endings are read by each of three death queries. Native A4 record stride, A0/A2 unsigned death halfwords, signed LH forms, signed LW descriptor flags, full64 predicates, fixed32 timers/12 order bytes/16 stock slots, positive HP wrap and live stack-count reloads retained. Bounded backed RAM, finite queues and selected aliases; arbitrary invalid pointers, unchecked excessive IDs, outer CHECK1 callbacks, physical battle runtime and a matching executable remain unproved. Twenty-one HD roles and attributed community record/build/source-unit context reviewed; complete DDS comparison is separate. One rolling capture, no checkpoints.
-variable	0026a7d0	a0:8	arg_0	ulonglong
-signature	0026a828		nbGetCriticalPow	float nbGetCriticalPow(ulonglong arg_0, float arg_1)
+variable	0026a7d0	a0_lo:4	formindex	int
+signature	0026a828		nbGetCriticalPow	float nbGetCriticalPow(int sformindex, float pow)
 function_repeatable_comment	0026a828		nbGetCriticalPow	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	0026a828	a0:8	arg_0	ulonglong
-variable	0026a828	f12:4	arg_1	float
-signature	0026a840		nbGetKakutokuExp	ulonglong nbGetKakutokuExp(ulonglong arg_0)
+variable	0026a828	a0_lo:4	sformindex	int
+variable	0026a828	f12:4	pow	float
+signature	0026a840		nbGetKakutokuExp	int nbGetKakutokuExp(nbMainProcessData * data)
 function_repeatable_comment	0026a840		nbGetKakutokuExp	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	0026a840	a0:8	arg_0	ulonglong
-signature	0026a870		nbGetKakutokuMaka	ulonglong nbGetKakutokuMaka(ulonglong arg_0)
+variable	0026a840	a0_lo:4	data	nbMainProcessData *
+signature	0026a870		nbGetKakutokuMaka	int nbGetKakutokuMaka(nbMainProcessData * data)
 function_repeatable_comment	0026a870		nbGetKakutokuMaka	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	0026a870	a0:8	arg_0	ulonglong
+variable	0026a870	a0_lo:4	data	nbMainProcessData *
 signature	0026a8a0		ps2NegotiationFlowQueue_0026A8A0	ulonglong ps2NegotiationFlowQueue_0026A8A0(ulonglong arg_0, ulonglong arg_1)
 function_repeatable_comment	0026a8a0		ps2NegotiationFlowQueue_0026A8A0	Recovered SLUS_209.11 evolution-negotiation family: five whole C bodies pass3161 original-instruction cases on canonical529, including64 connected payment/outcome chains. Raw64 EE argument slots; Flow raw64 V0; evolution void; HD supplies roles, not original typedefs. Declared semantic RAM/Status/FCSR-value scope; volatile banks/save frames/HI-LO and physical gameplay unproved. See analysis/evolution-negotiation-main-C-validation.json.
 variable	0026a8a0	a0:8	arg_0	ulonglong
@@ -13494,13 +13500,13 @@ function_repeatable_comment	002c0ae0		ps2QuaternionBlendNormalized	Three complet
 variable	002c0ae0	f12:4	arg_0	float
 signature	002c0b60		ps2FieldDoorHeadingBits_002C0B60	float ps2FieldDoorHeadingBits_002C0B60(void)
 function_repeatable_comment	002c0b60		ps2FieldDoorHeadingBits_002C0B60	Seven complete original WAP door/heading bodies;736 original worlds and1472 strict Od/O2 C calls on canonical574. Native256-row,100B-definition,84B-work ownership and untouched duration slot are retained. Actual reset/AllSet/Start and repeated real first/second-leaf steps establish warm state; full31 mutableVU registers plusACC/overflow/Q and definedF0/V0, ordinaryRAM, Status/FCSR match. Actual native scene lookup, canonical quaternion-to-matrix and atan polynomial execute. Two operand-only host views bind original atan coefficients and currentGame pointer. Unity fldWap roles and pinned community FLD_WARP caller vocabulary are separate evidence. Managed bounds/defaults, PS2 asymmetric closing and native float ordering remain distinct. Full volatileGPR/private frames, arithmeticFCSR flags, physical timing, WAPfile loading and enclosing field execution remain open. Canonical admission is held and root-owned.
-signature	002c0ba8		sdfGetRand	uint __stdcall sdfGetRand(uint * state)
+signature	002c0ba8		sdfGetRand	uint sdfGetRand(uint * state)
 function_repeatable_comment	002c0ba8		sdfGetRand	Reviewed static counterpart: sdfRand$$sdfGetRand at HD VA 0x18230c550. Four32-bit words; XOR of cross-word shifted/OR expressions; shift previous words into slots1..3; write and return new word in v0. Platform differences/limits: HD passes a reference to a managed control block; PS2 takes a direct state pointer and null selects00529BD8. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002c0ba8	a0_lo:4	state	uint *
-signature	002c0c00		sdfGetRandFloat	float __stdcall sdfGetRandFloat(uint * state)
+signature	002c0c00		sdfGetRandFloat	float sdfGetRandFloat(uint * state)
 function_repeatable_comment	002c0c00		sdfGetRandFloat	Reviewed static counterpart: sdfRand$$sdfGetRandFloat at HD VA 0x18230c460. Call same generator; mask0xFFFFFF; convert to float and multiply2^-24; result returned in f0. Platform differences/limits: HD delegates through managed control-block reference. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002c0c00	a0_lo:4	state	uint *
-signature	002c0c60		sdfGetRandInt	uint __stdcall sdfGetRandInt(uint * state, uint limit)
+signature	002c0c60		sdfGetRandInt	uint sdfGetRandInt(uint * state, uint limit)
 function_repeatable_comment	002c0c60		sdfGetRandInt	Reviewed static counterpart: sdfRand$$sdfGetRandInt at HD VA 0x18230c4d0. Call generator; divu v0,s0 then mfhi v0 proves unsigned remainder; limit comes from a1. Platform differences/limits: PS2 zero divisor executes break7; HD returns0 for limit0. Decompiler initially inferred a signed modulo before typing. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002c0c60	a0_lo:4	state	uint *
 variable	002c0c60	a1_lo:4	limit	uint

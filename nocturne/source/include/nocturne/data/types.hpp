@@ -7,6 +7,8 @@
 
 #include <cstdint>
 
+#include "nocturne/data/ids.hpp"
+
 namespace nocturne {
 
 // Index into UnitWork::param / DevilFormat::param ("paratype").
@@ -84,30 +86,18 @@ struct Affinity {
     bool has(uint32_t flag) const { return (raw & flag) != 0; }
 };
 
-// Skill IDs referenced directly by battle code (names from the Nocturne
-// Randomizer skill list; see docs/glossary.md).
-namespace Skill {
-inline constexpr int32_t NormalAttack = 0x000;
-inline constexpr int32_t HolyMelody   = 0x09e;
-inline constexpr int32_t EvilMelody   = 0x09f;
-inline constexpr int32_t FastRetreat  = 0x128;
-inline constexpr int32_t MindsEye     = 0x12a;
-inline constexpr int32_t Might        = 0x12b;
-inline constexpr int32_t BrightMight  = 0x12c;
-inline constexpr int32_t DarkMight    = 0x12d;
-inline constexpr int32_t Pierce       = 0x165;
-// Passive resistance families, indexed by element (Expel and above skip
-// Almighty, hence the -1 adjustment in nbGetAisyo).
-inline constexpr int32_t AntiPhys   = 0x139; // Anti-<element>: damage x (n / 100)
-inline constexpr int32_t VoidPhys   = 0x143;
-inline constexpr int32_t PhysDrain  = 0x14d;
-inline constexpr int32_t PhysRepel  = 0x152;
-} // namespace Skill
+// The same ailments as bit masks, for fields that hold a set of them
+// (e.g. NormalSkill::badstatus: the ailments a skill can inflict).
+namespace ailment {
+inline constexpr uint16_t Shock = 0x001, Freeze = 0x002, Sleep = 0x004, Panic = 0x008,
+                          Bind = 0x010, Mute = 0x020, Poison = 0x040, Charm = 0x080,
+                          Stun = 0x100, Fly = 0x200, Stone = 0x400, Dead = 0x800;
+} // namespace ailment
 
-namespace Item {
-inline constexpr uint8_t LifeStone = 3; // 魔石 maseki
-inline constexpr uint8_t Bead      = 4; // 宝玉 hougyoku
-} // namespace Item
+// Skill, devil and item IDs are generated into ids.hpp (skill::Might,
+// devil::Pixie, item::Bead ...). Passive resistance families are indexed by
+// element: Anti/Void/Drain/Repel <element> = AntiPhys/VoidPhys/PhysDrain/
+// PhysRepel + element, with Expel and above skipping Almighty.
 
 // Event flags (evtBitCheck).
 namespace EventBit {

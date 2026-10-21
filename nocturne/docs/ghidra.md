@@ -20,14 +20,16 @@ after every session of Ghidra work; that also refreshes
   address suffix (`ps2FusionCore_001FDCA0`). They describe the role but are
   not original names. Replace them as original names are found (see
   `reference/ps2/identification/hd-name-leads-unverified.tsv` for leads).
-- Signatures were set for the legacy C ABI (`ulonglong` register images,
-  e.g. `ulonglong ps2CombatHitType_002654B8(ulonglong arg_0, ...)`). They
-  match the legacy C, not the readable types; retype as functions are
-  rewritten.
-- Only 140 data types. The records defined in `source/include` (UnitWork,
-  NormalSkill, DevilFormat, Encount, MainProcessData, …) are not yet in
-  Ghidra; importing them is the most useful next step for readability in the
-  decompiler.
+- Most signatures were set for the legacy C ABI (`ulonglong` register
+  images). The 96 functions in `tools/ghidra/nocturne_signatures.tsv` (the
+  rewritten ones and the core accessors they call) now have typed prototypes
+  with the original parameter names.
+- The records (`datUnitWork`, `datNormalSkill`, `datSkill`,
+  `datDevilFormat`, `datEncount*`, `nbMainProcessData`, `nbParty`,
+  `nbFormation` …) are in the `/nocturne` category, from
+  `tools/ghidra/nocturne_types.h`, and the data tables are typed and labelled
+  (`datDevilFormat_tbl`, `datNormalSkill_tbl`, `datEncount_tbl`, …). Re-run
+  `tools/ghidra/import-types.ps1` after changing either file.
 - The VU microprograms are loaded as `.DVP.overlay..*` overlay spaces.
 
 ## Known problem: DIVU is decoded as signed

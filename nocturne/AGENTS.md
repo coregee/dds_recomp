@@ -45,9 +45,21 @@ proven, not assumed.
    order, debug prints and all written RAM must match the legacy C. Make sure
    the generator reaches the interesting branches; a quick mutation (change a
    constant, confirm a failure) shows the test can see the change.
-6. **Record** mechanics in `docs/`, corrections to legacy names in
-   `docs/battle-mechanics.md` (or a new topic file), and refresh the function
-   map.
+6. **Teach Ghidra.** Add each rewritten function's typed prototype (original
+   name, HD parameter names) to `tools/ghidra/nocturne_signatures.tsv`, and new
+   record types to `tools/ghidra/nocturne_types.h` (the tables test checks it
+   against the C++ records). Run `tools/ghidra/import-types.ps1`, then
+   `tools/ghidra/export-annotations.ps1` to refresh the function map.
+7. **Record** mechanics in `docs/`, corrections to legacy names in
+   `docs/battle-mechanics.md` (or a new topic file).
+
+## Data tables
+
+Tables in the executable become source through `tools/gen_tables.py`: add the
+record to `records.hpp`, its field spec and output to the generator, the
+table to `source/tests/tables/main.cpp`, and regenerate. The test must show
+the compiled table equal to the executable's bytes. Names for IDs go in
+`reference/names/*.tsv`.
 
 ## Code with no legacy C
 

@@ -1,0 +1,274 @@
+id	name
+001	Agi
+002	Agilao
+003	Agidyne
+004	Maragi
+005	Maragion
+006	Maragidyne
+007	Bufu
+008	Bufula
+009	Bufudyne
+00a	Mabufu
+00b	Mabufula
+00c	Mabufudyne
+00d	Zio
+00e	Zionga
+00f	Ziodyne
+010	Mazio
+011	Mazionga
+012	Maziodyne
+013	Zan
+014	Zanma
+015	Zandyne
+016	Mazan
+017	Mazanma
+018	Mazandyne
+019	Megido
+01a	Megidola
+01b	Megidolaon
+01c	Hama
+01d	Hamaon
+01e	Mahama
+01f	Mahamaon
+020	Mudo
+021	Mudoon
+022	Mamudo
+023	Mamudoon
+024	Dia
+025	Diarama
+026	Diarahan
+027	Media
+028	Mediarama
+029	Mediarahan
+02a	Makatora
+02b	Patra
+02c	Me Patra
+02d	Mutudi
+02e	Posumudi
+02f	Paraladi
+030	Petradi
+031	Recarm
+032	Samrecarm
+033	Recarmdra
+034	Tarunda
+035	Sukunda
+036	Rakunda
+037	Makajam
+038	Makajamon
+039	Dekaja
+03b	Shibaboo
+03c	Dormina
+03d	Pulinpa
+03e	Marin Karin
+03f	Tentarafoo
+040	Tarukaja
+041	Sukukaja
+042	Rakukaja
+043	Makakaja
+044	Tetraja
+045	Makarakarn
+046	Tetrakarn
+047	Analyze
+048	Trafuri
+049	Estoma
+04a	Riberama
+04b	Liftoma
+04c	Lightoma
+04d	Dekunda
+060	Lunge
+061	Hell Thrust
+062	Berserk
+063	Tempest
+064	Hades Blast
+065	Heat Wave
+066	Blight
+067	Brutal Slash
+068	Hassohappa
+069	Dark Sword
+06a	Stasis Blade
+06b	Mighty Gust
+06c	Deathbound
+06d	Guillotine
+06e	Chaos Blade
+06f	Needle Rush
+070	Stun Needle
+071	Toxic Sting
+072	Arid Needle
+073	Sacrifice
+074	Kamikaze
+075	Feral Bite
+076	Venom Bite
+077	Charm Bite
+078	Stone Bite
+079	Stun Bite
+07a	Hell Fang
+07b	Feral Claw
+07c	Venom Claw
+07d	Stun Claw
+07e	Iron Claw
+07f	Godly Light
+083	Deadly Fury
+085	Xeros-Beat
+088	Divine Shot
+08f	Javelin Rain
+090	Oni-Kagura
+093	Freikugel
+098	Last Resort
+09b	Earthquake
+09e	Holy Melody
+09f	Evil Melody
+0a0	Spiral Viper
+0a1	Magma Axis
+0a3	Gaea Rage
+0b0	Fire Breath
+0b1	Hellfire
+0b2	Prominence
+0b3	Ragnarok
+0b4	Ice Breath
+0b5	Glacial Blast
+0b6	Shock
+0b7	Bolt Storm
+0b8	Wing Buffet
+0b9	Tornado
+0ba	Wind Cutter
+0bb	Wet Wind
+0bc	Thunderclap
+0bd	Holy Wrath
+0be	Deathtouch
+0bf	Mana Drain
+0c0	Life Drain
+0c1	Violet Flash
+0c2	Starlight
+0c3	Radiance
+0c4	Hell Gaze
+0c5	Stone Gaze
+0c6	Mute Gaze
+0c7	Evil Gaze
+0ca	Toxic Cloud
+0cb	War Cry
+0cc	Fog Breath
+0cd	Taunt
+0ce	Debilitate
+0cf	Dismal Tune
+0d1	Stun Gaze
+0d2	Lullaby
+0d3	Binding Cry
+0d4	Eternal Rest
+0d5	Sonic Wave
+0d6	Sexy Gaze
+0d7	Allure
+0d8	Panic Voice
+0d9	Intoxicate
+0da	Prayer
+0df	Beckon Call
+0e0	Focus
+0f9	Wild Dance
+105	Soul Divide
+106	E&I
+107	Rebellion
+108	Bullet-Time
+109	Provoke
+10a	Stinger
+10c	Whirlwind
+10d	Showtime
+112	Holy Star
+113	Andalucia
+114	Red Capote
+116	Preach
+117	Meditation
+118	Terror Blade
+119	Hell Spin
+11a	Hell Exhaust
+11b	Hell Burner
+11d	Death Lust
+11e	Beast Roar
+11f	God's Bow
+122	Life Bonus
+123	Life Gain
+124	Life Surge
+125	Mana Bonus
+126	Mana Gain
+127	Mana Surge
+128	Fast Retreat
+12a	Mind's Eye
+12b	Might
+12c	Bright Might
+12d	Dark Might
+12e	Drain Attack
+130	Attack All
+131	Counter
+132	Retaliate
+133	Avenge
+135	Fire Boost
+136	Ice Boost
+137	Elec Boost
+138	Force Boost
+139	Anti Phys
+13a	Anti Fire
+13b	Anti Ice
+13c	Anti Elec
+13d	Anti Force
+13e	Anti Expel
+13f	Anti Death
+140	Anti Curse
+141	Anti Nerve
+142	Anti Mind
+143	Void Phys
+144	Void Fire
+145	Void Ice
+146	Void Elec
+147	Void Force
+148	Void Expel
+149	Void Death
+14a	Void Curse
+14b	Void Nerve
+14c	Void Mind
+14d	Phys Drain
+14e	Fire Drain
+14f	Ice Drain
+150	Elec Drain
+151	Force Drain
+152	Phys Repel
+153	Fire Repel
+154	Ice Repel
+155	Elec Repel
+156	Force Repel
+159	Endure
+15a	Life Aid
+15b	Mana Aid
+15c	Victory Cry
+15d	Life Refill
+15e	Mana Refill
+161	Lucky Find
+162	Watchful
+163	Charisma
+165	Pierce
+168	Never Yield
+169	Son's Oath
+181	Scout
+182	Kidnap
+183	Seduce
+184	Brainwash
+186	Dark Pledge
+187	Wooing
+188	Beseech
+189	Soul Recruit
+18a	Mischief
+18b	Death Pact
+18c	Pester
+18d	Begging
+18e	Blackmail
+18f	Stone Hunt
+190	Trade
+191	Loan
+199	Haggle
+19a	Arbitration
+19b	Detain
+19c	Gonnection
+19d	Persuade
+19e	Intimidate
+19f	Nag
+1a2	Maiden's Plea
+1a3	Wine Party
+1a4	Flatter
+1a5	Jive Talk

@@ -25,12 +25,17 @@ functions Ghidra recognises, with their state:
 
 | State | Functions | Meaning |
 |---|---:|---|
-| rewritten | 34 | readable implementation in `source/`, differential-tested |
-| legacy | 3,013 | instruction-faithful C in `legacy/src/` only |
+| rewritten | 85 | readable implementation in `source/`, differential-tested |
+| legacy | 2,962 | instruction-faithful C in `legacy/src/` only |
 | named | 268 | identified and named in Ghidra, no C yet |
 | unknown | 5,750 | not yet identified |
 
 Refresh it with `tools/ghidra/export-annotations.ps1` after Ghidra work.
+
+Rewritten so far: the battle calculations (`nbCalc`: hit, crit, ailments,
+initiative, escape, rewards, damage, affinity, buffs) and unit stats
+(`datCalc`). Game data as source: devils, skills, passive-skill numbers,
+encounters, encounter tables and affinities (`source/src/data/`).
 
 ## Setting up
 
@@ -40,8 +45,8 @@ Refresh it with `tools/ghidra/export-annotations.ps1` after Ghidra work.
 2. Extract archive files as needed:
    `python tools/dds3_archive.py all --filter .bf` (see
    [disc and resources](docs/disc-resources.md)).
-3. Build and run the tests: `source\tests\differential\build.cmd`
-   (Visual Studio 2022 Build Tools).
+3. Build and run the tests: `source\tests\tables\build.cmd` and
+   `source\tests\differential\build.cmd` (Visual Studio 2022 Build Tools).
 4. Optional: open `ghidra/Nocturne.gpr` in Ghidra 11 with the
    `ghidra-emotionengine-reloaded` extension. Read [docs/ghidra.md](docs/ghidra.md) first.
 
