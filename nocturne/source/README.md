@@ -18,7 +18,9 @@ include/nocturne/
   data/records.hpp       game records: UnitWork, NormalSkill, SkillInfo, DevilFormat, Encount ...
   data/tables.hpp        the data tables: contents (src/data) and accessors
   data/unit.hpp          datCalc: stats, derived powers, max HP/MP, affinity, ailments
-  data/progression.hpp   datCalc: the party and stock, Magatama, Reason points, recovery skills
+  data/progression.hpp   datCalc: the party and stock, items, Reason points, recovery skills
+  data/magatama.hpp      Magatama: bonuses, skills, mastery, the Demi-fiend's race
+  facility/compendium.hpp the demon compendium (fclEncyc)
   battle/process.hpp     battle state: MainProcessData, Party, Formation
   battle/combatant.hpp   per-combatant queries: ailment, side, passives, Endure
   battle/buffs.hpp       -kaja/-nda counters and multipliers
@@ -36,6 +38,8 @@ include/nocturne/
   external.hpp           engine functions not rewritten yet (bridged to legacy C)
 src/
   data/unit.cpp, progression.cpp   datCalc
+  data/magatama.cpp                 Magatama (cmb/cmp/rst/dat functions)
+  facility/*.cpp                    fcl: facilities (compendium)
   data/*_table.cpp                  game data tables (generated)
   battle/*.cpp                      nbCalc, by topic
   fusion/*.cpp                      cmb / fclCombineCalcCore, by topic

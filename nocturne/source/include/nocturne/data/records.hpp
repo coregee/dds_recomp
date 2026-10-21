@@ -335,6 +335,39 @@ struct UnitVisual {
 };
 static_assert(sizeof(UnitVisual) == 0x310);
 
+// fclencyceelem_t: a compendium entry, a snapshot of a demon (0xB0 bytes).
+struct EncycRecord {
+    uint16_t id;
+    uint16_t reserved0;
+    uint16_t maxhp, maxmp;
+    int32_t exp;
+    uint16_t level;
+    int8_t param[6];
+    int8_t skillparam[6];
+    uint16_t skillcnt;
+    uint16_t skill[24];
+    int8_t mitamaparam[6];
+    int8_t levelupparam[6];
+    uint16_t keisyoskill[24];
+    uint8_t keiattr[24];
+    uint16_t hensinmae;
+    uint16_t reserved1;
+    uint32_t flag;            // the unit's flags 0x40 | 0x200 only
+    uint32_t reserved2;
+    uint32_t hensinmaeexp;
+};
+static_assert(sizeof(EncycRecord) == 0xb0);
+static_assert(offsetof(EncycRecord, flag) == 0xa4);
+
+// rstSkillInfo_t: skills a unit will learn later (results / Magatama menus).
+struct UpcomingSkills {
+    int8_t skillcnt;
+    uint8_t targetlevel[24];
+    uint8_t unknown_19;
+    uint16_t skill[24];
+};
+static_assert(sizeof(UpcomingSkills) == 0x4a);
+
 // datGlobalWork: the save-game state. Partial: only fields used so far.
 struct GlobalWork {
     uint8_t unknown_0000[0x840];
@@ -357,6 +390,14 @@ struct GlobalWork {
     uint8_t hearts_owned[64];
     uint8_t hearts_skill_state[64];
     uint8_t hearts_owned_count;
+    uint8_t unknown_1d7c[0xfd44];
+    uint16_t hearts_learned_skills[26][12]; // Magatama skills learned, in order
+    uint8_t unknown_11d30[0x90];
+    uint8_t hearts_param_upgrades[26][6];   // extra stat bonuses per Magatama
+    uint8_t unknown_11e5c[0x24];
+    int32_t encyc_count;                    // compendium entries
+    uint8_t unknown_11e84[0xc];
+    EncycRecord encyc_records[184];
 };
 static_assert(offsetof(GlobalWork, maka) == 0xa48);
 static_assert(offsetof(GlobalWork, units) == 0xa54);
@@ -365,5 +406,9 @@ static_assert(offsetof(GlobalWork, item_counts) == 0x1928);
 static_assert(offsetof(GlobalWork, reason_points) == 0x1cec);
 static_assert(offsetof(GlobalWork, hearts_equipped) == 0x1cfa);
 static_assert(offsetof(GlobalWork, hearts_owned_count) == 0x1d7b);
+static_assert(offsetof(GlobalWork, hearts_learned_skills) == 0x11ac0);
+static_assert(offsetof(GlobalWork, hearts_param_upgrades) == 0x11dc0);
+static_assert(offsetof(GlobalWork, encyc_count) == 0x11e80);
+static_assert(offsetof(GlobalWork, encyc_records) == 0x11e90);
 
 } // namespace nocturne

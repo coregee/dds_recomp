@@ -143,6 +143,29 @@ typedef struct datAisyoRow {
     u32 attr[16];           /* rate % | 0x10000 null | 0x20000 repel | 0x40000 drain | 0x80000000 weak */
 } datAisyoRow;
 
+/* fclencyceelem_t: a compendium entry. */
+typedef struct fclencyceelem {
+    u16 id, reserved0, maxhp, maxmp;
+    s32 exp;
+    u16 level;
+    s8 param[6], skillparam[6];
+    u16 skillcnt, skill[24];
+    s8 mitamaparam[6], levelupparam[6];
+    u16 keisyoskill[24];
+    u8 keiattr[24];
+    u16 hensinmae, reserved1;
+    u32 flag, reserved2;
+    u32 hensinmaeexp;
+} fclencyceelem;
+
+/* rstSkillInfo_t: skills still to be learned. */
+typedef struct rstSkillInfo {
+    s8 skillcnt;
+    u8 targetlevel[24];
+    u8 unknown_19;
+    u16 skill[24];
+} rstSkillInfo;
+
 typedef struct datGlobalWork {
     u8 unknown_0000[0x840];
     u32 event_bits[128];
@@ -164,6 +187,14 @@ typedef struct datGlobalWork {
     u8 hearts_owned[64];
     u8 hearts_skill_state[64];
     u8 hearts_owned_count;
+    u8 unknown_1d7c[0xfd44];
+    u16 hearts_learned_skills[26][12];
+    u8 unknown_11d30[0x90];
+    u8 hearts_param_upgrades[26][6];
+    u8 unknown_11e5c[0x24];
+    s32 encyc_count;
+    u8 unknown_11e84[0xc];
+    fclencyceelem encyc_records[184];
 } datGlobalWork;
 
 /* datSkill: per-skill info. Table at 0x3D6998, 512 entries. */

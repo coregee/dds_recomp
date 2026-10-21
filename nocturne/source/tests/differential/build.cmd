@@ -21,7 +21,8 @@ for %%U in (combat_calculation battle_power battle_effects battle_affinity battl
             battle_targeting battle_action_status nb_state dat_work dat_queries dat_resources dat_skills
             unit_progression ps2_soft_double ps2_soft_float battle_ai_conditions battle_ai_execution battle_ai_estimates
             unit_neighbors rst_stats stat_neighbors unit_batch inheritance_queries hearts_parameters exp rst_rng_frontier
-            ps2_qsort fusion_sort fusion_accident fusion_core) do (
+            ps2_qsort fusion_sort fusion_accident fusion_core
+            hearts_menu hearts_inventory fcl_encyc compendium_records compendium_restore) do (
     cl %CFLAGS% "%LEGACY%\src\%%U.c" /Fo"%OUT%\legacy_%%U.obj" || goto :failed
 )
 cl %CFLAGS% /WX "%SOURCE%\tests\differential\fake_world.c" /Fo"%OUT%\fake_world.obj" || goto :failed
@@ -29,7 +30,7 @@ cl %CFLAGS% "%LEGACY%\tests\ee_fpu_values.c" /Fo"%OUT%\ee_fpu_values.obj" || got
 cl %CFLAGS% "%ROOT%\third_party\ps2float\ps2float.c" /Fo"%OUT%\ps2float.obj" || goto :failed
 
 rem The rewrite: every module plus the generated data tables.
-for %%F in ("%SOURCE%\src\battle\*.cpp" "%SOURCE%\src\data\*.cpp" "%SOURCE%\src\fusion\*.cpp" "%SOURCE%\src\libc\*.cpp" "%SOURCE%\src\platform\*.cpp" "%SOURCE%\tests\differential\*.cpp") do (
+for %%F in ("%SOURCE%\src\battle\*.cpp" "%SOURCE%\src\data\*.cpp" "%SOURCE%\src\facility\*.cpp" "%SOURCE%\src\fusion\*.cpp" "%SOURCE%\src\libc\*.cpp" "%SOURCE%\src\platform\*.cpp" "%SOURCE%\tests\differential\*.cpp") do (
     cl %CXXFLAGS% "%%~F" /Fo"%OUT%\%%~nF.obj" || goto :failed
 )
 

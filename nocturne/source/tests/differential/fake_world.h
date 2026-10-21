@@ -25,7 +25,7 @@ enum {
     FW_ENEMIES    = 0x01103000, /* enemy datUnitWork[10] */
     FW_ACTION     = 0x01104000, /* nbActionProcessData */
     FW_FORM_UNITS = 0x01105000, /* uint32_t[16]: formindex -> unit address */
-    FW_LOG        = 0x01105100, /* calls into faked subsystems (compendium) */
+    FW_LOG        = 0x01105100, /* event bit writes: count, then bit | on << 31 */
     FW_SCRATCH    = 0x01105400, /* 0xC00 bytes for test buffers */
     FW_DYNAMIC_BEGIN = 0x01000000,
     FW_DYNAMIC_END   = 0x01106000,

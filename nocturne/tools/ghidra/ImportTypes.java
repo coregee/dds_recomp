@@ -51,6 +51,8 @@ public class ImportTypes extends GhidraScript {
         {0x0032dde0L, "u8", 4, "fclCombineManinRaceTbl"},
         {0x0032dde8L, "u16", 20, "fclCombineManinTbl"},
         {0x0054ff18L, "s32", 1, "datDevilNums"},
+        {0x0053d6e8L, "s8", 25, "fclItemHeartsTbl"},
+        {0x003322c0L, "s8", 5, "fclEncycCompareParamTbl"},
     };
 
     @Override

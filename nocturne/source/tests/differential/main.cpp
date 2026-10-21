@@ -772,6 +772,7 @@ std::vector<TestCase> tests()
     addFusionTests(t);
     addProgressionTests(t);
     addFusionCoreTests(t);
+    addMagatamaTests(t);
     return t;
 }
 

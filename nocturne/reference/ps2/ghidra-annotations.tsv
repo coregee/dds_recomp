@@ -1538,10 +1538,12 @@ symbol	00222140	Function	cmbChkHeartsMaster	Global
 symbol	00222160	Function	cmbGetMasterHeartsNums	Global
 symbol	002221d0	Function	cmbGetHeartsAfterSkillNums	Global
 symbol	002221e8	Function	cmbSetHeartsMaster	Global
+symbol	00222210	Function	cmbGetHeartsSkillAt	Global
 symbol	00222290	Function	cmbGetHeartsAisyo	Global
 symbol	002222c0	Function	cmbGetHeartsDefaultParam	Global
 symbol	00222318	Function	cmbGetHeartsParamEx	Global
 symbol	002223a0	Function	cmbGetHeartsParam	Global
+symbol	00222408	Function	ps2HeartsAddParam	Global
 symbol	00222470	Function	cmbSubHeartsParam	Global
 symbol	002224d8	Function	cmbAddHeartsSkill	Global
 symbol	00222550	Function	cmbCreateDefaultHeartsSkill	Global
@@ -3207,6 +3209,7 @@ symbol	0032dcc0	Label	fclEventDevilTbl	Global
 symbol	0032ddd0	Label	fclCombineManinKagTbl	Global
 symbol	0032dde0	Label	fclCombineManinRaceTbl	Global
 symbol	0032dde8	Label	fclCombineManinTbl	Global
+symbol	003322c0	Label	fclEncycCompareParamTbl	Global
 symbol	00333cf8	Label	fclSkill_tbl	Global
 symbol	00339640	Label	cmbEvoFlagTbl	Global
 symbol	00339658	Label	fclKeisyoSkillLevelTbl	Global
@@ -3222,6 +3225,7 @@ symbol	003d6998	Label	datSkill_tbl	Global
 symbol	003d7998	Label	datNormalSkill_tbl	Global
 symbol	003dc1e0	Label	datSpecialSkill_tbl	Global
 symbol	003dc4a0	Label	datItem_tbl	Global
+symbol	0053d6e8	Label	fclItemHeartsTbl	Global
 symbol	0054ff18	Label	datDevilNums	Global
 signature	00100418		ps2KernelGetFontContextIndex	ulonglong ps2KernelGetFontContextIndex(void)
 function_repeatable_comment	00100418		ps2KernelGetFontContextIndex	Thirteen complete PS2 context/font splice/recycle, panel, message/selection/window/32-variable/manager cleanup and script release/all-release/shutdown bodies. Actual recovered memory-handle coalescing, pool release, field initializers, lists, process removal and shutdown callback, printf/formatter and creation dependencies execute. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. Original BF inputs traverse actual construction before release; populated ownership fixtures exercise real font recycling, handle coalescing, optional allocations, mixed owned/unowned script lists and repeat null-work shutdown. HD provides semantic roles only: managed offsets/ownership and font positioning differ. Returning finite backed ownership graphs; arbitrary invalid/cyclic pointers, exhaustive alias/OOM states, shipped VM execution, physical hardware and matching executable remain unproved. Diagnostic output uses the actual formatter with a bounded string-buffer FILE.
@@ -8716,10 +8720,10 @@ signature	002135e0		ps2ShopListCursorMove_002135E0	void ps2ShopListCursorMove_00
 function_repeatable_comment	002135e0		ps2ShopListCursorMove_002135E0	Eight complete original shop buy/sell/quantity/list/input/sound bodies2984B;640original/1280strictC onactual641. Real retail list/price/Hearts/signal/BF/process/allocator/native sound enqueue/cache/kernel owners execute;no supplied UI/RPC/Wakeup/TagLo reply. Incoming producer priority0 is genuine nonpreemption. Raw64Type/control,signedlow8Mode,byte/word wrap and distinct normalJAL/error-tail sound frames retained. 521/535 ordinaryPCs observed;211delaywords decoded,9conditional likely without blanket execution claim. Private packet words use proven native SD owners or ordinary incoming stack/real initializer history. Genuine sale-list filtering leaves reject branch unforced. Unknownbank/IOP/service completion,worker switches,natural dialogue and physical gameplay remain outside.0credituntilmainadmission.
 variable	002135e0	a0:8	arg_0	ulonglong
 variable	002135e0	a1:8	arg_1	ulonglong
-signature	002138c0		fclChkItemHearts	char __stdcall fclChkItemHearts(ushort itemid)
+signature	002138c0		fclChkItemHearts	char fclChkItemHearts(ushort itemid)
 function_repeatable_comment	002138c0		fclChkItemHearts	Reviewed static counterpart: fclMisc$$fclChkItemHearts at HD VA 0x182169800. Unsigned16 item-40 range below25; original copies25-byte table53d6e8 and LB reads stack+item-40. HD allocates25-byte initialized table and applies same range/index; shared fclAddItem/datAddItem callers. Platform differences/limits: PS2 table is inline original data; HD table is managed initialization. Signed byte result; preserve16-bit wrapping range test. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002138c0	a0_lo:2	itemid	ushort
-signature	00213938		fclAddItem	int __stdcall fclAddItem(ushort itemid, int num)
+signature	00213938		fclAddItem	int fclAddItem(ushort itemid, int num)
 function_repeatable_comment	00213938		fclAddItem	Reviewed static counterpart: fclMisc$$fclAddItem at HD VA 0x182169740. Check item-Hearts mapping; zero calls datAddItem(item,num), nonzero calls datAddHearts(mappedID); unconditional return1. Same retained dispatch, arguments and return in HD. Platform differences/limits: Ignore quantity for Hearts; duplicate acquisition still returns1. This is not cmpDbgItem despite its prior high candidate score. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00213938	a0_lo:2	itemid	ushort
 variable	00213938	a1_lo:4	num	int
@@ -8759,22 +8763,22 @@ signature	002144b8		ps2MagatamaRequestLoad_002144B8	ulonglong ps2MagatamaRequest
 function_repeatable_comment	002144b8		ps2MagatamaRequestLoad_002144B8	Seven complete entry/resource/root bodies1020B;376 finite native initializer-contract worlds. Cold/hot initialization,real3file-requests,50realRNGdraws,root-input/eligibility,236Bsnapshot,equip,termination/cursor andgenuine native sound/kernel/cache paths. File-device queues are independently declared initialized nonempty incoming state;actual append/normalization/allocation is executed,not queue completion or semaphore reply. Firstemptyqueue/threadcreation/asynccallback2144A0/physicalfiles remain cold/external. Root starts a warm process-owned menu with bothcached/current pointers;constructor is tested separately anddoes not invent23302C caller publication. True acceptedkey1 SD2453F0 andactual changed-equip AT222308 are explicitly transported;other packet words remain genuine incoming frame. All declaredordinaryRAM,definedraw64results,Status/FCSR/primitives/orderedtraces,cache/SYS/ERET/privatewords compare. Fullarbitraryprivatebanks/fullboot/UI/render/servicecompletion andarbitraryOOM/unbackedindices remain outside. Zero canonicalcredit untilrootadmission.
 variable	002144b8	a0:8	arg_0	ulonglong
 variable	002144b8	a1:8	arg_1	ulonglong
-signature	00216910		ps2CompendiumRecords_00216910	ulonglong ps2CompendiumRecords_00216910(ulonglong arg_0, ulonglong arg_1)
+signature	00216910		ps2CompendiumRecords_00216910	int ps2CompendiumRecords_00216910(fclencyceelem * record, int overwrite)
 function_repeatable_comment	00216910		ps2CompendiumRecords_00216910	Recovered whole compendium records native scalar interfaces. Actual original/probe1024 finite cases, including24 connected cases/40 extra calls, real qsort callbacks and full-capacity stdio paths. Six genuine VOID and five raw64 returns, including existing registered216A18 native variant. Names are descriptive; exact HD symbols, full volatile/private-save frames and physical gameplay unclaimed. Ten new identity candidates;216A18 adds no identity. See analysis/compendium-records-C-validation.json.
-variable	00216910	a0:8	arg_0	ulonglong
-variable	00216910	a1:8	arg_1	ulonglong
-signature	00216a18		ps2CompendiumRecords_00216A18	ulonglong __stdcall ps2CompendiumRecords_00216A18(ulonglong arg_0, ulonglong arg_1)
+variable	00216910	a0_lo:4	record	fclencyceelem *
+variable	00216910	a1_lo:4	overwrite	int
+signature	00216a18		ps2CompendiumRecords_00216A18	int ps2CompendiumRecords_00216A18(datUnitWork * unit, int overwrite)
 function_repeatable_comment	00216a18		ps2CompendiumRecords_00216A18	Recovered whole compendium records native scalar interfaces. Actual original/probe1024 finite cases, including24 connected cases/40 extra calls, real qsort callbacks and full-capacity stdio paths. Six genuine VOID and five raw64 returns, including existing registered216A18 native variant. Names are descriptive; exact HD symbols, full volatile/private-save frames and physical gameplay unclaimed. Ten new identity candidates;216A18 adds no identity. See analysis/compendium-records-C-validation.json.
-variable	00216a18	a0:8	arg_0	ulonglong
-variable	00216a18	a1:8	arg_1	ulonglong
-signature	00216b20		ps2CompendiumRestore_00216B20	ulonglong __stdcall ps2CompendiumRestore_00216B20(ulonglong arg_0)
+variable	00216a18	a0_lo:4	unit	datUnitWork *
+variable	00216a18	a1_lo:4	overwrite	int
+signature	00216b20		ps2CompendiumRestore_00216B20	int ps2CompendiumRestore_00216B20(int id)
 function_repeatable_comment	00216b20		ps2CompendiumRestore_00216B20	Complete5 new native compendium restore/check services plus existing22-op fullraw64Search variant. Original/probe1024 with allconnectedraw64/VOID receipts required. Realconstructor and original partial32/64 operations, missing-ID underflow and unordered skillmembership. Source-complete semantic profile; fullprivateframe/volatile/FCSRarithmetic/hardware excluded. ExistingSearch adds no newidentity.
-variable	00216b20	a0:8	arg_0	ulonglong
-signature	00216b78		fclEncycGetNum	int __stdcall fclEncycGetNum(void)
+variable	00216b20	a0_lo:4	id	int
+signature	00216b78		fclEncycGetNum	int fclEncycGetNum(void)
 function_repeatable_comment	00216b78		fclEncycGetNum	Reviewed static counterpart: fclEncyc$$fclEncycGetNum at HD VA 0x1821d7a50. Load compendium count; PS2 global-work11e80, HD registry object10. Direct caller GetRatio2 and Regist establish shared identity. Platform differences/limits: HD global-work contains managed registry reference at108; PS2 count is inline. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-signature	00216b90		fclEncycGetRatio2	int __stdcall fclEncycGetRatio2(void)
+signature	00216b90		fclEncycGetRatio2	int fclEncycGetRatio2(void)
 function_repeatable_comment	00216b90		fclEncycGetRatio2	Reviewed static counterpart: fclEncyc$$fclEncycGetRatio2 at HD VA 0x1821d7ac0. PS2 GetNum*100 signed division184 with wrapping32-bit multiplication; positive count and ratio<1 yields1. Registration calls counterpart to update completion event. HD counterpart also produces completion percentage and is called by Regist. Platform differences/limits: Algorithm substantially changed in HD: dynamic descriptor length minus18, dictionary deduplication/filtering and cached count. PS2 fixed184 and minimum-positive1 rule must be preserved; function identity does not assert identical behavior. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-signature	00216bf0		ps2CompendiumRestore_00216BF0	ulonglong ps2CompendiumRestore_00216BF0(void)
+signature	00216bf0		ps2CompendiumRestore_00216BF0	int ps2CompendiumRestore_00216BF0(void)
 function_repeatable_comment	00216bf0		ps2CompendiumRestore_00216BF0	Complete5 new native compendium restore/check services plus existing22-op fullraw64Search variant. Original/probe1024 with allconnectedraw64/VOID receipts required. Realconstructor and original partial32/64 operations, missing-ID underflow and unordered skillmembership. Source-complete semantic profile; fullprivateframe/volatile/FCSRarithmetic/hardware excluded. ExistingSearch adds no newidentity.
 signature	00216c08		ps2CompendiumRecords_00216C08	void ps2CompendiumRecords_00216C08(void)
 function_repeatable_comment	00216c08		ps2CompendiumRecords_00216C08	Recovered whole compendium records native scalar interfaces. Actual original/probe1024 finite cases, including24 connected cases/40 extra calls, real qsort callbacks and full-capacity stdio paths. Six genuine VOID and five raw64 returns, including existing registered216A18 native variant. Names are descriptive; exact HD symbols, full volatile/private-save frames and physical gameplay unclaimed. Ten new identity candidates;216A18 adds no identity. See analysis/compendium-records-C-validation.json.
@@ -8785,55 +8789,55 @@ function_repeatable_comment	00218a50		FUN_00218a50	Recovered missing PS2 functio
 function_repeatable_comment	00218c38		FUN_00218c38	Recovered missing PS2 function entry. Decoded negative stack adjustment; saved RA; restored RA/SP and tail jump to a known function; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
 function_repeatable_comment	00218d00		FUN_00218d00	Recovered missing PS2 function entry. Decoded negative stack adjustment; saved RA; restored RA/SP and tail jump to a known function; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
 function_repeatable_comment	00218fa8		FUN_00218fa8	Recovered missing PS2 function entry. Decoded negative stack adjustment; saved RA; restored RA/SP and tail jump to a known function; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
-signature	00219318		ps2CompendiumRestore_00219318	ulonglong ps2CompendiumRestore_00219318(ulonglong arg_0)
+signature	00219318		ps2CompendiumRestore_00219318	int ps2CompendiumRestore_00219318(uchar * units)
 function_repeatable_comment	00219318		ps2CompendiumRestore_00219318	Complete5 new native compendium restore/check services plus existing22-op fullraw64Search variant. Original/probe1024 with allconnectedraw64/VOID receipts required. Realconstructor and original partial32/64 operations, missing-ID underflow and unordered skillmembership. Source-complete semantic profile; fullprivateframe/volatile/FCSRarithmetic/hardware excluded. ExistingSearch adds no newidentity.
-variable	00219318	a0:8	arg_0	ulonglong
-signature	00219400		ps2CompendiumRecords_00219400	ulonglong ps2CompendiumRecords_00219400(ulonglong arg_0)
+variable	00219318	a0_lo:4	units	uchar *
+signature	00219400		ps2CompendiumRecords_00219400	int ps2CompendiumRecords_00219400(void * list)
 function_repeatable_comment	00219400		ps2CompendiumRecords_00219400	Recovered whole compendium records native scalar interfaces. Actual original/probe1024 finite cases, including24 connected cases/40 extra calls, real qsort callbacks and full-capacity stdio paths. Six genuine VOID and five raw64 returns, including existing registered216A18 native variant. Names are descriptive; exact HD symbols, full volatile/private-save frames and physical gameplay unclaimed. Ten new identity candidates;216A18 adds no identity. See analysis/compendium-records-C-validation.json.
-variable	00219400	a0:8	arg_0	ulonglong
+variable	00219400	a0_lo:4	list	void *
 signature	002197b0		ps2CompendiumRecords_002197B0	void ps2CompendiumRecords_002197B0(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
 function_repeatable_comment	002197b0		ps2CompendiumRecords_002197B0	Recovered whole compendium records native scalar interfaces. Actual original/probe1024 finite cases, including24 connected cases/40 extra calls, real qsort callbacks and full-capacity stdio paths. Six genuine VOID and five raw64 returns, including existing registered216A18 native variant. Names are descriptive; exact HD symbols, full volatile/private-save frames and physical gameplay unclaimed. Ten new identity candidates;216A18 adds no identity. See analysis/compendium-records-C-validation.json.
 variable	002197b0	a0:8	arg_0	ulonglong
 variable	002197b0	a1:8	arg_1	ulonglong
 variable	002197b0	a2:8	arg_2	ulonglong
-signature	00219ba0		ps2CompendiumRecords_00219BA0	void ps2CompendiumRecords_00219BA0(ulonglong arg_0)
+signature	00219ba0		ps2CompendiumRecords_00219BA0	void ps2CompendiumRecords_00219BA0(short * indexes)
 function_repeatable_comment	00219ba0		ps2CompendiumRecords_00219BA0	Recovered whole compendium records native scalar interfaces. Actual original/probe1024 finite cases, including24 connected cases/40 extra calls, real qsort callbacks and full-capacity stdio paths. Six genuine VOID and five raw64 returns, including existing registered216A18 native variant. Names are descriptive; exact HD symbols, full volatile/private-save frames and physical gameplay unclaimed. Ten new identity candidates;216A18 adds no identity. See analysis/compendium-records-C-validation.json.
-variable	00219ba0	a0:8	arg_0	ulonglong
-signature	00219bf0		ps2CompendiumRecords_00219BF0	void ps2CompendiumRecords_00219BF0(ulonglong arg_0)
+variable	00219ba0	a0_lo:4	indexes	short *
+signature	00219bf0		ps2CompendiumRecords_00219BF0	void ps2CompendiumRecords_00219BF0(short * indexes)
 function_repeatable_comment	00219bf0		ps2CompendiumRecords_00219BF0	Recovered whole compendium records native scalar interfaces. Actual original/probe1024 finite cases, including24 connected cases/40 extra calls, real qsort callbacks and full-capacity stdio paths. Six genuine VOID and five raw64 returns, including existing registered216A18 native variant. Names are descriptive; exact HD symbols, full volatile/private-save frames and physical gameplay unclaimed. Ten new identity candidates;216A18 adds no identity. See analysis/compendium-records-C-validation.json.
-variable	00219bf0	a0:8	arg_0	ulonglong
-signature	00219c40		ps2CompendiumRecords_00219C40	ulonglong ps2CompendiumRecords_00219C40(ulonglong arg_0, ulonglong arg_1)
+variable	00219bf0	a0_lo:4	indexes	short *
+signature	00219c40		ps2CompendiumRecords_00219C40	int ps2CompendiumRecords_00219C40(short * left, short * right)
 function_repeatable_comment	00219c40		ps2CompendiumRecords_00219C40	Recovered whole compendium records native scalar interfaces. Actual original/probe1024 finite cases, including24 connected cases/40 extra calls, real qsort callbacks and full-capacity stdio paths. Six genuine VOID and five raw64 returns, including existing registered216A18 native variant. Names are descriptive; exact HD symbols, full volatile/private-save frames and physical gameplay unclaimed. Ten new identity candidates;216A18 adds no identity. See analysis/compendium-records-C-validation.json.
-variable	00219c40	a0:8	arg_0	ulonglong
-variable	00219c40	a1:8	arg_1	ulonglong
-signature	00219d00		ps2CompendiumRecords_00219D00	ulonglong ps2CompendiumRecords_00219D00(ulonglong arg_0, ulonglong arg_1)
+variable	00219c40	a0_lo:4	left	short *
+variable	00219c40	a1_lo:4	right	short *
+signature	00219d00		ps2CompendiumRecords_00219D00	int ps2CompendiumRecords_00219D00(short * left, short * right)
 function_repeatable_comment	00219d00		ps2CompendiumRecords_00219D00	Recovered whole compendium records native scalar interfaces. Actual original/probe1024 finite cases, including24 connected cases/40 extra calls, real qsort callbacks and full-capacity stdio paths. Six genuine VOID and five raw64 returns, including existing registered216A18 native variant. Names are descriptive; exact HD symbols, full volatile/private-save frames and physical gameplay unclaimed. Ten new identity candidates;216A18 adds no identity. See analysis/compendium-records-C-validation.json.
-variable	00219d00	a0:8	arg_0	ulonglong
-variable	00219d00	a1:8	arg_1	ulonglong
-signature	00219dc0		ps2CompendiumRecords_00219DC0	void ps2CompendiumRecords_00219DC0(ulonglong arg_0, ulonglong arg_1)
+variable	00219d00	a0_lo:4	left	short *
+variable	00219d00	a1_lo:4	right	short *
+signature	00219dc0		ps2CompendiumRecords_00219DC0	void ps2CompendiumRecords_00219DC0(short * indexes, int count)
 function_repeatable_comment	00219dc0		ps2CompendiumRecords_00219DC0	Recovered whole compendium records native scalar interfaces. Actual original/probe1024 finite cases, including24 connected cases/40 extra calls, real qsort callbacks and full-capacity stdio paths. Six genuine VOID and five raw64 returns, including existing registered216A18 native variant. Names are descriptive; exact HD symbols, full volatile/private-save frames and physical gameplay unclaimed. Ten new identity candidates;216A18 adds no identity. See analysis/compendium-records-C-validation.json.
-variable	00219dc0	a0:8	arg_0	ulonglong
-variable	00219dc0	a1:8	arg_1	ulonglong
-signature	00219df0		fclEncyc_SetElem	void __stdcall fclEncyc_SetElem(fclEncycElem_PS2 * elem, datUnitWork_PS2 * unit)
+variable	00219dc0	a0_lo:4	indexes	short *
+variable	00219dc0	a1_lo:4	count	int
+signature	00219df0		fclEncyc_SetElem	void fclEncyc_SetElem(fclencyceelem * elem, datUnitWork * unit)
 function_repeatable_comment	00219df0		fclEncyc_SetElem	Reviewed static counterpart: fclEncyc$$SetElem at HD VA 0x1821d50e0. Clear176 bytes; copy ID,maxHP,maxMP,exp,level,6 base/skill/mitama/levelup parameters,skillcnt,24 ushort skills,24 inherited skills,24 attribute bytes,hensinmae,hensinmaeexp; flag mask240. PS2 scalar/bulk-copy offsets agree with corresponding HD field transfers. Platform differences/limits: HD managed arrays and wider unit skill entries require element loops/narrowing; PS2 fixed inline arrays. C/Ghidra name is class-qualified to avoid generic SetElem collisions; original source spelling inferred. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00219df0	a0_lo:4	elem	fclEncycElem_PS2 *
-variable	00219df0	a1_lo:4	unit	datUnitWork_PS2 *
-signature	00219fc0		ps2CompendiumRecords_00219FC0	void ps2CompendiumRecords_00219FC0(ulonglong arg_0, ulonglong arg_1)
+variable	00219df0	a0_lo:4	elem	fclencyceelem *
+variable	00219df0	a1_lo:4	unit	datUnitWork *
+signature	00219fc0		ps2CompendiumRecords_00219FC0	void ps2CompendiumRecords_00219FC0(fclencyceelem * dst, fclencyceelem * src)
 function_repeatable_comment	00219fc0		ps2CompendiumRecords_00219FC0	Recovered whole compendium records native scalar interfaces. Actual original/probe1024 finite cases, including24 connected cases/40 extra calls, real qsort callbacks and full-capacity stdio paths. Six genuine VOID and five raw64 returns, including existing registered216A18 native variant. Names are descriptive; exact HD symbols, full volatile/private-save frames and physical gameplay unclaimed. Ten new identity candidates;216A18 adds no identity. See analysis/compendium-records-C-validation.json.
-variable	00219fc0	a0:8	arg_0	ulonglong
-variable	00219fc0	a1:8	arg_1	ulonglong
-signature	0021a0b8		ps2CompendiumRestore_0021A0B8	void ps2CompendiumRestore_0021A0B8(ulonglong arg_0, ulonglong arg_1)
+variable	00219fc0	a0_lo:4	dst	fclencyceelem *
+variable	00219fc0	a1_lo:4	src	fclencyceelem *
+signature	0021a0b8		ps2CompendiumRestore_0021A0B8	void ps2CompendiumRestore_0021A0B8(datUnitWork * unit, int id)
 function_repeatable_comment	0021a0b8		ps2CompendiumRestore_0021A0B8	Complete5 new native compendium restore/check services plus existing22-op fullraw64Search variant. Original/probe1024 with allconnectedraw64/VOID receipts required. Realconstructor and original partial32/64 operations, missing-ID underflow and unordered skillmembership. Source-complete semantic profile; fullprivateframe/volatile/FCSRarithmetic/hardware excluded. ExistingSearch adds no newidentity.
-variable	0021a0b8	a0:8	arg_0	ulonglong
-variable	0021a0b8	a1:8	arg_1	ulonglong
-signature	0021a118		ps2CompendiumRestore_0021A118	void ps2CompendiumRestore_0021A118(ulonglong arg_0, ulonglong arg_1)
+variable	0021a0b8	a0_lo:4	unit	datUnitWork *
+variable	0021a0b8	a1_lo:4	id	int
+signature	0021a118		ps2CompendiumRestore_0021A118	void ps2CompendiumRestore_0021A118(datUnitWork * unit, fclencyceelem * record)
 function_repeatable_comment	0021a118		ps2CompendiumRestore_0021A118	Complete5 new native compendium restore/check services plus existing22-op fullraw64Search variant. Original/probe1024 with allconnectedraw64/VOID receipts required. Realconstructor and original partial32/64 operations, missing-ID underflow and unordered skillmembership. Source-complete semantic profile; fullprivateframe/volatile/FCSRarithmetic/hardware excluded. ExistingSearch adds no newidentity.
-variable	0021a118	a0:8	arg_0	ulonglong
-variable	0021a118	a1:8	arg_1	ulonglong
-signature	0021a308		ps2CompendiumRestore_0021A308	ulonglong ps2CompendiumRestore_0021A308(ulonglong arg_0, ulonglong arg_1)
+variable	0021a118	a0_lo:4	unit	datUnitWork *
+variable	0021a118	a1_lo:4	record	fclencyceelem *
+signature	0021a308		ps2CompendiumRestore_0021A308	int ps2CompendiumRestore_0021A308(datUnitWork * unit, fclencyceelem * record)
 function_repeatable_comment	0021a308		ps2CompendiumRestore_0021A308	Complete5 new native compendium restore/check services plus existing22-op fullraw64Search variant. Original/probe1024 with allconnectedraw64/VOID receipts required. Realconstructor and original partial32/64 operations, missing-ID underflow and unordered skillmembership. Source-complete semantic profile; fullprivateframe/volatile/FCSRarithmetic/hardware excluded. ExistingSearch adds no newidentity.
-variable	0021a308	a0:8	arg_0	ulonglong
-variable	0021a308	a1:8	arg_1	ulonglong
+variable	0021a308	a0_lo:4	unit	datUnitWork *
+variable	0021a308	a1_lo:4	record	fclencyceelem *
 signature	0021f788		rstChkLevelUpTarget	int __stdcall rstChkLevelUpTarget(datUnitWork_PS2 * unit)
 function_repeatable_comment	0021f788		rstChkLevelUpTarget	Flag1 and absence of status800 precede the real EXP/private-copy count; return exact Boolean of positive count. Early predicates skip even unbacked descriptor/skill rows. Full 20 words/80 bytes independently re-encoded. Original/native differences and limits: Original direct unit pointer differs from native pointer-to-reference adaptation. Real EXP/copy/resource contracts apply on the queried path only. Isolated5888-case original-instruction replay passed. Full canonical verification is versioned separately.
 variable	0021f788	a0_lo:4	unit	datUnitWork_PS2 *
@@ -8891,12 +8895,12 @@ function_repeatable_comment	002203d0		rstSetCurrentDevil	Signed result cursor72 
 signature	00220480		rstInitWorkStock	void __stdcall rstInitWorkStock(char sacrifice_check)
 function_repeatable_comment	00220480		rstInitWorkStock	Clear result20; real custom-copy into inline preview170; signed LB original level1A+1 as ushort. Nonzero mode plus flag200 replaces preview level with real default-copy level. Full33 words/132 bytes independently re-encoded. Original/native differences and limits: Native extra static-byte clear absent. Exact preview self alias allowed; other accessed result overlaps excluded. Isolated6144-case original-instruction replay passed. Full canonical verification is versioned separately.
 variable	00220480	a0_lo:1	sacrifice_check	char
-signature	00220508		rstCreateBeforeSkillList	void __stdcall rstCreateBeforeSkillList(char id, datUnitWork_PS2 * unit, char level_offset, rstSkillInfo_PS2 * info)
+signature	00220508		rstCreateBeforeSkillList	void rstCreateBeforeSkillList(char id, datUnitWork * unit, char leveloffset, rstSkillInfo * info)
 function_repeatable_comment	00220508		rstCreateBeforeSkillList	Reviewed static counterpart: rstcalc$$rstCreateBeforeSkillList at HD VA 0x182280460. NULL unit leaves output untouched. Player scans remaining8 Hearts slots for nonzero unowned skill without level filter; demon scans24 row333cf8 events, type1 or6, signed required level greater than unit level plus signed8 offset, unowned skill including0. Writes count and appended level/ushort IDs only. 1536 original-instruction comparisons. Platform differences/limits: HD adds player165 E80/E86 gates and tblSkill C0-to-BF remap; HD offset16 versus PS2 signed8. PS2 output74bytes with inline24 level and skill arrays; nonoverlapping caller buffers. Repeated unit field loads retained. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00220508	a0_lo:1	id	char
-variable	00220508	a1_lo:4	unit	datUnitWork_PS2 *
-variable	00220508	a2_lo:1	level_offset	char
-variable	00220508	a3_lo:4	info	rstSkillInfo_PS2 *
+variable	00220508	a1_lo:4	unit	datUnitWork *
+variable	00220508	a2_lo:1	leveloffset	char
+variable	00220508	a3_lo:4	info	rstSkillInfo *
 signature	00220728		rstChkBeforeSkillOwner	char __stdcall rstChkBeforeSkillOwner(ushort skill, char level_offset, datUnitWork_PS2 * unit)
 function_repeatable_comment	00220728		rstChkBeforeSkillOwner	Reviewed static counterpart: rstcalc$$rstChkBeforeSkillOwner at HD VA 0x18227f9d0. Mask requested skillffff; signed8 offset and signed equipped LB1cfa; call220508 builder into74-byte stack view; scan signed counted prefix for ushort equality, return0/1. Full32-instruction body and HD builder/search reviewed. Platform differences/limits: HD creates managed arrays and offsetInt16. Inherits builder HD-only skill165 event gates/remap. PS2 NULL unit leaves scratch count uninitialized, so deterministic recovery contract requires non-NULL unit; no invented zero return. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00220728	a0_lo:2	skill	ushort
@@ -8930,73 +8934,79 @@ signature	00221550		ps2UnitMagatamaEquipHook_00221550	void ps2UnitMagatamaEquipH
 function_repeatable_comment	00221550		ps2UnitMagatamaEquipHook_00221550	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
 signature	00221558		ps2UnitMagatamaUnequipHook_00221558	void ps2UnitMagatamaUnequipHook_00221558(void)
 function_repeatable_comment	00221558		ps2UnitMagatamaUnequipHook_00221558	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
-signature	00221d00		cmbGetParamBase	int __stdcall cmbGetParamBase(datUnitWork_PS2 * unit, int index)
+signature	00221d00		cmbGetParamBase	int cmbGetParamBase(datUnitWork * unit, int paratype)
 function_repeatable_comment	00221d00		cmbGetParamBase	Reviewed static counterpart: rstCalcCore$$cmbGetParamBase at HD VA 0x18227b8e0. Player id0 returns raw signed param16+index minus signed effective equipped-Hearts param if nonzero equipped1cfa. Subtraction returns full32 without byte wrapping or clamp. Nonplayer delegates243ee0 datGetParam. Full PS2 instruction and native HD call/field sequence reviewed. Platform differences/limits: PS2 direct unit pointer/full index on raw array; Hearts accessor narrows equipped and index to signed8. HD ref managed unit with managed param array. Valid indexes0..5; retain demon flag/status/clamp behavior through existing callee. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00221d00	a0_lo:4	unit	datUnitWork_PS2 *
-variable	00221d00	a1_lo:4	index	int
+variable	00221d00	a0_lo:4	unit	datUnitWork *
+variable	00221d00	a1_lo:4	paratype	int
 signature	00221d70		cmbGetParam	int cmbGetParam(datUnitWork * unit, int paratype)
 function_repeatable_comment	00221d70		cmbGetParam	Reviewed static counterpart: rstCalcCore$$cmbGetParam at HD VA 0x18227ba50. Player id0 returns raw signed byte at unit16+index; demon delegates canonical243ee0 datGetParam. Native HD player raw array and corresponding demon clamp/status logic agree. Platform differences/limits: PS2 direct pointer and inline bytes; HD managed ref/array and inlined demon implementation. Equipped Hearts has no direct read in this helper. Valid indexes0..5. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00221d70	a0_lo:4	unit	datUnitWork *
 variable	00221d70	a1_lo:4	paratype	int
-signature	00221dd8		cmbChkGetHearts	char __stdcall cmbChkGetHearts(char id)
+signature	00221dd8		cmbChkGetHearts	char cmbChkGetHearts(char id)
 function_repeatable_comment	00221dd8		cmbChkGetHearts	Reviewed static counterpart: rstCalcCore$$cmbChkGetHearts at HD VA 0x182279370. Count byte1d7b and ownership bytes1cfb scanned for equality with signed8 ID; return0/1. HD distinct recovery-module ownership query retains same loop and fields. Platform differences/limits: PS2 byte count/list; HD managed fields. Logical IDs0..25; malformed high-bit list values are not claimed equivalent across ports. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00221dd8	a0_lo:1	id	char
-signature	00221e70		cmbGetPlayerRaceID	byte __stdcall cmbGetPlayerRaceID(datUnitWork_PS2 * unused_unit)
+signature	00221e70		cmbGetPlayerRaceID	uchar cmbGetPlayerRaceID(datUnitWork * unit)
 function_repeatable_comment	00221e70		cmbGetPlayerRaceID	Reviewed static counterpart: rstCalcCore$$cmbGetPlayerRaceID at HD VA 0x18227baf0. Ignored pointer argument; call classification into local tier. Tier0 returns0; else unsigned8(3*unsigned8(tier-1)+suffix), suffix1 class1,3 class4,2 otherwise. Original masks at all nonzero exits; native HD same tier mapping. Platform differences/limits: HD also ignores its ref-unit parameter. Numeric race values only; race/class text meanings not inferred from names. PS2 local byte output versus HD managed by-ref. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00221e70	a0_lo:4	unused_unit	datUnitWork_PS2 *
-signature	00221ef8		cmbChkHeartsStat	byte __stdcall cmbChkHeartsStat(char id)
+variable	00221e70	a0_lo:4	unit	datUnitWork *
+signature	00221ef8		cmbChkHeartsStat	uchar cmbChkHeartsStat(char id)
 function_repeatable_comment	00221ef8		cmbChkHeartsStat	Reviewed static counterpart: rstCalcCore$$cmbChkHeartsStat at HD VA 0x182279650. Signed8 ID times66; descriptor339e00 flag byte0 masked7. Same named HD flag getter. Full body words checked against ELF; 256 original-instruction comparisons. Platform differences/limits: PS2 signed ID and packed row versus HD managed descriptor. Logical backed IDs0..25; flag meanings beyond numeric classes unproved. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00221ef8	a0_lo:1	id	char
-signature	00221f20		cmbChkMasterHeartsStatNums	byte __stdcall cmbChkMasterHeartsStatNums(byte * tier)
+signature	00221f20		cmbChkMasterHeartsStatNums	uchar cmbChkMasterHeartsStatNums(uchar * tier)
 function_repeatable_comment	00221f20		cmbChkMasterHeartsStatNums	Reviewed static counterpart: rstCalcCore$$cmbChkMasterHeartsStatNums at HD VA 0x1822798c0. Three cleared byte counters for mastered owned descriptor flag classes1/0/4; signed comparisons retain tie-neutral and strictly dominant0 rules. Independent signed mastery-count tier: less6 divided2,6..11 tier3,12..24 tier4,exact25 tier5. Full103-instruction PS2 body and native HD algorithm reviewed. Platform differences/limits: PS2 nullable tier byte output; HD by-ref output unconditionally assigned. Other flag classes contribute to mastery tier but not buckets. Valid backed logical ownership list; no English class labels inferred. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00221f20	a0_lo:4	tier	byte *
-signature	002220c0		cmbGetHeartsSkillNums	short __stdcall cmbGetHeartsSkillNums(byte id)
+variable	00221f20	a0_lo:4	tier	uchar *
+signature	002220c0		cmbGetHeartsSkillNums	short cmbGetHeartsSkillNums(uchar id)
 function_repeatable_comment	002220c0		cmbGetHeartsSkillNums	Reviewed static counterpart: rstCalcCore$$cmbGetHeartsSkillNums at HD VA 0x18227adb0. ID0 returns0; count8 nonzero ushort skills at339e1c+ID*66+slot*4, signed8 narrowing internally. HD retains ID0,8 entries and nonzero count. Platform differences/limits: HD adds protected skill DLC gatesE80/E86 absent PS2. Int16 return chosen from metadata; actual PS2 possible results0..8 and internal low8 narrowing do not prove original declaration width. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	002220c0	a0_lo:1	id	byte
-signature	00222140		cmbChkHeartsMaster	char __stdcall cmbChkHeartsMaster(byte id)
+variable	002220c0	a0_lo:1	id	uchar
+signature	00222140		cmbChkHeartsMaster	char cmbChkHeartsMaster(uchar id)
 function_repeatable_comment	00222140		cmbChkHeartsMaster	Reviewed static counterpart: rstCalcCore$$cmbChkHeartsMaster at HD VA 0x1822795c0. Unsigned8 ID selects state1d3b; mask80 and sltu produces0/1. HD tests negative state byte, equivalent to bit7. Platform differences/limits: Bit7 proves mastery; low nibble learned count; bits4..6 unclassified. Inline PS2 array versus managed HD. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00222140	a0_lo:1	id	byte
-signature	00222160		cmbGetMasterHeartsNums	char __stdcall cmbGetMasterHeartsNums(void)
+variable	00222140	a0_lo:1	id	uchar
+signature	00222160		cmbGetMasterHeartsNums	char cmbGetMasterHeartsNums(void)
 function_repeatable_comment	00222160		cmbGetMasterHeartsNums	Reviewed static counterpart: rstCalcCore$$cmbGetMasterHeartsNums at HD VA 0x18227b590. Iterate every ownership entry; call mastery predicate, conditional count, sign-extend low8 return. HD retains same list/query/count. Platform differences/limits: Counts list entries rather than unique IDs; byte count and inline list in PS2, managed fields in HD. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-signature	002221d0		cmbGetHeartsAfterSkillNums	char __stdcall cmbGetHeartsAfterSkillNums(byte id)
+signature	002221d0		cmbGetHeartsAfterSkillNums	char cmbGetHeartsAfterSkillNums(uchar id)
 function_repeatable_comment	002221d0		cmbGetHeartsAfterSkillNums	Reviewed static counterpart: rstCalcCore$$cmbGetHeartsAfterSkillNums at HD VA 0x18227a960. Read per-ID byte at global1d3b+low8 ID, mask0f, return count. Same low-nibble state accessor in HD; used by append helper. Platform differences/limits: PS2 inline state, HD managed array. Upper nibble has unconfirmed meaning and remains intact. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	002221d0	a0_lo:1	id	byte
-signature	002221e8		cmbSetHeartsMaster	void __stdcall cmbSetHeartsMaster(char id)
+variable	002221d0	a0_lo:1	id	uchar
+signature	002221e8		cmbSetHeartsMaster	void cmbSetHeartsMaster(char id)
 function_repeatable_comment	002221e8		cmbSetHeartsMaster	Reviewed static counterpart: rstCalcCore$$cmbSetHeartsMaster at HD VA 0x18227bd10. Signed8 ID; OR80 into state1d3b+ID preserving other bits. HD retains same state OR. Platform differences/limits: Managed HD bounds checks absent PS2. Valid logical ID required. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002221e8	a0_lo:1	id	char
-signature	00222290		cmbGetHeartsAisyo	short __stdcall cmbGetHeartsAisyo(byte id)
+signature	00222210		cmbGetHeartsSkillAt	ushort cmbGetHeartsSkillAt(uchar id, char index)
+variable	00222210	a0_lo:1	id	uchar
+variable	00222210	a1_lo:1	index	char
+signature	00222290		cmbGetHeartsAisyo	short cmbGetHeartsAisyo(uchar id)
 function_repeatable_comment	00222290		cmbGetHeartsAisyo	Reviewed static counterpart: rstCalcCore$$cmbGetHeartsAisyo at HD VA 0x18227a9f0. ID0 returns0; LH339e02+unsignedID*66, signed16 affinity. HD retains ID0 and signed16 descriptor AisyoID. Platform differences/limits: PS2 record66 stride and field2; HD managed row field12. Adjacent word4 meaning not established by this accessor. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00222290	a0_lo:1	id	byte
-signature	002222c0		cmbGetHeartsDefaultParam	char __stdcall cmbGetHeartsDefaultParam(char id, char index, char type)
+variable	00222290	a0_lo:1	id	uchar
+signature	002222c0		cmbGetHeartsDefaultParam	char cmbGetHeartsDefaultParam(char id, char index, char type)
 function_repeatable_comment	002222c0		cmbGetHeartsDefaultParam	Reviewed static counterpart: rstCalcCore$$cmbGetHeartsDefaultParam at HD VA 0x18227aa90. Signed8 ID/index; type low8 zero chooses6 signed bytes at339e06, nonzero chooses339e0c, stride66. HD selects GrowParamTbl versus MasterGrowParamTbl identically. Platform differences/limits: Shipped normal/master arrays identical; distinct synthetic fixtures verify selection. Valid index0..5, logical ID0..25; no new bounds checks. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002222c0	a0_lo:1	id	char
 variable	002222c0	a1_lo:1	index	char
 variable	002222c0	a2_lo:1	type	char
-signature	00222318		cmbGetHeartsParamEx	char __stdcall cmbGetHeartsParamEx(char id, char index, char mode)
+signature	00222318		cmbGetHeartsParamEx	char cmbGetHeartsParamEx(char id, char index, char mode)
 function_repeatable_comment	00222318		cmbGetHeartsParamEx	Reviewed static counterpart: rstCalcCore$$cmbGetHeartsParamEx at HD VA 0x18227abe0. Normalize low8 mode to0/1; call default accessor; LBU global11dc0+ID*6+index; add and sign-extend low8. HD retains default-plus-upgrade calculation. Platform differences/limits: PS2 unsigned upgrade byte; HD sbyte nested arrays; final low8 sum equal. Preserve byte wrapping rather than saturation. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00222318	a0_lo:1	id	char
 variable	00222318	a1_lo:1	index	char
 variable	00222318	a2_lo:1	mode	char
-signature	002223a0		cmbGetHeartsParam	char __stdcall cmbGetHeartsParam(char id, char index)
+signature	002223a0		cmbGetHeartsParam	char cmbGetHeartsParam(char id, char index)
 function_repeatable_comment	002223a0		cmbGetHeartsParam	Reviewed static counterpart: rstCalcCore$$cmbGetHeartsParam at HD VA 0x18227ad00. Master predicate chooses ParamEx mode0/1; callee V0 remains live through restored registers; callers22408/470 consume V0. HD retains automatic master selection and default-plus-upgrade. Platform differences/limits: Previous inferred void hid return; source restores signed8 result. HD partially inlines ParamEx. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002223a0	a0_lo:1	id	char
 variable	002223a0	a1_lo:1	index	char
-signature	00222470		cmbSubHeartsParam	void __stdcall cmbSubHeartsParam(byte id, datUnitWork_PS2 * unit)
+signature	00222408		ps2HeartsAddParam	void ps2HeartsAddParam(uchar id, datUnitWork * unit)
+variable	00222408	a0_lo:1	id	uchar
+variable	00222408	a1_lo:4	unit	datUnitWork *
+signature	00222470		cmbSubHeartsParam	void cmbSubHeartsParam(uchar id, datUnitWork * unit)
 function_repeatable_comment	00222470		cmbSubHeartsParam	Reviewed static counterpart: rstCalcCore$$cmbSubHeartsParam at HD VA 0x18227bda0. Loop6 indexes; call effective parameter accessor; LBU unit16+index, SUBU result, SB low8. HD retains same six-byte subtraction using effective parameters. Platform differences/limits: Byte ID interface from metadata; PS2 sign-extends low8 before signed accessor. No clamp; unit params16 versus HD28. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00222470	a0_lo:1	id	byte
-variable	00222470	a1_lo:4	unit	datUnitWork_PS2 *
-signature	002224d8		cmbAddHeartsSkill	void __stdcall cmbAddHeartsSkill(char id, ushort skill)
+variable	00222470	a0_lo:1	id	uchar
+variable	00222470	a1_lo:4	unit	datUnitWork *
+signature	002224d8		cmbAddHeartsSkill	void cmbAddHeartsSkill(char id, ushort skill)
 function_repeatable_comment	002224d8		cmbAddHeartsSkill	Reviewed static counterpart: rstCalcCore$$cmbAddHeartsSkill at HD VA 0x182277c90. Call low-nibble count getter; store ushort at global11ac0+2*(signedID*12+count); increment entire per-ID state byte1d3b. HD writes nested ushort array[count] then increments same state. Platform differences/limits: Native per-ID stride24; managed arrays in HD. Valid IDs and available learned-skill slots required; no new capacity check added. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002224d8	a0_lo:1	id	char
 variable	002224d8	a1_lo:2	skill	ushort
-signature	00222550		cmbCreateDefaultHeartsSkill	char __stdcall cmbCreateDefaultHeartsSkill(byte id, datUnitWork_PS2 * unit)
+signature	00222550		cmbCreateDefaultHeartsSkill	char cmbCreateDefaultHeartsSkill(uchar id, datUnitWork * unit)
 function_repeatable_comment	00222550		cmbCreateDefaultHeartsSkill	Reviewed static counterpart: rstCalcCore$$cmbCreateDefaultHeartsSkill at HD VA 0x182279fa0. For nonzero ID, inspect8 entries at339e1a+ID*66, each level byte and ushort skill+2; append nonzero level0 skills to unit and call per-Hearts append; return signed low byte of skill count. HD retains8 entries, level0 predicate, unit append and same helper. Platform differences/limits: PS2 uses inline records/ushort count. HD adds protected DLC-event conditions for special skills and uses managed arrays/32-bit unit count; those gates are absent from PS2. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	00222550	a0_lo:1	id	byte
-variable	00222550	a1_lo:4	unit	datUnitWork_PS2 *
-signature	002226b8		cmbChkGetHeartsSkill	ushort __stdcall cmbChkGetHeartsSkill(byte id, datUnitWork_PS2 * unit)
+variable	00222550	a0_lo:1	id	uchar
+variable	00222550	a1_lo:4	unit	datUnitWork *
+signature	002226b8		cmbChkGetHeartsSkill	ushort cmbChkGetHeartsSkill(uchar id, datUnitWork * unit)
 function_repeatable_comment	002226b8		cmbChkGetHeartsSkill	Reviewed static counterpart: rstCalcCore$$cmbChkGetHeartsSkill at HD VA 0x182279130. Start at AfterSkillNums; scan throughslot7; nonzero ushort skill and signed level!=0 <= unit level; owner-search001feda0<0; first eligible skill or0. HD retains same scan, predicates and named owner callee. Platform differences/limits: HD adds protected skill eventE80/E86 gates absent PS2. PS2 required level signedLB; no consumption/state write; inline tables/unit. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-variable	002226b8	a0_lo:1	id	byte
-variable	002226b8	a1_lo:4	unit	datUnitWork_PS2 *
+variable	002226b8	a0_lo:1	id	uchar
+variable	002226b8	a1_lo:4	unit	datUnitWork *
 signature	00222788		cmbCreateDefaultSkill	void cmbCreateDefaultSkill(ushort devil, datUnitWork * unit)
 function_repeatable_comment	00222788		cmbCreateDefaultSkill	Reviewed static counterpart: rstCalcCore$$cmbCreateDefaultSkill at HD VA 0x18227a220. Mask argumentIDffff, call1ff070 partial clear, scan24 events in direct333cf8+ID*102 row. Append every type1 level0 skill including0 and duplicates; increment ushort count and write inline slot. Full40-instruction body checked against ELF and native HD sequence reviewed. Platform differences/limits: HD tblSkill.Get adds edition/event C0-to-BF remap; managed24-element clear differs. SuppliedID chooses row independently of unitID. At most24appends; no additional ownership or level test. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	00222788	a0_lo:2	devil	ushort
@@ -9141,9 +9151,9 @@ function_repeatable_comment	00232248		FUN_00232248	Recovered missing PS2 functio
 signature	00232878		ps2MagatamaPadActionHook_00232878	void ps2MagatamaPadActionHook_00232878(ulonglong arg_0)
 function_repeatable_comment	00232878		ps2MagatamaPadActionHook_00232878	Fifteen complete native Magatama menu owners2444B;736 original/1472 strict Od/O2 C comparisons onactual665. Original packed descriptor/position tables,real RNG/equip/parameter/maxstat and25-icon initializer dependencies retained. AllordinaryRAM,definedraw64 results,Status/FCSR,primitives/traces compare. Direct warm temporalrecords andseparate genuineinitializedconnectedhistories aredistinct. Native signedbyte/rawmask/32bitwrapping/236Brollbackcopy and10 exactCOP1 sites remain authoritative. ThreeHDsharedconstant addresses aremetadataonly,12roles aresubstantive. Native texturetriplets areexistinginputs,notservicecompletion replies. Constantnonzerodivisionguards andpostmod40 negativeconversion sourcecold;likelydelays decodedseparately. Wholemenu/physicaltiming/arithmeticFCSR/privatebanks unproved;0credituntiladmission.
 variable	00232878	a0:8	arg_0	ulonglong
-signature	00232880		cmpChkHaveNormalHeartsAll	int __stdcall cmpChkHaveNormalHeartsAll(void)
+signature	00232880		cmpChkHaveNormalHeartsAll	int cmpChkHaveNormalHeartsAll(void)
 function_repeatable_comment	00232880		cmpChkHaveNormalHeartsAll	Reviewed static counterpart: cmpInitDH$$cmpChkHaveNormalHeartsAll at HD VA 0x1822dedb0. Call ownership predicate for IDs1 through24, stop at first missing ID, return1 only after all24; both programs retain this loop. Platform differences/limits: ID25 excluded. PS2 shift/sign-extension loop scaffolding differs from managed int loop. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
-signature	002328c8		cmpChkHaveHearts	char __stdcall cmpChkHaveHearts(char id)
+signature	002328c8		cmpChkHaveHearts	char cmpChkHaveHearts(char id)
 function_repeatable_comment	002328c8		cmpChkHaveHearts	Reviewed static counterpart: cmpInitDH$$cmpChkHaveHearts at HD VA 0x1822decc0. Unsigned-byte ownership count1d7b; list1cfb scanned for equality with signed8 argument; return0/1. HD scans byte list/count with signed8 argument identically. Platform differences/limits: PS2 inline list/count; HD managed array and initialization/null/bounds checks. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002328c8	a0_lo:1	id	char
 signature	00232920		cmpSetEquipHeartsSelectPos	void __stdcall cmpSetEquipHeartsSelectPos(cmpDataDH_PS2 * data)
@@ -9483,7 +9493,7 @@ variable	00244268	a0_lo:4	percent	int
 signature	002442c8		datCheckMaka	int __stdcall datCheckMaka(int maka)
 function_repeatable_comment	002442c8		datCheckMaka	Reviewed static counterpart: datCalc$$datCheckMaka at HD VA 0x181ccad30. Compare requested currency to the same global currency field. Platform differences/limits: HD managed null/init checks. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002442c8	a0_lo:4	maka	int
-signature	002442e0		datAddItem	void __stdcall datAddItem(int id, int num)
+signature	002442e0		datAddItem	void datAddItem(int id, int num)
 function_repeatable_comment	002442e0		datAddItem	Reviewed static counterpart: datCalc$$datAddItem at HD VA 0x181cc9840. Item-to-Hearts dispatch; ID ranges 0x60/0x70; clamp quantity 0..99; event bit id+0x360; special ID 0x8D. Platform differences/limits: HD managed arrays and encoded constants; same main branches. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002442e0	a0_lo:4	id	int
 variable	002442e0	a1_lo:4	num	int
@@ -9561,7 +9571,7 @@ signature	002452b8		ps2UnitAddExperience_002452B8	void ps2UnitAddExperience_0024
 function_repeatable_comment	002452b8		ps2UnitAddExperience_002452B8	Unit/progression26 descriptive native aliases,3644 recognized/3660 spanbytes. Explicit raw64 A0..A2 integer calling slots,10 defined V0:8 results and16 typedvoid routines, including truevoid(void) JRRA/NOP hooks221550/558. Native originals and HD aliases remain in analysis/unit-progression-native-interfaces.json. Source/header exact and standalone868 semantic proof are separately pinned. Completevolatilebank/privateframe/HI1LO1 and hardwareclaims remain outside that proof. Metadata changes neither source/executable bytes nor registration. Originalprocessor decompiledC is reference only.
 variable	002452b8	a0_lo:4	unit	datUnitWork *
 variable	002452b8	a1_lo:4	exp	int
-signature	002452c8		datAddHearts	int __stdcall datAddHearts(int id)
+signature	002452c8		datAddHearts	int datAddHearts(int id)
 function_repeatable_comment	002452c8		datAddHearts	Reviewed static counterpart: datCalc$$datAddHearts at HD VA 0x181cc9470. Reject duplicate owned-Hearts ID; append byte list; increment count; clear per-ID field; event bit0x860; parameter helper; return0/1. Platform differences/limits: HD adds achievement/collection tracking after retained acquisition core. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 variable	002452c8	a0_lo:4	id	int
 signature	00245380		ps2UnitRemoveMagatama_00245380	void ps2UnitRemoveMagatama_00245380(void)

@@ -23,12 +23,8 @@ uint32_t sdfGetRandInt(uint32_t* state, uint32_t limit);
 uint32_t sdfGetRand(uint32_t* state);
 float sdfGetRandFloat(uint32_t* state);
 uint64_t ps2LibcPrintf(uint64_t format, ...);
-struct datUnitWork_PS2;
-int8_t cmbGetHeartsParam(int8_t id, int8_t index);
-void cmbSubHeartsParam(uint8_t id, datUnitWork_PS2* unit);
-void ps2HeartsAddParam(uint8_t id, datUnitWork_PS2* unit);
-uint8_t cmbGetPlayerRaceID(datUnitWork_PS2* unit);
-int32_t fclEncycRegist(datUnitWork_PS2* unit, int32_t overwrite);
+void evtBitOn(int32_t no);
+void evtBitOff(int32_t no);
 [[noreturn]] void nocturneCompilerArithmeticTrap(uint32_t code);
 }
 
@@ -42,8 +38,6 @@ T* fromAddress(uint64_t address)
 }
 
 uint64_t addressOf(const void* pointer) { return guest::addressOf(pointer); }
-
-datUnitWork_PS2* legacy(UnitWork& unit) { return reinterpret_cast<datUnitWork_PS2*>(&unit); }
 
 uint64_t signExtend(int32_t value) { return static_cast<uint64_t>(static_cast<int64_t>(value)); }
 
@@ -64,17 +58,11 @@ UnitWork* nb::GetUnitWorkPointer(MainProcessData& data, Party& party)
     return fromAddress<UnitWork>(nbGetUnitWorkPointer(addressOf(&data), addressOf(&party)));
 }
 
-// ---- cmb (Magatama) / fcl (compendium) -------------------------------------------
-
-int8_t cmb::GetHeartsParam(int8_t id, int8_t stat) { return cmbGetHeartsParam(id, stat); }
-void cmb::SubHeartsParam(uint8_t id, UnitWork& unit) { cmbSubHeartsParam(id, legacy(unit)); }
-void cmb::HeartsAddParam(uint8_t id, UnitWork& unit) { ps2HeartsAddParam(id, legacy(unit)); }
-uint8_t cmb::GetPlayerRaceID(UnitWork& unit) { return cmbGetPlayerRaceID(legacy(unit)); }
-int32_t fcl::EncycRegist(UnitWork& unit, bool overwrite) { return fclEncycRegist(legacy(unit), overwrite ? 1 : 0); }
-
 // ---- evt / sdf -----------------------------------------------------------------
 
 bool evt::BitCheck(int32_t bit) { return evtBitCheck(bit) != 0; }
+void evt::BitOn(int32_t bit) { evtBitOn(bit); }
+void evt::BitOff(int32_t bit) { evtBitOff(bit); }
 uint32_t evt::GetAgeOfMoon() { return evtGetAgeOfMoon(); }
 int32_t sdf::GetRandInt(int32_t limit) { return static_cast<int32_t>(sdfGetRandInt(nullptr, static_cast<uint32_t>(limit))); }
 ee::Float sdf::GetRandFloat() { return sdfGetRandFloat(nullptr); }

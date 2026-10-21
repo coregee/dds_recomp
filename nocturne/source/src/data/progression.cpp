@@ -4,6 +4,8 @@
 #include <cstring>
 
 #include "nocturne/data/ids.hpp"
+#include "nocturne/data/magatama.hpp"
+#include "nocturne/facility/compendium.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/unit.hpp"
 #include "nocturne/external.hpp"
@@ -122,7 +124,7 @@ void resetToSpecies(uint16_t devil, UnitWork& unit)
     uint32_t exp = cmb::expForLevel(unit, unit.level);
     unit.exp = static_cast<int32_t>(exp);
     diag::print(diag::Message::ResetExp, static_cast<int32_t>(exp));
-    fcl::EncycRegist(unit, false);
+    fcl::record(unit, false);
 }
 
 // ===========================================================================
@@ -134,8 +136,8 @@ int32_t playerParam(Param stat)
 {
     int32_t index = static_cast<int32_t>(stat);
     int32_t value = player().param[index];
-    if (uint8_t magatama = globalWork().hearts_equipped)
-        value -= cmb::GetHeartsParam(static_cast<int8_t>(magatama), static_cast<int8_t>(index));
+    if (uint8_t equipped = globalWork().hearts_equipped)
+        value -= magatama::param(static_cast<int8_t>(equipped), static_cast<int8_t>(index));
     return value;
 }
 
@@ -155,7 +157,7 @@ void addPlayerParam(Param stat, int32_t amount)
 // datGetPlayerLND @ 0x002446B0 ("LND" = Law / Neutral / Dark)
 int32_t playerAlignment()
 {
-    uint8_t race = cmb::GetPlayerRaceID(player());
+    uint8_t race = magatama::playerRace();
     return race ? (race - 1) % 3 : 1;
 }
 
@@ -181,7 +183,7 @@ void removeMagatama()
     GlobalWork& global = globalWork();
     if (!global.hearts_owned_count)
         return;
-    cmb::SubHeartsParam(global.hearts_equipped, player());
+    magatama::removeParams(global.hearts_equipped, player());
     global.hearts_equipped = 0;
     rescaleHpMp(player());
 }
@@ -194,7 +196,7 @@ void equipMagatama(uint8_t id)
         return;
     removeMagatama();
     global.hearts_equipped = id;
-    cmb::HeartsAddParam(global.hearts_equipped, player());
+    magatama::addParams(global.hearts_equipped, player());
     rescaleHpMp(player());
 }
 
@@ -250,7 +252,7 @@ int32_t addDevil(int32_t devil, bool joinParty)
     UnitWork& unit = global.units[4 + slot];
     initDevil(static_cast<uint16_t>(devil), unit);
     if (registerInCompendium)
-        fcl::EncycRegist(unit, false);
+        fcl::record(unit, false);
     if (joinParty && partySize < 4)
         unit.flag |= UnitFlag::InParty;
     global.stock_list[global.stock_count] = static_cast<uint8_t>(slot + 4);
@@ -300,6 +302,43 @@ void clearPartyCommandMemory()
 bool hasItem(int32_t item, int32_t count)
 {
     return count <= globalWork().item_counts[item];
+}
+
+// datAddItem @ 0x002442E0
+void addItem(int32_t item, int32_t count)
+{
+    if (int8_t given = magatama::fromItem(static_cast<uint16_t>(item))) {
+        magatama::add(given);
+        return;
+    }
+    uint8_t* held = &globalWork().item_counts[0] + item;
+    if (item < 0x70) {
+        int32_t sum = static_cast<int32_t>(static_cast<uint32_t>(*held) + static_cast<uint32_t>(count));
+        *held = static_cast<uint8_t>(sum < 0 ? 0 : sum > 99 ? 99 : sum);
+        return;
+    }
+    evt::BitOn(item + 0x360);
+    if (item != item::Deathstone || count == 0)
+        return;
+    int32_t sum = static_cast<int32_t>(static_cast<uint32_t>(*held) + static_cast<uint32_t>(count));
+    if (count > 0) {
+        if (sum >= 100)
+            sum = 99;
+    } else if (sum <= 0) {
+        evt::BitOff(0x3ed);   // no Deathstone left
+        sum = 0;
+    }
+    *held = static_cast<uint8_t>(sum);
+}
+
+// fclAddItem @ 0x00213938
+int32_t receiveItem(uint16_t item, int32_t count)
+{
+    if (int8_t given = magatama::fromItem(item))
+        magatama::add(given);
+    else
+        addItem(item, count);
+    return 1;
 }
 
 // ===========================================================================

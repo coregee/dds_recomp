@@ -42,7 +42,8 @@ proven, not assumed.
    `source/src/platform/legacy_bridge.cpp`.
 5. **Prove it.** Add every function to the differential test
    (`source/tests/differential/`: `main.cpp` for battle/unit code,
-   `fusion_tests.cpp`, `fusion_core_tests.cpp`, `progression_tests.cpp`;
+   `fusion_tests.cpp`, `fusion_core_tests.cpp`, `progression_tests.cpp`,
+   `magatama_tests.cpp`;
    shared helpers in `harness.hpp`, engine fakes in `fake_world.c`) and run
    `source\tests\differential\build.cmd`. Results, traps, RNG draw
    order, debug prints and all written RAM must match the legacy C. Make sure

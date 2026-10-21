@@ -81,6 +81,9 @@ int fw_load_elf(const char *path)
     g_cmbInheritanceLevelRecords = (const cmbInheritanceLevelRecord_PS2 *)(fw_ram + 0x339658);
     g_cmbInheritanceSkillRecords = (const cmbInheritanceSkillRecord_PS2 *)(fw_ram + 0x3d6998);
     g_cmbInheritanceScoreBytes = fw_ram + 0x3399e8;
+    g_cmpHeartsPositions = (const cmpHeartsPosition_PS2 *)(fw_ram + 0x345e58);
+    g_fclItemHeartsTable = (const int8_t *)(fw_ram + 0x53d6e8);
+    g_cmbHeartsSkillRows = (const cmbHeartsSkillRow_PS2 *)(fw_ram + 0x339e1a);
     uint32_t phoff; uint16_t phnum;
     memcpy(&phoff, elf + 0x1c, 4);
     memcpy(&phnum, elf + 0x2c, 2);
@@ -183,6 +186,7 @@ int fw_print_arg_count(uint32_t format)
     case 0x00544b48: case 0x00544b68: case 0x00544b88: return 0;
     case 0x00543188: case 0x00543198: return 1; /* YAMI-B Lv / Exp */
     case 0x0053caf8: return 1;                  /* fusion accident */
+    case 0x0053d7e8: return 0;                  /* compendium full */
     case 0x00544ba8: return 4; /* ailment chance */
     default:
         fprintf(stderr, "fake world: unknown print format %08x\n", format);
@@ -240,7 +244,9 @@ const cmbDemonSkillRow_PS2 *g_cmbDemonSkillRows;
 const cmbInheritanceLevelRecord_PS2 *g_cmbInheritanceLevelRecords;
 const cmbInheritanceSkillRecord_PS2 *g_cmbInheritanceSkillRecords;
 const uint8_t *g_cmbInheritanceScoreBytes;
-const cmpHeartsPosition_PS2 *g_cmpHeartsPositions; /* not reached */
+const cmpHeartsPosition_PS2 *g_cmpHeartsPositions;
+const int8_t *g_fclItemHeartsTable;
+const cmbHeartsSkillRow_PS2 *g_cmbHeartsSkillRows;
 const rstResourceWork_PS2 *g_rstResourceWork;      /* not reached */
 
 _Noreturn void nocturne_break(uint32_t code) { fw_trap(code); }
@@ -273,18 +279,17 @@ uint32_t evtBitCheck(int32_t no)
 
 uint32_t evtGetAgeOfMoon(void) { return case_moon; }
 
-/* The compendium: each registration is appended to a log in dynamic RAM,
- * so the RAM comparison checks which units were registered and when. */
-int32_t fclEncycRegist(datUnitWork_PS2 *unit, int32_t overwrite)
+/* Event bit writes are appended to a log in dynamic RAM, so the RAM
+ * comparison checks which bits were set or cleared, in order. */
+static void log_event(int32_t no, uint32_t on)
 {
     uint32_t *log = (uint32_t *)fw_resolve(FW_LOG);
     uint32_t n = log[0]++;
-    if (n < 31) {
-        log[1 + 2 * n] = fw_address_of(unit);
-        log[2 + 2 * n] = (uint32_t)overwrite;
-    }
-    return 1;
+    if (n < 63) log[1 + n] = ((uint32_t)no & 0x7fffffffu) | (on << 31);
 }
+
+void evtBitOn(int32_t no) { log_event(no, 1); }
+void evtBitOff(int32_t no) { log_event(no, 0); }
 
 /* A debug print compiled out of the shipped game. */
 void ps2ScriptDiagnosticDisabled(uint64_t format, ...) { (void)format; }
@@ -307,10 +312,28 @@ void nocturneQsortNoteCompare(uint32_t pc, uint64_t callback, uint64_t left, uin
     (void)pc; (void)callback; (void)left; (void)right; (void)result;
 }
 
+static _Noreturn void unreachable(const char *name);
+
+/* qsort's comparator dispatch for the compendium sorts. */
+uint64_t ps2CompendiumRecords_00219C40(uint64_t p0, uint64_t p1);
+uint64_t ps2CompendiumRecords_00219D00(uint64_t p0, uint64_t p1);
+uint64_t nocturneCompendiumRecordsCompare(uint64_t target, uint64_t left, uint64_t right)
+{
+    if ((uint32_t)target == 0x00219c40u) return ps2CompendiumRecords_00219C40(left, right);
+    if ((uint32_t)target == 0x00219d00u) return ps2CompendiumRecords_00219D00(left, right);
+    unreachable("qsort comparator");
+}
+
 /* A guest stack for legacy scratch buffers; outside the compared RAM. */
 static uint32_t guest_sp = FW_STACK_TOP;
 
 void *nocturneResolveFusionCoreAddress(uint32_t a) { return fw_resolve(a); }
+void *nocturneResolveCompendiumRecordsAddress(uint32_t a) { return fw_resolve(a); }
+void *nocturneResolveCompendiumRestoreAddress(uint32_t a) { return fw_resolve(a); }
+uint32_t nocturneCompendiumRecordsStackPointer(void) { return guest_sp; }
+void nocturneCompendiumRecordsSetStackPointer(uint32_t address) { guest_sp = address; }
+uint32_t nocturneCompendiumRestoreStackPointer(void) { return guest_sp; }
+void nocturneCompendiumRestoreSetStackPointer(uint32_t address) { guest_sp = address; }
 uint32_t nocturneFusionCoreStackPointer(void) { return guest_sp; }
 void nocturneFusionCoreSetStackPointer(uint32_t address) { guest_sp = address; }
 void nocturneFusionCoreFpuCondition(uint32_t condition) { (void)condition; }
@@ -338,7 +361,6 @@ static _Noreturn void unreachable(const char *name)
 }
 
 int32_t g_nbDebugEnabled;
-void evtBitOff(int32_t no) { (void)no; unreachable("evtBitOff"); }
 uint64_t dds3GetProcessData(uint64_t process) { (void)process; unreachable("dds3GetProcessData"); }
 uint64_t dds3SearchProcessName(uint64_t name) { (void)name; unreachable("dds3SearchProcessName"); }
 void *ps2Memset(void *destination, int32_t value, uint32_t count) { return memset(destination, value, count); }
@@ -353,7 +375,4 @@ uint64_t scrGetData(void) { unreachable("scrGetData"); }
 uint64_t scrGetIntPara(uint64_t index) { (void)index; unreachable("scrGetIntPara"); }
 void nbSetNormalSkill0(uint64_t unit) { (void)unit; unreachable("nbSetNormalSkill0"); }
 void scrSetIntReturnValue(uint64_t value) { (void)value; unreachable("scrSetIntReturnValue"); }
-int8_t cmbGetHeartsAfterSkillNums(uint8_t id) { (void)id; unreachable("cmbGetHeartsAfterSkillNums"); }
-uint8_t cmbChkHeartsStat(int8_t id) { (void)id; unreachable("cmbChkHeartsStat"); }
-void rstCreateBeforeSkillList(int8_t id, datUnitWork_PS2 *unit, int8_t level_offset, rstSkillInfo_PS2 *info) { (void)id; (void)unit; (void)level_offset; (void)info; unreachable("rstCreateBeforeSkillList"); }
-uint64_t nocturneCompendiumRecordsCompare(uint64_t target, uint64_t left, uint64_t right) { (void)target; (void)left; (void)right; unreachable("nocturneCompendiumRecordsCompare"); }
+int32_t nocturne_diagnostic_printf(const char *message) { (void)message; unreachable("nocturne_diagnostic_printf"); }

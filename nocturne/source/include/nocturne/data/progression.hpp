@@ -49,6 +49,10 @@ void clearPartyCommandMemory();                            // datAllClearCommMem
 // ---- Items ----------------------------------------------------------------------
 
 bool hasItem(int32_t item, int32_t count);                 // datCheckItem: at least `count` on hand
+// datAddItem: Magatama items join the collection; items below 0x70 stack
+// to 0..99; key items set event 0x360 + ID (the Deathstone also counts).
+void addItem(int32_t item, int32_t count);
+int32_t receiveItem(uint16_t item, int32_t count);        // fclAddItem: the same, always returns 1
 
 // ---- Skills outside battle ----------------------------------------------------
 

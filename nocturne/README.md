@@ -25,10 +25,10 @@ functions Ghidra recognises, with their state:
 
 | State | Functions | Meaning |
 |---|---:|---|
-| rewritten | 201 | readable implementation in `source/`, differential-tested |
-| legacy | 2,848 | instruction-faithful C in `legacy/src/` only |
+| rewritten | 246 | readable implementation in `source/`, differential-tested |
+| legacy | 2,805 | instruction-faithful C in `legacy/src/` only |
 | named | 268 | identified and named in Ghidra, no C yet |
-| unknown | 5,750 | not yet identified |
+| unknown | 5,748 | not yet identified |
 
 Refresh it with `tools/ghidra/export-annotations.ps1` after Ghidra work.
 
@@ -37,10 +37,13 @@ initiative, escape, rewards, damage, affinity, buffs, skill costs), unit stats
 and party progression (`datCalc`: stats, the stock, Magatama, Reason points,
 recovery skills), demon growth (EXP curve, level-up stats, skills, evolution)
 and the whole of fusion (`fclCombineCalcCore`: rules, skill inheritance,
-sacrifices, accidents, Fiends), plus the C library `qsort` the game sorts with.
+sacrifices, accidents, Fiends), Magatama (bonuses, skills, mastery, the
+Demi-fiend's race) and the compendium (`fclEncyc`), plus the C library `qsort`
+the game sorts with.
 Game data as source: devils, skills, items, level-up/growth tables, Magatama,
 encounters, affinities, inheritance and every fusion table (`source/src/data/`);
-see [docs/fusion.md](docs/fusion.md) for how fusion works.
+see [docs/fusion.md](docs/fusion.md) for how fusion works and
+[docs/magatama-and-compendium.md](docs/magatama-and-compendium.md).
 
 ## Setting up
 
