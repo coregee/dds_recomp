@@ -19,9 +19,9 @@ hand-scheduled VU code), it is isolated, documented and still tested.
   bytes;
 - the mechanics are documented in `docs/` in plain language.
 
-Progress is the function map (`tools/ghidra/export-annotations.ps1`): 447 of
-9,067 functions rewritten (4.9%) on 2026-10-22, 2,636 still only in legacy
-C, 5,718 not yet identified.
+Progress is the function map (`tools/ghidra/export-annotations.ps1`): 623 of
+9,067 functions rewritten (6.9%) on 2026-10-22, 2,501 still only in legacy
+C, 5,689 not yet identified.
 
 ## Principles
 
@@ -57,10 +57,16 @@ rewritten or simple to fake, and grow the tools when they block progress.
      128-bit loads/stores and the MMI instructions as modules need them.
    - A coverage check that lists rewritten functions without a test, and
      tests whose generator misses branches.
-2. **Finish the message stack:** the font engine (`fr*`: layout, glyphs,
-   variables), then panels (`itfPnl*`) and the message drawing.
-3. **The script VM** (`scr*`): the interpreter, the command table and the
-   commands, so the `.flow` sources are backed by readable code end to end.
+2. **Finish the message stack:** the message manager and the font engine's
+   text layout, glyph cache and message pages are done (docs/messages.md,
+   docs/fonts.md); left are the font texture set-up and drawing
+   (`frInitFontTable`, `frDrawFont*`, GS packets), panels (`itfPnl*`) and the
+   message drawing, which need the platform layer for the GS.
+3. **The script VM** (`scr*`): the interpreter, its process lifecycle and
+   its simple commands are done (docs/flowscript.md). Left: the rest of
+   `scrCommonCommand` (scene lighting, blur and filters need VU0 macro
+   instructions in the EE interpreter), and moving the AI and message
+   commands from the bridged VM externals onto the rewritten VM.
 4. **Battle** (`nb*`, the largest area): the turn engine (`nbAction*`), the
    remaining calculations, rewards, the battle UI.
 5. **Game systems:** negotiation, shops and facilities, field movement and

@@ -22,6 +22,7 @@
 
 #include "fake_world.h"
 #include "harness.hpp"
+#include "interface_world.hpp"
 #include "nocturne/battle/affinity.hpp"
 #include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/calc.hpp"
@@ -80,7 +81,7 @@ using namespace nocturne;
 // ---- platform hooks for the rewrite -------------------------------------------
 
 void* nocturne::guest::resolve(uint32_t address) { return fw_resolve(address); }
-uint32_t nocturne::guest::addressOf(const void* pointer) { return fw_address_of(pointer); }
+uint32_t nocturne::guest::addressOf(const void* pointer) { return pointer ? fw_address_of(pointer) : 0; }
 
 namespace difftest {
 
@@ -303,10 +304,21 @@ const StaticRange kWrittenStatics[] = {
     {0x005514e8, 4},                                       // AI rotation counter
     {0x0056be60, 0x0056c880 - 0x0056be60},                 // message manager and its nodes
     {0x0056bbc4, 0x90},                                    // font contexts and {var n} strings
-    {0x0054f404, 0x20},                                    // font flags
+    {0x0054f400, 0x48},                                    // font settings (result, spacing, mode, style...)
+    {0x0056b668, 0x20},                                    // font texture cells
+    {0x0056ba30, 0x0056bbc4 - 0x0056ba30},                 // font styles, pools and counters
+    {0x00326060, 8},                                       // default advance per style
+    {0x003261e8, 0x24},                                    // styles loaded
+    {0x0054ea00, 4},                                       // the last character laid out
+    {0x00551ea0, 4},                                       // bytes of the last decoded glyph
+    {0x00551b80, 4},                                       // the display buffer being built
+    {0x0056bc50, 0x110},                                   // entered names' glyphs and references
     {0x002f5830, 0x20},                                    // pad triggers
     {0x0054ea20, 4},                                       // pointer to the entered names
     {0x0056c880, 0x40},                                    // BuildCharacterName's buffer
+    {0x0054e994, 0xc},                                     // the running scripts
+    {0x0054e970, 8},                                       // the screen quake
+    {0x00551c58, 0x24},                                    // TwoOperation's operands; the running COMM's work
 };
 
 std::vector<uint8_t> captureStatics()
@@ -812,6 +824,8 @@ std::vector<TestCase> tests()
     addMagatamaTests(t);
     addAiTests(t);
     addMessageTests(t);
+    addFontTests(t);
+    addScriptTests(t);
     return t;
 }
 
@@ -827,16 +841,20 @@ int main(int argc, char** argv)
         std::fprintf(stderr, "cannot load %s\n", argv[1]);
         return 2;
     }
-    loadMessageTables(argv[1]);
+    iface::loadData(argv[1]);
     int cases = argc > 2 ? std::atoi(argv[2]) : 2000;
     uint64_t seed = argc > 3 ? std::strtoull(argv[3], nullptr, 0) : 1;
     const char* filter = argc > 4 ? argv[4] : "";
+#pragma warning(suppress : 4996)
+    const bool verbose = std::getenv("DIFF_VERBOSE") != nullptr;   // name each test as it starts
 
     std::vector<uint8_t> saved(FW_DYNAMIC_END - FW_DYNAMIC_BEGIN);
     int failedFunctions = 0;
     for (const TestCase& test : tests()) {
         if (!std::strstr(test.name, filter))
             continue;
+        if (verbose)
+            std::fprintf(stderr, "running %s\n", test.name);
         int failures = 0, traps = 0;
         uint64_t draws = 0;
         for (int i = 0; i < cases; ++i) {

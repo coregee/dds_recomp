@@ -44,8 +44,9 @@ of work.
 5. **Prove it.** Add every function to the differential test
    (`source/tests/differential/`: `main.cpp` for battle/unit code,
    `fusion_tests.cpp`, `fusion_core_tests.cpp`, `progression_tests.cpp`,
-   `magatama_tests.cpp`, `ai_tests.cpp`, `message_tests.cpp` (against the
-   original instructions);
+   `magatama_tests.cpp`, `ai_tests.cpp`, `message_tests.cpp` and
+   `font_tests.cpp` (against the original instructions; their shared world,
+   with the game's fonts and message tables, is `interface_world.cpp`);
    shared helpers in `harness.hpp`, engine fakes in `fake_world.c`) and run
    `source\tests\differential\build.cmd`. Results, traps, RNG draw
    order, debug prints and all written RAM must match the legacy C. Make sure
@@ -94,6 +95,14 @@ the same module), and hook every other callee to the fake that the rewrite
 reaches through `legacy_bridge.cpp`, so both sides call the same fakes.
 Calls outside the listed ranges and hooks stop the test with the address.
 This is now the preferred check for any function, with or without legacy C.
+`EE_TRACE=1` prints every instruction the interpreter runs, `DIFF_VERBOSE=1`
+names each test as it starts, and a host crash or an access outside guest
+RAM prints a symbolized stack.
+
+Generate states the game can be in: the original often reads through a
+null pointer harmlessly (guest address 0 is mapped) where the rewrite
+would crash, so impossible states show up as host crashes, not as
+differences.
 PCSX2 (`reference/research/runtime-workflow.md`) remains the check for
 behaviour that depends on hardware.
 

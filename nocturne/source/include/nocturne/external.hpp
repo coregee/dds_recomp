@@ -35,21 +35,6 @@ void SetIntReturnValue(int32_t value);
 int32_t GetMessageHandle();         // the script's message window, or negative
 } // namespace scr
 
-// Font requests (frFont): text laid out for drawing. Requests are addresses
-// of fr::Request records (nocturne/interface/message.hpp).
-namespace fr {
-// Lay out `text` (a message page) at x, y; returns the first request of the chain.
-uint32_t MessageRequest(int32_t x, int32_t y, uint8_t style, uint8_t color, uint8_t tp, uint8_t speed,
-                        uint32_t text, uint32_t font);
-uint32_t MessageRequestPlain(int32_t x, int32_t y, uint32_t text, uint32_t font);   // (0x1C9108)
-void DestroyFontRequestAfter(uint32_t request);   // returns the chain to the free list
-void BindMessageStyle(uint32_t data);
-void SetVariableRequest(int32_t index, uint32_t value);   // the string for {var index}
-void SetDrawPosition(uint32_t request, int32_t x, int32_t y);
-void SetDrawSpeed(uint32_t request, uint32_t speed);
-int64_t TestGlobalFlags(int64_t mask);            // the last layout's end-of-page flags
-} // namespace fr
-
 // Window panels (itfPanel). Panels are addresses of itf::Panel records.
 namespace itf {
 uint32_t PnlRegist2(int32_t type, uint32_t texture);
@@ -63,6 +48,19 @@ void PnlRelease(uint32_t panel);
 namespace tex {
 uint32_t Load(uint32_t name);              // (0x1CB0D8) load a .TMX file into a texture
 void DeferredRelease(uint32_t texture);    // ps2TextureDeferredRelease
+
+// A rectangle of pixels to send to video memory (ps2TextureQueueUpload).
+struct UploadRecord {
+    uint32_t pixels;
+    uint32_t unknown_04;        // not set by the font engine
+    uint8_t flags;              // 2: free the pixels once sent
+    uint8_t psm;                // pixel format (20: 4 bits per pixel)
+    uint16_t width;             // of the destination, in pixels
+    uint32_t base;              // the destination, in words
+    uint16_t x, y, w, h;
+};
+static_assert(sizeof(UploadRecord) == 24);
+void QueueUpload(const UploadRecord& record);
 } // namespace tex
 
 namespace snd {
@@ -71,10 +69,17 @@ void Play(int32_t sound, int32_t volume, int32_t pan);   // ps2SoundPlay
 
 // Movable memory blocks (sdfMemHandle).
 namespace mem {
+uint32_t PoolAllocate(int32_t size);      // ps2PoolAllocate: a small block
+void PoolRelease(uint32_t block);         // ps2PoolRelease
 uint32_t HandleAllocate(int32_t size);
 uint32_t HandleAcquirePointer(uint32_t handle);
 void HandleFree(uint32_t handle);
 } // namespace mem
+
+namespace file {
+uint32_t Load(uint32_t path);   // sdfDevLoadFile: a whole file in a new memory handle
+uint32_t Load(uint32_t path, uint32_t* data);   // ... and where it is
+} // namespace file
 
 namespace pac {
 // Turn the offsets listed in a relocation table into addresses (base + offset).
@@ -83,6 +88,7 @@ void RelocatePointers(uint32_t destination, uint32_t base, uint32_t table, uint3
 
 namespace guest {
 void callFunction(uint32_t entry);   // call original code through a function pointer
+int32_t callCommand(uint32_t entry); // a script command not rewritten yet
 } // namespace guest
 
 // Engine process table.
@@ -93,6 +99,13 @@ uint32_t GetProcessData(uint32_t process);   // the process's data, as an addres
 // end (both original code addresses).
 uint32_t StartProcess(uint32_t name, int32_t priority, int32_t startdelay, int32_t shutdowndelay,
                       uint32_t processfunc, uint32_t shutdownfunc, uint32_t data);
+int32_t GetFrameIndex();   // which of the two display buffers is being built (0x100418)
+void SetProcessData(uint32_t process, uint32_t data);
+void KillProcess(uint32_t process, int32_t delay);
+bool ExistProcess(uint32_t process);
+int32_t GetRunTime(uint32_t process);
+void FadeIn(int32_t r, int32_t g, int32_t b, int32_t frames);    // from the color
+void FadeOut(int32_t r, int32_t g, int32_t b, int32_t frames);   // to the color
 } // namespace dds3
 
 namespace evt {
@@ -142,6 +155,18 @@ enum class Message : uint32_t {
     SkillRewritten   = 0x00544170, // スキル書き換え!! (normal attack data rewritten)
     NoMessagePage    = 0x00535a80, // "itfMesMngRequestMessage() escape 1" (a message with no pages)
     NotASelection    = 0x00535aa8, // "itfMesMngRequestSelect() - Invalid Type : %d"
+    NameTranslate    = 0x00535998, // "NAME[%d] : Translate." (an entered name's glyphs loaded)
+    NameRestore      = 0x005359b0, // "NAME[%d] : Restore." (and freed)
+    ProcedureStart   = 0x0052e270, // "procedure start <%s>"
+    ProcedureEnd     = 0x0052e2b8, // "procedure end <%s>"
+    ScriptsBefore    = 0x0052e2e0, // "before = %d" (scripts running)
+    ScriptRelease    = 0x0052e2f0, // "scrAllReleaseScript <%s>"
+    ScriptKillProcess = 0x0052e310, // "dds3KillProcess"
+    ScriptReleaseWork = 0x0052e328, // "scrReleaseScript"
+    ScriptsAfter     = 0x0052e340, // "after = %d"
+    ScriptRunWithoutProcess = 0x0052f5e8, // SCR_RUN from a script without a process (EUC-JP)
+    ScriptPut        = 0x0052f588, // "put -> %d"
+    ScriptPuts       = 0x0052f5a8, // "puts -> %s"
 };
 // Integer arguments are passed sign-extended; %f arguments are ee::Double bits.
 void print(Message message, int64_t a = 0, int64_t b = 0, int64_t c = 0, int64_t d = 0, int64_t e = 0);

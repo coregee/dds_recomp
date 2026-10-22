@@ -26,6 +26,8 @@ symbol	00101af8	Function	dds3LinkProcess	Global
 symbol	00101b80	Function	dds3UnlinkProcess	Global
 symbol	00102800	Function	ps2FieldSequenceGetData_00102800	Global
 symbol	00102848	Function	ps2FieldSequenceQueue_00102848	Global
+symbol	00104d38	Function	dds3SetQuake	Global
+symbol	00104d98	Function	dds3StopQuake	Global
 symbol	00104f78	Function	dds3FadeClear	Global
 symbol	00104fa0	Function	ps2FadeSetRGBA	Global
 symbol	00104fc8	Function	dds3FadeColorSet	Global
@@ -121,14 +123,20 @@ symbol	0010b8e0	Function	scrCommand_BIT_OFF	Global
 symbol	0010b908	Function	scrCommand_RND	Global
 symbol	0010b940	Function	scrCommand_SYNC	Global
 symbol	0010b960	Function	scrCommand_WAIT	Global
+symbol	0010b9a8	Function	scrCommand_PUT	Global
+symbol	0010b9f0	Function	scrCommand_PUTS	Global
 symbol	0010ba38	Function	scrCommand_FADE_IN	Global
 symbol	0010bad8	Function	scrCommand_FADE_OUT	Global
 symbol	0010bb78	Function	scrCommand_SEL_JMP	Global
+symbol	0010bbd0	Function	scrCommand_PAD_TRIG	Global
+symbol	0010bc08	Function	scrCommand_PAD_PRESS	Global
 symbol	0010bd20	Function	scrCommand_SCR_RUN	Global
 symbol	0010bde0	Function	scrCommand_SCR_KILL	Global
 symbol	0010be28	Function	scrCommand_SCR_WAIT	Global
 symbol	0010be50	Function	scrCommand_SCR_STAT	Global
 symbol	0010be98	Function	scrCommand_SCR_TIME	Global
+symbol	0010bef8	Function	scrCommand_QUAKE_ON	Global
+symbol	0010bf38	Function	scrCommand_QUAKE_OFF	Global
 symbol	0010c510	Function	scrCommand_DIST_BLUR_PARA	Global
 symbol	0010c5f8	Function	scrCommand_DIST_BLUR_RGBA	Global
 symbol	0010c680	Function	scrCommand_DIST_BLUR_AREA	Global
@@ -1048,15 +1056,24 @@ symbol	001c6098	Function	ps2FontFindCode416	Global
 symbol	001c60e0	Function	ps2FontFindCode264	Global
 symbol	001c6128	Function	ps2FontRecordLastCode	Global
 symbol	001c6160	Function	ps2FontSetSize	Global
+symbol	001c6270	Function	frRelayoutRequest	Global
+symbol	001c6300	Function	frSetSpaceMetric	Global
 symbol	001c6338	Function	ps2FontSwapColorBytes	Global
+symbol	001c6360	Function	frConvertVal2N	Global
 symbol	001c6438	Function	ps2FontCreateDrawPacket	Global
+symbol	001c6858	Function	frLoadStyle	Global
 symbol	001c6b68	Function	ps2FontBindContext	Global
+symbol	001c6c70	Function	frDelFontStyle	Global
+symbol	001c6ce0	Function	frLoadStyleAll	Global
+symbol	001c6d30	Function	frDelStyleAll	Global
 symbol	001c6e50	Function	ps2BattleRewardPhaseRecycler_001C6E50	Global
+symbol	001c6ec8	Function	frDestroyFontRequestFade	Global
 symbol	001c6f08	Function	ps2BattleRewardPhaseRecycler_001C6F08	Global
 symbol	001c6ff8	Function	frDestroyFontRequestAfter	Global
 symbol	001c7080	Function	ps2FontGetGlyphStorageSize	Global
 symbol	001c7088	Function	ps2FontLayoutGlyph	Global
 symbol	001c7288	Function	ps2FontCreateControlGlyph	Global
+symbol	001c73b8	Function	ps2FontLinkControlGlyph	Global
 symbol	001c7408	Function	ps2FontCreateTextureGlyph	Global
 symbol	001c74e8	Function	ps2FontAllocateDecodedGlyph	Global
 symbol	001c7568	Function	ps2FontAcquireCachedGlyph	Global
@@ -1067,11 +1084,15 @@ symbol	001c7828	Function	ps2FontAppendStringCombined	Global
 symbol	001c7890	Function	ps2FontAppendString	Global
 symbol	001c7a60	Function	frSetDrawSpeed	Global
 symbol	001c7a88	Function	frSetFontSpace	Global
+symbol	001c7ab8	Function	frSetFontSize	Global
 symbol	001c7b30	Function	frSetDrawPosition	Global
 symbol	001c7b40	Function	ps2FontSetDepth	Global
+symbol	001c7b50	Function	frSetFontColNo	Global
 symbol	001c7ba8	Function	frSetFontColor	Global
 symbol	001c7c00	Function	frEnableMode	Global
 symbol	001c7c10	Function	frDisableMode	Global
+symbol	001c7c28	Function	frSetFontDrawOT	Global
+symbol	001c7c30	Function	frFadeOutText	Global
 symbol	001c7cb8	Function	frDrawEffect	Global
 symbol	001c7e00	Function	frDrawFont	Global
 symbol	001c7e18	Function	frDrawFontEx	Global
@@ -1080,19 +1101,28 @@ symbol	001c80b8	Function	ps2BattleRewardPhaseRecycler_001C80B8	Global
 symbol	001c8108	Function	ps2FontCombineRequest	Global
 symbol	001c8120	Function	frCombineFontRequestEx	Global
 symbol	001c81b8	Function	ps2FontBindMessageStyle	Global
+symbol	001c81d8	Function	frDelExtDic	Global
 symbol	001c8230	Function	ps2FontMeasureRequest	Global
+symbol	001c8268	Function	frGetChainWidth	Global
 symbol	001c83b0	Function	frGetDefaultFontWidth	Global
 symbol	001c83f0	Function	frGetFontWidth	Global
 symbol	001c8418	Function	frGetDefaultFontHeight	Global
 symbol	001c8458	Function	frGetFontHeight	Global
+symbol	001c8480	Function	frResetStepY	Global
+symbol	001c8490	Function	frSetStepY	Global
 symbol	001c8508	Function	ps2FontAppendVariable	Global
 symbol	001c86a0	Function	frCreateNewHandle	Global
 symbol	001c8730	Function	ps2FontAdvanceMessageLine	Global
 symbol	001c8758	Function	ps2FontAppendSpecialCode	Global
 symbol	001c87c8	Function	ps2FontParseMessageTag	Global
+symbol	001c8ce0	Function	frControlCodeLength	Global
+symbol	001c8d28	Function	frCopyMessageLine	Global
+symbol	001c8e48	Function	frCountMessageLines	Global
 symbol	001c8f08	Function	ps2FontParseMessage	Global
+symbol	001c9108	Function	frMessageRequestPlain	Global
 symbol	001c9140	Function	ps2FontMessageRequest	Global
 symbol	001c9188	Function	ps2FontMessageRequestEx	Global
+symbol	001c91e0	Function	frMessageRequestKeepSpace	Global
 symbol	001c9220	Function	ps2FontTestGlobalFlags	Global
 symbol	001c9230	Function	frSetVariableRequest	Global
 symbol	001c96d8	Function	ps2FontLoadNameBitmapBank	Global
@@ -1110,6 +1140,7 @@ symbol	001ca430	Function	ps2FontBuildPanelString	Global
 symbol	001ca9c0	Function	ps2FontResourceIdentity	Global
 symbol	001ca9c8	Function	ps2FontResolveCompressedSections	Global
 symbol	001caa18	Function	ps2FontDecodeGlyph	Global
+symbol	001cab38	Function	ps2PoolCreate	Global
 symbol	001cabd8	Function	ps2FontTakeGlyphSlot	Global
 symbol	001cac00	Function	ps2BattleRewardPhaseRecycler_001CAC00	Global
 symbol	001cae58	Function	itfMiscLinkInit	Global
@@ -3369,6 +3400,10 @@ function_repeatable_comment	001045b0		FUN_001045b0	Recovered missing PS2 functio
 function_repeatable_comment	001045d8		FUN_001045d8	Recovered missing PS2 function entry. Decoded negative stack adjustment; saved RA; restored RA/SP and tail jump to a known function; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
 function_repeatable_comment	00104600		FUN_00104600	Recovered missing PS2 function entry. Decoded negative stack adjustment; saved RA; restored RA/SP and tail jump to a known function; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
 function_repeatable_comment	00104628		FUN_00104628	Recovered missing PS2 function entry. Decoded negative stack adjustment; saved RA; restored RA/SP and tail jump to a known function; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
+signature	00104d38		dds3SetQuake	void dds3SetQuake(int frame, u32 range)
+variable	00104d38	a0_lo:4	frame	int
+variable	00104d38	a1_lo:4	range	u32
+signature	00104d98		dds3StopQuake	void dds3StopQuake(void)
 signature	00104f78		dds3FadeClear	void dds3FadeClear(void)
 function_repeatable_comment	00104f78		dds3FadeClear	Thirteen complete native fade clear/RGB/RGBA/direction/check/update/overlay/chain-builder/two-command bodies plus actual VM integration. Original timer/typed parameter accessors,opcode/command dispatch,work allocator,DMA chain and initialized OT append execute. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered VM/OT traces compared,with independent state/halfword/alpha/packet/linkage oracles. Finite generated inputs include dirty frame high lanes,unsigned counter wrap,both direction flags,zero-total BREAK7 and four backed context packets. Colored zero-frame FadeIn clears RGB;In2 retains it. Native update has no HD extra end-frame handling;native overlay alpha above128 is unchecked and its negative shifted word sign extends into RGBA high lanes. Connected generated fade/update/draw/VM sequences,not physical GS output,scheduler/live timing,complete gameplay or matching executable. Native RGBA setter/chain builder are descriptive aliases;no HD ColorGet identity assigned.
 signature	00104fa0		ps2FadeSetRGBA	void ps2FadeSetRGBA(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
@@ -3493,116 +3528,117 @@ function_repeatable_comment	001097b8		FUN_001097b8	Recovered missing PS2 functio
 function_repeatable_comment	001097c0		FUN_001097c0	Recovered missing PS2 function entry. ELF data words point to this decoded entry: 002fa518; leaf body has JR RA, no calls, and no epilogue requiring an external prologue; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
 function_repeatable_comment	001097c8		FUN_001097c8	Recovered missing PS2 function entry. ELF data words point to this decoded entry: 002fa51c; leaf body has JR RA, no calls, and no epilogue requiring an external prologue; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
 function_repeatable_comment	001097d0		FUN_001097d0	Recovered missing PS2 function entry. ELF data words point to this decoded entry: 002fa520; leaf body has JR RA, no calls, and no epilogue requiring an external prologue; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
-signature	001097e8		ps2ScriptDiagnosticDisabled	void ps2ScriptDiagnosticDisabled(ulonglong arg_0, ...)
+signature	001097e8		ps2ScriptDiagnosticDisabled	void ps2ScriptDiagnosticDisabled(char * format, int value)
 function_repeatable_comment	001097e8		ps2ScriptDiagnosticDisabled	Six complete original script allocation/FLW0/direct-first/startup/disabled-diagnostic bodies. Actual recovered pool, local-array, message construction/shared relocation, ownership/process and variadic printf/formatter/stream/string dependencies execute, with no game-return hooks. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. All191 indexed shipped BF files traverse five creation paths;130 synthetic creation/start-delay/WAIT/end sequences execute actual VM callbacks and ordered indirect calls. Original ninth stack argument is a sign-extended LW; F0 user data remains untouched. Diagnostic stdout uses a real bounded string-buffer FILE rather than physical console. Valid allocation extents/free message slots and returning finite backed inputs; rejection/null work allocation tested in constructors, while unconditional startup wrappers require successful construction. Script file loading, release/shutdown, full execution of shipped command programs, physical PS2 runtime and matching binary remain unproved. Native unchecked copying, aliased local-count reloads and invalid pointer behavior retained; arbitrary alias/OOM/cyclic layouts unproved.
-variable	001097e8	a0:8	arg_0	ulonglong
-signature	00109848		scrLinkScriptHandleList	void scrLinkScriptHandleList(ulonglong arg_0)
+variable	001097e8	a0_lo:4	format	char *
+variable	001097e8	a1_lo:4	value	int
+signature	00109848		scrLinkScriptHandleList	void scrLinkScriptHandleList(scrProcessWork * work)
 function_repeatable_comment	00109848		scrLinkScriptHandleList	Nine complete original script list/global-init/lookup/user-data/process-bridge bodies. Actual strcmp, pool allocators, process list/start/get-data and VM opcode/command callees execute; no game-return hooks. Full declared backed RAM, defined raw64 results, Status, CPU primitive counts, callee saves and ordered VM indirect calls compared. Fifty-three connected constructor/start-delay/WAIT/yield/end sequences exercise actual engine process ownership. Script work itself is supplied: AddScript/FLW0 construction, message lifetime, file loading, shutdown callback and scheduler dispatch of these scripts remain the next frontier. Finite backed layouts and selected process-list/name/allocation aliases only; malformed cyclic lists/unbounded programs, physical timing, PS2 runtime, matching binary and DDS execution unproved. HD managed objects, array/string/null/bounds checks and completion fields differ.
-variable	00109848	a0:8	arg_0	ulonglong
-signature	00109888		scrUnlinkScriptHandleList	void scrUnlinkScriptHandleList(ulonglong arg_0)
+variable	00109848	a0_lo:4	work	scrProcessWork *
+signature	00109888		scrUnlinkScriptHandleList	void scrUnlinkScriptHandleList(scrProcessWork * work)
 function_repeatable_comment	00109888		scrUnlinkScriptHandleList	Nine complete original script list/global-init/lookup/user-data/process-bridge bodies. Actual strcmp, pool allocators, process list/start/get-data and VM opcode/command callees execute; no game-return hooks. Full declared backed RAM, defined raw64 results, Status, CPU primitive counts, callee saves and ordered VM indirect calls compared. Fifty-three connected constructor/start-delay/WAIT/yield/end sequences exercise actual engine process ownership. Script work itself is supplied: AddScript/FLW0 construction, message lifetime, file loading, shutdown callback and scheduler dispatch of these scripts remain the next frontier. Finite backed layouts and selected process-list/name/allocation aliases only; malformed cyclic lists/unbounded programs, physical timing, PS2 runtime, matching binary and DDS execution unproved. HD managed objects, array/string/null/bounds checks and completion fields differ.
-variable	00109888	a0:8	arg_0	ulonglong
-signature	001098e0		scrAddScript	ulonglong scrAddScript(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4, ulonglong arg_5, ulonglong arg_6, ulonglong arg_7)
+variable	00109888	a0_lo:4	work	scrProcessWork *
+signature	001098e0		scrAddScript	scrProcessWork * scrAddScript(scrHeader * header, scrTypeTable * typetable, scrProcTable * proctable, scrProcTable * labeltable, scrCode * code, void * mesdata, char * stringdata, int startproc)
 function_repeatable_comment	001098e0		scrAddScript	Six complete original script allocation/FLW0/direct-first/startup/disabled-diagnostic bodies. Actual recovered pool, local-array, message construction/shared relocation, ownership/process and variadic printf/formatter/stream/string dependencies execute, with no game-return hooks. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. All191 indexed shipped BF files traverse five creation paths;130 synthetic creation/start-delay/WAIT/end sequences execute actual VM callbacks and ordered indirect calls. Original ninth stack argument is a sign-extended LW; F0 user data remains untouched. Diagnostic stdout uses a real bounded string-buffer FILE rather than physical console. Valid allocation extents/free message slots and returning finite backed inputs; rejection/null work allocation tested in constructors, while unconditional startup wrappers require successful construction. Script file loading, release/shutdown, full execution of shipped command programs, physical PS2 runtime and matching binary remain unproved. Native unchecked copying, aliased local-count reloads and invalid pointer behavior retained; arbitrary alias/OOM/cyclic layouts unproved.
-variable	001098e0	a0:8	arg_0	ulonglong
-variable	001098e0	a1:8	arg_1	ulonglong
-variable	001098e0	a2:8	arg_2	ulonglong
-variable	001098e0	a3:8	arg_3	ulonglong
-variable	001098e0	t0:8	arg_4	ulonglong
-variable	001098e0	t1:8	arg_5	ulonglong
-variable	001098e0	t2:8	arg_6	ulonglong
-variable	001098e0	t3:8	arg_7	ulonglong
-signature	00109b48		scrAddScript2	ulonglong scrAddScript2(ulonglong arg_0, ulonglong arg_1)
+variable	001098e0	a0_lo:4	header	scrHeader *
+variable	001098e0	a1_lo:4	typetable	scrTypeTable *
+variable	001098e0	a2_lo:4	proctable	scrProcTable *
+variable	001098e0	a3_lo:4	labeltable	scrProcTable *
+variable	001098e0	t0_lo:4	code	scrCode *
+variable	001098e0	t1_lo:4	mesdata	void *
+variable	001098e0	t2_lo:4	stringdata	char *
+variable	001098e0	t3_lo:4	startproc	int
+signature	00109b48		scrAddScript2	scrProcessWork * scrAddScript2(scrHeader * data, int startproc)
 function_repeatable_comment	00109b48		scrAddScript2	Six complete original script allocation/FLW0/direct-first/startup/disabled-diagnostic bodies. Actual recovered pool, local-array, message construction/shared relocation, ownership/process and variadic printf/formatter/stream/string dependencies execute, with no game-return hooks. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. All191 indexed shipped BF files traverse five creation paths;130 synthetic creation/start-delay/WAIT/end sequences execute actual VM callbacks and ordered indirect calls. Original ninth stack argument is a sign-extended LW; F0 user data remains untouched. Diagnostic stdout uses a real bounded string-buffer FILE rather than physical console. Valid allocation extents/free message slots and returning finite backed inputs; rejection/null work allocation tested in constructors, while unconditional startup wrappers require successful construction. Script file loading, release/shutdown, full execution of shipped command programs, physical PS2 runtime and matching binary remain unproved. Native unchecked copying, aliased local-count reloads and invalid pointer behavior retained; arbitrary alias/OOM/cyclic layouts unproved.
-variable	00109b48	a0:8	arg_0	ulonglong
-variable	00109b48	a1:8	arg_1	ulonglong
-signature	00109c58		scrAddScript3	ulonglong scrAddScript3(ulonglong arg_0, ulonglong arg_1)
+variable	00109b48	a0_lo:4	data	scrHeader *
+variable	00109b48	a1_lo:4	startproc	int
+signature	00109c58		scrAddScript3	scrProcessWork * scrAddScript3(char * path, int startproc)
 function_repeatable_comment	00109c58		scrAddScript3	Nine complete native blocking completion/open/close/read/size, file-handle load and file-backed script creation/start bodies. Original BF sector bytes, original DDT, actual unchanged infinite archive worker, callbacks, command/queue, CD/RPC/response, pool/memory handle, construction/printf/process dependencies execute. Worker pauses at its next kernel wait and resumes by re-entry for each blocking command; external scheduling observation, not physical thread timing. Media event trace records destination and sector length; entire RAM and independent input/output hashes check bytes. No game/library return hooks. Returning backed archive paths; generic devices, malformed/OOM graphs, runtime and matching executable unproved.
-variable	00109c58	a0:8	arg_0	ulonglong
-variable	00109c58	a1:8	arg_1	ulonglong
-signature	00109cb8		scrStartScriptProcess	ulonglong scrStartScriptProcess(ulonglong arg_0, ulonglong arg_1)
+variable	00109c58	a0_lo:4	path	char *
+variable	00109c58	a1_lo:4	startproc	int
+signature	00109cb8		scrStartScriptProcess	u32 scrStartScriptProcess(int priority, scrProcessWork * work)
 function_repeatable_comment	00109cb8		scrStartScriptProcess	Nine complete original script list/global-init/lookup/user-data/process-bridge bodies. Actual strcmp, pool allocators, process list/start/get-data and VM opcode/command callees execute; no game-return hooks. Full declared backed RAM, defined raw64 results, Status, CPU primitive counts, callee saves and ordered VM indirect calls compared. Fifty-three connected constructor/start-delay/WAIT/yield/end sequences exercise actual engine process ownership. Script work itself is supplied: AddScript/FLW0 construction, message lifetime, file loading, shutdown callback and scheduler dispatch of these scripts remain the next frontier. Finite backed layouts and selected process-list/name/allocation aliases only; malformed cyclic lists/unbounded programs, physical timing, PS2 runtime, matching binary and DDS execution unproved. HD managed objects, array/string/null/bounds checks and completion fields differ.
-variable	00109cb8	a0:8	arg_0	ulonglong
-variable	00109cb8	a1:8	arg_1	ulonglong
+variable	00109cb8	a0_lo:4	priority	int
+variable	00109cb8	a1_lo:4	work	scrProcessWork *
 signature	00109d10		scrInitGlobalWork	void scrInitGlobalWork(void)
 function_repeatable_comment	00109d10		scrInitGlobalWork	Nine complete original script list/global-init/lookup/user-data/process-bridge bodies. Actual strcmp, pool allocators, process list/start/get-data and VM opcode/command callees execute; no game-return hooks. Full declared backed RAM, defined raw64 results, Status, CPU primitive counts, callee saves and ordered VM indirect calls compared. Fifty-three connected constructor/start-delay/WAIT/yield/end sequences exercise actual engine process ownership. Script work itself is supplied: AddScript/FLW0 construction, message lifetime, file loading, shutdown callback and scheduler dispatch of these scripts remain the next frontier. Finite backed layouts and selected process-list/name/allocation aliases only; malformed cyclic lists/unbounded programs, physical timing, PS2 runtime, matching binary and DDS execution unproved. HD managed objects, array/string/null/bounds checks and completion fields differ.
-signature	00109d48		scrStartScript3	ulonglong scrStartScript3(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+signature	00109d48		scrStartScript3	u32 scrStartScript3(int priority, char * path, int startproc)
 function_repeatable_comment	00109d48		scrStartScript3	Nine complete native blocking completion/open/close/read/size, file-handle load and file-backed script creation/start bodies. Original BF sector bytes, original DDT, actual unchanged infinite archive worker, callbacks, command/queue, CD/RPC/response, pool/memory handle, construction/printf/process dependencies execute. Worker pauses at its next kernel wait and resumes by re-entry for each blocking command; external scheduling observation, not physical thread timing. Media event trace records destination and sector length; entire RAM and independent input/output hashes check bytes. No game/library return hooks. Returning backed archive paths; generic devices, malformed/OOM graphs, runtime and matching executable unproved.
-variable	00109d48	a0:8	arg_0	ulonglong
-variable	00109d48	a1:8	arg_1	ulonglong
-variable	00109d48	a2:8	arg_2	ulonglong
-signature	00109d98		scrStartScript2	ulonglong scrStartScript2(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	00109d48	a0_lo:4	priority	int
+variable	00109d48	a1_lo:4	path	char *
+variable	00109d48	a2_lo:4	startproc	int
+signature	00109d98		scrStartScript2	u32 scrStartScript2(int priority, scrHeader * data, int startproc)
 function_repeatable_comment	00109d98		scrStartScript2	Six complete original script allocation/FLW0/direct-first/startup/disabled-diagnostic bodies. Actual recovered pool, local-array, message construction/shared relocation, ownership/process and variadic printf/formatter/stream/string dependencies execute, with no game-return hooks. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. All191 indexed shipped BF files traverse five creation paths;130 synthetic creation/start-delay/WAIT/end sequences execute actual VM callbacks and ordered indirect calls. Original ninth stack argument is a sign-extended LW; F0 user data remains untouched. Diagnostic stdout uses a real bounded string-buffer FILE rather than physical console. Valid allocation extents/free message slots and returning finite backed inputs; rejection/null work allocation tested in constructors, while unconditional startup wrappers require successful construction. Script file loading, release/shutdown, full execution of shipped command programs, physical PS2 runtime and matching binary remain unproved. Native unchecked copying, aliased local-count reloads and invalid pointer behavior retained; arbitrary alias/OOM/cyclic layouts unproved.
-variable	00109d98	a0:8	arg_0	ulonglong
-variable	00109d98	a1:8	arg_1	ulonglong
-variable	00109d98	a2:8	arg_2	ulonglong
-signature	00109de8		scrStartScript1a	ulonglong scrStartScript1a(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4, ulonglong arg_5, ulonglong arg_6, ulonglong arg_7, uint arg_8)
+variable	00109d98	a0_lo:4	priority	int
+variable	00109d98	a1_lo:4	data	scrHeader *
+variable	00109d98	a2_lo:4	startproc	int
+signature	00109de8		scrStartScript1a	u32 scrStartScript1a(int priority, scrHeader * header, scrTypeTable * typetable, scrProcTable * proctable, scrProcTable * labeltable, scrCode * code, void * mesdata, char * stringdata, int startproc)
 function_repeatable_comment	00109de8		scrStartScript1a	Six complete original script allocation/FLW0/direct-first/startup/disabled-diagnostic bodies. Actual recovered pool, local-array, message construction/shared relocation, ownership/process and variadic printf/formatter/stream/string dependencies execute, with no game-return hooks. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. All191 indexed shipped BF files traverse five creation paths;130 synthetic creation/start-delay/WAIT/end sequences execute actual VM callbacks and ordered indirect calls. Original ninth stack argument is a sign-extended LW; F0 user data remains untouched. Diagnostic stdout uses a real bounded string-buffer FILE rather than physical console. Valid allocation extents/free message slots and returning finite backed inputs; rejection/null work allocation tested in constructors, while unconditional startup wrappers require successful construction. Script file loading, release/shutdown, full execution of shipped command programs, physical PS2 runtime and matching binary remain unproved. Native unchecked copying, aliased local-count reloads and invalid pointer behavior retained; arbitrary alias/OOM/cyclic layouts unproved.
-variable	00109de8	a0:8	arg_0	ulonglong
-variable	00109de8	a1:8	arg_1	ulonglong
-variable	00109de8	a2:8	arg_2	ulonglong
-variable	00109de8	a3:8	arg_3	ulonglong
-variable	00109de8	t0:8	arg_4	ulonglong
-variable	00109de8	t1:8	arg_5	ulonglong
-variable	00109de8	t2:8	arg_6	ulonglong
-variable	00109de8	t3:8	arg_7	ulonglong
-variable	00109de8	Stack[0x0]:4	arg_8	uint
-signature	00109e38		ps2ScriptAddFirst	ulonglong ps2ScriptAddFirst(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4, ulonglong arg_5, ulonglong arg_6)
+variable	00109de8	a0_lo:4	priority	int
+variable	00109de8	a1_lo:4	header	scrHeader *
+variable	00109de8	a2_lo:4	typetable	scrTypeTable *
+variable	00109de8	a3_lo:4	proctable	scrProcTable *
+variable	00109de8	t0_lo:4	labeltable	scrProcTable *
+variable	00109de8	t1_lo:4	code	scrCode *
+variable	00109de8	t2_lo:4	mesdata	void *
+variable	00109de8	t3_lo:4	stringdata	char *
+variable	00109de8	Stack[0x0]:4	startproc	int
+signature	00109e38		ps2ScriptAddFirst	scrProcessWork * ps2ScriptAddFirst(scrHeader * header, scrTypeTable * typetable, scrProcTable * proctable, scrProcTable * labeltable, scrCode * code, void * mesdata, char * stringdata)
 function_repeatable_comment	00109e38		ps2ScriptAddFirst	Six complete original script allocation/FLW0/direct-first/startup/disabled-diagnostic bodies. Actual recovered pool, local-array, message construction/shared relocation, ownership/process and variadic printf/formatter/stream/string dependencies execute, with no game-return hooks. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. All191 indexed shipped BF files traverse five creation paths;130 synthetic creation/start-delay/WAIT/end sequences execute actual VM callbacks and ordered indirect calls. Original ninth stack argument is a sign-extended LW; F0 user data remains untouched. Diagnostic stdout uses a real bounded string-buffer FILE rather than physical console. Valid allocation extents/free message slots and returning finite backed inputs; rejection/null work allocation tested in constructors, while unconditional startup wrappers require successful construction. Script file loading, release/shutdown, full execution of shipped command programs, physical PS2 runtime and matching binary remain unproved. Native unchecked copying, aliased local-count reloads and invalid pointer behavior retained; arbitrary alias/OOM/cyclic layouts unproved.
-variable	00109e38	a0:8	arg_0	ulonglong
-variable	00109e38	a1:8	arg_1	ulonglong
-variable	00109e38	a2:8	arg_2	ulonglong
-variable	00109e38	a3:8	arg_3	ulonglong
-variable	00109e38	t0:8	arg_4	ulonglong
-variable	00109e38	t1:8	arg_5	ulonglong
-variable	00109e38	t2:8	arg_6	ulonglong
-signature	00109e50		scrReleaseScript	void scrReleaseScript(ulonglong arg_0)
+variable	00109e38	a0_lo:4	header	scrHeader *
+variable	00109e38	a1_lo:4	typetable	scrTypeTable *
+variable	00109e38	a2_lo:4	proctable	scrProcTable *
+variable	00109e38	a3_lo:4	labeltable	scrProcTable *
+variable	00109e38	t0_lo:4	code	scrCode *
+variable	00109e38	t1_lo:4	mesdata	void *
+variable	00109e38	t2_lo:4	stringdata	char *
+signature	00109e50		scrReleaseScript	void scrReleaseScript(scrProcessWork * work)
 function_repeatable_comment	00109e50		scrReleaseScript	Thirteen complete PS2 context/font splice/recycle, panel, message/selection/window/32-variable/manager cleanup and script release/all-release/shutdown bodies. Actual recovered memory-handle coalescing, pool release, field initializers, lists, process removal and shutdown callback, printf/formatter and creation dependencies execute. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. Original BF inputs traverse actual construction before release; populated ownership fixtures exercise real font recycling, handle coalescing, optional allocations, mixed owned/unowned script lists and repeat null-work shutdown. HD provides semantic roles only: managed offsets/ownership and font positioning differ. Returning finite backed ownership graphs; arbitrary invalid/cyclic pointers, exhaustive alias/OOM states, shipped VM execution, physical hardware and matching executable remain unproved. Diagnostic output uses the actual formatter with a bounded string-buffer FILE.
-variable	00109e50	a0:8	arg_0	ulonglong
-signature	00109f08		scrAllReleaseScript	ulonglong scrAllReleaseScript(void)
+variable	00109e50	a0_lo:4	work	scrProcessWork *
+signature	00109f08		scrAllReleaseScript	void scrAllReleaseScript(void)
 function_repeatable_comment	00109f08		scrAllReleaseScript	Thirteen complete PS2 context/font splice/recycle, panel, message/selection/window/32-variable/manager cleanup and script release/all-release/shutdown bodies. Actual recovered memory-handle coalescing, pool release, field initializers, lists, process removal and shutdown callback, printf/formatter and creation dependencies execute. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. Original BF inputs traverse actual construction before release; populated ownership fixtures exercise real font recycling, handle coalescing, optional allocations, mixed owned/unowned script lists and repeat null-work shutdown. HD provides semantic roles only: managed offsets/ownership and font positioning differ. Returning finite backed ownership graphs; arbitrary invalid/cyclic pointers, exhaustive alias/OOM states, shipped VM execution, physical hardware and matching executable remain unproved. Diagnostic output uses the actual formatter with a bounded string-buffer FILE.
-signature	0010a078		scrSearchScriptName	ulonglong scrSearchScriptName(ulonglong arg_0)
+signature	0010a078		scrSearchScriptName	scrProcessWork * scrSearchScriptName(char * name)
 function_repeatable_comment	0010a078		scrSearchScriptName	Nine complete original script list/global-init/lookup/user-data/process-bridge bodies. Actual strcmp, pool allocators, process list/start/get-data and VM opcode/command callees execute; no game-return hooks. Full declared backed RAM, defined raw64 results, Status, CPU primitive counts, callee saves and ordered VM indirect calls compared. Fifty-three connected constructor/start-delay/WAIT/yield/end sequences exercise actual engine process ownership. Script work itself is supplied: AddScript/FLW0 construction, message lifetime, file loading, shutdown callback and scheduler dispatch of these scripts remain the next frontier. Finite backed layouts and selected process-list/name/allocation aliases only; malformed cyclic lists/unbounded programs, physical timing, PS2 runtime, matching binary and DDS execution unproved. HD managed objects, array/string/null/bounds checks and completion fields differ.
-variable	0010a078	a0:8	arg_0	ulonglong
-signature	0010a0d0		scrSearchProcedureName	ulonglong scrSearchProcedureName(ulonglong arg_0, ulonglong arg_1)
+variable	0010a078	a0_lo:4	name	char *
+signature	0010a0d0		scrSearchProcedureName	int scrSearchProcedureName(scrHeader * data, char * name)
 function_repeatable_comment	0010a0d0		scrSearchProcedureName	Nine complete original script list/global-init/lookup/user-data/process-bridge bodies. Actual strcmp, pool allocators, process list/start/get-data and VM opcode/command callees execute; no game-return hooks. Full declared backed RAM, defined raw64 results, Status, CPU primitive counts, callee saves and ordered VM indirect calls compared. Fifty-three connected constructor/start-delay/WAIT/yield/end sequences exercise actual engine process ownership. Script work itself is supplied: AddScript/FLW0 construction, message lifetime, file loading, shutdown callback and scheduler dispatch of these scripts remain the next frontier. Finite backed layouts and selected process-list/name/allocation aliases only; malformed cyclic lists/unbounded programs, physical timing, PS2 runtime, matching binary and DDS execution unproved. HD managed objects, array/string/null/bounds checks and completion fields differ.
-variable	0010a0d0	a0:8	arg_0	ulonglong
-variable	0010a0d0	a1:8	arg_1	ulonglong
-signature	0010a1c8		scrSetUserData	void scrSetUserData(ulonglong arg_0, ulonglong arg_1)
+variable	0010a0d0	a0_lo:4	data	scrHeader *
+variable	0010a0d0	a1_lo:4	name	char *
+signature	0010a1c8		scrSetUserData	void scrSetUserData(u32 process, u32 data)
 function_repeatable_comment	0010a1c8		scrSetUserData	Nine complete original script list/global-init/lookup/user-data/process-bridge bodies. Actual strcmp, pool allocators, process list/start/get-data and VM opcode/command callees execute; no game-return hooks. Full declared backed RAM, defined raw64 results, Status, CPU primitive counts, callee saves and ordered VM indirect calls compared. Fifty-three connected constructor/start-delay/WAIT/yield/end sequences exercise actual engine process ownership. Script work itself is supplied: AddScript/FLW0 construction, message lifetime, file loading, shutdown callback and scheduler dispatch of these scripts remain the next frontier. Finite backed layouts and selected process-list/name/allocation aliases only; malformed cyclic lists/unbounded programs, physical timing, PS2 runtime, matching binary and DDS execution unproved. HD managed objects, array/string/null/bounds checks and completion fields differ.
-variable	0010a1c8	a0:8	arg_0	ulonglong
-variable	0010a1c8	a1:8	arg_1	ulonglong
-signature	0010a1f0		ps2ScriptGetUserData	ulonglong ps2ScriptGetUserData(ulonglong arg_0)
+variable	0010a1c8	a0_lo:4	process	u32
+variable	0010a1c8	a1_lo:4	data	u32
+signature	0010a1f0		ps2ScriptGetUserData	u32 ps2ScriptGetUserData(u32 process)
 function_repeatable_comment	0010a1f0		ps2ScriptGetUserData	Nine complete original script list/global-init/lookup/user-data/process-bridge bodies. Actual strcmp, pool allocators, process list/start/get-data and VM opcode/command callees execute; no game-return hooks. Full declared backed RAM, defined raw64 results, Status, CPU primitive counts, callee saves and ordered VM indirect calls compared. Fifty-three connected constructor/start-delay/WAIT/yield/end sequences exercise actual engine process ownership. Script work itself is supplied: AddScript/FLW0 construction, message lifetime, file loading, shutdown callback and scheduler dispatch of these scripts remain the next frontier. Finite backed layouts and selected process-list/name/allocation aliases only; malformed cyclic lists/unbounded programs, physical timing, PS2 runtime, matching binary and DDS execution unproved. HD managed objects, array/string/null/bounds checks and completion fields differ.
-variable	0010a1f0	a0:8	arg_0	ulonglong
-signature	0010a210		scrScriptShutdown	void scrScriptShutdown(ulonglong arg_0)
+variable	0010a1f0	a0_lo:4	process	u32
+signature	0010a210		scrScriptShutdown	void scrScriptShutdown(u32 process)
 function_repeatable_comment	0010a210		scrScriptShutdown	Thirteen complete PS2 context/font splice/recycle, panel, message/selection/window/32-variable/manager cleanup and script release/all-release/shutdown bodies. Actual recovered memory-handle coalescing, pool release, field initializers, lists, process removal and shutdown callback, printf/formatter and creation dependencies execute. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. Original BF inputs traverse actual construction before release; populated ownership fixtures exercise real font recycling, handle coalescing, optional allocations, mixed owned/unowned script lists and repeat null-work shutdown. HD provides semantic roles only: managed offsets/ownership and font positioning differ. Returning finite backed ownership graphs; arbitrary invalid/cyclic pointers, exhaustive alias/OOM states, shipped VM execution, physical hardware and matching executable remain unproved. Diagnostic output uses the actual formatter with a bounded string-buffer FILE.
-variable	0010a210	a0:8	arg_0	ulonglong
-signature	0010a268		scrScriptProcess	ulonglong scrScriptProcess(ulonglong arg_0)
+variable	0010a210	a0_lo:4	process	u32
+signature	0010a268		scrScriptProcess	int scrScriptProcess(u32 process)
 function_repeatable_comment	0010a268		scrScriptProcess	Nine complete original script list/global-init/lookup/user-data/process-bridge bodies. Actual strcmp, pool allocators, process list/start/get-data and VM opcode/command callees execute; no game-return hooks. Full declared backed RAM, defined raw64 results, Status, CPU primitive counts, callee saves and ordered VM indirect calls compared. Fifty-three connected constructor/start-delay/WAIT/yield/end sequences exercise actual engine process ownership. Script work itself is supplied: AddScript/FLW0 construction, message lifetime, file loading, shutdown callback and scheduler dispatch of these scripts remain the next frontier. Finite backed layouts and selected process-list/name/allocation aliases only; malformed cyclic lists/unbounded programs, physical timing, PS2 runtime, matching binary and DDS execution unproved. HD managed objects, array/string/null/bounds checks and completion fields differ.
-variable	0010a268	a0:8	arg_0	ulonglong
-signature	0010a2c0		scrPushInt	void scrPushInt(ulonglong arg_0, ulonglong arg_1)
+variable	0010a268	a0_lo:4	process	u32
+signature	0010a2c0		scrPushInt	void scrPushInt(scrProcessWork * work, int value)
 function_repeatable_comment	0010a2c0		scrPushInt	Twenty-two new complete stack/variable/procedure routines plus connected execution through the existing trace loop.64 cases per entry;full declared packed VM RAM,defined raw64/f0 result,Status,callee saves,ordered actual indirect targets/arguments.Original35-entry opcode table and switch/command tables retained;actual recovered dependencies execute,no game-return substitutions.Mixed a0/f12 raw-bit interface reviewed.Float conversions use the validated value-only EE RTZ primitive;FCSR effects excluded.Backed negative indices,modular/high-lane arguments,selected overlapping layouts,underflow float pop and finite complete programs tested;arbitrary malformed/unbounded scripts,all arithmetic opcodes/commands,physical PS2 runtime and matching executable unproved.HD managed arrays/exceptions/aborts/obfuscated fragments and string offsets differ.
-variable	0010a2c0	a0:8	arg_0	ulonglong
-variable	0010a2c0	a1:8	arg_1	ulonglong
-signature	0010a2f0		scrPushFloatBits	void scrPushFloatBits(ulonglong arg_0, uint arg_1)
+variable	0010a2c0	a0_lo:4	work	scrProcessWork *
+variable	0010a2c0	a1_lo:4	value	int
+signature	0010a2f0		scrPushFloatBits	void scrPushFloatBits(scrProcessWork * work, float value)
 function_repeatable_comment	0010a2f0		scrPushFloatBits	Twenty-two new complete stack/variable/procedure routines plus connected execution through the existing trace loop.64 cases per entry;full declared packed VM RAM,defined raw64/f0 result,Status,callee saves,ordered actual indirect targets/arguments.Original35-entry opcode table and switch/command tables retained;actual recovered dependencies execute,no game-return substitutions.Mixed a0/f12 raw-bit interface reviewed.Float conversions use the validated value-only EE RTZ primitive;FCSR effects excluded.Backed negative indices,modular/high-lane arguments,selected overlapping layouts,underflow float pop and finite complete programs tested;arbitrary malformed/unbounded scripts,all arithmetic opcodes/commands,physical PS2 runtime and matching executable unproved.HD managed arrays/exceptions/aborts/obfuscated fragments and string offsets differ.
-variable	0010a2f0	a0:8	arg_0	ulonglong
-variable	0010a2f0	f12:4	arg_1	uint
-signature	0010a320		scrPushStr	void scrPushStr(ulonglong arg_0, ulonglong arg_1)
+variable	0010a2f0	a0_lo:4	work	scrProcessWork *
+variable	0010a2f0	f12:4	value	float
+signature	0010a320		scrPushStr	void scrPushStr(scrProcessWork * work, char * value)
 function_repeatable_comment	0010a320		scrPushStr	Twenty-two new complete stack/variable/procedure routines plus connected execution through the existing trace loop.64 cases per entry;full declared packed VM RAM,defined raw64/f0 result,Status,callee saves,ordered actual indirect targets/arguments.Original35-entry opcode table and switch/command tables retained;actual recovered dependencies execute,no game-return substitutions.Mixed a0/f12 raw-bit interface reviewed.Float conversions use the validated value-only EE RTZ primitive;FCSR effects excluded.Backed negative indices,modular/high-lane arguments,selected overlapping layouts,underflow float pop and finite complete programs tested;arbitrary malformed/unbounded scripts,all arithmetic opcodes/commands,physical PS2 runtime and matching executable unproved.HD managed arrays/exceptions/aborts/obfuscated fragments and string offsets differ.
-variable	0010a320	a0:8	arg_0	ulonglong
-variable	0010a320	a1:8	arg_1	ulonglong
-signature	0010a350		scrPushRet	void scrPushRet(ulonglong arg_0, ulonglong arg_1)
+variable	0010a320	a0_lo:4	work	scrProcessWork *
+variable	0010a320	a1_lo:4	value	char *
+signature	0010a350		scrPushRet	void scrPushRet(scrProcessWork * work, int cp)
 function_repeatable_comment	0010a350		scrPushRet	Twenty-two new complete stack/variable/procedure routines plus connected execution through the existing trace loop.64 cases per entry;full declared packed VM RAM,defined raw64/f0 result,Status,callee saves,ordered actual indirect targets/arguments.Original35-entry opcode table and switch/command tables retained;actual recovered dependencies execute,no game-return substitutions.Mixed a0/f12 raw-bit interface reviewed.Float conversions use the validated value-only EE RTZ primitive;FCSR effects excluded.Backed negative indices,modular/high-lane arguments,selected overlapping layouts,underflow float pop and finite complete programs tested;arbitrary malformed/unbounded scripts,all arithmetic opcodes/commands,physical PS2 runtime and matching executable unproved.HD managed arrays/exceptions/aborts/obfuscated fragments and string offsets differ.
-variable	0010a350	a0:8	arg_0	ulonglong
-variable	0010a350	a1:8	arg_1	ulonglong
-signature	0010a380		scrPopInt	ulonglong scrPopInt(ulonglong arg_0)
+variable	0010a350	a0_lo:4	work	scrProcessWork *
+variable	0010a350	a1_lo:4	cp	int
+signature	0010a380		scrPopInt	int scrPopInt(scrProcessWork * work)
 function_repeatable_comment	0010a380		scrPopInt	Eighteen complete original VM accessors,integer pop,unary minus,command/end/goto opcodes,SYNC/WAIT/SEL_JMP and dispatch loop. All declared packed VM RAM,defined raw64/f0-word results,Status,callee saves and actual indirect target/order/arguments compared. Original opcode/command/switch tables retained. Actual recovered command/opcode callees execute,including multi-opcode end,goto,negation,wait/yield and selected-label jump;no game-return substitutes. Float returns use explicit raw f0 words;CVT value-only RTZ model excludes FCSR flags/traps. Valid backed layouts,finite script programs and recovered target subset tested;arbitrary unimplemented opcode/command targets,malformed/unbounded scripts,physical scheduling,PS2 runtime and matching executable remain unproved. HD managed layouts,bounds/null exceptions,string decoding,aborts and protected/obfuscated reference fragments differ.
-variable	0010a380	a0:8	arg_0	ulonglong
-signature	0010a458		scrPopFloatBits	uint scrPopFloatBits(ulonglong arg_0)
+variable	0010a380	a0_lo:4	work	scrProcessWork *
+signature	0010a458		scrPopFloatBits	float scrPopFloatBits(scrProcessWork * work)
 function_repeatable_comment	0010a458		scrPopFloatBits	Twenty-two new complete stack/variable/procedure routines plus connected execution through the existing trace loop.64 cases per entry;full declared packed VM RAM,defined raw64/f0 result,Status,callee saves,ordered actual indirect targets/arguments.Original35-entry opcode table and switch/command tables retained;actual recovered dependencies execute,no game-return substitutions.Mixed a0/f12 raw-bit interface reviewed.Float conversions use the validated value-only EE RTZ primitive;FCSR effects excluded.Backed negative indices,modular/high-lane arguments,selected overlapping layouts,underflow float pop and finite complete programs tested;arbitrary malformed/unbounded scripts,all arithmetic opcodes/commands,physical PS2 runtime and matching executable unproved.HD managed arrays/exceptions/aborts/obfuscated fragments and string offsets differ.
-variable	0010a458	a0:8	arg_0	ulonglong
+variable	0010a458	a0_lo:4	work	scrProcessWork *
 signature	0010a540		scrCodeFunc_PushI	ulonglong scrCodeFunc_PushI(ulonglong arg_0)
 function_repeatable_comment	0010a540		scrCodeFunc_PushI	Twenty-two new complete stack/variable/procedure routines plus connected execution through the existing trace loop.64 cases per entry;full declared packed VM RAM,defined raw64/f0 result,Status,callee saves,ordered actual indirect targets/arguments.Original35-entry opcode table and switch/command tables retained;actual recovered dependencies execute,no game-return substitutions.Mixed a0/f12 raw-bit interface reviewed.Float conversions use the validated value-only EE RTZ primitive;FCSR effects excluded.Backed negative indices,modular/high-lane arguments,selected overlapping layouts,underflow float pop and finite complete programs tested;arbitrary malformed/unbounded scripts,all arithmetic opcodes/commands,physical PS2 runtime and matching executable unproved.HD managed arrays/exceptions/aborts/obfuscated fragments and string offsets differ.
 variable	0010a540	a0:8	arg_0	ulonglong
@@ -3663,10 +3699,10 @@ variable	0010ab00	a0:8	arg_0	ulonglong
 signature	0010ab18		scrCodeFunc_Goto	ulonglong scrCodeFunc_Goto(ulonglong arg_0)
 function_repeatable_comment	0010ab18		scrCodeFunc_Goto	Eighteen complete original VM accessors,integer pop,unary minus,command/end/goto opcodes,SYNC/WAIT/SEL_JMP and dispatch loop. All declared packed VM RAM,defined raw64/f0-word results,Status,callee saves and actual indirect target/order/arguments compared. Original opcode/command/switch tables retained. Actual recovered command/opcode callees execute,including multi-opcode end,goto,negation,wait/yield and selected-label jump;no game-return substitutes. Float returns use explicit raw f0 words;CVT value-only RTZ model excludes FCSR flags/traps. Valid backed layouts,finite script programs and recovered target subset tested;arbitrary unimplemented opcode/command targets,malformed/unbounded scripts,physical scheduling,PS2 runtime and matching executable remain unproved. HD managed layouts,bounds/null exceptions,string decoding,aborts and protected/obfuscated reference fragments differ.
 variable	0010ab18	a0:8	arg_0	ulonglong
-signature	0010ab48		scrCodeFunc_2Operation	void scrCodeFunc_2Operation(ulonglong arg_0, ulonglong arg_1)
+signature	0010ab48		scrCodeFunc_2Operation	void scrCodeFunc_2Operation(scrProcessWork * work, int op)
 function_repeatable_comment	0010ab48		scrCodeFunc_2Operation	Fifteen new complete original binary/wrapper/Not/If bodies,plus connected trace programs executing all35 original opcode entries. Full declared VM RAM,defined raw64 returns,Status,callee saves on returning calls,condition bit23 and actual ordered indirect targets/arguments compared. Actual stack,softwarefloat widening/comparison and command dependencies execute;no game-return substitutions. Raw EE arithmetic/conversions use previously validated value-only primitives. Comparison preserves exponent255 signed-magnitude ordering and flushes exponent0,checked against120 published EQ/LT/LE cases plus40 false-predicate cases. Original BREAK7 on integer zero divisor observed at CPU exception boundary,without assigning a return or callee-save contract. Other FCSR flags,arbitrary malformed scripts,broader command/process execution,physical PS2 runtime and matching executable unproved.
-variable	0010ab48	a0:8	arg_0	ulonglong
-variable	0010ab48	a1:8	arg_1	ulonglong
+variable	0010ab48	a0_lo:4	work	scrProcessWork *
+variable	0010ab48	a1_lo:4	op	int
 signature	0010b030		scrCodeFunc_Add	ulonglong scrCodeFunc_Add(ulonglong arg_0)
 function_repeatable_comment	0010b030		scrCodeFunc_Add	Fifteen new complete original binary/wrapper/Not/If bodies,plus connected trace programs executing all35 original opcode entries. Full declared VM RAM,defined raw64 returns,Status,callee saves on returning calls,condition bit23 and actual ordered indirect targets/arguments compared. Actual stack,softwarefloat widening/comparison and command dependencies execute;no game-return substitutions. Raw EE arithmetic/conversions use previously validated value-only primitives. Comparison preserves exponent255 signed-magnitude ordering and flushes exponent0,checked against120 published EQ/LT/LE cases plus40 false-predicate cases. Original BREAK7 on integer zero divisor observed at CPU exception boundary,without assigning a return or callee-save contract. Other FCSR flags,arbitrary malformed scripts,broader command/process execution,physical PS2 runtime and matching executable unproved.
 variable	0010b030	a0:8	arg_0	ulonglong
@@ -3712,65 +3748,71 @@ variable	0010b428	a0:8	arg_0	ulonglong
 signature	0010b460		scrCodeFunc_If	ulonglong scrCodeFunc_If(ulonglong arg_0)
 function_repeatable_comment	0010b460		scrCodeFunc_If	Fifteen new complete original binary/wrapper/Not/If bodies,plus connected trace programs executing all35 original opcode entries. Full declared VM RAM,defined raw64 returns,Status,callee saves on returning calls,condition bit23 and actual ordered indirect targets/arguments compared. Actual stack,softwarefloat widening/comparison and command dependencies execute;no game-return substitutions. Raw EE arithmetic/conversions use previously validated value-only primitives. Comparison preserves exponent255 signed-magnitude ordering and flushes exponent0,checked against120 published EQ/LT/LE cases plus40 false-predicate cases. Original BREAK7 on integer zero divisor observed at CPU exception boundary,without assigning a return or callee-save contract. Other FCSR flags,arbitrary malformed scripts,broader command/process execution,physical PS2 runtime and matching executable unproved.
 variable	0010b460	a0:8	arg_0	ulonglong
-signature	0010b520		ps2ScriptTrace	ulonglong ps2ScriptTrace(ulonglong arg_0)
+signature	0010b520		ps2ScriptTrace	int ps2ScriptTrace(scrProcessWork * work)
 function_repeatable_comment	0010b520		ps2ScriptTrace	Fifteen new complete original binary/wrapper/Not/If bodies,plus connected trace programs executing all35 original opcode entries. Full declared VM RAM,defined raw64 returns,Status,callee saves on returning calls,condition bit23 and actual ordered indirect targets/arguments compared. Actual stack,softwarefloat widening/comparison and command dependencies execute;no game-return substitutions. Raw EE arithmetic/conversions use previously validated value-only primitives. Comparison preserves exponent255 signed-magnitude ordering and flushes exponent0,checked against120 published EQ/LT/LE cases plus40 false-predicate cases. Original BREAK7 on integer zero divisor observed at CPU exception boundary,without assigning a return or callee-save contract. Other FCSR flags,arbitrary malformed scripts,broader command/process execution,physical PS2 runtime and matching executable unproved.
-variable	0010b520	a0:8	arg_0	ulonglong
-signature	0010b5c8		scrGetIntPara	ulonglong scrGetIntPara(ulonglong arg_0)
+variable	0010b520	a0_lo:4	work	scrProcessWork *
+signature	0010b5c8		scrGetIntPara	int scrGetIntPara(int index)
 function_repeatable_comment	0010b5c8		scrGetIntPara	Six complete PS2 packed VM/movie script bodies. Actual movie play/stop/check and pool/process/decoder dependencies execute;full declared RAM,raw64 defined results,Status and ordered events compared. COP1 CVT.W.S uses the separately reviewed EE raw value model,RTZ and saturation;FCSR flags/exceptions are outside this test. All five valid tags,unknown/signed negative tags,integer sign extension,float special values,wrapped stack/global indices,raw64 arguments and setter pointer-alias reload tested. Valid backed memory and movie indices,finite external MMIO/IOP inputs;physical movie decoding,scheduler,PS2 runtime and matching binary unproved. Unity retains named VM/movie semantics but adds managed arrays/exceptions and playback state;CHKDRAW protected reference remains a symbol lead.
-variable	0010b5c8	a0:8	arg_0	ulonglong
-signature	0010b690		scrGetFloatParaBits	uint scrGetFloatParaBits(ulonglong arg_0)
+variable	0010b5c8	a0_lo:4	index	int
+signature	0010b690		scrGetFloatParaBits	float scrGetFloatParaBits(int index)
 function_repeatable_comment	0010b690		scrGetFloatParaBits	Eighteen complete original VM accessors,integer pop,unary minus,command/end/goto opcodes,SYNC/WAIT/SEL_JMP and dispatch loop. All declared packed VM RAM,defined raw64/f0-word results,Status,callee saves and actual indirect target/order/arguments compared. Original opcode/command/switch tables retained. Actual recovered command/opcode callees execute,including multi-opcode end,goto,negation,wait/yield and selected-label jump;no game-return substitutes. Float returns use explicit raw f0 words;CVT value-only RTZ model excludes FCSR flags/traps. Valid backed layouts,finite script programs and recovered target subset tested;arbitrary unimplemented opcode/command targets,malformed/unbounded scripts,physical scheduling,PS2 runtime and matching executable remain unproved. HD managed layouts,bounds/null exceptions,string decoding,aborts and protected/obfuscated reference fragments differ.
-variable	0010b690	a0:8	arg_0	ulonglong
-signature	0010b748		scrGetStrPara	ulonglong scrGetStrPara(ulonglong arg_0)
+variable	0010b690	a0_lo:4	index	int
+signature	0010b748		scrGetStrPara	char * scrGetStrPara(int index)
 function_repeatable_comment	0010b748		scrGetStrPara	Eighteen complete original VM accessors,integer pop,unary minus,command/end/goto opcodes,SYNC/WAIT/SEL_JMP and dispatch loop. All declared packed VM RAM,defined raw64/f0-word results,Status,callee saves and actual indirect target/order/arguments compared. Original opcode/command/switch tables retained. Actual recovered command/opcode callees execute,including multi-opcode end,goto,negation,wait/yield and selected-label jump;no game-return substitutes. Float returns use explicit raw f0 words;CVT value-only RTZ model excludes FCSR flags/traps. Valid backed layouts,finite script programs and recovered target subset tested;arbitrary unimplemented opcode/command targets,malformed/unbounded scripts,physical scheduling,PS2 runtime and matching executable remain unproved. HD managed layouts,bounds/null exceptions,string decoding,aborts and protected/obfuscated reference fragments differ.
-variable	0010b748	a0:8	arg_0	ulonglong
-signature	0010b790		scrSetIntReturnValue	void scrSetIntReturnValue(ulonglong arg_0)
+variable	0010b748	a0_lo:4	index	int
+signature	0010b790		scrSetIntReturnValue	void scrSetIntReturnValue(int value)
 function_repeatable_comment	0010b790		scrSetIntReturnValue	Six complete PS2 packed VM/movie script bodies. Actual movie play/stop/check and pool/process/decoder dependencies execute;full declared RAM,raw64 defined results,Status and ordered events compared. COP1 CVT.W.S uses the separately reviewed EE raw value model,RTZ and saturation;FCSR flags/exceptions are outside this test. All five valid tags,unknown/signed negative tags,integer sign extension,float special values,wrapped stack/global indices,raw64 arguments and setter pointer-alias reload tested. Valid backed memory and movie indices,finite external MMIO/IOP inputs;physical movie decoding,scheduler,PS2 runtime and matching binary unproved. Unity retains named VM/movie semantics but adds managed arrays/exceptions and playback state;CHKDRAW protected reference remains a symbol lead.
-variable	0010b790	a0:8	arg_0	ulonglong
-signature	0010b7d8		scrGetLabelCodeAddress	ulonglong scrGetLabelCodeAddress(ulonglong arg_0)
+variable	0010b790	a0_lo:4	value	int
+signature	0010b7d8		scrGetLabelCodeAddress	int scrGetLabelCodeAddress(int label)
 function_repeatable_comment	0010b7d8		scrGetLabelCodeAddress	Eighteen complete original VM accessors,integer pop,unary minus,command/end/goto opcodes,SYNC/WAIT/SEL_JMP and dispatch loop. All declared packed VM RAM,defined raw64/f0-word results,Status,callee saves and actual indirect target/order/arguments compared. Original opcode/command/switch tables retained. Actual recovered command/opcode callees execute,including multi-opcode end,goto,negation,wait/yield and selected-label jump;no game-return substitutes. Float returns use explicit raw f0 words;CVT value-only RTZ model excludes FCSR flags/traps. Valid backed layouts,finite script programs and recovered target subset tested;arbitrary unimplemented opcode/command targets,malformed/unbounded scripts,physical scheduling,PS2 runtime and matching executable remain unproved. HD managed layouts,bounds/null exceptions,string decoding,aborts and protected/obfuscated reference fragments differ.
-variable	0010b7d8	a0:8	arg_0	ulonglong
-signature	0010b800		scrSetCodePointer	void scrSetCodePointer(ulonglong arg_0)
+variable	0010b7d8	a0_lo:4	label	int
+signature	0010b800		scrSetCodePointer	void scrSetCodePointer(int cp)
 function_repeatable_comment	0010b800		scrSetCodePointer	Eighteen complete original VM accessors,integer pop,unary minus,command/end/goto opcodes,SYNC/WAIT/SEL_JMP and dispatch loop. All declared packed VM RAM,defined raw64/f0-word results,Status,callee saves and actual indirect target/order/arguments compared. Original opcode/command/switch tables retained. Actual recovered command/opcode callees execute,including multi-opcode end,goto,negation,wait/yield and selected-label jump;no game-return substitutes. Float returns use explicit raw f0 words;CVT value-only RTZ model excludes FCSR flags/traps. Valid backed layouts,finite script programs and recovered target subset tested;arbitrary unimplemented opcode/command targets,malformed/unbounded scripts,physical scheduling,PS2 runtime and matching executable remain unproved. HD managed layouts,bounds/null exceptions,string decoding,aborts and protected/obfuscated reference fragments differ.
-variable	0010b800	a0:8	arg_0	ulonglong
-signature	0010b820		scrGetCommandTimer	ulonglong scrGetCommandTimer(void)
+variable	0010b800	a0_lo:4	cp	int
+signature	0010b820		scrGetCommandTimer	int scrGetCommandTimer(void)
 function_repeatable_comment	0010b820		scrGetCommandTimer	Eighteen complete original VM accessors,integer pop,unary minus,command/end/goto opcodes,SYNC/WAIT/SEL_JMP and dispatch loop. All declared packed VM RAM,defined raw64/f0-word results,Status,callee saves and actual indirect target/order/arguments compared. Original opcode/command/switch tables retained. Actual recovered command/opcode callees execute,including multi-opcode end,goto,negation,wait/yield and selected-label jump;no game-return substitutes. Float returns use explicit raw f0 words;CVT value-only RTZ model excludes FCSR flags/traps. Valid backed layouts,finite script programs and recovered target subset tested;arbitrary unimplemented opcode/command targets,malformed/unbounded scripts,physical scheduling,PS2 runtime and matching executable remain unproved. HD managed layouts,bounds/null exceptions,string decoding,aborts and protected/obfuscated reference fragments differ.
-signature	0010b830		scrGetMessageHandle	ulonglong scrGetMessageHandle(void)
+signature	0010b830		scrGetMessageHandle	int scrGetMessageHandle(void)
 function_repeatable_comment	0010b830		scrGetMessageHandle	Eighteen complete original VM accessors,integer pop,unary minus,command/end/goto opcodes,SYNC/WAIT/SEL_JMP and dispatch loop. All declared packed VM RAM,defined raw64/f0-word results,Status,callee saves and actual indirect target/order/arguments compared. Original opcode/command/switch tables retained. Actual recovered command/opcode callees execute,including multi-opcode end,goto,negation,wait/yield and selected-label jump;no game-return substitutes. Float returns use explicit raw f0 words;CVT value-only RTZ model excludes FCSR flags/traps. Valid backed layouts,finite script programs and recovered target subset tested;arbitrary unimplemented opcode/command targets,malformed/unbounded scripts,physical scheduling,PS2 runtime and matching executable remain unproved. HD managed layouts,bounds/null exceptions,string decoding,aborts and protected/obfuscated reference fragments differ.
-signature	0010b840		scrGetScriptHandle	ulonglong scrGetScriptHandle(void)
+signature	0010b840		scrGetScriptHandle	scrProcessWork * scrGetScriptHandle(void)
 function_repeatable_comment	0010b840		scrGetScriptHandle	Eighteen complete original VM accessors,integer pop,unary minus,command/end/goto opcodes,SYNC/WAIT/SEL_JMP and dispatch loop. All declared packed VM RAM,defined raw64/f0-word results,Status,callee saves and actual indirect target/order/arguments compared. Original opcode/command/switch tables retained. Actual recovered command/opcode callees execute,including multi-opcode end,goto,negation,wait/yield and selected-label jump;no game-return substitutes. Float returns use explicit raw f0 words;CVT value-only RTZ model excludes FCSR flags/traps. Valid backed layouts,finite script programs and recovered target subset tested;arbitrary unimplemented opcode/command targets,malformed/unbounded scripts,physical scheduling,PS2 runtime and matching executable remain unproved. HD managed layouts,bounds/null exceptions,string decoding,aborts and protected/obfuscated reference fragments differ.
-signature	0010b848		scrGetData	ulonglong scrGetData(void)
+signature	0010b848		scrGetData	u32 scrGetData(void)
 function_repeatable_comment	0010b848		scrGetData	Eighteen complete original VM accessors,integer pop,unary minus,command/end/goto opcodes,SYNC/WAIT/SEL_JMP and dispatch loop. All declared packed VM RAM,defined raw64/f0-word results,Status,callee saves and actual indirect target/order/arguments compared. Original opcode/command/switch tables retained. Actual recovered command/opcode callees execute,including multi-opcode end,goto,negation,wait/yield and selected-label jump;no game-return substitutes. Float returns use explicit raw f0 words;CVT value-only RTZ model excludes FCSR flags/traps. Valid backed layouts,finite script programs and recovered target subset tested;arbitrary unimplemented opcode/command targets,malformed/unbounded scripts,physical scheduling,PS2 runtime and matching executable remain unproved. HD managed layouts,bounds/null exceptions,string decoding,aborts and protected/obfuscated reference fragments differ.
 signature	0010b858		ps2ScriptSkipRequested	ulonglong ps2ScriptSkipRequested(void)
 function_repeatable_comment	0010b858		ps2ScriptSkipRequested	Eighteen complete original VM accessors,integer pop,unary minus,command/end/goto opcodes,SYNC/WAIT/SEL_JMP and dispatch loop. All declared packed VM RAM,defined raw64/f0-word results,Status,callee saves and actual indirect target/order/arguments compared. Original opcode/command/switch tables retained. Actual recovered command/opcode callees execute,including multi-opcode end,goto,negation,wait/yield and selected-label jump;no game-return substitutes. Float returns use explicit raw f0 words;CVT value-only RTZ model excludes FCSR flags/traps. Valid backed layouts,finite script programs and recovered target subset tested;arbitrary unimplemented opcode/command targets,malformed/unbounded scripts,physical scheduling,PS2 runtime and matching executable remain unproved. HD managed layouts,bounds/null exceptions,string decoding,aborts and protected/obfuscated reference fragments differ.
-signature	0010b888		scrCommand_BIT_CHK	ulonglong scrCommand_BIT_CHK(void)
+signature	0010b888		scrCommand_BIT_CHK	int scrCommand_BIT_CHK(void)
 function_repeatable_comment	0010b888		scrCommand_BIT_CHK	Three complete native bit-command wrappers; actual parameter, event-bit, return setter, stack, command and opcode bodies execute. 384 direct observations and 128 finite VM programs compare full declared RAM, raw64 return, ordered indirect calls, Status and callee saves. Bit indexes 0..4095 and negative -1..-31 (quotient zero) are backed; other negative/out-of-range indexes and malformed/unbounded scripts are unproved. Float conversions use the existing EE value model without FCSR flags/traps. HD configuration overrides and achievement hooks are absent on PS2. Physical scheduling, PS2 runtime and matching executable remain unproved.
-signature	0010b8b8		scrCommand_BIT_ON	ulonglong scrCommand_BIT_ON(void)
+signature	0010b8b8		scrCommand_BIT_ON	int scrCommand_BIT_ON(void)
 function_repeatable_comment	0010b8b8		scrCommand_BIT_ON	Three complete native bit-command wrappers; actual parameter, event-bit, return setter, stack, command and opcode bodies execute. 384 direct observations and 128 finite VM programs compare full declared RAM, raw64 return, ordered indirect calls, Status and callee saves. Bit indexes 0..4095 and negative -1..-31 (quotient zero) are backed; other negative/out-of-range indexes and malformed/unbounded scripts are unproved. Float conversions use the existing EE value model without FCSR flags/traps. HD configuration overrides and achievement hooks are absent on PS2. Physical scheduling, PS2 runtime and matching executable remain unproved.
-signature	0010b8e0		scrCommand_BIT_OFF	ulonglong scrCommand_BIT_OFF(void)
+signature	0010b8e0		scrCommand_BIT_OFF	int scrCommand_BIT_OFF(void)
 function_repeatable_comment	0010b8e0		scrCommand_BIT_OFF	Three complete native bit-command wrappers; actual parameter, event-bit, return setter, stack, command and opcode bodies execute. 384 direct observations and 128 finite VM programs compare full declared RAM, raw64 return, ordered indirect calls, Status and callee saves. Bit indexes 0..4095 and negative -1..-31 (quotient zero) are backed; other negative/out-of-range indexes and malformed/unbounded scripts are unproved. Float conversions use the existing EE value model without FCSR flags/traps. HD configuration overrides and achievement hooks are absent on PS2. Physical scheduling, PS2 runtime and matching executable remain unproved.
-signature	0010b908		scrCommand_RND	ulonglong scrCommand_RND(void)
+signature	0010b908		scrCommand_RND	int scrCommand_RND(void)
 function_repeatable_comment	0010b908		scrCommand_RND	Twelve complete retail BF command bodies and256 synthetic connected programs. Original command/pop-count descriptors and selector call instructions checked against pinned community library; named Unity roles reviewed separately. Actual VM parameters,default RNG,target filters/scorer,summon,eligibility,sorting and bitset helpers execute. Full declared RAM,raw64 returns,Status,FCSR condition,CPU primitives,ordered libc/VM traces and returning native callee saves compared. Target wrappers retry0/0 on nonzero result and write actual bits after successful retry;failed first call changes action3/skill0 so retry returns0 early. RND uses unsigned low-word bound,real RNG then word+1 and setter;zero advances RNG before BREAK7 without a return/unwinding contract. CPU-only zero DIVU model scoped to original opcode/site;exception observer provides no game result. Constructed target/AI tables distinguished from retail defaults. Whole original BF decision execution,dynamic scheduling,physical gameplay,arithmetic FCSR flags,timing and matching binary unproved. One rolling capture;no checkpoints.
-signature	0010b940		scrCommand_SYNC	ulonglong scrCommand_SYNC(void)
+signature	0010b940		scrCommand_SYNC	int scrCommand_SYNC(void)
 function_repeatable_comment	0010b940		scrCommand_SYNC	Eighteen complete original VM accessors,integer pop,unary minus,command/end/goto opcodes,SYNC/WAIT/SEL_JMP and dispatch loop. All declared packed VM RAM,defined raw64/f0-word results,Status,callee saves and actual indirect target/order/arguments compared. Original opcode/command/switch tables retained. Actual recovered command/opcode callees execute,including multi-opcode end,goto,negation,wait/yield and selected-label jump;no game-return substitutes. Float returns use explicit raw f0 words;CVT value-only RTZ model excludes FCSR flags/traps. Valid backed layouts,finite script programs and recovered target subset tested;arbitrary unimplemented opcode/command targets,malformed/unbounded scripts,physical scheduling,PS2 runtime and matching executable remain unproved. HD managed layouts,bounds/null exceptions,string decoding,aborts and protected/obfuscated reference fragments differ.
-signature	0010b960		scrCommand_WAIT	ulonglong scrCommand_WAIT(void)
+signature	0010b960		scrCommand_WAIT	int scrCommand_WAIT(void)
 function_repeatable_comment	0010b960		scrCommand_WAIT	Eighteen complete original VM accessors,integer pop,unary minus,command/end/goto opcodes,SYNC/WAIT/SEL_JMP and dispatch loop. All declared packed VM RAM,defined raw64/f0-word results,Status,callee saves and actual indirect target/order/arguments compared. Original opcode/command/switch tables retained. Actual recovered command/opcode callees execute,including multi-opcode end,goto,negation,wait/yield and selected-label jump;no game-return substitutes. Float returns use explicit raw f0 words;CVT value-only RTZ model excludes FCSR flags/traps. Valid backed layouts,finite script programs and recovered target subset tested;arbitrary unimplemented opcode/command targets,malformed/unbounded scripts,physical scheduling,PS2 runtime and matching executable remain unproved. HD managed layouts,bounds/null exceptions,string decoding,aborts and protected/obfuscated reference fragments differ.
-signature	0010ba38		scrCommand_FADE_IN	ulonglong scrCommand_FADE_IN(void)
+signature	0010b9a8		scrCommand_PUT	int scrCommand_PUT(void)
+signature	0010b9f0		scrCommand_PUTS	int scrCommand_PUTS(void)
+signature	0010ba38		scrCommand_FADE_IN	int scrCommand_FADE_IN(void)
 function_repeatable_comment	0010ba38		scrCommand_FADE_IN	Thirteen complete native fade clear/RGB/RGBA/direction/check/update/overlay/chain-builder/two-command bodies plus actual VM integration. Original timer/typed parameter accessors,opcode/command dispatch,work allocator,DMA chain and initialized OT append execute. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered VM/OT traces compared,with independent state/halfword/alpha/packet/linkage oracles. Finite generated inputs include dirty frame high lanes,unsigned counter wrap,both direction flags,zero-total BREAK7 and four backed context packets. Colored zero-frame FadeIn clears RGB;In2 retains it. Native update has no HD extra end-frame handling;native overlay alpha above128 is unchecked and its negative shifted word sign extends into RGBA high lanes. Connected generated fade/update/draw/VM sequences,not physical GS output,scheduler/live timing,complete gameplay or matching executable. Native RGBA setter/chain builder are descriptive aliases;no HD ColorGet identity assigned.
-signature	0010bad8		scrCommand_FADE_OUT	ulonglong scrCommand_FADE_OUT(void)
+signature	0010bad8		scrCommand_FADE_OUT	int scrCommand_FADE_OUT(void)
 function_repeatable_comment	0010bad8		scrCommand_FADE_OUT	Thirteen complete native fade clear/RGB/RGBA/direction/check/update/overlay/chain-builder/two-command bodies plus actual VM integration. Original timer/typed parameter accessors,opcode/command dispatch,work allocator,DMA chain and initialized OT append execute. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered VM/OT traces compared,with independent state/halfword/alpha/packet/linkage oracles. Finite generated inputs include dirty frame high lanes,unsigned counter wrap,both direction flags,zero-total BREAK7 and four backed context packets. Colored zero-frame FadeIn clears RGB;In2 retains it. Native update has no HD extra end-frame handling;native overlay alpha above128 is unchecked and its negative shifted word sign extends into RGBA high lanes. Connected generated fade/update/draw/VM sequences,not physical GS output,scheduler/live timing,complete gameplay or matching executable. Native RGBA setter/chain builder are descriptive aliases;no HD ColorGet identity assigned.
-signature	0010bb78		scrCommand_SEL_JMP	ulonglong scrCommand_SEL_JMP(void)
+signature	0010bb78		scrCommand_SEL_JMP	int scrCommand_SEL_JMP(void)
 function_repeatable_comment	0010bb78		scrCommand_SEL_JMP	Eighteen complete original VM accessors,integer pop,unary minus,command/end/goto opcodes,SYNC/WAIT/SEL_JMP and dispatch loop. All declared packed VM RAM,defined raw64/f0-word results,Status,callee saves and actual indirect target/order/arguments compared. Original opcode/command/switch tables retained. Actual recovered command/opcode callees execute,including multi-opcode end,goto,negation,wait/yield and selected-label jump;no game-return substitutes. Float returns use explicit raw f0 words;CVT value-only RTZ model excludes FCSR flags/traps. Valid backed layouts,finite script programs and recovered target subset tested;arbitrary unimplemented opcode/command targets,malformed/unbounded scripts,physical scheduling,PS2 runtime and matching executable remain unproved. HD managed layouts,bounds/null exceptions,string decoding,aborts and protected/obfuscated reference fragments differ.
-signature	0010bd20		scrCommand_SCR_RUN	ulonglong scrCommand_SCR_RUN(void)
+signature	0010bbd0		scrCommand_PAD_TRIG	int scrCommand_PAD_TRIG(void)
+signature	0010bc08		scrCommand_PAD_PRESS	int scrCommand_PAD_PRESS(void)
+signature	0010bd20		scrCommand_SCR_RUN	int scrCommand_SCR_RUN(void)
 function_repeatable_comment	0010bd20		scrCommand_SCR_RUN	Six complete BF process command/runtime bodies. Canonical558 original416 comparisons pass through real parameter, process membership, constructors, allocator, lists, formatter and shutdown dependencies, including32 native create/wait/kill/end chains. PS2 pointer handles, priority ADDU and signed runtime retained. Descriptive process-clock alias; Unity role references exclude changed handle/priority/HD hooks. Declared semantic RAM/Status/primitive/callee-save scope; physical gameplay and full volatile frames unproved. See analysis/script-lifecycle-commands-main-direct.json.
-signature	0010bde0		scrCommand_SCR_KILL	ulonglong scrCommand_SCR_KILL(void)
+signature	0010bde0		scrCommand_SCR_KILL	int scrCommand_SCR_KILL(void)
 function_repeatable_comment	0010bde0		scrCommand_SCR_KILL	Six complete BF process command/runtime bodies. Canonical558 original416 comparisons pass through real parameter, process membership, constructors, allocator, lists, formatter and shutdown dependencies, including32 native create/wait/kill/end chains. PS2 pointer handles, priority ADDU and signed runtime retained. Descriptive process-clock alias; Unity role references exclude changed handle/priority/HD hooks. Declared semantic RAM/Status/primitive/callee-save scope; physical gameplay and full volatile frames unproved. See analysis/script-lifecycle-commands-main-direct.json.
-signature	0010be28		scrCommand_SCR_WAIT	ulonglong scrCommand_SCR_WAIT(void)
+signature	0010be28		scrCommand_SCR_WAIT	int scrCommand_SCR_WAIT(void)
 function_repeatable_comment	0010be28		scrCommand_SCR_WAIT	Six complete BF process command/runtime bodies. Canonical558 original416 comparisons pass through real parameter, process membership, constructors, allocator, lists, formatter and shutdown dependencies, including32 native create/wait/kill/end chains. PS2 pointer handles, priority ADDU and signed runtime retained. Descriptive process-clock alias; Unity role references exclude changed handle/priority/HD hooks. Declared semantic RAM/Status/primitive/callee-save scope; physical gameplay and full volatile frames unproved. See analysis/script-lifecycle-commands-main-direct.json.
-signature	0010be50		scrCommand_SCR_STAT	ulonglong scrCommand_SCR_STAT(void)
+signature	0010be50		scrCommand_SCR_STAT	int scrCommand_SCR_STAT(void)
 function_repeatable_comment	0010be50		scrCommand_SCR_STAT	Six complete BF process command/runtime bodies. Canonical558 original416 comparisons pass through real parameter, process membership, constructors, allocator, lists, formatter and shutdown dependencies, including32 native create/wait/kill/end chains. PS2 pointer handles, priority ADDU and signed runtime retained. Descriptive process-clock alias; Unity role references exclude changed handle/priority/HD hooks. Declared semantic RAM/Status/primitive/callee-save scope; physical gameplay and full volatile frames unproved. See analysis/script-lifecycle-commands-main-direct.json.
-signature	0010be98		scrCommand_SCR_TIME	ulonglong scrCommand_SCR_TIME(void)
+signature	0010be98		scrCommand_SCR_TIME	int scrCommand_SCR_TIME(void)
 function_repeatable_comment	0010be98		scrCommand_SCR_TIME	Six complete BF process command/runtime bodies. Canonical558 original416 comparisons pass through real parameter, process membership, constructors, allocator, lists, formatter and shutdown dependencies, including32 native create/wait/kill/end chains. PS2 pointer handles, priority ADDU and signed runtime retained. Descriptive process-clock alias; Unity role references exclude changed handle/priority/HD hooks. Declared semantic RAM/Status/primitive/callee-save scope; physical gameplay and full volatile frames unproved. See analysis/script-lifecycle-commands-main-direct.json.
+signature	0010bef8		scrCommand_QUAKE_ON	int scrCommand_QUAKE_ON(void)
+signature	0010bf38		scrCommand_QUAKE_OFF	int scrCommand_QUAKE_OFF(void)
 signature	0010c510		scrCommand_DIST_BLUR_PARA	ulonglong scrCommand_DIST_BLUR_PARA(void)
 function_repeatable_comment	0010c510		scrCommand_DIST_BLUR_PARA	Eleven complete original distortion command/configuration bodies. Strict staged1384 original cases /2768 C executions pass against actual560 getter dependencies. Mixed four raw64 integer and independent binary32 F12/F13/F14 input slots retained,raw NaN payloads preserved,signed64 SLTI clamp and exact44B copy ordering checked through all backed partial overlaps. Setter domain requires an existing renderer destination; allocation,frame updates,physical draw and whole child scheduling remain outside this proof. See script-distortion-C-validation.json and results-review.json. Canonical may advance; that560 proof retains its actual source/build epoch.
 signature	0010c5f8		scrCommand_DIST_BLUR_RGBA	ulonglong scrCommand_DIST_BLUR_RGBA(void)
@@ -7083,26 +7125,33 @@ signature	001b1b38		nbCameraScriptSet	void nbCameraScriptSet(ulonglong arg_0, ul
 function_repeatable_comment	001b1b38		nbCameraScriptSet	Forty-one complete native presentation/camera/formation/event/AI-change bodies under original-instruction comparison. Actual main/work/pose/quaternion/object flags/printf/VM dependencies; full declared RAM,defined returns,Status,FCSR condition,ordered traces and32 VU/ACC/overflow/Q values. Original private W words and untouched V0 upper64 are explicit read-time architectural operands,not substituted game results. Raw floats,branch paths and backed aliases tested; arbitrary invalid pointers,full VU/FPU flags,pipeline timing,physical gameplay,complete original BF scheduling and matching executable unproved. HD layouts and math grouping differ; DDS bodies need independent checks. One rolling capture;no checkpoints.
 variable	001b1b38	a0:8	arg_0	ulonglong
 variable	001b1b38	a1:8	arg_1	ulonglong
-signature	001c6018		ps2FontTakeTextureSlot	ulonglong ps2FontTakeTextureSlot(void)
+signature	001c6018		ps2FontTakeTextureSlot	frTextureCell * ps2FontTakeTextureSlot(void)
 function_repeatable_comment	001c6018		ps2FontTakeTextureSlot	Seventeen complete PS2 font bodies including actual compressed-glyph decoding and its real 0x120-byte pool allocator. Full RAM,defined raw64 returns,CPU Status/primitives and callee saves compared. Both original fixed codebooks,all table entries,missing codes,16-bit code masking,linked slot removal,style dimensions,live initializers/spacing and generated packed trees with bit offsets/refills/incomplete terminal prefixes exercised. Independent bit-string decoding verifies output/count for direct and allocation paths. All14 primary shipped font payloads additionally pass eight sampled glyphs each through both real native paths,288 output bytes per glyph. HD default dimension/text/font initializer roles differ in managed geometry/layout. No guessed decoder/callee return substitutes. Finite valid resources,pool capacity and backed lists only;zero-bit underflow/nontermination,invalid trees/cycles,OOM,exhaustive shipped glyphs,physical rendering,PS2 runtime and matching binary remain unproved.
-signature	001c6068		ps2BattleRewardPhaseRecycler_001C6068	void ps2BattleRewardPhaseRecycler_001C6068(ulonglong arg_0)
+signature	001c6068		ps2BattleRewardPhaseRecycler_001C6068	void ps2BattleRewardPhaseRecycler_001C6068(frTextureCell * cell)
 function_repeatable_comment	001c6068		ps2BattleRewardPhaseRecycler_001C6068	Complete original PS2 result BG/age/drop/nativeGS and six deferred font recycler bodies. Finite122original/244strictC worlds with3573positions including420 explicitly zero-credit selected Main3word context operations. Six genuineA060→70draw/recycler/flip sequences, real512text/2048char/252grid limits, constructors/published pointers, native raw kernel/thread/semaphore/sound/texture/glyph/cache;no outputs or service completions seeded. Full bank/declaredRAM/read-write guards. Native129C08 includes twelve low32 caller-stack fields beyond8 GPRs;typed20-arg host execution unclaimed. Original native rules prevail over HD managed UI;community item20label mismatch retained. FullMain/boot/scheduler/VSync,full24C1D0/stockEXPcommit,physicalGS/IOP/actualgameplay remain separate.
-variable	001c6068	a0:8	arg_0	ulonglong
-signature	001c6098		ps2FontFindCode416	ulonglong ps2FontFindCode416(ulonglong arg_0)
+variable	001c6068	a0_lo:4	cell	frTextureCell *
+signature	001c6098		ps2FontFindCode416	int ps2FontFindCode416(int code)
 function_repeatable_comment	001c6098		ps2FontFindCode416	Seventeen complete PS2 font bodies including actual compressed-glyph decoding and its real 0x120-byte pool allocator. Full RAM,defined raw64 returns,CPU Status/primitives and callee saves compared. Both original fixed codebooks,all table entries,missing codes,16-bit code masking,linked slot removal,style dimensions,live initializers/spacing and generated packed trees with bit offsets/refills/incomplete terminal prefixes exercised. Independent bit-string decoding verifies output/count for direct and allocation paths. All14 primary shipped font payloads additionally pass eight sampled glyphs each through both real native paths,288 output bytes per glyph. HD default dimension/text/font initializer roles differ in managed geometry/layout. No guessed decoder/callee return substitutes. Finite valid resources,pool capacity and backed lists only;zero-bit underflow/nontermination,invalid trees/cycles,OOM,exhaustive shipped glyphs,physical rendering,PS2 runtime and matching binary remain unproved.
-variable	001c6098	a0:8	arg_0	ulonglong
-signature	001c60e0		ps2FontFindCode264	ulonglong ps2FontFindCode264(ulonglong arg_0)
+variable	001c6098	a0_lo:4	code	int
+signature	001c60e0		ps2FontFindCode264	int ps2FontFindCode264(int code)
 function_repeatable_comment	001c60e0		ps2FontFindCode264	Seventeen complete PS2 font bodies including actual compressed-glyph decoding and its real 0x120-byte pool allocator. Full RAM,defined raw64 returns,CPU Status/primitives and callee saves compared. Both original fixed codebooks,all table entries,missing codes,16-bit code masking,linked slot removal,style dimensions,live initializers/spacing and generated packed trees with bit offsets/refills/incomplete terminal prefixes exercised. Independent bit-string decoding verifies output/count for direct and allocation paths. All14 primary shipped font payloads additionally pass eight sampled glyphs each through both real native paths,288 output bytes per glyph. HD default dimension/text/font initializer roles differ in managed geometry/layout. No guessed decoder/callee return substitutes. Finite valid resources,pool capacity and backed lists only;zero-bit underflow/nontermination,invalid trees/cycles,OOM,exhaustive shipped glyphs,physical rendering,PS2 runtime and matching binary remain unproved.
-variable	001c60e0	a0:8	arg_0	ulonglong
-signature	001c6128		ps2FontRecordLastCode	void ps2FontRecordLastCode(ulonglong arg_0)
+variable	001c60e0	a0_lo:4	code	int
+signature	001c6128		ps2FontRecordLastCode	void ps2FontRecordLastCode(int code)
 function_repeatable_comment	001c6128		ps2FontRecordLastCode	Seventeen complete PS2 font bodies including actual compressed-glyph decoding and its real 0x120-byte pool allocator. Full RAM,defined raw64 returns,CPU Status/primitives and callee saves compared. Both original fixed codebooks,all table entries,missing codes,16-bit code masking,linked slot removal,style dimensions,live initializers/spacing and generated packed trees with bit offsets/refills/incomplete terminal prefixes exercised. Independent bit-string decoding verifies output/count for direct and allocation paths. All14 primary shipped font payloads additionally pass eight sampled glyphs each through both real native paths,288 output bytes per glyph. HD default dimension/text/font initializer roles differ in managed geometry/layout. No guessed decoder/callee return substitutes. Finite valid resources,pool capacity and backed lists only;zero-bit underflow/nontermination,invalid trees/cycles,OOM,exhaustive shipped glyphs,physical rendering,PS2 runtime and matching binary remain unproved.
-variable	001c6128	a0:8	arg_0	ulonglong
-signature	001c6160		ps2FontSetSize	void ps2FontSetSize(ulonglong arg_0)
+variable	001c6128	a0_lo:4	code	int
+signature	001c6160		ps2FontSetSize	void ps2FontSetSize(int width)
 function_repeatable_comment	001c6160		ps2FontSetSize	Nineteen complete original stock renderer prerequisites. Actual font constructors/cache/measurement/drawing/recycle, work allocation, DMA chains, OT callbacks, dying predicate and raw COP1/VU value paths execute. Original upper GPR words at three color QMTC2 sites are observed architectural operands, not substituted game results. Raw64 arguments and original stack words preserved. Full declared RAM, Status, primitives, FCSR condition, ordered callbacks and all32 VU/ACC/overflow/Q values compared. Finite backed text, glyph cache, lists, texture and packet memory; no fabricated dependency results. Original table/coefficients retained. Stock renderer and party animation remain pending; physical rendering/gameplay, malformed unbacked text, full FPU/VU flags and matching binary unproved. HD additions/layouts differ; community engine/data research attributed. Current outputs only; no checkpoints.
-variable	001c6160	a0:8	arg_0	ulonglong
+variable	001c6160	a0_lo:4	width	int
+signature	001c6270		frRelayoutRequest	void frRelayoutRequest(frRequest * pFRQ)
+variable	001c6270	a0_lo:4	pFRQ	frRequest *
+signature	001c6300		frSetSpaceMetric	void frSetSpaceMetric(int style, int width)
+variable	001c6300	a0_lo:4	style	int
+variable	001c6300	a1_lo:4	width	int
 signature	001c6338		ps2FontSwapColorBytes	ulonglong ps2FontSwapColorBytes(ulonglong arg_0)
 function_repeatable_comment	001c6338		ps2FontSwapColorBytes	Fifteen complete native font color/packet/effect/draw wrappers,flat sprite,panel submission/state,selection marking and Message window/cursor/frame/debug bodies. Actual original OT initializer installs2ACD40/2ACD98;real chain append,state linkage,packet builders and original tables execute,without supplied game callback values. Full declared RAM,defined results,Status,primitives,callee saves and ordered submission/flush callback traces compared. Finite backed generated glyph metadata,UV/palette/texture/font/text/selection records and native phases,dirty argument lanes,wrapped geometry,byte fade and counter domains. Original fonts/pixels/BMD pages are not asserted by these generated frame fixtures. Native fade scale22/fallback24,lookahead and masks differ from HD64/no native fallback. Seven reviewed semantic HD roles;aliases forremaining bodies. Connected frame-to-ordering flush validates chain assembly,not GS execution,rendered appearance,scheduler/gameplay,exhaustive invalid/cyclic graphs or matching executable.
 variable	001c6338	a0:8	arg_0	ulonglong
+signature	001c6360		frConvertVal2N	int frConvertVal2N(u32 Val)
+variable	001c6360	a0_lo:4	Val	u32
 signature	001c6438		ps2FontCreateDrawPacket	void ps2FontCreateDrawPacket(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4, ulonglong arg_5, ulonglong arg_6, ulonglong arg_7, uint arg_8, uint arg_9, uint arg_10)
 function_repeatable_comment	001c6438		ps2FontCreateDrawPacket	Fifteen complete native font color/packet/effect/draw wrappers,flat sprite,panel submission/state,selection marking and Message window/cursor/frame/debug bodies. Actual original OT initializer installs2ACD40/2ACD98;real chain append,state linkage,packet builders and original tables execute,without supplied game callback values. Full declared RAM,defined results,Status,primitives,callee saves and ordered submission/flush callback traces compared. Finite backed generated glyph metadata,UV/palette/texture/font/text/selection records and native phases,dirty argument lanes,wrapped geometry,byte fade and counter domains. Original fonts/pixels/BMD pages are not asserted by these generated frame fixtures. Native fade scale22/fallback24,lookahead and masks differ from HD64/no native fallback. Seven reviewed semantic HD roles;aliases forremaining bodies. Connected frame-to-ordering flush validates chain assembly,not GS execution,rendered appearance,scheduler/gameplay,exhaustive invalid/cyclic graphs or matching executable.
 variable	001c6438	a0:8	arg_0	ulonglong
@@ -7116,105 +7165,128 @@ variable	001c6438	t3:8	arg_7	ulonglong
 variable	001c6438	Stack[0x0]:4	arg_8	uint
 variable	001c6438	Stack[0x8]:4	arg_9	uint
 variable	001c6438	Stack[0x10]:4	arg_10	uint
-signature	001c6b68		ps2FontBindContext	void ps2FontBindContext(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+signature	001c6858		frLoadStyle	void frLoadStyle(int style, char * name)
+variable	001c6858	a0_lo:4	style	int
+variable	001c6858	a1_lo:4	name	char *
+signature	001c6b68		ps2FontBindContext	void ps2FontBindContext(int style, frFontHeader * data, u32 handle)
 function_repeatable_comment	001c6b68		ps2FontBindContext	Nine complete PS2 binding/layout/texture/cache/glyph/control/string/combine bodies,actual font decoder/pool/texture upload/strlen/initializers/memory handle and splice dependencies. Original FNT payloads back contexts;cached references and uncached decoded pixels build real DMA chains. Full declared RAM,defined raw64 results,Status/primitives,callee saves,ordered semaphore syscall operands/results and ambient unassigned upload metadata words compared. COP1 raw register values use existing pinned EE software model,not IEEE host expressions;FCSR effects excluded. Generated bounded text/slot/cache/pool graphs,negative style persistence,byte masking,caret/two-byte/control handling,append/combined modes and native metrics. Explicit kernel-return/ambient-stack operand boundary,not scheduler simulation. Invalid/OOM/cyclic states,exhaustive text/glyphs,physical GS rendering,PS2 runtime and matching executable remain unproved.
-variable	001c6b68	a0:8	arg_0	ulonglong
-variable	001c6b68	a1:8	arg_1	ulonglong
-variable	001c6b68	a2:8	arg_2	ulonglong
-signature	001c6e50		ps2BattleRewardPhaseRecycler_001C6E50	void ps2BattleRewardPhaseRecycler_001C6E50(ulonglong arg_0)
+variable	001c6b68	a0_lo:4	style	int
+variable	001c6b68	a1_lo:4	data	frFontHeader *
+variable	001c6b68	a2_lo:4	handle	u32
+signature	001c6c70		frDelFontStyle	void frDelFontStyle(int StyleNo)
+variable	001c6c70	a0_lo:4	StyleNo	int
+signature	001c6ce0		frLoadStyleAll	void frLoadStyleAll(void)
+signature	001c6d30		frDelStyleAll	void frDelStyleAll(void)
+signature	001c6e50		ps2BattleRewardPhaseRecycler_001C6E50	void ps2BattleRewardPhaseRecycler_001C6E50(frText * pText)
 function_repeatable_comment	001c6e50		ps2BattleRewardPhaseRecycler_001C6E50	Complete original PS2 result BG/age/drop/nativeGS and six deferred font recycler bodies. Finite122original/244strictC worlds with3573positions including420 explicitly zero-credit selected Main3word context operations. Six genuineA060→70draw/recycler/flip sequences, real512text/2048char/252grid limits, constructors/published pointers, native raw kernel/thread/semaphore/sound/texture/glyph/cache;no outputs or service completions seeded. Full bank/declaredRAM/read-write guards. Native129C08 includes twelve low32 caller-stack fields beyond8 GPRs;typed20-arg host execution unclaimed. Original native rules prevail over HD managed UI;community item20label mismatch retained. FullMain/boot/scheduler/VSync,full24C1D0/stockEXPcommit,physicalGS/IOP/actualgameplay remain separate.
-variable	001c6e50	a0:8	arg_0	ulonglong
-signature	001c6f08		ps2BattleRewardPhaseRecycler_001C6F08	ulonglong ps2BattleRewardPhaseRecycler_001C6F08(ulonglong arg_0)
+variable	001c6e50	a0_lo:4	pText	frText *
+signature	001c6ec8		frDestroyFontRequestFade	frRequest * frDestroyFontRequestFade(frRequest * pFRQ)
+variable	001c6ec8	a0_lo:4	pFRQ	frRequest *
+signature	001c6f08		ps2BattleRewardPhaseRecycler_001C6F08	void ps2BattleRewardPhaseRecycler_001C6F08(frRequest * pFRQ)
 function_repeatable_comment	001c6f08		ps2BattleRewardPhaseRecycler_001C6F08	Complete original PS2 result BG/age/drop/nativeGS and six deferred font recycler bodies. Finite122original/244strictC worlds with3573positions including420 explicitly zero-credit selected Main3word context operations. Six genuineA060→70draw/recycler/flip sequences, real512text/2048char/252grid limits, constructors/published pointers, native raw kernel/thread/semaphore/sound/texture/glyph/cache;no outputs or service completions seeded. Full bank/declaredRAM/read-write guards. Native129C08 includes twelve low32 caller-stack fields beyond8 GPRs;typed20-arg host execution unclaimed. Original native rules prevail over HD managed UI;community item20label mismatch retained. FullMain/boot/scheduler/VSync,full24C1D0/stockEXPcommit,physicalGS/IOP/actualgameplay remain separate.
-variable	001c6f08	a0:8	arg_0	ulonglong
-signature	001c6ff8		frDestroyFontRequestAfter	ulonglong frDestroyFontRequestAfter(ulonglong arg_0)
+variable	001c6f08	a0_lo:4	pFRQ	frRequest *
+signature	001c6ff8		frDestroyFontRequestAfter	void frDestroyFontRequestAfter(frRequest * pFRQ)
 function_repeatable_comment	001c6ff8		frDestroyFontRequestAfter	Thirteen complete PS2 context/font splice/recycle, panel, message/selection/window/32-variable/manager cleanup and script release/all-release/shutdown bodies. Actual recovered memory-handle coalescing, pool release, field initializers, lists, process removal and shutdown callback, printf/formatter and creation dependencies execute. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. Original BF inputs traverse actual construction before release; populated ownership fixtures exercise real font recycling, handle coalescing, optional allocations, mixed owned/unowned script lists and repeat null-work shutdown. HD provides semantic roles only: managed offsets/ownership and font positioning differ. Returning finite backed ownership graphs; arbitrary invalid/cyclic pointers, exhaustive alias/OOM states, shipped VM execution, physical hardware and matching executable remain unproved. Diagnostic output uses the actual formatter with a bounded string-buffer FILE.
-variable	001c6ff8	a0:8	arg_0	ulonglong
+variable	001c6ff8	a0_lo:4	pFRQ	frRequest *
 signature	001c7080		ps2FontGetGlyphStorageSize	ulonglong ps2FontGetGlyphStorageSize(void)
 function_repeatable_comment	001c7080		ps2FontGetGlyphStorageSize	Seventeen complete PS2 font bodies including actual compressed-glyph decoding and its real 0x120-byte pool allocator. Full RAM,defined raw64 returns,CPU Status/primitives and callee saves compared. Both original fixed codebooks,all table entries,missing codes,16-bit code masking,linked slot removal,style dimensions,live initializers/spacing and generated packed trees with bit offsets/refills/incomplete terminal prefixes exercised. Independent bit-string decoding verifies output/count for direct and allocation paths. All14 primary shipped font payloads additionally pass eight sampled glyphs each through both real native paths,288 output bytes per glyph. HD default dimension/text/font initializer roles differ in managed geometry/layout. No guessed decoder/callee return substitutes. Finite valid resources,pool capacity and backed lists only;zero-bit underflow/nontermination,invalid trees/cycles,OOM,exhaustive shipped glyphs,physical rendering,PS2 runtime and matching binary remain unproved.
-signature	001c7088		ps2FontLayoutGlyph	void ps2FontLayoutGlyph(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+signature	001c7088		ps2FontLayoutGlyph	void ps2FontLayoutGlyph(frText * pText, int FontNo, int first)
 function_repeatable_comment	001c7088		ps2FontLayoutGlyph	Nine complete PS2 binding/layout/texture/cache/glyph/control/string/combine bodies,actual font decoder/pool/texture upload/strlen/initializers/memory handle and splice dependencies. Original FNT payloads back contexts;cached references and uncached decoded pixels build real DMA chains. Full declared RAM,defined raw64 results,Status/primitives,callee saves,ordered semaphore syscall operands/results and ambient unassigned upload metadata words compared. COP1 raw register values use existing pinned EE software model,not IEEE host expressions;FCSR effects excluded. Generated bounded text/slot/cache/pool graphs,negative style persistence,byte masking,caret/two-byte/control handling,append/combined modes and native metrics. Explicit kernel-return/ambient-stack operand boundary,not scheduler simulation. Invalid/OOM/cyclic states,exhaustive text/glyphs,physical GS rendering,PS2 runtime and matching executable remain unproved.
-variable	001c7088	a0:8	arg_0	ulonglong
-variable	001c7088	a1:8	arg_1	ulonglong
-variable	001c7088	a2:8	arg_2	ulonglong
-signature	001c7288		ps2FontCreateControlGlyph	ulonglong ps2FontCreateControlGlyph(ulonglong arg_0, ulonglong arg_1)
+variable	001c7088	a0_lo:4	pText	frText *
+variable	001c7088	a1_lo:4	FontNo	int
+variable	001c7088	a2_lo:4	first	int
+signature	001c7288		ps2FontCreateControlGlyph	frRequest * ps2FontCreateControlGlyph(u32 data, frRequest * pFRQ)
 function_repeatable_comment	001c7288		ps2FontCreateControlGlyph	Nine complete PS2 binding/layout/texture/cache/glyph/control/string/combine bodies,actual font decoder/pool/texture upload/strlen/initializers/memory handle and splice dependencies. Original FNT payloads back contexts;cached references and uncached decoded pixels build real DMA chains. Full declared RAM,defined raw64 results,Status/primitives,callee saves,ordered semaphore syscall operands/results and ambient unassigned upload metadata words compared. COP1 raw register values use existing pinned EE software model,not IEEE host expressions;FCSR effects excluded. Generated bounded text/slot/cache/pool graphs,negative style persistence,byte masking,caret/two-byte/control handling,append/combined modes and native metrics. Explicit kernel-return/ambient-stack operand boundary,not scheduler simulation. Invalid/OOM/cyclic states,exhaustive text/glyphs,physical GS rendering,PS2 runtime and matching executable remain unproved.
-variable	001c7288	a0:8	arg_0	ulonglong
-variable	001c7288	a1:8	arg_1	ulonglong
-signature	001c7408		ps2FontCreateTextureGlyph	ulonglong ps2FontCreateTextureGlyph(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+variable	001c7288	a0_lo:4	data	u32
+variable	001c7288	a1_lo:4	pFRQ	frRequest *
+signature	001c73b8		ps2FontLinkControlGlyph	frRequest * ps2FontLinkControlGlyph(u32 data, frRequest * pFRQ)
+variable	001c73b8	a0_lo:4	data	u32
+variable	001c73b8	a1_lo:4	pFRQ	frRequest *
+signature	001c7408		ps2FontCreateTextureGlyph	frGlyph * ps2FontCreateTextureGlyph(int width, int height, u8 * pixels, int owned)
 function_repeatable_comment	001c7408		ps2FontCreateTextureGlyph	Nine complete PS2 binding/layout/texture/cache/glyph/control/string/combine bodies,actual font decoder/pool/texture upload/strlen/initializers/memory handle and splice dependencies. Original FNT payloads back contexts;cached references and uncached decoded pixels build real DMA chains. Full declared RAM,defined raw64 results,Status/primitives,callee saves,ordered semaphore syscall operands/results and ambient unassigned upload metadata words compared. COP1 raw register values use existing pinned EE software model,not IEEE host expressions;FCSR effects excluded. Generated bounded text/slot/cache/pool graphs,negative style persistence,byte masking,caret/two-byte/control handling,append/combined modes and native metrics. Explicit kernel-return/ambient-stack operand boundary,not scheduler simulation. Invalid/OOM/cyclic states,exhaustive text/glyphs,physical GS rendering,PS2 runtime and matching executable remain unproved.
-variable	001c7408	a0:8	arg_0	ulonglong
-variable	001c7408	a1:8	arg_1	ulonglong
-variable	001c7408	a2:8	arg_2	ulonglong
-variable	001c7408	a3:8	arg_3	ulonglong
-signature	001c74e8		ps2FontAllocateDecodedGlyph	ulonglong ps2FontAllocateDecodedGlyph(ulonglong arg_0, ulonglong arg_1)
+variable	001c7408	a0_lo:4	width	int
+variable	001c7408	a1_lo:4	height	int
+variable	001c7408	a2_lo:4	pixels	u8 *
+variable	001c7408	a3_lo:4	owned	int
+signature	001c74e8		ps2FontAllocateDecodedGlyph	u8 * ps2FontAllocateDecodedGlyph(int style, int index)
 function_repeatable_comment	001c74e8		ps2FontAllocateDecodedGlyph	Seventeen complete PS2 font bodies including actual compressed-glyph decoding and its real 0x120-byte pool allocator. Full RAM,defined raw64 returns,CPU Status/primitives and callee saves compared. Both original fixed codebooks,all table entries,missing codes,16-bit code masking,linked slot removal,style dimensions,live initializers/spacing and generated packed trees with bit offsets/refills/incomplete terminal prefixes exercised. Independent bit-string decoding verifies output/count for direct and allocation paths. All14 primary shipped font payloads additionally pass eight sampled glyphs each through both real native paths,288 output bytes per glyph. HD default dimension/text/font initializer roles differ in managed geometry/layout. No guessed decoder/callee return substitutes. Finite valid resources,pool capacity and backed lists only;zero-bit underflow/nontermination,invalid trees/cycles,OOM,exhaustive shipped glyphs,physical rendering,PS2 runtime and matching binary remain unproved.
-variable	001c74e8	a0:8	arg_0	ulonglong
-variable	001c74e8	a1:8	arg_1	ulonglong
-signature	001c7568		ps2FontAcquireCachedGlyph	ulonglong ps2FontAcquireCachedGlyph(ulonglong arg_0, ulonglong arg_1)
+variable	001c74e8	a0_lo:4	style	int
+variable	001c74e8	a1_lo:4	index	int
+signature	001c7568		ps2FontAcquireCachedGlyph	frGlyph * ps2FontAcquireCachedGlyph(frText * pText, int index)
 function_repeatable_comment	001c7568		ps2FontAcquireCachedGlyph	Nine complete PS2 binding/layout/texture/cache/glyph/control/string/combine bodies,actual font decoder/pool/texture upload/strlen/initializers/memory handle and splice dependencies. Original FNT payloads back contexts;cached references and uncached decoded pixels build real DMA chains. Full declared RAM,defined raw64 results,Status/primitives,callee saves,ordered semaphore syscall operands/results and ambient unassigned upload metadata words compared. COP1 raw register values use existing pinned EE software model,not IEEE host expressions;FCSR effects excluded. Generated bounded text/slot/cache/pool graphs,negative style persistence,byte masking,caret/two-byte/control handling,append/combined modes and native metrics. Explicit kernel-return/ambient-stack operand boundary,not scheduler simulation. Invalid/OOM/cyclic states,exhaustive text/glyphs,physical GS rendering,PS2 runtime and matching executable remain unproved.
-variable	001c7568	a0:8	arg_0	ulonglong
-variable	001c7568	a1:8	arg_1	ulonglong
-signature	001c7660		frInitTextHandle	void frInitTextHandle(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4, ulonglong arg_5)
+variable	001c7568	a0_lo:4	pText	frText *
+variable	001c7568	a1_lo:4	index	int
+signature	001c7660		frInitTextHandle	void frInitTextHandle(frText * pText, int Code, int Style, int ColNo, u32 Color, int Tp)
 function_repeatable_comment	001c7660		frInitTextHandle	Seventeen complete PS2 font bodies including actual compressed-glyph decoding and its real 0x120-byte pool allocator. Full RAM,defined raw64 returns,CPU Status/primitives and callee saves compared. Both original fixed codebooks,all table entries,missing codes,16-bit code masking,linked slot removal,style dimensions,live initializers/spacing and generated packed trees with bit offsets/refills/incomplete terminal prefixes exercised. Independent bit-string decoding verifies output/count for direct and allocation paths. All14 primary shipped font payloads additionally pass eight sampled glyphs each through both real native paths,288 output bytes per glyph. HD default dimension/text/font initializer roles differ in managed geometry/layout. No guessed decoder/callee return substitutes. Finite valid resources,pool capacity and backed lists only;zero-bit underflow/nontermination,invalid trees/cycles,OOM,exhaustive shipped glyphs,physical rendering,PS2 runtime and matching binary remain unproved.
-variable	001c7660	a0:8	arg_0	ulonglong
-variable	001c7660	a1:8	arg_1	ulonglong
-variable	001c7660	a2:8	arg_2	ulonglong
-variable	001c7660	a3:8	arg_3	ulonglong
-variable	001c7660	t0:8	arg_4	ulonglong
-variable	001c7660	t1:8	arg_5	ulonglong
-signature	001c76a8		frInitFontHandle	void frInitFontHandle(ulonglong arg_0)
+variable	001c7660	a0_lo:4	pText	frText *
+variable	001c7660	a1_lo:4	Code	int
+variable	001c7660	a2_lo:4	Style	int
+variable	001c7660	a3_lo:4	ColNo	int
+variable	001c7660	t0_lo:4	Color	u32
+variable	001c7660	t1_lo:4	Tp	int
+signature	001c76a8		frInitFontHandle	void frInitFontHandle(frRequest * pFRQ)
 function_repeatable_comment	001c76a8		frInitFontHandle	Seventeen complete PS2 font bodies including actual compressed-glyph decoding and its real 0x120-byte pool allocator. Full RAM,defined raw64 returns,CPU Status/primitives and callee saves compared. Both original fixed codebooks,all table entries,missing codes,16-bit code masking,linked slot removal,style dimensions,live initializers/spacing and generated packed trees with bit offsets/refills/incomplete terminal prefixes exercised. Independent bit-string decoding verifies output/count for direct and allocation paths. All14 primary shipped font payloads additionally pass eight sampled glyphs each through both real native paths,288 output bytes per glyph. HD default dimension/text/font initializer roles differ in managed geometry/layout. No guessed decoder/callee return substitutes. Finite valid resources,pool capacity and backed lists only;zero-bit underflow/nontermination,invalid trees/cycles,OOM,exhaustive shipped glyphs,physical rendering,PS2 runtime and matching binary remain unproved.
-variable	001c76a8	a0:8	arg_0	ulonglong
-signature	001c76e0		ps2FontCreateTextGlyph	ulonglong ps2FontCreateTextGlyph(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4)
+variable	001c76a8	a0_lo:4	pFRQ	frRequest *
+signature	001c76e0		ps2FontCreateTextGlyph	frText * ps2FontCreateTextGlyph(int Code, int Style, int ColNo, int Tp, int first)
 function_repeatable_comment	001c76e0		ps2FontCreateTextGlyph	Nine complete PS2 binding/layout/texture/cache/glyph/control/string/combine bodies,actual font decoder/pool/texture upload/strlen/initializers/memory handle and splice dependencies. Original FNT payloads back contexts;cached references and uncached decoded pixels build real DMA chains. Full declared RAM,defined raw64 results,Status/primitives,callee saves,ordered semaphore syscall operands/results and ambient unassigned upload metadata words compared. COP1 raw register values use existing pinned EE software model,not IEEE host expressions;FCSR effects excluded. Generated bounded text/slot/cache/pool graphs,negative style persistence,byte masking,caret/two-byte/control handling,append/combined modes and native metrics. Explicit kernel-return/ambient-stack operand boundary,not scheduler simulation. Invalid/OOM/cyclic states,exhaustive text/glyphs,physical GS rendering,PS2 runtime and matching executable remain unproved.
-variable	001c76e0	a0:8	arg_0	ulonglong
-variable	001c76e0	a1:8	arg_1	ulonglong
-variable	001c76e0	a2:8	arg_2	ulonglong
-variable	001c76e0	a3:8	arg_3	ulonglong
-variable	001c76e0	t0:8	arg_4	ulonglong
-signature	001c7828		ps2FontAppendStringCombined	ulonglong ps2FontAppendStringCombined(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4)
+variable	001c76e0	a0_lo:4	Code	int
+variable	001c76e0	a1_lo:4	Style	int
+variable	001c76e0	a2_lo:4	ColNo	int
+variable	001c76e0	a3_lo:4	Tp	int
+variable	001c76e0	t0_lo:4	first	int
+signature	001c7828		ps2FontAppendStringCombined	frRequest * ps2FontAppendStringCombined(char * pStr, int Style, int ColNo, int Tp, frRequest * pFRQ)
 function_repeatable_comment	001c7828		ps2FontAppendStringCombined	Nine complete PS2 binding/layout/texture/cache/glyph/control/string/combine bodies,actual font decoder/pool/texture upload/strlen/initializers/memory handle and splice dependencies. Original FNT payloads back contexts;cached references and uncached decoded pixels build real DMA chains. Full declared RAM,defined raw64 results,Status/primitives,callee saves,ordered semaphore syscall operands/results and ambient unassigned upload metadata words compared. COP1 raw register values use existing pinned EE software model,not IEEE host expressions;FCSR effects excluded. Generated bounded text/slot/cache/pool graphs,negative style persistence,byte masking,caret/two-byte/control handling,append/combined modes and native metrics. Explicit kernel-return/ambient-stack operand boundary,not scheduler simulation. Invalid/OOM/cyclic states,exhaustive text/glyphs,physical GS rendering,PS2 runtime and matching executable remain unproved.
-variable	001c7828	a0:8	arg_0	ulonglong
-variable	001c7828	a1:8	arg_1	ulonglong
-variable	001c7828	a2:8	arg_2	ulonglong
-variable	001c7828	a3:8	arg_3	ulonglong
-variable	001c7828	t0:8	arg_4	ulonglong
-signature	001c7890		ps2FontAppendString	ulonglong ps2FontAppendString(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4, ulonglong arg_5)
+variable	001c7828	a0_lo:4	pStr	char *
+variable	001c7828	a1_lo:4	Style	int
+variable	001c7828	a2_lo:4	ColNo	int
+variable	001c7828	a3_lo:4	Tp	int
+variable	001c7828	t0_lo:4	pFRQ	frRequest *
+signature	001c7890		ps2FontAppendString	frRequest * ps2FontAppendString(char * pStr, int Style, int ColNo, int Tp, frRequest * pFRQ, int first)
 function_repeatable_comment	001c7890		ps2FontAppendString	Nine complete PS2 binding/layout/texture/cache/glyph/control/string/combine bodies,actual font decoder/pool/texture upload/strlen/initializers/memory handle and splice dependencies. Original FNT payloads back contexts;cached references and uncached decoded pixels build real DMA chains. Full declared RAM,defined raw64 results,Status/primitives,callee saves,ordered semaphore syscall operands/results and ambient unassigned upload metadata words compared. COP1 raw register values use existing pinned EE software model,not IEEE host expressions;FCSR effects excluded. Generated bounded text/slot/cache/pool graphs,negative style persistence,byte masking,caret/two-byte/control handling,append/combined modes and native metrics. Explicit kernel-return/ambient-stack operand boundary,not scheduler simulation. Invalid/OOM/cyclic states,exhaustive text/glyphs,physical GS rendering,PS2 runtime and matching executable remain unproved.
-variable	001c7890	a0:8	arg_0	ulonglong
-variable	001c7890	a1:8	arg_1	ulonglong
-variable	001c7890	a2:8	arg_2	ulonglong
-variable	001c7890	a3:8	arg_3	ulonglong
-variable	001c7890	t0:8	arg_4	ulonglong
-variable	001c7890	t1:8	arg_5	ulonglong
-signature	001c7a60		frSetDrawSpeed	void frSetDrawSpeed(ulonglong arg_0, ulonglong arg_1)
+variable	001c7890	a0_lo:4	pStr	char *
+variable	001c7890	a1_lo:4	Style	int
+variable	001c7890	a2_lo:4	ColNo	int
+variable	001c7890	a3_lo:4	Tp	int
+variable	001c7890	t0_lo:4	pFRQ	frRequest *
+variable	001c7890	t1_lo:4	first	int
+signature	001c7a60		frSetDrawSpeed	void frSetDrawSpeed(frRequest * pFRQ, int Speed)
 function_repeatable_comment	001c7a60		frSetDrawSpeed	Eighteen complete PS2 bodies, including two window commands and real release/initialization/font recycling dependencies. Full declared RAM,defined raw64 results,Status,CPU primitives,callee saves and ordered VM targets compared. Finite backed linked requests,phase combinations,negative command IDs,byte-speed domain,signed counts/high lanes,overlapping copies and record aliases exercised. HD provides semantic identities,not byte or layout identity;managed guards,localization and UI differ. Message command0 and font creation/parser/rendering remain unresolved. No full gameplay,PS2 runtime or matching binary claim.
-variable	001c7a60	a0:8	arg_0	ulonglong
-variable	001c7a60	a1:8	arg_1	ulonglong
-signature	001c7a88		frSetFontSpace	void frSetFontSpace(ulonglong arg_0, ulonglong arg_1)
+variable	001c7a60	a0_lo:4	pFRQ	frRequest *
+variable	001c7a60	a1_lo:4	Speed	int
+signature	001c7a88		frSetFontSpace	void frSetFontSpace(frRequest * pFRQ, int Space)
 function_repeatable_comment	001c7a88		frSetFontSpace	Ten complete native font parser prerequisites: spacing/depth/mode,style-eight binding,deferred newline/position,variable and special-code append,resource-name reconstruction. Actual font/text/pool/decoder/DMA/strlen/memset/initializer/splice dependencies execute. Original fourteen FNT payloads,generated bounded messages/names/variable strings and selected message/text aliases,including one explicit unchecked low-RAM failure-state path. Full RAM/raw64 results/Status/primitives/callee saves,ordered semaphore and ambient texture metadata operands compared. COP1 raw register values use pinned EE model;FCSR excluded. Syscall-return values and ambient stack words are explicit inputs. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering,PS2 runtime and matching executable remain unproved. Main parser and bank bitmap helpers remain unrecovered.
-variable	001c7a88	a0:8	arg_0	ulonglong
-variable	001c7a88	a1:8	arg_1	ulonglong
-signature	001c7b30		frSetDrawPosition	void frSetDrawPosition(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	001c7a88	a0_lo:4	pFRQ	frRequest *
+variable	001c7a88	a1_lo:4	Space	int
+signature	001c7ab8		frSetFontSize	void frSetFontSize(frRequest * pFRQ, int width, int height)
+variable	001c7ab8	a0_lo:4	pFRQ	frRequest *
+variable	001c7ab8	a1_lo:4	width	int
+variable	001c7ab8	a2_lo:4	height	int
+signature	001c7b30		frSetDrawPosition	void frSetDrawPosition(frRequest * pFRQ, int X, int Y)
 function_repeatable_comment	001c7b30		frSetDrawPosition	Eighteen complete PS2 bodies, including two window commands and real release/initialization/font recycling dependencies. Full declared RAM,defined raw64 results,Status,CPU primitives,callee saves and ordered VM targets compared. Finite backed linked requests,phase combinations,negative command IDs,byte-speed domain,signed counts/high lanes,overlapping copies and record aliases exercised. HD provides semantic identities,not byte or layout identity;managed guards,localization and UI differ. Message command0 and font creation/parser/rendering remain unresolved. No full gameplay,PS2 runtime or matching binary claim.
-variable	001c7b30	a0:8	arg_0	ulonglong
-variable	001c7b30	a1:8	arg_1	ulonglong
-variable	001c7b30	a2:8	arg_2	ulonglong
-signature	001c7b40		ps2FontSetDepth	void ps2FontSetDepth(ulonglong arg_0, ulonglong arg_1)
+variable	001c7b30	a0_lo:4	pFRQ	frRequest *
+variable	001c7b30	a1_lo:4	X	int
+variable	001c7b30	a2_lo:4	Y	int
+signature	001c7b40		ps2FontSetDepth	void ps2FontSetDepth(frRequest * pFRQ, u32 Pri)
 function_repeatable_comment	001c7b40		ps2FontSetDepth	Ten complete native font parser prerequisites: spacing/depth/mode,style-eight binding,deferred newline/position,variable and special-code append,resource-name reconstruction. Actual font/text/pool/decoder/DMA/strlen/memset/initializer/splice dependencies execute. Original fourteen FNT payloads,generated bounded messages/names/variable strings and selected message/text aliases,including one explicit unchecked low-RAM failure-state path. Full RAM/raw64 results/Status/primitives/callee saves,ordered semaphore and ambient texture metadata operands compared. COP1 raw register values use pinned EE model;FCSR excluded. Syscall-return values and ambient stack words are explicit inputs. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering,PS2 runtime and matching executable remain unproved. Main parser and bank bitmap helpers remain unrecovered.
-variable	001c7b40	a0:8	arg_0	ulonglong
-variable	001c7b40	a1:8	arg_1	ulonglong
-signature	001c7ba8		frSetFontColor	void frSetFontColor(ulonglong arg_0, ulonglong arg_1)
+variable	001c7b40	a0_lo:4	pFRQ	frRequest *
+variable	001c7b40	a1_lo:4	Pri	u32
+signature	001c7b50		frSetFontColNo	void frSetFontColNo(frRequest * pFRQ, int ColNo)
+variable	001c7b50	a0_lo:4	pFRQ	frRequest *
+variable	001c7b50	a1_lo:4	ColNo	int
+signature	001c7ba8		frSetFontColor	void frSetFontColor(frRequest * pFRQ, u32 Color)
 function_repeatable_comment	001c7ba8		frSetFontColor	Nineteen complete original stock renderer prerequisites. Actual font constructors/cache/measurement/drawing/recycle, work allocation, DMA chains, OT callbacks, dying predicate and raw COP1/VU value paths execute. Original upper GPR words at three color QMTC2 sites are observed architectural operands, not substituted game results. Raw64 arguments and original stack words preserved. Full declared RAM, Status, primitives, FCSR condition, ordered callbacks and all32 VU/ACC/overflow/Q values compared. Finite backed text, glyph cache, lists, texture and packet memory; no fabricated dependency results. Original table/coefficients retained. Stock renderer and party animation remain pending; physical rendering/gameplay, malformed unbacked text, full FPU/VU flags and matching binary unproved. HD additions/layouts differ; community engine/data research attributed. Current outputs only; no checkpoints.
-variable	001c7ba8	a0:8	arg_0	ulonglong
-variable	001c7ba8	a1:8	arg_1	ulonglong
-signature	001c7c00		frEnableMode	ulonglong frEnableMode(ulonglong arg_0)
+variable	001c7ba8	a0_lo:4	pFRQ	frRequest *
+variable	001c7ba8	a1_lo:4	Color	u32
+signature	001c7c00		frEnableMode	int frEnableMode(int Flag)
 function_repeatable_comment	001c7c00		frEnableMode	Ten complete native font parser prerequisites: spacing/depth/mode,style-eight binding,deferred newline/position,variable and special-code append,resource-name reconstruction. Actual font/text/pool/decoder/DMA/strlen/memset/initializer/splice dependencies execute. Original fourteen FNT payloads,generated bounded messages/names/variable strings and selected message/text aliases,including one explicit unchecked low-RAM failure-state path. Full RAM/raw64 results/Status/primitives/callee saves,ordered semaphore and ambient texture metadata operands compared. COP1 raw register values use pinned EE model;FCSR excluded. Syscall-return values and ambient stack words are explicit inputs. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering,PS2 runtime and matching executable remain unproved. Main parser and bank bitmap helpers remain unrecovered.
-variable	001c7c00	a0:8	arg_0	ulonglong
-signature	001c7c10		frDisableMode	ulonglong frDisableMode(ulonglong arg_0)
+variable	001c7c00	a0_lo:4	Flag	int
+signature	001c7c10		frDisableMode	int frDisableMode(int Flag)
 function_repeatable_comment	001c7c10		frDisableMode	Ten complete native font parser prerequisites: spacing/depth/mode,style-eight binding,deferred newline/position,variable and special-code append,resource-name reconstruction. Actual font/text/pool/decoder/DMA/strlen/memset/initializer/splice dependencies execute. Original fourteen FNT payloads,generated bounded messages/names/variable strings and selected message/text aliases,including one explicit unchecked low-RAM failure-state path. Full RAM/raw64 results/Status/primitives/callee saves,ordered semaphore and ambient texture metadata operands compared. COP1 raw register values use pinned EE model;FCSR excluded. Syscall-return values and ambient stack words are explicit inputs. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering,PS2 runtime and matching executable remain unproved. Main parser and bank bitmap helpers remain unrecovered.
-variable	001c7c10	a0:8	arg_0	ulonglong
+variable	001c7c10	a0_lo:4	Flag	int
+signature	001c7c28		frSetFontDrawOT	void frSetFontDrawOT(u32 OtType)
+variable	001c7c28	a0_lo:4	OtType	u32
+signature	001c7c30		frFadeOutText	int frFadeOutText(frRequest * pFRQ)
+variable	001c7c30	a0_lo:4	pFRQ	frRequest *
 signature	001c7cb8		frDrawEffect	ulonglong frDrawEffect(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
 function_repeatable_comment	001c7cb8		frDrawEffect	Fifteen complete native font color/packet/effect/draw wrappers,flat sprite,panel submission/state,selection marking and Message window/cursor/frame/debug bodies. Actual original OT initializer installs2ACD40/2ACD98;real chain append,state linkage,packet builders and original tables execute,without supplied game callback values. Full declared RAM,defined results,Status,primitives,callee saves and ordered submission/flush callback traces compared. Finite backed generated glyph metadata,UV/palette/texture/font/text/selection records and native phases,dirty argument lanes,wrapped geometry,byte fade and counter domains. Original fonts/pixels/BMD pages are not asserted by these generated frame fixtures. Native fade scale22/fallback24,lookahead and masks differ from HD64/no native fallback. Seven reviewed semantic HD roles;aliases forremaining bodies. Connected frame-to-ordering flush validates chain assembly,not GS execution,rendered appearance,scheduler/gameplay,exhaustive invalid/cyclic graphs or matching executable.
 variable	001c7cb8	a0:8	arg_0	ulonglong
@@ -7235,123 +7307,151 @@ variable	001c7e38	a1:8	arg_1	ulonglong
 variable	001c7e38	a2:8	arg_2	ulonglong
 signature	001c80b8		ps2BattleRewardPhaseRecycler_001C80B8	ulonglong ps2BattleRewardPhaseRecycler_001C80B8(void)
 function_repeatable_comment	001c80b8		ps2BattleRewardPhaseRecycler_001C80B8	Complete original PS2 result BG/age/drop/nativeGS and six deferred font recycler bodies. Finite122original/244strictC worlds with3573positions including420 explicitly zero-credit selected Main3word context operations. Six genuineA060→70draw/recycler/flip sequences, real512text/2048char/252grid limits, constructors/published pointers, native raw kernel/thread/semaphore/sound/texture/glyph/cache;no outputs or service completions seeded. Full bank/declaredRAM/read-write guards. Native129C08 includes twelve low32 caller-stack fields beyond8 GPRs;typed20-arg host execution unclaimed. Original native rules prevail over HD managed UI;community item20label mismatch retained. FullMain/boot/scheduler/VSync,full24C1D0/stockEXPcommit,physicalGS/IOP/actualgameplay remain separate.
-signature	001c8108		ps2FontCombineRequest	ulonglong ps2FontCombineRequest(ulonglong arg_0, ulonglong arg_1)
+signature	001c8108		ps2FontCombineRequest	frRequest * ps2FontCombineRequest(frRequest * pFRQ1, frRequest * pFRQ2)
 function_repeatable_comment	001c8108		ps2FontCombineRequest	Nine complete PS2 binding/layout/texture/cache/glyph/control/string/combine bodies,actual font decoder/pool/texture upload/strlen/initializers/memory handle and splice dependencies. Original FNT payloads back contexts;cached references and uncached decoded pixels build real DMA chains. Full declared RAM,defined raw64 results,Status/primitives,callee saves,ordered semaphore syscall operands/results and ambient unassigned upload metadata words compared. COP1 raw register values use existing pinned EE software model,not IEEE host expressions;FCSR effects excluded. Generated bounded text/slot/cache/pool graphs,negative style persistence,byte masking,caret/two-byte/control handling,append/combined modes and native metrics. Explicit kernel-return/ambient-stack operand boundary,not scheduler simulation. Invalid/OOM/cyclic states,exhaustive text/glyphs,physical GS rendering,PS2 runtime and matching executable remain unproved.
-variable	001c8108	a0:8	arg_0	ulonglong
-variable	001c8108	a1:8	arg_1	ulonglong
-signature	001c8120		frCombineFontRequestEx	ulonglong frCombineFontRequestEx(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	001c8108	a0_lo:4	pFRQ1	frRequest *
+variable	001c8108	a1_lo:4	pFRQ2	frRequest *
+signature	001c8120		frCombineFontRequestEx	frRequest * frCombineFontRequestEx(frRequest * pFRQ1, frRequest * pFRQ2, u32 Mode)
 function_repeatable_comment	001c8120		frCombineFontRequestEx	Thirteen complete PS2 context/font splice/recycle, panel, message/selection/window/32-variable/manager cleanup and script release/all-release/shutdown bodies. Actual recovered memory-handle coalescing, pool release, field initializers, lists, process removal and shutdown callback, printf/formatter and creation dependencies execute. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. Original BF inputs traverse actual construction before release; populated ownership fixtures exercise real font recycling, handle coalescing, optional allocations, mixed owned/unowned script lists and repeat null-work shutdown. HD provides semantic roles only: managed offsets/ownership and font positioning differ. Returning finite backed ownership graphs; arbitrary invalid/cyclic pointers, exhaustive alias/OOM states, shipped VM execution, physical hardware and matching executable remain unproved. Diagnostic output uses the actual formatter with a bounded string-buffer FILE.
-variable	001c8120	a0:8	arg_0	ulonglong
-variable	001c8120	a1:8	arg_1	ulonglong
-variable	001c8120	a2:8	arg_2	ulonglong
-signature	001c81b8		ps2FontBindMessageStyle	void ps2FontBindMessageStyle(ulonglong arg_0)
+variable	001c8120	a0_lo:4	pFRQ1	frRequest *
+variable	001c8120	a1_lo:4	pFRQ2	frRequest *
+variable	001c8120	a2_lo:4	Mode	u32
+signature	001c81b8		ps2FontBindMessageStyle	void ps2FontBindMessageStyle(frFontHeader * pExtFontData)
 function_repeatable_comment	001c81b8		ps2FontBindMessageStyle	Ten complete native font parser prerequisites: spacing/depth/mode,style-eight binding,deferred newline/position,variable and special-code append,resource-name reconstruction. Actual font/text/pool/decoder/DMA/strlen/memset/initializer/splice dependencies execute. Original fourteen FNT payloads,generated bounded messages/names/variable strings and selected message/text aliases,including one explicit unchecked low-RAM failure-state path. Full RAM/raw64 results/Status/primitives/callee saves,ordered semaphore and ambient texture metadata operands compared. COP1 raw register values use pinned EE model;FCSR excluded. Syscall-return values and ambient stack words are explicit inputs. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering,PS2 runtime and matching executable remain unproved. Main parser and bank bitmap helpers remain unrecovered.
-variable	001c81b8	a0:8	arg_0	ulonglong
-signature	001c8230		ps2FontMeasureRequest	ulonglong ps2FontMeasureRequest(ulonglong arg_0)
+variable	001c81b8	a0_lo:4	pExtFontData	frFontHeader *
+signature	001c81d8		frDelExtDic	void frDelExtDic(void)
+signature	001c8230		ps2FontMeasureRequest	int ps2FontMeasureRequest(frRequest * pFRQ)
 function_repeatable_comment	001c8230		ps2FontMeasureRequest	Seventeen complete PS2 font bodies including actual compressed-glyph decoding and its real 0x120-byte pool allocator. Full RAM,defined raw64 returns,CPU Status/primitives and callee saves compared. Both original fixed codebooks,all table entries,missing codes,16-bit code masking,linked slot removal,style dimensions,live initializers/spacing and generated packed trees with bit offsets/refills/incomplete terminal prefixes exercised. Independent bit-string decoding verifies output/count for direct and allocation paths. All14 primary shipped font payloads additionally pass eight sampled glyphs each through both real native paths,288 output bytes per glyph. HD default dimension/text/font initializer roles differ in managed geometry/layout. No guessed decoder/callee return substitutes. Finite valid resources,pool capacity and backed lists only;zero-bit underflow/nontermination,invalid trees/cycles,OOM,exhaustive shipped glyphs,physical rendering,PS2 runtime and matching binary remain unproved.
-variable	001c8230	a0:8	arg_0	ulonglong
-function_repeatable_comment	001c8268		FUN_001c8268	[Nocturne StatusPairs private bank contract]\nSource-derived candidate; no behavioral admission or public prototype claim.\nInteger entry slots (raw low64): ["a0"]; resident FP inputs: none identified.\nAll actual CPU/FPR/VU/HI-LO/Status/FCSR/RAM effects and native RA/SP continuation remain part of the private bank contract. GP, saved registers and native frame contents remain context inputs.\nRole: Text-chain sum: text+2C lines, line+1C characters, character+C advance and signed line spacing+1; final MOVE V0,A2.\nCandidate V0 projection: signed32_width (64-bit carrier). This does not declare a scalar ABI.\nExternal services may stop execution; no kernel/IOP completion is supplied.\nEvidence: analysis/battle-status-pairs-helper-contracts.json; ELF member words SHA256=dabc102aa1684847d66ac647782590431f9185ead9acbbea3c02e6107c17c3da.\n[/Nocturne StatusPairs private bank contract]
-signature	001c83b0		frGetDefaultFontWidth	ulonglong frGetDefaultFontWidth(ulonglong arg_0)
+variable	001c8230	a0_lo:4	pFRQ	frRequest *
+signature	001c8268		frGetChainWidth	int frGetChainWidth(frRequest * pFRQ)
+function_repeatable_comment	001c8268		frGetChainWidth	[Nocturne StatusPairs private bank contract]\nSource-derived candidate; no behavioral admission or public prototype claim.\nInteger entry slots (raw low64): ["a0"]; resident FP inputs: none identified.\nAll actual CPU/FPR/VU/HI-LO/Status/FCSR/RAM effects and native RA/SP continuation remain part of the private bank contract. GP, saved registers and native frame contents remain context inputs.\nRole: Text-chain sum: text+2C lines, line+1C characters, character+C advance and signed line spacing+1; final MOVE V0,A2.\nCandidate V0 projection: signed32_width (64-bit carrier). This does not declare a scalar ABI.\nExternal services may stop execution; no kernel/IOP completion is supplied.\nEvidence: analysis/battle-status-pairs-helper-contracts.json; ELF member words SHA256=dabc102aa1684847d66ac647782590431f9185ead9acbbea3c02e6107c17c3da.\n[/Nocturne StatusPairs private bank contract]
+variable	001c8268	a0_lo:4	pFRQ	frRequest *
+signature	001c83b0		frGetDefaultFontWidth	int frGetDefaultFontWidth(int Style)
 function_repeatable_comment	001c83b0		frGetDefaultFontWidth	Seventeen complete PS2 font bodies including actual compressed-glyph decoding and its real 0x120-byte pool allocator. Full RAM,defined raw64 returns,CPU Status/primitives and callee saves compared. Both original fixed codebooks,all table entries,missing codes,16-bit code masking,linked slot removal,style dimensions,live initializers/spacing and generated packed trees with bit offsets/refills/incomplete terminal prefixes exercised. Independent bit-string decoding verifies output/count for direct and allocation paths. All14 primary shipped font payloads additionally pass eight sampled glyphs each through both real native paths,288 output bytes per glyph. HD default dimension/text/font initializer roles differ in managed geometry/layout. No guessed decoder/callee return substitutes. Finite valid resources,pool capacity and backed lists only;zero-bit underflow/nontermination,invalid trees/cycles,OOM,exhaustive shipped glyphs,physical rendering,PS2 runtime and matching binary remain unproved.
-variable	001c83b0	a0:8	arg_0	ulonglong
-signature	001c83f0		frGetFontWidth	ulonglong frGetFontWidth(ulonglong arg_0)
+variable	001c83b0	a0_lo:4	Style	int
+signature	001c83f0		frGetFontWidth	int frGetFontWidth(int Style)
 function_repeatable_comment	001c83f0		frGetFontWidth	Seventeen complete PS2 font bodies including actual compressed-glyph decoding and its real 0x120-byte pool allocator. Full RAM,defined raw64 returns,CPU Status/primitives and callee saves compared. Both original fixed codebooks,all table entries,missing codes,16-bit code masking,linked slot removal,style dimensions,live initializers/spacing and generated packed trees with bit offsets/refills/incomplete terminal prefixes exercised. Independent bit-string decoding verifies output/count for direct and allocation paths. All14 primary shipped font payloads additionally pass eight sampled glyphs each through both real native paths,288 output bytes per glyph. HD default dimension/text/font initializer roles differ in managed geometry/layout. No guessed decoder/callee return substitutes. Finite valid resources,pool capacity and backed lists only;zero-bit underflow/nontermination,invalid trees/cycles,OOM,exhaustive shipped glyphs,physical rendering,PS2 runtime and matching binary remain unproved.
-variable	001c83f0	a0:8	arg_0	ulonglong
-signature	001c8418		frGetDefaultFontHeight	ulonglong frGetDefaultFontHeight(ulonglong arg_0)
+variable	001c83f0	a0_lo:4	Style	int
+signature	001c8418		frGetDefaultFontHeight	int frGetDefaultFontHeight(int Style)
 function_repeatable_comment	001c8418		frGetDefaultFontHeight	Seventeen complete PS2 font bodies including actual compressed-glyph decoding and its real 0x120-byte pool allocator. Full RAM,defined raw64 returns,CPU Status/primitives and callee saves compared. Both original fixed codebooks,all table entries,missing codes,16-bit code masking,linked slot removal,style dimensions,live initializers/spacing and generated packed trees with bit offsets/refills/incomplete terminal prefixes exercised. Independent bit-string decoding verifies output/count for direct and allocation paths. All14 primary shipped font payloads additionally pass eight sampled glyphs each through both real native paths,288 output bytes per glyph. HD default dimension/text/font initializer roles differ in managed geometry/layout. No guessed decoder/callee return substitutes. Finite valid resources,pool capacity and backed lists only;zero-bit underflow/nontermination,invalid trees/cycles,OOM,exhaustive shipped glyphs,physical rendering,PS2 runtime and matching binary remain unproved.
-variable	001c8418	a0:8	arg_0	ulonglong
-signature	001c8458		frGetFontHeight	ulonglong frGetFontHeight(ulonglong arg_0)
+variable	001c8418	a0_lo:4	Style	int
+signature	001c8458		frGetFontHeight	int frGetFontHeight(int Style)
 function_repeatable_comment	001c8458		frGetFontHeight	Seventeen complete PS2 font bodies including actual compressed-glyph decoding and its real 0x120-byte pool allocator. Full RAM,defined raw64 returns,CPU Status/primitives and callee saves compared. Both original fixed codebooks,all table entries,missing codes,16-bit code masking,linked slot removal,style dimensions,live initializers/spacing and generated packed trees with bit offsets/refills/incomplete terminal prefixes exercised. Independent bit-string decoding verifies output/count for direct and allocation paths. All14 primary shipped font payloads additionally pass eight sampled glyphs each through both real native paths,288 output bytes per glyph. HD default dimension/text/font initializer roles differ in managed geometry/layout. No guessed decoder/callee return substitutes. Finite valid resources,pool capacity and backed lists only;zero-bit underflow/nontermination,invalid trees/cycles,OOM,exhaustive shipped glyphs,physical rendering,PS2 runtime and matching binary remain unproved.
-variable	001c8458	a0:8	arg_0	ulonglong
-signature	001c8508		ps2FontAppendVariable	void ps2FontAppendVariable(ulonglong arg_0, ulonglong arg_1)
+variable	001c8458	a0_lo:4	Style	int
+signature	001c8480		frResetStepY	void frResetStepY(void)
+signature	001c8490		frSetStepY	void frSetStepY(int step)
+variable	001c8490	a0_lo:4	step	int
+signature	001c8508		ps2FontAppendVariable	void ps2FontAppendVariable(int index, frMsgInfo * pMsgInfo)
 function_repeatable_comment	001c8508		ps2FontAppendVariable	Ten complete native font parser prerequisites: spacing/depth/mode,style-eight binding,deferred newline/position,variable and special-code append,resource-name reconstruction. Actual font/text/pool/decoder/DMA/strlen/memset/initializer/splice dependencies execute. Original fourteen FNT payloads,generated bounded messages/names/variable strings and selected message/text aliases,including one explicit unchecked low-RAM failure-state path. Full RAM/raw64 results/Status/primitives/callee saves,ordered semaphore and ambient texture metadata operands compared. COP1 raw register values use pinned EE model;FCSR excluded. Syscall-return values and ambient stack words are explicit inputs. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering,PS2 runtime and matching executable remain unproved. Main parser and bank bitmap helpers remain unrecovered.
-variable	001c8508	a0:8	arg_0	ulonglong
-variable	001c8508	a1:8	arg_1	ulonglong
-signature	001c86a0		frCreateNewHandle	void frCreateNewHandle(ulonglong arg_0)
+variable	001c8508	a0_lo:4	index	int
+variable	001c8508	a1_lo:4	pMsgInfo	frMsgInfo *
+signature	001c86a0		frCreateNewHandle	void frCreateNewHandle(frMsgInfo * pMsgInfo)
 function_repeatable_comment	001c86a0		frCreateNewHandle	Ten complete native font parser prerequisites: spacing/depth/mode,style-eight binding,deferred newline/position,variable and special-code append,resource-name reconstruction. Actual font/text/pool/decoder/DMA/strlen/memset/initializer/splice dependencies execute. Original fourteen FNT payloads,generated bounded messages/names/variable strings and selected message/text aliases,including one explicit unchecked low-RAM failure-state path. Full RAM/raw64 results/Status/primitives/callee saves,ordered semaphore and ambient texture metadata operands compared. COP1 raw register values use pinned EE model;FCSR excluded. Syscall-return values and ambient stack words are explicit inputs. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering,PS2 runtime and matching executable remain unproved. Main parser and bank bitmap helpers remain unrecovered.
-variable	001c86a0	a0:8	arg_0	ulonglong
-signature	001c8730		ps2FontAdvanceMessageLine	void ps2FontAdvanceMessageLine(ulonglong arg_0)
+variable	001c86a0	a0_lo:4	pMsgInfo	frMsgInfo *
+signature	001c8730		ps2FontAdvanceMessageLine	void ps2FontAdvanceMessageLine(frMsgInfo * pMsgInfo)
 function_repeatable_comment	001c8730		ps2FontAdvanceMessageLine	Ten complete native font parser prerequisites: spacing/depth/mode,style-eight binding,deferred newline/position,variable and special-code append,resource-name reconstruction. Actual font/text/pool/decoder/DMA/strlen/memset/initializer/splice dependencies execute. Original fourteen FNT payloads,generated bounded messages/names/variable strings and selected message/text aliases,including one explicit unchecked low-RAM failure-state path. Full RAM/raw64 results/Status/primitives/callee saves,ordered semaphore and ambient texture metadata operands compared. COP1 raw register values use pinned EE model;FCSR excluded. Syscall-return values and ambient stack words are explicit inputs. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering,PS2 runtime and matching executable remain unproved. Main parser and bank bitmap helpers remain unrecovered.
-variable	001c8730	a0:8	arg_0	ulonglong
-signature	001c8758		ps2FontAppendSpecialCode	void ps2FontAppendSpecialCode(ulonglong arg_0, ulonglong arg_1)
+variable	001c8730	a0_lo:4	pMsgInfo	frMsgInfo *
+signature	001c8758		ps2FontAppendSpecialCode	void ps2FontAppendSpecialCode(frMsgInfo * pMsgInfo, int code)
 function_repeatable_comment	001c8758		ps2FontAppendSpecialCode	Ten complete native font parser prerequisites: spacing/depth/mode,style-eight binding,deferred newline/position,variable and special-code append,resource-name reconstruction. Actual font/text/pool/decoder/DMA/strlen/memset/initializer/splice dependencies execute. Original fourteen FNT payloads,generated bounded messages/names/variable strings and selected message/text aliases,including one explicit unchecked low-RAM failure-state path. Full RAM/raw64 results/Status/primitives/callee saves,ordered semaphore and ambient texture metadata operands compared. COP1 raw register values use pinned EE model;FCSR excluded. Syscall-return values and ambient stack words are explicit inputs. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering,PS2 runtime and matching executable remain unproved. Main parser and bank bitmap helpers remain unrecovered.
-variable	001c8758	a0:8	arg_0	ulonglong
-variable	001c8758	a1:8	arg_1	ulonglong
-signature	001c87c8		ps2FontParseMessageTag	ulonglong ps2FontParseMessageTag(ulonglong arg_0, ulonglong arg_1)
+variable	001c8758	a0_lo:4	pMsgInfo	frMsgInfo *
+variable	001c8758	a1_lo:4	code	int
+signature	001c87c8		ps2FontParseMessageTag	int ps2FontParseMessageTag(int prefix, frMsgInfo * pMsgInfo)
 function_repeatable_comment	001c87c8		ps2FontParseMessageTag	Ten complete native bitmap-name-bank/tag/mixed-byte-parser/request bodies. Actual name bitmap copies,pool allocations,texture uploads,control/text/string/name/variable/splice routines and native printf/main formatter execute. Original fourteen FNT payloads back glyph decoding;name bitmaps/names/messages are generated bounded inputs. Buffered native stdout bytes are compared in RAM,without an IO-return substitute. Complete declared RAM,defined raw64 results,Status/primitives/callee saves,ordered semaphore operands/results and ambient metadata compared. Nine-argument constructor uses real caller-stack argument. COP1 raw-value model excludes FCSR. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering/kernel scheduling/PS2 runtime/matching executable unproved. Main Message command/panel opening remain incomplete.
-variable	001c87c8	a0:8	arg_0	ulonglong
-variable	001c87c8	a1:8	arg_1	ulonglong
-signature	001c8f08		ps2FontParseMessage	ulonglong ps2FontParseMessage(ulonglong arg_0)
+variable	001c87c8	a0_lo:4	prefix	int
+variable	001c87c8	a1_lo:4	pMsgInfo	frMsgInfo *
+signature	001c8ce0		frControlCodeLength	int frControlCodeLength(int code)
+variable	001c8ce0	a0_lo:4	code	int
+signature	001c8d28		frCopyMessageLine	void frCopyMessageLine(char * text, char * out, int line)
+variable	001c8d28	a0_lo:4	text	char *
+variable	001c8d28	a1_lo:4	out	char *
+variable	001c8d28	a2_lo:4	line	int
+signature	001c8e48		frCountMessageLines	int frCountMessageLines(char * text)
+variable	001c8e48	a0_lo:4	text	char *
+signature	001c8f08		ps2FontParseMessage	frRequest * ps2FontParseMessage(frMsgInfo * pMsgInfo)
 function_repeatable_comment	001c8f08		ps2FontParseMessage	Ten complete native bitmap-name-bank/tag/mixed-byte-parser/request bodies. Actual name bitmap copies,pool allocations,texture uploads,control/text/string/name/variable/splice routines and native printf/main formatter execute. Original fourteen FNT payloads back glyph decoding;name bitmaps/names/messages are generated bounded inputs. Buffered native stdout bytes are compared in RAM,without an IO-return substitute. Complete declared RAM,defined raw64 results,Status/primitives/callee saves,ordered semaphore operands/results and ambient metadata compared. Nine-argument constructor uses real caller-stack argument. COP1 raw-value model excludes FCSR. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering/kernel scheduling/PS2 runtime/matching executable unproved. Main Message command/panel opening remain incomplete.
-variable	001c8f08	a0:8	arg_0	ulonglong
-function_repeatable_comment	001c9108		FUN_001c9108	[Nocturne StatusPairs private bank contract]\nSource-derived candidate; no behavioral admission or public prototype claim.\nInteger entry slots (raw low64): ["a0","a1","a2","a3"]; resident FP inputs: none identified.\nAll actual CPU/FPR/VU/HI-LO/Status/FCSR/RAM effects and native RA/SP continuation remain part of the private bank contract. GP, saved registers and native frame contents remain context inputs.\nRole: Four incoming slots; A2 moves to T3, A3 is stored at callerSP0, then true nine-slot request helper1C9188 returns V0.\nCandidate V0 projection: request_pointer (64-bit carrier). This does not declare a scalar ABI.\nExternal services may stop execution; no kernel/IOP completion is supplied.\nEvidence: analysis/battle-status-pairs-helper-contracts.json; ELF member words SHA256=c567743fce2582e6ddae786038ef75f9f078524147449ff4051c26998dc6f2a1.\n[/Nocturne StatusPairs private bank contract]
-signature	001c9140		ps2FontMessageRequest	ulonglong ps2FontMessageRequest(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4, ulonglong arg_5, ulonglong arg_6, ulonglong arg_7)
+variable	001c8f08	a0_lo:4	pMsgInfo	frMsgInfo *
+signature	001c9108		frMessageRequestPlain	frRequest * frMessageRequestPlain(int x, int y, char * pMsg, frRequest * pFRQ)
+function_repeatable_comment	001c9108		frMessageRequestPlain	[Nocturne StatusPairs private bank contract]\nSource-derived candidate; no behavioral admission or public prototype claim.\nInteger entry slots (raw low64): ["a0","a1","a2","a3"]; resident FP inputs: none identified.\nAll actual CPU/FPR/VU/HI-LO/Status/FCSR/RAM effects and native RA/SP continuation remain part of the private bank contract. GP, saved registers and native frame contents remain context inputs.\nRole: Four incoming slots; A2 moves to T3, A3 is stored at callerSP0, then true nine-slot request helper1C9188 returns V0.\nCandidate V0 projection: request_pointer (64-bit carrier). This does not declare a scalar ABI.\nExternal services may stop execution; no kernel/IOP completion is supplied.\nEvidence: analysis/battle-status-pairs-helper-contracts.json; ELF member words SHA256=c567743fce2582e6ddae786038ef75f9f078524147449ff4051c26998dc6f2a1.\n[/Nocturne StatusPairs private bank contract]
+variable	001c9108	a0_lo:4	x	int
+variable	001c9108	a1_lo:4	y	int
+variable	001c9108	a2_lo:4	pMsg	char *
+variable	001c9108	a3_lo:4	pFRQ	frRequest *
+signature	001c9140		ps2FontMessageRequest	frRequest * ps2FontMessageRequest(int x, int y, int Style, int ColNo, int Tp, int Spd, char * pMsg, frRequest * pFRQ)
 function_repeatable_comment	001c9140		ps2FontMessageRequest	Ten complete native bitmap-name-bank/tag/mixed-byte-parser/request bodies. Actual name bitmap copies,pool allocations,texture uploads,control/text/string/name/variable/splice routines and native printf/main formatter execute. Original fourteen FNT payloads back glyph decoding;name bitmaps/names/messages are generated bounded inputs. Buffered native stdout bytes are compared in RAM,without an IO-return substitute. Complete declared RAM,defined raw64 results,Status/primitives/callee saves,ordered semaphore operands/results and ambient metadata compared. Nine-argument constructor uses real caller-stack argument. COP1 raw-value model excludes FCSR. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering/kernel scheduling/PS2 runtime/matching executable unproved. Main Message command/panel opening remain incomplete.
-variable	001c9140	a0:8	arg_0	ulonglong
-variable	001c9140	a1:8	arg_1	ulonglong
-variable	001c9140	a2:8	arg_2	ulonglong
-variable	001c9140	a3:8	arg_3	ulonglong
-variable	001c9140	t0:8	arg_4	ulonglong
-variable	001c9140	t1:8	arg_5	ulonglong
-variable	001c9140	t2:8	arg_6	ulonglong
-variable	001c9140	t3:8	arg_7	ulonglong
-signature	001c9188		ps2FontMessageRequestEx	ulonglong ps2FontMessageRequestEx(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4, ulonglong arg_5, ulonglong arg_6, ulonglong arg_7, ulonglong arg_8)
+variable	001c9140	a0_lo:4	x	int
+variable	001c9140	a1_lo:4	y	int
+variable	001c9140	a2_lo:4	Style	int
+variable	001c9140	a3_lo:4	ColNo	int
+variable	001c9140	t0_lo:4	Tp	int
+variable	001c9140	t1_lo:4	Spd	int
+variable	001c9140	t2_lo:4	pMsg	char *
+variable	001c9140	t3_lo:4	pFRQ	frRequest *
+signature	001c9188		ps2FontMessageRequestEx	frRequest * ps2FontMessageRequestEx(int x, int y, u32 z, int Style, int ColNo, int Tp, int Spd, char * pMsg, frRequest * pFRQ)
 function_repeatable_comment	001c9188		ps2FontMessageRequestEx	Ten complete native bitmap-name-bank/tag/mixed-byte-parser/request bodies. Actual name bitmap copies,pool allocations,texture uploads,control/text/string/name/variable/splice routines and native printf/main formatter execute. Original fourteen FNT payloads back glyph decoding;name bitmaps/names/messages are generated bounded inputs. Buffered native stdout bytes are compared in RAM,without an IO-return substitute. Complete declared RAM,defined raw64 results,Status/primitives/callee saves,ordered semaphore operands/results and ambient metadata compared. Nine-argument constructor uses real caller-stack argument. COP1 raw-value model excludes FCSR. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering/kernel scheduling/PS2 runtime/matching executable unproved. Main Message command/panel opening remain incomplete.
-variable	001c9188	a0:8	arg_0	ulonglong
-variable	001c9188	a1:8	arg_1	ulonglong
-variable	001c9188	a2:8	arg_2	ulonglong
-variable	001c9188	a3:8	arg_3	ulonglong
-variable	001c9188	t0:8	arg_4	ulonglong
-variable	001c9188	t1:8	arg_5	ulonglong
-variable	001c9188	t2:8	arg_6	ulonglong
-variable	001c9188	t3:8	arg_7	ulonglong
-variable	001c9188	Stack[0x0]:8	arg_8	ulonglong
-signature	001c9220		ps2FontTestGlobalFlags	ulonglong ps2FontTestGlobalFlags(ulonglong arg_0)
+variable	001c9188	a0_lo:4	x	int
+variable	001c9188	a1_lo:4	y	int
+variable	001c9188	a2_lo:4	z	u32
+variable	001c9188	a3_lo:4	Style	int
+variable	001c9188	t0_lo:4	ColNo	int
+variable	001c9188	t1_lo:4	Tp	int
+variable	001c9188	t2_lo:4	Spd	int
+variable	001c9188	t3_lo:4	pMsg	char *
+variable	001c9188	Stack[0x0]:4	pFRQ	frRequest *
+signature	001c91e0		frMessageRequestKeepSpace	frRequest * frMessageRequestKeepSpace(int x, int y, u32 z, int Style, int ColNo, int Tp, int Spd, char * pMsg)
+variable	001c91e0	a0_lo:4	x	int
+variable	001c91e0	a1_lo:4	y	int
+variable	001c91e0	a2_lo:4	z	u32
+variable	001c91e0	a3_lo:4	Style	int
+variable	001c91e0	t0_lo:4	ColNo	int
+variable	001c91e0	t1_lo:4	Tp	int
+variable	001c91e0	t2_lo:4	Spd	int
+variable	001c91e0	t3_lo:4	pMsg	char *
+signature	001c9220		ps2FontTestGlobalFlags	int ps2FontTestGlobalFlags(u32 Flag)
 function_repeatable_comment	001c9220		ps2FontTestGlobalFlags	Eighteen complete PS2 bodies, including two window commands and real release/initialization/font recycling dependencies. Full declared RAM,defined raw64 results,Status,CPU primitives,callee saves and ordered VM targets compared. Finite backed linked requests,phase combinations,negative command IDs,byte-speed domain,signed counts/high lanes,overlapping copies and record aliases exercised. HD provides semantic identities,not byte or layout identity;managed guards,localization and UI differ. Message command0 and font creation/parser/rendering remain unresolved. No full gameplay,PS2 runtime or matching binary claim.
-variable	001c9220	a0:8	arg_0	ulonglong
-signature	001c9230		frSetVariableRequest	void frSetVariableRequest(ulonglong arg_0, ulonglong arg_1)
+variable	001c9220	a0_lo:4	Flag	u32
+signature	001c9230		frSetVariableRequest	void frSetVariableRequest(int VarNo, char * pStr)
 function_repeatable_comment	001c9230		frSetVariableRequest	Eighteen complete PS2 bodies, including two window commands and real release/initialization/font recycling dependencies. Full declared RAM,defined raw64 results,Status,CPU primitives,callee saves and ordered VM targets compared. Finite backed linked requests,phase combinations,negative command IDs,byte-speed domain,signed counts/high lanes,overlapping copies and record aliases exercised. HD provides semantic identities,not byte or layout identity;managed guards,localization and UI differ. Message command0 and font creation/parser/rendering remain unresolved. No full gameplay,PS2 runtime or matching binary claim.
-variable	001c9230	a0:8	arg_0	ulonglong
-variable	001c9230	a1:8	arg_1	ulonglong
-signature	001c96d8		ps2FontLoadNameBitmapBank	ulonglong ps2FontLoadNameBitmapBank(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+variable	001c9230	a0_lo:4	VarNo	int
+variable	001c9230	a1_lo:4	pStr	char *
+signature	001c96d8		ps2FontLoadNameBitmapBank	void ps2FontLoadNameBitmapBank(int bank, int given, int count, u8 * pixels)
 function_repeatable_comment	001c96d8		ps2FontLoadNameBitmapBank	Ten complete native bitmap-name-bank/tag/mixed-byte-parser/request bodies. Actual name bitmap copies,pool allocations,texture uploads,control/text/string/name/variable/splice routines and native printf/main formatter execute. Original fourteen FNT payloads back glyph decoding;name bitmaps/names/messages are generated bounded inputs. Buffered native stdout bytes are compared in RAM,without an IO-return substitute. Complete declared RAM,defined raw64 results,Status/primitives/callee saves,ordered semaphore operands/results and ambient metadata compared. Nine-argument constructor uses real caller-stack argument. COP1 raw-value model excludes FCSR. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering/kernel scheduling/PS2 runtime/matching executable unproved. Main Message command/panel opening remain incomplete.
-variable	001c96d8	a0:8	arg_0	ulonglong
-variable	001c96d8	a1:8	arg_1	ulonglong
-variable	001c96d8	a2:8	arg_2	ulonglong
-variable	001c96d8	a3:8	arg_3	ulonglong
-signature	001c98c0		ps2FontReferenceNameBitmapBank	void ps2FontReferenceNameBitmapBank(ulonglong arg_0, ulonglong arg_1)
+variable	001c96d8	a0_lo:4	bank	int
+variable	001c96d8	a1_lo:4	given	int
+variable	001c96d8	a2_lo:4	count	int
+variable	001c96d8	a3_lo:4	pixels	u8 *
+signature	001c98c0		ps2FontReferenceNameBitmapBank	void ps2FontReferenceNameBitmapBank(int bank, int given)
 function_repeatable_comment	001c98c0		ps2FontReferenceNameBitmapBank	Ten complete native bitmap-name-bank/tag/mixed-byte-parser/request bodies. Actual name bitmap copies,pool allocations,texture uploads,control/text/string/name/variable/splice routines and native printf/main formatter execute. Original fourteen FNT payloads back glyph decoding;name bitmaps/names/messages are generated bounded inputs. Buffered native stdout bytes are compared in RAM,without an IO-return substitute. Complete declared RAM,defined raw64 results,Status/primitives/callee saves,ordered semaphore operands/results and ambient metadata compared. Nine-argument constructor uses real caller-stack argument. COP1 raw-value model excludes FCSR. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering/kernel scheduling/PS2 runtime/matching executable unproved. Main Message command/panel opening remain incomplete.
-variable	001c98c0	a0:8	arg_0	ulonglong
-variable	001c98c0	a1:8	arg_1	ulonglong
-signature	001c99c0		ps2BattleRewardPhaseRecycler_001C99C0	void ps2BattleRewardPhaseRecycler_001C99C0(ulonglong arg_0)
+variable	001c98c0	a0_lo:4	bank	int
+variable	001c98c0	a1_lo:4	given	int
+signature	001c99c0		ps2BattleRewardPhaseRecycler_001C99C0	void ps2BattleRewardPhaseRecycler_001C99C0(int bank)
 function_repeatable_comment	001c99c0		ps2BattleRewardPhaseRecycler_001C99C0	Complete original PS2 result BG/age/drop/nativeGS and six deferred font recycler bodies. Finite122original/244strictC worlds with3573positions including420 explicitly zero-credit selected Main3word context operations. Six genuineA060→70draw/recycler/flip sequences, real512text/2048char/252grid limits, constructors/published pointers, native raw kernel/thread/semaphore/sound/texture/glyph/cache;no outputs or service completions seeded. Full bank/declaredRAM/read-write guards. Native129C08 includes twelve low32 caller-stack fields beyond8 GPRs;typed20-arg host execution unclaimed. Original native rules prevail over HD managed UI;community item20label mismatch retained. FullMain/boot/scheduler/VSync,full24C1D0/stockEXPcommit,physicalGS/IOP/actualgameplay remain separate.
-variable	001c99c0	a0:8	arg_0	ulonglong
-signature	001c9a98		ps2FontAppendNameBitmapGlyph	ulonglong ps2FontAppendNameBitmapGlyph(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	001c99c0	a0_lo:4	bank	int
+signature	001c9a98		ps2FontAppendNameBitmapGlyph	frRequest * ps2FontAppendNameBitmapGlyph(int bank, int index, frRequest * pFRQ)
 function_repeatable_comment	001c9a98		ps2FontAppendNameBitmapGlyph	Ten complete native bitmap-name-bank/tag/mixed-byte-parser/request bodies. Actual name bitmap copies,pool allocations,texture uploads,control/text/string/name/variable/splice routines and native printf/main formatter execute. Original fourteen FNT payloads back glyph decoding;name bitmaps/names/messages are generated bounded inputs. Buffered native stdout bytes are compared in RAM,without an IO-return substitute. Complete declared RAM,defined raw64 results,Status/primitives/callee saves,ordered semaphore operands/results and ambient metadata compared. Nine-argument constructor uses real caller-stack argument. COP1 raw-value model excludes FCSR. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering/kernel scheduling/PS2 runtime/matching executable unproved. Main Message command/panel opening remain incomplete.
-variable	001c9a98	a0:8	arg_0	ulonglong
-variable	001c9a98	a1:8	arg_1	ulonglong
-variable	001c9a98	a2:8	arg_2	ulonglong
-signature	001c9b58		ps2FontAppendNameFirst	ulonglong ps2FontAppendNameFirst(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	001c9a98	a0_lo:4	bank	int
+variable	001c9a98	a1_lo:4	index	int
+variable	001c9a98	a2_lo:4	pFRQ	frRequest *
+signature	001c9b58		ps2FontAppendNameFirst	frRequest * ps2FontAppendNameFirst(int bank, frRequest * pFRQ, int color)
 function_repeatable_comment	001c9b58		ps2FontAppendNameFirst	Ten complete native bitmap-name-bank/tag/mixed-byte-parser/request bodies. Actual name bitmap copies,pool allocations,texture uploads,control/text/string/name/variable/splice routines and native printf/main formatter execute. Original fourteen FNT payloads back glyph decoding;name bitmaps/names/messages are generated bounded inputs. Buffered native stdout bytes are compared in RAM,without an IO-return substitute. Complete declared RAM,defined raw64 results,Status/primitives/callee saves,ordered semaphore operands/results and ambient metadata compared. Nine-argument constructor uses real caller-stack argument. COP1 raw-value model excludes FCSR. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering/kernel scheduling/PS2 runtime/matching executable unproved. Main Message command/panel opening remain incomplete.
-variable	001c9b58	a0:8	arg_0	ulonglong
-variable	001c9b58	a1:8	arg_1	ulonglong
-variable	001c9b58	a2:8	arg_2	ulonglong
-signature	001c9c28		ps2FontAppendNameSecond	ulonglong ps2FontAppendNameSecond(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	001c9b58	a0_lo:4	bank	int
+variable	001c9b58	a1_lo:4	pFRQ	frRequest *
+variable	001c9b58	a2_lo:4	color	int
+signature	001c9c28		ps2FontAppendNameSecond	frRequest * ps2FontAppendNameSecond(int bank, frRequest * pFRQ, int color)
 function_repeatable_comment	001c9c28		ps2FontAppendNameSecond	Ten complete native bitmap-name-bank/tag/mixed-byte-parser/request bodies. Actual name bitmap copies,pool allocations,texture uploads,control/text/string/name/variable/splice routines and native printf/main formatter execute. Original fourteen FNT payloads back glyph decoding;name bitmaps/names/messages are generated bounded inputs. Buffered native stdout bytes are compared in RAM,without an IO-return substitute. Complete declared RAM,defined raw64 results,Status/primitives/callee saves,ordered semaphore operands/results and ambient metadata compared. Nine-argument constructor uses real caller-stack argument. COP1 raw-value model excludes FCSR. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering/kernel scheduling/PS2 runtime/matching executable unproved. Main Message command/panel opening remain incomplete.
-variable	001c9c28	a0:8	arg_0	ulonglong
-variable	001c9c28	a1:8	arg_1	ulonglong
-variable	001c9c28	a2:8	arg_2	ulonglong
-signature	001c9d00		ps2FontAppendNameBoth	ulonglong ps2FontAppendNameBoth(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	001c9c28	a0_lo:4	bank	int
+variable	001c9c28	a1_lo:4	pFRQ	frRequest *
+variable	001c9c28	a2_lo:4	color	int
+signature	001c9d00		ps2FontAppendNameBoth	frRequest * ps2FontAppendNameBoth(int bank, frRequest * pFRQ, int color)
 function_repeatable_comment	001c9d00		ps2FontAppendNameBoth	Ten complete native bitmap-name-bank/tag/mixed-byte-parser/request bodies. Actual name bitmap copies,pool allocations,texture uploads,control/text/string/name/variable/splice routines and native printf/main formatter execute. Original fourteen FNT payloads back glyph decoding;name bitmaps/names/messages are generated bounded inputs. Buffered native stdout bytes are compared in RAM,without an IO-return substitute. Complete declared RAM,defined raw64 results,Status/primitives/callee saves,ordered semaphore operands/results and ambient metadata compared. Nine-argument constructor uses real caller-stack argument. COP1 raw-value model excludes FCSR. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering/kernel scheduling/PS2 runtime/matching executable unproved. Main Message command/panel opening remain incomplete.
-variable	001c9d00	a0:8	arg_0	ulonglong
-variable	001c9d00	a1:8	arg_1	ulonglong
-variable	001c9d00	a2:8	arg_2	ulonglong
-signature	001c9d60		ps2FontAppendResourceName	ulonglong ps2FontAppendResourceName(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+variable	001c9d00	a0_lo:4	bank	int
+variable	001c9d00	a1_lo:4	pFRQ	frRequest *
+variable	001c9d00	a2_lo:4	color	int
+signature	001c9d60		ps2FontAppendResourceName	frRequest * ps2FontAppendResourceName(int bank, int style, frRequest * pFRQ, int color)
 function_repeatable_comment	001c9d60		ps2FontAppendResourceName	Ten complete native font parser prerequisites: spacing/depth/mode,style-eight binding,deferred newline/position,variable and special-code append,resource-name reconstruction. Actual font/text/pool/decoder/DMA/strlen/memset/initializer/splice dependencies execute. Original fourteen FNT payloads,generated bounded messages/names/variable strings and selected message/text aliases,including one explicit unchecked low-RAM failure-state path. Full RAM/raw64 results/Status/primitives/callee saves,ordered semaphore and ambient texture metadata operands compared. COP1 raw register values use pinned EE model;FCSR excluded. Syscall-return values and ambient stack words are explicit inputs. Exhaustive text,invalid/OOM/cyclic graphs,physical rendering,PS2 runtime and matching executable remain unproved. Main parser and bank bitmap helpers remain unrecovered.
-variable	001c9d60	a0:8	arg_0	ulonglong
-variable	001c9d60	a1:8	arg_1	ulonglong
-variable	001c9d60	a2:8	arg_2	ulonglong
-variable	001c9d60	a3:8	arg_3	ulonglong
+variable	001c9d60	a0_lo:4	bank	int
+variable	001c9d60	a1_lo:4	style	int
+variable	001c9d60	a2_lo:4	pFRQ	frRequest *
+variable	001c9d60	a3_lo:4	color	int
 signature	001ca0d0		ps2BattleRewardLevelupNative_001CA0D0	ulonglong ps2BattleRewardLevelupNative_001CA0D0(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4, ulonglong arg_5, ulonglong arg_6, ulonglong arg_7)
 function_repeatable_comment	001ca0d0		ps2BattleRewardLevelupNative_001CA0D0	Complete PS2 result-row EXP/level-up animation/name-request owner. Finite164 original/328 strictC worlds with all full banks,declaredRAM and independent native read/write scope guards. Eight actualA060 row-construction worlds,six genuineA060 texture/64-slot animation prefixes,and qualified preexisting older-row controls. Real request/glyph/heap/cache/texture/packet/kernel callees; no service or constructor results supplied. Two registered draw-wrapper variants and all private support arezero identity credit. Native integerbar/full returnedlevel/64timers differ from HDmanaged float/UI. Full24B010/24C1D0phase,stock boot,scheduler,physicalGS/IOP andactualgameplay remain unproved.
 variable	001ca0d0	a0:8	arg_0	ulonglong
@@ -7386,26 +7486,29 @@ variable	001ca430	a2:8	arg_2	ulonglong
 variable	001ca430	a3:8	arg_3	ulonglong
 variable	001ca430	t0:8	arg_4	ulonglong
 variable	001ca430	t1:8	arg_5	ulonglong
-signature	001ca9c0		ps2FontResourceIdentity	ulonglong ps2FontResourceIdentity(ulonglong arg_0)
+signature	001ca9c0		ps2FontResourceIdentity	u32 ps2FontResourceIdentity(u32 resource)
 function_repeatable_comment	001ca9c0		ps2FontResourceIdentity	Seventeen complete PS2 font bodies including actual compressed-glyph decoding and its real 0x120-byte pool allocator. Full RAM,defined raw64 returns,CPU Status/primitives and callee saves compared. Both original fixed codebooks,all table entries,missing codes,16-bit code masking,linked slot removal,style dimensions,live initializers/spacing and generated packed trees with bit offsets/refills/incomplete terminal prefixes exercised. Independent bit-string decoding verifies output/count for direct and allocation paths. All14 primary shipped font payloads additionally pass eight sampled glyphs each through both real native paths,288 output bytes per glyph. HD default dimension/text/font initializer roles differ in managed geometry/layout. No guessed decoder/callee return substitutes. Finite valid resources,pool capacity and backed lists only;zero-bit underflow/nontermination,invalid trees/cycles,OOM,exhaustive shipped glyphs,physical rendering,PS2 runtime and matching binary remain unproved.
-variable	001ca9c0	a0:8	arg_0	ulonglong
-signature	001ca9c8		ps2FontResolveCompressedSections	void ps2FontResolveCompressedSections(ulonglong arg_0, ulonglong arg_1)
+variable	001ca9c0	a0_lo:4	resource	u32
+signature	001ca9c8		ps2FontResolveCompressedSections	void ps2FontResolveCompressedSections(u32 resource, u32 * sections)
 function_repeatable_comment	001ca9c8		ps2FontResolveCompressedSections	Seventeen complete PS2 font bodies including actual compressed-glyph decoding and its real 0x120-byte pool allocator. Full RAM,defined raw64 returns,CPU Status/primitives and callee saves compared. Both original fixed codebooks,all table entries,missing codes,16-bit code masking,linked slot removal,style dimensions,live initializers/spacing and generated packed trees with bit offsets/refills/incomplete terminal prefixes exercised. Independent bit-string decoding verifies output/count for direct and allocation paths. All14 primary shipped font payloads additionally pass eight sampled glyphs each through both real native paths,288 output bytes per glyph. HD default dimension/text/font initializer roles differ in managed geometry/layout. No guessed decoder/callee return substitutes. Finite valid resources,pool capacity and backed lists only;zero-bit underflow/nontermination,invalid trees/cycles,OOM,exhaustive shipped glyphs,physical rendering,PS2 runtime and matching binary remain unproved.
-variable	001ca9c8	a0:8	arg_0	ulonglong
-variable	001ca9c8	a1:8	arg_1	ulonglong
-signature	001caa18		ps2FontDecodeGlyph	ulonglong ps2FontDecodeGlyph(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+variable	001ca9c8	a0_lo:4	resource	u32
+variable	001ca9c8	a1_lo:4	sections	u32 *
+signature	001caa18		ps2FontDecodeGlyph	int ps2FontDecodeGlyph(u8 * output, int index, u32 resource, u32 * sections)
 function_repeatable_comment	001caa18		ps2FontDecodeGlyph	Seventeen complete PS2 font bodies including actual compressed-glyph decoding and its real 0x120-byte pool allocator. Full RAM,defined raw64 returns,CPU Status/primitives and callee saves compared. Both original fixed codebooks,all table entries,missing codes,16-bit code masking,linked slot removal,style dimensions,live initializers/spacing and generated packed trees with bit offsets/refills/incomplete terminal prefixes exercised. Independent bit-string decoding verifies output/count for direct and allocation paths. All14 primary shipped font payloads additionally pass eight sampled glyphs each through both real native paths,288 output bytes per glyph. HD default dimension/text/font initializer roles differ in managed geometry/layout. No guessed decoder/callee return substitutes. Finite valid resources,pool capacity and backed lists only;zero-bit underflow/nontermination,invalid trees/cycles,OOM,exhaustive shipped glyphs,physical rendering,PS2 runtime and matching binary remain unproved.
-variable	001caa18	a0:8	arg_0	ulonglong
-variable	001caa18	a1:8	arg_1	ulonglong
-variable	001caa18	a2:8	arg_2	ulonglong
-variable	001caa18	a3:8	arg_3	ulonglong
-signature	001cabd8		ps2FontTakeGlyphSlot	ulonglong ps2FontTakeGlyphSlot(ulonglong arg_0)
+variable	001caa18	a0_lo:4	output	u8 *
+variable	001caa18	a1_lo:4	index	int
+variable	001caa18	a2_lo:4	resource	u32
+variable	001caa18	a3_lo:4	sections	u32 *
+signature	001cab38		ps2PoolCreate	frPoolNode * ps2PoolCreate(int size, int count)
+variable	001cab38	a0_lo:4	size	int
+variable	001cab38	a1_lo:4	count	int
+signature	001cabd8		ps2FontTakeGlyphSlot	void * ps2FontTakeGlyphSlot(frPoolNode * pool)
 function_repeatable_comment	001cabd8		ps2FontTakeGlyphSlot	Seventeen complete PS2 font bodies including actual compressed-glyph decoding and its real 0x120-byte pool allocator. Full RAM,defined raw64 returns,CPU Status/primitives and callee saves compared. Both original fixed codebooks,all table entries,missing codes,16-bit code masking,linked slot removal,style dimensions,live initializers/spacing and generated packed trees with bit offsets/refills/incomplete terminal prefixes exercised. Independent bit-string decoding verifies output/count for direct and allocation paths. All14 primary shipped font payloads additionally pass eight sampled glyphs each through both real native paths,288 output bytes per glyph. HD default dimension/text/font initializer roles differ in managed geometry/layout. No guessed decoder/callee return substitutes. Finite valid resources,pool capacity and backed lists only;zero-bit underflow/nontermination,invalid trees/cycles,OOM,exhaustive shipped glyphs,physical rendering,PS2 runtime and matching binary remain unproved.
-variable	001cabd8	a0:8	arg_0	ulonglong
-signature	001cac00		ps2BattleRewardPhaseRecycler_001CAC00	ulonglong ps2BattleRewardPhaseRecycler_001CAC00(ulonglong arg_0, ulonglong arg_1)
+variable	001cabd8	a0_lo:4	pool	frPoolNode *
+signature	001cac00		ps2BattleRewardPhaseRecycler_001CAC00	int ps2BattleRewardPhaseRecycler_001CAC00(void * element, frPoolNode * pool)
 function_repeatable_comment	001cac00		ps2BattleRewardPhaseRecycler_001CAC00	Complete original PS2 result BG/age/drop/nativeGS and six deferred font recycler bodies. Finite122original/244strictC worlds with3573positions including420 explicitly zero-credit selected Main3word context operations. Six genuineA060→70draw/recycler/flip sequences, real512text/2048char/252grid limits, constructors/published pointers, native raw kernel/thread/semaphore/sound/texture/glyph/cache;no outputs or service completions seeded. Full bank/declaredRAM/read-write guards. Native129C08 includes twelve low32 caller-stack fields beyond8 GPRs;typed20-arg host execution unclaimed. Original native rules prevail over HD managed UI;community item20label mismatch retained. FullMain/boot/scheduler/VSync,full24C1D0/stockEXPcommit,physicalGS/IOP/actualgameplay remain separate.
-variable	001cac00	a0:8	arg_0	ulonglong
-variable	001cac00	a1:8	arg_1	ulonglong
+variable	001cac00	a0_lo:4	element	void *
+variable	001cac00	a1_lo:4	pool	frPoolNode *
 function_repeatable_comment	001cad68		FUN_001cad68	Recovered missing PS2 function entry. Decoded negative stack adjustment; saved RA; restored RA/SP and tail jump to a known function; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
 signature	001cae58		itfMiscLinkInit	void itfMiscLinkInit(itfMiscLinkStack * stack, itfmisclinkheader * nodes, int count, int size)
 variable	001cae58	a0_lo:4	stack	itfMiscLinkStack *

@@ -41,10 +41,46 @@ static uint32_t rng_state;
 
 /* ---- guest memory ------------------------------------------------------ */
 
+#ifdef _WIN32
+#include <windows.h>
+#include <dbghelp.h>
+#pragma comment(lib, "dbghelp.lib")
+/* Prints the host call stack (symbols need the /Zi build). */
+static void print_backtrace(void)
+{
+    void *frames[24];
+    HANDLE process = GetCurrentProcess();
+    USHORT n = CaptureStackBackTrace(1, 24, frames, NULL);
+    union { SYMBOL_INFO info; char bytes[sizeof(SYMBOL_INFO) + 256]; } symbol;
+    SymInitialize(process, NULL, TRUE);
+    for (USHORT i = 0; i < n; ++i) {
+        DWORD64 displacement = 0;
+        memset(&symbol, 0, sizeof symbol);
+        symbol.info.SizeOfStruct = sizeof(SYMBOL_INFO);
+        symbol.info.MaxNameLen = 255;
+        if (SymFromAddr(process, (DWORD64)(uintptr_t)frames[i], &displacement, &symbol.info))
+            fprintf(stderr, "  %s+0x%llx\n", symbol.info.Name, (unsigned long long)displacement);
+        else
+            fprintf(stderr, "  %p\n", frames[i]);
+    }
+}
+static LONG WINAPI crash_handler(EXCEPTION_POINTERS *e)
+{
+    fprintf(stderr, "host exception %08lx at %p\n", e->ExceptionRecord->ExceptionCode, e->ExceptionRecord->ExceptionAddress);
+    print_backtrace();
+    return EXCEPTION_EXECUTE_HANDLER;
+}
+static void install_crash_handler(void) { SetUnhandledExceptionFilter(crash_handler); }
+#else
+static void print_backtrace(void) {}
+static void install_crash_handler(void) {}
+#endif
+
 void *fw_resolve(uint32_t address)
 {
     if (address >= FW_RAM_SIZE) {
         fprintf(stderr, "fake world: address %08x out of range\n", address);
+        print_backtrace();
         abort();
     }
     return fw_ram + address;
@@ -61,6 +97,7 @@ static uint32_t r32(uint32_t a) { uint32_t v; memcpy(&v, fw_resolve(a), 4); retu
 
 int fw_load_elf(const char *path)
 {
+    install_crash_handler();
     FILE *f = fopen(path, "rb");
     if (!f) return 0;
     fseek(f, 0, SEEK_END);
@@ -191,6 +228,10 @@ int fw_print_arg_count(uint32_t format)
     case 0x00545830: case 0x00545840: return 1; /* AI action / table */
     case 0x00535a80: return 0;                  /* itfMesMngRequestMessage() escape 1 */
     case 0x00535aa8: return 1;                  /* itfMesMngRequestSelect() - Invalid Type */
+    case 0x00535998: case 0x005359b0: return 1; /* NAME[%d] : Translate. / Restore. */
+    case 0x0052e270: case 0x0052e2b8: case 0x0052e2e0: case 0x0052e2f0: case 0x0052e340: return 1; /* script lifecycle */
+    case 0x0052e310: case 0x0052e328: case 0x0052f5e8: return 0;
+    case 0x0052f588: case 0x0052f5a8: return 1;    /* PUT / PUTS */
     case 0x005457d8: case 0x005457e8: case 0x00544170: return 0;
     case 0x00544ba8: return 4; /* ailment chance */
     default:
@@ -326,7 +367,6 @@ static void guest_sp_release(uint32_t bytes);
 
 /* The process table: only the target-selection process exists. */
 uint64_t dds3SearchProcessName(uint64_t name) { (void)name; return 1; }
-uint64_t dds3GetProcessData(uint64_t process) { (void)process; return FW_TARSEL; }
 
 uint32_t evtGetAgeOfMoon16(void) { return case_moon * 2u + (uint32_t)(fw_hash(13, 0, 0) & 1); }
 
@@ -459,9 +499,8 @@ int32_t nocturne_diagnostic_printf(const char *message) { (void)message; unreach
 
 /* ---- the message manager's surroundings ----------------------------------
  *
- * Font requests, panels and memory blocks come from a bump pool in dynamic
- * RAM; calls with side effects outside the code under test are logged. The
- * small font helpers that only store a field are the original behaviour. */
+ * Panels and memory blocks come from a bump pool in dynamic RAM; calls with
+ * side effects outside the code under test are logged. */
 
 static uint32_t rd32(uint32_t a) { uint32_t v; memcpy(&v, fw_resolve(a), 4); return v; }
 static void wr32(uint32_t a, uint32_t v) { memcpy(fw_resolve(a), &v, 4); }
@@ -492,78 +531,6 @@ uint64_t scrGetMessageHandle(void)
     int32_t id; memcpy(&id, fw_resolve(FW_SCRIPT + 0x60), 4);
     return (uint64_t)(int64_t)id;
 }
-
-/* A page of 1..3 lines, each of one or two requests of one to three
- * characters; appended to `font` when given (which is then returned). */
-static uint64_t fake_font_request(uint64_t x, uint64_t y, uint64_t style, uint64_t color, uint64_t tp,
-                                  uint64_t speed, uint64_t text, uint64_t font)
-{
-    uint64_t h = fw_hash(text & 0xffffffffu, x & 0xffffffffu, (y & 0xffffffffu) ^ (font << 7));
-    uint32_t lines = 1u + (uint32_t)(h % 3u), first = 0, previous = 0;
-    int16_t height = (int16_t)(16 + (h >> 8) % 8);
-    if ((uint32_t)font) {
-        previous = (uint32_t)font;
-        while (rd32(previous + 0x24)) previous = rd32(previous + 0x24);
-    }
-    for (uint32_t line = 0; line < lines; ++line) {
-        uint32_t parts = 1u + (uint32_t)((h >> (12 + line)) & 1u);
-        for (uint32_t part = 0; part < parts; ++part) {
-            uint32_t r = mes_alloc(0x30);
-            uint8_t *q = fw_resolve(r);
-            uint32_t sp = (uint32_t)(speed & 255u) * 2u;
-            int32_t rx = (int32_t)x + (int32_t)(part * 0x200u), ry = (int32_t)y + (int32_t)line * height * 8;
-            q[0] = (uint8_t)(sp > 128 ? 128 : sp);
-            memcpy(q + 4, &rx, 4);
-            memcpy(q + 8, &ry, 4);
-            wr32(r + 0xc, 3u + (uint32_t)((h >> (3 * line + part)) % 20u));
-            memcpy(q + 0x12, &height, 2);
-            uint32_t characters = 1u + (uint32_t)((h >> (20 + 2 * line + part)) % 3u), t_prev = 0;
-            for (uint32_t c = 0; c < characters; ++c) {
-                uint32_t t = mes_alloc(0x2c);
-                uint8_t *tq = fw_resolve(t);
-                wr32(t + 0x10, 0x80808080u ^ (uint32_t)(h >> c));
-                tq[0x14] = (uint8_t)color;
-                tq[0x15] = (uint8_t)style;
-                tq[0x16] = (uint8_t)(((h >> (40 + c)) & 3u) == 0 ? 1u : (uint32_t)tp);
-                wr32(t + 0x24, t_prev);
-                if (t_prev) wr32(t_prev + 0x28, t); else wr32(r + 0x1c, t);
-                t_prev = t;
-            }
-            wr32(r + 0x20, t_prev);
-            wr32(r + 0x18, characters);
-            wr32(r + 0x2c, r);
-            wr32(r + 0x28, previous);
-            if (previous) wr32(previous + 0x24, r);
-            if (!first) first = r;
-            previous = r;
-        }
-    }
-    wr32(0x54f404, (uint32_t)(h >> 50) & 7u);
-    fw_mes_log(1, (uint32_t)text, first);
-    return (uint32_t)font ? (uint64_t)(int64_t)(int32_t)(uint32_t)font : (uint64_t)(int64_t)(int32_t)first;
-}
-
-uint64_t ps2FontMessageRequest(uint64_t x, uint64_t y, uint64_t style, uint64_t color, uint64_t transparency,
-                               uint64_t speed, uint64_t text, uint64_t font)
-{
-    return fake_font_request(x, y, style & 255, color & 255, transparency & 255, speed & 255, text, font);
-}
-
-uint64_t ps2BattleActionSkill_001C9108(uint64_t x, uint64_t y, uint64_t text, uint64_t font)
-{
-    return fake_font_request(x, y, 0, 0, 0, 0x80, text, font);
-}
-
-uint64_t frDestroyFontRequestAfter(uint64_t request) { fw_mes_log(2, (uint32_t)request, 0); return 0; }
-void ps2FontBindMessageStyle(uint64_t data) { fw_mes_log(3, (uint32_t)data, 0); }
-void frSetVariableRequest(uint64_t index, uint64_t value) { wr32(0x56bbd0u + ((uint32_t)index << 2), (uint32_t)value); }
-void frSetDrawPosition(uint64_t font, uint64_t x, uint64_t y) { wr32((uint32_t)font + 8, (uint32_t)y); wr32((uint32_t)font + 4, (uint32_t)x); }
-void frSetDrawSpeed(uint64_t font, uint64_t speed)
-{
-    uint32_t v = ((uint32_t)speed & 255u) * 2u;
-    *(uint8_t *)fw_resolve((uint32_t)font) = (uint8_t)(v > 128 ? 128 : v);
-}
-uint64_t ps2FontTestGlobalFlags(uint64_t mask) { return (uint64_t)(int64_t)(int32_t)rd32(0x54f404) & mask; }
 
 uint64_t itfPnlRegist2(uint64_t type, uint64_t texture)
 {
@@ -627,10 +594,96 @@ void nocturneInvokeMessageKutiCallback(uint32_t entry) { fw_mes_log(9, entry, 0)
 
 uint64_t ps2InterfaceLoadTexture(uint64_t name) { fw_mes_log(10, (uint32_t)name, 0); return 0x00123450; }
 void ps2TextureDeferredRelease(uint64_t texture) { fw_mes_log(11, (uint32_t)texture, 0); }
+/* Processes: small records from the pool {name, ..., +0x20 priority,
+ * +0x28 run time, +0x30 data, +0x34 alive marker}. */
+enum { PROCESS_ALIVE = 0x00a11fe0 };
+static int fake_process(uint32_t p)
+{
+    return p >= FW_MES_POOL && p <= FW_MES_POOL_END - 0x38 && rd32(p + 0x34) == PROCESS_ALIVE;
+}
 uint64_t dds3StartProcess(uint64_t name, uint64_t priority, uint64_t startdelay, uint64_t shutdowndelay,
                           uint64_t processfunc, uint64_t shutdownfunc, uint64_t data)
 {
     fw_mes_log(12, (uint32_t)name, (uint32_t)priority ^ (uint32_t)startdelay << 16 ^ (uint32_t)shutdowndelay << 20);
     fw_mes_log(13, (uint32_t)processfunc, (uint32_t)shutdownfunc ^ (uint32_t)data);
-    return 1;
+    uint32_t p = mes_alloc(0x38);
+    wr32(p, (uint32_t)name);
+    wr32(p + 0x20, (uint32_t)priority);
+    wr32(p + 0x28, (uint32_t)(fw_hash((uint32_t)name, 0, 0) & 0xff));
+    wr32(p + 0x30, (uint32_t)data);
+    wr32(p + 0x34, PROCESS_ALIVE);
+    return p;
+}
+
+/* A process's data: the fake processes', else the target-selection process's. */
+uint64_t dds3GetProcessData(uint64_t process)
+{
+    uint32_t p = (uint32_t)process;
+    return p >= FW_MES_POOL && p <= FW_MES_POOL_END - 0x38 && (rd32(p + 0x34) & ~1u) == PROCESS_ALIVE ? rd32(p + 0x30)
+                                                                                                         : FW_TARSEL;
+}
+
+/* ---- the font engine's surroundings -------------------------------------- */
+
+uint32_t ps2PoolAllocate(int32_t size)
+{
+    uint32_t p = mes_alloc((uint32_t)size);
+    fw_mes_log(14, (uint32_t)size, p);
+    return p;
+}
+
+/* The upload record: pixels, a word the font engine leaves unset, flags,
+ * format, width, base, x, y, w, h. */
+uint64_t ps2TextureQueueUpload(uint64_t record)
+{
+    uint32_t r = (uint32_t)record;
+    uint8_t *q = fw_resolve(r);
+    uint16_t h[6];
+    memcpy(h, q + 10, 2); memcpy(h + 1, q + 16, 8); h[5] = 0;
+    fw_mes_log(15, rd32(r), (uint32_t)q[8] | (uint32_t)q[9] << 8 | (uint32_t)h[0] << 16);
+    fw_mes_log(16, rd32(r + 12), (uint32_t)h[1] | (uint32_t)h[2] << 16);
+    fw_mes_log(17, (uint32_t)h[3] | (uint32_t)h[4] << 16, 0);
+    return 0;
+}
+
+uint64_t ps2KernelGetFontContextIndex(void) { return (uint64_t)(int64_t)(int32_t)rd32(0x551b80); }
+
+/* Files are already in RAM: a .bf path is the script at FW_MES_TABLE; a
+ * font path picks one of FW_FONTS by its digit. */
+uint64_t sdfDevLoadFile(uint64_t path, uint64_t data_out, uint64_t size_out)
+{
+    const char *p = (const char *)fw_resolve((uint32_t)path);
+    static const uint32_t offset[4] = {0x00000, 0x18000, 0x2e000, 0x33000};
+    uint32_t n = 0, length = (uint32_t)strlen(p), data;
+    for (const char *q = p; *q; ++q) if (*q >= '0' && *q <= '3') n = (uint32_t)(*q - '0');
+    data = length >= 3 && strcmp(p + length - 3, ".bf") == 0 ? FW_MES_TABLE : FW_FONTS + offset[n];
+    (void)size_out;
+    fw_mes_log(18, (uint32_t)path, n);
+    if ((uint32_t)data_out) wr32((uint32_t)data_out, data);
+    return data + 1u;   /* a handle (ps2MemoryHandleAcquirePointer subtracts 1) */
+}
+
+void dds3SetProcessData(uint64_t process, uint64_t data)
+{
+    uint32_t p = (uint32_t)process;
+    if (p >= FW_MES_POOL && p <= FW_MES_POOL_END - 0x38) wr32(p + 0x30, (uint32_t)data);
+    fw_mes_log(19, p, (uint32_t)data);
+}
+uint64_t dds3KillProcess(uint64_t process, uint64_t delay)
+{
+    uint32_t p = (uint32_t)process;
+    if (fake_process(p)) wr32(p + 0x34, PROCESS_ALIVE | 1u);   /* ending: no longer listed */
+    fw_mes_log(20, p, (uint32_t)delay);
+    return 0;
+}
+uint64_t dds3ExistProcess(uint64_t process) { return fake_process((uint32_t)process) ? 1 : 0; }
+uint64_t ps2ProcessGetRunTime(uint64_t process) { return (uint64_t)(int64_t)(int32_t)rd32((uint32_t)process + 0x28); }
+void dds3FadeIn(uint64_t r, uint64_t g, uint64_t b, uint64_t frames) { fw_mes_log(21, (uint32_t)r ^ (uint32_t)g << 8 ^ (uint32_t)b << 16, (uint32_t)frames); }
+void dds3FadeOut(uint64_t r, uint64_t g, uint64_t b, uint64_t frames) { fw_mes_log(22, (uint32_t)r ^ (uint32_t)g << 8 ^ (uint32_t)b << 16, (uint32_t)frames); }
+void ps2PoolRelease(uint32_t slot) { fw_mes_log(23, slot, 0); }
+uint64_t nocturneInvokeScriptFunction(uint32_t entry, uint64_t work, unsigned command)
+{
+    (void)work; (void)command;
+    fprintf(stderr, "fake world: no command at %08x\n", entry);
+    abort();
 }

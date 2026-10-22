@@ -59,6 +59,7 @@ void addFusionCoreTests(std::vector<TestCase>& t);    // fusion_core_tests.cpp
 void addMagatamaTests(std::vector<TestCase>& t);      // magatama_tests.cpp
 void addAiTests(std::vector<TestCase>& t);            // ai_tests.cpp
 void addMessageTests(std::vector<TestCase>& t);       // message_tests.cpp
-void loadMessageTables(const char* elfPath);           // message_tests.cpp
+void addFontTests(std::vector<TestCase>& t);          // font_tests.cpp
+void addScriptTests(std::vector<TestCase>& t);        // script_tests.cpp
 
 } // namespace difftest

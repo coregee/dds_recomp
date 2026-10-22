@@ -17,6 +17,7 @@ uint64_t ps2SoftDoubleFromInt(int32_t value);
 int32_t ps2SoftDoubleToInt(uint64_t bits);
 uint64_t ps2SoftDoubleMul(uint64_t left, uint64_t right);
 uint64_t ps2SoftDoubleAdd(uint64_t left, uint64_t right);
+int32_t ps2SoftDoubleCompare(uint64_t left, uint64_t right);
 }
 
 namespace nocturne::ee {
@@ -33,6 +34,8 @@ public:
 
     friend Double operator*(Double a, Double b) { return fromBits(ps2SoftDoubleMul(a.bits_, b.bits_)); }
     friend Double operator+(Double a, Double b) { return fromBits(ps2SoftDoubleAdd(a.bits_, b.bits_)); }
+    // libgcc's comparison: negative, zero or positive (IEEE rules: denormals count, -0 == 0).
+    friend int32_t compare(Double a, Double b) { return ps2SoftDoubleCompare(a.bits_, b.bits_); }
 
 private:
     uint64_t bits_ = 0;

@@ -1,0 +1,51 @@
+// The world around the interface code (messages, fonts): the original
+// instructions run by the EE interpreter, the game's fonts and message
+// tables, and generators for their state. Shared by message_tests.cpp and
+// font_tests.cpp.
+#pragma once
+
+#include <cstdint>
+#include <initializer_list>
+#include <vector>
+
+#include "harness.hpp"
+#include "nocturne/interface/font.hpp"
+
+namespace difftest::iface {
+
+// Runs an original function (32-bit results sign-extended, like norm()).
+uint64_t orig(uint32_t entry, std::initializer_list<uint64_t> args);
+uint64_t origVoid(uint32_t entry, std::initializer_list<uint64_t> args);
+// The same with the script VM's own functions run as original code.
+uint64_t origVm(uint32_t entry, std::initializer_list<uint64_t> args, std::initializer_list<uint32_t> floatArgs = {});
+uint64_t origVmVoid(uint32_t entry, std::initializer_list<uint64_t> args, std::initializer_list<uint32_t> floatArgs = {});
+uint32_t origVmFloat();   // the float result (f0) of the last origVm
+
+inline uint32_t addr(const void* p) { return p ? fw_address_of(p) : 0; }
+inline uint64_t A(const void* p) { return addr(p); }
+inline uint64_t I(int32_t v) { return sx(v); }
+
+// Message tables (English script messages) and the fonts, from the disc.
+void loadData(const char* elfPath);
+const std::vector<std::vector<uint8_t>>& messageTables();
+const std::vector<std::vector<uint8_t>>& scriptFiles();   // a few .bf files
+
+// Fonts loaded into styles 0..3 (and sometimes 8), pools, texture cells,
+// font settings, {var n} strings and the entered names.
+void fontWorld(Gen& g);
+
+// A page of text to lay out: from the current message table when one is
+// loaded (FW_MES_TABLE, relocated), or a made-up one. Only characters the
+// fonts have.
+uint32_t someText(Gen& g);
+
+// A string in guest memory (from the fakes' pool).
+uint32_t guestString(const char* s);
+
+// A chain laid out by the rewrite, for state.
+nocturne::fr::Request* chain(Gen& g, int32_t x, int32_t y);
+
+// Puts a message table at FW_MES_TABLE, relocated or not.
+void loadTable(Gen& g, bool relocate);
+
+} // namespace difftest::iface

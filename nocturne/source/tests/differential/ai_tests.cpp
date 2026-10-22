@@ -105,6 +105,13 @@ void prepareAi(Gen& g)
     const_cast<DevilAI&>(dat::devilAI(unit.id)).ailevel = static_cast<uint16_t>(g.chance(50) ? g.range(1, 3) : 0);
     unit.nowcommand = static_cast<int16_t>(g.pick({0, 1, 1, 1, 3, 5, 7, 4, 6}));
     unit.nowindex = unit.nowcommand == 5 ? static_cast<uint16_t>(g.range(0, 60)) : aiSkill(g);
+    // Summon skills may target empty summon slots (0x800); with a (patched)
+    // AI level the effect estimate would then read an absent unit, which the
+    // original does through guest address 0. Levels are all 0 in the game.
+    if (dat::devilAI(unit.id).ailevel != 0)
+        for (int k = 0; k < 16; ++k)
+            if (!(form(k).stat & 1))
+                form(k).stat &= ~0x800u;
 
     auto& select = at<nb::TargetSelectData>(FW_TARSEL);
     std::memset(&select, 0, sizeof select);

@@ -49,7 +49,9 @@ public:
     Float& operator*=(Float o) { return *this = *this * o; }
     Float& operator/=(Float o) { return *this = *this / o; }
 
-    // C.LT.S / C.LE.S
+    // C.EQ.S / C.LT.S / C.LE.S (no denormals: they compare as 0)
+    friend bool operator==(Float a, Float b) { return EE_FPU_COMPARE_S(a.bits_, b.bits_, 0) != 0; }
+    friend bool operator!=(Float a, Float b) { return !(a == b); }
     friend bool operator<(Float a, Float b) { return EE_FPU_COMPARE_S(a.bits_, b.bits_, 1) != 0; }
     friend bool operator<=(Float a, Float b) { return EE_FPU_COMPARE_S(a.bits_, b.bits_, 2) != 0; }
     friend bool operator>(Float a, Float b) { return b < a; }

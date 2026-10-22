@@ -32,11 +32,12 @@ enum {
     FW_SCRIPT     = 0x01106100, /* fake script VM: int params [8], then returns: count, values;
                                    at 0x60 the message handle */
     FW_MES_INSTANCE = 0x01107000, /* two message windows (instanceMes_tag, 0x200 apart) */
-    FW_MES_TABLE  = 0x01107400,   /* a message table (MSG1), up to 0x2e00 bytes */
+    FW_MES_TABLE  = 0x011a0000,   /* a message table (MSG1), up to 0x10000 bytes */
     FW_MES_STATE  = 0x0110a200,   /* the message fakes: pool cursor, log count, log {kind, a, b} */
-    FW_MES_POOL   = 0x0110a800,   /* font requests, panels and memory blocks the fakes hand out */
-    FW_MES_POOL_END = 0x01110000,
-    FW_DYNAMIC_END   = 0x01110000,
+    FW_MES_POOL   = 0x0110a800,   /* memory blocks, panels and pools the fakes hand out */
+    FW_MES_POOL_END = 0x01160000,
+    FW_FONTS      = 0x01160000,   /* the four .fnt files (game/dds3/font/EngFont) */
+    FW_DYNAMIC_END   = 0x011b0000,
     /* Guest stack for legacy code that allocates on it (not compared). */
     FW_STACK_TOP     = 0x01300000,
 };

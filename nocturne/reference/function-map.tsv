@@ -116,8 +116,8 @@ address	size	name	name_source	status	rewrite	legacy
 00104b20	8	FUN_00104b20	DEFAULT	unknown		
 00104b28	8	FUN_00104b28	DEFAULT	unknown		
 00104b30	512	FUN_00104b30	DEFAULT	unknown		
-00104d38	92	FUN_00104d38	DEFAULT	unknown		
-00104d98	8	FUN_00104d98	DEFAULT	unknown		
+00104d38	92	dds3SetQuake	USER_DEFINED	rewritten	src/kernel/quake.cpp:dds3SetQuake	
+00104d98	8	dds3StopQuake	USER_DEFINED	rewritten	src/kernel/quake.cpp:dds3StopQuake	
 00104da0	348	FUN_00104da0	DEFAULT	unknown		
 00104f00	120	FUN_00104f00	DEFAULT	unknown		
 00104f78	40	dds3FadeClear	USER_DEFINED	legacy		field_movement_encounter_constructor.c:body_00104f78;screen_fade.c:dds3FadeClear
@@ -321,102 +321,102 @@ address	size	name	name_source	status	rewrite	legacy
 001097c0	8	FUN_001097c0	DEFAULT	unknown		
 001097c8	8	FUN_001097c8	DEFAULT	unknown		
 001097d0	8	FUN_001097d0	DEFAULT	unknown		
-001097e8	72	ps2ScriptDiagnosticDisabled	USER_DEFINED	legacy		field_movement_encounter_carriers.c:body_001097e8;script_construction.c:ps2ScriptDiagnosticDisabled
-00109848	60	scrLinkScriptHandleList	USER_DEFINED	legacy		field_movement_encounter_carriers.c:body_00109848;script_process.c:scrLinkScriptHandleList
-00109888	88	scrUnlinkScriptHandleList	USER_DEFINED	legacy		field_movement_encounter_carriers.c:body_00109888;script_process.c:scrUnlinkScriptHandleList
-001098e0	612	scrAddScript	USER_DEFINED	legacy		field_movement_encounter_carriers.c:body_001098e0;script_construction.c:scrAddScript
-00109b48	256	scrAddScript2	USER_DEFINED	legacy		field_movement_encounter_carriers.c:body_00109b48;script_construction.c:scrAddScript2
-00109c58	96	scrAddScript3	USER_DEFINED	legacy		script_file.c:scrAddScript3
-00109cb8	88	scrStartScriptProcess	USER_DEFINED	legacy		field_movement_encounter_carriers.c:body_00109cb8;script_process.c:scrStartScriptProcess
-00109d10	52	scrInitGlobalWork	USER_DEFINED	legacy		script_process.c:scrInitGlobalWork
-00109d48	52	scrStartScript3	USER_DEFINED	legacy		script_file.c:scrStartScript3
-00109d98	52	scrStartScript2	USER_DEFINED	legacy		field_movement_encounter_carriers.c:body_00109d98;script_construction.c:scrStartScript2
-00109de8	80	scrStartScript1a	USER_DEFINED	legacy		script_construction.c:scrStartScript1a
-00109e38	24	ps2ScriptAddFirst	USER_DEFINED	legacy		script_construction.c:ps2ScriptAddFirst
-00109e50	180	scrReleaseScript	USER_DEFINED	legacy		field_movement_encounter_carriers.c:body_00109e50;script_lifetime.c:scrReleaseScript
-00109f08	196	scrAllReleaseScript	USER_DEFINED	legacy		field_inf_controller_native.c:body_00109f08;field_inf_controller_native.c:ps2FieldInfControllerNative_00109F08;field_movement_encounter_constructor.c:body_00109f08;script_lifetime.c:scrAllReleaseScript
-0010a078	88	scrSearchScriptName	USER_DEFINED	legacy		field_movement_encounter_constructor.c:body_0010a078;script_process.c:scrSearchScriptName
-0010a0d0	244	scrSearchProcedureName	USER_DEFINED	legacy		field_movement_encounter_carriers.c:body_0010a0d0;script_process.c:scrSearchProcedureName
-0010a1c8	40	scrSetUserData	USER_DEFINED	legacy		script_process.c:scrSetUserData
-0010a1f0	32	ps2ScriptGetUserData	USER_DEFINED	legacy		script_process.c:ps2ScriptGetUserData
-0010a210	60	scrScriptShutdown	USER_DEFINED	legacy		field_movement_encounter_carriers.c:body_0010a210;script_lifetime.c:scrScriptShutdown
-0010a268	88	scrScriptProcess	USER_DEFINED	legacy		script_process.c:scrScriptProcess
-0010a2c0	44	scrPushInt	USER_DEFINED	legacy		script_stack.c:scrPushInt
-0010a2f0	48	scrPushFloatBits	USER_DEFINED	legacy		script_stack.c:scrPushFloatBits
-0010a320	48	scrPushStr	USER_DEFINED	legacy		script_stack.c:scrPushStr
-0010a350	48	scrPushRet	USER_DEFINED	legacy		script_stack.c:scrPushRet
-0010a380	204	scrPopInt	USER_DEFINED	legacy		script_core.c:scrPopInt
-0010a458	208	scrPopFloatBits	USER_DEFINED	legacy		script_stack.c:scrPopFloatBits
-0010a540	80	scrCodeFunc_PushI	USER_DEFINED	legacy		script_stack.c:scrCodeFunc_PushI
-0010a590	72	scrCodeFunc_PushIS	USER_DEFINED	legacy		script_stack.c:scrCodeFunc_PushIS
-0010a5d8	80	scrCodeFunc_PushF	USER_DEFINED	legacy		script_stack.c:scrCodeFunc_PushF
-0010a628	88	scrCodeFunc_PushIX	USER_DEFINED	legacy		script_stack.c:scrCodeFunc_PushIX
-0010a680	88	scrCodeFunc_PushFX	USER_DEFINED	legacy		script_stack.c:scrCodeFunc_PushFX
-0010a6d8	88	scrCodeFunc_PushLIX	USER_DEFINED	legacy		script_stack.c:scrCodeFunc_PushLIX
-0010a730	88	scrCodeFunc_PushLFX	USER_DEFINED	legacy		script_stack.c:scrCodeFunc_PushLFX
-0010a788	80	scrCodeFunc_PushSTR	USER_DEFINED	legacy		script_stack.c:scrCodeFunc_PushSTR
-0010a7d8	68	scrCodeFunc_PushReg	USER_DEFINED	legacy		script_stack.c:scrCodeFunc_PushReg
-0010a820	88	scrCodeFunc_PopIX	USER_DEFINED	legacy		script_stack.c:scrCodeFunc_PopIX
-0010a878	84	scrCodeFunc_PopFX	USER_DEFINED	legacy		script_stack.c:scrCodeFunc_PopFX
-0010a8d0	88	scrCodeFunc_PopLIX	USER_DEFINED	legacy		script_stack.c:scrCodeFunc_PopLIX
-0010a928	84	scrCodeFunc_PopLFX	USER_DEFINED	legacy		script_stack.c:scrCodeFunc_PopLFX
-0010a980	20	scrCodeFunc_Proc	USER_DEFINED	legacy		script_stack.c:scrCodeFunc_Proc
-0010a998	156	scrCodeFunc_Comm	USER_DEFINED	legacy		script_core.c:scrCodeFunc_Comm
-0010aa38	64	scrCodeFunc_End	USER_DEFINED	legacy		script_core.c:scrCodeFunc_End
-0010aa78	48	scrCodeFunc_Jump	USER_DEFINED	legacy		script_stack.c:scrCodeFunc_Jump
-0010aaa8	84	scrCodeFunc_Call	USER_DEFINED	legacy		script_stack.c:scrCodeFunc_Call
-0010ab00	20	scrCodeFunc_Run	USER_DEFINED	legacy		script_stack.c:scrCodeFunc_Run
-0010ab18	48	scrCodeFunc_Goto	USER_DEFINED	legacy		script_core.c:scrCodeFunc_Goto
-0010ab48	1196	scrCodeFunc_2Operation	USER_DEFINED	legacy		script_ops.c:scrCodeFunc_2Operation
-0010b030	56	scrCodeFunc_Add	USER_DEFINED	named		
-0010b068	56	scrCodeFunc_Sub	USER_DEFINED	named		
-0010b0a0	56	scrCodeFunc_Mul	USER_DEFINED	named		
-0010b0d8	56	scrCodeFunc_Div	USER_DEFINED	named		
-0010b110	212	scrCodeFunc_Minus	USER_DEFINED	legacy		script_core.c:scrCodeFunc_Minus
-0010b1f8	160	scrCodeFunc_Not	USER_DEFINED	legacy		script_ops.c:scrCodeFunc_Not
-0010b2a0	56	scrCodeFunc_Or	USER_DEFINED	named		
-0010b2d8	56	scrCodeFunc_And	USER_DEFINED	named		
-0010b310	56	scrCodeFunc_EQ	USER_DEFINED	named		
-0010b348	56	scrCodeFunc_NEQ	USER_DEFINED	named		
-0010b380	56	scrCodeFunc_S	USER_DEFINED	named		
-0010b3b8	56	scrCodeFunc_L	USER_DEFINED	named		
-0010b3f0	56	scrCodeFunc_SE	USER_DEFINED	named		
-0010b428	56	scrCodeFunc_LE	USER_DEFINED	named		
-0010b460	188	scrCodeFunc_If	USER_DEFINED	legacy		script_ops.c:scrCodeFunc_If
-0010b520	160	ps2ScriptTrace	USER_DEFINED	legacy		script_core.c:ps2ScriptTrace
-0010b5c8	188	scrGetIntPara	USER_DEFINED	legacy		script_movie.c:scrGetIntPara
-0010b690	180	scrGetFloatParaBits	USER_DEFINED	legacy		script_core.c:scrGetFloatParaBits
-0010b748	72	scrGetStrPara	USER_DEFINED	legacy		script_core.c:scrGetStrPara
-0010b790	20	scrSetIntReturnValue	USER_DEFINED	legacy		script_movie.c:scrSetIntReturnValue
-0010b7d8	24	scrGetLabelCodeAddress	USER_DEFINED	legacy		script_core.c:scrGetLabelCodeAddress
-0010b800	12	scrSetCodePointer	USER_DEFINED	legacy		script_core.c:scrSetCodePointer
-0010b820	12	scrGetCommandTimer	USER_DEFINED	legacy		script_core.c:scrGetCommandTimer
-0010b830	12	scrGetMessageHandle	USER_DEFINED	legacy		script_core.c:scrGetMessageHandle
-0010b840	8	scrGetScriptHandle	USER_DEFINED	legacy		script_core.c:scrGetScriptHandle
-0010b848	12	scrGetData	USER_DEFINED	legacy		script_core.c:scrGetData
+001097e8	72	ps2ScriptDiagnosticDisabled	USER_DEFINED	rewritten	src/script/vm.cpp:scrPrintf	field_movement_encounter_carriers.c:body_001097e8;script_construction.c:ps2ScriptDiagnosticDisabled
+00109848	60	scrLinkScriptHandleList	USER_DEFINED	rewritten	src/script/vm.cpp:scrLinkScriptHandleList	field_movement_encounter_carriers.c:body_00109848;script_process.c:scrLinkScriptHandleList
+00109888	88	scrUnlinkScriptHandleList	USER_DEFINED	rewritten	src/script/vm.cpp:scrUnlinkScriptHandleList	field_movement_encounter_carriers.c:body_00109888;script_process.c:scrUnlinkScriptHandleList
+001098e0	612	scrAddScript	USER_DEFINED	rewritten	src/script/vm.cpp:scrAddScript	field_movement_encounter_carriers.c:body_001098e0;script_construction.c:scrAddScript
+00109b48	256	scrAddScript2	USER_DEFINED	rewritten	src/script/vm.cpp:scrAddScript2	field_movement_encounter_carriers.c:body_00109b48;script_construction.c:scrAddScript2
+00109c58	96	scrAddScript3	USER_DEFINED	rewritten	src/script/vm.cpp:scrAddScript3	script_file.c:scrAddScript3
+00109cb8	88	scrStartScriptProcess	USER_DEFINED	rewritten	src/script/vm.cpp:scrStartScriptProcess	field_movement_encounter_carriers.c:body_00109cb8;script_process.c:scrStartScriptProcess
+00109d10	52	scrInitGlobalWork	USER_DEFINED	rewritten	src/script/vm.cpp:scrInitGlobalWork	script_process.c:scrInitGlobalWork
+00109d48	52	scrStartScript3	USER_DEFINED	rewritten	src/script/vm.cpp:scrStartScript3	script_file.c:scrStartScript3
+00109d98	52	scrStartScript2	USER_DEFINED	rewritten	src/script/vm.cpp:scrStartScript2	field_movement_encounter_carriers.c:body_00109d98;script_construction.c:scrStartScript2
+00109de8	80	scrStartScript1a	USER_DEFINED	rewritten	src/script/vm.cpp:scrStartScript1a	script_construction.c:scrStartScript1a
+00109e38	24	ps2ScriptAddFirst	USER_DEFINED	rewritten	src/script/vm.cpp:scrAddScriptFirst	script_construction.c:ps2ScriptAddFirst
+00109e50	180	scrReleaseScript	USER_DEFINED	rewritten	src/script/vm.cpp:scrReleaseScript	field_movement_encounter_carriers.c:body_00109e50;script_lifetime.c:scrReleaseScript
+00109f08	196	scrAllReleaseScript	USER_DEFINED	rewritten	src/script/vm.cpp:scrAllReleaseScript	field_inf_controller_native.c:body_00109f08;field_inf_controller_native.c:ps2FieldInfControllerNative_00109F08;field_movement_encounter_constructor.c:body_00109f08;script_lifetime.c:scrAllReleaseScript
+0010a078	88	scrSearchScriptName	USER_DEFINED	rewritten	src/script/vm.cpp:scrSearchScriptName	field_movement_encounter_constructor.c:body_0010a078;script_process.c:scrSearchScriptName
+0010a0d0	244	scrSearchProcedureName	USER_DEFINED	rewritten	src/script/vm.cpp:scrSearchProcedureName	field_movement_encounter_carriers.c:body_0010a0d0;script_process.c:scrSearchProcedureName
+0010a1c8	40	scrSetUserData	USER_DEFINED	rewritten	src/script/vm.cpp:scrSetUserData	script_process.c:scrSetUserData
+0010a1f0	32	ps2ScriptGetUserData	USER_DEFINED	rewritten	src/script/vm.cpp:scrGetUserData	script_process.c:ps2ScriptGetUserData
+0010a210	60	scrScriptShutdown	USER_DEFINED	rewritten	src/script/vm.cpp:scrScriptShutdown	field_movement_encounter_carriers.c:body_0010a210;script_lifetime.c:scrScriptShutdown
+0010a268	88	scrScriptProcess	USER_DEFINED	rewritten	src/script/vm.cpp:scrScriptProcess	script_process.c:scrScriptProcess
+0010a2c0	44	scrPushInt	USER_DEFINED	rewritten	src/script/vm.cpp:scrPushInt	script_stack.c:scrPushInt
+0010a2f0	48	scrPushFloatBits	USER_DEFINED	rewritten	src/script/vm.cpp:scrPushFloat	script_stack.c:scrPushFloatBits
+0010a320	48	scrPushStr	USER_DEFINED	rewritten	src/script/vm.cpp:scrPushStr	script_stack.c:scrPushStr
+0010a350	48	scrPushRet	USER_DEFINED	rewritten	src/script/vm.cpp:scrPushRet	script_stack.c:scrPushRet
+0010a380	204	scrPopInt	USER_DEFINED	rewritten	src/script/vm.cpp:scrPopInt	script_core.c:scrPopInt
+0010a458	208	scrPopFloatBits	USER_DEFINED	rewritten	src/script/vm.cpp:scrPopFloat	script_stack.c:scrPopFloatBits
+0010a540	80	scrCodeFunc_PushI	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_PushI	script_stack.c:scrCodeFunc_PushI
+0010a590	72	scrCodeFunc_PushIS	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_PushIS	script_stack.c:scrCodeFunc_PushIS
+0010a5d8	80	scrCodeFunc_PushF	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_PushF	script_stack.c:scrCodeFunc_PushF
+0010a628	88	scrCodeFunc_PushIX	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_PushIX	script_stack.c:scrCodeFunc_PushIX
+0010a680	88	scrCodeFunc_PushFX	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_PushFX	script_stack.c:scrCodeFunc_PushFX
+0010a6d8	88	scrCodeFunc_PushLIX	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_PushLIX	script_stack.c:scrCodeFunc_PushLIX
+0010a730	88	scrCodeFunc_PushLFX	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_PushLFX	script_stack.c:scrCodeFunc_PushLFX
+0010a788	80	scrCodeFunc_PushSTR	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_PushSTR	script_stack.c:scrCodeFunc_PushSTR
+0010a7d8	68	scrCodeFunc_PushReg	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_PushReg	script_stack.c:scrCodeFunc_PushReg
+0010a820	88	scrCodeFunc_PopIX	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_PopIX	script_stack.c:scrCodeFunc_PopIX
+0010a878	84	scrCodeFunc_PopFX	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_PopFX	script_stack.c:scrCodeFunc_PopFX
+0010a8d0	88	scrCodeFunc_PopLIX	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_PopLIX	script_stack.c:scrCodeFunc_PopLIX
+0010a928	84	scrCodeFunc_PopLFX	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_PopLFX	script_stack.c:scrCodeFunc_PopLFX
+0010a980	20	scrCodeFunc_Proc	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_Proc	script_stack.c:scrCodeFunc_Proc
+0010a998	156	scrCodeFunc_Comm	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_Comm	script_core.c:scrCodeFunc_Comm
+0010aa38	64	scrCodeFunc_End	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_End	script_core.c:scrCodeFunc_End
+0010aa78	48	scrCodeFunc_Jump	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_Jump	script_stack.c:scrCodeFunc_Jump
+0010aaa8	84	scrCodeFunc_Call	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_Call	script_stack.c:scrCodeFunc_Call
+0010ab00	20	scrCodeFunc_Run	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_Run	script_stack.c:scrCodeFunc_Run
+0010ab18	48	scrCodeFunc_Goto	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_Goto	script_core.c:scrCodeFunc_Goto
+0010ab48	1196	scrCodeFunc_2Operation	USER_DEFINED	rewritten	src/script/vm.cpp:TwoOperation	script_ops.c:scrCodeFunc_2Operation
+0010b030	56	scrCodeFunc_Add	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_Add	
+0010b068	56	scrCodeFunc_Sub	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_Sub	
+0010b0a0	56	scrCodeFunc_Mul	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_Mul	
+0010b0d8	56	scrCodeFunc_Div	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_Div	
+0010b110	212	scrCodeFunc_Minus	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_Minus	script_core.c:scrCodeFunc_Minus
+0010b1f8	160	scrCodeFunc_Not	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_Not	script_ops.c:scrCodeFunc_Not
+0010b2a0	56	scrCodeFunc_Or	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_Or	
+0010b2d8	56	scrCodeFunc_And	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_And	
+0010b310	56	scrCodeFunc_EQ	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_EQ	
+0010b348	56	scrCodeFunc_NEQ	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_NEQ	
+0010b380	56	scrCodeFunc_S	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_S	
+0010b3b8	56	scrCodeFunc_L	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_L	
+0010b3f0	56	scrCodeFunc_SE	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_SE	
+0010b428	56	scrCodeFunc_LE	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_LE	
+0010b460	188	scrCodeFunc_If	USER_DEFINED	rewritten	src/script/vm.cpp:scrCodeFunc_If	script_ops.c:scrCodeFunc_If
+0010b520	160	ps2ScriptTrace	USER_DEFINED	rewritten	src/script/vm.cpp:scrTraceCode	script_core.c:ps2ScriptTrace
+0010b5c8	188	scrGetIntPara	USER_DEFINED	rewritten	src/script/vm.cpp:scrGetIntPara	script_movie.c:scrGetIntPara
+0010b690	180	scrGetFloatParaBits	USER_DEFINED	rewritten	src/script/vm.cpp:scrGetFloatPara	script_core.c:scrGetFloatParaBits
+0010b748	72	scrGetStrPara	USER_DEFINED	rewritten	src/script/vm.cpp:scrGetStrPara	script_core.c:scrGetStrPara
+0010b790	20	scrSetIntReturnValue	USER_DEFINED	rewritten	src/script/vm.cpp:scrSetIntReturnValue	script_movie.c:scrSetIntReturnValue
+0010b7d8	24	scrGetLabelCodeAddress	USER_DEFINED	rewritten	src/script/vm.cpp:scrGetLabelCodeAddress	script_core.c:scrGetLabelCodeAddress
+0010b800	12	scrSetCodePointer	USER_DEFINED	rewritten	src/script/vm.cpp:scrSetCodePointer	script_core.c:scrSetCodePointer
+0010b820	12	scrGetCommandTimer	USER_DEFINED	rewritten	src/script/vm.cpp:scrGetCommandTimer	script_core.c:scrGetCommandTimer
+0010b830	12	scrGetMessageHandle	USER_DEFINED	rewritten	src/script/vm.cpp:scrGetMessageHandle	script_core.c:scrGetMessageHandle
+0010b840	8	scrGetScriptHandle	USER_DEFINED	rewritten	src/script/vm.cpp:scrGetScriptHandle	script_core.c:scrGetScriptHandle
+0010b848	12	scrGetData	USER_DEFINED	rewritten	src/script/vm.cpp:scrGetData	script_core.c:scrGetData
 0010b858	44	ps2ScriptSkipRequested	USER_DEFINED	legacy		script_core.c:ps2ScriptSkipRequested
-0010b888	48	scrCommand_BIT_CHK	USER_DEFINED	legacy		script_common_bits.c:scrCommand_BIT_CHK
-0010b8b8	40	scrCommand_BIT_ON	USER_DEFINED	legacy		script_common_bits.c:scrCommand_BIT_ON
-0010b8e0	40	scrCommand_BIT_OFF	USER_DEFINED	legacy		script_common_bits.c:scrCommand_BIT_OFF
-0010b908	52	scrCommand_RND	USER_DEFINED	legacy		battle_script_commands.c:scrCommand_RND
-0010b940	32	scrCommand_SYNC	USER_DEFINED	legacy		script_core.c:scrCommand_SYNC
-0010b960	72	scrCommand_WAIT	USER_DEFINED	legacy		script_core.c:scrCommand_WAIT
-0010b9a8	72	FUN_0010b9a8	DEFAULT	unknown		
-0010b9f0	72	FUN_0010b9f0	DEFAULT	unknown		
-0010ba38	148	scrCommand_FADE_IN	USER_DEFINED	legacy		screen_fade.c:scrCommand_FADE_IN
-0010bad8	148	scrCommand_FADE_OUT	USER_DEFINED	legacy		screen_fade.c:scrCommand_FADE_OUT
-0010bb78	88	scrCommand_SEL_JMP	USER_DEFINED	legacy		script_core.c:scrCommand_SEL_JMP
-0010bbd0	52	FUN_0010bbd0	DEFAULT	unknown		
-0010bc08	52	FUN_0010bc08	DEFAULT	unknown		
+0010b888	48	scrCommand_BIT_CHK	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_BIT_CHK	script_common_bits.c:scrCommand_BIT_CHK
+0010b8b8	40	scrCommand_BIT_ON	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_BIT_ON	script_common_bits.c:scrCommand_BIT_ON
+0010b8e0	40	scrCommand_BIT_OFF	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_BIT_OFF	script_common_bits.c:scrCommand_BIT_OFF
+0010b908	52	scrCommand_RND	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_RND	battle_script_commands.c:scrCommand_RND
+0010b940	32	scrCommand_SYNC	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_SYNC	script_core.c:scrCommand_SYNC
+0010b960	72	scrCommand_WAIT	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_WAIT	script_core.c:scrCommand_WAIT
+0010b9a8	72	scrCommand_PUT	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_PUT	
+0010b9f0	72	scrCommand_PUTS	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_PUTS	
+0010ba38	148	scrCommand_FADE_IN	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_FADE_IN	screen_fade.c:scrCommand_FADE_IN
+0010bad8	148	scrCommand_FADE_OUT	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_FADE_OUT	screen_fade.c:scrCommand_FADE_OUT
+0010bb78	88	scrCommand_SEL_JMP	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_SEL_JMP	script_core.c:scrCommand_SEL_JMP
+0010bbd0	52	scrCommand_PAD_TRIG	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_PAD_TRIG	
+0010bc08	52	scrCommand_PAD_PRESS	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_PAD_PRESS	
 0010bc40	88	FUN_0010bc40	DEFAULT	unknown		
 0010bc98	132	FUN_0010bc98	DEFAULT	unknown		
-0010bd20	188	scrCommand_SCR_RUN	USER_DEFINED	legacy		script_lifecycle_commands.c:scrCommand_SCR_RUN
-0010bde0	72	scrCommand_SCR_KILL	USER_DEFINED	legacy		script_lifecycle_commands.c:scrCommand_SCR_KILL
-0010be28	40	scrCommand_SCR_WAIT	USER_DEFINED	legacy		script_lifecycle_commands.c:scrCommand_SCR_WAIT
-0010be50	72	scrCommand_SCR_STAT	USER_DEFINED	legacy		script_lifecycle_commands.c:scrCommand_SCR_STAT
-0010be98	92	scrCommand_SCR_TIME	USER_DEFINED	legacy		script_lifecycle_commands.c:scrCommand_SCR_TIME
-0010bef8	64	FUN_0010bef8	DEFAULT	unknown		
-0010bf38	32	FUN_0010bf38	DEFAULT	unknown		
+0010bd20	188	scrCommand_SCR_RUN	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_SCR_RUN	script_lifecycle_commands.c:scrCommand_SCR_RUN
+0010bde0	72	scrCommand_SCR_KILL	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_SCR_KILL	script_lifecycle_commands.c:scrCommand_SCR_KILL
+0010be28	40	scrCommand_SCR_WAIT	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_SCR_WAIT	script_lifecycle_commands.c:scrCommand_SCR_WAIT
+0010be50	72	scrCommand_SCR_STAT	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_SCR_STAT	script_lifecycle_commands.c:scrCommand_SCR_STAT
+0010be98	92	scrCommand_SCR_TIME	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_SCR_TIME	script_lifecycle_commands.c:scrCommand_SCR_TIME
+0010bef8	64	scrCommand_QUAKE_ON	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_QUAKE_ON	
+0010bf38	32	scrCommand_QUAKE_OFF	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_QUAKE_OFF	
 0010bf58	116	FUN_0010bf58	DEFAULT	unknown		
 0010bfd0	172	FUN_0010bfd0	DEFAULT	unknown		
 0010c080	112	FUN_0010c080	DEFAULT	unknown		
@@ -3539,101 +3539,101 @@ address	size	name	name_source	status	rewrite	legacy
 001c5c08	336	FUN_001c5c08	DEFAULT	unknown		
 001c5d80	588	FUN_001c5d80	DEFAULT	unknown		
 001c5fd0	72	FUN_001c5fd0	DEFAULT	unknown		
-001c6018	76	ps2FontTakeTextureSlot	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c6018;battle_panel_renderer_existing_5.c:body_001c6018;font_resource.c:ps2FontTakeTextureSlot
-001c6068	48	ps2BattleRewardPhaseRecycler_001C6068	USER_DEFINED	legacy		battle_reward_phase_recycler.c:body_001c6068;battle_reward_phase_recycler.c:ps2BattleRewardPhaseRecycler_001C6068
-001c6098	72	ps2FontFindCode416	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c6098;battle_panel_renderer_remaining.c:body_001c6098;font_resource.c:ps2FontFindCode416
-001c60e0	72	ps2FontFindCode264	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c60e0;battle_panel_renderer_remaining.c:body_001c60e0;font_resource.c:ps2FontFindCode264
-001c6128	56	ps2FontRecordLastCode	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c6128;battle_panel_renderer_existing_5.c:body_001c6128;font_resource.c:ps2FontRecordLastCode
-001c6160	32	ps2FontSetSize	USER_DEFINED	legacy		battle_panel_color_prerequisites.c:body_001c6160;battle_panel_renderer_prerequisites.c:body_001c6160;battle_panel_support.c:ps2FontSetSize
+001c6018	76	ps2FontTakeTextureSlot	USER_DEFINED	rewritten	src/interface/font.cpp:TakeTextureCell	battle_action_skill_registered_frames.c:body_001c6018;battle_panel_renderer_existing_5.c:body_001c6018;font_resource.c:ps2FontTakeTextureSlot
+001c6068	48	ps2BattleRewardPhaseRecycler_001C6068	USER_DEFINED	rewritten	src/interface/font.cpp:GiveTextureCell	battle_reward_phase_recycler.c:body_001c6068;battle_reward_phase_recycler.c:ps2BattleRewardPhaseRecycler_001C6068
+001c6098	72	ps2FontFindCode416	USER_DEFINED	rewritten	src/interface/font.cpp:FindCode416	battle_action_skill_registered_frames.c:body_001c6098;battle_panel_renderer_remaining.c:body_001c6098;font_resource.c:ps2FontFindCode416
+001c60e0	72	ps2FontFindCode264	USER_DEFINED	rewritten	src/interface/font.cpp:FindCode264	battle_action_skill_registered_frames.c:body_001c60e0;battle_panel_renderer_remaining.c:body_001c60e0;font_resource.c:ps2FontFindCode264
+001c6128	56	ps2FontRecordLastCode	USER_DEFINED	rewritten	src/interface/font.cpp:RecordLastCode	battle_action_skill_registered_frames.c:body_001c6128;battle_panel_renderer_existing_5.c:body_001c6128;font_resource.c:ps2FontRecordLastCode
+001c6160	32	ps2FontSetSize	USER_DEFINED	rewritten	src/interface/font.cpp:frSetBaseWidth	battle_panel_color_prerequisites.c:body_001c6160;battle_panel_renderer_prerequisites.c:body_001c6160;battle_panel_support.c:ps2FontSetSize
 001c6180	56	FUN_001c6180	DEFAULT	unknown		
-001c6270	136	FUN_001c6270	DEFAULT	unknown		
-001c6300	56	FUN_001c6300	DEFAULT	unknown		
+001c6270	136	frRelayoutRequest	USER_DEFINED	rewritten	src/interface/font.cpp:RelayoutRequest	
+001c6300	56	frSetSpaceMetric	USER_DEFINED	rewritten	src/interface/font.cpp:SetSpaceMetric	
 001c6338	40	ps2FontSwapColorBytes	USER_DEFINED	legacy		battle_panel_color_prerequisites.c:body_001c6338;battle_panel_renderer_prerequisites.c:body_001c6338;message_frame_draw.c:ps2FontSwapColorBytes
-001c6360	60	FUN_001c6360	DEFAULT	unknown		
+001c6360	60	frConvertVal2N	USER_DEFINED	rewritten	src/interface/font.cpp:frConvertVal2N	
 001c63a0	152	FUN_001c63a0	DEFAULT	unknown		
 001c6438	604	ps2FontCreateDrawPacket	USER_DEFINED	legacy		battle_panel_color_prerequisites.c:body_001c6438;battle_panel_renderer_prerequisites.c:body_001c6438;message_frame_draw.c:ps2FontCreateDrawPacket
 001c6698	104	FUN_001c6698	DEFAULT	unknown		
 001c6700	128	FUN_001c6700	DEFAULT	unknown		
 001c6780	216	FUN_001c6780	DEFAULT	unknown		
-001c6858	148	FUN_001c6858	DEFAULT	unknown		
+001c6858	148	frLoadStyle	USER_DEFINED	rewritten	src/interface/font.cpp:frLoadStyle	
 001c68f0	532	FUN_001c68f0	DEFAULT	unknown		
 001c6b08	92	FUN_001c6b08	DEFAULT	unknown		
-001c6b68	260	ps2FontBindContext	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c6b68;battle_panel_renderer_remaining.c:body_001c6b68;font_text.c:ps2FontBindContext
-001c6c70	108	FUN_001c6c70	DEFAULT	unknown		
-001c6ce0	80	FUN_001c6ce0	DEFAULT	unknown		
-001c6d30	92	FUN_001c6d30	DEFAULT	unknown		
+001c6b68	260	ps2FontBindContext	USER_DEFINED	rewritten	src/interface/font.cpp:BindStyle	battle_action_skill_registered_frames.c:body_001c6b68;battle_panel_renderer_remaining.c:body_001c6b68;font_text.c:ps2FontBindContext
+001c6c70	108	frDelFontStyle	USER_DEFINED	rewritten	src/interface/font.cpp:frDelFontStyle	
+001c6ce0	80	frLoadStyleAll	USER_DEFINED	rewritten	src/interface/font.cpp:frLoadStyleAll	
+001c6d30	92	frDelStyleAll	USER_DEFINED	rewritten	src/interface/font.cpp:frDelStyleAll	
 001c6d90	192	FUN_001c6d90	DEFAULT	unknown		
-001c6e50	120	ps2BattleRewardPhaseRecycler_001C6E50	USER_DEFINED	legacy		battle_reward_phase_recycler.c:body_001c6e50;battle_reward_phase_recycler.c:ps2BattleRewardPhaseRecycler_001C6E50
-001c6ec8	64	FUN_001c6ec8	DEFAULT	unknown		
-001c6f08	236	ps2BattleRewardPhaseRecycler_001C6F08	USER_DEFINED	legacy		battle_reward_phase_recycler.c:body_001c6f08;battle_reward_phase_recycler.c:ps2BattleRewardPhaseRecycler_001C6F08
-001c6ff8	88	frDestroyFontRequestAfter	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c6ff8;battle_panel_renderer_existing_5.c:body_001c6ff8;script_lifetime.c:frDestroyFontRequestAfter
+001c6e50	120	ps2BattleRewardPhaseRecycler_001C6E50	USER_DEFINED	rewritten	src/interface/font.cpp:ReleaseGlyph	battle_reward_phase_recycler.c:body_001c6e50;battle_reward_phase_recycler.c:ps2BattleRewardPhaseRecycler_001C6E50
+001c6ec8	64	frDestroyFontRequestFade	USER_DEFINED	rewritten	src/interface/font.cpp:frDestroyFontRequestFade	
+001c6f08	236	ps2BattleRewardPhaseRecycler_001C6F08	USER_DEFINED	rewritten	src/interface/font.cpp:frDestroyFontRequestNow	battle_reward_phase_recycler.c:body_001c6f08;battle_reward_phase_recycler.c:ps2BattleRewardPhaseRecycler_001C6F08
+001c6ff8	88	frDestroyFontRequestAfter	USER_DEFINED	rewritten	src/interface/font.cpp:frDestroyFontRequestAfter	battle_action_skill_registered_frames.c:body_001c6ff8;battle_panel_renderer_existing_5.c:body_001c6ff8;script_lifetime.c:frDestroyFontRequestAfter
 001c7080	8	ps2FontGetGlyphStorageSize	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c7080;battle_panel_renderer_existing_5.c:body_001c7080;font_resource.c:ps2FontGetGlyphStorageSize
-001c7088	512	ps2FontLayoutGlyph	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c7088;battle_panel_renderer_existing_5.c:body_001c7088;font_text.c:ps2FontLayoutGlyph
-001c7288	300	ps2FontCreateControlGlyph	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c7288;battle_panel_renderer_remaining.c:body_001c7288;font_text.c:ps2FontCreateControlGlyph
-001c73b8	76	FUN_001c73b8	DEFAULT	unknown		
-001c7408	220	ps2FontCreateTextureGlyph	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c7408;battle_panel_renderer_existing_5.c:body_001c7408;font_text.c:ps2FontCreateTextureGlyph
-001c74e8	124	ps2FontAllocateDecodedGlyph	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c74e8;battle_panel_renderer_existing_5.c:body_001c74e8;font_resource.c:ps2FontAllocateDecodedGlyph
-001c7568	240	ps2FontAcquireCachedGlyph	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c7568;battle_panel_renderer_existing_5.c:body_001c7568;font_text.c:ps2FontAcquireCachedGlyph
-001c7660	72	frInitTextHandle	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c7660;battle_panel_renderer_existing_5.c:body_001c7660;font_resource.c:frInitTextHandle
-001c76a8	56	frInitFontHandle	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c76a8;battle_panel_renderer_existing_5.c:body_001c76a8;font_resource.c:frInitFontHandle
-001c76e0	328	ps2FontCreateTextGlyph	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c76e0;battle_panel_renderer_existing_5.c:body_001c76e0;font_text.c:ps2FontCreateTextGlyph
-001c7828	104	ps2FontAppendStringCombined	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c7828;battle_panel_renderer_existing_5.c:body_001c7828;font_text.c:ps2FontAppendStringCombined
-001c7890	456	ps2FontAppendString	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c7890;battle_panel_renderer_existing_5.c:body_001c7890;font_text.c:ps2FontAppendString
-001c7a60	36	frSetDrawSpeed	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c7a60;battle_panel_renderer_remaining.c:body_001c7a60;message_commands.c:frSetDrawSpeed
-001c7a88	44	frSetFontSpace	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c7a88;battle_panel_renderer_existing_5.c:body_001c7a88;font_parser_support.c:frSetFontSpace
-001c7ab8	116	FUN_001c7ab8	DEFAULT	unknown		
-001c7b30	12	frSetDrawPosition	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c7b30;battle_panel_renderer_existing_5.c:body_001c7b30;message_commands.c:frSetDrawPosition
-001c7b40	12	ps2FontSetDepth	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c7b40;battle_panel_renderer_existing_5.c:body_001c7b40;font_parser_support.c:ps2FontSetDepth
-001c7b50	88	FUN_001c7b50	DEFAULT	unknown		
-001c7ba8	88	frSetFontColor	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c7ba8;battle_panel_renderer_existing_5.c:body_001c7ba8;battle_panel_support.c:frSetFontColor
-001c7c00	16	frEnableMode	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c7c00;battle_panel_renderer_existing_5.c:body_001c7c00;font_parser_support.c:frEnableMode
-001c7c10	24	frDisableMode	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c7c10;battle_panel_renderer_existing_5.c:body_001c7c10;font_parser_support.c:frDisableMode
-001c7c28	8	FUN_001c7c28	DEFAULT	unknown		
-001c7c30	132	FUN_001c7c30	DEFAULT	unknown		
+001c7088	512	ps2FontLayoutGlyph	USER_DEFINED	rewritten	src/interface/font.cpp:frGetXShiftLev	battle_action_skill_registered_frames.c:body_001c7088;battle_panel_renderer_existing_5.c:body_001c7088;font_text.c:ps2FontLayoutGlyph
+001c7288	300	ps2FontCreateControlGlyph	USER_DEFINED	rewritten	src/interface/font.cpp:AppendControlText	battle_action_skill_registered_frames.c:body_001c7288;battle_panel_renderer_remaining.c:body_001c7288;font_text.c:ps2FontCreateControlGlyph
+001c73b8	76	ps2FontLinkControlGlyph	USER_DEFINED	rewritten	src/interface/font.cpp:LinkControlText	
+001c7408	220	ps2FontCreateTextureGlyph	USER_DEFINED	rewritten	src/interface/font.cpp:CreateTextureGlyph	battle_action_skill_registered_frames.c:body_001c7408;battle_panel_renderer_existing_5.c:body_001c7408;font_text.c:ps2FontCreateTextureGlyph
+001c74e8	124	ps2FontAllocateDecodedGlyph	USER_DEFINED	rewritten	src/interface/font.cpp:DecodeGlyphPixels	battle_action_skill_registered_frames.c:body_001c74e8;battle_panel_renderer_existing_5.c:body_001c74e8;font_resource.c:ps2FontAllocateDecodedGlyph
+001c7568	240	ps2FontAcquireCachedGlyph	USER_DEFINED	rewritten	src/interface/font.cpp:AcquireGlyph	battle_action_skill_registered_frames.c:body_001c7568;battle_panel_renderer_existing_5.c:body_001c7568;font_text.c:ps2FontAcquireCachedGlyph
+001c7660	72	frInitTextHandle	USER_DEFINED	rewritten	src/interface/font.cpp:frInitTextHandle	battle_action_skill_registered_frames.c:body_001c7660;battle_panel_renderer_existing_5.c:body_001c7660;font_resource.c:frInitTextHandle
+001c76a8	56	frInitFontHandle	USER_DEFINED	rewritten	src/interface/font.cpp:frInitFontHandle	battle_action_skill_registered_frames.c:body_001c76a8;battle_panel_renderer_existing_5.c:body_001c76a8;font_resource.c:frInitFontHandle
+001c76e0	328	ps2FontCreateTextGlyph	USER_DEFINED	rewritten	src/interface/font.cpp:frSetFont	battle_action_skill_registered_frames.c:body_001c76e0;battle_panel_renderer_existing_5.c:body_001c76e0;font_text.c:ps2FontCreateTextGlyph
+001c7828	104	ps2FontAppendStringCombined	USER_DEFINED	rewritten	src/interface/font.cpp:frLinkFontString	battle_action_skill_registered_frames.c:body_001c7828;battle_panel_renderer_existing_5.c:body_001c7828;font_text.c:ps2FontAppendStringCombined
+001c7890	456	ps2FontAppendString	USER_DEFINED	rewritten	src/interface/font.cpp:frSetFontString	battle_action_skill_registered_frames.c:body_001c7890;battle_panel_renderer_existing_5.c:body_001c7890;font_text.c:ps2FontAppendString
+001c7a60	36	frSetDrawSpeed	USER_DEFINED	rewritten	src/interface/font.cpp:frSetDrawSpeed	battle_action_skill_registered_frames.c:body_001c7a60;battle_panel_renderer_remaining.c:body_001c7a60;message_commands.c:frSetDrawSpeed
+001c7a88	44	frSetFontSpace	USER_DEFINED	rewritten	src/interface/font.cpp:frSetFontSpace	battle_action_skill_registered_frames.c:body_001c7a88;battle_panel_renderer_existing_5.c:body_001c7a88;font_parser_support.c:frSetFontSpace
+001c7ab8	116	frSetFontSize	USER_DEFINED	rewritten	src/interface/font.cpp:frSetFontSize	
+001c7b30	12	frSetDrawPosition	USER_DEFINED	rewritten	src/interface/font.cpp:frSetDrawPosition	battle_action_skill_registered_frames.c:body_001c7b30;battle_panel_renderer_existing_5.c:body_001c7b30;message_commands.c:frSetDrawPosition
+001c7b40	12	ps2FontSetDepth	USER_DEFINED	rewritten	src/interface/font.cpp:frSetPriority	battle_action_skill_registered_frames.c:body_001c7b40;battle_panel_renderer_existing_5.c:body_001c7b40;font_parser_support.c:ps2FontSetDepth
+001c7b50	88	frSetFontColNo	USER_DEFINED	rewritten	src/interface/font.cpp:frSetFontColNo	
+001c7ba8	88	frSetFontColor	USER_DEFINED	rewritten	src/interface/font.cpp:frSetFontColor	battle_action_skill_registered_frames.c:body_001c7ba8;battle_panel_renderer_existing_5.c:body_001c7ba8;battle_panel_support.c:frSetFontColor
+001c7c00	16	frEnableMode	USER_DEFINED	rewritten	src/interface/font.cpp:frEnableMode	battle_action_skill_registered_frames.c:body_001c7c00;battle_panel_renderer_existing_5.c:body_001c7c00;font_parser_support.c:frEnableMode
+001c7c10	24	frDisableMode	USER_DEFINED	rewritten	src/interface/font.cpp:frDisableMode	battle_action_skill_registered_frames.c:body_001c7c10;battle_panel_renderer_existing_5.c:body_001c7c10;font_parser_support.c:frDisableMode
+001c7c28	8	frSetFontDrawOT	USER_DEFINED	rewritten	src/interface/font.cpp:frSetFontDrawOT	
+001c7c30	132	frFadeOutText	USER_DEFINED	rewritten	src/interface/font.cpp:frFadeOutText	
 001c7cb8	324	frDrawEffect	USER_DEFINED	legacy		battle_panel_color_prerequisites.c:body_001c7cb8;battle_panel_renderer_prerequisites.c:body_001c7cb8;message_frame_draw.c:frDrawEffect
 001c7e00	24	frDrawFont	USER_DEFINED	legacy		battle_reward_levelup_native.c:body_001c7e00;battle_reward_levelup_native.c:ps2BattleRewardLevelupNative_001C7E00;battle_reward_phase_rows.c:body_001c7e00;battle_reward_phase_rows.c:ps2BattleRewardPhaseRows_001C7E00;message_frame_draw.c:frDrawFont
 001c7e18	32	frDrawFontEx	USER_DEFINED	legacy		battle_reward_levelup_native.c:body_001c7e18;battle_reward_levelup_native.c:ps2BattleRewardLevelupNative_001C7E18;battle_reward_phase_rows.c:body_001c7e18;battle_reward_phase_rows.c:ps2BattleRewardPhaseRows_001C7E18;message_frame_draw.c:frDrawFontEx
 001c7e38	640	frDrawFontEx2	USER_DEFINED	legacy		battle_panel_color_prerequisites.c:body_001c7e38;battle_panel_renderer_prerequisites.c:body_001c7e38;message_frame_draw.c:frDrawFontEx2
 001c80b8	80	ps2BattleRewardPhaseRecycler_001C80B8	USER_DEFINED	legacy		battle_reward_phase_recycler.c:body_001c80b8;battle_reward_phase_recycler.c:ps2BattleRewardPhaseRecycler_001C80B8
-001c8108	24	ps2FontCombineRequest	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c8108;battle_panel_renderer_existing_5.c:body_001c8108;font_text.c:ps2FontCombineRequest
-001c8120	144	frCombineFontRequestEx	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c8120;battle_panel_renderer_existing_5.c:body_001c8120;script_lifetime.c:frCombineFontRequestEx
-001c81b8	32	ps2FontBindMessageStyle	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c81b8;battle_panel_renderer_remaining.c:body_001c81b8;font_parser_support.c:ps2FontBindMessageStyle
-001c81d8	24	FUN_001c81d8	DEFAULT	unknown		
-001c8230	52	ps2FontMeasureRequest	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c8230;battle_panel_renderer_existing_5.c:body_001c8230;font_resource.c:ps2FontMeasureRequest
-001c8268	80	FUN_001c8268	DEFAULT	legacy		battle_action_skill_support_frames.c:body_001c8268;battle_action_skill_support_frames.c:ps2BattleActionSkill_001C8268;battle_status_pairs.c:body_001c8268;battle_status_pairs_native.c:body_001c8268
+001c8108	24	ps2FontCombineRequest	USER_DEFINED	rewritten	src/interface/font.cpp:frCombineFontRequest	battle_action_skill_registered_frames.c:body_001c8108;battle_panel_renderer_existing_5.c:body_001c8108;font_text.c:ps2FontCombineRequest
+001c8120	144	frCombineFontRequestEx	USER_DEFINED	rewritten	src/interface/font.cpp:frCombineFontRequestEx	battle_action_skill_registered_frames.c:body_001c8120;battle_panel_renderer_existing_5.c:body_001c8120;script_lifetime.c:frCombineFontRequestEx
+001c81b8	32	ps2FontBindMessageStyle	USER_DEFINED	rewritten	src/interface/font.cpp:frSetExtDic	battle_action_skill_registered_frames.c:body_001c81b8;battle_panel_renderer_remaining.c:body_001c81b8;font_parser_support.c:ps2FontBindMessageStyle
+001c81d8	24	frDelExtDic	USER_DEFINED	rewritten	src/interface/font.cpp:frDelExtDic	
+001c8230	52	ps2FontMeasureRequest	USER_DEFINED	rewritten	src/interface/font.cpp:frGetStrWidth	battle_action_skill_registered_frames.c:body_001c8230;battle_panel_renderer_existing_5.c:body_001c8230;font_resource.c:ps2FontMeasureRequest
+001c8268	80	frGetChainWidth	USER_DEFINED	rewritten	src/interface/font.cpp:frGetChainWidth	battle_action_skill_support_frames.c:body_001c8268;battle_action_skill_support_frames.c:ps2BattleActionSkill_001C8268;battle_status_pairs.c:body_001c8268;battle_status_pairs_native.c:body_001c8268
 001c82b8	248	FUN_001c82b8	DEFAULT	unknown		
-001c83b0	60	frGetDefaultFontWidth	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c83b0;battle_panel_renderer_existing_5.c:body_001c83b0;font_resource.c:frGetDefaultFontWidth
-001c83f0	36	frGetFontWidth	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c83f0;battle_panel_renderer_existing_5.c:body_001c83f0;font_resource.c:frGetFontWidth
-001c8418	60	frGetDefaultFontHeight	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c8418;battle_panel_renderer_existing_5.c:body_001c8418;font_resource.c:frGetDefaultFontHeight
-001c8458	36	frGetFontHeight	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c8458;battle_panel_renderer_existing_5.c:body_001c8458;font_resource.c:frGetFontHeight
-001c8480	12	FUN_001c8480	DEFAULT	unknown		
-001c8490	8	FUN_001c8490	DEFAULT	unknown		
+001c83b0	60	frGetDefaultFontWidth	USER_DEFINED	rewritten	src/interface/font.cpp:frGetDefaultFontWidth	battle_action_skill_registered_frames.c:body_001c83b0;battle_panel_renderer_existing_5.c:body_001c83b0;font_resource.c:frGetDefaultFontWidth
+001c83f0	36	frGetFontWidth	USER_DEFINED	rewritten	src/interface/font.cpp:frGetFontWidth	battle_action_skill_registered_frames.c:body_001c83f0;battle_panel_renderer_existing_5.c:body_001c83f0;font_resource.c:frGetFontWidth
+001c8418	60	frGetDefaultFontHeight	USER_DEFINED	rewritten	src/interface/font.cpp:frGetDefaultFontHeight	battle_action_skill_registered_frames.c:body_001c8418;battle_panel_renderer_existing_5.c:body_001c8418;font_resource.c:frGetDefaultFontHeight
+001c8458	36	frGetFontHeight	USER_DEFINED	rewritten	src/interface/font.cpp:frGetFontHeight	battle_action_skill_registered_frames.c:body_001c8458;battle_panel_renderer_existing_5.c:body_001c8458;font_resource.c:frGetFontHeight
+001c8480	12	frResetStepY	USER_DEFINED	rewritten	src/interface/font.cpp:frResetStepY	
+001c8490	8	frSetStepY	USER_DEFINED	rewritten	src/interface/font.cpp:frSetStepY	
 001c8498	112	FUN_001c8498	DEFAULT	unknown		
-001c8508	396	ps2FontAppendVariable	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c8508;battle_panel_renderer_remaining.c:body_001c8508;font_parser_support.c:ps2FontAppendVariable
-001c86a0	144	frCreateNewHandle	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c86a0;battle_panel_renderer_remaining.c:body_001c86a0;font_parser_support.c:frCreateNewHandle
-001c8730	36	ps2FontAdvanceMessageLine	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c8730;battle_panel_renderer_remaining.c:body_001c8730;font_parser_support.c:ps2FontAdvanceMessageLine
-001c8758	112	ps2FontAppendSpecialCode	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c8758;battle_panel_renderer_remaining.c:body_001c8758;font_parser_support.c:ps2FontAppendSpecialCode
-001c87c8	1264	ps2FontParseMessageTag	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c87c8;battle_panel_renderer_remaining.c:body_001c87c8;font_message.c:ps2FontParseMessageTag
-001c8ce0	68	FUN_001c8ce0	DEFAULT	unknown		
-001c8d28	276	FUN_001c8d28	DEFAULT	unknown		
-001c8e48	184	FUN_001c8e48	DEFAULT	unknown		
-001c8f08	508	ps2FontParseMessage	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c8f08;battle_panel_renderer_remaining.c:body_001c8f08;font_message.c:ps2FontParseMessage
-001c9108	52	FUN_001c9108	DEFAULT	legacy		battle_action_skill_support_frames.c:body_001c9108;battle_action_skill_support_frames.c:ps2BattleActionSkill_001C9108;battle_status_pairs.c:body_001c9108;battle_status_pairs_native.c:body_001c9108
-001c9140	68	ps2FontMessageRequest	USER_DEFINED	legacy		font_message.c:ps2FontMessageRequest
-001c9188	88	ps2FontMessageRequestEx	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c9188;battle_panel_renderer_remaining.c:body_001c9188;font_message.c:ps2FontMessageRequestEx
-001c91e0	60	FUN_001c91e0	DEFAULT	unknown		
-001c9220	12	ps2FontTestGlobalFlags	USER_DEFINED	legacy		message_commands.c:ps2FontTestGlobalFlags
-001c9230	24	frSetVariableRequest	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c9230;battle_panel_renderer_remaining.c:body_001c9230;message_commands.c:frSetVariableRequest
+001c8508	396	ps2FontAppendVariable	USER_DEFINED	rewritten	src/interface/font_message.cpp:AppendVariable	battle_action_skill_registered_frames.c:body_001c8508;battle_panel_renderer_remaining.c:body_001c8508;font_parser_support.c:ps2FontAppendVariable
+001c86a0	144	frCreateNewHandle	USER_DEFINED	rewritten	src/interface/font_message.cpp:frCreateNewHandle	battle_action_skill_registered_frames.c:body_001c86a0;battle_panel_renderer_remaining.c:body_001c86a0;font_parser_support.c:frCreateNewHandle
+001c8730	36	ps2FontAdvanceMessageLine	USER_DEFINED	rewritten	src/interface/font_message.cpp:AdvanceMessageLine	battle_action_skill_registered_frames.c:body_001c8730;battle_panel_renderer_remaining.c:body_001c8730;font_parser_support.c:ps2FontAdvanceMessageLine
+001c8758	112	ps2FontAppendSpecialCode	USER_DEFINED	rewritten	src/interface/font_message.cpp:AppendSpecialCode	battle_action_skill_registered_frames.c:body_001c8758;battle_panel_renderer_remaining.c:body_001c8758;font_parser_support.c:ps2FontAppendSpecialCode
+001c87c8	1264	ps2FontParseMessageTag	USER_DEFINED	rewritten	src/interface/font_message.cpp:frAnalyzeTag	battle_action_skill_registered_frames.c:body_001c87c8;battle_panel_renderer_remaining.c:body_001c87c8;font_message.c:ps2FontParseMessageTag
+001c8ce0	68	frControlCodeLength	USER_DEFINED	rewritten	src/interface/font_message.cpp:ControlCodeLength	
+001c8d28	276	frCopyMessageLine	USER_DEFINED	rewritten	src/interface/font_message.cpp:CopyMessageLine	
+001c8e48	184	frCountMessageLines	USER_DEFINED	rewritten	src/interface/font_message.cpp:CountMessageLines	
+001c8f08	508	ps2FontParseMessage	USER_DEFINED	rewritten	src/interface/font_message.cpp:frAnalyzeMessage	battle_action_skill_registered_frames.c:body_001c8f08;battle_panel_renderer_remaining.c:body_001c8f08;font_message.c:ps2FontParseMessage
+001c9108	52	frMessageRequestPlain	USER_DEFINED	rewritten	src/interface/font_message.cpp:MessageRequestPlain	battle_action_skill_support_frames.c:body_001c9108;battle_action_skill_support_frames.c:ps2BattleActionSkill_001C9108;battle_status_pairs.c:body_001c9108;battle_status_pairs_native.c:body_001c9108
+001c9140	68	ps2FontMessageRequest	USER_DEFINED	rewritten	src/interface/font_message.cpp:MessageRequest	font_message.c:ps2FontMessageRequest
+001c9188	88	ps2FontMessageRequestEx	USER_DEFINED	rewritten	src/interface/font_message.cpp:MessageRequestEx	battle_action_skill_registered_frames.c:body_001c9188;battle_panel_renderer_remaining.c:body_001c9188;font_message.c:ps2FontMessageRequestEx
+001c91e0	60	frMessageRequestKeepSpace	USER_DEFINED	rewritten	src/interface/font_message.cpp:MessageRequestKeepSpace	
+001c9220	12	ps2FontTestGlobalFlags	USER_DEFINED	rewritten	src/interface/font_message.cpp:frGetMessageResult	message_commands.c:ps2FontTestGlobalFlags
+001c9230	24	frSetVariableRequest	USER_DEFINED	rewritten	src/interface/font_message.cpp:frSetVariableRequest	battle_action_skill_registered_frames.c:body_001c9230;battle_panel_renderer_remaining.c:body_001c9230;message_commands.c:frSetVariableRequest
 001c9248	744	FUN_001c9248	DEFAULT	unknown		
 001c9530	424	FUN_001c9530	DEFAULT	unknown		
-001c96d8	488	ps2FontLoadNameBitmapBank	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c96d8;battle_panel_renderer_remaining.c:body_001c96d8;font_message.c:ps2FontLoadNameBitmapBank
-001c98c0	248	ps2FontReferenceNameBitmapBank	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c98c0;battle_panel_renderer_remaining.c:body_001c98c0;font_message.c:ps2FontReferenceNameBitmapBank
-001c99c0	216	ps2BattleRewardPhaseRecycler_001C99C0	USER_DEFINED	legacy		battle_reward_phase_recycler.c:body_001c99c0;battle_reward_phase_recycler.c:ps2BattleRewardPhaseRecycler_001C99C0
-001c9a98	192	ps2FontAppendNameBitmapGlyph	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c9a98;battle_panel_renderer_remaining.c:body_001c9a98;font_message.c:ps2FontAppendNameBitmapGlyph
-001c9b58	208	ps2FontAppendNameFirst	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c9b58;battle_panel_renderer_remaining.c:body_001c9b58;font_message.c:ps2FontAppendNameFirst
-001c9c28	216	ps2FontAppendNameSecond	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c9c28;battle_panel_renderer_remaining.c:body_001c9c28;font_message.c:ps2FontAppendNameSecond
-001c9d00	96	ps2FontAppendNameBoth	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c9d00;battle_panel_renderer_remaining.c:body_001c9d00;font_message.c:ps2FontAppendNameBoth
-001c9d60	340	ps2FontAppendResourceName	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001c9d60;battle_panel_renderer_existing_5.c:body_001c9d60;font_parser_support.c:ps2FontAppendResourceName
+001c96d8	488	ps2FontLoadNameBitmapBank	USER_DEFINED	rewritten	src/interface/font_message.cpp:LoadNameBank	battle_action_skill_registered_frames.c:body_001c96d8;battle_panel_renderer_remaining.c:body_001c96d8;font_message.c:ps2FontLoadNameBitmapBank
+001c98c0	248	ps2FontReferenceNameBitmapBank	USER_DEFINED	rewritten	src/interface/font_message.cpp:ReferenceNameBank	battle_action_skill_registered_frames.c:body_001c98c0;battle_panel_renderer_remaining.c:body_001c98c0;font_message.c:ps2FontReferenceNameBitmapBank
+001c99c0	216	ps2BattleRewardPhaseRecycler_001C99C0	USER_DEFINED	rewritten	src/interface/font_message.cpp:ReleaseNameBank	battle_reward_phase_recycler.c:body_001c99c0;battle_reward_phase_recycler.c:ps2BattleRewardPhaseRecycler_001C99C0
+001c9a98	192	ps2FontAppendNameBitmapGlyph	USER_DEFINED	rewritten	src/interface/font_message.cpp:AppendNameLetter	battle_action_skill_registered_frames.c:body_001c9a98;battle_panel_renderer_remaining.c:body_001c9a98;font_message.c:ps2FontAppendNameBitmapGlyph
+001c9b58	208	ps2FontAppendNameFirst	USER_DEFINED	rewritten	src/interface/font_message.cpp:AppendFamilyName	battle_action_skill_registered_frames.c:body_001c9b58;battle_panel_renderer_remaining.c:body_001c9b58;font_message.c:ps2FontAppendNameFirst
+001c9c28	216	ps2FontAppendNameSecond	USER_DEFINED	rewritten	src/interface/font_message.cpp:AppendGivenName	battle_action_skill_registered_frames.c:body_001c9c28;battle_panel_renderer_remaining.c:body_001c9c28;font_message.c:ps2FontAppendNameSecond
+001c9d00	96	ps2FontAppendNameBoth	USER_DEFINED	rewritten	src/interface/font_message.cpp:AppendFullName	battle_action_skill_registered_frames.c:body_001c9d00;battle_panel_renderer_remaining.c:body_001c9d00;font_message.c:ps2FontAppendNameBoth
+001c9d60	340	ps2FontAppendResourceName	USER_DEFINED	rewritten	src/interface/font_message.cpp:AppendNameText	battle_action_skill_registered_frames.c:body_001c9d60;battle_panel_renderer_existing_5.c:body_001c9d60;font_parser_support.c:ps2FontAppendResourceName
 001c9eb8	268	FUN_001c9eb8	DEFAULT	unknown		
 001c9fc8	48	FUN_001c9fc8	DEFAULT	unknown		
 001c9ff8	32	FUN_001c9ff8	DEFAULT	unknown		
@@ -3647,13 +3647,13 @@ address	size	name	name_source	status	rewrite	legacy
 001ca5e0	200	FUN_001ca5e0	DEFAULT	unknown		
 001ca6a8	420	FUN_001ca6a8	DEFAULT	unknown		
 001ca860	296	FUN_001ca860	DEFAULT	unknown		
-001ca9c0	8	ps2FontResourceIdentity	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001ca9c0;battle_panel_renderer_existing_5.c:body_001ca9c0;font_resource.c:ps2FontResourceIdentity
-001ca9c8	48	ps2FontResolveCompressedSections	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001ca9c8;battle_panel_renderer_existing_5.c:body_001ca9c8;font_resource.c:ps2FontResolveCompressedSections
+001ca9c0	8	ps2FontResourceIdentity	USER_DEFINED	rewritten	src/interface/font.cpp:ResourceIdentity	battle_action_skill_registered_frames.c:body_001ca9c0;battle_panel_renderer_existing_5.c:body_001ca9c0;font_resource.c:ps2FontResourceIdentity
+001ca9c8	48	ps2FontResolveCompressedSections	USER_DEFINED	rewritten	src/interface/font.cpp:ResolveGlyphSections	battle_action_skill_registered_frames.c:body_001ca9c8;battle_panel_renderer_existing_5.c:body_001ca9c8;font_resource.c:ps2FontResolveCompressedSections
 001ca9f8	32	FUN_001ca9f8	DEFAULT	unknown		
-001caa18	288	ps2FontDecodeGlyph	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001caa18;battle_panel_renderer_existing_5.c:body_001caa18;font_resource.c:ps2FontDecodeGlyph
-001cab38	160	FUN_001cab38	DEFAULT	unknown		
-001cabd8	40	ps2FontTakeGlyphSlot	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001cabd8;battle_panel_renderer_existing_5.c:body_001cabd8;font_resource.c:ps2FontTakeGlyphSlot
-001cac00	48	ps2BattleRewardPhaseRecycler_001CAC00	USER_DEFINED	legacy		battle_reward_phase_recycler.c:body_001cac00;battle_reward_phase_recycler.c:ps2BattleRewardPhaseRecycler_001CAC00
+001caa18	288	ps2FontDecodeGlyph	USER_DEFINED	rewritten	src/interface/font.cpp:DecodeGlyph	battle_action_skill_registered_frames.c:body_001caa18;battle_panel_renderer_existing_5.c:body_001caa18;font_resource.c:ps2FontDecodeGlyph
+001cab38	160	ps2PoolCreate	USER_DEFINED	rewritten	src/interface/font.cpp:PoolCreate	
+001cabd8	40	ps2FontTakeGlyphSlot	USER_DEFINED	rewritten	src/interface/font.cpp:PoolTake	battle_action_skill_registered_frames.c:body_001cabd8;battle_panel_renderer_existing_5.c:body_001cabd8;font_resource.c:ps2FontTakeGlyphSlot
+001cac00	48	ps2BattleRewardPhaseRecycler_001CAC00	USER_DEFINED	rewritten	src/interface/font.cpp:PoolGive	battle_reward_phase_recycler.c:body_001cac00;battle_reward_phase_recycler.c:ps2BattleRewardPhaseRecycler_001CAC00
 001cac30	32	FUN_001cac30	DEFAULT	unknown		
 001cad00	100	FUN_001cad00	DEFAULT	unknown		
 001cad68	32	FUN_001cad68	DEFAULT	unknown		

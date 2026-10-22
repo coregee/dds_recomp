@@ -9,51 +9,9 @@
 #include <cstdint>
 
 #include "nocturne/guest.hpp"
+#include "nocturne/interface/font.hpp"
 
 namespace nocturne {
-
-// ---- font requests (frFont) --------------------------------------------------------
-
-namespace fr {
-
-// _TEXT: one character of a font request.
-struct Text {
-    uint16_t code;
-    uint16_t draw_count;
-    int32_t lx, ly, lw;          // position and width
-    uint32_t color;              // RGBA; the low byte is the alpha
-    uint8_t col_no;
-    uint8_t style;
-    uint8_t tp;
-    uint8_t mode;
-    uint8_t width, height;
-    uint8_t pad1a[2];
-    uint32_t gs_font, user_font;  // (tentative)
-    Ptr32<Text> prev;
-    Ptr32<Text> next;
-};
-static_assert(offsetof(Text, color) == 0x10 && offsetof(Text, col_no) == 0x14 && offsetof(Text, tp) == 0x16);
-static_assert(offsetof(Text, width) == 0x18 && offsetof(Text, prev) == 0x24 && offsetof(Text, next) == 0x28);
-
-// _FRQ: a font request, one run of text on one line. A message page is a
-// chain of them (`next`); a new line starts a request with a new `y`.
-struct Request {
-    uint8_t draw_spd;            // drawing speed, 0..128 (128: all at once)
-    int8_t space;
-    uint8_t pad02[2];
-    int32_t x, y;                // in 1/16 pixels horizontally, 1/8 vertically
-    int32_t w_pxls;              // width in characters
-    int16_t x_size, y_size;      // character size; y_size is the line height
-    uint32_t priority;           // z
-    int32_t strlen;
-    Ptr32<Text> str, str_end;
-    Ptr32<Request> next, prev;
-    Ptr32<Request> head;         // set to the last request of a unit when unchained
-};
-static_assert(sizeof(Request) == 0x30);
-static_assert(offsetof(Request, y_size) == 0x12 && offsetof(Request, priority) == 0x14 && offsetof(Request, next) == 0x24);
-
-} // namespace fr
 
 // ---- panels (itfPanel) -------------------------------------------------------------
 

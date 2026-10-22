@@ -38,7 +38,10 @@ include/nocturne/
   fusion/accident.hpp    fusion accidents
   fusion/sort.hpp        inherited-skill and devil-list sorting
   libc/qsort.hpp         the PS2 C library qsort (its tie order is observable)
-  interface/message.hpp  message windows (itfMesManager), font requests, panels
+  interface/message.hpp  message windows (itfMesManager), panels
+  interface/font.hpp     the font engine (frFont)
+  script/vm.hpp          the FlowScript VM: processes, opcodes, its own commands
+  kernel/quake.hpp       the screen quake (dds3SetQuake)
   external.hpp           engine functions not rewritten yet (bridged to legacy C)
 src/
   data/unit.cpp, progression.cpp   datCalc
@@ -48,6 +51,9 @@ src/
   battle/*.cpp                      nbCalc, by topic
   fusion/*.cpp                      cmb / fclCombineCalcCore, by topic
   interface/message.cpp             itfMesManager: message windows, selections
+  interface/font*.cpp               frFont: text layout, glyph cache, message pages
+  script/vm.cpp                     ScrScriptProcess, ScrTraceCode, scrCommonCommand
+  kernel/quake.cpp                  dds3KernelDraw: the screen quake
   libc/*.cpp                        C library functions whose exact behaviour matters
   platform/legacy_bridge.cpp        external.hpp -> legacy C ABI
 scripts/                 FlowScript: .flow (readable) and .flowasm (exact) per script,

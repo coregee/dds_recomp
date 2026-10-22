@@ -1,41 +1,17 @@
 // Message manager (itfMesManager): the rewrite against the original
 // instructions, run by the EE interpreter (ee.hpp) in the same fake world.
+#include <algorithm>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <fstream>
-#include <string>
 
-#include "ee.hpp"
 #include "harness.hpp"
+#include "interface_world.hpp"
 #include "nocturne/interface/message.hpp"
 
 extern "C" {
-uint64_t scrGetMessageHandle(void);
-uint64_t ps2FontMessageRequest(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
-uint64_t ps2BattleActionSkill_001C9108(uint64_t, uint64_t, uint64_t, uint64_t);
-uint64_t frDestroyFontRequestAfter(uint64_t);
-void ps2FontBindMessageStyle(uint64_t);
-void frSetVariableRequest(uint64_t, uint64_t);
-void frSetDrawPosition(uint64_t, uint64_t, uint64_t);
-void frSetDrawSpeed(uint64_t, uint64_t);
-uint64_t ps2FontTestGlobalFlags(uint64_t);
 uint64_t itfPnlRegist2(uint64_t, uint64_t);
-void itfPnlSetPosition(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
-void itfPnlSetPositionOffset(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
-void itfPnlSetColor(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
-void itfPnlRelease(uint64_t);
-uint64_t ps2SoundPlay(uint64_t, uint64_t, uint64_t);
-uint32_t ps2MemoryHandleAllocate(int32_t);
-uint32_t ps2MemoryHandleAcquirePointer(uint32_t);
-void ps2MemoryHandleFree(uint32_t);
 void ps2PacRelocatePointers(uint64_t, uint64_t, uint64_t, uint64_t);
-void nocturneInvokeMessageKutiCallback(uint32_t);
-uint64_t ps2InterfaceLoadTexture(uint64_t);
-void ps2TextureDeferredRelease(uint64_t);
-uint64_t dds3StartProcess(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
-uint64_t scrGetIntPara(uint64_t);
-void scrSetIntReturnValue(uint64_t);
 }
 
 namespace difftest {
@@ -45,98 +21,15 @@ namespace {
 using namespace nocturne::mes;
 namespace itf = nocturne::itf;
 namespace fr = nocturne::fr;
+using iface::A;
+using iface::addr;
+using iface::I;
+using iface::orig;
+using iface::origVoid;
 
 constexpr uint32_t kKuti = 0x001d1640;   // ps2MessageKutiDiagnostic: a callback the scripts install
 
-std::vector<std::vector<uint8_t>> gTables;
-
-ee::Interpreter makeOriginal()
-{
-    ee::Interpreter e;
-    e.interpret(0x001cae58, 0x001caf88);   // itfMiscLink*
-    e.interpret(0x001cd2e0, 0x001d1108);   // the message manager
-    auto a = [](ee::Cpu& c, int i) { return c.arg(i); };
-    e.hook(0x0010b830, [](ee::Cpu&) { return scrGetMessageHandle(); });
-    e.hook(0x0010b5c8, [=](ee::Cpu& c) { return scrGetIntPara(a(c, 0)); });
-    e.hook(0x0010b790, [=](ee::Cpu& c) { scrSetIntReturnValue(a(c, 0)); return uint64_t{0}; });
-    e.hook(0x001c9140, [=](ee::Cpu& c) {
-        return ps2FontMessageRequest(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5), a(c, 6), a(c, 7));
-    });
-    e.hook(0x001c9108, [=](ee::Cpu& c) { return ps2BattleActionSkill_001C9108(a(c, 0), a(c, 1), a(c, 2), a(c, 3)); });
-    e.hook(0x001c6ff8, [=](ee::Cpu& c) { return frDestroyFontRequestAfter(a(c, 0)); });
-    e.hook(0x001c81b8, [=](ee::Cpu& c) { ps2FontBindMessageStyle(a(c, 0)); return uint64_t{0}; });
-    e.hook(0x001c9230, [=](ee::Cpu& c) { frSetVariableRequest(a(c, 0), a(c, 1)); return uint64_t{0}; });
-    e.hook(0x001c7b30, [=](ee::Cpu& c) { frSetDrawPosition(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
-    e.hook(0x001c7a60, [=](ee::Cpu& c) { frSetDrawSpeed(a(c, 0), a(c, 1)); return uint64_t{0}; });
-    e.hook(0x001c9220, [=](ee::Cpu& c) { return ps2FontTestGlobalFlags(a(c, 0)); });
-    e.hook(0x001cc080, [=](ee::Cpu& c) { return itfPnlRegist2(a(c, 0), a(c, 1)); });
-    e.hook(0x001cc1a0, [=](ee::Cpu& c) { itfPnlSetPosition(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5)); return uint64_t{0}; });
-    e.hook(0x001cc1e8, [=](ee::Cpu& c) { itfPnlSetPositionOffset(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5)); return uint64_t{0}; });
-    e.hook(0x001cc270, [=](ee::Cpu& c) { itfPnlSetColor(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4)); return uint64_t{0}; });
-    e.hook(0x001cc150, [=](ee::Cpu& c) { itfPnlRelease(a(c, 0)); return uint64_t{0}; });
-    e.hook(0x002c18d8, [=](ee::Cpu& c) { return ps2SoundPlay(a(c, 0), a(c, 1), a(c, 2)); });
-    e.hook(0x002a9038, [=](ee::Cpu& c) { return uint64_t{ps2MemoryHandleAllocate(static_cast<int32_t>(a(c, 0)))}; });
-    e.hook(0x002a9688, [=](ee::Cpu& c) { return uint64_t{ps2MemoryHandleAcquirePointer(static_cast<uint32_t>(a(c, 0)))}; });
-    e.hook(0x002a9558, [=](ee::Cpu& c) { ps2MemoryHandleFree(static_cast<uint32_t>(a(c, 0))); return uint64_t{0}; });
-    e.hook(0x002c39c8, [=](ee::Cpu& c) { ps2PacRelocatePointers(a(c, 0), a(c, 1), a(c, 2), a(c, 3)); return uint64_t{0}; });
-    e.hook(0x002d4748, [=](ee::Cpu& c) {
-        int64_t args[5];
-        for (int i = 0; i < 5; ++i)
-            args[i] = static_cast<int64_t>(a(c, i + 1));
-        fw_record_print(static_cast<uint32_t>(a(c, 0)), args);
-        return uint64_t{0};
-    });
-    e.hook(0x001cb0d8, [=](ee::Cpu& c) { return ps2InterfaceLoadTexture(a(c, 0)); });
-    e.hook(0x002ab8f0, [=](ee::Cpu& c) { ps2TextureDeferredRelease(a(c, 0)); return uint64_t{0}; });
-    e.hook(0x001015b0, [=](ee::Cpu& c) { return dds3StartProcess(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5), a(c, 6)); });
-    // The C library: plain host versions on guest memory.
-    auto checked = [](ee::Cpu& c, uint64_t address) -> char* {
-        if (static_cast<uint32_t>(address) >= FW_RAM_SIZE) {
-            std::fprintf(stderr, "C library call from %08x with address %08x\n", static_cast<uint32_t>(c.r[31]), static_cast<uint32_t>(address));
-            std::abort();
-        }
-        return &at<char>(static_cast<uint32_t>(address));
-    };
-    e.hook(0x002d5d0c, [=](ee::Cpu& c) { return uint64_t{std::strlen(checked(c, a(c, 0)))}; });
-    e.hook(0x002d43a4, [=](ee::Cpu& c) {
-        std::memcpy(checked(c, a(c, 0)), checked(c, a(c, 1)), static_cast<uint32_t>(a(c, 2)));
-        return a(c, 0);
-    });
-    e.hook(0x002d4558, [=](ee::Cpu& c) {
-        std::memset(&at<char>(static_cast<uint32_t>(a(c, 0))), static_cast<int>(a(c, 1)), static_cast<uint32_t>(a(c, 2)));
-        return a(c, 0);
-    });
-    e.hook(0x002d5690, [=](ee::Cpu& c) {   // sprintf, as used here: "%d" only
-        if (std::strcmp(&at<char>(static_cast<uint32_t>(a(c, 1))), "%d") != 0)
-            std::abort();
-        return uint64_t(std::snprintf(&at<char>(static_cast<uint32_t>(a(c, 0))), 16, "%d", static_cast<int32_t>(a(c, 2))));
-    });
-    e.hook(kKuti, [](ee::Cpu&) { nocturneInvokeMessageKutiCallback(kKuti); return uint64_t{0}; });
-    e.interpret(0x00158940, 0x00158948);   // an empty function (HD: the UI's open / close hook)
-    return e;
-}
-
-ee::Interpreter& original()
-{
-    static ee::Interpreter e = makeOriginal();
-    return e;
-}
-
-// Runs the original function; 32-bit results are compared sign-extended.
-// The guest stack starts zeroed, as the rewrite's local buffers are: the
-// original copies a few bytes past a string's end from its stack buffer.
-uint64_t call(uint32_t entry, std::initializer_list<uint64_t> args)
-{
-    std::memset(fw_ram + FW_STACK_TOP - 0x2000, 0, 0x2000);
-    return original().call(entry, args);
-}
-uint64_t orig(uint32_t entry, std::initializer_list<uint64_t> args) { return norm(call(entry, args)); }
-uint64_t origVoid(uint32_t entry, std::initializer_list<uint64_t> args) { call(entry, args); return 0; }
-
 // ---- the world ---------------------------------------------------------------------------
-
-uint32_t addr(const void* p) { return fw_address_of(p); }
-uint64_t A(const void* p) { return addr(p); }
 
 struct World {
     int32_t id;              // the window under test (or -1 for the script)
@@ -154,11 +47,7 @@ uint32_t dialogAddress(int32_t index)
     return table().resolveaddress ? h.ptr : FW_MES_TABLE + 0x20 + h.ptr;
 }
 
-uint32_t chain(Gen& g, int32_t x, int32_t y)
-{
-    return static_cast<uint32_t>(ps2FontMessageRequest(static_cast<uint32_t>(x), static_cast<uint32_t>(y), g.below(4),
-                                                       g.below(6), g.below(3), g.below(140), g.below(0x10000), 0));
-}
+uint32_t chain(Gen& g, int32_t x, int32_t y) { return addr(iface::chain(g, x, y)); }
 
 uint32_t panel(Gen& g)
 {
@@ -177,7 +66,7 @@ void randomInstance(Gen& g, Instance& p, const World& w)
         if (g.chance(25))
             p.stat |= bit;
     p.pdata.address = FW_MES_TABLE;
-    p.pext = g.chance(30) ? 0x00456780 + g.below(16) * 4 : 0;
+    p.pext = g.chance(30) ? FW_FONTS + 0x18000 : 0;   // a font for style 8
     p.z = g.below(0x1000000);
     p.otindex = 0x47;
     p.type = static_cast<int16_t>(g.below(3));
@@ -202,8 +91,9 @@ void randomInstance(Gen& g, Instance& p, const World& w)
     m.last_tp = static_cast<uint8_t>(g.below(3));
     m.last_spd = static_cast<uint8_t>(g.below(140));
     m.lines = static_cast<int16_t>(g.range(0, 4));
-    m.page = static_cast<int16_t>(g.range(0, 3));
-    m.maxpage = static_cast<int16_t>(g.range(0, 4));
+    const int16_t pages = m.pbinheader && w.relocated ? m.pbinheader->page : 1;   // a page of the message shown
+    m.maxpage = pages;
+    m.page = static_cast<int16_t>(g.range(0, pages - 1));
 
     Select& sel = p.select;
     sel.pos = {g.range(0, 0x1000), g.range(0x900, 0xc00)};
@@ -230,8 +120,10 @@ void randomInstance(Gen& g, Instance& p, const World& w)
     win.mes_color[2] = 0x7f;
     win.mes_color[3] = g.range(0, 200);
 
+    // {var n} strings; a dialog's speaker may be "var n" (0..3), which scripts set first.
+    static const char* const names[] = {"Pixie", "Jack Frost", "Hijiri", "12", "B3F"};
     for (int i = 0; i < 32; ++i) {
-        p.variable.pptr[i] = g.chance(40) ? FW_MES_TABLE + 0x40 + g.below(0x100) : 0;
+        p.variable.pptr[i] = i < 4 || g.chance(40) ? iface::guestString(names[g.below(5)]) : 0;
         p.variable.pmh[i] = g.below(0x100000);
     }
     p.curctr.isdraw = static_cast<uint8_t>(g.below(4));
@@ -242,19 +134,15 @@ void randomInstance(Gen& g, Instance& p, const World& w)
     p.func_kuti = g.chance(50) ? kKuti : 0;
 }
 
-World world(Gen& g)
+// Tables are relocated before the game shows them; `raw` sometimes leaves
+// one as on disc (for the functions that relocate it).
+World world(Gen& g, bool raw = false)
 {
     World w{};
     std::memset(fw_ram + FW_MES_STATE, 0, FW_MES_POOL_END - FW_MES_STATE);
-
-    const std::vector<uint8_t>& t = gTables[g.below(static_cast<uint32_t>(gTables.size()))];
-    std::memcpy(fw_ram + FW_MES_TABLE, t.data(), t.size());
-    w.relocated = g.chance(90);
-    if (w.relocated) {
-        FileHeader& f = table();
-        ps2PacRelocatePointers(FW_MES_TABLE + 0x20, FW_MES_TABLE + 0x20, FW_MES_TABLE + f.ofs_addrinfo, f.size_addrinfo);
-        f.resolveaddress = 1;
-    }
+    w.relocated = !raw || g.chance(50);
+    iface::loadTable(g, w.relocated);
+    iface::fontWorld(g);
     for (uint32_t k = 0; k < table().numtypeheader; ++k)
         (at<TypeHeader>(FW_MES_TABLE + 0x20 + 8 * k).type ? w.selections : w.messages).push_back(static_cast<int32_t>(k));
 
@@ -277,15 +165,6 @@ World world(Gen& g)
 
     for (uint32_t i = 0; i < 0x20; ++i)
         fw_ram[0x2f5830 + i] = g.chance(60) ? 0 : g.chance(50) ? 0x80 : static_cast<uint8_t>(g.below(256));
-    at<uint32_t>(0x54f404) = g.below(8);
-    at<uint32_t>(0x54ea20) = FW_GLOBAL;           // the entered names: 4 x 10 two-byte characters, then lengths
-    for (uint32_t i = 0; i < 4; ++i) {
-        for (uint32_t k = 0; k < 10; ++k) {
-            fw_ram[FW_GLOBAL + 0x6604 + 20 * i + 2 * k] = g.chance(70) ? 0 : static_cast<uint8_t>(0x80 + g.below(0x70));
-            fw_ram[FW_GLOBAL + 0x6605 + 20 * i + 2 * k] = static_cast<uint8_t>(g.chance(80) ? 'A' + g.below(26) : g.below(256));
-        }
-        fw_ram[FW_GLOBAL + 0x6654 + i] = static_cast<uint8_t>(g.range(0, 10));
-    }
     for (uint32_t i = 0; i < 8; ++i)
         at<int32_t>(FW_SCRIPT + 4 * i) = g.range(-2, 12);
     at<int32_t>(FW_SCRIPT + 0x60) = g.chance(90) ? w.id : -1;
@@ -297,16 +176,14 @@ int32_t pickMessage(Gen& g, const World& w)
     return w.messages.empty() ? 0 : w.messages[g.below(static_cast<uint32_t>(w.messages.size()))];
 }
 
+// (Every table loaded has selections.)
 int32_t pickSelection(Gen& g, const World& w)
 {
-    if (!w.selections.empty() && g.chance(85))
-        return w.selections[g.below(static_cast<uint32_t>(w.selections.size()))];
-    return pickMessage(g, w);
+    return w.selections[g.below(static_cast<uint32_t>(w.selections.size()))];
 }
 
 Instance& inst(const World& w) { return instance(w.id); }
 uint64_t instA(const World& w) { return A(&inst(w)); }
-uint64_t I(int32_t v) { return sx(v); }
 
 // A test of a function on the window under test.
 TestCase windowTest(const char* name, uint32_t entry, std::function<void(Instance&)> rewrite)
@@ -331,21 +208,6 @@ TestCase commandTest(const char* name, uint32_t entry, std::function<int32_t()> 
 }
 
 } // namespace
-
-void loadMessageTables(const char* elfPath)
-{
-    std::string root(elfPath);
-    root = root.substr(0, root.find_last_of("/\\") + 1) + "dds3/";
-    for (const char* name : {"fld/f/f014/f014.bmd", "pipe/pipemes.bmd", "title/mseldata.bmd",
-                             "battle/script/test.bmd", "nego/msg/n_n01.bmd"}) {
-        std::ifstream f(root + name, std::ios::binary);
-        std::vector<uint8_t> bytes((std::istreambuf_iterator<char>(f)), std::istreambuf_iterator<char>());
-        if (!bytes.empty() && bytes.size() <= FW_MES_STATE - FW_MES_TABLE)
-            gTables.push_back(std::move(bytes));
-    }
-    if (gTables.empty())
-        std::fprintf(stderr, "no message tables under %s; message tests will fail\n", root.c_str());
-}
 
 void addMessageTests(std::vector<TestCase>& t)
 {
@@ -424,7 +286,7 @@ void addMessageTests(std::vector<TestCase>& t)
                     [=] { InitializeCurCtr(at<CurCtr>(static_cast<uint32_t>(s)), d); return uint64_t{0}; }};
     }});
     t.push_back({"itfMesResolveResourceAddress", [](Gen& g) {
-        World w = world(g);
+        World w = world(g, true);
         return Pair{[=] { return origVoid(0x001cf100, {FW_MES_TABLE}); },
                     [=] { ResolveResourceAddress(table()); return uint64_t{0}; }};
     }});
@@ -441,12 +303,12 @@ void addMessageTests(std::vector<TestCase>& t)
                     [=] { return norm(static_cast<int32_t>(addr(&GetTypeHeader2(table())))); }};
     }});
     t.push_back({"itfMesMngSetResourcePtr", [](Gen& g) {
-        World w = world(g);
+        World w = world(g, true);
         return Pair{[=] { return orig(0x001ce838, {I(w.id), FW_MES_TABLE}); },
                     [=] { return norm(static_cast<int32_t>(SetResourcePtr(w.id, FW_MES_TABLE))); }};
     }});
     t.push_back({"itfMesMngInitialize", [](Gen& g) {
-        World w = world(g);
+        World w = world(g, true);
         return Pair{[=] { return orig(0x001cda40, {FW_MES_TABLE}); }, [=] { return norm(Initialize(FW_MES_TABLE)); }};
     }});
     t.push_back({"itfMesMngRequestMessageRelease", [](Gen& g) {
@@ -569,7 +431,7 @@ void addMessageTests(std::vector<TestCase>& t)
         World w = world(g);
         uint32_t h = dialogAddress(pickSelection(g, w));
         uint32_t ppstr = h + 0x20, mask = g.chance(60) ? 0 : g.below(16), z = g.below(0x1000000);
-        int32_t num = g.range(0, 4), x = g.range(0, 0x1000), y = g.range(0x800, 0xc00);
+        int32_t num = g.range(0, at<SelHeader>(h).item), x = g.range(0, 0x1000), y = g.range(0x800, 0xc00);
         return Pair{[=] { return orig(0x001cf500, {ppstr, I(num), mask, I(x), I(y), z}); },
                     [=] { return norm(static_cast<int32_t>(GetFontHandleUnit(ppstr, num, mask, x, y, z))); }};
     }});
@@ -590,7 +452,8 @@ void addMessageTests(std::vector<TestCase>& t)
     t.push_back(windowTest("ps2MessageOpenSpeakerPanel", 0x001cfb68, [](Instance& p) { OpenSpeakerPanel(p); }));
     t.push_back({"itfMesMngRequestMessage", [](Gen& g) {
         World w = world(g);
-        int32_t message = pickMessage(g, w), page = g.range(0, 3);
+        int32_t message = pickMessage(g, w);
+        int32_t page = g.range(0, std::max<int32_t>(at<MesHeader>(dialogAddress(message)).page - 1, 0));
         return Pair{[=] { return orig(0x001cdb80, {I(w.id), I(message), I(page)}); },
                     [=] { return norm(RequestMessage(w.id, message, page)); }};
     }});

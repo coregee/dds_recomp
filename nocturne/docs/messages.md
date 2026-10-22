@@ -49,7 +49,7 @@ In the decompiled scripts, `itfMesMngMessage(3) /* NAME: text... */` and
 
 ## Control codes
 
-A byte `0xF0 | n` starts a code of n 16-bit units: `0xF1` codes are just
+A byte `0xF0 | n` starts a code of n 16-bit units (see also docs/fonts.md): `0xF1` codes are just
 the code number, `0xF2` codes carry one argument stored as two bytes, value
 + 1 and `0xFF`. As handled by `ps2FontParseMessageTag` (0x1C87C8) and the
 message manager (`ReadytoMessage`, `CalcMessage`):

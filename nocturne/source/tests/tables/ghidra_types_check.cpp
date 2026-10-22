@@ -7,7 +7,10 @@
 #include "nocturne/data/records.hpp"
 #include "nocturne/fusion/combine.hpp"
 #include "nocturne/fusion/sort.hpp"
+#include "nocturne/interface/font.hpp"
 #include "nocturne/interface/message.hpp"
+#include "nocturne/kernel/quake.hpp"
+#include "nocturne/script/vm.hpp"
 
 namespace ghidra {
 #define PTR32(T) uint32_t
@@ -85,6 +88,18 @@ SAME_OFFSET(nbMainProcessData, nb::MainProcessData, summonallowed, summonallowed
 SAME_OFFSET(nbTarSelProcessData, nb::TargetSelectData, enemyno, enemyno);
 SAME_SIZE(datDevilAI, DevilAI);
 SAME_SIZE(frRequest, fr::Request);
+SAME_OFFSET(frRequest, fr::Request, prev, prev);
+SAME_OFFSET(frRequest, fr::Request, head, head);
+SAME_SIZE(frText, fr::Text);
+SAME_OFFSET(frText, fr::Text, glyph, glyph);
+SAME_SIZE(frGlyph, fr::Glyph);
+SAME_SIZE(frTextureCell, fr::TextureCell);
+SAME_SIZE(frTextureCells, fr::TextureCells);
+SAME_SIZE(frFontHeader, fr::FontHeader);
+SAME_SIZE(frStyle, fr::Style);
+SAME_SIZE(frPoolNode, fr::PoolNode);
+SAME_SIZE(frMsgInfo, fr::MessageInfo);
+SAME_OFFSET(frSettings, fr::Settings, style, style);
 SAME_OFFSET(frText, fr::Text, next, next);
 SAME_OFFSET(itfpanel, itf::Panel, type, type);
 SAME_SIZE(itfMesBinFileHeader, mes::FileHeader);
@@ -99,5 +114,17 @@ SAME_SIZE(instanceMes_tag, mes::Instance);
 SAME_OFFSET(instanceMes_tag, mes::Instance, func_kuti, func_kuti);
 SAME_SIZE(itfmisclinkheader, itf::LinkNode);
 SAME_SIZE(itfMesManager, mes::Manager);
+SAME_SIZE(scrHeader, scr::Header);
+SAME_OFFSET(scrHeader, scr::Header, LocalIntCount, LocalIntCount);
+SAME_SIZE(scrTypeTable, scr::TypeTable);
+SAME_SIZE(scrProcTable, scr::ProcTable);
+SAME_SIZE(scrCode, scr::Code);
+SAME_SIZE(scrProcessWork, scr::ProcessWork);
+SAME_OFFSET(scrProcessWork, scr::ProcessWork, StackData, StackData);
+SAME_OFFSET(scrProcessWork, scr::ProcessWork, StartProc, StartProc);
+SAME_OFFSET(scrProcessWork, scr::ProcessWork, LocalInt, LocalInt);
+SAME_OFFSET(scrProcessWork, scr::ProcessWork, data, data);
+SAME_SIZE(scrScriptList, scr::ScriptList);
+SAME_SIZE(dds3Quake, dds3::Quake);
 
 } // namespace

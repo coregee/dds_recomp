@@ -59,6 +59,8 @@ public class ImportTypes extends GhidraScript {
         {0x004f0800L, "u8", 0x35bf1, "nbAiScript_bf"},
         {0x003267a8L, "u8", 0x41a, "script_3267a8_bf"},
         {0x0056be60L, "itfMesManager", 1, "itfMesManager_work"},
+        {0x0054e994L, "scrScriptList", 1, "scrScriptList_work"},
+        {0x0054e970L, "dds3Quake", 1, "dds3Quake_work"},
     };
 
     @Override

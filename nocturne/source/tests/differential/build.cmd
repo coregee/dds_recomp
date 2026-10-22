@@ -12,8 +12,8 @@ set "OUT=%ROOT%\build\differential"
 if not exist "%OUT%" mkdir "%OUT%"
 del /q "%OUT%\*.obj" 2>nul
 
-set "CFLAGS=/nologo /std:c11 /O2 /W4 /c /I"%LEGACY%\src""
-set "CXXFLAGS=/nologo /utf-8 /std:c++20 /O2 /W4 /WX /EHsc /c /I"%SOURCE%\include" /I"%SOURCE%\tests\differential" /I"%LEGACY%\src""
+set "CFLAGS=/nologo /std:c11 /O2 /Zi /Fd"%OUT%\\" /W4 /c /I"%LEGACY%\src""
+set "CXXFLAGS=/nologo /utf-8 /std:c++20 /O2 /Zi /Fd"%OUT%\\" /W4 /WX /EHsc /c /I"%SOURCE%\include" /I"%SOURCE%\tests\differential" /I"%LEGACY%\src""
 
 rem Legacy code under comparison (real implementations on the legacy side),
 rem the shared engine-boundary fakes and the EE FPU model.
@@ -31,11 +31,11 @@ cl %CFLAGS% "%LEGACY%\tests\ee_fpu_values.c" /Fo"%OUT%\ee_fpu_values.obj" || got
 cl %CFLAGS% "%ROOT%\third_party\ps2float\ps2float.c" /Fo"%OUT%\ps2float.obj" || goto :failed
 
 rem The rewrite: every module plus the generated data tables.
-for %%F in ("%SOURCE%\src\battle\*.cpp" "%SOURCE%\src\data\*.cpp" "%SOURCE%\src\facility\*.cpp" "%SOURCE%\src\fusion\*.cpp" "%SOURCE%\src\interface\*.cpp" "%SOURCE%\src\libc\*.cpp" "%SOURCE%\src\platform\*.cpp" "%SOURCE%\tests\differential\*.cpp") do (
+for %%F in ("%SOURCE%\src\battle\*.cpp" "%SOURCE%\src\data\*.cpp" "%SOURCE%\src\facility\*.cpp" "%SOURCE%\src\fusion\*.cpp" "%SOURCE%\src\interface\*.cpp" "%SOURCE%\src\kernel\*.cpp" "%SOURCE%\src\libc\*.cpp" "%SOURCE%\src\platform\*.cpp" "%SOURCE%\src\script\*.cpp" "%SOURCE%\tests\differential\*.cpp") do (
     cl %CXXFLAGS% "%%~F" /Fo"%OUT%\%%~nF.obj" || goto :failed
 )
 
-link /nologo /out:"%OUT%\differential.exe" "%OUT%\*.obj" || goto :failed
+link /nologo /DEBUG /out:"%OUT%\differential.exe" "%OUT%\*.obj" || goto :failed
 
 "%OUT%\differential.exe" "%ROOT%\game\SLUS_209.11" %*
 exit /b %errorlevel%

@@ -43,7 +43,7 @@ FlowScript version 1, as the interpreter reads it:
   the following word as their value.
 
 Opcodes 0..34 (`scrCodeFunc_*` table at 0x2FA528): `PUSHI PUSHF PUSHIX
-PUSHIF PUSHREG POPIX POPFX PROC COMM END JUMP CALL RUN GOTO ADD SUB MUL DIV
+PUSHFX PUSHREG POPIX POPFX PROC COMM END JUMP CALL RUN GOTO ADD SUB MUL DIV
 MINUS NOT OR AND EQ NEQ S L SE LE IF PUSHIS PUSHLIX PUSHLFX POPLIX POPLFX
 PUSHSTR`.
 
@@ -55,6 +55,53 @@ PUSHSTR`.
   top; `PUSHREG` pushes the result.
 - `IF label` pops a value and jumps when it is zero.
 - `END` returns; `JUMP` continues in another procedure; `CALL` calls one.
+
+## The interpreter
+
+`source/src/script/vm.cpp` is the VM, rewritten and tested against the
+original instructions (`script_tests.cpp`).
+
+- **A running script** is a *process work* (`scrProcessWork_s`, 0xF4 bytes
+  from the pool): one procedure of a loaded file, its code pointer, a stack
+  and its own local variables. `scrAddScript2` makes one from a `.bf` in
+  memory, `scrAddScript3` loads the file first; the `scrStartScript*`
+  functions also start a process (named after the procedure) that runs it.
+  All works are kept in a list (0x54E994) so `scrAllReleaseScript` can end
+  them. A script with messages gets its own message window
+  ([messages.md](messages.md)); an empty message section counts as none.
+- **A frame:** the process calls `scrTraceCode`, which runs code words until
+  the procedure ends or a command asks to wait. A command returning 0 isn't
+  done: the same `COMM` runs again next frame, and `scrGetCommandTimer` tells
+  it how many frames it has waited (that is how `SYNC`, `WAIT`, `FADE_*` and
+  `SCR_WAIT` work).
+- **The stack** has 28 tagged entries: int, float, a global int or float
+  variable (by number, read when used), a return address (`CALL`) or a
+  string. The last entry is also the *register* commands return results in
+  (`PUSHREG`). Global variables are 256 ints and 256 floats in the global
+  work; locals are allocated per work from the header's counts.
+- **Commands** read their arguments with `scrGetIntPara(n)` and friends from
+  the work of the running `COMM` (0x551C78); `COMM` then drops them.
+
+Quirks kept as they are:
+
+- Arithmetic is integer only when both operands are ints (or int
+  variables); otherwise both are converted to float. Comparisons, `AND` and
+  `OR` always give an int; float `AND` / `OR` test truth in double precision.
+- `MINUS` on a variable entry negates the variable itself.
+- `NOT` and `IF` pop nothing when the top entry is a string or a return
+  address.
+- `scrStartScript1a/2/3` don't check that the script was added; the callers
+  pass procedures that exist.
+
+The VM's own commands are rewritten with it: `BIT_CHK` / `BIT_ON` /
+`BIT_OFF`, `RND` (1..n), `SYNC`, `WAIT`, `PUT` / `PUTS` (debug prints),
+`FADE_IN` / `FADE_OUT` (mode 0 black, 1 white), `SEL_JMP`, `PAD_TRIG` /
+`PAD_PRESS`, `SCR_RUN` / `SCR_KILL` / `SCR_WAIT` / `SCR_STAT` / `SCR_TIME`
+(other procedures of the same script as processes of their own) and
+`QUAKE_ON(frames, range)` / `QUAKE_OFF` (`dds3SetQuake`: 0 frames shakes
+until stopped). The rest of `scrCommonCommand` (`PAD_ACT`, `SET_FOVY`, scene
+lighting, blur and filters) is still in the original, as are the commands of
+the other modules.
 
 ## Command names
 

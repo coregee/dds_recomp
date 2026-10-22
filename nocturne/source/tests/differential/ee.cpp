@@ -6,6 +6,16 @@
 
 #include "fake_world.h"
 
+extern "C" {
+uint32_t EE_FPU_CVT_S_W(uint32_t);
+uint32_t EE_FPU_CVT_W_S(uint32_t);
+uint32_t EE_FPU_ADD_S(uint32_t, uint32_t);
+uint32_t EE_FPU_SUB_S(uint32_t, uint32_t);
+uint32_t EE_FPU_MUL_S(uint32_t, uint32_t);
+uint32_t EE_FPU_DIV_S(uint32_t, uint32_t);
+uint32_t EE_FPU_COMPARE_S(uint32_t, uint32_t, unsigned);
+}
+
 namespace difftest::ee {
 
 namespace {
@@ -50,18 +60,29 @@ bool Interpreter::interpreted(uint32_t address) const
     return false;
 }
 
-uint64_t Interpreter::call(uint32_t entry, std::initializer_list<uint64_t> args)
+uint64_t Interpreter::call(uint32_t entry, std::initializer_list<uint64_t> args, std::initializer_list<uint32_t> floatArgs)
 {
     cpu = Cpu{};
+    int f = 12;
+    for (uint32_t bits : floatArgs)
+        cpu.f[f++] = bits;
     int i = 0;
-    for (uint64_t a : args)
-        cpu.r[i < 4 ? 4 + i : 8 + i - 4] = a, ++i;
+    for (uint64_t a : args) {
+        if (i < 8)
+            cpu.r[i < 4 ? 4 + i : 8 + i - 4] = a;
+        else   // the rest on the stack, in 8-byte slots from sp
+            store<uint64_t>(FW_STACK_TOP + 8u * static_cast<uint32_t>(i - 8), a);
+        ++i;
+    }
     cpu.r[28] = kGlobalPointer;
     cpu.r[29] = FW_STACK_TOP;
     cpu.r[31] = kReturn;
     pc_ = entry;
     npc_ = entry + 4;
+    uint64_t steps = 0;
     while (pc_ != kReturn) {
+        if (++steps > 100000000)
+            fail("more than 100 million instructions", pc_, 0);
         auto hooked = hooks_.find(pc_);
         if (hooked != hooks_.end()) {
             cpu.r[2] = hooked->second(cpu);
@@ -81,6 +102,13 @@ void Interpreter::step()
     const uint32_t pc = pc_;
     current_pc = pc;
     const uint32_t op = load<uint32_t>(pc);
+#pragma warning(suppress : 4996)
+    static const bool trace = std::getenv("EE_TRACE") != nullptr;
+    if (trace)
+        std::fprintf(stderr, "%08x %08x  a0=%llx a1=%llx a2=%llx a3=%llx v0=%llx v1=%llx sp=%llx\n", pc, op,
+                     (unsigned long long)cpu.r[4], (unsigned long long)cpu.r[5], (unsigned long long)cpu.r[6],
+                     (unsigned long long)cpu.r[7], (unsigned long long)cpu.r[2], (unsigned long long)cpu.r[3],
+                     (unsigned long long)cpu.r[29]);
     uint32_t next = npc_;
     npc_ += 4;
 
@@ -210,6 +238,121 @@ void Interpreter::step()
     case 0x33: break;                                                           // PREF
     case 0x37: setT(load<uint64_t>(address)); break;                            // LD
     case 0x3f: store<uint64_t>(address, t); break;                              // SD
+
+    // Unaligned loads and stores (little-endian), as PCSX2 implements them.
+    case 0x22: {                                                                // LWL
+        const uint32_t shift = address & 3, mem = load<uint32_t>(address & ~3u);
+        static const uint32_t mask[4] = {0x00ffffff, 0x0000ffff, 0x000000ff, 0};
+        setT(sx32((static_cast<uint32_t>(t) & mask[shift]) | mem << (24 - 8 * shift)));
+        break;
+    }
+    case 0x26: {                                                                // LWR
+        const uint32_t shift = address & 3, mem = load<uint32_t>(address & ~3u);
+        static const uint32_t mask[4] = {0, 0xff000000, 0xffff0000, 0xffffff00};
+        if (shift == 0)
+            setT(sx32(mem));
+        else
+            setT((t & 0xffffffff00000000ull) | ((static_cast<uint32_t>(t) & mask[shift]) | mem >> (8 * shift)));
+        break;
+    }
+    case 0x2a: {                                                                // SWL
+        const uint32_t shift = address & 3, mem = load<uint32_t>(address & ~3u);
+        static const uint32_t mask[4] = {0xffffff00, 0xffff0000, 0xff000000, 0};
+        store<uint32_t>(address & ~3u, static_cast<uint32_t>(t) >> (24 - 8 * shift) | (mem & mask[shift]));
+        break;
+    }
+    case 0x2e: {                                                                // SWR
+        const uint32_t shift = address & 3, mem = load<uint32_t>(address & ~3u);
+        static const uint32_t mask[4] = {0, 0xff, 0xffff, 0xffffff};
+        store<uint32_t>(address & ~3u, static_cast<uint32_t>(t) << (8 * shift) | (mem & mask[shift]));
+        break;
+    }
+    case 0x1a: {                                                                // LDL
+        const uint32_t shift = address & 7;
+        const uint64_t mem = load<uint64_t>(address & ~7u);
+        const uint64_t mask = shift == 7 ? 0 : 0x00ffffffffffffffull >> (8 * shift);
+        setT((t & mask) | mem << (56 - 8 * shift));
+        break;
+    }
+    case 0x1b: {                                                                // LDR
+        const uint32_t shift = address & 7;
+        const uint64_t mem = load<uint64_t>(address & ~7u);
+        const uint64_t mask = shift == 0 ? 0 : ~0ull << (64 - 8 * shift);
+        setT((t & mask) | mem >> (8 * shift));
+        break;
+    }
+    case 0x2c: {                                                                // SDL
+        const uint32_t shift = address & 7;
+        const uint64_t mem = load<uint64_t>(address & ~7u);
+        const uint64_t mask = shift == 7 ? 0 : ~0ull << (8 * (shift + 1));
+        store<uint64_t>(address & ~7u, t >> (56 - 8 * shift) | (mem & mask));
+        break;
+    }
+    case 0x2d: {                                                                // SDR
+        const uint32_t shift = address & 7;
+        const uint64_t mem = load<uint64_t>(address & ~7u);
+        const uint64_t mask = shift == 0 ? 0 : ~0ull >> (64 - 8 * shift);
+        store<uint64_t>(address & ~7u, t << (8 * shift) | (mem & mask));
+        break;
+    }
+    case 0x1e:                                                                  // LQ
+        if (rt) {
+            cpu.r[rt] = load<uint64_t>(address & ~15u);
+            cpu.upper[rt] = load<uint64_t>((address & ~15u) + 8);
+        }
+        break;
+    case 0x1f:                                                                  // SQ
+        store<uint64_t>(address & ~15u, t);
+        store<uint64_t>((address & ~15u) + 8, rt ? cpu.upper[rt] : 0);
+        break;
+
+    // COP1: single precision with the EE's rules.
+    case 0x31: cpu.f[rt] = load<uint32_t>(address); break;                     // LWC1
+    case 0x39: store<uint32_t>(address, cpu.f[rt]); break;                     // SWC1
+    case 0x11: {
+        const uint32_t ft = rt, fs = rd, fd = sa;
+        switch (rs) {
+        case 0x00: setT(sx32(cpu.f[fs])); break;                               // MFC1
+        case 0x04: cpu.f[fs] = static_cast<uint32_t>(t); break;                // MTC1
+        case 0x02: setT(fs == 31 ? (cpu.fcc ? 0x00800000u : 0u) : 0u); break;  // CFC1
+        case 0x06: if (fs == 31) cpu.fcc = (t & 0x00800000) != 0; break;      // CTC1
+        case 0x08:                                                              // BC1F/T(L)
+            switch (rt) {
+            case 0: take(!cpu.fcc); break;
+            case 1: take(cpu.fcc); break;
+            case 2: likely(!cpu.fcc); break;
+            case 3: likely(cpu.fcc); break;
+            default: fail("unsupported BC1", pc, op);
+            }
+            break;
+        case 0x10: {                                                            // S format
+            const uint32_t a = cpu.f[fs], b = cpu.f[ft];
+            switch (op & 63) {
+            case 0x00: cpu.f[fd] = EE_FPU_ADD_S(a, b); break;
+            case 0x01: cpu.f[fd] = EE_FPU_SUB_S(a, b); break;
+            case 0x02: cpu.f[fd] = EE_FPU_MUL_S(a, b); break;
+            case 0x03: cpu.f[fd] = EE_FPU_DIV_S(a, b); break;
+            case 0x05: cpu.f[fd] = a & 0x7fffffffu; break;                     // ABS
+            case 0x06: cpu.f[fd] = a; break;                                    // MOV
+            case 0x07: cpu.f[fd] = a ^ 0x80000000u; break;                     // NEG
+            case 0x24: cpu.f[fd] = EE_FPU_CVT_W_S(a); break;                    // CVT.W.S
+            case 0x28: cpu.f[fd] = EE_FPU_COMPARE_S(a, b, 1) ? b : a; break;    // MAX
+            case 0x29: cpu.f[fd] = EE_FPU_COMPARE_S(a, b, 1) ? a : b; break;    // MIN
+            case 0x30: cpu.fcc = false; break;                                  // C.F
+            case 0x32: cpu.fcc = EE_FPU_COMPARE_S(a, b, 0) != 0; break;         // C.EQ
+            case 0x34: cpu.fcc = EE_FPU_COMPARE_S(a, b, 1) != 0; break;         // C.LT
+            case 0x36: cpu.fcc = EE_FPU_COMPARE_S(a, b, 2) != 0; break;         // C.LE
+            default: fail("unsupported COP1.S instruction", pc, op);
+            }
+            break;
+        }
+        case 0x14:                                                              // W format
+            if ((op & 63) == 0x20) { cpu.f[fd] = EE_FPU_CVT_S_W(cpu.f[fs]); break; }
+            fail("unsupported COP1.W instruction", pc, op);
+        default: fail("unsupported COP1 instruction", pc, op);
+        }
+        break;
+    }
     default: fail("unsupported instruction", pc, op);
     }
 

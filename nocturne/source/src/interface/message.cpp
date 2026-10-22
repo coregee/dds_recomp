@@ -123,7 +123,7 @@ fr::Request* request(uint32_t address) { return address ? guest::table<fr::Reque
 void destroy(Ptr32<fr::Request>& pfont)
 {
     if (pfont) {
-        fr::DestroyFontRequestAfter(pfont.address);
+        fr::frDestroyFontRequestAfter(pfont.get());
         pfont.address = 0;
     }
 }
@@ -423,7 +423,7 @@ void ExitAll()
 void CommitVarTable(const Variable& variable)
 {
     for (int i = 0; i < 32; ++i)
-        fr::SetVariableRequest(i, variable.pptr[i]);
+        fr::frSetVariableRequest(i, variable.pptr[i]);
 }
 
 // itfMesMngGetVarLocalize @ 0x001CE510
@@ -589,10 +589,11 @@ uint32_t GetSpeakerName(Instance& pinst)
 // ---- font request chains ------------------------------------------------------------------
 
 // GetLastLinkFontHandle @ 0x001CF710
+// The first request of a chain (the end of the links back from its last).
 fr::Request* GetLastLinkFontHandle(fr::Request* pfont)
 {
-    while (pfont->next)
-        pfont = pfont->next.get();
+    while (pfont->prev)
+        pfont = pfont->prev.get();
     return pfont;
 }
 
@@ -621,14 +622,14 @@ int32_t CountLineMessage(const fr::Request& pfont_top, const fr::Request& pfont)
 // ChangeZBuffer @ 0x001CF7E0
 void ChangeZBuffer(fr::Request* pfont, uint32_t z)
 {
-    for (; pfont; pfont = pfont->next.get())
+    for (; pfont; pfont = pfont->prev.get())
         pfont->priority = z;
 }
 
 // ChangeFontPosition @ 0x001CF7A8
 void ChangeFontPosition(fr::Request* pfont, int32_t dx, int32_t dy)
 {
-    for (; pfont; pfont = pfont->next.get()) {
+    for (; pfont; pfont = pfont->prev.get()) {
         int32_t x = pfont->x, y = pfont->y;
         pfont->x = x + dx;
         pfont->y = y + dy;
@@ -638,7 +639,7 @@ void ChangeFontPosition(fr::Request* pfont, int32_t dx, int32_t dy)
 // ChangeFontColorAll @ 0x001CF8B8
 void ChangeFontColorAll(fr::Request* pfont, uint8_t color)
 {
-    for (; pfont; pfont = pfont->next.get())
+    for (; pfont; pfont = pfont->prev.get())
         for (fr::Text* t = pfont->str.get(); t; t = t->next.get())
             t->col_no = color;
 }
@@ -646,7 +647,7 @@ void ChangeFontColorAll(fr::Request* pfont, uint8_t color)
 // ChangeFontAlpha @ 0x001CF910
 void ChangeFontAlpha(fr::Request* pfont, uint32_t alpha)
 {
-    for (; pfont; pfont = pfont->next.get())
+    for (; pfont; pfont = pfont->prev.get())
         for (fr::Text* t = pfont->str.get(); t; t = t->next.get())
             t->color = (t->color & 0xffffff00) | alpha;
 }
@@ -655,30 +656,31 @@ void ChangeFontAlpha(fr::Request* pfont, uint32_t alpha)
 // Draws the rest of the page at once, except text with a speed of its own.
 void RaiseMessageSpeedMax(fr::Request* pfont)
 {
-    for (; pfont; pfont = pfont->next.get())
+    for (; pfont; pfont = pfont->prev.get())
         if (pfont->str->tp == 0)
-            fr::SetDrawSpeed(addressOf(pfont), 128);
+            fr::frSetDrawSpeed(*pfont, 128);
 }
 
 // RaiseMessageSpeedMaxAll @ 0x001CFA50
 void RaiseMessageSpeedMaxAll(fr::Request* pfont)
 {
-    for (; pfont; pfont = pfont->next.get())
-        fr::SetDrawSpeed(addressOf(pfont), 128);
+    for (; pfont; pfont = pfont->prev.get())
+        fr::frSetDrawSpeed(*pfont, 128);
 }
 
 // UnchainFontHandleUnit @ 0x001CF5F0
-// Keeps only line `index` of `lines` (the option chosen) and destroys the
-// rest; returns the first request of the line kept.
+// Keeps only line `index` of `lines` (the option chosen; lines counted from
+// the chain's end) and destroys the rest; returns the line kept, by its last
+// request.
 uint32_t UnchainFontHandleUnit(fr::Request* pfont, int32_t index, int32_t lines)
 {
     auto drop = [](fr::Request* p) {
-        fr::Request* next = p->next.get();
-        p->prev.address = 0;
-        p->head.address = addressOf(p);
+        fr::Request* prev = p->prev.get();
         p->next.address = 0;
-        fr::DestroyFontRequestAfter(addressOf(p));
-        return next;
+        p->head.address = addressOf(p);
+        p->prev.address = 0;
+        fr::frDestroyFontRequestAfter(p);
+        return prev;
     };
     fr::Request* current = pfont;
     int32_t y = current->y;
@@ -693,22 +695,22 @@ uint32_t UnchainFontHandleUnit(fr::Request* pfont, int32_t index, int32_t lines)
             }
         }
     }
-    fr::Request* first = current;
-    fr::Request* last = current;
-    fr::Request* next;
+    fr::Request* end = current;       // the line's last request
+    fr::Request* start = current;     // its first
+    fr::Request* earlier;
     for (;;) {
-        next = last->next.get();
-        if (!next || next->y != y)
+        earlier = start->prev.get();
+        if (!earlier || earlier->y != y)
             break;
-        last = next;
+        start = earlier;
     }
-    while (next)
-        next = drop(next);
-    first->prev.address = 0;
-    last->next.address = 0;
-    for (fr::Request* p = first; p; p = p->next.get())
-        p->head.address = addressOf(last);
-    return addressOf(first);
+    while (earlier)
+        earlier = drop(earlier);
+    end->next.address = 0;
+    start->prev.address = 0;
+    for (fr::Request* p = end; p; p = p->prev.get())
+        p->head.address = addressOf(start);
+    return addressOf(end);
 }
 
 // MarkSelectionText @ 0x001CF818 (no original name)
@@ -718,7 +720,7 @@ void MarkSelectionText(fr::Request* pfont, int32_t index, int32_t lines, uint8_t
     int32_t y = pfont->y;
     for (int32_t remaining = lines - index - 1; remaining > 0; --remaining) {
         do {
-            pfont = pfont->next.get();
+            pfont = pfont->prev.get();
             if (!pfont)
                 return;
         } while (pfont->y == y);
@@ -727,7 +729,7 @@ void MarkSelectionText(fr::Request* pfont, int32_t index, int32_t lines, uint8_t
     do {
         for (fr::Text* t = pfont->str.get(); t; t = t->next.get())
             t->col_no = mode;
-        pfont = pfont->next.get();
+        pfont = pfont->prev.get();
     } while (pfont && pfont->y == y);
 }
 
@@ -741,7 +743,7 @@ int32_t GetMaxLineWidth(fr::Request* pfont)
         int32_t width = 0;
         do {
             width += pfont->w_pxls;
-            pfont = pfont->next.get();
+            pfont = pfont->prev.get();
         } while (pfont && pfont->y == y);
         if (widest < width)
             widest = width;
@@ -757,7 +759,7 @@ uint32_t GetFontHandleUnit(uint32_t ppstr, int32_t num, uint32_t mask, int32_t x
     uint32_t font = 0;
     for (const uint32_t* text = guest::table<uint32_t>(ppstr); num > 0; --num, mask >>= 1, ++text) {
         if ((mask & 1) == 0) {
-            font = fr::MessageRequest(x, y, 0, 0, 0, 0x80, *text, font);
+            font = addressOf(fr::MessageRequest(x, y, 0, 0, 0, 0x80, *text, request(font)));
             y += request(font)->y_size * 8 + 10;
         }
     }
@@ -803,17 +805,17 @@ void ReadytoMessage(Instance& pinst)
     Message& m = pinst.message;
     destroy(m.pfont);
     uint32_t text = GetMessagePagePtr(*m.pbinheader, m.page);
-    uint32_t font = fr::MessageRequest(m.pos.x, m.pos.y, m.last_style, m.last_col, m.last_tp, m.last_spd, text, 0);
+    uint32_t font = addressOf(fr::MessageRequest(m.pos.x, m.pos.y, m.last_style, m.last_col, m.last_tp, m.last_spd, text, nullptr));
     if (!(pinst.stat & kKeepSpeed) && (manager().config & 1))
         RaiseMessageSpeedMax(request(font));
     GetLastMessagePara(*request(font), m);
-    int64_t wait = fr::TestGlobalFlags(3);
+    int64_t wait = fr::frGetMessageResult(3);
     m.wait = static_cast<uint8_t>(wait);
     if (wait & 2)
         pinst.stat |= kNoSpeakerName;
     else
         pinst.stat &= ~kNoSpeakerName;
-    if (fr::TestGlobalFlags(4) && pinst.func_kuti)
+    if (fr::frGetMessageResult(4) && pinst.func_kuti)
         guest::callFunction(pinst.func_kuti);
     ChangeZBuffer(request(font), pinst.z);
     fr::Request* last = GetLastLinkFontHandle(request(font));
@@ -875,7 +877,7 @@ int32_t RequestMessage(int32_t id, int32_t message, int32_t page)
     }
     CommitVarTable(pinst.variable);
     if (pinst.pext)
-        fr::BindMessageStyle(pinst.pext);
+        fr::frSetExtDic(pinst.pext);
     ReadytoMessage(pinst);
     const uint16_t speaker = header.speaker;
     if (s.num != speaker) {
@@ -887,9 +889,9 @@ int32_t RequestMessage(int32_t id, int32_t message, int32_t page)
                 pinst.window.spk.address = 0;
             }
             uint32_t text = (speaker & 0x8000) ? GetVarLocalize(id, speaker & 0x7fff) : GetSpeakerName(pinst);
-            s.pfont.address = fr::MessageRequest(s.pos.x, s.pos.y, 0, 3, 0, 8, text, 0);
-            fr::SetDrawPosition(s.pfont.address, s.pos.x, s.pos.y);
-            fr::SetDrawSpeed(s.pfont.address, 10);
+            s.pfont.address = addressOf(fr::MessageRequest(s.pos.x, s.pos.y, 0, 3, 0, 8, text, nullptr));
+            fr::frSetDrawPosition(*s.pfont, s.pos.x, s.pos.y);
+            fr::frSetDrawSpeed(*s.pfont, 10);
             ChangeZBuffer(s.pfont.get(), pinst.z);
         }
     }
@@ -920,7 +922,7 @@ void RequestSelect(int32_t id, int32_t select)
     int32_t y = sel.pos.y;
     CommitVarTable(pinst.variable);
     if (pinst.pext)
-        fr::BindMessageStyle(pinst.pext);
+        fr::frSetExtDic(pinst.pext);
     uint32_t font = GetFontHandleUnit(addressOf(header.ptr), header.item, sel.mask, sel.pos.x, y + lines * -0xa0 + 0xb4,
                                       pinst.z);
     sel.phase = 1;
@@ -1056,13 +1058,13 @@ int32_t GetMessageWidth(int32_t id, int32_t message, int32_t page)
         return 0;
     CommitVarTable(pinst.variable);
     if (pinst.pext)
-        fr::BindMessageStyle(pinst.pext);
+        fr::frSetExtDic(pinst.pext);
     uint32_t text = GetMessagePagePtr(header, page);
     if (!text)
         return 0;
-    uint32_t font = fr::MessageRequestPlain(0, 0, text, 0);
-    int32_t width = GetMaxLineWidth(request(font));
-    fr::DestroyFontRequestAfter(font);
+    fr::Request* font = fr::MessageRequestPlain(0, 0, text, nullptr);
+    int32_t width = GetMaxLineWidth(font);
+    fr::frDestroyFontRequestAfter(font);
     return width;
 }
 
@@ -1164,14 +1166,14 @@ void CalcMessage(Instance& pinst)
         }
         CommitVarTable(pinst.variable);
         if (pinst.pext)
-            fr::BindMessageStyle(pinst.pext);
+            fr::frSetExtDic(pinst.pext);
         ReadytoMessage(pinst);
         OpenSpeakerPanel(pinst);
         setStat(pinst, kMessageStateMask, 3);
     } else if ((pad(kPadDecide) < 0 || pad(kPadCancel) < 0 || pad(kPadSkip) != 0) && !(stat & kKeepSpeed)) {
         RaiseMessageSpeedMaxAll(m.pfont.get());
         if (pinst.speaker.pfont)
-            fr::SetDrawSpeed(pinst.speaker.pfont.address, 128);
+            fr::frSetDrawSpeed(*pinst.speaker.pfont, 128);
     }
 }
 

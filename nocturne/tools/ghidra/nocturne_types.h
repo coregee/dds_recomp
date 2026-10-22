@@ -419,6 +419,27 @@ typedef struct scrCommandTable {
 typedef struct frText frText;
 typedef struct frRequest frRequest;
 typedef struct itfmisclinkheader itfmisclinkheader;
+typedef struct frTextureCell frTextureCell;
+
+/* A glyph in the font texture cache. */
+typedef struct frGlyph {
+    u16 index, pad02, refs, pad06;
+    PTR32(frTextureCell) cell;
+} frGlyph;
+
+/* A 24x24 cell of the font texture (a ring at 0x56B668). */
+struct frTextureCell {
+    s32 index, x, y, x2;
+    u32 unknown_10;
+    PTR32(frGlyph) glyph;
+    PTR32(frTextureCell) prev;
+    PTR32(frTextureCell) next;
+};
+typedef struct frTextureCells {
+    u32 handle, pixel_handle;
+    s32 width, height, bytes, count, free;
+    PTR32(frTextureCell) ring;
+} frTextureCells;
 
 /* _TEXT: one character of a font request. */
 struct frText {
@@ -428,12 +449,13 @@ struct frText {
     u8 col_no, style, tp, mode;
     u8 width, height;
     u8 pad1a[2];
-    u32 gs_font, user_font;
+    PTR32(frGlyph) glyph;
+    u32 data;
     PTR32(frText) prev;
     PTR32(frText) next;
 };
 
-/* _FRQ: a font request (one run of text on one line). */
+/* _FRQ: a font request; a chain is handled by its last request. */
 struct frRequest {
     u8 draw_spd;
     s8 space;
@@ -445,10 +467,60 @@ struct frRequest {
     s32 strlen;
     PTR32(frText) str;
     PTR32(frText) str_end;
-    PTR32(frRequest) next;
     PTR32(frRequest) prev;
+    PTR32(frRequest) next;
     PTR32(frRequest) head;
 };
+
+/* The header of a .fnt file. */
+typedef struct frFontHeader {
+    u32 header_size, data_size;
+    u8 unknown_08[2];
+    u8 palettes;
+    u8 unknown_0b[3];
+    u16 glyphs, width, height, glyph_bytes;
+    u8 metrics, unknown_17;
+    u32 names;
+} frFontHeader;
+
+/* A loaded font (nine styles at 0x56BA30). */
+typedef struct frStyle {
+    u32 handle;
+    PTR32(frFontHeader) data;
+    s32 metric_size[2];
+    u32 metric[2];
+    u32 cache, glyphs, names;
+} frStyle;
+
+/* A pool node; the payload follows. */
+typedef struct frPoolNode frPoolNode;
+struct frPoolNode {
+    s32 index;
+    PTR32(frPoolNode) next;
+};
+
+/* frMsgInfo_t: laying out a message page. */
+typedef struct frMsgInfo {
+    s32 x, y;
+    u32 z;
+    s8 style, colno, tp;
+    u8 speed;
+    u32 text;
+    PTR32(frRequest) font;
+    s32 pos;
+    u8 newline, position, pad1e[2];
+} frMsgInfo;
+
+/* Font engine settings (0x54F404). */
+typedef struct frSettings {
+    u32 result;
+    s8 space;
+    u8 pad05[3];
+    s32 step, base_width, space_width;
+    u32 unknown_14;
+    u8 mode, pad19[7];
+    u8 style;
+} frSettings;
 
 /* itfpanel_t */
 typedef struct itfpanel {
@@ -528,5 +600,62 @@ typedef struct itfMesManager {
     itfMiscLinkStack list;
     itfmisclinkheader nodes[128];
 } itfMesManager;
+
+
+/* ---- the FlowScript VM (source/include/nocturne/script/vm.hpp) ---- */
+
+typedef struct scrProcessWork scrProcessWork;
+
+/* scrHeader_t: a .bf file's header. */
+typedef struct scrHeader {
+    u8 FileType, FileFormat;
+    u16 UserID;
+    s32 FileSize;
+    char MagicCode[4];
+    s32 ExpandSize, TypeTableCount;
+    s16 LocalIntCount, LocalFloatCount;
+    s32 Reserve2, Reserve3;
+} scrHeader;
+
+/* scrTypeTable_t: a section descriptor. */
+typedef struct scrTypeTable { s32 Type, ItemSize, ItemCount; u32 ItemAddress; } scrTypeTable;
+
+/* scrProcTable_t: a procedure or label. */
+typedef struct scrProcTable { char Name[24]; s32 CodeAddress, Reserve1; } scrProcTable;
+
+/* scrCode_t: a code word {opcode, operand}. */
+typedef struct scrCode { s16 s0, s1; } scrCode;
+
+/* scrProcessWork_s: a running script (0xF4 bytes). */
+struct scrProcessWork {
+    char Name[24];
+    s32 CP, SP;
+    u8 StackType[28];
+    u32 StackData[28];
+    PTR32(scrHeader) header;
+    PTR32(scrTypeTable) typeTable;
+    PTR32(scrProcTable) procTable;
+    PTR32(scrProcTable) labelTable;
+    PTR32(scrCode) code;
+    u32 MessageData, StringData;
+    s32 StartProc, MesHandle, ScriptTimer, CommandTimer;
+    u32 MemHandle;
+    PTR32(s32) LocalInt;
+    PTR32(u32) LocalFloat;
+    u32 ProcessID;
+    PTR32(scrProcessWork) prev;
+    PTR32(scrProcessWork) next;
+    u32 data;
+};
+
+/* The running scripts (0x54E994). */
+typedef struct scrScriptList {
+    s32 scrHandleCount;
+    PTR32(scrProcessWork) scrHandleFirst;
+    PTR32(scrProcessWork) scrHandleLast;
+} scrScriptList;
+
+/* The screen quake (0x54E970, dds3KernelDraw). */
+typedef struct dds3Quake { u16 dds3QuakeFlag; s16 dds3QuakeFrame; u16 dds3QuakeXRange, dds3QuakeYRange; } dds3Quake;
 
 #endif

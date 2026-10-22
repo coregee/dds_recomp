@@ -33,15 +33,6 @@ uint64_t dds3GetProcessData(uint64_t process);
 void evtBitOff(int32_t no);
 [[noreturn]] void nocturneCompilerArithmeticTrap(uint32_t code);
 uint64_t scrGetMessageHandle(void);
-uint64_t ps2FontMessageRequest(uint64_t x, uint64_t y, uint64_t style, uint64_t color, uint64_t transparency,
-                               uint64_t speed, uint64_t text, uint64_t font);
-uint64_t ps2BattleActionSkill_001C9108(uint64_t a0, uint64_t a1, uint64_t a2, uint64_t a3);
-uint64_t frDestroyFontRequestAfter(uint64_t request);
-void ps2FontBindMessageStyle(uint64_t data);
-void frSetVariableRequest(uint64_t index, uint64_t value);
-void frSetDrawPosition(uint64_t font, uint64_t x, uint64_t y);
-void frSetDrawSpeed(uint64_t font, uint64_t speed);
-uint64_t ps2FontTestGlobalFlags(uint64_t mask);
 uint64_t itfPnlRegist2(uint64_t type, uint64_t texture);
 void itfPnlSetPosition(uint64_t panel, uint64_t x0, uint64_t y0, uint64_t x1, uint64_t y1, uint64_t z);
 void itfPnlSetPositionOffset(uint64_t panel, uint64_t x0, uint64_t y0, uint64_t x1, uint64_t y1, uint64_t z);
@@ -57,6 +48,20 @@ uint64_t dds3StartProcess(uint64_t name, uint64_t priority, uint64_t startdelay,
                           uint64_t processfunc, uint64_t shutdownfunc, uint64_t data);
 void ps2TextureDeferredRelease(uint64_t texture);
 uint64_t ps2InterfaceLoadTexture(uint64_t name);   // 0x1CB0D8: no legacy C yet (the tests fake it)
+uint32_t ps2PoolAllocate(int32_t size);
+uint64_t ps2TextureQueueUpload(uint64_t record);
+uint64_t ps2KernelGetFontContextIndex(void);
+uint64_t sdfDevLoadFile(uint64_t path, uint64_t data_out, uint64_t size_out);
+void ps2PoolRelease(uint32_t slot);
+void dds3SetProcessData(uint64_t process, uint64_t data);
+uint64_t dds3KillProcess(uint64_t process, uint64_t delay);
+uint64_t dds3ExistProcess(uint64_t process);
+uint64_t ps2ProcessGetRunTime(uint64_t process);
+void dds3FadeIn(uint64_t r, uint64_t g, uint64_t b, uint64_t frames);
+void dds3FadeOut(uint64_t r, uint64_t g, uint64_t b, uint64_t frames);
+uint64_t nocturneInvokeScriptFunction(uint32_t entry, uint64_t work, unsigned command);
+uint32_t nocturneLibcStreamLocalAddress(void* buffer, uint32_t bytes);
+void nocturneLibcStreamEndLocal(void);
 }
 
 namespace nocturne {
@@ -115,22 +120,6 @@ namespace {
 uint64_t word(uint32_t address) { return signExtend(static_cast<int32_t>(address)); }   // a guest address register
 } // namespace
 
-uint32_t fr::MessageRequest(int32_t x, int32_t y, uint8_t style, uint8_t color, uint8_t tp, uint8_t speed,
-                            uint32_t text, uint32_t font)
-{
-    return static_cast<uint32_t>(ps2FontMessageRequest(signExtend(x), signExtend(y), style, color, tp, speed,
-                                                       word(text), word(font)));
-}
-uint32_t fr::MessageRequestPlain(int32_t x, int32_t y, uint32_t text, uint32_t font)
-{
-    return static_cast<uint32_t>(ps2BattleActionSkill_001C9108(signExtend(x), signExtend(y), word(text), word(font)));
-}
-void fr::DestroyFontRequestAfter(uint32_t request) { frDestroyFontRequestAfter(word(request)); }
-void fr::BindMessageStyle(uint32_t data) { ps2FontBindMessageStyle(word(data)); }
-void fr::SetVariableRequest(int32_t index, uint32_t value) { frSetVariableRequest(signExtend(index), word(value)); }
-void fr::SetDrawPosition(uint32_t request, int32_t x, int32_t y) { frSetDrawPosition(word(request), signExtend(x), signExtend(y)); }
-void fr::SetDrawSpeed(uint32_t request, uint32_t speed) { frSetDrawSpeed(word(request), speed); }
-int64_t fr::TestGlobalFlags(int64_t mask) { return static_cast<int64_t>(ps2FontTestGlobalFlags(static_cast<uint64_t>(mask))); }
 
 uint32_t itf::PnlRegist2(int32_t type, uint32_t texture) { return static_cast<uint32_t>(itfPnlRegist2(signExtend(type), word(texture))); }
 void itf::PnlSetPosition(uint32_t panel, int32_t x0, int32_t y0, int32_t x1, int32_t y1, uint32_t z)
@@ -157,6 +146,34 @@ void pac::RelocatePointers(uint32_t destination, uint32_t base, uint32_t table, 
 void guest::callFunction(uint32_t entry) { nocturneInvokeMessageKutiCallback(entry); }
 uint32_t tex::Load(uint32_t name) { return static_cast<uint32_t>(ps2InterfaceLoadTexture(word(name))); }
 void tex::DeferredRelease(uint32_t texture) { ps2TextureDeferredRelease(word(texture)); }
+
+// The record is staged on the guest stack, as the original passes its own.
+void tex::QueueUpload(const UploadRecord& record)
+{
+    UploadRecord copy = record;
+    uint32_t address = nocturneLibcStreamLocalAddress(&copy, sizeof copy);
+    ps2TextureQueueUpload(word(address));
+    nocturneLibcStreamEndLocal();
+}
+
+uint32_t mem::PoolAllocate(int32_t size) { return ps2PoolAllocate(size); }
+uint32_t file::Load(uint32_t path) { return static_cast<uint32_t>(sdfDevLoadFile(word(path), 0, 0)); }
+uint32_t file::Load(uint32_t path, uint32_t* data)
+{
+    uint32_t address = nocturneLibcStreamLocalAddress(data, sizeof *data);
+    uint32_t handle = static_cast<uint32_t>(sdfDevLoadFile(word(path), word(address), 0));
+    nocturneLibcStreamEndLocal();
+    return handle;
+}
+void mem::PoolRelease(uint32_t block) { ps2PoolRelease(block); }
+void dds3::SetProcessData(uint32_t process, uint32_t data) { dds3SetProcessData(word(process), word(data)); }
+void dds3::KillProcess(uint32_t process, int32_t delay) { dds3KillProcess(word(process), signExtend(delay)); }
+bool dds3::ExistProcess(uint32_t process) { return dds3ExistProcess(word(process)) != 0; }
+int32_t dds3::GetRunTime(uint32_t process) { return static_cast<int32_t>(ps2ProcessGetRunTime(word(process))); }
+void dds3::FadeIn(int32_t r, int32_t g, int32_t b, int32_t frames) { dds3FadeIn(signExtend(r), signExtend(g), signExtend(b), signExtend(frames)); }
+void dds3::FadeOut(int32_t r, int32_t g, int32_t b, int32_t frames) { dds3FadeOut(signExtend(r), signExtend(g), signExtend(b), signExtend(frames)); }
+int32_t guest::callCommand(uint32_t entry) { return static_cast<int32_t>(nocturneInvokeScriptFunction(entry, 0, 1)); }
+int32_t dds3::GetFrameIndex() { return static_cast<int32_t>(ps2KernelGetFontContextIndex()); }
 uint32_t dds3::StartProcess(uint32_t name, int32_t priority, int32_t startdelay, int32_t shutdowndelay,
                             uint32_t processfunc, uint32_t shutdownfunc, uint32_t data)
 {

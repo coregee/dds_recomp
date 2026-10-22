@@ -16,7 +16,7 @@
 namespace nocturne::guest {
 
 void* resolve(uint32_t address);
-uint32_t addressOf(const void* pointer);   // inverse of resolve
+uint32_t addressOf(const void* pointer);   // inverse of resolve; 0 for null
 
 template <class T>
 T* table(uint32_t address) { return static_cast<T*>(resolve(address)); }
