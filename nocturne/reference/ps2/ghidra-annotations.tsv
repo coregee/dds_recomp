@@ -1112,6 +1112,7 @@ symbol	001ca9c8	Function	ps2FontResolveCompressedSections	Global
 symbol	001caa18	Function	ps2FontDecodeGlyph	Global
 symbol	001cabd8	Function	ps2FontTakeGlyphSlot	Global
 symbol	001cac00	Function	ps2BattleRewardPhaseRecycler_001CAC00	Global
+symbol	001cae58	Function	itfMiscLinkInit	Global
 symbol	001caeb8	Function	itfMiscLinkTake	Global
 symbol	001caf20	Function	itfMiscLinkGive	Global
 symbol	001caf78	Function	ps2PanelScaleColors	Global
@@ -1154,18 +1155,39 @@ symbol	001ccfb0	Function	ps2PanelDrawSpeaker2	Global
 symbol	001cd0c8	Function	ps2PanelDrawPera	Global
 symbol	001cd270	Function	ps2PanelAppendDrawState	Global
 symbol	001cd2e0	Function	itfMesMngMessage	Global
+symbol	001cd380	Function	itfMesMngMoveMessagePanel	Global
+symbol	001cd3c8	Function	itfMesMngGetPhase	Global
+symbol	001cd3e8	Function	itfMesMngSetPhase	Global
+symbol	001cd408	Function	itfMesMngSelect	Global
+symbol	001cd4b0	Function	itfMesMngGetSelPhase	Global
+symbol	001cd4d0	Function	itfMesMngSetSelPhase	Global
+symbol	001cd4f0	Function	itfMesMngGetSelectNo	Global
+symbol	001cd510	Function	itfMesMngMaskSelect	Global
+symbol	001cd560	Function	itfMesMng_SEL_SELNO	Global
 symbol	001cd5b0	Function	itfMesMngOpenWindow	Global
 symbol	001cd5f8	Function	itfMesMngCloseWindow	Global
 symbol	001cd670	Function	itfMesMngMsgWndCls	Global
 symbol	001cd700	Function	ps2ScriptCommandSlot004	Global
 symbol	001cd708	Function	ps2ScriptCommandSlot005	Global
 symbol	001cd710	Function	itfMesMngSetVarScr	Global
+symbol	001cd790	Function	itfMesMngIgnoreConfig	Global
+symbol	001cd7f8	Function	itfMesMngSetMesPositionScript	Global
+symbol	001cd860	Function	itfMesMngSetMesPosDefault	Global
+symbol	001cd8a0	Function	itfMesMngValidateNext	Global
+symbol	001cd920	Function	itfMesMngWindowType	Global
+symbol	001cd970	Function	itfMesMngWindowTypeAlpha	Global
+symbol	001cd9d8	Function	itfMesMngSelectDefKey	Global
 symbol	001cda40	Function	itfMesMngInitialize	Global
 symbol	001cdb38	Function	itfMesMngRelease	Global
 symbol	001cdb80	Function	itfMesMngRequestMessage	Global
 symbol	001cdd78	Function	itfMesMngRequestMessageRelease	Global
+symbol	001cde58	Function	itfMesMngRequestSelect	Global
 symbol	001cdf80	Function	itfMesMngRequestSelectRelease	Global
+symbol	001ce008	Function	itfMesMngSetMaskSelect	Global
+symbol	001ce028	Function	itfMesMngSetSelect	Global
+symbol	001ce190	Function	itfMesMngSetMesPosition	Global
 symbol	001ce450	Function	itfMesMngMarkBitStat	Global
+symbol	001ce480	Function	itfMesMngClearBitStat	Global
 symbol	001ce510	Function	itfMesMngGetVarLocalize	Global
 symbol	001ce538	Function	ps2MessageBuildCharacterName	Global
 symbol	001ce5e8	Function	itfMesMngSetVar	Global
@@ -1184,7 +1206,12 @@ symbol	001ce7c0	Label	case_2	itfMesMngSetVar::override::jmp_001ce620
 symbol	001ce7d8	Function	itfMesMngSetVariableString	Global
 symbol	001ce808	Function	itfMesMngSetVariableBytes	Global
 symbol	001ce838	Function	itfMesMngSetResourcePtr	Global
+symbol	001ce908	Function	itfMesMngChangeWindowType	Global
+symbol	001ce990	Function	itfMesMngSetSelectDefKey	Global
+symbol	001cea58	Function	itfMesMngGetMessageWidth	Global
+symbol	001ceb18	Function	itfMesMngSetDefaultSpeed	Global
 symbol	001ceb38	Function	itfMesMngSetKutiCallback	Global
+symbol	001cec68	Function	itfMesMngGetConfig	Global
 symbol	001cf058	Function	ps2MessageManagerReleaseInner	Global
 symbol	001cf100	Function	itfMesResolveResourceAddress	Global
 symbol	001cf178	Function	ps2MessageGetResourceEntry	Global
@@ -1194,6 +1221,8 @@ symbol	001cf1d8	Function	ps2MessageReady	Global
 symbol	001cf320	Function	itfMesSetVar	Global
 symbol	001cf440	Function	CommitVarTable	Global
 symbol	001cf490	Function	GetSpeakerName	Global
+symbol	001cf4d0	Function	GetNumSelectItem	Global
+symbol	001cf500	Function	GetFontHandleUnit	Global
 symbol	001cf5f0	Function	ps2MessageUnchainFontUnit	Global
 symbol	001cf710	Function	GetLastLinkFontHandle	Global
 symbol	001cf748	Function	GetLastMessagePara	Global
@@ -1203,6 +1232,7 @@ symbol	001cf7e0	Function	ChangeZBuffer	Global
 symbol	001cf818	Function	ps2MessageMarkSelectionText	Global
 symbol	001cf8b8	Function	ps2MessageChangeFontColorAll	Global
 symbol	001cf910	Function	ps2MessageChangeFontAlpha	Global
+symbol	001cf960	Function	GetMaxLineWidth	Global
 symbol	001cf9b0	Function	ps2MessageGetMaskedIndex	Global
 symbol	001cfa00	Function	RaiseMessageSpeedMax	Global
 symbol	001cfa50	Function	ps2MessageRaiseSpeedAll	Global
@@ -3232,6 +3262,7 @@ symbol	004f0800	Label	nbAiScript_bf	Global
 symbol	0052e350	Label	scrCommandTable	Global
 symbol	0053d6e8	Label	fclItemHeartsTbl	Global
 symbol	0054ff18	Label	datDevilNums	Global
+symbol	0056be60	Label	itfMesManager_work	Global
 signature	00100418		ps2KernelGetFontContextIndex	ulonglong ps2KernelGetFontContextIndex(void)
 function_repeatable_comment	00100418		ps2KernelGetFontContextIndex	Thirteen complete PS2 context/font splice/recycle, panel, message/selection/window/32-variable/manager cleanup and script release/all-release/shutdown bodies. Actual recovered memory-handle coalescing, pool release, field initializers, lists, process removal and shutdown callback, printf/formatter and creation dependencies execute. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. Original BF inputs traverse actual construction before release; populated ownership fixtures exercise real font recycling, handle coalescing, optional allocations, mixed owned/unowned script lists and repeat null-work shutdown. HD provides semantic roles only: managed offsets/ownership and font positioning differ. Returning finite backed ownership graphs; arbitrary invalid/cyclic pointers, exhaustive alias/OOM states, shipped VM execution, physical hardware and matching executable remain unproved. Diagnostic output uses the actual formatter with a bounded string-buffer FILE.
 signature	001005e8		dds3DeleteProcessList	void dds3DeleteProcessList(ulonglong arg_0)
@@ -7374,13 +7405,18 @@ function_repeatable_comment	001cac00		ps2BattleRewardPhaseRecycler_001CAC00	Comp
 variable	001cac00	a0:8	arg_0	ulonglong
 variable	001cac00	a1:8	arg_1	ulonglong
 function_repeatable_comment	001cad68		FUN_001cad68	Recovered missing PS2 function entry. Decoded negative stack adjustment; saved RA; restored RA/SP and tail jump to a known function; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
-signature	001caeb8		itfMiscLinkTake	ulonglong itfMiscLinkTake(ulonglong arg_0)
+signature	001cae58		itfMiscLinkInit	void itfMiscLinkInit(itfMiscLinkStack * stack, itfmisclinkheader * nodes, int count, int size)
+variable	001cae58	a0_lo:4	stack	itfMiscLinkStack *
+variable	001cae58	a1_lo:4	nodes	itfmisclinkheader *
+variable	001cae58	a2_lo:4	count	int
+variable	001cae58	a3_lo:4	size	int
+signature	001caeb8		itfMiscLinkTake	itfmisclinkheader * itfMiscLinkTake(itfMiscLinkStack * stack)
 function_repeatable_comment	001caeb8		itfMiscLinkTake	Fourteen complete original message slot-list/resource/initializer/constructor and compressed pointer relocation routines. Actual recovered memory-handle allocation/acquisition, pool, interrupt and initializer callees execute without game-return hooks. Full backed RAM, defined raw64 results, Status, callee saves and CPU primitive counts checked. All31 shipped standalone BMD files execute through relocation, resolving, type-header lookup, binding and full constructor with independently expanded relocation targets. Ordinary backed finite layouts, valid free slots and sufficient memory extents; allocation exhaustion/unbacked null errors, font/window/variable cleanup, script allocation/FLW0 integration, physical execution and matching binary remain unproved. HD managed layouts, extra constructor arguments, coordinates and no-op resource relocation differ.
-variable	001caeb8	a0:8	arg_0	ulonglong
-signature	001caf20		itfMiscLinkGive	void itfMiscLinkGive(ulonglong arg_0, ulonglong arg_1)
+variable	001caeb8	a0_lo:4	stack	itfMiscLinkStack *
+signature	001caf20		itfMiscLinkGive	void itfMiscLinkGive(itfmisclinkheader * node, itfMiscLinkStack * stack)
 function_repeatable_comment	001caf20		itfMiscLinkGive	Fourteen complete original message slot-list/resource/initializer/constructor and compressed pointer relocation routines. Actual recovered memory-handle allocation/acquisition, pool, interrupt and initializer callees execute without game-return hooks. Full backed RAM, defined raw64 results, Status, callee saves and CPU primitive counts checked. All31 shipped standalone BMD files execute through relocation, resolving, type-header lookup, binding and full constructor with independently expanded relocation targets. Ordinary backed finite layouts, valid free slots and sufficient memory extents; allocation exhaustion/unbacked null errors, font/window/variable cleanup, script allocation/FLW0 integration, physical execution and matching binary remain unproved. HD managed layouts, extra constructor arguments, coordinates and no-op resource relocation differ.
-variable	001caf20	a0:8	arg_0	ulonglong
-variable	001caf20	a1:8	arg_1	ulonglong
+variable	001caf20	a0_lo:4	node	itfmisclinkheader *
+variable	001caf20	a1_lo:4	stack	itfMiscLinkStack *
 signature	001caf78		ps2PanelScaleColors	void ps2PanelScaleColors(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4, ulonglong arg_5, ulonglong arg_6)
 function_repeatable_comment	001caf78		ps2PanelScaleColors	Nineteen complete panel allocation/position/color callbacks,integer color scaler and Message/speaker window constructors. Original nine-type tables and real memory-handle allocation/acquire bodies execute;all thirteen non-null initialization callbacks recovered,without supplied game return values. Full declared RAM,defined raw64 return,Status,primitives and callee saves checked. Bounded valid and backed aliased records,raw argument lanes,signed wrapped geometry and color multiplication exercised. Native ratio rows differ from managed HD layouts/math. Rendering callbacks in table326478,physical GS rendering,exhaustive invalid/OOM graphs,PS2 runtime and matching executable remain unproved.
 variable	001caf78	a0:8	arg_0	ulonglong
@@ -7618,45 +7654,88 @@ variable	001cd0c8	a1:8	arg_1	ulonglong
 signature	001cd270		ps2PanelAppendDrawState	void ps2PanelAppendDrawState(ulonglong arg_0)
 function_repeatable_comment	001cd270		ps2PanelAppendDrawState	Fifteen complete native font color/packet/effect/draw wrappers,flat sprite,panel submission/state,selection marking and Message window/cursor/frame/debug bodies. Actual original OT initializer installs2ACD40/2ACD98;real chain append,state linkage,packet builders and original tables execute,without supplied game callback values. Full declared RAM,defined results,Status,primitives,callee saves and ordered submission/flush callback traces compared. Finite backed generated glyph metadata,UV/palette/texture/font/text/selection records and native phases,dirty argument lanes,wrapped geometry,byte fade and counter domains. Original fonts/pixels/BMD pages are not asserted by these generated frame fixtures. Native fade scale22/fallback24,lookahead and masks differ from HD64/no native fallback. Seven reviewed semantic HD roles;aliases forremaining bodies. Connected frame-to-ordering flush validates chain assembly,not GS execution,rendered appearance,scheduler/gameplay,exhaustive invalid/cyclic graphs or matching executable.
 variable	001cd270	a0:8	arg_0	ulonglong
-signature	001cd2e0		itfMesMngMessage	ulonglong itfMesMngMessage(void)
+signature	001cd2e0		itfMesMngMessage	int itfMesMngMessage(void)
 function_repeatable_comment	001cd2e0		itfMesMngMessage	Six complete Message command/request/ready/linecount/callback-setter/installed-diagnostic bodies plus connected original VM execution. Actual parser,font binding/cache/text,name/variable/splice,panel constructors,allocator,resource relocation and native printf/formatter execute. Selected unchanged first pages from all31 original BMD files;original FNT payloads for generated text; original BMD cases use an explicit generated broad cached-font view with shipped dimensions/palette,player-name/variable state,finite free font/text lists and sufficient allocation extent. Full RAM,defined raw64 results,Status,primitives,callee saves and ordered VM/kernel/ambient operands compared;zero-height BREAK7 separately observed. Native signed dynamic height differs from HD constant24;managed localization/layout/guards differ. Other installed Kuti callback001E52B0/draw callbacks,exhaustive messages,physical rendering,scheduler,PS2 runtime and matching executable remain unproved.
-signature	001cd5b0		itfMesMngOpenWindow	ulonglong itfMesMngOpenWindow(void)
+signature	001cd380		itfMesMngMoveMessagePanel	void itfMesMngMoveMessagePanel(int id, int y)
+variable	001cd380	a0_lo:4	id	int
+variable	001cd380	a1_lo:4	y	int
+signature	001cd3c8		itfMesMngGetPhase	int itfMesMngGetPhase(int msgid)
+variable	001cd3c8	a0_lo:4	msgid	int
+signature	001cd3e8		itfMesMngSetPhase	void itfMesMngSetPhase(int msgid, int phase)
+variable	001cd3e8	a0_lo:4	msgid	int
+variable	001cd3e8	a1_lo:4	phase	int
+signature	001cd408		itfMesMngSelect	int itfMesMngSelect(void)
+signature	001cd4b0		itfMesMngGetSelPhase	int itfMesMngGetSelPhase(int msgid)
+variable	001cd4b0	a0_lo:4	msgid	int
+signature	001cd4d0		itfMesMngSetSelPhase	void itfMesMngSetSelPhase(int msgid, int phase)
+variable	001cd4d0	a0_lo:4	msgid	int
+variable	001cd4d0	a1_lo:4	phase	int
+signature	001cd4f0		itfMesMngGetSelectNo	int itfMesMngGetSelectNo(int msgid)
+variable	001cd4f0	a0_lo:4	msgid	int
+signature	001cd510		itfMesMngMaskSelect	int itfMesMngMaskSelect(void)
+signature	001cd560		itfMesMng_SEL_SELNO	int itfMesMng_SEL_SELNO(void)
+signature	001cd5b0		itfMesMngOpenWindow	int itfMesMngOpenWindow(void)
 function_repeatable_comment	001cd5b0		itfMesMngOpenWindow	Eighteen complete PS2 bodies, including two window commands and real release/initialization/font recycling dependencies. Full declared RAM,defined raw64 results,Status,CPU primitives,callee saves and ordered VM targets compared. Finite backed linked requests,phase combinations,negative command IDs,byte-speed domain,signed counts/high lanes,overlapping copies and record aliases exercised. HD provides semantic identities,not byte or layout identity;managed guards,localization and UI differ. Message command0 and font creation/parser/rendering remain unresolved. No full gameplay,PS2 runtime or matching binary claim.
-signature	001cd5f8		itfMesMngCloseWindow	ulonglong itfMesMngCloseWindow(void)
+signature	001cd5f8		itfMesMngCloseWindow	int itfMesMngCloseWindow(void)
 function_repeatable_comment	001cd5f8		itfMesMngCloseWindow	Eighteen complete PS2 bodies, including two window commands and real release/initialization/font recycling dependencies. Full declared RAM,defined raw64 results,Status,CPU primitives,callee saves and ordered VM targets compared. Finite backed linked requests,phase combinations,negative command IDs,byte-speed domain,signed counts/high lanes,overlapping copies and record aliases exercised. HD provides semantic identities,not byte or layout identity;managed guards,localization and UI differ. Message command0 and font creation/parser/rendering remain unresolved. No full gameplay,PS2 runtime or matching binary claim.
-signature	001cd670		itfMesMngMsgWndCls	void itfMesMngMsgWndCls(ulonglong arg_0)
+signature	001cd670		itfMesMngMsgWndCls	void itfMesMngMsgWndCls(int msgid)
 function_repeatable_comment	001cd670		itfMesMngMsgWndCls	Eighteen complete PS2 bodies, including two window commands and real release/initialization/font recycling dependencies. Full declared RAM,defined raw64 results,Status,CPU primitives,callee saves and ordered VM targets compared. Finite backed linked requests,phase combinations,negative command IDs,byte-speed domain,signed counts/high lanes,overlapping copies and record aliases exercised. HD provides semantic identities,not byte or layout identity;managed guards,localization and UI differ. Message command0 and font creation/parser/rendering remain unresolved. No full gameplay,PS2 runtime or matching binary claim.
-variable	001cd670	a0:8	arg_0	ulonglong
+variable	001cd670	a0_lo:4	msgid	int
+signature	001cd700		ps2ScriptCommandSlot004	int ps2ScriptCommandSlot004(void)
 function_comment	001cd700		ps2ScriptCommandSlot004	Native script command table slot 4, descriptor 52e370, pop count 0. Indirect entry established from original table bytes; semantic HD identity and source recovery are pending.
+signature	001cd708		ps2ScriptCommandSlot005	int ps2ScriptCommandSlot005(void)
 function_comment	001cd708		ps2ScriptCommandSlot005	Native script command table slot 5, descriptor 52e378, pop count 0. Indirect entry established from original table bytes; semantic HD identity and source recovery are pending.
 signature	001cd710		itfMesMngSetVarScr	ulonglong itfMesMngSetVarScr(void)
 function_repeatable_comment	001cd710		itfMesMngSetVarScr	Nine complete startup/process-link/message-variable bodies, including all11 native conversion cases and command113. Original embedded BF procedure records run actual script/message/process constructors, user data, actor-name allocation and parent linking.128 connected interpreter programs execute actual command113 for non-private-buffer name/no-op types; numerical/floor private-frame conversion is compared through the complete direct setter. Actual pool/memory handles/copy/formatter dependencies execute, with no gameplay return hooks. Rounded string copies preserve backed bytes after NUL; explicit80-byte private frame input models observable ambient bytes before execution. Full declared RAM,defined raw64 returns,Status,CPU primitives,ordered VM targets and returning callee saves compared. Finite successful allocations, terminating backed names and acyclic process chains; arbitrary OOM/invalid indices/cycles remain unproved. Original AI scheduling/decision execution and physical PS2 runtime remain outstanding. No new full-suite run.
-signature	001cda40		itfMesMngInitialize	ulonglong itfMesMngInitialize(ulonglong arg_0)
+signature	001cd790		itfMesMngIgnoreConfig	int itfMesMngIgnoreConfig(void)
+signature	001cd7f8		itfMesMngSetMesPositionScript	int itfMesMngSetMesPositionScript(void)
+signature	001cd860		itfMesMngSetMesPosDefault	int itfMesMngSetMesPosDefault(void)
+signature	001cd8a0		itfMesMngValidateNext	int itfMesMngValidateNext(void)
+signature	001cd920		itfMesMngWindowType	int itfMesMngWindowType(void)
+signature	001cd970		itfMesMngWindowTypeAlpha	int itfMesMngWindowTypeAlpha(void)
+signature	001cd9d8		itfMesMngSelectDefKey	int itfMesMngSelectDefKey(void)
+signature	001cda40		itfMesMngInitialize	int itfMesMngInitialize(itfMesBinFileHeader * presource)
 function_repeatable_comment	001cda40		itfMesMngInitialize	Fourteen complete original message slot-list/resource/initializer/constructor and compressed pointer relocation routines. Actual recovered memory-handle allocation/acquisition, pool, interrupt and initializer callees execute without game-return hooks. Full backed RAM, defined raw64 results, Status, callee saves and CPU primitive counts checked. All31 shipped standalone BMD files execute through relocation, resolving, type-header lookup, binding and full constructor with independently expanded relocation targets. Ordinary backed finite layouts, valid free slots and sufficient memory extents; allocation exhaustion/unbacked null errors, font/window/variable cleanup, script allocation/FLW0 integration, physical execution and matching binary remain unproved. HD managed layouts, extra constructor arguments, coordinates and no-op resource relocation differ.
-variable	001cda40	a0:8	arg_0	ulonglong
-signature	001cdb38		itfMesMngRelease	void itfMesMngRelease(ulonglong arg_0)
+variable	001cda40	a0_lo:4	presource	itfMesBinFileHeader *
+signature	001cdb38		itfMesMngRelease	void itfMesMngRelease(int id)
 function_repeatable_comment	001cdb38		itfMesMngRelease	Thirteen complete PS2 context/font splice/recycle, panel, message/selection/window/32-variable/manager cleanup and script release/all-release/shutdown bodies. Actual recovered memory-handle coalescing, pool release, field initializers, lists, process removal and shutdown callback, printf/formatter and creation dependencies execute. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. Original BF inputs traverse actual construction before release; populated ownership fixtures exercise real font recycling, handle coalescing, optional allocations, mixed owned/unowned script lists and repeat null-work shutdown. HD provides semantic roles only: managed offsets/ownership and font positioning differ. Returning finite backed ownership graphs; arbitrary invalid/cyclic pointers, exhaustive alias/OOM states, shipped VM execution, physical hardware and matching executable remain unproved. Diagnostic output uses the actual formatter with a bounded string-buffer FILE.
-variable	001cdb38	a0:8	arg_0	ulonglong
-signature	001cdb80		itfMesMngRequestMessage	ulonglong itfMesMngRequestMessage(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	001cdb38	a0_lo:4	id	int
+signature	001cdb80		itfMesMngRequestMessage	int itfMesMngRequestMessage(int id, int message, int page)
 function_repeatable_comment	001cdb80		itfMesMngRequestMessage	Six complete Message command/request/ready/linecount/callback-setter/installed-diagnostic bodies plus connected original VM execution. Actual parser,font binding/cache/text,name/variable/splice,panel constructors,allocator,resource relocation and native printf/formatter execute. Selected unchanged first pages from all31 original BMD files;original FNT payloads for generated text; original BMD cases use an explicit generated broad cached-font view with shipped dimensions/palette,player-name/variable state,finite free font/text lists and sufficient allocation extent. Full RAM,defined raw64 results,Status,primitives,callee saves and ordered VM/kernel/ambient operands compared;zero-height BREAK7 separately observed. Native signed dynamic height differs from HD constant24;managed localization/layout/guards differ. Other installed Kuti callback001E52B0/draw callbacks,exhaustive messages,physical rendering,scheduler,PS2 runtime and matching executable remain unproved.
-variable	001cdb80	a0:8	arg_0	ulonglong
-variable	001cdb80	a1:8	arg_1	ulonglong
-variable	001cdb80	a2:8	arg_2	ulonglong
-signature	001cdd78		itfMesMngRequestMessageRelease	void itfMesMngRequestMessageRelease(ulonglong arg_0, ulonglong arg_1)
+variable	001cdb80	a0_lo:4	id	int
+variable	001cdb80	a1_lo:4	message	int
+variable	001cdb80	a2_lo:4	page	int
+signature	001cdd78		itfMesMngRequestMessageRelease	void itfMesMngRequestMessageRelease(int id, int cls_speaker)
 function_repeatable_comment	001cdd78		itfMesMngRequestMessageRelease	Thirteen complete PS2 context/font splice/recycle, panel, message/selection/window/32-variable/manager cleanup and script release/all-release/shutdown bodies. Actual recovered memory-handle coalescing, pool release, field initializers, lists, process removal and shutdown callback, printf/formatter and creation dependencies execute. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. Original BF inputs traverse actual construction before release; populated ownership fixtures exercise real font recycling, handle coalescing, optional allocations, mixed owned/unowned script lists and repeat null-work shutdown. HD provides semantic roles only: managed offsets/ownership and font positioning differ. Returning finite backed ownership graphs; arbitrary invalid/cyclic pointers, exhaustive alias/OOM states, shipped VM execution, physical hardware and matching executable remain unproved. Diagnostic output uses the actual formatter with a bounded string-buffer FILE.
-variable	001cdd78	a0:8	arg_0	ulonglong
-variable	001cdd78	a1:8	arg_1	ulonglong
-signature	001cdf80		itfMesMngRequestSelectRelease	void itfMesMngRequestSelectRelease(ulonglong arg_0)
+variable	001cdd78	a0_lo:4	id	int
+variable	001cdd78	a1_lo:4	cls_speaker	int
+signature	001cde58		itfMesMngRequestSelect	void itfMesMngRequestSelect(int id, int select)
+variable	001cde58	a0_lo:4	id	int
+variable	001cde58	a1_lo:4	select	int
+signature	001cdf80		itfMesMngRequestSelectRelease	void itfMesMngRequestSelectRelease(int id)
 function_repeatable_comment	001cdf80		itfMesMngRequestSelectRelease	Thirteen complete PS2 context/font splice/recycle, panel, message/selection/window/32-variable/manager cleanup and script release/all-release/shutdown bodies. Actual recovered memory-handle coalescing, pool release, field initializers, lists, process removal and shutdown callback, printf/formatter and creation dependencies execute. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. Original BF inputs traverse actual construction before release; populated ownership fixtures exercise real font recycling, handle coalescing, optional allocations, mixed owned/unowned script lists and repeat null-work shutdown. HD provides semantic roles only: managed offsets/ownership and font positioning differ. Returning finite backed ownership graphs; arbitrary invalid/cyclic pointers, exhaustive alias/OOM states, shipped VM execution, physical hardware and matching executable remain unproved. Diagnostic output uses the actual formatter with a bounded string-buffer FILE.
-variable	001cdf80	a0:8	arg_0	ulonglong
-signature	001ce450		itfMesMngMarkBitStat	void itfMesMngMarkBitStat(ulonglong arg_0, ulonglong arg_1)
+variable	001cdf80	a0_lo:4	id	int
+signature	001ce008		itfMesMngSetMaskSelect	void itfMesMngSetMaskSelect(int id, u32 maskpattern)
+variable	001ce008	a0_lo:4	id	int
+variable	001ce008	a1_lo:4	maskpattern	u32
+signature	001ce028		itfMesMngSetSelect	void itfMesMngSetSelect(int id, int selno)
+variable	001ce028	a0_lo:4	id	int
+variable	001ce028	a1_lo:4	selno	int
+signature	001ce190		itfMesMngSetMesPosition	void itfMesMngSetMesPosition(int id, int x, int y)
+variable	001ce190	a0_lo:4	id	int
+variable	001ce190	a1_lo:4	x	int
+variable	001ce190	a2_lo:4	y	int
+signature	001ce450		itfMesMngMarkBitStat	void itfMesMngMarkBitStat(int id, u32 flag)
 function_repeatable_comment	001ce450		itfMesMngMarkBitStat	Eighteen complete PS2 bodies, including two window commands and real release/initialization/font recycling dependencies. Full declared RAM,defined raw64 results,Status,CPU primitives,callee saves and ordered VM targets compared. Finite backed linked requests,phase combinations,negative command IDs,byte-speed domain,signed counts/high lanes,overlapping copies and record aliases exercised. HD provides semantic identities,not byte or layout identity;managed guards,localization and UI differ. Message command0 and font creation/parser/rendering remain unresolved. No full gameplay,PS2 runtime or matching binary claim.
-variable	001ce450	a0:8	arg_0	ulonglong
-variable	001ce450	a1:8	arg_1	ulonglong
-signature	001ce510		itfMesMngGetVarLocalize	ulonglong itfMesMngGetVarLocalize(ulonglong arg_0, ulonglong arg_1)
+variable	001ce450	a0_lo:4	id	int
+variable	001ce450	a1_lo:4	flag	u32
+signature	001ce480		itfMesMngClearBitStat	void itfMesMngClearBitStat(int id, u32 flag)
+variable	001ce480	a0_lo:4	id	int
+variable	001ce480	a1_lo:4	flag	u32
+signature	001ce510		itfMesMngGetVarLocalize	char * itfMesMngGetVarLocalize(int id, int index)
 function_repeatable_comment	001ce510		itfMesMngGetVarLocalize	Eighteen complete PS2 bodies, including two window commands and real release/initialization/font recycling dependencies. Full declared RAM,defined raw64 results,Status,CPU primitives,callee saves and ordered VM targets compared. Finite backed linked requests,phase combinations,negative command IDs,byte-speed domain,signed counts/high lanes,overlapping copies and record aliases exercised. HD provides semantic identities,not byte or layout identity;managed guards,localization and UI differ. Message command0 and font creation/parser/rendering remain unresolved. No full gameplay,PS2 runtime or matching binary claim.
-variable	001ce510	a0:8	arg_0	ulonglong
-variable	001ce510	a1:8	arg_1	ulonglong
+variable	001ce510	a0_lo:4	id	int
+variable	001ce510	a1_lo:4	index	int
 signature	001ce538		ps2MessageBuildCharacterName	void ps2MessageBuildCharacterName(ulonglong arg_0)
 function_repeatable_comment	001ce538		ps2MessageBuildCharacterName	Nine complete startup/process-link/message-variable bodies, including all11 native conversion cases and command113. Original embedded BF procedure records run actual script/message/process constructors, user data, actor-name allocation and parent linking.128 connected interpreter programs execute actual command113 for non-private-buffer name/no-op types; numerical/floor private-frame conversion is compared through the complete direct setter. Actual pool/memory handles/copy/formatter dependencies execute, with no gameplay return hooks. Rounded string copies preserve backed bytes after NUL; explicit80-byte private frame input models observable ambient bytes before execution. Full declared RAM,defined raw64 returns,Status,CPU primitives,ordered VM targets and returning callee saves compared. Finite successful allocations, terminating backed names and acyclic process chains; arbitrary OOM/invalid indices/cycles remain unproved. Original AI scheduling/decision execution and physical PS2 runtime remain outstanding. No new full-suite run.
 variable	001ce538	a0:8	arg_0	ulonglong
@@ -7678,174 +7757,202 @@ variable	001ce808	a0:8	arg_0	ulonglong
 variable	001ce808	a1:8	arg_1	ulonglong
 variable	001ce808	a2:8	arg_2	ulonglong
 variable	001ce808	a3:8	arg_3	ulonglong
-signature	001ce838		itfMesMngSetResourcePtr	ulonglong itfMesMngSetResourcePtr(ulonglong arg_0, ulonglong arg_1)
+signature	001ce838		itfMesMngSetResourcePtr	itfMesBinFileHeader * itfMesMngSetResourcePtr(int id, itfMesBinFileHeader * presource)
 function_repeatable_comment	001ce838		itfMesMngSetResourcePtr	Fourteen complete original message slot-list/resource/initializer/constructor and compressed pointer relocation routines. Actual recovered memory-handle allocation/acquisition, pool, interrupt and initializer callees execute without game-return hooks. Full backed RAM, defined raw64 results, Status, callee saves and CPU primitive counts checked. All31 shipped standalone BMD files execute through relocation, resolving, type-header lookup, binding and full constructor with independently expanded relocation targets. Ordinary backed finite layouts, valid free slots and sufficient memory extents; allocation exhaustion/unbacked null errors, font/window/variable cleanup, script allocation/FLW0 integration, physical execution and matching binary remain unproved. HD managed layouts, extra constructor arguments, coordinates and no-op resource relocation differ.
-variable	001ce838	a0:8	arg_0	ulonglong
-variable	001ce838	a1:8	arg_1	ulonglong
-function_repeatable_comment	001cea58		FUN_001cea58	[Nocturne StatusPairs private bank contract]\nSource-derived candidate; no behavioral admission or public prototype claim.\nInteger entry slots (raw low64): ["a0","a1","a2"]; resident FP inputs: none identified.\nAll actual CPU/FPR/VU/HI-LO/Status/FCSR/RAM effects and native RA/SP continuation remain part of the private bank contract. GP, saved registers and native frame contents remain context inputs.\nRole: Message-chain formatting obtains 1CF960 width, saves actual V0, destroys temporary request and returns saved width.\nCandidate V0 projection: signed32_width (64-bit carrier). This does not declare a scalar ABI.\nExternal services may stop execution; no kernel/IOP completion is supplied.\nEvidence: analysis/battle-status-pairs-helper-contracts.json; ELF member words SHA256=b041ae196f58e3e2a0daedd83ad14ef7ade2056dcd48aa48c2d9777588dd4321.\n[/Nocturne StatusPairs private bank contract]
-signature	001ceb38		itfMesMngSetKutiCallback	void itfMesMngSetKutiCallback(ulonglong arg_0, ulonglong arg_1)
+variable	001ce838	a0_lo:4	id	int
+variable	001ce838	a1_lo:4	presource	itfMesBinFileHeader *
+signature	001ce908		itfMesMngChangeWindowType	void itfMesMngChangeWindowType(int id, int type, int alpha)
+variable	001ce908	a0_lo:4	id	int
+variable	001ce908	a1_lo:4	type	int
+variable	001ce908	a2_lo:4	alpha	int
+signature	001ce990		itfMesMngSetSelectDefKey	int itfMesMngSetSelectDefKey(int id, int key, int index)
+variable	001ce990	a0_lo:4	id	int
+variable	001ce990	a1_lo:4	key	int
+variable	001ce990	a2_lo:4	index	int
+signature	001cea58		itfMesMngGetMessageWidth	int itfMesMngGetMessageWidth(int id, int message, int page)
+function_repeatable_comment	001cea58		itfMesMngGetMessageWidth	[Nocturne StatusPairs private bank contract]\nSource-derived candidate; no behavioral admission or public prototype claim.\nInteger entry slots (raw low64): ["a0","a1","a2"]; resident FP inputs: none identified.\nAll actual CPU/FPR/VU/HI-LO/Status/FCSR/RAM effects and native RA/SP continuation remain part of the private bank contract. GP, saved registers and native frame contents remain context inputs.\nRole: Message-chain formatting obtains 1CF960 width, saves actual V0, destroys temporary request and returns saved width.\nCandidate V0 projection: signed32_width (64-bit carrier). This does not declare a scalar ABI.\nExternal services may stop execution; no kernel/IOP completion is supplied.\nEvidence: analysis/battle-status-pairs-helper-contracts.json; ELF member words SHA256=b041ae196f58e3e2a0daedd83ad14ef7ade2056dcd48aa48c2d9777588dd4321.\n[/Nocturne StatusPairs private bank contract]
+variable	001cea58	a0_lo:4	id	int
+variable	001cea58	a1_lo:4	message	int
+variable	001cea58	a2_lo:4	page	int
+signature	001ceb18		itfMesMngSetDefaultSpeed	void itfMesMngSetDefaultSpeed(int id, int speed)
+variable	001ceb18	a0_lo:4	id	int
+variable	001ceb18	a1_lo:4	speed	int
+signature	001ceb38		itfMesMngSetKutiCallback	void itfMesMngSetKutiCallback(int id, void * func)
 function_repeatable_comment	001ceb38		itfMesMngSetKutiCallback	Six complete Message command/request/ready/linecount/callback-setter/installed-diagnostic bodies plus connected original VM execution. Actual parser,font binding/cache/text,name/variable/splice,panel constructors,allocator,resource relocation and native printf/formatter execute. Selected unchanged first pages from all31 original BMD files;original FNT payloads for generated text; original BMD cases use an explicit generated broad cached-font view with shipped dimensions/palette,player-name/variable state,finite free font/text lists and sufficient allocation extent. Full RAM,defined raw64 results,Status,primitives,callee saves and ordered VM/kernel/ambient operands compared;zero-height BREAK7 separately observed. Native signed dynamic height differs from HD constant24;managed localization/layout/guards differ. Other installed Kuti callback001E52B0/draw callbacks,exhaustive messages,physical rendering,scheduler,PS2 runtime and matching executable remain unproved.
-variable	001ceb38	a0:8	arg_0	ulonglong
-variable	001ceb38	a1:8	arg_1	ulonglong
-signature	001cf058		ps2MessageManagerReleaseInner	void ps2MessageManagerReleaseInner(ulonglong arg_0)
+variable	001ceb38	a0_lo:4	id	int
+variable	001ceb38	a1_lo:4	func	void *
+signature	001cec68		itfMesMngGetConfig	int itfMesMngGetConfig(void)
+signature	001cf058		ps2MessageManagerReleaseInner	void ps2MessageManagerReleaseInner(int id)
 function_repeatable_comment	001cf058		ps2MessageManagerReleaseInner	Thirteen complete PS2 context/font splice/recycle, panel, message/selection/window/32-variable/manager cleanup and script release/all-release/shutdown bodies. Actual recovered memory-handle coalescing, pool release, field initializers, lists, process removal and shutdown callback, printf/formatter and creation dependencies execute. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. Original BF inputs traverse actual construction before release; populated ownership fixtures exercise real font recycling, handle coalescing, optional allocations, mixed owned/unowned script lists and repeat null-work shutdown. HD provides semantic roles only: managed offsets/ownership and font positioning differ. Returning finite backed ownership graphs; arbitrary invalid/cyclic pointers, exhaustive alias/OOM states, shipped VM execution, physical hardware and matching executable remain unproved. Diagnostic output uses the actual formatter with a bounded string-buffer FILE.
-variable	001cf058	a0:8	arg_0	ulonglong
-signature	001cf100		itfMesResolveResourceAddress	void itfMesResolveResourceAddress(ulonglong arg_0)
+variable	001cf058	a0_lo:4	id	int
+signature	001cf100		itfMesResolveResourceAddress	void itfMesResolveResourceAddress(itfMesBinFileHeader * pdata)
 function_repeatable_comment	001cf100		itfMesResolveResourceAddress	Fourteen complete original message slot-list/resource/initializer/constructor and compressed pointer relocation routines. Actual recovered memory-handle allocation/acquisition, pool, interrupt and initializer callees execute without game-return hooks. Full backed RAM, defined raw64 results, Status, callee saves and CPU primitive counts checked. All31 shipped standalone BMD files execute through relocation, resolving, type-header lookup, binding and full constructor with independently expanded relocation targets. Ordinary backed finite layouts, valid free slots and sufficient memory extents; allocation exhaustion/unbacked null errors, font/window/variable cleanup, script allocation/FLW0 integration, physical execution and matching binary remain unproved. HD managed layouts, extra constructor arguments, coordinates and no-op resource relocation differ.
-variable	001cf100	a0:8	arg_0	ulonglong
-signature	001cf178		ps2MessageGetResourceEntry	ulonglong ps2MessageGetResourceEntry(ulonglong arg_0, ulonglong arg_1)
+variable	001cf100	a0_lo:4	pdata	itfMesBinFileHeader *
+signature	001cf178		ps2MessageGetResourceEntry	itfMesBinTypeHeader * ps2MessageGetResourceEntry(instanceMes_tag * pinst, int index)
 function_repeatable_comment	001cf178		ps2MessageGetResourceEntry	Eighteen complete PS2 bodies, including two window commands and real release/initialization/font recycling dependencies. Full declared RAM,defined raw64 results,Status,CPU primitives,callee saves and ordered VM targets compared. Finite backed linked requests,phase combinations,negative command IDs,byte-speed domain,signed counts/high lanes,overlapping copies and record aliases exercised. HD provides semantic identities,not byte or layout identity;managed guards,localization and UI differ. Message command0 and font creation/parser/rendering remain unresolved. No full gameplay,PS2 runtime or matching binary claim.
-variable	001cf178	a0:8	arg_0	ulonglong
-variable	001cf178	a1:8	arg_1	ulonglong
-signature	001cf190		ps2MessageGetTypeHeader2	ulonglong ps2MessageGetTypeHeader2(ulonglong arg_0)
+variable	001cf178	a0_lo:4	pinst	instanceMes_tag *
+variable	001cf178	a1_lo:4	index	int
+signature	001cf190		ps2MessageGetTypeHeader2	itfMesBinTypeHeader2 * ps2MessageGetTypeHeader2(itfMesBinFileHeader * pfileheader)
 function_repeatable_comment	001cf190		ps2MessageGetTypeHeader2	Fourteen complete original message slot-list/resource/initializer/constructor and compressed pointer relocation routines. Actual recovered memory-handle allocation/acquisition, pool, interrupt and initializer callees execute without game-return hooks. Full backed RAM, defined raw64 results, Status, callee saves and CPU primitive counts checked. All31 shipped standalone BMD files execute through relocation, resolving, type-header lookup, binding and full constructor with independently expanded relocation targets. Ordinary backed finite layouts, valid free slots and sufficient memory extents; allocation exhaustion/unbacked null errors, font/window/variable cleanup, script allocation/FLW0 integration, physical execution and matching binary remain unproved. HD managed layouts, extra constructor arguments, coordinates and no-op resource relocation differ.
-variable	001cf190	a0:8	arg_0	ulonglong
-signature	001cf1a8		GetMessagePagePtr	ulonglong GetMessagePagePtr(ulonglong arg_0, ulonglong arg_1)
+variable	001cf190	a0_lo:4	pfileheader	itfMesBinFileHeader *
+signature	001cf1a8		GetMessagePagePtr	u8 * GetMessagePagePtr(itfMesBinMesHeader * pmesheader, int page)
 function_repeatable_comment	001cf1a8		GetMessagePagePtr	Eighteen complete PS2 bodies, including two window commands and real release/initialization/font recycling dependencies. Full declared RAM,defined raw64 results,Status,CPU primitives,callee saves and ordered VM targets compared. Finite backed linked requests,phase combinations,negative command IDs,byte-speed domain,signed counts/high lanes,overlapping copies and record aliases exercised. HD provides semantic identities,not byte or layout identity;managed guards,localization and UI differ. Message command0 and font creation/parser/rendering remain unresolved. No full gameplay,PS2 runtime or matching binary claim.
-variable	001cf1a8	a0:8	arg_0	ulonglong
-variable	001cf1a8	a1:8	arg_1	ulonglong
-signature	001cf1d8		ps2MessageReady	void ps2MessageReady(ulonglong arg_0)
+variable	001cf1a8	a0_lo:4	pmesheader	itfMesBinMesHeader *
+variable	001cf1a8	a1_lo:4	page	int
+signature	001cf1d8		ps2MessageReady	void ps2MessageReady(instanceMes_tag * pinst)
 function_repeatable_comment	001cf1d8		ps2MessageReady	Six complete Message command/request/ready/linecount/callback-setter/installed-diagnostic bodies plus connected original VM execution. Actual parser,font binding/cache/text,name/variable/splice,panel constructors,allocator,resource relocation and native printf/formatter execute. Selected unchanged first pages from all31 original BMD files;original FNT payloads for generated text; original BMD cases use an explicit generated broad cached-font view with shipped dimensions/palette,player-name/variable state,finite free font/text lists and sufficient allocation extent. Full RAM,defined raw64 results,Status,primitives,callee saves and ordered VM/kernel/ambient operands compared;zero-height BREAK7 separately observed. Native signed dynamic height differs from HD constant24;managed localization/layout/guards differ. Other installed Kuti callback001E52B0/draw callbacks,exhaustive messages,physical rendering,scheduler,PS2 runtime and matching executable remain unproved.
-variable	001cf1d8	a0:8	arg_0	ulonglong
+variable	001cf1d8	a0_lo:4	pinst	instanceMes_tag *
 signature	001cf320		itfMesSetVar	ulonglong itfMesSetVar(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
 function_repeatable_comment	001cf320		itfMesSetVar	Nine complete startup/process-link/message-variable bodies, including all11 native conversion cases and command113. Original embedded BF procedure records run actual script/message/process constructors, user data, actor-name allocation and parent linking.128 connected interpreter programs execute actual command113 for non-private-buffer name/no-op types; numerical/floor private-frame conversion is compared through the complete direct setter. Actual pool/memory handles/copy/formatter dependencies execute, with no gameplay return hooks. Rounded string copies preserve backed bytes after NUL; explicit80-byte private frame input models observable ambient bytes before execution. Full declared RAM,defined raw64 returns,Status,CPU primitives,ordered VM targets and returning callee saves compared. Finite successful allocations, terminating backed names and acyclic process chains; arbitrary OOM/invalid indices/cycles remain unproved. Original AI scheduling/decision execution and physical PS2 runtime remain outstanding. No new full-suite run.
 variable	001cf320	a0:8	arg_0	ulonglong
 variable	001cf320	a1:8	arg_1	ulonglong
 variable	001cf320	a2:8	arg_2	ulonglong
 variable	001cf320	a3:8	arg_3	ulonglong
-signature	001cf440		CommitVarTable	void CommitVarTable(ulonglong arg_0)
+signature	001cf440		CommitVarTable	void CommitVarTable(variable_tag * pvar)
 function_repeatable_comment	001cf440		CommitVarTable	Eighteen complete PS2 bodies, including two window commands and real release/initialization/font recycling dependencies. Full declared RAM,defined raw64 results,Status,CPU primitives,callee saves and ordered VM targets compared. Finite backed linked requests,phase combinations,negative command IDs,byte-speed domain,signed counts/high lanes,overlapping copies and record aliases exercised. HD provides semantic identities,not byte or layout identity;managed guards,localization and UI differ. Message command0 and font creation/parser/rendering remain unresolved. No full gameplay,PS2 runtime or matching binary claim.
-variable	001cf440	a0:8	arg_0	ulonglong
-signature	001cf490		GetSpeakerName	ulonglong GetSpeakerName(ulonglong arg_0)
+variable	001cf440	a0_lo:4	pvar	variable_tag *
+signature	001cf490		GetSpeakerName	u8 * GetSpeakerName(instanceMes_tag * pinst)
 function_repeatable_comment	001cf490		GetSpeakerName	Eighteen complete PS2 bodies, including two window commands and real release/initialization/font recycling dependencies. Full declared RAM,defined raw64 results,Status,CPU primitives,callee saves and ordered VM targets compared. Finite backed linked requests,phase combinations,negative command IDs,byte-speed domain,signed counts/high lanes,overlapping copies and record aliases exercised. HD provides semantic identities,not byte or layout identity;managed guards,localization and UI differ. Message command0 and font creation/parser/rendering remain unresolved. No full gameplay,PS2 runtime or matching binary claim.
-variable	001cf490	a0:8	arg_0	ulonglong
-signature	001cf5f0		ps2MessageUnchainFontUnit	ulonglong ps2MessageUnchainFontUnit(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	001cf490	a0_lo:4	pinst	instanceMes_tag *
+signature	001cf4d0		GetNumSelectItem	int GetNumSelectItem(int allitem, u32 mask)
+variable	001cf4d0	a0_lo:4	allitem	int
+variable	001cf4d0	a1_lo:4	mask	u32
+signature	001cf500		GetFontHandleUnit	frRequest * GetFontHandleUnit(u32 * ppstr, int num, u32 mask, int x, int y, u32 z)
+variable	001cf500	a0_lo:4	ppstr	u32 *
+variable	001cf500	a1_lo:4	num	int
+variable	001cf500	a2_lo:4	mask	u32
+variable	001cf500	a3_lo:4	x	int
+variable	001cf500	t0_lo:4	y	int
+variable	001cf500	t1_lo:4	z	u32
+signature	001cf5f0		ps2MessageUnchainFontUnit	frRequest * ps2MessageUnchainFontUnit(frRequest * pfont, int index, int lines)
 function_repeatable_comment	001cf5f0		ps2MessageUnchainFontUnit	Fourteen complete Message update prerequisites and actual draw manager. Native panel position callbacks,request recycling,memory-handle release,font controls and frame/packet/ordering dependencies execute. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered draw traces compared. Original table callbacks,finite generated font/text/Y groups,selection masks/trigger bytes,signed short cursor overflow,wrapped positions/alpha and dirty argument lanes. Thirteen semantic HD counterparts;HD layout/guards/input/UI and speaker-window fade differ. Native pause check is an actual zero-return body. Generated draw-manager fixtures,not original rendered asset/gameplay or live input. Upstream CalcMesFlow/message/selection and sound-loading/cache dependencies remain unrecovered;no full update-loop,physical rendering,scheduler,runtime or matching binary claim.
-variable	001cf5f0	a0:8	arg_0	ulonglong
-variable	001cf5f0	a1:8	arg_1	ulonglong
-variable	001cf5f0	a2:8	arg_2	ulonglong
-signature	001cf710		GetLastLinkFontHandle	ulonglong GetLastLinkFontHandle(ulonglong arg_0)
+variable	001cf5f0	a0_lo:4	pfont	frRequest *
+variable	001cf5f0	a1_lo:4	index	int
+variable	001cf5f0	a2_lo:4	lines	int
+signature	001cf710		GetLastLinkFontHandle	frRequest * GetLastLinkFontHandle(frRequest * pfont)
 function_repeatable_comment	001cf710		GetLastLinkFontHandle	Eighteen complete PS2 bodies, including two window commands and real release/initialization/font recycling dependencies. Full declared RAM,defined raw64 results,Status,CPU primitives,callee saves and ordered VM targets compared. Finite backed linked requests,phase combinations,negative command IDs,byte-speed domain,signed counts/high lanes,overlapping copies and record aliases exercised. HD provides semantic identities,not byte or layout identity;managed guards,localization and UI differ. Message command0 and font creation/parser/rendering remain unresolved. No full gameplay,PS2 runtime or matching binary claim.
-variable	001cf710	a0:8	arg_0	ulonglong
-signature	001cf748		GetLastMessagePara	void GetLastMessagePara(ulonglong arg_0, ulonglong arg_1)
+variable	001cf710	a0_lo:4	pfont	frRequest *
+signature	001cf748		GetLastMessagePara	void GetLastMessagePara(frRequest * pfont, message_tag * pmessage)
 function_repeatable_comment	001cf748		GetLastMessagePara	Eighteen complete PS2 bodies, including two window commands and real release/initialization/font recycling dependencies. Full declared RAM,defined raw64 results,Status,CPU primitives,callee saves and ordered VM targets compared. Finite backed linked requests,phase combinations,negative command IDs,byte-speed domain,signed counts/high lanes,overlapping copies and record aliases exercised. HD provides semantic identities,not byte or layout identity;managed guards,localization and UI differ. Message command0 and font creation/parser/rendering remain unresolved. No full gameplay,PS2 runtime or matching binary claim.
-variable	001cf748	a0:8	arg_0	ulonglong
-variable	001cf748	a1:8	arg_1	ulonglong
-signature	001cf778		CountLineMessage	ulonglong CountLineMessage(ulonglong arg_0, ulonglong arg_1)
+variable	001cf748	a0_lo:4	pfont	frRequest *
+variable	001cf748	a1_lo:4	pmessage	message_tag *
+signature	001cf778		CountLineMessage	int CountLineMessage(frRequest * pfont_top, frRequest * pfont)
 function_repeatable_comment	001cf778		CountLineMessage	Six complete Message command/request/ready/linecount/callback-setter/installed-diagnostic bodies plus connected original VM execution. Actual parser,font binding/cache/text,name/variable/splice,panel constructors,allocator,resource relocation and native printf/formatter execute. Selected unchanged first pages from all31 original BMD files;original FNT payloads for generated text; original BMD cases use an explicit generated broad cached-font view with shipped dimensions/palette,player-name/variable state,finite free font/text lists and sufficient allocation extent. Full RAM,defined raw64 results,Status,primitives,callee saves and ordered VM/kernel/ambient operands compared;zero-height BREAK7 separately observed. Native signed dynamic height differs from HD constant24;managed localization/layout/guards differ. Other installed Kuti callback001E52B0/draw callbacks,exhaustive messages,physical rendering,scheduler,PS2 runtime and matching executable remain unproved.
-variable	001cf778	a0:8	arg_0	ulonglong
-variable	001cf778	a1:8	arg_1	ulonglong
-signature	001cf7a8		ps2MessageChangeFontPosition	void ps2MessageChangeFontPosition(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	001cf778	a0_lo:4	pfont_top	frRequest *
+variable	001cf778	a1_lo:4	pfont	frRequest *
+signature	001cf7a8		ps2MessageChangeFontPosition	void ps2MessageChangeFontPosition(frRequest * pfont, int dist_x, int dist_y)
 function_repeatable_comment	001cf7a8		ps2MessageChangeFontPosition	Fourteen complete Message update prerequisites and actual draw manager. Native panel position callbacks,request recycling,memory-handle release,font controls and frame/packet/ordering dependencies execute. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered draw traces compared. Original table callbacks,finite generated font/text/Y groups,selection masks/trigger bytes,signed short cursor overflow,wrapped positions/alpha and dirty argument lanes. Thirteen semantic HD counterparts;HD layout/guards/input/UI and speaker-window fade differ. Native pause check is an actual zero-return body. Generated draw-manager fixtures,not original rendered asset/gameplay or live input. Upstream CalcMesFlow/message/selection and sound-loading/cache dependencies remain unrecovered;no full update-loop,physical rendering,scheduler,runtime or matching binary claim.
-variable	001cf7a8	a0:8	arg_0	ulonglong
-variable	001cf7a8	a1:8	arg_1	ulonglong
-variable	001cf7a8	a2:8	arg_2	ulonglong
-signature	001cf7e0		ChangeZBuffer	void ChangeZBuffer(ulonglong arg_0, ulonglong arg_1)
+variable	001cf7a8	a0_lo:4	pfont	frRequest *
+variable	001cf7a8	a1_lo:4	dist_x	int
+variable	001cf7a8	a2_lo:4	dist_y	int
+signature	001cf7e0		ChangeZBuffer	void ChangeZBuffer(frRequest * pfont, u32 z)
 function_repeatable_comment	001cf7e0		ChangeZBuffer	Eighteen complete PS2 bodies, including two window commands and real release/initialization/font recycling dependencies. Full declared RAM,defined raw64 results,Status,CPU primitives,callee saves and ordered VM targets compared. Finite backed linked requests,phase combinations,negative command IDs,byte-speed domain,signed counts/high lanes,overlapping copies and record aliases exercised. HD provides semantic identities,not byte or layout identity;managed guards,localization and UI differ. Message command0 and font creation/parser/rendering remain unresolved. No full gameplay,PS2 runtime or matching binary claim.
-variable	001cf7e0	a0:8	arg_0	ulonglong
-variable	001cf7e0	a1:8	arg_1	ulonglong
-signature	001cf818		ps2MessageMarkSelectionText	void ps2MessageMarkSelectionText(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+variable	001cf7e0	a0_lo:4	pfont	frRequest *
+variable	001cf7e0	a1_lo:4	z	u32
+signature	001cf818		ps2MessageMarkSelectionText	void ps2MessageMarkSelectionText(frRequest * pfont, int index, int lines, int mode)
 function_repeatable_comment	001cf818		ps2MessageMarkSelectionText	Fifteen complete native font color/packet/effect/draw wrappers,flat sprite,panel submission/state,selection marking and Message window/cursor/frame/debug bodies. Actual original OT initializer installs2ACD40/2ACD98;real chain append,state linkage,packet builders and original tables execute,without supplied game callback values. Full declared RAM,defined results,Status,primitives,callee saves and ordered submission/flush callback traces compared. Finite backed generated glyph metadata,UV/palette/texture/font/text/selection records and native phases,dirty argument lanes,wrapped geometry,byte fade and counter domains. Original fonts/pixels/BMD pages are not asserted by these generated frame fixtures. Native fade scale22/fallback24,lookahead and masks differ from HD64/no native fallback. Seven reviewed semantic HD roles;aliases forremaining bodies. Connected frame-to-ordering flush validates chain assembly,not GS execution,rendered appearance,scheduler/gameplay,exhaustive invalid/cyclic graphs or matching executable.
-variable	001cf818	a0:8	arg_0	ulonglong
-variable	001cf818	a1:8	arg_1	ulonglong
-variable	001cf818	a2:8	arg_2	ulonglong
-variable	001cf818	a3:8	arg_3	ulonglong
-signature	001cf8b8		ps2MessageChangeFontColorAll	void ps2MessageChangeFontColorAll(ulonglong arg_0, ulonglong arg_1)
+variable	001cf818	a0_lo:4	pfont	frRequest *
+variable	001cf818	a1_lo:4	index	int
+variable	001cf818	a2_lo:4	lines	int
+variable	001cf818	a3_lo:4	mode	int
+signature	001cf8b8		ps2MessageChangeFontColorAll	void ps2MessageChangeFontColorAll(frRequest * pfont, int color)
 function_repeatable_comment	001cf8b8		ps2MessageChangeFontColorAll	Fourteen complete Message update prerequisites and actual draw manager. Native panel position callbacks,request recycling,memory-handle release,font controls and frame/packet/ordering dependencies execute. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered draw traces compared. Original table callbacks,finite generated font/text/Y groups,selection masks/trigger bytes,signed short cursor overflow,wrapped positions/alpha and dirty argument lanes. Thirteen semantic HD counterparts;HD layout/guards/input/UI and speaker-window fade differ. Native pause check is an actual zero-return body. Generated draw-manager fixtures,not original rendered asset/gameplay or live input. Upstream CalcMesFlow/message/selection and sound-loading/cache dependencies remain unrecovered;no full update-loop,physical rendering,scheduler,runtime or matching binary claim.
-variable	001cf8b8	a0:8	arg_0	ulonglong
-variable	001cf8b8	a1:8	arg_1	ulonglong
-signature	001cf910		ps2MessageChangeFontAlpha	void ps2MessageChangeFontAlpha(ulonglong arg_0, ulonglong arg_1)
+variable	001cf8b8	a0_lo:4	pfont	frRequest *
+variable	001cf8b8	a1_lo:4	color	int
+signature	001cf910		ps2MessageChangeFontAlpha	void ps2MessageChangeFontAlpha(frRequest * pfont, int alpha)
 function_repeatable_comment	001cf910		ps2MessageChangeFontAlpha	Fourteen complete Message update prerequisites and actual draw manager. Native panel position callbacks,request recycling,memory-handle release,font controls and frame/packet/ordering dependencies execute. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered draw traces compared. Original table callbacks,finite generated font/text/Y groups,selection masks/trigger bytes,signed short cursor overflow,wrapped positions/alpha and dirty argument lanes. Thirteen semantic HD counterparts;HD layout/guards/input/UI and speaker-window fade differ. Native pause check is an actual zero-return body. Generated draw-manager fixtures,not original rendered asset/gameplay or live input. Upstream CalcMesFlow/message/selection and sound-loading/cache dependencies remain unrecovered;no full update-loop,physical rendering,scheduler,runtime or matching binary claim.
-variable	001cf910	a0:8	arg_0	ulonglong
-variable	001cf910	a1:8	arg_1	ulonglong
-function_repeatable_comment	001cf960		FUN_001cf960	[Nocturne StatusPairs private bank contract]\nSource-derived candidate; no behavioral admission or public prototype claim.\nInteger entry slots (raw low64): ["a0"]; resident FP inputs: none identified.\nAll actual CPU/FPR/VU/HI-LO/Status/FCSR/RAM effects and native RA/SP continuation remain part of the private bank contract. GP, saved registers and native frame contents remain context inputs.\nRole: NULL gives zero; same-row advances are accumulated and maximum is shifted left four in JR delay.\nCandidate V0 projection: signed32_width (64-bit carrier). This does not declare a scalar ABI.\nExternal services may stop execution; no kernel/IOP completion is supplied.\nEvidence: analysis/battle-status-pairs-helper-contracts.json; ELF member words SHA256=33039a23ec047a18eb0cfc44ba51c5cd4ba4ecad15abeb8b78a606fa8f9b0608.\n[/Nocturne StatusPairs private bank contract]
-signature	001cf9b0		ps2MessageGetMaskedIndex	ulonglong ps2MessageGetMaskedIndex(ulonglong arg_0, ulonglong arg_1)
+variable	001cf910	a0_lo:4	pfont	frRequest *
+variable	001cf910	a1_lo:4	alpha	int
+signature	001cf960		GetMaxLineWidth	int GetMaxLineWidth(frRequest * pfont)
+function_repeatable_comment	001cf960		GetMaxLineWidth	[Nocturne StatusPairs private bank contract]\nSource-derived candidate; no behavioral admission or public prototype claim.\nInteger entry slots (raw low64): ["a0"]; resident FP inputs: none identified.\nAll actual CPU/FPR/VU/HI-LO/Status/FCSR/RAM effects and native RA/SP continuation remain part of the private bank contract. GP, saved registers and native frame contents remain context inputs.\nRole: NULL gives zero; same-row advances are accumulated and maximum is shifted left four in JR delay.\nCandidate V0 projection: signed32_width (64-bit carrier). This does not declare a scalar ABI.\nExternal services may stop execution; no kernel/IOP completion is supplied.\nEvidence: analysis/battle-status-pairs-helper-contracts.json; ELF member words SHA256=33039a23ec047a18eb0cfc44ba51c5cd4ba4ecad15abeb8b78a606fa8f9b0608.\n[/Nocturne StatusPairs private bank contract]
+variable	001cf960	a0_lo:4	pfont	frRequest *
+signature	001cf9b0		ps2MessageGetMaskedIndex	int ps2MessageGetMaskedIndex(int index, u32 mask)
 function_repeatable_comment	001cf9b0		ps2MessageGetMaskedIndex	Fourteen complete Message update prerequisites and actual draw manager. Native panel position callbacks,request recycling,memory-handle release,font controls and frame/packet/ordering dependencies execute. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered draw traces compared. Original table callbacks,finite generated font/text/Y groups,selection masks/trigger bytes,signed short cursor overflow,wrapped positions/alpha and dirty argument lanes. Thirteen semantic HD counterparts;HD layout/guards/input/UI and speaker-window fade differ. Native pause check is an actual zero-return body. Generated draw-manager fixtures,not original rendered asset/gameplay or live input. Upstream CalcMesFlow/message/selection and sound-loading/cache dependencies remain unrecovered;no full update-loop,physical rendering,scheduler,runtime or matching binary claim.
-variable	001cf9b0	a0:8	arg_0	ulonglong
-variable	001cf9b0	a1:8	arg_1	ulonglong
-signature	001cfa00		RaiseMessageSpeedMax	void RaiseMessageSpeedMax(ulonglong arg_0)
+variable	001cf9b0	a0_lo:4	index	int
+variable	001cf9b0	a1_lo:4	mask	u32
+signature	001cfa00		RaiseMessageSpeedMax	void RaiseMessageSpeedMax(frRequest * pfont)
 function_repeatable_comment	001cfa00		RaiseMessageSpeedMax	Eighteen complete PS2 bodies, including two window commands and real release/initialization/font recycling dependencies. Full declared RAM,defined raw64 results,Status,CPU primitives,callee saves and ordered VM targets compared. Finite backed linked requests,phase combinations,negative command IDs,byte-speed domain,signed counts/high lanes,overlapping copies and record aliases exercised. HD provides semantic identities,not byte or layout identity;managed guards,localization and UI differ. Message command0 and font creation/parser/rendering remain unresolved. No full gameplay,PS2 runtime or matching binary claim.
-variable	001cfa00	a0:8	arg_0	ulonglong
-signature	001cfa50		ps2MessageRaiseSpeedAll	void ps2MessageRaiseSpeedAll(ulonglong arg_0)
+variable	001cfa00	a0_lo:4	pfont	frRequest *
+signature	001cfa50		ps2MessageRaiseSpeedAll	void ps2MessageRaiseSpeedAll(frRequest * pfont)
 function_repeatable_comment	001cfa50		ps2MessageRaiseSpeedAll	Fourteen complete Message update prerequisites and actual draw manager. Native panel position callbacks,request recycling,memory-handle release,font controls and frame/packet/ordering dependencies execute. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered draw traces compared. Original table callbacks,finite generated font/text/Y groups,selection masks/trigger bytes,signed short cursor overflow,wrapped positions/alpha and dirty argument lanes. Thirteen semantic HD counterparts;HD layout/guards/input/UI and speaker-window fade differ. Native pause check is an actual zero-return body. Generated draw-manager fixtures,not original rendered asset/gameplay or live input. Upstream CalcMesFlow/message/selection and sound-loading/cache dependencies remain unrecovered;no full update-loop,physical rendering,scheduler,runtime or matching binary claim.
-variable	001cfa50	a0:8	arg_0	ulonglong
-signature	001cfa90		ps2MessageOpenPanel	void ps2MessageOpenPanel(ulonglong arg_0)
+variable	001cfa50	a0_lo:4	pfont	frRequest *
+signature	001cfa90		ps2MessageOpenPanel	void ps2MessageOpenPanel(instanceMes_tag * pinst)
 function_repeatable_comment	001cfa90		ps2MessageOpenPanel	Nineteen complete panel allocation/position/color callbacks,integer color scaler and Message/speaker window constructors. Original nine-type tables and real memory-handle allocation/acquire bodies execute;all thirteen non-null initialization callbacks recovered,without supplied game return values. Full declared RAM,defined raw64 return,Status,primitives and callee saves checked. Bounded valid and backed aliased records,raw argument lanes,signed wrapped geometry and color multiplication exercised. Native ratio rows differ from managed HD layouts/math. Rendering callbacks in table326478,physical GS rendering,exhaustive invalid/OOM graphs,PS2 runtime and matching executable remain unproved.
-variable	001cfa90	a0:8	arg_0	ulonglong
-signature	001cfb68		ps2MessageOpenSpeakerPanel	void ps2MessageOpenSpeakerPanel(ulonglong arg_0)
+variable	001cfa90	a0_lo:4	pinst	instanceMes_tag *
+signature	001cfb68		ps2MessageOpenSpeakerPanel	void ps2MessageOpenSpeakerPanel(instanceMes_tag * pinst)
 function_repeatable_comment	001cfb68		ps2MessageOpenSpeakerPanel	Nineteen complete panel allocation/position/color callbacks,integer color scaler and Message/speaker window constructors. Original nine-type tables and real memory-handle allocation/acquire bodies execute;all thirteen non-null initialization callbacks recovered,without supplied game return values. Full declared RAM,defined raw64 return,Status,primitives and callee saves checked. Bounded valid and backed aliased records,raw argument lanes,signed wrapped geometry and color multiplication exercised. Native ratio rows differ from managed HD layouts/math. Rendering callbacks in table326478,physical GS rendering,exhaustive invalid/OOM graphs,PS2 runtime and matching executable remain unproved.
-variable	001cfb68	a0:8	arg_0	ulonglong
-signature	001cfc58		itfMesInitializeSpeaker	void itfMesInitializeSpeaker(ulonglong arg_0, ulonglong arg_1)
+variable	001cfb68	a0_lo:4	pinst	instanceMes_tag *
+signature	001cfc58		itfMesInitializeSpeaker	void itfMesInitializeSpeaker(Speaker_tag * pspeaker, int defaultpos)
 function_repeatable_comment	001cfc58		itfMesInitializeSpeaker	Fourteen complete original message slot-list/resource/initializer/constructor and compressed pointer relocation routines. Actual recovered memory-handle allocation/acquisition, pool, interrupt and initializer callees execute without game-return hooks. Full backed RAM, defined raw64 results, Status, callee saves and CPU primitive counts checked. All31 shipped standalone BMD files execute through relocation, resolving, type-header lookup, binding and full constructor with independently expanded relocation targets. Ordinary backed finite layouts, valid free slots and sufficient memory extents; allocation exhaustion/unbacked null errors, font/window/variable cleanup, script allocation/FLW0 integration, physical execution and matching binary remain unproved. HD managed layouts, extra constructor arguments, coordinates and no-op resource relocation differ.
-variable	001cfc58	a0:8	arg_0	ulonglong
-variable	001cfc58	a1:8	arg_1	ulonglong
-signature	001cfc80		itfMesInitializeMessage	void itfMesInitializeMessage(ulonglong arg_0, ulonglong arg_1)
+variable	001cfc58	a0_lo:4	pspeaker	Speaker_tag *
+variable	001cfc58	a1_lo:4	defaultpos	int
+signature	001cfc80		itfMesInitializeMessage	void itfMesInitializeMessage(message_tag * pmessage, int defaultpos)
 function_repeatable_comment	001cfc80		itfMesInitializeMessage	Fourteen complete original message slot-list/resource/initializer/constructor and compressed pointer relocation routines. Actual recovered memory-handle allocation/acquisition, pool, interrupt and initializer callees execute without game-return hooks. Full backed RAM, defined raw64 results, Status, callee saves and CPU primitive counts checked. All31 shipped standalone BMD files execute through relocation, resolving, type-header lookup, binding and full constructor with independently expanded relocation targets. Ordinary backed finite layouts, valid free slots and sufficient memory extents; allocation exhaustion/unbacked null errors, font/window/variable cleanup, script allocation/FLW0 integration, physical execution and matching binary remain unproved. HD managed layouts, extra constructor arguments, coordinates and no-op resource relocation differ.
-variable	001cfc80	a0:8	arg_0	ulonglong
-variable	001cfc80	a1:8	arg_1	ulonglong
-signature	001cfcc8		itfMesInitializeSelect	void itfMesInitializeSelect(ulonglong arg_0)
+variable	001cfc80	a0_lo:4	pmessage	message_tag *
+variable	001cfc80	a1_lo:4	defaultpos	int
+signature	001cfcc8		itfMesInitializeSelect	void itfMesInitializeSelect(select_tag * pselect)
 function_repeatable_comment	001cfcc8		itfMesInitializeSelect	Fourteen complete original message slot-list/resource/initializer/constructor and compressed pointer relocation routines. Actual recovered memory-handle allocation/acquisition, pool, interrupt and initializer callees execute without game-return hooks. Full backed RAM, defined raw64 results, Status, callee saves and CPU primitive counts checked. All31 shipped standalone BMD files execute through relocation, resolving, type-header lookup, binding and full constructor with independently expanded relocation targets. Ordinary backed finite layouts, valid free slots and sufficient memory extents; allocation exhaustion/unbacked null errors, font/window/variable cleanup, script allocation/FLW0 integration, physical execution and matching binary remain unproved. HD managed layouts, extra constructor arguments, coordinates and no-op resource relocation differ.
-variable	001cfcc8	a0:8	arg_0	ulonglong
-signature	001cfd00		itfMesInitializeWindow	void itfMesInitializeWindow(ulonglong arg_0)
+variable	001cfcc8	a0_lo:4	pselect	select_tag *
+signature	001cfd00		itfMesInitializeWindow	void itfMesInitializeWindow(window_tag * pwindow)
 function_repeatable_comment	001cfd00		itfMesInitializeWindow	Fourteen complete original message slot-list/resource/initializer/constructor and compressed pointer relocation routines. Actual recovered memory-handle allocation/acquisition, pool, interrupt and initializer callees execute without game-return hooks. Full backed RAM, defined raw64 results, Status, callee saves and CPU primitive counts checked. All31 shipped standalone BMD files execute through relocation, resolving, type-header lookup, binding and full constructor with independently expanded relocation targets. Ordinary backed finite layouts, valid free slots and sufficient memory extents; allocation exhaustion/unbacked null errors, font/window/variable cleanup, script allocation/FLW0 integration, physical execution and matching binary remain unproved. HD managed layouts, extra constructor arguments, coordinates and no-op resource relocation differ.
-variable	001cfd00	a0:8	arg_0	ulonglong
-signature	001cfd28		itfMesInitializeVariable	void itfMesInitializeVariable(ulonglong arg_0)
+variable	001cfd00	a0_lo:4	pwindow	window_tag *
+signature	001cfd28		itfMesInitializeVariable	void itfMesInitializeVariable(variable_tag * pvariable)
 function_repeatable_comment	001cfd28		itfMesInitializeVariable	Fourteen complete original message slot-list/resource/initializer/constructor and compressed pointer relocation routines. Actual recovered memory-handle allocation/acquisition, pool, interrupt and initializer callees execute without game-return hooks. Full backed RAM, defined raw64 results, Status, callee saves and CPU primitive counts checked. All31 shipped standalone BMD files execute through relocation, resolving, type-header lookup, binding and full constructor with independently expanded relocation targets. Ordinary backed finite layouts, valid free slots and sufficient memory extents; allocation exhaustion/unbacked null errors, font/window/variable cleanup, script allocation/FLW0 integration, physical execution and matching binary remain unproved. HD managed layouts, extra constructor arguments, coordinates and no-op resource relocation differ.
-variable	001cfd28	a0:8	arg_0	ulonglong
-signature	001cfd58		itfMesInitializeCurCtr	void itfMesInitializeCurCtr(ulonglong arg_0, ulonglong arg_1)
+variable	001cfd28	a0_lo:4	pvariable	variable_tag *
+signature	001cfd58		itfMesInitializeCurCtr	void itfMesInitializeCurCtr(curctr_tag * pcurctr, int isdisp)
 function_repeatable_comment	001cfd58		itfMesInitializeCurCtr	Fourteen complete original message slot-list/resource/initializer/constructor and compressed pointer relocation routines. Actual recovered memory-handle allocation/acquisition, pool, interrupt and initializer callees execute without game-return hooks. Full backed RAM, defined raw64 results, Status, callee saves and CPU primitive counts checked. All31 shipped standalone BMD files execute through relocation, resolving, type-header lookup, binding and full constructor with independently expanded relocation targets. Ordinary backed finite layouts, valid free slots and sufficient memory extents; allocation exhaustion/unbacked null errors, font/window/variable cleanup, script allocation/FLW0 integration, physical execution and matching binary remain unproved. HD managed layouts, extra constructor arguments, coordinates and no-op resource relocation differ.
-variable	001cfd58	a0:8	arg_0	ulonglong
-variable	001cfd58	a1:8	arg_1	ulonglong
-signature	001cfd78		ps2MessageForceCursor	void ps2MessageForceCursor(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+variable	001cfd58	a0_lo:4	pcurctr	curctr_tag *
+variable	001cfd58	a1_lo:4	isdisp	int
+signature	001cfd78		ps2MessageForceCursor	void ps2MessageForceCursor(curctr_tag * pcurctr, int phase, int ctr0, int ctr1)
 function_repeatable_comment	001cfd78		ps2MessageForceCursor	Fourteen complete Message update prerequisites and actual draw manager. Native panel position callbacks,request recycling,memory-handle release,font controls and frame/packet/ordering dependencies execute. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered draw traces compared. Original table callbacks,finite generated font/text/Y groups,selection masks/trigger bytes,signed short cursor overflow,wrapped positions/alpha and dirty argument lanes. Thirteen semantic HD counterparts;HD layout/guards/input/UI and speaker-window fade differ. Native pause check is an actual zero-return body. Generated draw-manager fixtures,not original rendered asset/gameplay or live input. Upstream CalcMesFlow/message/selection and sound-loading/cache dependencies remain unrecovered;no full update-loop,physical rendering,scheduler,runtime or matching binary claim.
-variable	001cfd78	a0:8	arg_0	ulonglong
-variable	001cfd78	a1:8	arg_1	ulonglong
-variable	001cfd78	a2:8	arg_2	ulonglong
-variable	001cfd78	a3:8	arg_3	ulonglong
-signature	001cfd88		itfMesReleaseAllWindow	void itfMesReleaseAllWindow(ulonglong arg_0)
+variable	001cfd78	a0_lo:4	pcurctr	curctr_tag *
+variable	001cfd78	a1_lo:4	phase	int
+variable	001cfd78	a2_lo:4	ctr0	int
+variable	001cfd78	a3_lo:4	ctr1	int
+signature	001cfd88		itfMesReleaseAllWindow	void itfMesReleaseAllWindow(instanceMes_tag * pinst)
 function_repeatable_comment	001cfd88		itfMesReleaseAllWindow	Thirteen complete PS2 context/font splice/recycle, panel, message/selection/window/32-variable/manager cleanup and script release/all-release/shutdown bodies. Actual recovered memory-handle coalescing, pool release, field initializers, lists, process removal and shutdown callback, printf/formatter and creation dependencies execute. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. Original BF inputs traverse actual construction before release; populated ownership fixtures exercise real font recycling, handle coalescing, optional allocations, mixed owned/unowned script lists and repeat null-work shutdown. HD provides semantic roles only: managed offsets/ownership and font positioning differ. Returning finite backed ownership graphs; arbitrary invalid/cyclic pointers, exhaustive alias/OOM states, shipped VM execution, physical hardware and matching executable remain unproved. Diagnostic output uses the actual formatter with a bounded string-buffer FILE.
-variable	001cfd88	a0:8	arg_0	ulonglong
-signature	001cfdf8		itfMesReleaseAllVariable	void itfMesReleaseAllVariable(ulonglong arg_0)
+variable	001cfd88	a0_lo:4	pinst	instanceMes_tag *
+signature	001cfdf8		itfMesReleaseAllVariable	void itfMesReleaseAllVariable(variable_tag * pvariable)
 function_repeatable_comment	001cfdf8		itfMesReleaseAllVariable	Thirteen complete PS2 context/font splice/recycle, panel, message/selection/window/32-variable/manager cleanup and script release/all-release/shutdown bodies. Actual recovered memory-handle coalescing, pool release, field initializers, lists, process removal and shutdown callback, printf/formatter and creation dependencies execute. Full declared RAM, defined raw64 returns, CPU primitives, Status and callee saves compared. Original BF inputs traverse actual construction before release; populated ownership fixtures exercise real font recycling, handle coalescing, optional allocations, mixed owned/unowned script lists and repeat null-work shutdown. HD provides semantic roles only: managed offsets/ownership and font positioning differ. Returning finite backed ownership graphs; arbitrary invalid/cyclic pointers, exhaustive alias/OOM states, shipped VM execution, physical hardware and matching executable remain unproved. Diagnostic output uses the actual formatter with a bounded string-buffer FILE.
-variable	001cfdf8	a0:8	arg_0	ulonglong
+variable	001cfdf8	a0_lo:4	pvariable	variable_tag *
 signature	001cfe48		ps2MessageWriteDecimal	ulonglong ps2MessageWriteDecimal(ulonglong arg_0, ulonglong arg_1)
 function_repeatable_comment	001cfe48		ps2MessageWriteDecimal	Nine complete startup/process-link/message-variable bodies, including all11 native conversion cases and command113. Original embedded BF procedure records run actual script/message/process constructors, user data, actor-name allocation and parent linking.128 connected interpreter programs execute actual command113 for non-private-buffer name/no-op types; numerical/floor private-frame conversion is compared through the complete direct setter. Actual pool/memory handles/copy/formatter dependencies execute, with no gameplay return hooks. Rounded string copies preserve backed bytes after NUL; explicit80-byte private frame input models observable ambient bytes before execution. Full declared RAM,defined raw64 returns,Status,CPU primitives,ordered VM targets and returning callee saves compared. Finite successful allocations, terminating backed names and acyclic process chains; arbitrary OOM/invalid indices/cycles remain unproved. Original AI scheduling/decision execution and physical PS2 runtime remain outstanding. No new full-suite run.
 variable	001cfe48	a0:8	arg_0	ulonglong
 variable	001cfe48	a1:8	arg_1	ulonglong
-signature	001cfed0		itfMesResetWindowPara	void itfMesResetWindowPara(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+signature	001cfed0		itfMesResetWindowPara	void itfMesResetWindowPara(window_tag * pwin, int type, int alpha)
 function_repeatable_comment	001cfed0		itfMesResetWindowPara	Fourteen complete original message slot-list/resource/initializer/constructor and compressed pointer relocation routines. Actual recovered memory-handle allocation/acquisition, pool, interrupt and initializer callees execute without game-return hooks. Full backed RAM, defined raw64 results, Status, callee saves and CPU primitive counts checked. All31 shipped standalone BMD files execute through relocation, resolving, type-header lookup, binding and full constructor with independently expanded relocation targets. Ordinary backed finite layouts, valid free slots and sufficient memory extents; allocation exhaustion/unbacked null errors, font/window/variable cleanup, script allocation/FLW0 integration, physical execution and matching binary remain unproved. HD managed layouts, extra constructor arguments, coordinates and no-op resource relocation differ.
-variable	001cfed0	a0:8	arg_0	ulonglong
-variable	001cfed0	a1:8	arg_1	ulonglong
-variable	001cfed0	a2:8	arg_2	ulonglong
-signature	001cff98		ps2MessageCalcFlow	void ps2MessageCalcFlow(ulonglong arg_0)
+variable	001cfed0	a0_lo:4	pwin	window_tag *
+variable	001cfed0	a1_lo:4	type	int
+variable	001cfed0	a2_lo:4	alpha	int
+signature	001cff98		ps2MessageCalcFlow	void ps2MessageCalcFlow(instanceMes_tag * pinst)
 function_repeatable_comment	001cff98		ps2MessageCalcFlow	Six complete native Message update bodies through actual window/cursor/font/page/selection/variable/style/speaker and sound dependencies. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered cache/kernel/private sound packet observations compared. Finite generated two-page ASCII/control text,backed font/text groups and original FNT cached glyphs,input trigger/repeat bytes,mask/default keys,signed short wrapping,dirty argument lanes and zero/one/two-node manager lists. UI sound IDs1/8/9 use resident bank0 and asynchronous nonfull queue;bank loading/waiting has its separate proof. Unwritten sound packet+4 replays observed native private stack context,not recovered logic or matching compiled stack. HD gives semantic roles;managed UI/localization/voice/guards,layout and scroll distances differ. Physical rendering/sound,live input,IOP/kernel scheduling,all shipped pages/callbacks and matching executable remain unproved.
-variable	001cff98	a0:8	arg_0	ulonglong
-signature	001cffd0		ps2MessageCalcWindow	void ps2MessageCalcWindow(ulonglong arg_0)
+variable	001cff98	a0_lo:4	pinst	instanceMes_tag *
+signature	001cffd0		ps2MessageCalcWindow	void ps2MessageCalcWindow(instanceMes_tag * pinst)
 function_repeatable_comment	001cffd0		ps2MessageCalcWindow	Fourteen complete Message update prerequisites and actual draw manager. Native panel position callbacks,request recycling,memory-handle release,font controls and frame/packet/ordering dependencies execute. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered draw traces compared. Original table callbacks,finite generated font/text/Y groups,selection masks/trigger bytes,signed short cursor overflow,wrapped positions/alpha and dirty argument lanes. Thirteen semantic HD counterparts;HD layout/guards/input/UI and speaker-window fade differ. Native pause check is an actual zero-return body. Generated draw-manager fixtures,not original rendered asset/gameplay or live input. Upstream CalcMesFlow/message/selection and sound-loading/cache dependencies remain unrecovered;no full update-loop,physical rendering,scheduler,runtime or matching binary claim.
-variable	001cffd0	a0:8	arg_0	ulonglong
-signature	001d0118		ps2MessageCalcMessage	void ps2MessageCalcMessage(ulonglong arg_0)
+variable	001cffd0	a0_lo:4	pinst	instanceMes_tag *
+signature	001d0118		ps2MessageCalcMessage	void ps2MessageCalcMessage(instanceMes_tag * pinst)
 function_repeatable_comment	001d0118		ps2MessageCalcMessage	Six complete native Message update bodies through actual window/cursor/font/page/selection/variable/style/speaker and sound dependencies. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered cache/kernel/private sound packet observations compared. Finite generated two-page ASCII/control text,backed font/text groups and original FNT cached glyphs,input trigger/repeat bytes,mask/default keys,signed short wrapping,dirty argument lanes and zero/one/two-node manager lists. UI sound IDs1/8/9 use resident bank0 and asynchronous nonfull queue;bank loading/waiting has its separate proof. Unwritten sound packet+4 replays observed native private stack context,not recovered logic or matching compiled stack. HD gives semantic roles;managed UI/localization/voice/guards,layout and scroll distances differ. Physical rendering/sound,live input,IOP/kernel scheduling,all shipped pages/callbacks and matching executable remain unproved.
-variable	001d0118	a0:8	arg_0	ulonglong
-signature	001d02c0		ps2MessageCalcSelect	void ps2MessageCalcSelect(ulonglong arg_0)
+variable	001d0118	a0_lo:4	pinst	instanceMes_tag *
+signature	001d02c0		ps2MessageCalcSelect	void ps2MessageCalcSelect(instanceMes_tag * pinst)
 function_repeatable_comment	001d02c0		ps2MessageCalcSelect	Six complete native Message update bodies through actual window/cursor/font/page/selection/variable/style/speaker and sound dependencies. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered cache/kernel/private sound packet observations compared. Finite generated two-page ASCII/control text,backed font/text groups and original FNT cached glyphs,input trigger/repeat bytes,mask/default keys,signed short wrapping,dirty argument lanes and zero/one/two-node manager lists. UI sound IDs1/8/9 use resident bank0 and asynchronous nonfull queue;bank loading/waiting has its separate proof. Unwritten sound packet+4 replays observed native private stack context,not recovered logic or matching compiled stack. HD gives semantic roles;managed UI/localization/voice/guards,layout and scroll distances differ. Physical rendering/sound,live input,IOP/kernel scheduling,all shipped pages/callbacks and matching executable remain unproved.
-variable	001d02c0	a0:8	arg_0	ulonglong
-signature	001d0518		ps2MessageSlide	void ps2MessageSlide(ulonglong arg_0, ulonglong arg_1)
+variable	001d02c0	a0_lo:4	pinst	instanceMes_tag *
+signature	001d0518		ps2MessageSlide	void ps2MessageSlide(instanceMes_tag * pinst, int y)
 function_repeatable_comment	001d0518		ps2MessageSlide	Fourteen complete Message update prerequisites and actual draw manager. Native panel position callbacks,request recycling,memory-handle release,font controls and frame/packet/ordering dependencies execute. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered draw traces compared. Original table callbacks,finite generated font/text/Y groups,selection masks/trigger bytes,signed short cursor overflow,wrapped positions/alpha and dirty argument lanes. Thirteen semantic HD counterparts;HD layout/guards/input/UI and speaker-window fade differ. Native pause check is an actual zero-return body. Generated draw-manager fixtures,not original rendered asset/gameplay or live input. Upstream CalcMesFlow/message/selection and sound-loading/cache dependencies remain unrecovered;no full update-loop,physical rendering,scheduler,runtime or matching binary claim.
-variable	001d0518	a0:8	arg_0	ulonglong
-variable	001d0518	a1:8	arg_1	ulonglong
-signature	001d05f0		ps2MessageSelectItem	ulonglong ps2MessageSelectItem(ulonglong arg_0)
+variable	001d0518	a0_lo:4	pinst	instanceMes_tag *
+variable	001d0518	a1_lo:4	y	int
+signature	001d05f0		ps2MessageSelectItem	int ps2MessageSelectItem(instanceMes_tag * pinst)
 function_repeatable_comment	001d05f0		ps2MessageSelectItem	Six complete native Message update bodies through actual window/cursor/font/page/selection/variable/style/speaker and sound dependencies. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered cache/kernel/private sound packet observations compared. Finite generated two-page ASCII/control text,backed font/text groups and original FNT cached glyphs,input trigger/repeat bytes,mask/default keys,signed short wrapping,dirty argument lanes and zero/one/two-node manager lists. UI sound IDs1/8/9 use resident bank0 and asynchronous nonfull queue;bank loading/waiting has its separate proof. Unwritten sound packet+4 replays observed native private stack context,not recovered logic or matching compiled stack. HD gives semantic roles;managed UI/localization/voice/guards,layout and scroll distances differ. Physical rendering/sound,live input,IOP/kernel scheduling,all shipped pages/callbacks and matching executable remain unproved.
-variable	001d05f0	a0:8	arg_0	ulonglong
-signature	001d0740		ps2MessageSelectItemMove	void ps2MessageSelectItemMove(ulonglong arg_0, ulonglong arg_1)
+variable	001d05f0	a0_lo:4	pinst	instanceMes_tag *
+signature	001d0740		ps2MessageSelectItemMove	void ps2MessageSelectItemMove(select_tag * psel, int direct)
 function_repeatable_comment	001d0740		ps2MessageSelectItemMove	Six complete native Message update bodies through actual window/cursor/font/page/selection/variable/style/speaker and sound dependencies. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered cache/kernel/private sound packet observations compared. Finite generated two-page ASCII/control text,backed font/text groups and original FNT cached glyphs,input trigger/repeat bytes,mask/default keys,signed short wrapping,dirty argument lanes and zero/one/two-node manager lists. UI sound IDs1/8/9 use resident bank0 and asynchronous nonfull queue;bank loading/waiting has its separate proof. Unwritten sound packet+4 replays observed native private stack context,not recovered logic or matching compiled stack. HD gives semantic roles;managed UI/localization/voice/guards,layout and scroll distances differ. Physical rendering/sound,live input,IOP/kernel scheduling,all shipped pages/callbacks and matching executable remain unproved.
-variable	001d0740	a0:8	arg_0	ulonglong
-variable	001d0740	a1:8	arg_1	ulonglong
-signature	001d07f0		ps2MessageSelectDefaultKey	ulonglong ps2MessageSelectDefaultKey(ulonglong arg_0)
+variable	001d0740	a0_lo:4	psel	select_tag *
+variable	001d0740	a1_lo:4	direct	int
+signature	001d07f0		ps2MessageSelectDefaultKey	int ps2MessageSelectDefaultKey(select_tag * psel)
 function_repeatable_comment	001d07f0		ps2MessageSelectDefaultKey	Fourteen complete Message update prerequisites and actual draw manager. Native panel position callbacks,request recycling,memory-handle release,font controls and frame/packet/ordering dependencies execute. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered draw traces compared. Original table callbacks,finite generated font/text/Y groups,selection masks/trigger bytes,signed short cursor overflow,wrapped positions/alpha and dirty argument lanes. Thirteen semantic HD counterparts;HD layout/guards/input/UI and speaker-window fade differ. Native pause check is an actual zero-return body. Generated draw-manager fixtures,not original rendered asset/gameplay or live input. Upstream CalcMesFlow/message/selection and sound-loading/cache dependencies remain unrecovered;no full update-loop,physical rendering,scheduler,runtime or matching binary claim.
-variable	001d07f0	a0:8	arg_0	ulonglong
-signature	001d0880		ps2MessageCalcCursor	void ps2MessageCalcCursor(ulonglong arg_0)
+variable	001d07f0	a0_lo:4	psel	select_tag *
+signature	001d0880		ps2MessageCalcCursor	void ps2MessageCalcCursor(instanceMes_tag * pinst)
 function_repeatable_comment	001d0880		ps2MessageCalcCursor	Fourteen complete Message update prerequisites and actual draw manager. Native panel position callbacks,request recycling,memory-handle release,font controls and frame/packet/ordering dependencies execute. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered draw traces compared. Original table callbacks,finite generated font/text/Y groups,selection masks/trigger bytes,signed short cursor overflow,wrapped positions/alpha and dirty argument lanes. Thirteen semantic HD counterparts;HD layout/guards/input/UI and speaker-window fade differ. Native pause check is an actual zero-return body. Generated draw-manager fixtures,not original rendered asset/gameplay or live input. Upstream CalcMesFlow/message/selection and sound-loading/cache dependencies remain unrecovered;no full update-loop,physical rendering,scheduler,runtime or matching binary claim.
-variable	001d0880	a0:8	arg_0	ulonglong
+variable	001d0880	a0_lo:4	pinst	instanceMes_tag *
 signature	001d0930		ps2MessageDrawFlow	void ps2MessageDrawFlow(ulonglong arg_0)
 function_repeatable_comment	001d0930		ps2MessageDrawFlow	Fifteen complete native font color/packet/effect/draw wrappers,flat sprite,panel submission/state,selection marking and Message window/cursor/frame/debug bodies. Actual original OT initializer installs2ACD40/2ACD98;real chain append,state linkage,packet builders and original tables execute,without supplied game callback values. Full declared RAM,defined results,Status,primitives,callee saves and ordered submission/flush callback traces compared. Finite backed generated glyph metadata,UV/palette/texture/font/text/selection records and native phases,dirty argument lanes,wrapped geometry,byte fade and counter domains. Original fonts/pixels/BMD pages are not asserted by these generated frame fixtures. Native fade scale22/fallback24,lookahead and masks differ from HD64/no native fallback. Seven reviewed semantic HD roles;aliases forremaining bodies. Connected frame-to-ordering flush validates chain assembly,not GS execution,rendered appearance,scheduler/gameplay,exhaustive invalid/cyclic graphs or matching executable.
 variable	001d0930	a0:8	arg_0	ulonglong
@@ -7858,7 +7965,7 @@ variable	001d0b90	a0:8	arg_0	ulonglong
 signature	001d0e90		ps2MessageDrawWaitCursor	void ps2MessageDrawWaitCursor(ulonglong arg_0)
 function_repeatable_comment	001d0e90		ps2MessageDrawWaitCursor	Fifteen complete native font color/packet/effect/draw wrappers,flat sprite,panel submission/state,selection marking and Message window/cursor/frame/debug bodies. Actual original OT initializer installs2ACD40/2ACD98;real chain append,state linkage,packet builders and original tables execute,without supplied game callback values. Full declared RAM,defined results,Status,primitives,callee saves and ordered submission/flush callback traces compared. Finite backed generated glyph metadata,UV/palette/texture/font/text/selection records and native phases,dirty argument lanes,wrapped geometry,byte fade and counter domains. Original fonts/pixels/BMD pages are not asserted by these generated frame fixtures. Native fade scale22/fallback24,lookahead and masks differ from HD64/no native fallback. Seven reviewed semantic HD roles;aliases forremaining bodies. Connected frame-to-ordering flush validates chain assembly,not GS execution,rendered appearance,scheduler/gameplay,exhaustive invalid/cyclic graphs or matching executable.
 variable	001d0e90	a0:8	arg_0	ulonglong
-signature	001d0ff8		ps2MessageCalcManager	ulonglong ps2MessageCalcManager(void)
+signature	001d0ff8		ps2MessageCalcManager	int ps2MessageCalcManager(void)
 function_repeatable_comment	001d0ff8		ps2MessageCalcManager	Six complete native Message update bodies through actual window/cursor/font/page/selection/variable/style/speaker and sound dependencies. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered cache/kernel/private sound packet observations compared. Finite generated two-page ASCII/control text,backed font/text groups and original FNT cached glyphs,input trigger/repeat bytes,mask/default keys,signed short wrapping,dirty argument lanes and zero/one/two-node manager lists. UI sound IDs1/8/9 use resident bank0 and asynchronous nonfull queue;bank loading/waiting has its separate proof. Unwritten sound packet+4 replays observed native private stack context,not recovered logic or matching compiled stack. HD gives semantic roles;managed UI/localization/voice/guards,layout and scroll distances differ. Physical rendering/sound,live input,IOP/kernel scheduling,all shipped pages/callbacks and matching executable remain unproved.
 signature	001d1038		ps2MessageDrawManager	ulonglong ps2MessageDrawManager(void)
 function_repeatable_comment	001d1038		ps2MessageDrawManager	Fourteen complete Message update prerequisites and actual draw manager. Native panel position callbacks,request recycling,memory-handle release,font controls and frame/packet/ordering dependencies execute. Full declared RAM,defined raw64 returns,Status,primitives,callee saves and ordered draw traces compared. Original table callbacks,finite generated font/text/Y groups,selection masks/trigger bytes,signed short cursor overflow,wrapped positions/alpha and dirty argument lanes. Thirteen semantic HD counterparts;HD layout/guards/input/UI and speaker-window fade differ. Native pause check is an actual zero-return body. Generated draw-manager fixtures,not original rendered asset/gameplay or live input. Upstream CalcMesFlow/message/selection and sound-loading/cache dependencies remain unrecovered;no full update-loop,physical rendering,scheduler,runtime or matching binary claim.

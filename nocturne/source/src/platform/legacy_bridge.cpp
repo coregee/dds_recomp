@@ -32,6 +32,27 @@ uint64_t dds3SearchProcessName(uint64_t name);
 uint64_t dds3GetProcessData(uint64_t process);
 void evtBitOff(int32_t no);
 [[noreturn]] void nocturneCompilerArithmeticTrap(uint32_t code);
+uint64_t scrGetMessageHandle(void);
+uint64_t ps2FontMessageRequest(uint64_t x, uint64_t y, uint64_t style, uint64_t color, uint64_t transparency,
+                               uint64_t speed, uint64_t text, uint64_t font);
+uint64_t ps2BattleActionSkill_001C9108(uint64_t a0, uint64_t a1, uint64_t a2, uint64_t a3);
+uint64_t frDestroyFontRequestAfter(uint64_t request);
+void ps2FontBindMessageStyle(uint64_t data);
+void frSetVariableRequest(uint64_t index, uint64_t value);
+void frSetDrawPosition(uint64_t font, uint64_t x, uint64_t y);
+void frSetDrawSpeed(uint64_t font, uint64_t speed);
+uint64_t ps2FontTestGlobalFlags(uint64_t mask);
+uint64_t itfPnlRegist2(uint64_t type, uint64_t texture);
+void itfPnlSetPosition(uint64_t panel, uint64_t x0, uint64_t y0, uint64_t x1, uint64_t y1, uint64_t z);
+void itfPnlSetPositionOffset(uint64_t panel, uint64_t x0, uint64_t y0, uint64_t x1, uint64_t y1, uint64_t z);
+void itfPnlSetColor(uint64_t panel, uint64_t red, uint64_t green, uint64_t blue, uint64_t alpha);
+void itfPnlRelease(uint64_t panel);
+uint64_t ps2SoundPlay(uint64_t sound, uint64_t volume, uint64_t pan);
+uint32_t ps2MemoryHandleAllocate(int32_t size);
+uint32_t ps2MemoryHandleAcquirePointer(uint32_t handle);
+void ps2MemoryHandleFree(uint32_t handle);
+void ps2PacRelocatePointers(uint64_t destination, uint64_t base, uint64_t table, uint64_t bytes);
+void nocturneInvokeMessageKutiCallback(uint32_t entry);
 }
 
 namespace nocturne {
@@ -82,6 +103,54 @@ int32_t scr::GetIntPara(int32_t index) { return static_cast<int32_t>(scrGetIntPa
 void scr::SetIntReturnValue(int32_t value) { scrSetIntReturnValue(signExtend(value)); }
 uint32_t dds3::SearchProcessName(uint32_t name) { return static_cast<uint32_t>(dds3SearchProcessName(name)); }
 uint32_t dds3::GetProcessData(uint32_t process) { return static_cast<uint32_t>(dds3GetProcessData(signExtend(static_cast<int32_t>(process)))); }
+int32_t scr::GetMessageHandle() { return static_cast<int32_t>(scrGetMessageHandle()); }
+
+// ---- fr / itf / snd / mem / pac --------------------------------------------------
+
+namespace {
+uint64_t word(uint32_t address) { return signExtend(static_cast<int32_t>(address)); }   // a guest address register
+} // namespace
+
+uint32_t fr::MessageRequest(int32_t x, int32_t y, uint8_t style, uint8_t color, uint8_t tp, uint8_t speed,
+                            uint32_t text, uint32_t font)
+{
+    return static_cast<uint32_t>(ps2FontMessageRequest(signExtend(x), signExtend(y), style, color, tp, speed,
+                                                       word(text), word(font)));
+}
+uint32_t fr::MessageRequestPlain(int32_t x, int32_t y, uint32_t text, uint32_t font)
+{
+    return static_cast<uint32_t>(ps2BattleActionSkill_001C9108(signExtend(x), signExtend(y), word(text), word(font)));
+}
+void fr::DestroyFontRequestAfter(uint32_t request) { frDestroyFontRequestAfter(word(request)); }
+void fr::BindMessageStyle(uint32_t data) { ps2FontBindMessageStyle(word(data)); }
+void fr::SetVariableRequest(int32_t index, uint32_t value) { frSetVariableRequest(signExtend(index), word(value)); }
+void fr::SetDrawPosition(uint32_t request, int32_t x, int32_t y) { frSetDrawPosition(word(request), signExtend(x), signExtend(y)); }
+void fr::SetDrawSpeed(uint32_t request, uint32_t speed) { frSetDrawSpeed(word(request), speed); }
+int64_t fr::TestGlobalFlags(int64_t mask) { return static_cast<int64_t>(ps2FontTestGlobalFlags(static_cast<uint64_t>(mask))); }
+
+uint32_t itf::PnlRegist2(int32_t type, uint32_t texture) { return static_cast<uint32_t>(itfPnlRegist2(signExtend(type), word(texture))); }
+void itf::PnlSetPosition(uint32_t panel, int32_t x0, int32_t y0, int32_t x1, int32_t y1, uint32_t z)
+{
+    itfPnlSetPosition(word(panel), signExtend(x0), signExtend(y0), signExtend(x1), signExtend(y1), word(z));
+}
+void itf::PnlSetPositionOffset(uint32_t panel, int32_t x0, int32_t y0, int32_t x1, int32_t y1, uint32_t z)
+{
+    itfPnlSetPositionOffset(word(panel), signExtend(x0), signExtend(y0), signExtend(x1), signExtend(y1), word(z));
+}
+void itf::PnlSetColor(uint32_t panel, int32_t red, int32_t green, int32_t blue, int32_t alpha)
+{
+    itfPnlSetColor(word(panel), signExtend(red), signExtend(green), signExtend(blue), signExtend(alpha));
+}
+void itf::PnlRelease(uint32_t panel) { itfPnlRelease(word(panel)); }
+void snd::Play(int32_t sound, int32_t volume, int32_t pan) { ps2SoundPlay(signExtend(sound), signExtend(volume), signExtend(pan)); }
+uint32_t mem::HandleAllocate(int32_t size) { return ps2MemoryHandleAllocate(size); }
+uint32_t mem::HandleAcquirePointer(uint32_t handle) { return ps2MemoryHandleAcquirePointer(handle); }
+void mem::HandleFree(uint32_t handle) { ps2MemoryHandleFree(handle); }
+void pac::RelocatePointers(uint32_t destination, uint32_t base, uint32_t table, uint32_t bytes)
+{
+    ps2PacRelocatePointers(word(destination), word(base), word(table), word(bytes));
+}
+void guest::callFunction(uint32_t entry) { nocturneInvokeMessageKutiCallback(entry); }
 
 // ---- diagnostics / traps -----------------------------------------------------
 

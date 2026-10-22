@@ -414,4 +414,119 @@ typedef struct scrCommandTable {
     s32 paranum;
 } scrCommandTable;
 
+/* ---- the message manager (itfMesManager, source/include/nocturne/interface/message.hpp) ---- */
+
+typedef struct frText frText;
+typedef struct frRequest frRequest;
+typedef struct itfmisclinkheader itfmisclinkheader;
+
+/* _TEXT: one character of a font request. */
+struct frText {
+    u16 code, draw_count;
+    s32 lx, ly, lw;
+    u32 color;
+    u8 col_no, style, tp, mode;
+    u8 width, height;
+    u8 pad1a[2];
+    u32 gs_font, user_font;
+    PTR32(frText) prev;
+    PTR32(frText) next;
+};
+
+/* _FRQ: a font request (one run of text on one line). */
+struct frRequest {
+    u8 draw_spd;
+    s8 space;
+    u8 pad02[2];
+    s32 x, y;
+    s32 w_pxls;
+    s16 x_size, y_size;
+    u32 priority;
+    s32 strlen;
+    PTR32(frText) str;
+    PTR32(frText) str_end;
+    PTR32(frRequest) next;
+    PTR32(frRequest) prev;
+    PTR32(frRequest) head;
+};
+
+/* itfpanel_t */
+typedef struct itfpanel {
+    u32 handle, workhandle, pwork, z;
+    s32 pos[4];
+    s32 color[4];
+    u8 type;
+} itfpanel;
+
+/* itfMesBinFileHeader_t and the dialog headers of a loaded MSG1 table. */
+typedef struct itfMesBinFileHeader {
+    u8 filetype, format;
+    s16 user_id;
+    u32 filesize, mgc, extsize, ofs_addrinfo, size_addrinfo, numtypeheader;
+    u8 resolveaddress, reserved0;
+    u16 version;
+} itfMesBinFileHeader;
+typedef struct itfMesBinTypeHeader { u32 type, ptr; } itfMesBinTypeHeader;
+typedef struct itfMesBinTypeHeader2 { PTR32(u32) ppspkhead; s32 spknum; u32 pextdata, reserved; } itfMesBinTypeHeader2;
+typedef struct itfMesBinMesHeader { char label[24]; s16 page; u16 speaker; u32 addr[1]; } itfMesBinMesHeader;
+typedef struct itfMesBinSelHeader { char label[24]; s16 ext, item, pattern; u16 reserved; u32 ptr[1]; } itfMesBinSelHeader;
+
+typedef struct mesIVector2 { s32 x, y; } mesIVector2;
+typedef struct Speaker_tag { mesIVector2 pos; PTR32(frRequest) pfont; u16 num, pad; } Speaker_tag;
+typedef struct message_tag {
+    mesIVector2 pos;
+    PTR32(itfMesBinMesHeader) pbinheader;
+    PTR32(frRequest) pfont;
+    s8 phase;
+    u8 wait, last_style, last_col, last_tp, last_spd;
+    s16 lines, page, maxpage;
+} message_tag;
+typedef struct defkey_tag { s16 key, index; } defkey_tag;
+typedef struct select_tag {
+    mesIVector2 pos;
+    PTR32(frRequest) pfont;
+    u32 mask;
+    s16 phase, select, select_imm, lines, alpha, numdef;
+    defkey_tag defkey[16];
+} select_tag;
+typedef struct window_tag { PTR32(itfpanel) spk; PTR32(itfpanel) mes; s32 mes_offset[4]; s32 mes_color[4]; } window_tag;
+typedef struct variable_tag { u32 pptr[32]; u32 pmh[32]; } variable_tag;
+typedef struct curctr_tag { u8 isdraw, pad; s16 phase, ctr0, ctr1; u32 ctr_key; } curctr_tag;
+
+/* instanceMes_tag: a message window. */
+typedef struct instanceMes_tag {
+    u32 stat;
+    PTR32(itfMesBinFileHeader) pdata;
+    u32 pext, z;
+    s16 otindex, type;
+    Speaker_tag speaker;
+    message_tag message;
+    select_tag select;
+    window_tag window;
+    variable_tag variable;
+    curctr_tag curctr;
+    u32 func_kuti;
+} instanceMes_tag;
+
+struct itfmisclinkheader {
+    PTR32(itfmisclinkheader) pprev;
+    PTR32(itfmisclinkheader) pnext;
+    s32 id;
+    PTR32(instanceMes_tag) instance;
+    u32 handle;
+};
+typedef struct itfMiscLinkStack {
+    PTR32(itfmisclinkheader) head, tail, freehead, freetail;
+} itfMiscLinkStack;
+
+/* The message manager's globals (0x56BE60). */
+typedef struct itfMesManager {
+    s32 count;
+    u32 texture;
+    s32 frame;
+    u16 config, pad;
+    itfMiscLinkStack list;
+    itfmisclinkheader nodes[128];
+} itfMesManager;
+
 #endif

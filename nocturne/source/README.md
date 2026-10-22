@@ -38,6 +38,7 @@ include/nocturne/
   fusion/accident.hpp    fusion accidents
   fusion/sort.hpp        inherited-skill and devil-list sorting
   libc/qsort.hpp         the PS2 C library qsort (its tie order is observable)
+  interface/message.hpp  message windows (itfMesManager), font requests, panels
   external.hpp           engine functions not rewritten yet (bridged to legacy C)
 src/
   data/unit.cpp, progression.cpp   datCalc
@@ -46,13 +47,15 @@ src/
   data/*_table.cpp                  game data tables (generated)
   battle/*.cpp                      nbCalc, by topic
   fusion/*.cpp                      cmb / fclCombineCalcCore, by topic
+  interface/message.cpp             itfMesManager: message windows, selections
   libc/*.cpp                        C library functions whose exact behaviour matters
   platform/legacy_bridge.cpp        external.hpp -> legacy C ABI
 scripts/                 FlowScript: .flow (readable) and .flowasm (exact) per script,
                          .msg its message table (docs/messages.md);
                          exe/ai.flow is the enemy AI (see docs/flowscript.md)
 tests/
-  differential/          every rewritten function vs. its legacy C, on the real game data
+  differential/          every rewritten function vs. its legacy C or the original
+                         instructions (ee.hpp, an EE interpreter), on the real game data
   tables/                generated tables vs. the executable's bytes; Ghidra header vs. records
 ```
 

@@ -40,7 +40,10 @@ and the whole of fusion (`fclCombineCalcCore`: rules, skill inheritance,
 sacrifices, accidents, Fiends), Magatama (bonuses, skills, mastery, the
 Demi-fiend's race), the compendium (`fclEncyc`) and the enemy AI (`nbAi`:
 conditions, action tables, target choice, AI script commands, targeting),
-plus the C library `qsort` the game sorts with.
+the message windows (`itfMesManager`: dialogs, selections, the script
+commands that drive them), plus the C library `qsort` the game sorts with.
+Functions without legacy C are tested against the original instructions,
+run by an EE interpreter in the differential test.
 Scripts as source: every FlowScript — the enemy AI scripts embedded in the
 executable and the 191 event / field / facility scripts on disc — decompiled
 into `source/scripts/` and verified to recompile to the original code

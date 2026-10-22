@@ -58,6 +58,7 @@ public class ImportTypes extends GhidraScript {
         {0x0052e350L, "scrCommandTable", 583, "scrCommandTable"},
         {0x004f0800L, "u8", 0x35bf1, "nbAiScript_bf"},
         {0x003267a8L, "u8", 0x41a, "script_3267a8_bf"},
+        {0x0056be60L, "itfMesManager", 1, "itfMesManager_work"},
     };
 
     @Override

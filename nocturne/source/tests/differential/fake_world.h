@@ -29,8 +29,14 @@ enum {
     FW_SCRATCH    = 0x01105400, /* 0xC00 bytes for test buffers */
     FW_DYNAMIC_BEGIN = 0x01000000,
     FW_TARSEL     = 0x01106000, /* nbTarSelProcessData */
-    FW_SCRIPT     = 0x01106100, /* fake script VM: int params [8], then returns: count, values */
-    FW_DYNAMIC_END   = 0x01107000,
+    FW_SCRIPT     = 0x01106100, /* fake script VM: int params [8], then returns: count, values;
+                                   at 0x60 the message handle */
+    FW_MES_INSTANCE = 0x01107000, /* two message windows (instanceMes_tag, 0x200 apart) */
+    FW_MES_TABLE  = 0x01107400,   /* a message table (MSG1), up to 0x2e00 bytes */
+    FW_MES_STATE  = 0x0110a200,   /* the message fakes: pool cursor, log count, log {kind, a, b} */
+    FW_MES_POOL   = 0x0110a800,   /* font requests, panels and memory blocks the fakes hand out */
+    FW_MES_POOL_END = 0x01110000,
+    FW_DYNAMIC_END   = 0x01110000,
     /* Guest stack for legacy code that allocates on it (not compared). */
     FW_STACK_TOP     = 0x01300000,
 };
@@ -73,6 +79,9 @@ void fw_trap(uint32_t code);
 extern void *fw_trap_target; /* jmp_buf* set by the harness */
 
 uint64_t fw_hash(uint64_t a, uint64_t b, uint64_t c);
+
+/* Message-manager fakes: append to the log in FW_MES_STATE. */
+void fw_mes_log(uint32_t kind, uint32_t a, uint32_t b);
 
 #ifdef __cplusplus
 }

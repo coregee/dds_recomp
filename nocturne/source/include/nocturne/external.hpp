@@ -32,7 +32,52 @@ namespace scr {
 uint32_t GetData();                 // the running script's data (for AI scripts: ActionProcessData)
 int32_t GetIntPara(int32_t index);  // an integer argument
 void SetIntReturnValue(int32_t value);
+int32_t GetMessageHandle();         // the script's message window, or negative
 } // namespace scr
+
+// Font requests (frFont): text laid out for drawing. Requests are addresses
+// of fr::Request records (nocturne/interface/message.hpp).
+namespace fr {
+// Lay out `text` (a message page) at x, y; returns the first request of the chain.
+uint32_t MessageRequest(int32_t x, int32_t y, uint8_t style, uint8_t color, uint8_t tp, uint8_t speed,
+                        uint32_t text, uint32_t font);
+uint32_t MessageRequestPlain(int32_t x, int32_t y, uint32_t text, uint32_t font);   // (0x1C9108)
+void DestroyFontRequestAfter(uint32_t request);   // returns the chain to the free list
+void BindMessageStyle(uint32_t data);
+void SetVariableRequest(int32_t index, uint32_t value);   // the string for {var index}
+void SetDrawPosition(uint32_t request, int32_t x, int32_t y);
+void SetDrawSpeed(uint32_t request, uint32_t speed);
+int64_t TestGlobalFlags(int64_t mask);            // the last layout's end-of-page flags
+} // namespace fr
+
+// Window panels (itfPanel). Panels are addresses of itf::Panel records.
+namespace itf {
+uint32_t PnlRegist2(int32_t type, uint32_t texture);
+void PnlSetPosition(uint32_t panel, int32_t x0, int32_t y0, int32_t x1, int32_t y1, uint32_t z);
+void PnlSetPositionOffset(uint32_t panel, int32_t x0, int32_t y0, int32_t x1, int32_t y1, uint32_t z);
+void PnlSetColor(uint32_t panel, int32_t red, int32_t green, int32_t blue, int32_t alpha);
+void PnlRelease(uint32_t panel);
+} // namespace itf
+
+namespace snd {
+void Play(int32_t sound, int32_t volume, int32_t pan);   // ps2SoundPlay
+} // namespace snd
+
+// Movable memory blocks (sdfMemHandle).
+namespace mem {
+uint32_t HandleAllocate(int32_t size);
+uint32_t HandleAcquirePointer(uint32_t handle);
+void HandleFree(uint32_t handle);
+} // namespace mem
+
+namespace pac {
+// Turn the offsets listed in a relocation table into addresses (base + offset).
+void RelocatePointers(uint32_t destination, uint32_t base, uint32_t table, uint32_t bytes);
+} // namespace pac
+
+namespace guest {
+void callFunction(uint32_t entry);   // call original code through a function pointer
+} // namespace guest
 
 // Engine process table.
 namespace dds3 {
@@ -85,6 +130,8 @@ enum class Message : uint32_t {
     AiNoSkill        = 0x005457d8, // "no skill"
     AiNoTarget       = 0x005457e8, // "taisyo nashi!!!" (no target)
     SkillRewritten   = 0x00544170, // スキル書き換え!! (normal attack data rewritten)
+    NoMessagePage    = 0x00535a80, // "itfMesMngRequestMessage() escape 1" (a message with no pages)
+    NotASelection    = 0x00535aa8, // "itfMesMngRequestSelect() - Invalid Type : %d"
 };
 // Integer arguments are passed sign-extended; %f arguments are ee::Double bits.
 void print(Message message, int64_t a = 0, int64_t b = 0, int64_t c = 0, int64_t d = 0, int64_t e = 0);

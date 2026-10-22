@@ -56,8 +56,8 @@ message manager (`ReadytoMessage`, `CalcMessage`):
 
 | Code | Text | Effect |
 |---|---|---|
-| F1 04 | `{wait}` | end of the page; wait for the button |
-| F1 10 | `{wait_nospeaker}` | end of the page; wait, and don't draw the speaker's name (narration, `> ...`) |
+| F1 04 | `{wait}` | end of the page; wait for the button (a page without it turns by itself) |
+| F1 10 | `{wait_nospeaker}` | end of the page; wait, and hide the speaker's name and panel for this page (narration, `> ...`) |
 | F1 11 | `{wait_mode8}` | end of the page if font mode 8 is on |
 | F1 12 | `{lipsync}` | call the window's mouth-movement callback (`itfMesMngSetKutiCallback`, "kuti" = mouth) |
 | F1 0F | `{br}` | new line when the font doesn't break lines itself (unused) |
@@ -74,6 +74,46 @@ message manager (`ReadytoMessage`, `CalcMessage`):
 found so far reads it, so it stays as raw bytes. Codes are also raw when
 they don't have this shape. Unhandled `0xF1` codes (F1 0B appears twice)
 are ignored by the game.
+
+## In the game: the message manager
+
+`source/src/interface/message.cpp` (original unit `itfMesManager`,
+0x1CD2E0..0x1D10A8) shows the tables; every function there is checked
+against the original instructions (see *Testing against the original code*
+in `AGENTS.md`).
+
+- A script opens a **window** on its table (`itfMesMngInitialize`): an
+  `instanceMes_tag` from a list of 128 (`itfMiscLink*`), which turns the
+  table's offsets into addresses once (`itfMesResolveResourceAddress`, using
+  the relocation table).
+- `MESSAGE(n)` (`itfMesMngMessage`) asks for dialog n and returns "not done"
+  until it has been shown. `itfMesMngRequestMessage` hands the `{var n}`
+  strings to the font engine, lays out the first page (`ReadytoMessage`), and
+  lays out the speaker's name when it changes: a name from the table, or with
+  `speaker var n` the string in variable n.
+- Each frame (`CalcManagerProc` → `CalcMesFlow`) the panels fade (the
+  message panel in by 24 and out by 8 a step up to its alpha, the speaker's
+  by 32 up to 200), and `CalcMessage` handles the end of a page: a page that
+  ended in `{wait}` or `{wait_nospeaker}` waits for the confirm or cancel
+  button, or the skip button held for five frames; a page without one turns
+  at once. The confirm, cancel and skip buttons also make the rest of a page
+  appear at once, unless `IGNORE_CONFIG` is on. The player's message-speed
+  setting does the same from the start of each page.
+- `{wait_nospeaker}` hides the speaker's panel for that page; `{lipsync}`
+  calls the callback the script installed (`itfMesMngSetKutiCallback`).
+- `SELECT(n)` lays out the visible options (`MASK_SELECT` hides some) below
+  the message, scrolls the message up by 64 a frame until they fit, lets the
+  player move the cursor (wrapping around) or press a button bound with
+  `SELECT_DEFKEY`, fades the other options out and scrolls back; the result is
+  the option's number among all options.
+- `VALIDATE_NEXT(0)` makes pages end without waiting; `MSG_POS` moves the
+  text; `WINDOW_TYPE` changes the panel's shape (1 wide, 2 short) and alpha.
+
+The window's state is in `instanceMes_tag::stat`: the low 3 bits are the
+message (2 opening, 3 drawing, 4 at the end of a page), bits 3..5 the
+selection, 0x300 and 0x3000 the message and speaker panels (fading in,
+shown, fading out); the flags above 0xFFFF are set by script commands
+(`itfMesMngMarkBitStat` / `ClearBitStat` can only touch those).
 
 ## Encoding details
 

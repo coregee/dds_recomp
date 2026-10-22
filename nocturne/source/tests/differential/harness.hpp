@@ -58,5 +58,7 @@ void addProgressionTests(std::vector<TestCase>& t);   // progression_tests.cpp
 void addFusionCoreTests(std::vector<TestCase>& t);    // fusion_core_tests.cpp
 void addMagatamaTests(std::vector<TestCase>& t);      // magatama_tests.cpp
 void addAiTests(std::vector<TestCase>& t);            // ai_tests.cpp
+void addMessageTests(std::vector<TestCase>& t);       // message_tests.cpp
+void loadMessageTables(const char* elfPath);           // message_tests.cpp
 
 } // namespace difftest

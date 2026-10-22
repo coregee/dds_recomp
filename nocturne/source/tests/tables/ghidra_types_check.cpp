@@ -7,6 +7,7 @@
 #include "nocturne/data/records.hpp"
 #include "nocturne/fusion/combine.hpp"
 #include "nocturne/fusion/sort.hpp"
+#include "nocturne/interface/message.hpp"
 
 namespace ghidra {
 #define PTR32(T) uint32_t
@@ -83,5 +84,20 @@ SAME_OFFSET(nbActionProcessData, nb::ActionProcessData, aisummonid, aisummonid);
 SAME_OFFSET(nbMainProcessData, nb::MainProcessData, summonallowed, summonallowed);
 SAME_OFFSET(nbTarSelProcessData, nb::TargetSelectData, enemyno, enemyno);
 SAME_SIZE(datDevilAI, DevilAI);
+SAME_SIZE(frRequest, fr::Request);
+SAME_OFFSET(frText, fr::Text, next, next);
+SAME_OFFSET(itfpanel, itf::Panel, type, type);
+SAME_SIZE(itfMesBinFileHeader, mes::FileHeader);
+SAME_OFFSET(itfMesBinMesHeader, mes::MesHeader, addr, addr);
+SAME_OFFSET(itfMesBinSelHeader, mes::SelHeader, ptr, ptr);
+SAME_SIZE(Speaker_tag, mes::Speaker);
+SAME_SIZE(message_tag, mes::Message);
+SAME_SIZE(select_tag, mes::Select);
+SAME_SIZE(window_tag, mes::Window);
+SAME_SIZE(curctr_tag, mes::CurCtr);
+SAME_SIZE(instanceMes_tag, mes::Instance);
+SAME_OFFSET(instanceMes_tag, mes::Instance, func_kuti, func_kuti);
+SAME_SIZE(itfmisclinkheader, itf::LinkNode);
+SAME_SIZE(itfMesManager, mes::Manager);
 
 } // namespace

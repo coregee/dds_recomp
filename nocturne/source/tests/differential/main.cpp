@@ -301,6 +301,10 @@ const StaticRange kWrittenStatics[] = {
     {0x003d6998, 8}, {0x003d6998 + 0xa4 * 8, 4 * 8},      // SkillInfo
     {0x003dbd20, 4}, {0x003dbd20 + 0xa4 * 4, 4 * 4},      // skill hit effects
     {0x005514e8, 4},                                       // AI rotation counter
+    {0x0056be60, 0x0056c880 - 0x0056be60},                 // message manager and its nodes
+    {0x0056bbc4, 0x90},                                    // font contexts and {var n} strings
+    {0x0054f404, 0x20},                                    // font flags
+    {0x002f5830, 0x20},                                    // pad triggers
 };
 
 std::vector<uint8_t> captureStatics()
@@ -805,6 +809,7 @@ std::vector<TestCase> tests()
     addFusionCoreTests(t);
     addMagatamaTests(t);
     addAiTests(t);
+    addMessageTests(t);
     return t;
 }
 
@@ -820,6 +825,7 @@ int main(int argc, char** argv)
         std::fprintf(stderr, "cannot load %s\n", argv[1]);
         return 2;
     }
+    loadMessageTables(argv[1]);
     int cases = argc > 2 ? std::atoi(argv[2]) : 2000;
     uint64_t seed = argc > 3 ? std::strtoull(argv[3], nullptr, 0) : 1;
     const char* filter = argc > 4 ? argv[4] : "";

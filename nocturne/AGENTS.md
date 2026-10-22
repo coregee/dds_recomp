@@ -43,7 +43,8 @@ proven, not assumed.
 5. **Prove it.** Add every function to the differential test
    (`source/tests/differential/`: `main.cpp` for battle/unit code,
    `fusion_tests.cpp`, `fusion_core_tests.cpp`, `progression_tests.cpp`,
-   `magatama_tests.cpp`, `ai_tests.cpp`;
+   `magatama_tests.cpp`, `ai_tests.cpp`, `message_tests.cpp` (against the
+   original instructions);
    shared helpers in `harness.hpp`, engine fakes in `fake_world.c`) and run
    `source\tests\differential\build.cmd`. Results, traps, RNG draw
    order, debug prints and all written RAM must match the legacy C. Make sure
@@ -78,11 +79,22 @@ tools. Command names live in `reference/names/script-commands.tsv`.
 ## Code with no legacy C
 
 About two thirds of the executable has no C yet. For those functions the
-reference is the original code itself: decompile in Ghidra, write the
-readable version, and validate by running the original instructions (PCSX2
-via the MCP tools, see `reference/research/runtime-workflow.md`) or an EE
-emulator harness against the same inputs. Build such harnesses to generate
-inputs on the fly instead of storing captures.
+reference is the original code itself: read the decompile
+(`reference/ps2/whole-program/functions/<addr>.c` / `.asm`, or Ghidra),
+write the readable version, and test it against the original instructions.
+
+## Testing against the original code
+
+`source/tests/differential/ee.hpp` is an Emotion Engine interpreter (integer
+instructions) that runs SLUS_209.11's own code in the fake RAM. A test uses
+it as the "legacy" side of a pair (see `message_tests.cpp`): list the
+address ranges to interpret (the function and the callees that belong to
+the same module), and hook every other callee to the fake that the rewrite
+reaches through `legacy_bridge.cpp`, so both sides call the same fakes.
+Calls outside the listed ranges and hooks stop the test with the address.
+This is now the preferred check for any function, with or without legacy C.
+PCSX2 (`reference/research/runtime-workflow.md`) remains the check for
+behaviour that depends on hardware.
 
 ## Ghidra
 

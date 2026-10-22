@@ -3658,9 +3658,9 @@ address	size	name	name_source	status	rewrite	legacy
 001cad00	100	FUN_001cad00	DEFAULT	unknown		
 001cad68	32	FUN_001cad68	DEFAULT	unknown		
 001cad88	196	FUN_001cad88	DEFAULT	unknown		
-001cae58	96	FUN_001cae58	DEFAULT	unknown		
-001caeb8	92	itfMiscLinkTake	USER_DEFINED	legacy		message_construction.c:itfMiscLinkTake
-001caf20	80	itfMiscLinkGive	USER_DEFINED	legacy		message_construction.c:itfMiscLinkGive
+001cae58	96	itfMiscLinkInit	USER_DEFINED	rewritten	src/interface/message.cpp:MiscLinkInit	
+001caeb8	92	itfMiscLinkTake	USER_DEFINED	rewritten	src/interface/message.cpp:MiscLinkTake	message_construction.c:itfMiscLinkTake
+001caf20	80	itfMiscLinkGive	USER_DEFINED	rewritten	src/interface/message.cpp:MiscLinkGive	message_construction.c:itfMiscLinkGive
 001caf78	124	ps2PanelScaleColors	USER_DEFINED	legacy		panel_construction.c:ps2PanelScaleColors
 001cb0d8	76	FUN_001cb0d8	DEFAULT	unknown		
 001cb128	296	FUN_001cb128	DEFAULT	unknown		
@@ -3705,105 +3705,105 @@ address	size	name	name_source	status	rewrite	legacy
 001ccfb0	276	ps2PanelDrawSpeaker2	USER_DEFINED	legacy		panel_draw.c:ps2PanelDrawSpeaker2
 001cd0c8	420	ps2PanelDrawPera	USER_DEFINED	legacy		panel_draw.c:ps2PanelDrawPera
 001cd270	108	ps2PanelAppendDrawState	USER_DEFINED	legacy		message_frame_draw.c:ps2PanelAppendDrawState
-001cd2e0	156	itfMesMngMessage	USER_DEFINED	legacy		message_request.c:itfMesMngMessage
-001cd380	68	FUN_001cd380	DEFAULT	unknown		
-001cd3c8	32	FUN_001cd3c8	DEFAULT	unknown		
-001cd3e8	32	FUN_001cd3e8	DEFAULT	unknown		
-001cd408	160	FUN_001cd408	DEFAULT	unknown		
-001cd4b0	32	FUN_001cd4b0	DEFAULT	unknown		
-001cd4d0	32	FUN_001cd4d0	DEFAULT	unknown		
-001cd4f0	32	FUN_001cd4f0	DEFAULT	unknown		
-001cd510	76	FUN_001cd510	DEFAULT	unknown		
-001cd560	76	FUN_001cd560	DEFAULT	unknown		
-001cd5b0	68	itfMesMngOpenWindow	USER_DEFINED	legacy		message_commands.c:itfMesMngOpenWindow
-001cd5f8	120	itfMesMngCloseWindow	USER_DEFINED	legacy		message_commands.c:itfMesMngCloseWindow
-001cd670	144	itfMesMngMsgWndCls	USER_DEFINED	legacy		message_commands.c:itfMesMngMsgWndCls
-001cd700	8	ps2ScriptCommandSlot004	USER_DEFINED	named		
-001cd708	8	ps2ScriptCommandSlot005	USER_DEFINED	named		
+001cd2e0	156	itfMesMngMessage	USER_DEFINED	rewritten	src/interface/message.cpp:CommandMessage	message_request.c:itfMesMngMessage
+001cd380	68	itfMesMngMoveMessagePanel	USER_DEFINED	rewritten	src/interface/message.cpp:MoveMessagePanel	
+001cd3c8	32	itfMesMngGetPhase	USER_DEFINED	rewritten	src/interface/message.cpp:CommandGetPhase	
+001cd3e8	32	itfMesMngSetPhase	USER_DEFINED	rewritten	src/interface/message.cpp:CommandSetPhase	
+001cd408	160	itfMesMngSelect	USER_DEFINED	rewritten	src/interface/message.cpp:CommandSelect	
+001cd4b0	32	itfMesMngGetSelPhase	USER_DEFINED	rewritten	src/interface/message.cpp:CommandGetSelPhase	
+001cd4d0	32	itfMesMngSetSelPhase	USER_DEFINED	rewritten	src/interface/message.cpp:CommandSetSelPhase	
+001cd4f0	32	itfMesMngGetSelectNo	USER_DEFINED	rewritten	src/interface/message.cpp:CommandGetSelectNo	
+001cd510	76	itfMesMngMaskSelect	USER_DEFINED	rewritten	src/interface/message.cpp:CommandMaskSelect	
+001cd560	76	itfMesMng_SEL_SELNO	USER_DEFINED	rewritten	src/interface/message.cpp:CommandSetSelectNo	
+001cd5b0	68	itfMesMngOpenWindow	USER_DEFINED	rewritten	src/interface/message.cpp:CommandOpenWindow	message_commands.c:itfMesMngOpenWindow
+001cd5f8	120	itfMesMngCloseWindow	USER_DEFINED	rewritten	src/interface/message.cpp:CommandCloseWindow	message_commands.c:itfMesMngCloseWindow
+001cd670	144	itfMesMngMsgWndCls	USER_DEFINED	rewritten	src/interface/message.cpp:MsgWndCls	message_commands.c:itfMesMngMsgWndCls
+001cd700	8	ps2ScriptCommandSlot004	USER_DEFINED	rewritten	src/interface/message.cpp:CommandOpenSelectWindow	
+001cd708	8	ps2ScriptCommandSlot005	USER_DEFINED	rewritten	src/interface/message.cpp:CommandCloseSelectWindow	
 001cd710	124	itfMesMngSetVarScr	USER_DEFINED	legacy		battle_ai_startup.c:itfMesMngSetVarScr
-001cd790	100	FUN_001cd790	DEFAULT	unknown		
-001cd7f8	100	FUN_001cd7f8	DEFAULT	unknown		
-001cd860	60	FUN_001cd860	DEFAULT	unknown		
-001cd8a0	124	FUN_001cd8a0	DEFAULT	unknown		
-001cd920	80	FUN_001cd920	DEFAULT	unknown		
-001cd970	100	FUN_001cd970	DEFAULT	unknown		
-001cd9d8	100	FUN_001cd9d8	DEFAULT	unknown		
-001cda40	244	itfMesMngInitialize	USER_DEFINED	legacy		message_construction.c:itfMesMngInitialize
-001cdb38	68	itfMesMngRelease	USER_DEFINED	legacy		script_lifetime.c:itfMesMngRelease
-001cdb80	492	itfMesMngRequestMessage	USER_DEFINED	legacy		message_request.c:itfMesMngRequestMessage
-001cdd78	220	itfMesMngRequestMessageRelease	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001cdd78;battle_panel_renderer_remaining.c:body_001cdd78;script_lifetime.c:itfMesMngRequestMessageRelease
-001cde58	296	FUN_001cde58	DEFAULT	unknown		
-001cdf80	136	itfMesMngRequestSelectRelease	USER_DEFINED	legacy		script_lifetime.c:itfMesMngRequestSelectRelease
-001ce008	32	FUN_001ce008	DEFAULT	unknown		
-001ce028	100	FUN_001ce028	DEFAULT	unknown		
-001ce190	140	FUN_001ce190	DEFAULT	unknown		
-001ce450	48	itfMesMngMarkBitStat	USER_DEFINED	legacy		message_commands.c:itfMesMngMarkBitStat
-001ce480	48	FUN_001ce480	DEFAULT	unknown		
-001ce510	40	itfMesMngGetVarLocalize	USER_DEFINED	legacy		message_commands.c:itfMesMngGetVarLocalize
+001cd790	100	itfMesMngIgnoreConfig	USER_DEFINED	rewritten	src/interface/message.cpp:CommandIgnoreConfig	
+001cd7f8	100	itfMesMngSetMesPositionScript	USER_DEFINED	rewritten	src/interface/message.cpp:CommandSetMesPosition	
+001cd860	60	itfMesMngSetMesPosDefault	USER_DEFINED	rewritten	src/interface/message.cpp:CommandSetMesPosDefault	
+001cd8a0	124	itfMesMngValidateNext	USER_DEFINED	rewritten	src/interface/message.cpp:CommandValidateNext	
+001cd920	80	itfMesMngWindowType	USER_DEFINED	rewritten	src/interface/message.cpp:CommandWindowType	
+001cd970	100	itfMesMngWindowTypeAlpha	USER_DEFINED	rewritten	src/interface/message.cpp:CommandWindowTypeAlpha	
+001cd9d8	100	itfMesMngSelectDefKey	USER_DEFINED	rewritten	src/interface/message.cpp:CommandSelectDefKey	
+001cda40	244	itfMesMngInitialize	USER_DEFINED	rewritten	src/interface/message.cpp:Initialize	message_construction.c:itfMesMngInitialize
+001cdb38	68	itfMesMngRelease	USER_DEFINED	rewritten	src/interface/message.cpp:Release	script_lifetime.c:itfMesMngRelease
+001cdb80	492	itfMesMngRequestMessage	USER_DEFINED	rewritten	src/interface/message.cpp:RequestMessage	message_request.c:itfMesMngRequestMessage
+001cdd78	220	itfMesMngRequestMessageRelease	USER_DEFINED	rewritten	src/interface/message.cpp:RequestMessageRelease	battle_action_skill_registered_frames.c:body_001cdd78;battle_panel_renderer_remaining.c:body_001cdd78;script_lifetime.c:itfMesMngRequestMessageRelease
+001cde58	296	itfMesMngRequestSelect	USER_DEFINED	rewritten	src/interface/message.cpp:RequestSelect	
+001cdf80	136	itfMesMngRequestSelectRelease	USER_DEFINED	rewritten	src/interface/message.cpp:RequestSelectRelease	script_lifetime.c:itfMesMngRequestSelectRelease
+001ce008	32	itfMesMngSetMaskSelect	USER_DEFINED	rewritten	src/interface/message.cpp:SetMaskSelect	
+001ce028	100	itfMesMngSetSelect	USER_DEFINED	rewritten	src/interface/message.cpp:SetSelect	
+001ce190	140	itfMesMngSetMesPosition	USER_DEFINED	rewritten	src/interface/message.cpp:SetMesPosition	
+001ce450	48	itfMesMngMarkBitStat	USER_DEFINED	rewritten	src/interface/message.cpp:MarkBitStat	message_commands.c:itfMesMngMarkBitStat
+001ce480	48	itfMesMngClearBitStat	USER_DEFINED	rewritten	src/interface/message.cpp:ClearBitStat	
+001ce510	40	itfMesMngGetVarLocalize	USER_DEFINED	rewritten	src/interface/message.cpp:GetVarLocalize	message_commands.c:itfMesMngGetVarLocalize
 001ce538	172	ps2MessageBuildCharacterName	USER_DEFINED	legacy		battle_ai_startup.c:ps2MessageBuildCharacterName;battle_panel_renderer_remaining.c:body_001ce538
 001ce5e8	476	itfMesMngSetVar	USER_DEFINED	legacy		battle_ai_startup.c:itfMesMngSetVar;battle_panel_renderer_remaining.c:body_001ce5e8
 001ce7d8	48	itfMesMngSetVariableString	USER_DEFINED	legacy		battle_ai_startup.c:itfMesMngSetVariableString;battle_panel_renderer_remaining.c:body_001ce7d8
 001ce808	44	itfMesMngSetVariableBytes	USER_DEFINED	legacy		battle_ai_startup.c:itfMesMngSetVariableBytes;battle_panel_renderer_remaining.c:body_001ce808
-001ce838	132	itfMesMngSetResourcePtr	USER_DEFINED	legacy		message_construction.c:itfMesMngSetResourcePtr
-001ce908	136	FUN_001ce908	DEFAULT	unknown		
-001ce990	200	FUN_001ce990	DEFAULT	unknown		
-001cea58	192	FUN_001cea58	DEFAULT	legacy		battle_action_skill_support_frames.c:body_001cea58;battle_action_skill_support_frames.c:ps2BattleActionSkill_001CEA58;battle_status_pairs.c:body_001cea58;battle_status_pairs_native.c:body_001cea58
-001ceb18	32	FUN_001ceb18	DEFAULT	unknown		
-001ceb38	32	itfMesMngSetKutiCallback	USER_DEFINED	legacy		message_request.c:itfMesMngSetKutiCallback
+001ce838	132	itfMesMngSetResourcePtr	USER_DEFINED	rewritten	src/interface/message.cpp:SetResourcePtr	message_construction.c:itfMesMngSetResourcePtr
+001ce908	136	itfMesMngChangeWindowType	USER_DEFINED	rewritten	src/interface/message.cpp:ChangeWindowType	
+001ce990	200	itfMesMngSetSelectDefKey	USER_DEFINED	rewritten	src/interface/message.cpp:SetSelectDefKey	
+001cea58	192	itfMesMngGetMessageWidth	USER_DEFINED	rewritten	src/interface/message.cpp:GetMessageWidth	battle_action_skill_support_frames.c:body_001cea58;battle_action_skill_support_frames.c:ps2BattleActionSkill_001CEA58;battle_status_pairs.c:body_001cea58;battle_status_pairs_native.c:body_001cea58
+001ceb18	32	itfMesMngSetDefaultSpeed	USER_DEFINED	rewritten	src/interface/message.cpp:SetDefaultSpeed	
+001ceb38	32	itfMesMngSetKutiCallback	USER_DEFINED	rewritten	src/interface/message.cpp:SetKutiCallback	message_request.c:itfMesMngSetKutiCallback
 001ceb58	216	FUN_001ceb58	DEFAULT	unknown		
-001cec68	12	FUN_001cec68	DEFAULT	unknown		
+001cec68	12	itfMesMngGetConfig	USER_DEFINED	rewritten	src/interface/message.cpp:GetConfig	
 001cec78	948	FUN_001cec78	DEFAULT	unknown		
-001cf058	168	ps2MessageManagerReleaseInner	USER_DEFINED	legacy		script_lifetime.c:ps2MessageManagerReleaseInner
-001cf100	72	itfMesResolveResourceAddress	USER_DEFINED	legacy		battle_action_skill_bridge_frames.c:body_001cf100;message_construction.c:itfMesResolveResourceAddress
-001cf178	20	ps2MessageGetResourceEntry	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001cf178;battle_panel_renderer_remaining.c:body_001cf178;message_commands.c:ps2MessageGetResourceEntry
-001cf190	20	ps2MessageGetTypeHeader2	USER_DEFINED	legacy		message_construction.c:ps2MessageGetTypeHeader2
-001cf1a8	40	GetMessagePagePtr	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001cf1a8;battle_panel_renderer_remaining.c:body_001cf1a8;message_commands.c:GetMessagePagePtr
-001cf1d8	328	ps2MessageReady	USER_DEFINED	legacy		message_request.c:ps2MessageReady
+001cf058	168	ps2MessageManagerReleaseInner	USER_DEFINED	rewritten	src/interface/message.cpp:ReleaseInstance	script_lifetime.c:ps2MessageManagerReleaseInner
+001cf100	72	itfMesResolveResourceAddress	USER_DEFINED	rewritten	src/interface/message.cpp:ResolveResourceAddress	battle_action_skill_bridge_frames.c:body_001cf100;message_construction.c:itfMesResolveResourceAddress
+001cf178	20	ps2MessageGetResourceEntry	USER_DEFINED	rewritten	src/interface/message.cpp:GetTypeHeader	battle_action_skill_registered_frames.c:body_001cf178;battle_panel_renderer_remaining.c:body_001cf178;message_commands.c:ps2MessageGetResourceEntry
+001cf190	20	ps2MessageGetTypeHeader2	USER_DEFINED	rewritten	src/interface/message.cpp:GetTypeHeader2	message_construction.c:ps2MessageGetTypeHeader2
+001cf1a8	40	GetMessagePagePtr	USER_DEFINED	rewritten	src/interface/message.cpp:GetMessagePagePtr	battle_action_skill_registered_frames.c:body_001cf1a8;battle_panel_renderer_remaining.c:body_001cf1a8;message_commands.c:GetMessagePagePtr
+001cf1d8	328	ps2MessageReady	USER_DEFINED	rewritten	src/interface/message.cpp:ReadytoMessage	message_request.c:ps2MessageReady
 001cf320	284	itfMesSetVar	USER_DEFINED	legacy		battle_ai_startup.c:itfMesSetVar;battle_panel_renderer_remaining.c:body_001cf320
-001cf440	80	CommitVarTable	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001cf440;battle_panel_renderer_remaining.c:body_001cf440;message_commands.c:CommitVarTable
-001cf490	60	GetSpeakerName	USER_DEFINED	legacy		message_commands.c:GetSpeakerName
-001cf4d0	44	FUN_001cf4d0	DEFAULT	unknown		
-001cf500	236	FUN_001cf500	DEFAULT	unknown		
-001cf5f0	284	ps2MessageUnchainFontUnit	USER_DEFINED	legacy		message_update_support.c:ps2MessageUnchainFontUnit
-001cf710	52	GetLastLinkFontHandle	USER_DEFINED	legacy		message_commands.c:GetLastLinkFontHandle
-001cf748	44	GetLastMessagePara	USER_DEFINED	legacy		message_commands.c:GetLastMessagePara
-001cf778	44	CountLineMessage	USER_DEFINED	legacy		message_request.c:CountLineMessage
-001cf7a8	56	ps2MessageChangeFontPosition	USER_DEFINED	legacy		message_update_support.c:ps2MessageChangeFontPosition
-001cf7e0	52	ChangeZBuffer	USER_DEFINED	legacy		message_commands.c:ChangeZBuffer
-001cf818	156	ps2MessageMarkSelectionText	USER_DEFINED	legacy		message_frame_draw.c:ps2MessageMarkSelectionText
-001cf8b8	88	ps2MessageChangeFontColorAll	USER_DEFINED	legacy		message_update_support.c:ps2MessageChangeFontColorAll
-001cf910	80	ps2MessageChangeFontAlpha	USER_DEFINED	legacy		message_update_support.c:ps2MessageChangeFontAlpha
-001cf960	80	FUN_001cf960	DEFAULT	legacy		battle_action_skill_support_frames.c:body_001cf960;battle_action_skill_support_frames.c:ps2BattleActionSkill_001CF960;battle_status_pairs.c:body_001cf960;battle_status_pairs_native.c:body_001cf960
-001cf9b0	80	ps2MessageGetMaskedIndex	USER_DEFINED	legacy		message_update_support.c:ps2MessageGetMaskedIndex
-001cfa00	76	RaiseMessageSpeedMax	USER_DEFINED	legacy		message_commands.c:RaiseMessageSpeedMax
-001cfa50	60	ps2MessageRaiseSpeedAll	USER_DEFINED	legacy		message_update_support.c:ps2MessageRaiseSpeedAll
-001cfa90	216	ps2MessageOpenPanel	USER_DEFINED	legacy		panel_construction.c:ps2MessageOpenPanel
-001cfb68	236	ps2MessageOpenSpeakerPanel	USER_DEFINED	legacy		panel_construction.c:ps2MessageOpenSpeakerPanel
-001cfc58	36	itfMesInitializeSpeaker	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001cfc58;battle_panel_renderer_remaining.c:body_001cfc58;message_construction.c:itfMesInitializeSpeaker
-001cfc80	72	itfMesInitializeMessage	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001cfc80;battle_panel_renderer_remaining.c:body_001cfc80;message_construction.c:itfMesInitializeMessage
-001cfcc8	56	itfMesInitializeSelect	USER_DEFINED	legacy		message_construction.c:itfMesInitializeSelect
-001cfd00	40	itfMesInitializeWindow	USER_DEFINED	legacy		message_construction.c:itfMesInitializeWindow
-001cfd28	44	itfMesInitializeVariable	USER_DEFINED	legacy		message_construction.c:itfMesInitializeVariable
-001cfd58	32	itfMesInitializeCurCtr	USER_DEFINED	legacy		message_construction.c:itfMesInitializeCurCtr
-001cfd78	16	ps2MessageForceCursor	USER_DEFINED	legacy		message_update_support.c:ps2MessageForceCursor
-001cfd88	108	itfMesReleaseAllWindow	USER_DEFINED	legacy		script_lifetime.c:itfMesReleaseAllWindow
-001cfdf8	80	itfMesReleaseAllVariable	USER_DEFINED	legacy		script_lifetime.c:itfMesReleaseAllVariable
+001cf440	80	CommitVarTable	USER_DEFINED	rewritten	src/interface/message.cpp:CommitVarTable	battle_action_skill_registered_frames.c:body_001cf440;battle_panel_renderer_remaining.c:body_001cf440;message_commands.c:CommitVarTable
+001cf490	60	GetSpeakerName	USER_DEFINED	rewritten	src/interface/message.cpp:GetSpeakerName	message_commands.c:GetSpeakerName
+001cf4d0	44	GetNumSelectItem	USER_DEFINED	rewritten	src/interface/message.cpp:GetNumSelectItem	
+001cf500	236	GetFontHandleUnit	USER_DEFINED	rewritten	src/interface/message.cpp:GetFontHandleUnit	
+001cf5f0	284	ps2MessageUnchainFontUnit	USER_DEFINED	rewritten	src/interface/message.cpp:UnchainFontHandleUnit	message_update_support.c:ps2MessageUnchainFontUnit
+001cf710	52	GetLastLinkFontHandle	USER_DEFINED	rewritten	src/interface/message.cpp:GetLastLinkFontHandle	message_commands.c:GetLastLinkFontHandle
+001cf748	44	GetLastMessagePara	USER_DEFINED	rewritten	src/interface/message.cpp:GetLastMessagePara	message_commands.c:GetLastMessagePara
+001cf778	44	CountLineMessage	USER_DEFINED	rewritten	src/interface/message.cpp:CountLineMessage	message_request.c:CountLineMessage
+001cf7a8	56	ps2MessageChangeFontPosition	USER_DEFINED	rewritten	src/interface/message.cpp:ChangeFontPosition	message_update_support.c:ps2MessageChangeFontPosition
+001cf7e0	52	ChangeZBuffer	USER_DEFINED	rewritten	src/interface/message.cpp:ChangeZBuffer	message_commands.c:ChangeZBuffer
+001cf818	156	ps2MessageMarkSelectionText	USER_DEFINED	rewritten	src/interface/message.cpp:MarkSelectionText	message_frame_draw.c:ps2MessageMarkSelectionText
+001cf8b8	88	ps2MessageChangeFontColorAll	USER_DEFINED	rewritten	src/interface/message.cpp:ChangeFontColorAll	message_update_support.c:ps2MessageChangeFontColorAll
+001cf910	80	ps2MessageChangeFontAlpha	USER_DEFINED	rewritten	src/interface/message.cpp:ChangeFontAlpha	message_update_support.c:ps2MessageChangeFontAlpha
+001cf960	80	GetMaxLineWidth	USER_DEFINED	rewritten	src/interface/message.cpp:GetMaxLineWidth	battle_action_skill_support_frames.c:body_001cf960;battle_action_skill_support_frames.c:ps2BattleActionSkill_001CF960;battle_status_pairs.c:body_001cf960;battle_status_pairs_native.c:body_001cf960
+001cf9b0	80	ps2MessageGetMaskedIndex	USER_DEFINED	rewritten	src/interface/message.cpp:GetMaskedIndex	message_update_support.c:ps2MessageGetMaskedIndex
+001cfa00	76	RaiseMessageSpeedMax	USER_DEFINED	rewritten	src/interface/message.cpp:RaiseMessageSpeedMax	message_commands.c:RaiseMessageSpeedMax
+001cfa50	60	ps2MessageRaiseSpeedAll	USER_DEFINED	rewritten	src/interface/message.cpp:RaiseMessageSpeedMaxAll	message_update_support.c:ps2MessageRaiseSpeedAll
+001cfa90	216	ps2MessageOpenPanel	USER_DEFINED	rewritten	src/interface/message.cpp:OpenMessagePanel	panel_construction.c:ps2MessageOpenPanel
+001cfb68	236	ps2MessageOpenSpeakerPanel	USER_DEFINED	rewritten	src/interface/message.cpp:OpenSpeakerPanel	panel_construction.c:ps2MessageOpenSpeakerPanel
+001cfc58	36	itfMesInitializeSpeaker	USER_DEFINED	rewritten	src/interface/message.cpp:InitializeSpeaker	battle_action_skill_registered_frames.c:body_001cfc58;battle_panel_renderer_remaining.c:body_001cfc58;message_construction.c:itfMesInitializeSpeaker
+001cfc80	72	itfMesInitializeMessage	USER_DEFINED	rewritten	src/interface/message.cpp:InitializeMessage	battle_action_skill_registered_frames.c:body_001cfc80;battle_panel_renderer_remaining.c:body_001cfc80;message_construction.c:itfMesInitializeMessage
+001cfcc8	56	itfMesInitializeSelect	USER_DEFINED	rewritten	src/interface/message.cpp:InitializeSelect	message_construction.c:itfMesInitializeSelect
+001cfd00	40	itfMesInitializeWindow	USER_DEFINED	rewritten	src/interface/message.cpp:InitializeWindow	message_construction.c:itfMesInitializeWindow
+001cfd28	44	itfMesInitializeVariable	USER_DEFINED	rewritten	src/interface/message.cpp:InitializeVariable	message_construction.c:itfMesInitializeVariable
+001cfd58	32	itfMesInitializeCurCtr	USER_DEFINED	rewritten	src/interface/message.cpp:InitializeCurCtr	message_construction.c:itfMesInitializeCurCtr
+001cfd78	16	ps2MessageForceCursor	USER_DEFINED	rewritten	src/interface/message.cpp:ForceSetCurCtr	message_update_support.c:ps2MessageForceCursor
+001cfd88	108	itfMesReleaseAllWindow	USER_DEFINED	rewritten	src/interface/message.cpp:ReleaseAllWindow	script_lifetime.c:itfMesReleaseAllWindow
+001cfdf8	80	itfMesReleaseAllVariable	USER_DEFINED	rewritten	src/interface/message.cpp:ReleaseAllVariable	script_lifetime.c:itfMesReleaseAllVariable
 001cfe48	132	ps2MessageWriteDecimal	USER_DEFINED	legacy		battle_ai_startup.c:ps2MessageWriteDecimal;battle_panel_renderer_remaining.c:body_001cfe48
-001cfed0	196	itfMesResetWindowPara	USER_DEFINED	legacy		message_construction.c:itfMesResetWindowPara
-001cff98	56	ps2MessageCalcFlow	USER_DEFINED	legacy		message_update_flow.c:ps2MessageCalcFlow
-001cffd0	308	ps2MessageCalcWindow	USER_DEFINED	legacy		message_update_support.c:ps2MessageCalcWindow
-001d0118	412	ps2MessageCalcMessage	USER_DEFINED	legacy		message_update_flow.c:ps2MessageCalcMessage
-001d02c0	584	ps2MessageCalcSelect	USER_DEFINED	legacy		message_update_flow.c:ps2MessageCalcSelect
-001d0518	216	ps2MessageSlide	USER_DEFINED	legacy		message_update_support.c:ps2MessageSlide
-001d05f0	324	ps2MessageSelectItem	USER_DEFINED	legacy		message_update_flow.c:ps2MessageSelectItem
-001d0740	168	ps2MessageSelectItemMove	USER_DEFINED	legacy		message_update_flow.c:ps2MessageSelectItemMove
-001d07f0	140	ps2MessageSelectDefaultKey	USER_DEFINED	legacy		message_update_support.c:ps2MessageSelectDefaultKey
-001d0880	176	ps2MessageCalcCursor	USER_DEFINED	legacy		message_update_support.c:ps2MessageCalcCursor
+001cfed0	196	itfMesResetWindowPara	USER_DEFINED	rewritten	src/interface/message.cpp:ResetWindowPara	message_construction.c:itfMesResetWindowPara
+001cff98	56	ps2MessageCalcFlow	USER_DEFINED	rewritten	src/interface/message.cpp:CalcMesFlow	message_update_flow.c:ps2MessageCalcFlow
+001cffd0	308	ps2MessageCalcWindow	USER_DEFINED	rewritten	src/interface/message.cpp:CalcWindow	message_update_support.c:ps2MessageCalcWindow
+001d0118	412	ps2MessageCalcMessage	USER_DEFINED	rewritten	src/interface/message.cpp:CalcMessage	message_update_flow.c:ps2MessageCalcMessage
+001d02c0	584	ps2MessageCalcSelect	USER_DEFINED	rewritten	src/interface/message.cpp:CalcSelect	message_update_flow.c:ps2MessageCalcSelect
+001d0518	216	ps2MessageSlide	USER_DEFINED	rewritten	src/interface/message.cpp:SlideUpDownMessage	message_update_support.c:ps2MessageSlide
+001d05f0	324	ps2MessageSelectItem	USER_DEFINED	rewritten	src/interface/message.cpp:SelectItem	message_update_flow.c:ps2MessageSelectItem
+001d0740	168	ps2MessageSelectItemMove	USER_DEFINED	rewritten	src/interface/message.cpp:SelectItemMove	message_update_flow.c:ps2MessageSelectItemMove
+001d07f0	140	ps2MessageSelectDefaultKey	USER_DEFINED	rewritten	src/interface/message.cpp:SelectItemDefKey	message_update_support.c:ps2MessageSelectDefaultKey
+001d0880	176	ps2MessageCalcCursor	USER_DEFINED	rewritten	src/interface/message.cpp:CalcCurCtr	message_update_support.c:ps2MessageCalcCursor
 001d0930	392	ps2MessageDrawFlow	USER_DEFINED	legacy		message_frame_draw.c:ps2MessageDrawFlow
 001d0ac0	204	ps2MessageDrawWindow	USER_DEFINED	legacy		message_frame_draw.c:ps2MessageDrawWindow
 001d0b90	764	ps2MessageDrawSelectionCursor	USER_DEFINED	legacy		message_frame_draw.c:ps2MessageDrawSelectionCursor
 001d0e90	360	ps2MessageDrawWaitCursor	USER_DEFINED	legacy		message_frame_draw.c:ps2MessageDrawWaitCursor
-001d0ff8	64	ps2MessageCalcManager	USER_DEFINED	legacy		message_update_flow.c:ps2MessageCalcManager
+001d0ff8	64	ps2MessageCalcManager	USER_DEFINED	rewritten	src/interface/message.cpp:CalcManagerProc	message_update_flow.c:ps2MessageCalcManager
 001d1038	112	ps2MessageDrawManager	USER_DEFINED	legacy		message_update_support.c:ps2MessageDrawManager
 001d10a8	92	FUN_001d10a8	DEFAULT	unknown		
 001d1108	224	ps2MessageDebugDrawWindow	USER_DEFINED	legacy		message_frame_draw.c:ps2MessageDebugDrawWindow
