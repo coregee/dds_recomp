@@ -624,3 +624,13 @@ void ps2PacRelocatePointers(uint64_t destination, uint64_t base, uint64_t table,
 }
 
 void nocturneInvokeMessageKutiCallback(uint32_t entry) { fw_mes_log(9, entry, 0); }
+
+uint64_t ps2InterfaceLoadTexture(uint64_t name) { fw_mes_log(10, (uint32_t)name, 0); return 0x00123450; }
+void ps2TextureDeferredRelease(uint64_t texture) { fw_mes_log(11, (uint32_t)texture, 0); }
+uint64_t dds3StartProcess(uint64_t name, uint64_t priority, uint64_t startdelay, uint64_t shutdowndelay,
+                          uint64_t processfunc, uint64_t shutdownfunc, uint64_t data)
+{
+    fw_mes_log(12, (uint32_t)name, (uint32_t)priority ^ (uint32_t)startdelay << 16 ^ (uint32_t)shutdowndelay << 20);
+    fw_mes_log(13, (uint32_t)processfunc, (uint32_t)shutdownfunc ^ (uint32_t)data);
+    return 1;
+}

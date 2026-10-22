@@ -311,6 +311,20 @@ void ReleaseAllVariable(Variable& variable);
 void CommitVarTable(const Variable& variable);
 uint32_t GetVarLocalize(int32_t id, int32_t index);
 
+// {var n} strings
+uint32_t SetVar(Instance& pinst, int32_t index, uint32_t pstr, int32_t length);
+void SetVarImmediate(int32_t id, int32_t index, uint32_t pstr);
+void SetVarImmediate2(int32_t id, int32_t index, uint32_t pstr, int32_t length);
+void SetVarFormatted(int32_t id, int32_t index, int32_t num, uint64_t type);
+char* ConvertZenkakuNumber(int32_t num, char* buf);
+void BuildCharacterName(int32_t index);
+
+// Variable types for SetVarFormatted (itfMesMngSetVar).
+enum VarType : uint32_t {
+    kVarNumber, kVarDevil, kVarUnused, kVarItem, kVarFloor, kVarSkill,
+    kVarArea, kVarSubArea, kVarRace, kVarMagatama, kVarCharacter,
+};
+
 // Requests
 int32_t RequestMessage(int32_t id, int32_t message, int32_t page);
 void RequestMessageRelease(int32_t id, bool speaker);
@@ -384,6 +398,7 @@ int32_t CommandValidateNext();
 int32_t CommandWindowType();
 int32_t CommandWindowTypeAlpha();
 int32_t CommandSelectDefKey();
+int32_t CommandSetVar();
 
 } // namespace mes
 } // namespace nocturne

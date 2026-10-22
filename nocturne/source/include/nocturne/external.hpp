@@ -59,6 +59,12 @@ void PnlSetColor(uint32_t panel, int32_t red, int32_t green, int32_t blue, int32
 void PnlRelease(uint32_t panel);
 } // namespace itf
 
+// Textures.
+namespace tex {
+uint32_t Load(uint32_t name);              // (0x1CB0D8) load a .TMX file into a texture
+void DeferredRelease(uint32_t texture);    // ps2TextureDeferredRelease
+} // namespace tex
+
 namespace snd {
 void Play(int32_t sound, int32_t volume, int32_t pan);   // ps2SoundPlay
 } // namespace snd
@@ -83,6 +89,10 @@ void callFunction(uint32_t entry);   // call original code through a function po
 namespace dds3 {
 uint32_t SearchProcessName(uint32_t name);   // name: address of a C string
 uint32_t GetProcessData(uint32_t process);   // the process's data, as an address
+// Starts a process: `processfunc` runs every frame, `shutdownfunc` at its
+// end (both original code addresses).
+uint32_t StartProcess(uint32_t name, int32_t priority, int32_t startdelay, int32_t shutdowndelay,
+                      uint32_t processfunc, uint32_t shutdownfunc, uint32_t data);
 } // namespace dds3
 
 namespace evt {

@@ -305,6 +305,8 @@ const StaticRange kWrittenStatics[] = {
     {0x0056bbc4, 0x90},                                    // font contexts and {var n} strings
     {0x0054f404, 0x20},                                    // font flags
     {0x002f5830, 0x20},                                    // pad triggers
+    {0x0054ea20, 4},                                       // pointer to the entered names
+    {0x0056c880, 0x40},                                    // BuildCharacterName's buffer
 };
 
 std::vector<uint8_t> captureStatics()

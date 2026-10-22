@@ -10,7 +10,8 @@ namespace difftest::ee {
 
 namespace {
 
-constexpr uint32_t kReturn = 0xfffffff0u;   // ra of the outermost call
+constexpr uint32_t kReturn = 0xfffffff0u;          // ra of the outermost call
+constexpr uint32_t kGlobalPointer = 0x00554170u;   // gp, as the entry point sets it
 
 [[noreturn]] void fail(const char* what, uint32_t pc, uint32_t op)
 {
@@ -21,14 +22,23 @@ constexpr uint32_t kReturn = 0xfffffff0u;   // ra of the outermost call
 uint64_t sx32(uint64_t v) { return static_cast<uint64_t>(static_cast<int64_t>(static_cast<int32_t>(v))); }
 int64_t s64(uint64_t v) { return static_cast<int64_t>(v); }
 
+uint32_t current_pc;   // for the message when an access leaves guest RAM
+
+void* resolve(uint32_t address, uint32_t bytes)
+{
+    if (address >= FW_RAM_SIZE || FW_RAM_SIZE - address < bytes)
+        fail("access outside guest RAM", current_pc, address);
+    return fw_resolve(address);
+}
+
 template <class T> T load(uint32_t address)
 {
     T value;
-    std::memcpy(&value, fw_resolve(address), sizeof value);
+    std::memcpy(&value, resolve(address, sizeof value), sizeof value);
     return value;
 }
 
-template <class T> void store(uint32_t address, T value) { std::memcpy(fw_resolve(address), &value, sizeof value); }
+template <class T> void store(uint32_t address, T value) { std::memcpy(resolve(address, sizeof value), &value, sizeof value); }
 
 } // namespace
 
@@ -46,6 +56,7 @@ uint64_t Interpreter::call(uint32_t entry, std::initializer_list<uint64_t> args)
     int i = 0;
     for (uint64_t a : args)
         cpu.r[i < 4 ? 4 + i : 8 + i - 4] = a, ++i;
+    cpu.r[28] = kGlobalPointer;
     cpu.r[29] = FW_STACK_TOP;
     cpu.r[31] = kReturn;
     pc_ = entry;
@@ -68,6 +79,7 @@ uint64_t Interpreter::call(uint32_t entry, std::initializer_list<uint64_t> args)
 void Interpreter::step()
 {
     const uint32_t pc = pc_;
+    current_pc = pc;
     const uint32_t op = load<uint32_t>(pc);
     uint32_t next = npc_;
     npc_ += 4;

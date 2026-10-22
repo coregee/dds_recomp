@@ -99,6 +99,11 @@ in `AGENTS.md`).
   at once. The confirm, cancel and skip buttons also make the rest of a page
   appear at once, unless `IGNORE_CONFIG` is on. The player's message-speed
   setting does the same from the start of each page.
+- `SET_VAR(n, value, type)` (`itfMesMngSetVar`) fills `{var n}`: type 0 a
+  number, 4 a floor ("B2F", "3F", "R" above 1000), 1 / 3 / 5 / 8 / 9 the name
+  of a devil / item / skill / race / Magatama, 6 / 7 an area / a part of
+  one, 10 a name the player entered (0 the hero, 1 Yuko, 2 and 3 the
+  classmates); type 2 does nothing.
 - `{wait_nospeaker}` hides the speaker's panel for that page; `{lipsync}`
   calls the callback the script installed (`itfMesMngSetKutiCallback`).
 - `SELECT(n)` lays out the visible options (`MASK_SELECT` hides some) below

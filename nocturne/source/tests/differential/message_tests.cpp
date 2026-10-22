@@ -1,6 +1,7 @@
 // Message manager (itfMesManager): the rewrite against the original
 // instructions, run by the EE interpreter (ee.hpp) in the same fake world.
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <fstream>
 #include <string>
@@ -30,6 +31,9 @@ uint32_t ps2MemoryHandleAcquirePointer(uint32_t);
 void ps2MemoryHandleFree(uint32_t);
 void ps2PacRelocatePointers(uint64_t, uint64_t, uint64_t, uint64_t);
 void nocturneInvokeMessageKutiCallback(uint32_t);
+uint64_t ps2InterfaceLoadTexture(uint64_t);
+void ps2TextureDeferredRelease(uint64_t);
+uint64_t dds3StartProcess(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
 uint64_t scrGetIntPara(uint64_t);
 void scrSetIntReturnValue(uint64_t);
 }
@@ -50,7 +54,7 @@ ee::Interpreter makeOriginal()
 {
     ee::Interpreter e;
     e.interpret(0x001cae58, 0x001caf88);   // itfMiscLink*
-    e.interpret(0x001cd2e0, 0x001d1100);   // the message manager
+    e.interpret(0x001cd2e0, 0x001d1108);   // the message manager
     auto a = [](ee::Cpu& c, int i) { return c.arg(i); };
     e.hook(0x0010b830, [](ee::Cpu&) { return scrGetMessageHandle(); });
     e.hook(0x0010b5c8, [=](ee::Cpu& c) { return scrGetIntPara(a(c, 0)); });
@@ -82,6 +86,31 @@ ee::Interpreter makeOriginal()
         fw_record_print(static_cast<uint32_t>(a(c, 0)), args);
         return uint64_t{0};
     });
+    e.hook(0x001cb0d8, [=](ee::Cpu& c) { return ps2InterfaceLoadTexture(a(c, 0)); });
+    e.hook(0x002ab8f0, [=](ee::Cpu& c) { ps2TextureDeferredRelease(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x001015b0, [=](ee::Cpu& c) { return dds3StartProcess(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5), a(c, 6)); });
+    // The C library: plain host versions on guest memory.
+    auto checked = [](ee::Cpu& c, uint64_t address) -> char* {
+        if (static_cast<uint32_t>(address) >= FW_RAM_SIZE) {
+            std::fprintf(stderr, "C library call from %08x with address %08x\n", static_cast<uint32_t>(c.r[31]), static_cast<uint32_t>(address));
+            std::abort();
+        }
+        return &at<char>(static_cast<uint32_t>(address));
+    };
+    e.hook(0x002d5d0c, [=](ee::Cpu& c) { return uint64_t{std::strlen(checked(c, a(c, 0)))}; });
+    e.hook(0x002d43a4, [=](ee::Cpu& c) {
+        std::memcpy(checked(c, a(c, 0)), checked(c, a(c, 1)), static_cast<uint32_t>(a(c, 2)));
+        return a(c, 0);
+    });
+    e.hook(0x002d4558, [=](ee::Cpu& c) {
+        std::memset(&at<char>(static_cast<uint32_t>(a(c, 0))), static_cast<int>(a(c, 1)), static_cast<uint32_t>(a(c, 2)));
+        return a(c, 0);
+    });
+    e.hook(0x002d5690, [=](ee::Cpu& c) {   // sprintf, as used here: "%d" only
+        if (std::strcmp(&at<char>(static_cast<uint32_t>(a(c, 1))), "%d") != 0)
+            std::abort();
+        return uint64_t(std::snprintf(&at<char>(static_cast<uint32_t>(a(c, 0))), 16, "%d", static_cast<int32_t>(a(c, 2))));
+    });
     e.hook(kKuti, [](ee::Cpu&) { nocturneInvokeMessageKutiCallback(kKuti); return uint64_t{0}; });
     e.interpret(0x00158940, 0x00158948);   // an empty function (HD: the UI's open / close hook)
     return e;
@@ -94,8 +123,15 @@ ee::Interpreter& original()
 }
 
 // Runs the original function; 32-bit results are compared sign-extended.
-uint64_t orig(uint32_t entry, std::initializer_list<uint64_t> args) { return norm(original().call(entry, args)); }
-uint64_t origVoid(uint32_t entry, std::initializer_list<uint64_t> args) { original().call(entry, args); return 0; }
+// The guest stack starts zeroed, as the rewrite's local buffers are: the
+// original copies a few bytes past a string's end from its stack buffer.
+uint64_t call(uint32_t entry, std::initializer_list<uint64_t> args)
+{
+    std::memset(fw_ram + FW_STACK_TOP - 0x2000, 0, 0x2000);
+    return original().call(entry, args);
+}
+uint64_t orig(uint32_t entry, std::initializer_list<uint64_t> args) { return norm(call(entry, args)); }
+uint64_t origVoid(uint32_t entry, std::initializer_list<uint64_t> args) { call(entry, args); return 0; }
 
 // ---- the world ---------------------------------------------------------------------------
 
@@ -242,6 +278,14 @@ World world(Gen& g)
     for (uint32_t i = 0; i < 0x20; ++i)
         fw_ram[0x2f5830 + i] = g.chance(60) ? 0 : g.chance(50) ? 0x80 : static_cast<uint8_t>(g.below(256));
     at<uint32_t>(0x54f404) = g.below(8);
+    at<uint32_t>(0x54ea20) = FW_GLOBAL;           // the entered names: 4 x 10 two-byte characters, then lengths
+    for (uint32_t i = 0; i < 4; ++i) {
+        for (uint32_t k = 0; k < 10; ++k) {
+            fw_ram[FW_GLOBAL + 0x6604 + 20 * i + 2 * k] = g.chance(70) ? 0 : static_cast<uint8_t>(0x80 + g.below(0x70));
+            fw_ram[FW_GLOBAL + 0x6605 + 20 * i + 2 * k] = static_cast<uint8_t>(g.chance(80) ? 'A' + g.below(26) : g.below(256));
+        }
+        fw_ram[FW_GLOBAL + 0x6654 + i] = static_cast<uint8_t>(g.range(0, 10));
+    }
     for (uint32_t i = 0; i < 8; ++i)
         at<int32_t>(FW_SCRIPT + 4 * i) = g.range(-2, 12);
     at<int32_t>(FW_SCRIPT + 0x60) = g.chance(90) ? w.id : -1;
@@ -716,6 +760,84 @@ void addMessageTests(std::vector<TestCase>& t)
     t.push_back({"itfMesMngGetSelectNo", [](Gen& g) {
         World w = world(g);
         return Pair{[=] { return orig(0x001cd4f0, {I(w.id)}); }, [=] { return norm(static_cast<int32_t>(CommandGetSelectNo(w.id))); }};
+    }});
+    // ---- {var n} strings ----
+    auto someString = [](Gen& g) -> uint32_t {
+        switch (g.below(3)) {
+        case 0: return at<uint32_t>(0x003e7328 + 4 * g.below(100));       // a devil's name
+        case 1: return 0x00311450 + 32 * g.below(20);                      // an area's name
+        default: return FW_MES_TABLE + 0x20 + g.below(0x200);              // whatever is in the table
+        }
+    };
+    t.push_back({"SetVar", [=](Gen& g) {
+        World w = world(g);
+        int32_t index = g.range(0, 31), length = g.chance(50) ? 0 : g.range(-2, 30);
+        uint32_t s = someString(g);
+        uint64_t p = instA(w);
+        return Pair{[=] { return orig(0x001cf320, {p, I(index), s, I(length)}); },
+                    [=] { return norm(static_cast<int32_t>(SetVar(at<Instance>(static_cast<uint32_t>(p)), index, s, length))); }};
+    }});
+    t.push_back({"itfMesMngSetVarImmediate", [=](Gen& g) {
+        World w = world(g);
+        int32_t index = g.range(0, 31);
+        uint32_t s = someString(g);
+        return Pair{[=] { return origVoid(0x001ce7d8, {I(w.id), I(index), s}); }, [=] { SetVarImmediate(w.id, index, s); return uint64_t{0}; }};
+    }});
+    t.push_back({"itfMesMngSetVarImmediate2", [=](Gen& g) {
+        World w = world(g);
+        int32_t index = g.range(0, 31), length = g.range(0, 30);
+        uint32_t s = someString(g);
+        return Pair{[=] { return origVoid(0x001ce808, {I(w.id), I(index), s, I(length)}); },
+                    [=] { SetVarImmediate2(w.id, index, s, length); return uint64_t{0}; }};
+    }});
+    t.push_back({"ConvertZenkakuNumber", [](Gen& g) {
+        World w = world(g);
+        int32_t n = g.chance(10) ? INT32_MIN : g.chance(10) ? g.range(-50, -1) : g.chance(50) ? g.range(0, 2000) : static_cast<int32_t>(g.rng());
+        uint32_t out = FW_SCRATCH + g.below(16);
+        return Pair{[=] { return orig(0x001cfe48, {I(n), out}); },
+                    [=] { return norm(static_cast<int32_t>(fw_address_of(ConvertZenkakuNumber(n, &at<char>(out))))); }};
+    }});
+    t.push_back({"BuildCharacterName", [](Gen& g) {
+        World w = world(g);
+        int32_t index = g.range(0, 3);
+        return Pair{[=] { return origVoid(0x001ce538, {I(index)}); }, [=] { BuildCharacterName(index); return uint64_t{0}; }};
+    }});
+    auto varArgs = [](Gen& g, int32_t& num, int64_t& type) {
+        type = g.chance(5) ? g.range(-2, 14) : g.range(0, 10);
+        switch (type) {
+        case kVarNumber: num = g.chance(50) ? g.range(-100, 100) : static_cast<int32_t>(g.rng()); break;
+        case kVarFloor: num = g.chance(10) ? INT32_MIN : g.chance(20) ? g.pick<int32_t>({999, 1000, 1001, 0, -1}) : g.range(-20, 1100); break;
+        case kVarCharacter: num = g.range(0, 3); break;
+        case kVarDevil: num = g.range(0, 383); break;
+        case kVarItem: num = g.range(0, 159); break;
+        case kVarSkill: num = g.range(0, 300); break;
+        case kVarMagatama: num = g.range(0, 24); break;
+        default: num = g.range(0, 31); break;         // races, areas, sub-areas
+        }
+    };
+    t.push_back({"itfMesMngSetVar", [=](Gen& g) {
+        World w = world(g);
+        int32_t index = g.range(0, 31), num;
+        int64_t type;
+        varArgs(g, num, type);
+        return Pair{[=] { return origVoid(0x001ce5e8, {I(w.id), I(index), I(num), static_cast<uint64_t>(type)}); },
+                    [=] { SetVarFormatted(w.id, index, num, static_cast<uint64_t>(type)); return uint64_t{0}; }};
+    }});
+    t.push_back(commandTest("itfMesMngSetVarScr", 0x001cd710, CommandSetVar, [=](Gen& g, const World&) {
+        int32_t num;
+        int64_t type;
+        varArgs(g, num, type);
+        at<int32_t>(FW_SCRIPT) = g.range(0, 31);
+        at<int32_t>(FW_SCRIPT + 4) = num;
+        at<int32_t>(FW_SCRIPT + 8) = static_cast<int32_t>(type);
+    }));
+    t.push_back({"itfMesMngInitializeManager", [](Gen& g) {
+        World w = world(g);
+        return Pair{[=] { return origVoid(0x001ceb58, {}); }, [=] { InitializeManager(); return uint64_t{0}; }};
+    }});
+    t.push_back({"ExitALL", [](Gen& g) {
+        World w = world(g);
+        return Pair{[=] { return origVoid(0x001d10a8, {}); }, [=] { ExitAll(); return uint64_t{0}; }};
     }});
 }
 

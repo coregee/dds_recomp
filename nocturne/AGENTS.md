@@ -2,7 +2,8 @@
 
 Goal: a readable, well-typed source equivalent of `SLUS_209.11` and of the
 game's code-like disc resources. Readability is the point; correctness is
-proven, not assumed.
+proven, not assumed. `docs/roadmap.md` says what "done" means and the order
+of work.
 
 ## Layout rules
 

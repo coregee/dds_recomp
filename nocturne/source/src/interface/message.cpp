@@ -8,6 +8,9 @@
 // "done" once the window has finished.
 #include "nocturne/interface/message.hpp"
 
+#include <cstdio>
+#include <cstring>
+
 #include "nocturne/external.hpp"
 
 namespace nocturne {
@@ -379,6 +382,42 @@ void Release(int32_t id)
         ReleaseInstance(id);
 }
 
+// itfMesMngInitializeManager @ 0x001CEB58
+// At start-up: loads the window texture, prepares the 128 window slots and
+// starts the processes that update and draw the windows.
+void InitializeManager()
+{
+    Manager& m = manager();
+    m.count = 0;
+    m.frame = 0;
+    m.config = 0;
+    m.texture = tex::Load(0x00535b10);                    // "/itf/MESWIN.TMX"
+    itf::MiscLinkInit(m.list, addressOf(m.nodes), 0x80, sizeof(itf::LinkNode));
+    for (itf::LinkNode* node = m.list.freehead.get(); node; node = node->pnext.get())
+        node->instance.address = 0;
+    dds3::StartProcess(0x00535b20, 0x409, 0, 0, 0x001d0ff8, 0x001d10a8, 0);    // "CalcMsgMng": CalcManagerProc
+    dds3::StartProcess(0x00535b30, 0x2b1a, 0, 0, 0x001d1038, 0x001d10a8, 0);   // "DrawMsgMng": DrawManagerProc
+}
+
+// ExitALL @ 0x001D10A8
+// The processes' shutdown: closes every window and drops the texture.
+void ExitAll()
+{
+    Manager& m = manager();
+    if (itf::LinkNode* node = m.list.head.get()) {
+        int32_t id = node->id;
+        for (;;) {
+            node = node->pnext.get();
+            ReleaseInstance(id);
+            if (!node)
+                break;
+            id = node->id;
+        }
+    }
+    tex::DeferredRelease(m.texture);
+    m.texture = 0;
+}
+
 // CommitVarTable @ 0x001CF440
 // Hands the window's {var n} strings to the font engine.
 void CommitVarTable(const Variable& variable)
@@ -389,6 +428,149 @@ void CommitVarTable(const Variable& variable)
 
 // itfMesMngGetVarLocalize @ 0x001CE510
 uint32_t GetVarLocalize(int32_t id, int32_t index) { return instance(id).variable.pptr[index]; }
+
+// ---- {var n} strings ------------------------------------------------------------------------
+
+namespace {
+
+constexpr uint32_t kNameBuffer = 0x0056c880;      // BuildCharacterName's output
+constexpr uint32_t kSaveData = 0x0054ea20;        // pointer to the data holding the entered names
+
+// Copies a string into a block of its own for {var index}. Without a length,
+// the copy is the string's length plus 4, rounded down to a word (so it may
+// take up to 3 bytes after the terminator); with one, the block is zeroed
+// first.
+uint32_t storeVariable(Instance& pinst, int32_t index, const char* source, int32_t length)
+{
+    Variable& v = pinst.variable;
+    if (v.pptr[index]) {
+        mem::HandleFree(v.pmh[index]);
+        v.pptr[index] = 0;
+    }
+    uint32_t size = length > 0 ? (static_cast<uint32_t>(length) + 5) & ~3u
+                               : (static_cast<uint32_t>(std::strlen(source)) + 4) & ~3u;
+    uint32_t handle = mem::HandleAllocate(static_cast<int32_t>(size));
+    v.pmh[index] = handle;
+    uint32_t block = mem::HandleAcquirePointer(handle);
+    v.pptr[index] = block;
+    char* dest = guest::table<char>(block);
+    if (length > 0) {
+        std::memset(dest, 0, size);
+        std::memcpy(dest, source, static_cast<size_t>(length));
+    } else {
+        std::memcpy(dest, source, size);
+    }
+    return block;
+}
+
+const char* guestString(uint32_t address) { return guest::table<char>(address); }
+
+} // namespace
+
+// SetVar @ 0x001CF320
+uint32_t SetVar(Instance& pinst, int32_t index, uint32_t pstr, int32_t length)
+{
+    return storeVariable(pinst, index, guestString(pstr), length);
+}
+
+// itfMesMngSetVarImmediate @ 0x001CE7D8
+void SetVarImmediate(int32_t id, int32_t index, uint32_t pstr) { SetVar(instance(id), index, pstr, 0); }
+
+// itfMesMngSetVarImmediate2 @ 0x001CE808
+void SetVarImmediate2(int32_t id, int32_t index, uint32_t pstr, int32_t length)
+{
+    SetVar(instance(id), index, pstr, length);
+}
+
+// ConvertZenkakuNumber @ 0x001CFE48
+// Writes num in decimal (at most 10 digits) and returns the terminator's
+// position. (The Japanese name says full-width digits; the US build writes
+// ASCII.) A negative number gives one digit of its remainder.
+char* ConvertZenkakuNumber(int32_t num, char* buf)
+{
+    int32_t digits[10];
+    int count = 0;
+    do {
+        digits[count++] = num % 10;
+        num /= 10;
+    } while (num > 0 && count < 10);
+    while (count > 0)
+        *buf++ = static_cast<char>(static_cast<uint8_t>(digits[--count]) + '0');
+    *buf = 0;
+    return buf;
+}
+
+// BuildCharacterName @ 0x001CE538 (no original name)
+// Copies entered name `index` (0 the hero, 1 Yuko, 2 and 3 the classmates:
+// up to ten 2-byte characters; ASCII ones keep only their second byte) to
+// a buffer as a string.
+void BuildCharacterName(int32_t index)
+{
+    const uint32_t root = *guest::table<uint32_t>(kSaveData);
+    const uint8_t* length = guest::table<uint8_t>(root + 0x6654 + static_cast<uint32_t>(index));
+    const uint8_t* name = guest::table<uint8_t>(root + 0x6604 + static_cast<uint32_t>(index) * 20);
+    uint8_t* out = guest::table<uint8_t>(kNameBuffer);
+    for (int32_t k = 0; k < *length; ++k) {
+        uint8_t lead = name[2 * k];
+        if (lead & 0x80)
+            *out++ = lead;
+        *out++ = name[2 * k + 1];
+    }
+    *out = 0;
+}
+
+// itfMesMngSetVar @ 0x001CE5E8
+// Sets {var index} to a number, a floor ("B2F", "3F", "R" above 1000) or a
+// name from the game's tables.
+void SetVarFormatted(int32_t id, int32_t index, int32_t num, uint64_t type)
+{
+    if (type >= 11)
+        return;
+    char buffer[0x50] = {};
+    uint32_t table = 0;
+    switch (static_cast<VarType>(type)) {
+    case kVarNumber:
+        std::snprintf(buffer, sizeof buffer, "%d", num);
+        storeVariable(instance(id), index, buffer, 0);
+        return;
+    case kVarFloor: {
+        char* floor = buffer + 0x10;
+        if (num < 1001) {
+            char* cursor = floor;
+            if (num < 0) {
+                num = static_cast<int32_t>(0u - static_cast<uint32_t>(num));
+                *cursor++ = 'B';
+            }
+            cursor = ConvertZenkakuNumber(num, cursor);
+            cursor[0] = 'F';
+            cursor[1] = 0;
+        } else {
+            floor[0] = 'R';
+            floor[1] = 0;
+        }
+        storeVariable(instance(id), index, floor, 0);
+        return;
+    }
+    case kVarDevil: table = 0x003e7328; break;
+    case kVarItem: table = 0x003e8170; break;
+    case kVarSkill: table = 0x003e83f0; break;
+    case kVarRace: table = 0x003e7930; break;
+    case kVarMagatama: table = 0x003e8c30; break;
+    case kVarArea:
+        SetVarImmediate(id, index, 0x00311450 + static_cast<uint32_t>(num) * 32);
+        return;
+    case kVarSubArea:
+        SetVarImmediate(id, index, 0x00311850 + static_cast<uint32_t>(num) * 32);
+        return;
+    case kVarCharacter:
+        BuildCharacterName(num);
+        SetVarImmediate2(id, index, kNameBuffer, static_cast<int32_t>(std::strlen(guestString(kNameBuffer))));
+        return;
+    case kVarUnused:
+        return;
+    }
+    SetVarImmediate(id, index, *guest::table<uint32_t>(table + static_cast<uint32_t>(num) * 4));
+}
 
 // GetMessagePagePtr @ 0x001CF1A8
 uint32_t GetMessagePagePtr(const MesHeader& header, int32_t page)
@@ -1369,6 +1551,20 @@ int32_t CommandSelectDefKey()
         int32_t key = scr::GetIntPara(0);
         int32_t index = scr::GetIntPara(1);
         SetSelectDefKey(id, static_cast<uint16_t>(key), static_cast<uint16_t>(index));
+    }
+    return 1;
+}
+
+
+// itfMesMngSetVarScr @ 0x001CD710: SET_VAR(index, value, type).
+int32_t CommandSetVar()
+{
+    int32_t id = scr::GetMessageHandle();
+    if (id >= 0) {
+        int32_t index = scr::GetIntPara(0);
+        int32_t number = scr::GetIntPara(1);
+        int32_t type = scr::GetIntPara(2);
+        SetVarFormatted(id, index, number, static_cast<uint64_t>(static_cast<int64_t>(type)));
     }
     return 1;
 }

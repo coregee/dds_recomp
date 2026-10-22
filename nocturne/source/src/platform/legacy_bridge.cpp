@@ -53,6 +53,10 @@ uint32_t ps2MemoryHandleAcquirePointer(uint32_t handle);
 void ps2MemoryHandleFree(uint32_t handle);
 void ps2PacRelocatePointers(uint64_t destination, uint64_t base, uint64_t table, uint64_t bytes);
 void nocturneInvokeMessageKutiCallback(uint32_t entry);
+uint64_t dds3StartProcess(uint64_t name, uint64_t priority, uint64_t startdelay, uint64_t shutdowndelay,
+                          uint64_t processfunc, uint64_t shutdownfunc, uint64_t data);
+void ps2TextureDeferredRelease(uint64_t texture);
+uint64_t ps2InterfaceLoadTexture(uint64_t name);   // 0x1CB0D8: no legacy C yet (the tests fake it)
 }
 
 namespace nocturne {
@@ -151,6 +155,15 @@ void pac::RelocatePointers(uint32_t destination, uint32_t base, uint32_t table, 
     ps2PacRelocatePointers(word(destination), word(base), word(table), word(bytes));
 }
 void guest::callFunction(uint32_t entry) { nocturneInvokeMessageKutiCallback(entry); }
+uint32_t tex::Load(uint32_t name) { return static_cast<uint32_t>(ps2InterfaceLoadTexture(word(name))); }
+void tex::DeferredRelease(uint32_t texture) { ps2TextureDeferredRelease(word(texture)); }
+uint32_t dds3::StartProcess(uint32_t name, int32_t priority, int32_t startdelay, int32_t shutdowndelay,
+                            uint32_t processfunc, uint32_t shutdownfunc, uint32_t data)
+{
+    return static_cast<uint32_t>(dds3StartProcess(word(name), signExtend(priority), signExtend(startdelay),
+                                                  signExtend(shutdowndelay), word(processfunc), word(shutdownfunc),
+                                                  word(data)));
+}
 
 // ---- diagnostics / traps -----------------------------------------------------
 
