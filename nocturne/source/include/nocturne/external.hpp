@@ -45,6 +45,14 @@ void MakeDamagePacket(int32_t startframe, int32_t uniqueid, Formation* form, int
                       int32_t badstat, int32_t hiteff, int32_t dead, int32_t deadtype, int32_t moji, int32_t animeoff);
 // (0x280518) the battle panel shows the analysed unit
 void PanelAnalyzeStart();
+// (0x289310) the help line shows message `no` of table `msgid`
+void DispMsgHelp(int32_t msgid, int32_t no, int32_t msgtype);
+// (0x2891E0) the help line shows a devil's name (0: the Demi-fiend's race)
+void DispDevilName(int32_t id);
+// (0x280528) the battle panel stops showing the analysed unit
+void PanelAnalyzeEnd();
+// (0x2584C8) the turn order after an action
+void UpdateOrder();
 // (0x27FD18) the stock panel's selection (sw 0: keep it as it is)
 uint32_t PanelStockSelect(MainProcessData& data, int32_t sw);
 } // namespace nb
@@ -188,6 +196,10 @@ enum class Message : uint32_t {
     DidSummon        = 0x005440d8, // 召喚を行った (summoned)
     BadRitu          = 0x00545d40, // BAD行動確率 type:%d ritu:%d (an ailment action's weight)
     AdpcmPlaying     = 0x005440e8, // AD-PCM再生中! (a streamed voice is playing)
+    SkillSkill       = 0x00546138, // すきるすきる＝%d ("skill skill = %d", a menu skill checked)
+    DeadFormindex    = 0x00544030, // "dead formindex = %d!!"
+    AllFrame         = 0x00544048, // "allframe %d" (an action's length)
+    PrevCommind      = 0x00544058, // "prev commind = %d"
     Returning        = 0x00544020, // 帰還します (a devil returns to the stock)
     AhrimanCounter   = 0x00543880, // アーリマンカウンター発生!!! (Ahriman counters)
     Counter          = 0x005438c0, // カウンター発生!!! (a counter)

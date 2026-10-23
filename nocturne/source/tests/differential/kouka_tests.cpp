@@ -1142,6 +1142,42 @@ void addKoukaTests(std::vector<TestCase>& t)
     side("CheckKoketaNego", [=](Gen& g) { talker(g); return sideBool(0x00252cd8, CheckKoketaNego); });
     side("KyouseiPress", [=](Gen&) { return sideVoid(0x00252ea8, KyouseiPress); });
     side("DokodemoPoa", [=](Gen&) { return sideVoid(0x00252ee8, DokodemoPoa); });
+    // CHECK1: the aftermath of an action in the side-event world.
+    auto aftermath = [=](Gen& g) {
+        ActionProcessData& a = act();
+        UnitWork& unit = *a.work;
+        if (g.chance(40))
+            unit.badstat = 0x40;   // poisoned
+        unit.nowcommand = static_cast<int16_t>(g.range(-1, 6));
+        unit.nowindex = static_cast<uint16_t>(g.pick<int32_t>({0, 1, 0x31, 0x32, 0xa4, 0xa6, 0xf7, 0x10, 0x60}));
+        unit.nowtarea = static_cast<int16_t>(g.range(0, 2));
+        unit.nowtform = static_cast<int16_t>(g.range(0, 13));
+        a.form->unknown_a4 = static_cast<int16_t>(g.pick<int32_t>({0, 2, 3}));
+        a.form->stat = (a.form->stat & ~0x4010u) | (g.chance(40) ? 0x10u : 0u);
+        a.stat = (a.stat & ~0x518u) | (g.chance(20) ? 0x10u : 0u) | (g.chance(30) ? 0x100u : 0u) |
+                 (g.chance(30) ? 0x400u : 0u) | (g.chance(30) ? 8u : 0u);
+        a.packettime = static_cast<uint32_t>(g.chance(50) ? g.range(0, 15) : g.range(16, 60));
+        at<MainProcessData>(FW_MAIN).endtype = static_cast<uint32_t>(g.chance(70) ? 0 : 3);
+        for (int i = 0; i < 4; ++i)
+            at<int8_t>(0x002f5830 + static_cast<uint32_t>(i)) = static_cast<int8_t>(g.chance(30) ? -1 : 0);
+        if (g.chance(25)) {   // a short action that killed no one
+            for (TimeList& t : a.timelist) {
+                t.lockframe = static_cast<uint16_t>(t.lockframe % 6);
+                t.endframe = static_cast<uint16_t>(t.endframe % 9);
+                t.hp = static_cast<uint16_t>(t.hp | 1);
+            }
+            unit.badstat = 0;
+        }
+    };
+    side("SetAction_CHECK1", [=](Gen& g) {
+        aftermath(g);
+        return Pair{[=] { origVmVoid(0x00257488, {FW_ACTION}); return uint64_t{0}; },
+                    [=] { SetAction_CHECK1(act()); return uint64_t{0}; }};
+    });
+    side("CheckAction_CHECK1", [=](Gen& g) {
+        aftermath(g);
+        return Pair{[=] { return origVm(0x002577d8, {FW_ACTION}); }, [=] { return norm(CheckAction_CHECK1(act())); }};
+    });
     side("SetNowActionStat", [=](Gen& g) {
         act().get().partyindex = g.range(0, 5);
         act().get().stat = 0;

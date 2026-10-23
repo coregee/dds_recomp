@@ -20,6 +20,12 @@ uint64_t ps2BattleAction_00263C00(uint64_t, uint64_t, uint64_t, uint64_t, uint64
 void nbPanelAnalyzeStart(void);
 uint64_t nbPanelStockSelect(uint64_t, uint64_t);
 void fw_ready_set(uint64_t);
+void nbPanelAnalyzeEnd(void);   // legacy
+void nbDispDevilName(uint64_t);
+void nbDispMsgHelp(uint64_t, uint64_t, uint64_t);
+uint64_t nbGetHojoCounterMax(uint64_t);   // legacy
+uint64_t nbGetHojoCounterMin(uint64_t);   // legacy
+void nbUpdateOrder(void);       // legacy
 uint64_t fw_ready_check(uint64_t);
 uint64_t ps2MovieStopAdpcm(void);
 uint64_t ps2BattleActionSkill_00198200(uint64_t);
@@ -133,6 +139,14 @@ ee::Interpreter makeOriginal()
     e.interpret(0x002592b0, 0x00259318);   // nbSetJyokyoMes, nbGetJyokyoMes
     e.interpret(0x00257b08, 0x00257bf0);   // SetAction_END
     e.interpret(0x00257098, 0x00257488);   // NEGORESULT's check, WAIT, ESCAPE, RETURN, INVISIBLE
+    e.interpret(0x00257488, 0x00257a68);   // CHECK1
+    e.interpret(0x0025d690, 0x0025d948);   // nbTarSelProcess: the record, its state, AnimeTargetCursor
+    e.interpret(0x0025de40, 0x0025e8e0);   // nbTarSelProcess: SetCursor .. nbInitTarSelProcess
+    e.interpret(0x0028d090, 0x0028d0b0);   // nbPlaySe
+    e.interpret(0x00290048, 0x00290b20);   // nbSkillError
+    e.interpret(0x0029ba80, 0x0029bb08);   // dds3CheckConfigBit
+    e.interpret(0x00251428, 0x002514f0);   // SetTarget
+    e.interpret(0x00254178, 0x00254190);   // SetAction_TARSEL
     e.interpret(0x00256b88, 0x00256c00);   // CheckAction_NEGO
     e.interpret(0x0024f420, 0x0024f990);   // UnitKyoseiDisp .. SetAnalyzePacket
     e.interpret(0x0024fb38, 0x0024fcc0);   // SetSakePacket, SetMissPacket
@@ -201,6 +215,12 @@ ee::Interpreter makeOriginal()
     e.hook(0x00280518, [](ee::Cpu&) { nbPanelAnalyzeStart(); return uint64_t{0}; });
     e.hook(0x0027fd18, [=](ee::Cpu& c) { return nbPanelStockSelect(a(c, 0), a(c, 1)); });
     e.hook(0x00254488, [=](ee::Cpu& c) { fw_ready_set(a(c, 0)); return uint64_t{0}; });   // SetAction_READY
+    e.hook(0x00280528, [](ee::Cpu&) { nbPanelAnalyzeEnd(); return uint64_t{0}; });
+    e.hook(0x002891e0, [=](ee::Cpu& c) { nbDispDevilName(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00289310, [=](ee::Cpu& c) { nbDispMsgHelp(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
+    e.hook(0x00267ec8, [=](ee::Cpu& c) { return nbGetHojoCounterMax(a(c, 0)); });
+    e.hook(0x00267f18, [=](ee::Cpu& c) { return nbGetHojoCounterMin(a(c, 0)); });
+    e.hook(0x002584c8, [](ee::Cpu&) { nbUpdateOrder(); return uint64_t{0}; });
     e.hook(0x00255260, [=](ee::Cpu& c) { return fw_ready_check(a(c, 0)); });             // CheckAction_READY
     e.hook(0x002c2180, [](ee::Cpu&) { return ps2MovieStopAdpcm(); });
     e.hook(0x00198200, [=](ee::Cpu& c) { return ps2BattleActionSkill_00198200(a(c, 0)); });

@@ -58,6 +58,8 @@ void SetMissPacket(ActionProcessData& a, int32_t nskill, int32_t sformindex, int
 void SetDamagePacket(ActionProcessData& a, int32_t hp);
 
 // ---- side events: counters, talks, death scripts (action_events.cpp) ----
+void SetTarget(ActionProcessData& a);
+void SetAction_TARSEL(ActionProcessData& a);
 void SetTargetPlayer(ActionProcessData& a);
 void SetTargetParty(ActionProcessData& a, int32_t partyindex);
 bool CheckArrCounter(ActionProcessData& a);
@@ -87,6 +89,8 @@ int32_t CheckAction_AISCR(ActionProcessData& a);
 int32_t CheckAction_BAD(ActionProcessData& a);
 void SetAction_BADWAIT(ActionProcessData& a);
 int32_t CheckAction_BADWAIT(ActionProcessData& a);
+void SetAction_CHECK1(ActionProcessData& a);
+int32_t CheckAction_CHECK1(ActionProcessData& a);
 void SetAction_DEADSCRIPT(ActionProcessData& a);
 int32_t CheckAction_DEADSCRIPT(ActionProcessData& a);
 void SetAction_WAIT(ActionProcessData& a);

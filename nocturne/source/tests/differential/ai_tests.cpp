@@ -8,6 +8,8 @@
 #include "interface_world.hpp"
 #include "nocturne/battle/action.hpp"
 #include "nocturne/battle/bad_ai.hpp"
+#include "nocturne/battle/skill_error.hpp"
+#include "nocturne/battle/target_select.hpp"
 #include "nocturne/battle/ai.hpp"
 #include "nocturne/battle/ai_script.hpp"
 #include "nocturne/battle/process.hpp"
@@ -28,6 +30,11 @@ extern "C" {
 #include "battle_targeting.h"
 }
 #undef _Static_assert
+
+extern "C" {
+uint64_t dds3StartProcess(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
+uint32_t ps2PoolAllocate(int32_t);
+}
 
 namespace difftest {
 namespace {
@@ -334,6 +341,192 @@ void addAiTests(std::vector<TestCase>& t)
         const int32_t mes = g.range(0, 0x60);
         return Pair{[=] { return iface::origVm(0x00259300, {FW_MAIN, sx(mes)}); },
                     [=] { return norm(nb::nbGetJyokyoMes(mainData(), mes)); }};
+    });
+
+    // ---- choosing a target (against the original instructions) ----
+    // A target selection in progress for the actor: the lists, the cursor,
+    // its animation, the pad.
+    auto tarsel = [&](const char* name, std::function<Pair(Gen&)> make) {
+        add(name, [make](Gen& g) {
+            std::memset(fw_ram + FW_MES_STATE, 0, FW_MES_POOL_END - FW_MES_STATE);   // the fakes' pool
+            auto& t = at<nb::TargetSelectData>(FW_TARSEL);
+            t.stat = static_cast<uint8_t>(g.chance(70) ? 1 : g.range(0, 2));
+            t.ctype = static_cast<int8_t>(g.chance(10) ? g.range(-1, 3) : g.range(0, 2));
+            t.friendcnt = static_cast<int8_t>(g.range(0, 4));
+            t.enemycnt = static_cast<int8_t>(g.chance(15) ? 0 : g.range(1, 10));
+            for (int i = 0; i < 12; ++i) {
+                t.friendno[i] = static_cast<int8_t>(g.range(0, 3));
+                t.enemyno[i] = static_cast<int8_t>(g.range(4, 13));
+            }
+            t.nowcarea = static_cast<uint8_t>(g.chance(10) ? g.range(0, 3) : g.range(1, 2));
+            const int count = t.nowcarea == 1 ? t.friendcnt : t.enemycnt;
+            t.nowno = static_cast<int8_t>(count > 0 ? g.range(0, count - 1) : 0);
+            t.nowform = static_cast<int8_t>(g.range(0, 13));
+            t.partyindex = static_cast<int16_t>(act().partyindex);
+            t.jyokyotime = g.range(0, 3);
+            t.time = g.range(0, 29);
+            for (int i = 0; i < 8; ++i)   // the pad: nothing, a fresh press, a repeat
+                at<uint8_t>(0x002f5830 + static_cast<uint32_t>(i)) = static_cast<uint8_t>(g.pick<int32_t>({0, 0, 0, 0x80, 2, 0x82}));
+            dat::globalWork().config = static_cast<uint32_t>(g.rng());
+            mainData().stat = g.chance(30) ? (mainData().stat ^ 8u) : mainData().stat;
+            mainData().stat = g.chance(10) ? (mainData().stat | 0x200000u) : (mainData().stat & ~0x200000u);
+            act().stat = g.chance(20) ? (act().stat | 0x80u) : (act().stat & ~0x80u);
+            if (g.chance(10))
+                at<nb::TargetSelectData>(FW_TARSEL).act.address = 0;
+            UnitWork& unit = *act().work;
+            unit.prevtarea = static_cast<int16_t>(g.range(-1, 3));
+            unit.prevtform = static_cast<int16_t>(g.range(-1, 13));
+            for (int f = 0; f < 16; ++f) {
+                form(f).anime = g.chance(30) ? (form(f).anime | 8u) : (form(f).anime & ~8u);
+                if (g.chance(30)) form(f).stat ^= 8u;
+            }
+            return make(g);
+        });
+    };
+    auto tVoid = [](uint32_t entry, void (*rewrite)(nb::TargetSelectData&)) {
+        return Pair{[=] { return iface::origVmVoid(entry, {FW_TARSEL}); }, [=] { rewrite(at<nb::TargetSelectData>(FW_TARSEL)); return uint64_t{0}; }};
+    };
+    tarsel("nbGetTarSelStat", [](Gen&) { return Pair{[] { return iface::origVm(0x0025d6b8, {}); }, [] { return norm(nb::nbGetTarSelStat()); }}; });
+    tarsel("nbSetTarSelStat", [](Gen& g) {
+        const int32_t s = g.range(0, 300);
+        return Pair{[=] { return iface::origVmVoid(0x0025d6d8, {sx(s)}); }, [=] { nb::nbSetTarSelStat(s); return uint64_t{0}; }};
+    });
+    tarsel("nbSetTarSelJyokyoTime", [](Gen& g) {
+        const int32_t s = g.range(-2, 30);
+        return Pair{[=] { return iface::origVmVoid(0x0025d700, {sx(s)}); }, [=] { nb::nbSetTarSelJyokyoTime(s); return uint64_t{0}; }};
+    });
+    tarsel("AnimeTargetCursor", [=](Gen&) { return tVoid(0x0025d728, nb::AnimeTargetCursor); });
+    tarsel("SetCursor", [=](Gen&) { return tVoid(0x0025de40, nb::SetCursor); });
+    tarsel("UpdateSelect", [=](Gen&) { return tVoid(0x0025e100, nb::UpdateSelect); });
+    tarsel("OnOffTargetCursor", [=](Gen&) { return tVoid(0x0025e278, nb::OnOffTargetCursor); });
+    tarsel("DispTargetHelp", [=](Gen&) { return tVoid(0x0025e300, nb::DispTargetHelp); });
+    tarsel("MemoryCommand", [=](Gen&) { return tVoid(0x0025e3f8, nb::MemoryCommand); });
+    tarsel("CursorSelect", [=](Gen&) { return tVoid(0x0025e448, nb::CursorSelect); });
+    tarsel("CursorSelectAuto", [=](Gen&) { return tVoid(0x0025e6e0, nb::CursorSelectAuto); });
+    tarsel("CheckFriend", [](Gen& g) {
+        const int32_t f = g.range(-1, 16);
+        return Pair{[=] { return iface::origVm(0x0025e070, {FW_TARSEL, sx(f)}); },
+                    [=] { return norm(nb::CheckFriend(at<nb::TargetSelectData>(FW_TARSEL), f) ? 1 : 0); }};
+    });
+    tarsel("CheckEnemy", [](Gen& g) {
+        const int32_t f = g.range(-1, 16);
+        return Pair{[=] { return iface::origVm(0x0025e0b8, {FW_TARSEL, sx(f)}); },
+                    [=] { return norm(nb::CheckEnemy(at<nb::TargetSelectData>(FW_TARSEL), f) ? 1 : 0); }};
+    });
+    tarsel("nbSetTargetProcess", [](Gen& g) {
+        const int32_t ctype = g.range(0, 2), crule = g.range(0, 4), carea = g.range(0, 3);
+        const int32_t pi = act().partyindex;
+        return Pair{[=] { return iface::origVm(0x0025dfa0, {kAct, sx(pi), sx(ctype), sx(crule), sx(carea)}); },
+                    [=] { return norm(nb::nbSetTargetProcess(act(), pi, ctype, crule, carea) ? 1 : 0); }};
+    });
+    tarsel("nbTarSelProcess1", [](Gen&) {
+        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(0x005442b8, 0x3f9, 1, 1, 0, 0, FW_TARSEL));
+        return Pair{[=] { return iface::origVm(0x0025e720, {process}); }, [=] { return norm(nb::nbTarSelProcess1(process)); }};
+    });
+    tarsel("nbTarSelShutdown", [](Gen&) {
+        const uint32_t data = ps2PoolAllocate(0x44);
+        at<nb::TargetSelectData>(data).data.address = FW_MAIN;
+        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(0x005442b8, 0x3f9, 1, 1, 0, 0, data));
+        return Pair{[=] { return iface::origVmVoid(0x0025e7d8, {process}); }, [=] { nb::nbTarSelShutdown(process); return uint64_t{0}; }};
+    });
+    tarsel("InitTarSelProcessData", [](Gen&) {
+        return Pair{[] { return iface::origVm(0x0025e800, {FW_MAIN}); },
+                    [] { return norm(static_cast<int32_t>(nb::InitTarSelProcessData(mainData()))); }};
+    });
+    tarsel("nbInitTarSelProcess", [](Gen&) {
+        return Pair{[] { return iface::origVmVoid(0x0025e870, {FW_MAIN}); }, [] { nb::nbInitTarSelProcess(mainData()); return uint64_t{0}; }};
+    });
+    tarsel("nbPlaySe", [](Gen& g) {
+        const int32_t se = g.range(0, 40);
+        return Pair{[=] { return iface::origVmVoid(0x0028d090, {sx(se)}); }, [=] { nb::nbPlaySe(se); return uint64_t{0}; }};
+    });
+    tarsel("dds3CheckConfigBit", [](Gen& g) {
+        const int32_t type = g.range(-1, 6);
+        return Pair{[=] { return iface::origVm(0x0029bae0, {sx(type)}); }, [=] { return norm(nb::dds3CheckConfigBit(type)); }};
+    });
+    tarsel("SetTarget", [](Gen& g) {
+        act().work->nowcommand = static_cast<int16_t>(g.pick<int32_t>({0, 1, 1, 6, 5, 3}));
+        if (g.chance(30))
+            act().work->nowindex = 0xdf;
+        return Pair{[] { return iface::origVmVoid(0x00251428, {kAct}); }, [] { nb::SetTarget(act()); return uint64_t{0}; }};
+    });
+    tarsel("SetAction_TARSEL", [](Gen&) {
+        return Pair{[] { return iface::origVmVoid(0x00254178, {kAct}); }, [] { nb::SetAction_TARSEL(act()); return uint64_t{0}; }};
+    });
+
+    // ---- whether a skill would do anything ----
+    // Targets hurt or not, ailing or not, buffs near their limits; the
+    // skills each check knows about.
+    static const int32_t kErrorSkills[] = {0x24, 0x27, 0x29, 0x51, 0x5e, 0x2a, 0x52, 0x5d, 0x2b, 0x2e, 0x30, 0x58, 0x31, 0x32,
+                                           0x33, 0x55, 0xed, 0xf8, 0x44, 0x46, 0xe0, 0xda, 0x34, 0x36, 0x40, 0x43, 0xcb,
+                                           0xce, 0x109, 0x114, 0x49, 0x4a, 0x4b, 0x4c, 0x50, 0x10, 0x60, 0x100};
+    auto skillWorld = [](Gen& g) {
+        auto unitAt = [](uint32_t address) -> UnitWork& { return at<UnitWork>(address); };
+        for (int f = 0; f < 16; ++f) {
+            if (!formUnit(f))
+                continue;
+            UnitWork& u = unitAt(formUnit(f));
+            u.maxhp = static_cast<uint16_t>(g.range(1, 500));
+            u.hp = g.chance(50) ? u.maxhp : static_cast<uint16_t>(g.range(0, u.maxhp));
+            u.maxmp = static_cast<uint16_t>(g.range(1, 300));
+            u.mp = g.chance(50) ? u.maxmp : static_cast<uint16_t>(g.range(0, u.maxmp));
+            u.badstat = static_cast<uint16_t>(g.chance(60) ? 0 : 1u << g.range(0, 11));
+        }
+        for (int k = 0; k < 14; ++k)
+            for (int c = 4; c < 16; ++c)
+                party(k).count[c] = static_cast<int16_t>(g.chance(50) ? g.pick<int32_t>({4, -4, 1, -1}) : g.range(-4, 4));
+        GlobalWork& global = dat::globalWork();
+        for (int i = 0; i < 16; ++i) {
+            UnitWork& u = global.units[i];
+            u.flag = g.chance(70) ? (u.flag | 1u) : (u.flag & ~1u);
+            u.maxhp = static_cast<uint16_t>(g.range(1, 500));
+            u.hp = g.chance(50) ? u.maxhp : static_cast<uint16_t>(g.range(0, u.maxhp));
+            u.maxmp = static_cast<uint16_t>(g.range(1, 300));
+            u.mp = g.chance(50) ? u.maxmp : static_cast<uint16_t>(g.range(0, u.maxmp));
+            u.badstat = static_cast<uint16_t>(g.chance(60) ? 0 : g.chance(40) ? 0x800 : 1u << g.range(0, 11));
+        }
+        global.fieldskills = static_cast<uint32_t>(g.below(16));
+        if (g.chance(10))
+            mainData().stat |= 0x08000000;
+        else
+            mainData().stat &= ~0x08000000u;
+    };
+    auto pickSkill = [](Gen& g) { return g.chance(85) ? g.pick(kErrorSkills) : g.range(0, 0x11f); };
+    auto select = [](Gen& g) {
+        if (g.chance(40))
+            return 1u << g.below(16);   // a single target
+        return static_cast<uint32_t>(g.rng()) & 0xffffu;
+    };
+    add("CheckDeadUnit", [=](Gen& g) {
+        skillWorld(g);
+        return Pair{[] { return iface::origVm(0x00290048, {}); }, [] { return norm(nb::CheckDeadUnit() ? 1 : 0); }};
+    });
+    add("nbDispSkillErrorMessage", [=](Gen& g) {
+        const int32_t err = g.range(-1, 5);
+        return Pair{[=] { return iface::origVmVoid(0x00290490, {sx(err)}); }, [=] { nb::nbDispSkillErrorMessage(err); return uint64_t{0}; }};
+    });
+    add("nbCheckBattleSkillError1", [=](Gen& g) {
+        skillWorld(g);
+        const int32_t s = pickSkill(g);
+        return Pair{[=] { return iface::origVm(0x00290520, {sx(s)}); }, [=] { return norm(nb::nbCheckBattleSkillError1(s)); }};
+    });
+    add("nbCheckBattleSkillError2", [=](Gen& g) {
+        skillWorld(g);
+        const int32_t s = pickSkill(g);
+        const uint32_t sel = select(g);
+        return Pair{[=] { return iface::origVm(0x00290568, {sx(s), sel}); }, [=] { return norm(nb::nbCheckBattleSkillError2(s, sel)); }};
+    });
+    add("nbCheckBattleSkillError3", [=](Gen& g) {
+        skillWorld(g);
+        const int32_t s = pickSkill(g);
+        const uint32_t sel = select(g);
+        return Pair{[=] { return iface::origVm(0x00290780, {sx(s), sel}); }, [=] { return norm(nb::nbCheckBattleSkillError3(s, sel)); }};
+    });
+    add("nbCheckCampSkillError", [=](Gen& g) {
+        skillWorld(g);
+        const int32_t s = pickSkill(g);
+        const uint32_t sel = select(g);
+        return Pair{[=] { return iface::origVm(0x00290908, {sx(s), sel}); }, [=] { return norm(nb::nbCheckCampSkillError(s, sel)); }};
     });
 
     add("SetAction_AI", [](Gen&) {

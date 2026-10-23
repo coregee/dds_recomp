@@ -164,7 +164,7 @@ void randomWorld(Gen& g)
 
     GlobalWork& global = at<GlobalWork>(FW_GLOBAL);
     global.maka = g.range(0, 999999);
-    global.unknown_0a4c = g.below(4);
+    global.fieldskills = g.below(4);
     for (int i = 0; i < 16; ++i)
         randomUnit(g, global.units[i], false);
     global.units[0].flag = 7; // the Demi-fiend

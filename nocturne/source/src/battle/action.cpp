@@ -454,7 +454,7 @@ constexpr StateFunctions kStates[24] = {
     {SetAction_AI, CheckAction_AI},                 // 2 AI
     {SetAction_AISCR, CheckAction_AISCR},           // 3 AISCR
     {nullptr, CheckAction_BAD},                     // 4 BAD
-    {nullptr, nullptr},                             // 5 TARSEL
+    {SetAction_TARSEL, nullptr},                    // 5 TARSEL
     {nullptr, nullptr},                             // 6 STKSEL
     {nullptr, nullptr},                             // 7 READY
     {nullptr, nullptr},                             // 8 SKILL
@@ -467,7 +467,7 @@ constexpr StateFunctions kStates[24] = {
     {SetAction_INVISIBLE, CheckAction_INVISIBLE},   // 15 INVISIBLE
     {nullptr, nullptr},                             // 16 (unused)
     {nullptr, nullptr},                             // 17 (unused)
-    {nullptr, nullptr},                             // 18 CHECK1
+    {SetAction_CHECK1, CheckAction_CHECK1},         // 18 CHECK1
     {SetAction_DEADSCRIPT, CheckAction_DEADSCRIPT}, // 19 DEADSCRIPT
     {SetAction_CHECK3, CheckAction_CHECK3},         // 20 CHECK3
     {SetAction_ATO, CheckAction_ATO},               // 21 ATO
@@ -664,6 +664,136 @@ int32_t CheckAction_BADWAIT(ActionProcessData& a)
         a.jyokyomes = 0;
     }
     return done ? 1 : 0;
+}
+
+// SetAction_CHECK1 @ 0x00257488: the action's aftermath. A poisoned unit
+// still standing loses an eighth of its HP (not after using item 1, nor once
+// its enemies are all down or the battle has ended). Every unit the action
+// killed dies, after the last unit is free. A hidden unit (form field 0xA4 =
+// 2) reappears once the action is over. The passive skills' effects end at
+// 70% of the action and the stock panel fades out at its end.
+void SetAction_CHECK1(ActionProcessData& a)
+{
+    const int32_t self = a.form->formindex;
+    if (!CheckTimeListDead(a, self) && badStat(self) == static_cast<uint32_t>(Ailment::Poison) &&
+        !CheckTimeListDeadEnemyParty(a, self) && a.data->endtype == 0) {
+        const UnitWork& unit = *a.work;
+        if (!(unit.nowcommand == 5 && unit.nowindex == 1) && !(a.party->flag & 0x20))
+            SetDamagePacket(a, unit.maxhp >> 3);
+    }
+    const int32_t free = GetAllUnlockTime(a);
+    for (int32_t f = 0; f < 16; ++f) {
+        Formation& form = formAt(a, f);
+        if (!(form.stat & FormationStat::Present) || !(form.stat & FormationStat::CheckParty) || !CheckTimeListDead(a, f))
+            continue;
+        if (a.data->party[form.partyindex].flag & 0x20)
+            continue;
+        diag::print(diag::Message::DeadFormindex, f);
+        nb::MakeDeadVisualPacket(free, uniqueOf(a), &form, 0, 1);
+        SetTimeList(a, f, free, 30, 30);
+        SetDeadPacket(a, f);
+        SetTimeList(a, f, free, 20, 20);
+    }
+    if (!CheckTimeListDead(a, a.form->formindex)) {
+        int32_t start = GetAllEndTime(a);
+        GetAllUnlockTime(a);
+        Formation& form = *a.form;
+        const int32_t delay = (form.unknown_a4 != 2 && !(a.stat & 0x100)) ? 3 : 0;
+        if (form.stat & 0x10) {
+            if (form.unknown_a4 == 2)
+                SetTimeList(a, form.formindex, start, 6, 6);
+            else
+                SetTimeList(a, form.formindex, start, delay + 1, delay + 1);
+            start += delay;
+            if (a.form->unknown_a4 == 2) {
+                nbMakeUnitFadeInPacket(start, uniqueOf(a), a.form.get(), 0, 2, 4, 4);
+                nbAddFormOnOffPacket(start, uniqueOf(a), a.form.get(), 0);
+                if (a.form->unknown_a4 == 2)
+                    nbAddMotionStopClearPacket(start, uniqueOf(a), a.form.get());
+            }
+        }
+    }
+    a.packettime = static_cast<uint32_t>(GetAllEndTime(a));
+    nbAddHatudoEffectEndPacket(static_cast<int32_t>(a.packettime * 70u / 100u), uniqueOf(a));
+    if (a.stat & 0x400) {
+        const int32_t fade = static_cast<int32_t>(a.packettime) - 10;
+        nbAddPanelStockFadeOutPacket(fade < 0 ? 0 : fade, uniqueOf(a));
+        nbAddPanelStockEndPacket(static_cast<int32_t>(a.packettime) - 1, uniqueOf(a));
+    }
+    diag::print(diag::Message::AllFrame, a.packettime);
+}
+
+// CheckAction_CHECK1 @ 0x002577D8: waits for an Analyze to be dismissed
+// (either button, pad bytes 0x2F5831 / 0x2F5833) and for the action's
+// packets to be within 15 frames of their end. Then the turn order moves on,
+// the talk checks and death scripts run, and the unit's command is
+// remembered for the next turn (for the battle, and for an attack, a skill
+// or a pass, the unit; skills 0x31 and 0x32 and other commands forget it;
+// the counters and throwing Macca leave it as it was). On to CHECK3.
+int32_t CheckAction_CHECK1(ActionProcessData& a)
+{
+    if (a.stat & 0x10) {
+        const int8_t* pad = guest::table<const int8_t>(0x002f5830);
+        if (pad[1] >= 0 && pad[3] >= 0) {
+            nbOnOffKoukaPacketFlag(14, 2, 1);
+            return 0;
+        }
+        a.stat &= ~0x10u;
+        nb::PanelAnalyzeEnd();
+        a.packettime = 21;
+        nbOnOffKoukaPacketFlag(14, 2, 0);
+        return 0;
+    }
+    if (a.packettime >= 16) {
+        --a.packettime;
+        return 0;
+    }
+    nb::UpdateOrder();
+    if (!CheckTimeListDead(a, a.form->formindex))
+        CheckInotiNego(a);
+    if (!CheckTimeListDead(a, a.form->formindex))
+        CheckBinjoNego(a);
+    if (!CheckTimeListDead(a, a.form->formindex) && a.form->unknown_a4 == 3)
+        a.form->stat |= 0x4000;
+    CheckDeadScript(a);
+    MainProcessData& main = *a.data;
+    UnitWork* unit = GetUnitWorkPointer(main, *a.party);
+    if (!unit) {
+        main.prevflag = 0;
+        main.previndex = 0;
+        main.prevcommand = 0;
+        main.prevcommind = 0;
+    } else {
+        main.previndex = static_cast<int16_t>(a.partyindex);
+        main.prevcommand = static_cast<uint16_t>(unit->nowcommand);
+        main.prevcommind = unit->nowindex;
+        diag::print(diag::Message::PrevCommind, unit->nowindex);
+        main.prevflag = (a.stat & 8) ? 1 : 0;
+        bool remember = false;
+        switch (unit->nowcommand) {
+        case 0:   // attack
+        case 3:   // pass
+            remember = true;
+            break;
+        case 1:   // a skill
+            if (unit->nowindex == 0x31 || unit->nowindex == 0x32)
+                dat::clearCommandMemory(*unit);
+            else
+                remember = !(unit->nowindex >= 0xa4 && unit->nowindex <= 0xa6) && unit->nowindex != 0xf7;
+            break;
+        default:
+            dat::clearCommandMemory(*unit);
+            break;
+        }
+        if (remember) {
+            unit->prevcommand = unit->nowcommand;
+            unit->prevtform = unit->nowtform;
+            unit->previndex = unit->nowindex;
+            unit->prevtarea = unit->nowtarea;
+        }
+    }
+    SetNextActionSeq(a, kActionCheck3);
+    return 1;
 }
 
 // SetAction_DEADSCRIPT @ 0x00253D00: runs a dying unit's script (the

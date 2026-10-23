@@ -268,7 +268,7 @@ int32_t useFieldSkill(int32_t skill, UnitWork* source, UnitWork* target)
     }
     const int32_t program = static_cast<int32_t>(s.program);
     if (program >= 8 && program <= 11)
-        globalWork().unknown_0a4c |= 1u << (program - 8);
+        globalWork().fieldskills |= 1u << (program - 8);
     return 1;
 }
 

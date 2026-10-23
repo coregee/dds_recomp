@@ -62,6 +62,10 @@ uint64_t ps2BattleAction_00263C00(uint64_t startframe, uint64_t uniqueid, uint64
                                   uint64_t moji, uint64_t animeoff);   // nbMakeDamagePacket
 void nbPanelAnalyzeStart(void);
 uint64_t nbPanelStockSelect(uint64_t data, uint64_t sw);
+void nbPanelAnalyzeEnd(void);
+void nbDispDevilName(uint64_t id);   // 0x2891E0: no legacy C yet (the tests fake it)
+void nbDispMsgHelp(uint64_t msgid, uint64_t no, uint64_t msgtype);   // 0x289310: no named legacy C yet
+void nbUpdateOrder(void);
 uint64_t ps2MovieCheckAdpcmFlag(void);
 uint64_t ps2MovieStopAdpcm(void);
 void nocturneInvokeBattleActionEntry(uint32_t entry, uint64_t context);
@@ -204,6 +208,13 @@ void nb::MakeDamagePacket(int32_t startframe, int32_t uniqueid, Formation* form,
                              signExtend(deadtype), signExtend(moji), signExtend(animeoff));
 }
 void nb::PanelAnalyzeStart() { nbPanelAnalyzeStart(); }
+void nb::PanelAnalyzeEnd() { nbPanelAnalyzeEnd(); }
+void nb::DispDevilName(int32_t id) { nbDispDevilName(signExtend(id)); }
+void nb::DispMsgHelp(int32_t msgid, int32_t no, int32_t msgtype)
+{
+    nbDispMsgHelp(signExtend(msgid), signExtend(no), signExtend(msgtype));
+}
+void nb::UpdateOrder() { nbUpdateOrder(); }
 uint32_t nb::PanelStockSelect(MainProcessData& data, int32_t sw)
 {
     return static_cast<uint32_t>(nbPanelStockSelect(word(guest::addressOf(&data)), signExtend(sw)));

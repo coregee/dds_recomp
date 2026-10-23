@@ -19,9 +19,9 @@ hand-scheduled VU code), it is isolated, documented and still tested.
   bytes;
 - the mechanics are documented in `docs/` in plain language.
 
-Progress is the function map (`tools/ghidra/export-annotations.ps1`): 1,003 of
-9,067 functions rewritten (11.1%) on 2026-10-23, 2,278 still only in legacy
-C, 5,523 not yet identified.
+Progress is the function map (`tools/ghidra/export-annotations.ps1`): 1,039 of
+9,067 functions rewritten (11.5%) on 2026-10-23, 2,256 still only in legacy
+C, 5,508 not yet identified.
 
 ## Principles
 
@@ -74,8 +74,9 @@ rewritten or simple to fake, and grow the tools when they block progress.
 4. **Battle** (`nb*`, the largest area): the presentation queue's builders
    are done, and of the turn engine (`nbAction*`) the time list, the result
    helpers but `SetAllPacket`, the side events (counters, talks) and the
-   simple, AI, ailment, death-script, wait, escape and return states
-   (docs/battle-presentation.md), with the ailment AI (docs/enemy-ai.md).
+   simple, AI, ailment, death-script, wait, escape, return, CHECK1 and
+   TARSEL entry states (docs/battle-presentation.md), with the ailment AI
+   (docs/enemy-ai.md) and target selection.
    Next: the rest of the action states (choosing, skills, negotiation,
    results, which build those packets), the kouka process that plays them,
    the remaining calculations, rewards, the battle UI.

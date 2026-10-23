@@ -228,6 +228,8 @@ int fw_print_arg_count(uint32_t format)
     case 0x00545830: case 0x00545840: return 1; /* AI action / table */
     case 0x00545d40: return 2;                  /* ailment action weights */
     case 0x005440e8: return 0;                  /* AD-PCM playing */
+    case 0x00546138: return 1;                  /* skill skill */
+    case 0x00544030: case 0x00544048: case 0x00544058: return 1;   /* dead formindex, allframe, prev commind */
     case 0x00544020: return 0;                  /* returning */
     case 0x00543fb8: return 1;                  /* nego result */
     case 0x00543880: case 0x005438c0: case 0x00543908: return 0;   /* counters, a failed escape's hit */
@@ -659,6 +661,8 @@ uint64_t ps2BattleAction_00263C00(uint64_t startframe, uint64_t uniqueid, uint64
     return 0;
 }
 void nbPanelAnalyzeStart(void) { fw_mes_log(36, 0, 0); }
+void nbDispDevilName(uint64_t id) { fw_mes_log(45, (uint32_t)id, 0); }
+void nbDispMsgHelp(uint64_t msgid, uint64_t no, uint64_t msgtype) { fw_mes_log(46, (uint32_t)msgid ^ (uint32_t)no << 16, (uint32_t)msgtype); }
 /* READY's SetAction / CheckAction (not rewritten): logged. */
 void fw_ready_set(uint64_t action) { fw_mes_log(43, (uint32_t)action, 0); }
 uint64_t fw_ready_check(uint64_t action) { fw_mes_log(44, (uint32_t)action, 0); return fw_hash(16, (uint32_t)action, 0) & 1; }

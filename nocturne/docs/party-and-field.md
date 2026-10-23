@@ -69,3 +69,20 @@ The save keeps each refight's best and last press turns.
 `datBossRashChk` tells the battle code that a fight is a refight (lower
 rewards); two story encounters (0x3E0, 0x3E1) count as their refights' for
 records.
+
+## Skills that would do nothing (`nbSkillError`)
+
+Before a skill is used, in battle or from the menu, the game refuses one
+that can't change its targets (`source/src/battle/skill_error.cpp`):
+
+- HP healing with every target at full HP, MP healing at full MP, and the
+  full restores with both full: "no effect" (error 1).
+- A cure for an ailment none of the targets has (error 1).
+- Revival (0x31, 0x32) with no one in the stock dead (error 2).
+- A buff whose every counter is already at its limit (errors 3 and 4).
+- From the menu, a single dead target for anything but revival (error 1),
+  and Estoma, Riberama, Liftoma or Lightoma while it is already in effect
+  (error 4; the global work's `fieldskills` bits 1, 2, 4, 8).
+
+Errors 2 and 4 say so on the help line; errors 1, 2 and 4 make the error
+sound (13). In battle, the always-hit debug bit skips the check.

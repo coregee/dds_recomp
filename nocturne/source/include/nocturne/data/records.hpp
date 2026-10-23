@@ -418,7 +418,7 @@ struct GlobalWork {
     uint8_t unknown_0a42[2];
     uint32_t moon_move_bits;
     int32_t maka;             // Macca on hand
-    uint32_t unknown_0a4c;    // bit 1 quintuples consecutive-encounter odds (role unknown)
+    uint32_t fieldskills;     // field skills in effect: Estoma 1, Riberama 2 (quintuples consecutive-encounter odds), Liftoma 4, Lightoma 8
     int32_t stock_capacity;   // how many demons the stock can hold
     UnitWork units[16];       // units[0] the Demi-fiend, 1..3 reserved, 4.. demons
     uint8_t stock_list[16];   // display order of the stock (unit indexes)
@@ -432,7 +432,9 @@ struct GlobalWork {
     uint8_t hearts_owned[64];
     uint8_t hearts_skill_state[64];
     uint8_t hearts_owned_count;
-    uint8_t unknown_1d7c[0xfd44];
+    uint8_t unknown_1d7c[0x11ab8 - 0x1d7c];
+    uint32_t config;          // the options' bits (dds3CheckConfigBit)
+    uint32_t unknown_11abc;
     uint16_t hearts_learned_skills[26][12]; // Magatama skills learned, in order
     uint8_t unknown_11d30[0x90];
     uint8_t hearts_param_upgrades[26][6];   // extra stat bonuses per Magatama
@@ -446,6 +448,7 @@ static_assert(offsetof(GlobalWork, units) == 0xa54);
 static_assert(offsetof(GlobalWork, stock_list) == 0x1914);
 static_assert(offsetof(GlobalWork, item_counts) == 0x1928);
 static_assert(offsetof(GlobalWork, reason_points) == 0x1cec);
+static_assert(offsetof(GlobalWork, config) == 0x11ab8 && offsetof(GlobalWork, hearts_learned_skills) == 0x11ac0);
 static_assert(offsetof(GlobalWork, hearts_equipped) == 0x1cfa);
 static_assert(offsetof(GlobalWork, hearts_owned_count) == 0x1d7b);
 static_assert(offsetof(GlobalWork, hearts_learned_skills) == 0x11ac0);

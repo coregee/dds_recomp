@@ -110,6 +110,17 @@ CHECK3 → ATO (21, once the action's packets are all played), ATO → END
   3) and fades the screen to white at frame 30, a failure may give an awake
   enemy a free action. **RETURN** (14) sends a devil back to the stock for
   half an icon. **INVISIBLE** (15) does nothing. Each then goes to CHECK1.
+- **CHECK1** (18) is the action's aftermath. Entering it: a poisoned unit
+  still standing loses an eighth of its maximum HP (not after using item 1,
+  nor once its enemies are all down or the battle has ended); every unit the
+  action killed dies once the last unit is free; a hidden unit reappears
+  when the action is over; the passive skills' effects end at 70% of the
+  action, and the stock panel fades out at its end. Its check waits for an
+  Analyze to be dismissed and for the action's packets to be within 15
+  frames of their end, moves the turn order on, runs the talk checks and
+  death scripts, and remembers the unit's command for next turn (an attack,
+  a skill or a pass; skills 0x31 and 0x32 and other commands forget it), then
+  goes to CHECK3.
 - **NEGO** (9) waits for the talks' process; a dead Demi-fiend's talks end
   with result 8.
 
@@ -207,3 +218,25 @@ the PS2 data has a `mukantype`, so that talk never happens. A battle stat bit
 `SetNowActionStat` records what a party action does as the action's stat
 bits, which Ahriman's counter and `SetAction_END`'s debug messages read.
 `KyouseiPress` ends the press turns at once; `DokodemoPoa` kills every enemy.
+
+## Choosing a target (`nbTarSelProcess`)
+
+The target cursor is its own process ("nb_tarsel",
+`source/src/battle/target_select.cpp`). `SetTarget` (the TARSEL state)
+marks the slots the command can reach (`nbSetSelectOkMark`) and starts it
+(`nbSetTargetProcess`). The cursor starts on the actor's side if it has
+targets, else the other, and on the unit's last target when the
+cursor-memory option is on (`dds3CheckConfigBit(1)`, config bit 4) or in an
+auto battle.
+
+Each frame (`nbTarSelProcess1`) the pad moves it (`CursorSelect`):
+previous / next step through the side's targets, a fresh press wrapping
+around and a held one stopping at the ends; side previous / next switch
+sides, and step through the one side when only it has targets. Confirm
+stores the target in the unit (`MemoryCommand`); cancel backs out (sound
+10); a move plays sound 3. Single targets get the cursor; group commands
+mark the whole side; all-target commands everyone (`UpdateSelect`). The
+cursor's two rings pulse on a 30-frame loop (`AnimeTargetCursor`), and the
+target's name shows on the help line (`DispTargetHelp`). Event battles
+(stat 0x200000) don't take the pad; auto battles take the cursor's target at
+once.

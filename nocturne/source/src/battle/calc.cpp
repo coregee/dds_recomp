@@ -762,7 +762,7 @@ bool rollConsecutiveEncounter(MainProcessData& data)
     const EncountRitu& slot = encounterSlot(data, data.packindex);
     int32_t chance = slot.renzokuritu;
     int32_t next = slot.renzokuindex;
-    if (dat::globalWork().unknown_0a4c & 2)
+    if (dat::globalWork().fieldskills & 2)
         chance *= 5;
     diag::print(diag::Message::ConsecutiveRate, chance, next);
     if (!percentRoll(chance))

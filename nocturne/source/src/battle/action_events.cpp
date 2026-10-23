@@ -10,6 +10,8 @@
 #include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/combatant.hpp"
 #include "nocturne/battle/kouka.hpp"
+#include "nocturne/battle/target_select.hpp"
+#include "nocturne/battle/targeting.hpp"
 #include "nocturne/data/progression.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/unit.hpp"
@@ -46,6 +48,23 @@ Formation* firstEnemy()
 }
 
 } // namespace
+
+// SetTarget @ 0x00251428: the player chooses the targets for the unit's
+// command. A summon (command 6, or skill 0xDF) sets the stage to 1.
+void SetTarget(ActionProcessData& a)
+{
+    const UnitWork& unit = *a.work;
+    const bool summon = unit.nowcommand == 6 || (unit.nowcommand == 1 && unit.nowindex == 0xdf);
+    a.data->StageMajor = summon ? 1 : 0;
+    a.data->StageMinor = 0;
+    a.select = 0;
+    int32_t type = 0, rule = 0, area = 0;
+    targetTypeRuleArea(a, unit, &type, &rule, &area, false);
+    nbSetTargetProcess(a, a.partyindex, type, rule, area);
+}
+
+// SetAction_TARSEL @ 0x00254178
+void SetAction_TARSEL(ActionProcessData& a) { SetTarget(a); }
 
 // SetTargetPlayer @ 0x00251EF0: the Demi-fiend as the only target.
 void SetTargetPlayer(ActionProcessData& a)

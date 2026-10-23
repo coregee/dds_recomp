@@ -113,6 +113,7 @@ SAME_OFFSET(nbMainProcessData, nb::MainProcessData, negoresult, negoresult);
 SAME_OFFSET(nbMainProcessData, nb::MainProcessData, MainProcessID, MainProcessID);
 SAME_OFFSET(nbMainProcessData, nb::MainProcessData, AiScriptProcessID, AiScriptProcessID);
 SAME_OFFSET(nbMainProcessData, nb::MainProcessData, jyokyomsgid, jyokyomsgid);
+SAME_SIZE(nbTarSelProcessData, nb::TargetSelectData);
 SAME_SIZE(itfPanelMesWinWork, itf::MesWinWork);
 SAME_OFFSET(itfPanelMesWinWork, itf::MesWinWork, shade, shade);
 SAME_SIZE(itfPanelSelWinWork, itf::SelWinWork);

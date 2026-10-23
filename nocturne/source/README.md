@@ -70,6 +70,8 @@ src/
   battle/action_events.cpp          nbActionProcess: counters, talks, death scripts
   battle/bad_ai.cpp                 nbBadAi: ailments that take the turn
   battle/camera.cpp                 nbCameraProcess: camera states
+  battle/target_select.cpp          nbTarSelProcess: choosing a target
+  battle/skill_error.cpp            nbSkillError: skills that would do nothing
   kernel/draw.cpp                   dds3KernelDraw: screen state set by the scripts
   effect/event.cpp                  effEvent
   effect/boss.cpp                   effPCPBoss: effect lengths

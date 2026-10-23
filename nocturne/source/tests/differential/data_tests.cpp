@@ -61,7 +61,7 @@ void dataWorld(Gen& g)
         record[0] = static_cast<int16_t>(g.chance(30) ? g.range(-1, 0) : g.range(1, 30));
         record[1] = static_cast<int16_t>(g.chance(30) ? g.range(-1, 0) : g.range(1, 30));
     }
-    w.unknown_0a4c = static_cast<uint32_t>(g.rng());
+    w.fieldskills = static_cast<uint32_t>(g.rng());
 }
 
 int someUnit(Gen& g) { return g.range(0, 15); }

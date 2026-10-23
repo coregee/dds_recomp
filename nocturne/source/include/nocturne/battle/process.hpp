@@ -247,8 +247,13 @@ struct TargetSelectData {
     int8_t enemycnt;          // ... and the other side
     int8_t friendno[12];
     int8_t enemyno[12];       // enemies sorted by screen position (Formation::orgpos.x)
+    int32_t jyokyotime;       // frames before the target's name shows
+    int32_t time;             // the cursor's animation (0..29)
+    int32_t alpha_a, alpha_b; // the cursor's two rings
+    ee::Float scale_a, scale_b;
 };
 static_assert(offsetof(TargetSelectData, friendcnt) == 0x12);
+static_assert(offsetof(TargetSelectData, jyokyotime) == 0x2c && sizeof(TargetSelectData) == 0x44);
 static_assert(offsetof(TargetSelectData, enemyno) == 0x20);
 
 } // namespace nocturne::nb

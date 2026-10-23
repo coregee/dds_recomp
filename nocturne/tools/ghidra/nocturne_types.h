@@ -9,36 +9,6 @@
 
 #ifndef PTR32
 #define PTR32(T) T *
-/* nbTarSelProcessData: target selection (partial). */
-typedef struct nbTarSelProcessData {
-    PTR32(nbMainProcessData) data;
-    PTR32(nbActionProcessData) act;
-    u8 stat;
-    s8 ctype;
-    u8 crule, carea, nowcarea;
-    s8 nowno, nowform;
-    u8 unknown_0f;
-    s16 partyindex;
-    s8 friendcnt, enemycnt;
-    s8 friendno[12], enemyno[12];
-} nbTarSelProcessData;
-
-/* datDevilAI_t: enemy AI per devil ID (0x3989E0). */
-typedef struct datDevilAIChk { u32 check[2]; u32 table; } datDevilAIChk;
-typedef struct datDevilAITbl { u16 ritu, skill; u32 target; } datDevilAITbl;
-typedef struct datDevilAI {
-    u16 scriptid, ailevel;
-    datDevilAIChk aichk[3];
-    datDevilAITbl aitable[3][5];
-    u16 deadscriptid, deadeventno;
-} datDevilAI;
-
-/* scrCommandTable_t: FlowScript command table entry (0x52E350). */
-typedef struct scrCommandTable {
-    PTR32(void) comm;
-    s32 paranum;
-} scrCommandTable;
-
 #endif
 
 typedef unsigned char u8;
@@ -213,7 +183,7 @@ typedef struct datGlobalWork {
     u8 unknown_0a42[2];
     u32 moon_move_bits;
     s32 maka;
-    u32 unknown_0a4c;
+    u32 fieldskills;
     s32 stock_capacity;
     datUnitWork units[16];   /* [0] the Demi-fiend, [4..] demons */
     u8 stock_list[16];
@@ -227,7 +197,8 @@ typedef struct datGlobalWork {
     u8 hearts_owned[64];
     u8 hearts_skill_state[64];
     u8 hearts_owned_count;
-    u8 unknown_1d7c[0xfd44];
+    u8 unknown_1d7c[0x11ab8 - 0x1d7c];
+    u32 config, unknown_11abc;
     u16 hearts_learned_skills[26][12];
     u8 unknown_11d30[0x90];
     u8 hearts_param_upgrades[26][6];
@@ -421,7 +392,7 @@ typedef struct nbActionProcessData {
     u32 aisummonid;
 } nbActionProcessData;
 
-/* nbTarSelProcessData: target selection (partial). */
+/* nbTarSelProcessData: target selection. */
 typedef struct nbTarSelProcessData {
     PTR32(nbMainProcessData) data;
     PTR32(nbActionProcessData) act;
@@ -433,6 +404,8 @@ typedef struct nbTarSelProcessData {
     s16 partyindex;
     s8 friendcnt, enemycnt;
     s8 friendno[12], enemyno[12];
+    s32 jyokyotime, time, alpha_a, alpha_b;
+    float scale_a, scale_b;
 } nbTarSelProcessData;
 
 /* datDevilAI_t: enemy AI per devil ID (0x3989E0). */
