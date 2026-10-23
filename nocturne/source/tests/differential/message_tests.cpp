@@ -10,7 +10,6 @@
 #include "nocturne/interface/message.hpp"
 
 extern "C" {
-uint64_t itfPnlRegist2(uint64_t, uint64_t);
 void ps2PacRelocatePointers(uint64_t, uint64_t, uint64_t, uint64_t);
 }
 
@@ -51,7 +50,7 @@ uint32_t chain(Gen& g, int32_t x, int32_t y) { return addr(iface::chain(g, x, y)
 
 uint32_t panel(Gen& g)
 {
-    uint32_t p = static_cast<uint32_t>(itfPnlRegist2(g.below(9), 0x00123450));
+    uint32_t p = itf::PnlRegist2(g.below(9), 0x00123450);
     at<itf::Panel>(p).color[3] = g.range(-10, 230);
     return p;
 }
@@ -165,9 +164,10 @@ World world(Gen& g, bool raw = false)
 
     for (uint32_t i = 0; i < 0x20; ++i)
         fw_ram[0x2f5830 + i] = g.chance(60) ? 0 : g.chance(50) ? 0x80 : static_cast<uint8_t>(g.below(256));
-    for (uint32_t i = 0; i < 8; ++i)
-        at<int32_t>(FW_SCRIPT + 4 * i) = g.range(-2, 12);
-    at<int32_t>(FW_SCRIPT + 0x60) = g.chance(90) ? w.id : -1;
+    scriptWork();
+    for (int32_t i = 0; i < 8; ++i)
+        scriptParam(i, g.range(-2, 12));
+    scriptMessageHandle() = g.chance(90) ? w.id : -1;
     return w;
 }
 
@@ -579,8 +579,8 @@ void addMessageTests(std::vector<TestCase>& t)
     }});
 
     // ---- script commands ----
-    auto messageParam = [](Gen& g, const World& w) { at<int32_t>(FW_SCRIPT) = pickMessage(g, w); };
-    auto selectParam = [](Gen& g, const World& w) { at<int32_t>(FW_SCRIPT) = pickSelection(g, w); };
+    auto messageParam = [](Gen& g, const World& w) { scriptParam(0, pickMessage(g, w)); };
+    auto selectParam = [](Gen& g, const World& w) { scriptParam(0, pickSelection(g, w)); };
     t.push_back(commandTest("itfMesMngMessage", 0x001cd2e0, CommandMessage, messageParam));
     t.push_back(commandTest("itfMesMngSelect", 0x001cd408, CommandSelect, selectParam));
     t.push_back(commandTest("itfMesMngMaskSelect", 0x001cd510, CommandMaskSelect));
@@ -690,9 +690,9 @@ void addMessageTests(std::vector<TestCase>& t)
         int32_t num;
         int64_t type;
         varArgs(g, num, type);
-        at<int32_t>(FW_SCRIPT) = g.range(0, 31);
-        at<int32_t>(FW_SCRIPT + 4) = num;
-        at<int32_t>(FW_SCRIPT + 8) = static_cast<int32_t>(type);
+        scriptParam(0, g.range(0, 31));
+        scriptParam(1, num);
+        scriptParam(2, static_cast<int32_t>(type));
     }));
     t.push_back({"itfMesMngInitializeManager", [](Gen& g) {
         World w = world(g);

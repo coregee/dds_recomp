@@ -61,6 +61,12 @@ public class ImportTypes extends GhidraScript {
         {0x0056be60L, "itfMesManager", 1, "itfMesManager_work"},
         {0x0054e994L, "scrScriptList", 1, "scrScriptList_work"},
         {0x0054e970L, "dds3Quake", 1, "dds3Quake_work"},
+        {0x00551c10L, "dds3EffectFades", 1, "dds3EffectFades_work"},
+        {0x00551bc0L, "dds3SceneFades", 1, "dds3SceneFades_work"},
+        {0x002f5b60L, "sdf3DFogParam", 1, "dds3FogParam"},
+        {0x003201d0L, "dds3Effect_Blur", 1, "effEveBlurParam"},
+        {0x00320258L, "dds3Effect_Filter", 1, "effEveFilterParam"},
+        {0x003fa430L, "datBossPress", 40, "datBossPress"},
     };
 
     @Override

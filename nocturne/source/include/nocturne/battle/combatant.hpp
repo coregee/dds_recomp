@@ -16,6 +16,11 @@ bool passiveActive(const UnitWork& unit, int32_t skill); // nbHatudoCheckSkill: 
 uint32_t devilFormatFlag(int32_t formindex);             // nbGetDevilFormatFlag: DevilFormat::flag (0 for the Demi-fiend)
 int32_t unitModelId(const UnitWork& unit);               // nbGetUnitID: model to draw (255 = Fly)
 
+// A unit's death in the devil AI table (DevilAI::deadscriptid / deadeventno):
+bool nbCheckEventDead(const Formation& form);           // it runs a script or starts an event
+int32_t nbCheckDeadScript(const Formation& form);        // the script to run, or 0
+int32_t nbCheckDeadEvent(const Formation& form);         // the event to start, or 0
+
 // Can the combatant use this skill now?
 enum class SkillCheck : int32_t { Ok = 0, NotEnoughHp = 1, NotEnoughMp = 2, Muted = 3 };
 SkillCheck checkSkillCost(int32_t formindex, int32_t skill);   // nbCheckSkillCost

@@ -226,6 +226,7 @@ int fw_print_arg_count(uint32_t format)
     case 0x0053caf8: return 1;                  /* fusion accident */
     case 0x0053d7e8: return 0;                  /* compendium full */
     case 0x00545830: case 0x00545840: return 1; /* AI action / table */
+    case 0x00544070: case 0x00544088: case 0x005440a0: case 0x005440b0: case 0x005440c0: case 0x005440d8: return 0; /* what an action did */
     case 0x00535a80: return 0;                  /* itfMesMngRequestMessage() escape 1 */
     case 0x00535aa8: return 1;                  /* itfMesMngRequestSelect() - Invalid Type */
     case 0x00535998: case 0x005359b0: return 1; /* NAME[%d] : Translate. / Restore. */
@@ -315,7 +316,8 @@ uint64_t nbGetUnitWorkPointer(uint64_t main_data, uint64_t party)
     return nbGetUnitWorkFromFormindex(((uint32_t)party - FW_PARTY) / 128);
 }
 
-int32_t datBossRashChk(int32_t eid) { return fw_hash(9, (uint64_t)eid, 0) % 5 == 0; }
+/* datBossRashChk is the rewrite's (data_tests.cpp), so the legacy battle
+ * code sees the same boss refights. */
 
 uint32_t evtBitCheck(int32_t no)
 {
@@ -370,20 +372,7 @@ uint64_t dds3SearchProcessName(uint64_t name) { (void)name; return 1; }
 
 uint32_t evtGetAgeOfMoon16(void) { return case_moon * 2u + (uint32_t)(fw_hash(13, 0, 0) & 1); }
 
-/* A fake flowscript VM: the data word, integer parameters and a log of
- * returned values all live in dynamic RAM. */
-uint64_t scrGetData(void) { return FW_ACTION; }
-uint64_t scrGetIntPara(uint64_t index)
-{
-    int32_t value; memcpy(&value, fw_resolve(FW_SCRIPT + 4u * ((uint32_t)index & 7u)), 4);
-    return (uint64_t)(int64_t)value;
-}
-void scrSetIntReturnValue(uint64_t value)
-{
-    uint32_t *log = (uint32_t *)fw_resolve(FW_SCRIPT + 0x20);
-    uint32_t n = log[0]++;
-    if (n < 15) log[1 + n] = (uint32_t)value;
-}
+/* The flowscript VM (scrGetIntPara ...) is the rewrite's: script_bridge.cpp. */
 
 /* Host buffers handed to legacy code as guest addresses: staged on the
  * guest stack and copied back. */
@@ -526,38 +515,7 @@ static uint32_t mes_alloc(uint32_t bytes)
     return at;
 }
 
-uint64_t scrGetMessageHandle(void)
-{
-    int32_t id; memcpy(&id, fw_resolve(FW_SCRIPT + 0x60), 4);
-    return (uint64_t)(int64_t)id;
-}
 
-uint64_t itfPnlRegist2(uint64_t type, uint64_t texture)
-{
-    uint32_t p = mes_alloc(0x40);
-    *(uint8_t *)fw_resolve(p + 0x30) = (uint8_t)type;
-    fw_mes_log(4, (uint32_t)type, (uint32_t)texture);
-    return p;
-}
-void itfPnlSetPosition(uint64_t panel, uint64_t x0, uint64_t y0, uint64_t x1, uint64_t y1, uint64_t z)
-{
-    uint32_t p = (uint32_t)panel;
-    wr32(p + 0x10, (uint32_t)x0); wr32(p + 0x14, (uint32_t)y0); wr32(p + 0x18, (uint32_t)x1); wr32(p + 0x1c, (uint32_t)y1);
-    wr32(p + 0xc, (uint32_t)z);
-}
-void itfPnlSetPositionOffset(uint64_t panel, uint64_t x0, uint64_t y0, uint64_t x1, uint64_t y1, uint64_t z)
-{
-    uint32_t p = (uint32_t)panel;
-    wr32(p + 0x10, rd32(p + 0x10) + (uint32_t)x0); wr32(p + 0x14, rd32(p + 0x14) + (uint32_t)y0);
-    wr32(p + 0x18, rd32(p + 0x18) + (uint32_t)x1); wr32(p + 0x1c, rd32(p + 0x1c) + (uint32_t)y1);
-    wr32(p + 0xc, rd32(p + 0xc) + (uint32_t)z);
-}
-void itfPnlSetColor(uint64_t panel, uint64_t red, uint64_t green, uint64_t blue, uint64_t alpha)
-{
-    uint32_t p = (uint32_t)panel;
-    wr32(p + 0x20, (uint32_t)red); wr32(p + 0x24, (uint32_t)green); wr32(p + 0x28, (uint32_t)blue); wr32(p + 0x2c, (uint32_t)alpha);
-}
-void itfPnlRelease(uint64_t panel) { fw_mes_log(5, (uint32_t)panel, 0); }
 uint64_t ps2SoundPlay(uint64_t sound, uint64_t volume, uint64_t pan)
 {
     fw_mes_log(6, (uint32_t)sound, (uint32_t)volume << 16 | ((uint32_t)pan & 0xffffu));
@@ -677,10 +635,14 @@ uint64_t dds3KillProcess(uint64_t process, uint64_t delay)
     return 0;
 }
 uint64_t dds3ExistProcess(uint64_t process) { return fake_process((uint32_t)process) ? 1 : 0; }
+void dds3LinkProcess(uint64_t parent, uint64_t process) { fw_mes_log(27, (uint32_t)parent, (uint32_t)process); }
 uint64_t ps2ProcessGetRunTime(uint64_t process) { return (uint64_t)(int64_t)(int32_t)rd32((uint32_t)process + 0x28); }
 void dds3FadeIn(uint64_t r, uint64_t g, uint64_t b, uint64_t frames) { fw_mes_log(21, (uint32_t)r ^ (uint32_t)g << 8 ^ (uint32_t)b << 16, (uint32_t)frames); }
 void dds3FadeOut(uint64_t r, uint64_t g, uint64_t b, uint64_t frames) { fw_mes_log(22, (uint32_t)r ^ (uint32_t)g << 8 ^ (uint32_t)b << 16, (uint32_t)frames); }
 void ps2PoolRelease(uint32_t slot) { fw_mes_log(23, slot, 0); }
+void effBTLDelete(uint64_t handle) { fw_mes_log(26, (uint32_t)handle, 0); }
+int32_t cmpRemoveDevilEx(uint16_t devil) { fw_mes_log(25, devil, 0); return (int32_t)(fw_hash(14, devil, 0) % 3); }
+void dds3PadAct(uint64_t mode, uint64_t pow, uint64_t frame) { fw_mes_log(24, (uint32_t)mode ^ (uint32_t)pow << 24, (uint32_t)frame); }
 uint64_t nocturneInvokeScriptFunction(uint32_t entry, uint64_t work, unsigned command)
 {
     (void)work; (void)command;

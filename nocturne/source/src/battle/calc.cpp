@@ -11,6 +11,7 @@
 #include "nocturne/battle/affinity.hpp"
 #include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/combatant.hpp"
+#include "nocturne/data/progression.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/unit.hpp"
 #include "nocturne/data/types.hpp"
@@ -806,7 +807,7 @@ bool addSpoils(MainProcessData& data, uint8_t item, uint8_t count)
 // the front and the last item is dropped.
 void addEncounterItem(MainProcessData& data)
 {
-    if (data.encno <= 0 || dat::BossRashChk(data.encno))
+    if (data.encno <= 0 || dat::isBossRefight(data.encno))
         return;
     const Encount& e = dat::encount(data.encno);
     if (!e.item || !e.itemcnt)
@@ -829,7 +830,7 @@ void addDefeatRewards(const UnitWork& defeated)
     if (defeated.isPlayerCharacter())
         return;
     MainProcessData& data = *GetMainProcessData();
-    bool bossRefight = dat::BossRashChk(data.encno);
+    bool bossRefight = dat::isBossRefight(data.encno);
     const DevilFormat& devil = dat::devilFormat(defeated.id);
 
     // EXP shrinks when the Demi-fiend outlevels the enemy: /1.3 at 6..11

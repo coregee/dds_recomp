@@ -10,7 +10,9 @@
 #include "harness.hpp"
 #include "interface_world.hpp"
 #include "nocturne/interface/message.hpp"
-#include "nocturne/kernel/quake.hpp"
+#include "nocturne/effect/event.hpp"
+#include "nocturne/kernel/draw.hpp"
+#include "nocturne/script/commands.hpp"
 #include "nocturne/script/vm.hpp"
 
 extern "C" {
@@ -25,6 +27,7 @@ namespace {
 using namespace nocturne::scr;
 namespace mes = nocturne::mes;
 namespace dds3 = nocturne::dds3;
+namespace eff = nocturne::eff;
 namespace itf = nocturne::itf;
 using iface::A;
 using iface::addr;
@@ -38,7 +41,14 @@ constexpr uint32_t kOpcodeTable = 0x002fa528;
 constexpr uint32_t kCommandTable = 0x0052e350;
 
 // The command table's entries for the VM's own commands.
-constexpr int16_t kVmCommands[] = {7, 8, 9, 10, 13, 14, 15, 16, 17, 36, 83, 84, 114, 165, 166, 167, 168, 169, 171, 172};
+// The commands of scrCommonCommand (the VM's own and the screen effects').
+constexpr int16_t kVmCommands[] = {7,   8,   9,   10,  13,  14,  15,  16,  17,  26,  36,  65,  66,  67,  83,  84,  109,
+                                   114, 153, 165, 166, 167, 168, 169, 171, 172, 189, 234, 235, 236, 237, 238, 239, 240,
+                                   241, 242, 243, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308,
+                                   309, 310, 311, 322, 323, 324, 325, 326, 327, 180, 181, 182, 187, 188, 71,
+                                   // scrParameterCommand
+                                   112, 290, 32,  313, 387, 28,  314, 374, 390, 225, 388, 335, 336, 346,
+                                   337, 338, 344, 29,  348, 30,  369, 370, 386, 371, 372, 373, 368, 375};
 uint32_t commandEntry(int16_t index) { return at<uint32_t>(kCommandTable + 8u * static_cast<uint32_t>(index)); }
 int32_t commandArity(int16_t index) { return at<int32_t>(kCommandTable + 8u * static_cast<uint32_t>(index) + 4); }
 
@@ -80,6 +90,51 @@ int32_t processArgument(Gen& g)
     return g.chance(50) ? 0 : randomInt(g);
 }
 
+void randomBytes(Gen& g, uint32_t address, uint32_t size)
+{
+    for (uint32_t i = 0; i < size; ++i)
+        fw_ram[address + i] = static_cast<uint8_t>(g.rng());
+}
+
+// The screen state: effects on or off, fades in progress, settings, and the
+// effect library's objects for the partial effects.
+void effectWorld(Gen& g)
+{
+    dds3::dds3DrawFlag() = static_cast<uint32_t>(g.rng());
+    randomBytes(g, 0x0054e960, 6);              // the screen blur
+    randomBytes(g, 0x0054e97c, 8);              // refused settings
+    randomBytes(g, 0x00551bac, 12);             // the screen blur's fade
+    randomBytes(g, 0x00551c10, 0x48);           // the effects' fades
+    randomBytes(g, 0x005572c0, 0x1f0);          // their settings
+    for (uint32_t i = 0; i < 6; ++i)
+        fw_ram[0x0054f278 + i] = static_cast<uint8_t>(g.below(2));
+    randomBytes(g, 0x003201d0, 0x28);           // Eve_Blur's and Eve_Filter's settings
+    randomBytes(g, 0x00320258, 0x18);
+    for (uint32_t i = 0; i < 4; ++i) {          // the partial effects' objects
+        const uint32_t object = alloc(0x30);
+        randomBytes(g, object, 0x30);
+        at<uint32_t>(0x00551de8 + 4 * i) = object;
+    }
+    randomBytes(g, 0x002f59bc, 4);              // the field of view
+    randomBytes(g, 0x002f5b40, 0x34);           // lights, ambient, fog
+    for (uint32_t i = 0; i < 4; ++i) {          // lights (sdf3DLight_t), some missing
+        uint32_t light = 0;
+        if (g.chance(80)) {
+            light = alloc(0x30);
+            for (uint32_t k = 0; k < 12; ++k)
+                at<uint32_t>(light + 4 * k) = randomFloat(g);
+        }
+        at<uint32_t>(0x002f5b40 + 4 * i) = light;
+    }
+    for (uint32_t i = 0; i < 4; ++i)
+        at<uint32_t>(0x002f5b50 + 4 * i) = randomFloat(g);
+    randomBytes(g, 0x00551bc0, 0x50);           // the scene's fades
+    randomBytes(g, 0x00557220, 0x20);
+    randomBytes(g, 0x005572a0, 0x20);
+    at<uint32_t>(0x005518a8) = randomFloat(g);  // soften, bias
+    at<uint32_t>(0x005518ac) = randomFloat(g);
+}
+
 // Global variables, the message manager, an empty script list.
 void baseWorld(Gen& g)
 {
@@ -97,6 +152,16 @@ void baseWorld(Gen& g)
     for (uint32_t i = 0; i < 0x20; i += 4)
         at<uint32_t>(kOperands + i) = static_cast<uint32_t>(g.rng());
     at<uint32_t>(kCurrentWork) = 0;
+    effectWorld(g);
+    randomStock(g);
+    for (UnitWork& unit : at<GlobalWork>(FW_GLOBAL).units) {
+        if (g.chance(20))
+            unit.flag |= UnitFlag::Unique;
+        if (g.chance(10))
+            unit.flag |= UnitFlag::Pixie;
+        if (g.chance(30))
+            unit.uniqueid = static_cast<uint16_t>(g.range(0, 5));
+    }
     for (uint32_t i = 0; i < 32; ++i)   // the pad's buttons
         fw_ram[0x005298c8 + i] = static_cast<uint8_t>(g.chance(50) ? 0 : g.pick<int32_t>({0x80, 0x81, 0x01, 0x7f, 0xff}));
     dds3::quake() = {static_cast<uint16_t>(g.below(2)), static_cast<int16_t>(g.range(-1, 50)), static_cast<uint16_t>(g.below(500)),
@@ -230,6 +295,66 @@ uint32_t synthetic(Gen& g)
 }
 
 // Arguments the scripts pass a command, from the first (the top of the stack).
+// The arguments a command reads as floats (a mask), which scripts pass as floats.
+uint32_t floatArguments(int16_t command)
+{
+    switch (commandEntry(command)) {
+    case 0x0010bc98: return 0x01;   // SET_FOVY
+    case 0x0010c330: return 0x03;   // MUL_BLUR_PARA
+    case 0x0010c990: return 0x03;   // BLUR2_PARA
+    case 0x0010c510: return 0x38;   // DIST_BLUR_PARA
+    case 0x0010bf58: case 0x0010c080: case 0x0010c0f0: case 0x0010bfd0: return 0x0e;   // SCENE_LIGHT_RGB/DIR, AMBIENT, FOG_RGB
+    case 0x0010c280: return 0x06;   // SOFTEN_BIAS
+    case 0x0010c750: return 0x3e;   // RIP_BLUR_PARA
+    default: return 0;
+    }
+}
+
+// Angles whose conversion to radians lands on SET_FOVY's bounds (5 and 180) or next to them.
+uint32_t fovyEdge(Gen& g)
+{
+    static const std::vector<uint32_t> edges = [] {
+        const nocturne::ee::Float k = at<nocturne::ee::Float>(0x0054c194);
+        std::vector<uint32_t> found;
+        for (float bound : {5.0f, 180.0f}) {
+            uint32_t bits = static_cast<uint32_t>(floatBits(bound * 57.29578f)) - 64;
+            for (int i = 0; i < 128; ++i, ++bits) {
+                const nocturne::ee::Float r = nocturne::ee::Float::fromBits(bits) * k;
+                if (r.bits() >= static_cast<uint32_t>(floatBits(bound)) - 1 && r.bits() <= static_cast<uint32_t>(floatBits(bound)) + 1)
+                    found.push_back(bits);
+            }
+        }
+        return found;
+    }();
+    return edges[g.below(static_cast<uint32_t>(edges.size()))];
+}
+
+// A lane of a direction near light 0's own, its opposite, an axis, or any.
+uint32_t directionLane(Gen& g, int lane)
+{
+    static int32_t kind = 0;
+    if (lane == 0)
+        kind = static_cast<int32_t>(g.below(4));
+    const uint32_t light = at<uint32_t>(0x002f5b40);
+    const uint32_t own = light ? at<uint32_t>(light + 0x10 + 4u * static_cast<uint32_t>(lane)) : 0;
+    switch (kind) {
+    case 0: return own;                  // the same direction
+    case 1: return own ^ 0x80000000u;    // the opposite
+    case 2: return lane == 1 ? static_cast<uint32_t>(floatBits(g.chance(50) ? 1.0f : -1.0f)) : 0;   // along y
+    default: return static_cast<uint32_t>(floatBits(static_cast<float>(g.range(-100, 100)) / 50.0f));
+    }
+}
+
+// A devil in the stock, or another.
+int32_t someStockDevil(Gen& g)
+{
+    if (g.chance(60))
+        return at<GlobalWork>(FW_GLOBAL).units[g.range(0, 15)].id;
+    return randomDevil(g);
+}
+
+int32_t someFrames(Gen& g) { return g.chance(40) ? 0 : g.chance(5) ? randomInt(g) : g.range(1, 90); }
+
 std::vector<int32_t> commandArguments(Gen& g, ProcessWork& w, int16_t command)
 {
     const int32_t arity = commandArity(command);
@@ -262,8 +387,102 @@ std::vector<int32_t> commandArguments(Gen& g, ProcessWork& w, int16_t command)
         args[0] = g.range(-1, w.typeTable[0].ItemCount);
         args[1] = g.range(-5, 5);
         break;
-    default: args[0] = processArgument(g); break;                                            // SCR_KILL .. SCR_TIME
+    case 0x0010bde0: case 0x0010be28: case 0x0010be50: case 0x0010be98:                    // SCR_KILL .. SCR_TIME
+        args[0] = processArgument(g);
+        break;
+    case 0x0010bc40:                                                                         // PAD_ACT
+        args[0] = g.range(-1, 3);
+        args[1] = g.chance(80) ? g.range(0, 255) : randomInt(g);
+        args[2] = g.range(0, 120);
+        break;
+    case 0x0010c2d8:                                                                         // BLUR
+        args[0] = someFrames(g);
+        args[1] = g.chance(30) ? 0 : g.range(-10, 255);
+        args[2] = g.chance(30) ? 0 : g.range(-10, 400);
+        break;
+    case 0x0010c330: case 0x0010c990: args[2] = g.range(-1, 4); break;                       // MUL_BLUR / BLUR2_PARA
+    case 0x0010cb70: case 0x0010ccf0: args[0] = g.range(-1, 5); break;                       // FILTER2 / MFILTER_PARA
+    case 0x0010c510:                                                                         // DIST_BLUR_PARA
+        args[0] = g.chance(10) ? g.range(101, 300) : g.range(0, 100);
+        args[1] = g.range(0, 64);
+        args[2] = g.range(0, 64);
+        args[6] = g.range(-1, 4);
+        break;
+    case 0x0010c750:                                                                         // RIP_BLUR_PARA
+        args[0] = g.chance(10) ? g.range(41, 100) : g.range(0, 40);
+        args[6] = g.range(-1, 4);
+        break;
+    case 0x0010c3b8: case 0x0010c5f8: case 0x0010c838:                                       // *_RGBA
+    case 0x0010ca30: case 0x0010cbf0: case 0x0010cd70:
+        for (int32_t& a : args)
+            a = g.chance(90) ? g.range(0, 255) : randomInt(g);
+        break;
+    case 0x0010c440: case 0x0010c680: case 0x0010c8c0: case 0x0010cdf8:                    // *_AREA (area, x, y)
+        args[0] = g.range(0, 400);
+        args[1] = g.range(-50, 600);
+        args[2] = g.range(-50, 500);
+        break;
+    case 0x0010c148:                                                                         // SCENE_FOG_PARA
+        args[0] = someFrames(g);
+        for (int i = 1; i < 5; ++i)
+            args[static_cast<size_t>(i)] = g.chance(80) ? g.range(0, 5000) : randomInt(g);
+        break;
+    case 0x0010bf58: case 0x0010c080: case 0x0010c0f0: case 0x0010c280:                     // SCENE_*, SOFTEN_BIAS
+        args[0] = someFrames(g);
+        break;
+    case 0x0010bfd0:                                                                         // SCENE_LIGHT_DIR
+        args[0] = someFrames(g);
+        if (g.chance(20))   // too short
+            for (int i = 1; i < 4; ++i)
+                args[static_cast<size_t>(i)] = static_cast<int32_t>(floatBits(static_cast<float>(g.range(-1, 1)) / 200.0f));
+        else
+            for (int i = 1; i < 4; ++i)
+                args[static_cast<size_t>(i)] = static_cast<int32_t>(directionLane(g, i - 1));
+        return args;
+    case 0x0010cab8:                                                                         // BLUR2_AREA (x, y)
+        args[0] = g.range(-50, 600);
+        args[1] = g.range(-50, 500);
+        break;
+    // scrParameterCommand
+    case 0x0010cf38: args[0] = g.range(0, 0x9f); args[1] = g.range(-5, 120); break;          // ITEM_PLUS
+    case 0x0010cf78: case 0x0010cfa0: args[0] = g.range(0, 26); break;                       // DH_PLUS, DH_EQUIP
+    case 0x0010cfe0: case 0x0010d030:                                                        // MAKA_PLUS, MAKA_CHECK
+        args[0] = g.chance(10) ? randomInt(g) : g.range(-100000, 1000000);
+        break;
+    case 0x0010d008: args[0] = g.range(-120, 200); break;                                    // MAKA_PLUS_PER
+    case 0x0010d078: args[0] = g.range(0, 7); break;                                         // PARTY_DAMAGE
+    case 0x0010d0f0:                                                                         // DV_PLUS
+        args[0] = someStockDevil(g);
+        args[1] = g.range(0, 2);
+        args[2] = g.chance(60) ? 0 : g.range(1, 5);
+        break;
+    case 0x0010d1a0: case 0x0010d518: case 0x0010d540:                                      // DV_CHECK, NAKAMA_DEAD, NAKAMA_CHK_PIKUKO
+        args[0] = someStockDevil(g);
+        break;
+    case 0x0010d480: args[0] = someStockDevil(g); args[1] = g.range(0, 5); break;           // NAKAMA_GET_PARAM
+    case 0x0010d6a0: args[0] = someStockDevil(g); args[1] = randomDevil(g); break;          // DV_COPY_PARAM
+    case 0x0010d1f0: case 0x0010d248: case 0x0010d298: case 0x0010d2c8: case 0x0010d330:   // UDV_*
+        args[0] = g.range(-1, 5);
+        break;
+    case 0x0010d390: args[0] = g.range(-3, 12); break;                                       // STOCK_PLUS
+    case 0x0010d410: args[0] = g.range(0, 5); break;                                         // PLAYER_GET_PARAM
+    case 0x0010d440: args[0] = g.range(0, 5); args[1] = g.range(-5, 10); break;             // PLAYER_ADD_PARAM
+    case 0x0010d658:                                                                         // BOSS_PRESS_REC
+        args[0] = g.chance(80) ? g.pick<int32_t>({14, 55, 83, 84, 116, 117, 271, 194, 970, 1008, 267}) : g.range(0, 1300);
+        args[1] = g.range(-1, 3);
+        break;
+    default: args[0] = someFrames(g); break;                                                 // *_SWAP, *_ON, *_OFF
     }
+    if (commandEntry(command) == 0x0010bc98) {   // SET_FOVY: degrees, large values, and the bounds' edges
+        args[0] = static_cast<int32_t>(g.chance(30)   ? fovyEdge(g)
+                                       : g.chance(50) ? floatBits(static_cast<float>(g.range(280, 11000)))
+                                                      : floatBits(static_cast<float>(g.range(-10, 180))));
+        return args;
+    }
+    for (int32_t i = 0; i < arity; ++i)
+        if (floatArguments(command) >> i & 1)
+            args[static_cast<size_t>(i)] = static_cast<int32_t>(g.chance(10) ? randomFloat(g)
+                                                                            : floatBits(static_cast<float>(g.range(-720, 720)) / 8.0f));
     return args;
 }
 
@@ -275,6 +494,11 @@ void placeArguments(Gen& g, ProcessWork& w, int16_t command, const std::vector<i
 {
     for (size_t i = 0; i < args.size(); ++i) {
         const int32_t slot = w.SP - 1 - static_cast<int32_t>(i);
+        if (floatArguments(command) >> i & 1) {   // the bits of a float (now and then passed as an int)
+            w.StackType[slot] = g.chance(95) ? kFloat : kInt;
+            w.StackData[slot] = static_cast<uint32_t>(args[i]);
+            continue;
+        }
         const bool asFloat = g.chance(5);
         w.StackType[slot] = takesString(command) && g.chance(90) ? kString : asFloat ? kFloat : kInt;
         w.StackData[slot] = asFloat ? static_cast<uint32_t>(floatBits(static_cast<float>(args[i]))) : static_cast<uint32_t>(args[i]);
@@ -429,7 +653,7 @@ private:
                     emit(PUSHSTR, static_cast<int16_t>(g_.below(48)));
                     continue;
                 }
-                emit(PUSHI);
+                emit(floatArguments(command) >> i & 1 ? PUSHF : PUSHI);
                 word(static_cast<uint32_t>(args[i]));
             }
             emit(COMM, command);
@@ -773,6 +997,309 @@ void addScriptTests(std::vector<TestCase>& t)
     accessor("scrGetMessageHandle", 0x0010b830, [] { return norm(scrGetMessageHandle()); });
     accessor("scrGetScriptHandle", 0x0010b840, [] { return norm(static_cast<int32_t>(addr(scrGetScriptHandle()))); });
     accessor("scrGetData", 0x0010b848, [] { return norm(static_cast<int32_t>(scrGetData())); });
+    accessor("SDF_ABORT1", 0x0010b858, [] { return norm(SDF_ABORT1()); });
+
+    // ---- the screen effects' state (effEvent, dds3KernelDraw) ----
+    auto effect = [&](const char* name, std::function<Pair(Gen&)> body) {
+        add(name, [=](Gen& g) {
+            baseWorld(g);
+            return body(g);
+        });
+    };
+    auto frames = [](Gen& g) { return someFrames(g); };
+    // Eve_*ON / OFF: no arguments.
+    struct Plain {
+        const char* name;
+        uint32_t entry;
+        void (*rewrite)();
+    };
+    static const Plain plain[] = {
+        {"Eve_BlurON", 0x001ad230, eff::Eve_BlurON},
+        {"Eve_BlurOFF", 0x001ad240, eff::Eve_BlurOFF},
+        {"Eve_PartialMultiBlurON", 0x001ad2b8, eff::Eve_PartialMultiBlurON},
+        {"Eve_PartialMultiBlurOFF", 0x001ad2c8, eff::Eve_PartialMultiBlurOFF},
+        {"Eve_DistortionBlurON", 0x001ad370, eff::Eve_DistortionBlurON},
+        {"Eve_DistortionBlurOFF", 0x001ad380, eff::Eve_DistortionBlurOFF},
+        {"Eve_RippleBlurON", 0x001ad428, eff::Eve_RippleBlurON},
+        {"Eve_RippleBlurOFF", 0x001ad438, eff::Eve_RippleBlurOFF},
+        {"Eve_FilterON", 0x001ad4e0, eff::Eve_FilterON},
+        {"Eve_FilterOFF", 0x001ad4f0, eff::Eve_FilterOFF},
+        {"Eve_PartialMultiFilterON", 0x001ad548, eff::Eve_PartialMultiFilterON},
+        {"Eve_PartialMultiFilterOFF", 0x001ad558, eff::Eve_PartialMultiFilterOFF},
+        {"dds3StopQuake", 0x00104d98, dds3::dds3StopQuake},
+    };
+    for (const Plain& p : plain) {
+        const uint32_t entry = p.entry;
+        void (*rewrite)() = p.rewrite;
+        effect(p.name, [=](Gen&) { return Pair{[=] { return origVmVoid(entry, {}); }, [=] { rewrite(); return uint64_t{0}; }}; });
+    }
+    // Eve_*Get*: the settings' address.
+    struct Getter {
+        const char* name;
+        uint32_t entry;
+        const void* (*rewrite)();
+    };
+    static const Getter getters[] = {
+        {"Eve_BlurGetParam", 0x001ad2a8, [] { return static_cast<const void*>(eff::Eve_BlurGetParam()); }},
+        {"Eve_PartialMultiBlurEditorGetParams", 0x001ad330,
+         [] { return static_cast<const void*>(eff::Eve_PartialMultiBlurEditorGetParams()); }},
+        {"Eve_DistortionBlurEditorGetParams", 0x001ad3e8,
+         [] { return static_cast<const void*>(eff::Eve_DistortionBlurEditorGetParams()); }},
+        {"Eve_RippleBlurEditorGetParams", 0x001ad4a0,
+         [] { return static_cast<const void*>(eff::Eve_RippleBlurEditorGetParams()); }},
+        {"Eve_FilterEditorGetParams", 0x001ad538, [] { return static_cast<const void*>(eff::Eve_FilterEditorGetParams()); }},
+        {"Eve_PartialMultiFilterEditorGetParams", 0x001ad5b0,
+         [] { return static_cast<const void*>(eff::Eve_PartialMultiFilterEditorGetParams()); }},
+    };
+    for (const Getter& p : getters) {
+        const uint32_t entry = p.entry;
+        const void* (*rewrite)() = p.rewrite;
+        effect(p.name, [=](Gen&) {
+            return Pair{[=] { return origVm(entry, {}); }, [=] { return norm(static_cast<int32_t>(addr(rewrite()))); }};
+        });
+    }
+    // Eve_*SetParam: settings from somewhere in memory.
+    struct Setter {
+        const char* name;
+        uint32_t entry;
+        void (*rewrite)(uint32_t);
+    };
+    static const Setter setters[] = {
+        {"Eve_BlurSetParam", 0x001ad248, [](uint32_t a) { eff::Eve_BlurSetParam(at<eff::Blur>(a)); }},
+        {"Eve_PartialMultiBlurSetParam", 0x001ad2d0,
+         [](uint32_t a) { eff::Eve_PartialMultiBlurSetParam(at<eff::PartialMultiBlurParam>(a)); }},
+        {"Eve_DistortionBlurSetParam", 0x001ad388,
+         [](uint32_t a) { eff::Eve_DistortionBlurSetParam(at<eff::DistortionBlurParam>(a)); }},
+        {"Eve_RippleBlurSetParam", 0x001ad440, [](uint32_t a) { eff::Eve_RippleBlurSetParam(at<eff::RippleBlurParam>(a)); }},
+        {"Eve_FilterSetParam", 0x001ad4f8, [](uint32_t a) { eff::Eve_FilterSetParam(at<eff::Filter>(a)); }},
+        {"Eve_PartialMultiFilterSetParam", 0x001ad560,
+         [](uint32_t a) { eff::Eve_PartialMultiFilterSetParam(at<eff::PartialMultiFilterParam>(a)); }},
+    };
+    for (const Setter& p : setters) {
+        const uint32_t entry = p.entry;
+        void (*rewrite)(uint32_t) = p.rewrite;
+        effect(p.name, [=](Gen& g) {
+            const uint32_t source = alloc(0x30);
+            randomBytes(g, source, 0x30);
+            return Pair{[=] { return origVmVoid(entry, {source}); }, [=] { rewrite(source); return uint64_t{0}; }};
+        });
+    }
+    effect("Eve_DistortionBlurSetTex", [](Gen& g) {
+        const uint32_t texture = static_cast<uint32_t>(g.rng());
+        return Pair{[=] { return origVmVoid(0x001ad3f0, {texture}); }, [=] { eff::Eve_DistortionBlurSetTex(texture); return uint64_t{0}; }};
+    });
+    // dds3*Swap / On / Off (frames)
+    struct Timed {
+        const char* name;
+        uint32_t entry;
+        void (*rewrite)(int32_t);
+    };
+    static const Timed timed[] = {
+        {"dds3Filter2Swap", 0x00105638, dds3::dds3Filter2Swap},     {"dds3Filter2On", 0x00105700, dds3::dds3Filter2On},
+        {"dds3Filter2Off", 0x00105788, dds3::dds3Filter2Off},       {"dds3MFilterSwap", 0x00105830, dds3::dds3MFilterSwap},
+        {"dds3MFilterOn", 0x00105900, dds3::dds3MFilterOn},         {"dds3MFilterOff", 0x00105978, dds3::dds3MFilterOff},
+        {"dds3Blur2Swap", 0x00105aa0, dds3::dds3Blur2Swap},         {"dds3Blur2On", 0x00105b88, dds3::dds3Blur2On},
+        {"dds3Blur2Off", 0x00105c10, dds3::dds3Blur2Off},           {"dds3MultiBlurSwap", 0x00105cc0, dds3::dds3MultiBlurSwap},
+        {"dds3MultiBlurOn", 0x00105d98, dds3::dds3MultiBlurOn},     {"dds3MultiBlurOff", 0x00105e00, dds3::dds3MultiBlurOff},
+        {"dds3DistBlurSwap", 0x00105ee8, dds3::dds3DistBlurSwap},   {"dds3DistBlurOn", 0x00105fc8, dds3::dds3DistBlurOn},
+        {"dds3DistBlurOff", 0x00106038, dds3::dds3DistBlurOff},     {"dds3RipBlurSwap", 0x00106110, dds3::dds3RipBlurSwap},
+        {"dds3RipBlurOn", 0x001061f0, dds3::dds3RipBlurOn},         {"dds3RipBlurOff", 0x00106270, dds3::dds3RipBlurOff},
+    };
+    for (const Timed& p : timed) {
+        const uint32_t entry = p.entry;
+        void (*rewrite)(int32_t) = p.rewrite;
+        effect(p.name, [=](Gen& g) {
+            const int32_t frame = frames(g);
+            return Pair{[=] { return origVmVoid(entry, {I(frame)}); }, [=] { rewrite(frame); return uint64_t{0}; }};
+        });
+    }
+    // dds3Set*RGBA / Para with one int
+    struct One {
+        const char* name;
+        uint32_t entry;
+        void (*rewrite)(uint32_t);
+    };
+    static const One ones[] = {
+        {"dds3SetFilter2Para", 0x00105618, [](uint32_t v) { dds3::dds3SetFilter2Para(static_cast<int32_t>(v)); }},
+        {"dds3SetFilter2RGBA", 0x00105628, dds3::dds3SetFilter2RGBA},
+        {"dds3SetMFilterPara", 0x001057f8, [](uint32_t v) { dds3::dds3SetMFilterPara(static_cast<int32_t>(v)); }},
+        {"dds3SetMFilterRGBA", 0x00105808, dds3::dds3SetMFilterRGBA},
+        {"dds3SetBlur2RGBA", 0x00105a78, dds3::dds3SetBlur2RGBA},
+        {"dds3SetMultiBlurRGBA", 0x00105c98, dds3::dds3SetMultiBlurRGBA},
+        {"dds3SetDistBlurRGBA", 0x00105ec0, dds3::dds3SetDistBlurRGBA},
+        {"dds3SetRipBlurRGBA", 0x001060e8, dds3::dds3SetRipBlurRGBA},
+    };
+    for (const One& p : ones) {
+        const uint32_t entry = p.entry;
+        void (*rewrite)(uint32_t) = p.rewrite;
+        effect(p.name, [=](Gen& g) {
+            const uint32_t v = static_cast<uint32_t>(g.rng());
+            return Pair{[=] { return origVmVoid(entry, {I(static_cast<int32_t>(v))}); }, [=] { rewrite(v); return uint64_t{0}; }};
+        });
+    }
+    // dds3Set*Area (area, x, y)
+    struct Area {
+        const char* name;
+        uint32_t entry;
+        void (*rewrite)(int32_t, int32_t, int32_t);
+    };
+    static const Area areas[] = {
+        {"dds3SetMFilterArea", 0x00105818, dds3::dds3SetMFilterArea},
+        {"dds3SetMultiBlurArea", 0x00105ca8, dds3::dds3SetMultiBlurArea},
+        {"dds3SetDistBlurArea", 0x00105ed0, dds3::dds3SetDistBlurArea},
+        {"dds3SetRipBlurArea", 0x001060f8, dds3::dds3SetRipBlurArea},
+    };
+    for (const Area& p : areas) {
+        const uint32_t entry = p.entry;
+        void (*rewrite)(int32_t, int32_t, int32_t) = p.rewrite;
+        effect(p.name, [=](Gen& g) {
+            const int32_t a = randomInt(g), x = randomInt(g), y = randomInt(g);
+            return Pair{[=] { return origVmVoid(entry, {I(a), I(x), I(y)}); }, [=] { rewrite(a, x, y); return uint64_t{0}; }};
+        });
+    }
+    effect("dds3SetBlur2Area", [](Gen& g) {
+        const int32_t x = randomInt(g), y = randomInt(g);
+        return Pair{[=] { return origVmVoid(0x00105a88, {I(x), I(y)}); }, [=] { dds3::dds3SetBlur2Area(x, y); return uint64_t{0}; }};
+    });
+    auto F = [](uint32_t bits) { return nocturne::ee::Float::fromBits(bits); };
+    effect("dds3SetBlur2Para", [=](Gen& g) {
+        const uint32_t r = randomFloat(g), sc = randomFloat(g);
+        const int32_t blend = randomInt(g);
+        return Pair{[=] { return origVmVoid(0x00105a60, {I(blend)}, {r, sc}); },
+                    [=] { dds3::dds3SetBlur2Para(F(r), F(sc), blend); return uint64_t{0}; }};
+    });
+    effect("dds3SetMultiBlurPara", [=](Gen& g) {
+        const uint32_t r = randomFloat(g), sc = randomFloat(g);
+        const int32_t blend = randomInt(g);
+        return Pair{[=] { return origVmVoid(0x00105c80, {I(blend)}, {r, sc}); },
+                    [=] { dds3::dds3SetMultiBlurPara(F(r), F(sc), blend); return uint64_t{0}; }};
+    });
+    effect("dds3SetDistBlurPara", [=](Gen& g) {
+        const int32_t number = g.chance(20) ? randomInt(g) : g.range(0, 120), width = randomInt(g), interval = randomInt(g),
+                      blend = randomInt(g);
+        const uint32_t speed = randomFloat(g), rotate = randomFloat(g), distor = randomFloat(g);
+        return Pair{[=] { return origVmVoid(0x00105e78, {I(number), I(width), I(interval), I(blend)}, {speed, rotate, distor}); },
+                    [=] {
+                        dds3::dds3SetDistBlurPara(number, width, interval, blend, F(speed), F(rotate), F(distor));
+                        return uint64_t{0};
+                    }};
+    });
+    effect("dds3SetRipBlurPara", [=](Gen& g) {
+        const int32_t number = g.chance(20) ? randomInt(g) : g.range(0, 60), blend = randomInt(g);
+        uint32_t f[5];
+        for (uint32_t& v : f)
+            v = randomFloat(g);
+        return Pair{[=] { return origVmVoid(0x001060a0, {I(number), I(blend)}, {f[0], f[1], f[2], f[3], f[4]}); },
+                    [=] {
+                        dds3::dds3SetRipBlurPara(F(f[0]), F(f[1]), F(f[2]), F(f[3]), F(f[4]), number, blend);
+                        return uint64_t{0};
+                    }};
+    });
+    effect("dds3SetBlur", [](Gen& g) {
+        const int32_t frame = g.chance(40) ? 0 : randomInt(g), alpha = g.chance(30) ? 0 : randomInt(g),
+                      scale = g.chance(30) ? 0 : randomInt(g);
+        return Pair{[=] { return origVmVoid(0x001059e8, {I(frame), I(alpha), I(scale)}); },
+                    [=] { dds3::dds3SetBlur(static_cast<uint32_t>(frame), alpha, scale); return uint64_t{0}; }};
+    });
+    effect("dds3SetScreenFovy", [=](Gen& g) {
+        const uint32_t v = randomFloat(g);
+        return Pair{[=] { return origVmVoid(0x00105580, {}, {v}); }, [=] { dds3::dds3SetScreenFovy(F(v)); return uint64_t{0}; }};
+    });
+    effect("dds3SetAmbient", [](Gen& g) {
+        const uint32_t source = alloc(0x20);
+        randomBytes(g, source, 0x20);
+        return Pair{[=] { return origVmVoid(0x00105590, {source}); },
+                    [=] { dds3::dds3SetAmbient(*reinterpret_cast<const uint32_t(*)[4]>(&at<uint32_t>(source))); return uint64_t{0}; }};
+    });
+    effect("dds3SetFog", [](Gen& g) {
+        const uint32_t source = alloc(0x20) + g.below(4) * 4;   // any word alignment (copied with LDL / LDR)
+        randomBytes(g, source, 0x14);
+        return Pair{[=] { return origVmVoid(0x001055a8, {source}); }, [=] { dds3::dds3SetFog(at<dds3::FogParam>(source)); return uint64_t{0}; }};
+    });
+    effect("dds3SetLight", [](Gen& g) {
+        const uint32_t light = static_cast<uint32_t>(g.rng());
+        const int32_t no = g.range(0, 3);
+        return Pair{[=] { return origVmVoid(0x001055e0, {light, I(no)}); }, [=] { dds3::dds3SetLight(light, no); return uint64_t{0}; }};
+    });
+    effect("setdraw_xy", [](Gen& g) {
+        const uint32_t xy = alloc(0x10);
+        randomBytes(g, xy, 0x10);
+        return Pair{[=] { return origVmVoid(0x001055f8, {xy}); },
+                    [=] { dds3::setdraw_xy(*reinterpret_cast<eff::IVector2(*)[2]>(&at<eff::IVector2>(xy))); return uint64_t{0}; }};
+    });
+    // A colour vector in memory, as the scripts make them.
+    auto vector = [](Gen& g) {
+        const uint32_t v = alloc(16);
+        for (uint32_t k = 0; k < 4; ++k)
+            at<uint32_t>(v + 4 * k) = g.chance(70) ? static_cast<uint32_t>(floatBits(static_cast<float>(g.range(0, 300)) / 128.0f))
+                                                   : randomFloat(g);
+        return v;
+    };
+    effect("dds3SetLightColor", [=](Gen& g) {
+        const int32_t frame = frames(g);
+        const uint32_t no = g.below(4), v = vector(g);
+        return Pair{[=] { return origVmVoid(0x001070d0, {I(frame), no, v}); },
+                    [=] { dds3::dds3SetLightColor(static_cast<uint32_t>(frame), no, at<dds3::Vector4>(v)); return uint64_t{0}; }};
+    });
+    effect("dds3SetLightDir", [=](Gen& g) {
+        const int32_t frame = frames(g);
+        const uint32_t no = g.below(3), v = alloc(16);
+        const uint32_t light = at<uint32_t>(0x002f5b40 + 4 * no);
+        const uint32_t kind = g.below(5);
+        for (uint32_t k = 0; k < 4; ++k) {
+            const uint32_t own = light ? at<uint32_t>(light + 0x10 + 4 * k) : 0;
+            uint32_t lane = static_cast<uint32_t>(floatBits(static_cast<float>(g.range(-100, 100)) / 50.0f));
+            if (kind == 0) lane = own;                                 // the same direction
+            if (kind == 1) lane = own ^ 0x80000000u;                   // the opposite
+            if (kind == 2) lane = k == 1 ? 0xbf800000u : 0;            // along -y
+            at<uint32_t>(v + 4 * k) = lane;
+        }
+        if (light && g.chance(20)) {   // the light itself along y (the opposite turn's special case)
+            at<uint32_t>(light + 0x10) = 0;
+            at<uint32_t>(light + 0x14) = 0x3f800000;
+            at<uint32_t>(light + 0x18) = 0;
+            at<uint32_t>(v) = 0;
+            at<uint32_t>(v + 4) = 0xbf800000;
+            at<uint32_t>(v + 8) = 0;
+        }
+        return Pair{[=] { return origVmVoid(0x001071d0, {I(frame), no, v}); },
+                    [=] { dds3::dds3SetLightDir(static_cast<uint32_t>(frame), no, at<dds3::Vector4>(v)); return uint64_t{0}; }};
+    });
+    effect("dds3SetAmbientColor", [=](Gen& g) {
+        const int32_t frame = frames(g);
+        const uint32_t v = vector(g);
+        return Pair{[=] { return origVmVoid(0x00107310, {I(frame), v}); },
+                    [=] { dds3::dds3SetAmbientColor(static_cast<uint32_t>(frame), at<dds3::Vector4>(v)); return uint64_t{0}; }};
+    });
+    effect("dds3SetFogColor", [=](Gen& g) {
+        const int32_t frame = frames(g);
+        const uint32_t v = vector(g);
+        return Pair{[=] { return origVmVoid(0x001073d0, {I(frame), v}); },
+                    [=] { dds3::dds3SetFogColor(static_cast<uint32_t>(frame), at<dds3::Vector4>(v)); return uint64_t{0}; }};
+    });
+    effect("dds3SetFogPara", [=](Gen& g) {
+        const int32_t frame = frames(g);
+        uint32_t f[4];
+        for (uint32_t& v : f)
+            v = randomFloat(g);
+        return Pair{[=] { return origVmVoid(0x00107458, {I(frame)}, {f[0], f[1], f[2], f[3]}); },
+                    [=] {
+                        dds3::dds3SetFogPara(static_cast<uint32_t>(frame), F(f[0]), F(f[1]), F(f[2]), F(f[3]));
+                        return uint64_t{0};
+                    }};
+    });
+    effect("dds3SetSoftenBias", [=](Gen& g) {
+        const int32_t frame = frames(g);
+        const uint32_t soften = randomFloat(g), bias = randomFloat(g);
+        return Pair{[=] { return origVmVoid(0x00107af0, {I(frame)}, {soften, bias}); },
+                    [=] { dds3::dds3SetSoftenBias(static_cast<uint32_t>(frame), F(soften), F(bias)); return uint64_t{0}; }};
+    });
+    effect("dds3SetQuake", [](Gen& g) {
+        const int32_t frame = g.chance(20) ? 0 : randomInt(g);
+        const uint32_t range = g.chance(20) ? 0 : static_cast<uint32_t>(randomInt(g));
+        return Pair{[=] { return origVmVoid(0x00104d38, {I(frame), I(static_cast<int32_t>(range))}); },
+                    [=] { dds3::dds3SetQuake(frame, range); return uint64_t{0}; }};
+    });
 
     // ---- the VM's commands ----
     for (int16_t command : kVmCommands) {
@@ -781,7 +1308,7 @@ void addScriptTests(std::vector<TestCase>& t)
         add(labels.back().c_str(), [command](Gen& g) {
             commandWorld(g, command);
             uint32_t entry = commandEntry(command);
-            if (entry < 0x0010b888 || entry >= 0x0010bf58)   // not one of the VM's commands
+            if (entry < 0x0010b888 || entry >= 0x0010d728)   // not one of the VM's commands
                 std::abort();
             return Pair{[=] { return origVm(entry, {}); }, [=] { return norm(CallCommand(entry)); }};
         });

@@ -19,9 +19,9 @@ hand-scheduled VU code), it is isolated, documented and still tested.
   bytes;
 - the mechanics are documented in `docs/` in plain language.
 
-Progress is the function map (`tools/ghidra/export-annotations.ps1`): 623 of
-9,067 functions rewritten (6.9%) on 2026-10-22, 2,501 still only in legacy
-C, 5,689 not yet identified.
+Progress is the function map (`tools/ghidra/export-annotations.ps1`): 926 of
+9,067 functions rewritten (10.2%) on 2026-10-23, 2,346 still only in legacy
+C, 5,535 not yet identified.
 
 ## Principles
 
@@ -53,22 +53,30 @@ Work outward from what is finished, so each module's callees are already
 rewritten or simple to fake, and grow the tools when they block progress.
 
 1. **Tools first when they unblock a lot.**
-   - The EE interpreter: add the FPU (COP1, with `ee::Float` semantics),
-     128-bit loads/stores and the MMI instructions as modules need them.
+   - The EE interpreter: COP1, 128-bit loads/stores and VU0 macro mode are
+     in (VU0 without flags or square roots); add the rest of MMI and the
+     VU0 square roots as modules need them.
    - A coverage check that lists rewritten functions without a test, and
      tests whose generator misses branches.
 2. **Finish the message stack:** the message manager and the font engine's
    text layout, glyph cache and message pages are done (docs/messages.md,
    docs/fonts.md); left are the font texture set-up and drawing
-   (`frInitFontTable`, `frDrawFont*`, GS packets), panels (`itfPnl*`) and the
-   message drawing, which need the platform layer for the GS.
+   (`frInitFontTable`, `frDrawFont*`, GS packets), drawing the panels
+   (`itfPnlDraw`; the rest of `itfPanel` is done) and the message drawing,
+   which need the platform layer for the GS.
 3. **The script VM** (`scr*`): the interpreter, its process lifecycle and
-   its simple commands are done (docs/flowscript.md). Left: the rest of
-   `scrCommonCommand` (scene lighting, blur and filters need VU0 macro
-   instructions in the EE interpreter), and moving the AI and message
-   commands from the bridged VM externals onto the rewritten VM.
-4. **Battle** (`nb*`, the largest area): the turn engine (`nbAction*`), the
-   remaining calculations, rewards, the battle UI.
+   `scrCommonCommand` are done (docs/flowscript.md, docs/screen-effects.md).
+   The parameter commands (`prm_*`) and the rest of `datCalc` behind them
+   are done too (docs/party-and-field.md), and every rewritten command now
+   reads its arguments through the rewritten VM. Left in the area: the
+   per-frame fades (`dds3BlurUpdate`, `dds3SceneLightUpdateFirst`) and the
+   effects' drawing, with the GS platform layer.
+4. **Battle** (`nb*`, the largest area): the presentation queue's builders
+   are done, and of the turn engine (`nbAction*`) the time list, the
+   simple states, the AI and death-script states and END
+   (docs/battle-presentation.md). Next: the rest of the action states (choosing, skills, negotiation, results, which build
+   those packets), the kouka process that plays
+   them, the remaining calculations, rewards, the battle UI.
 5. **Game systems:** negotiation, shops and facilities, field movement and
    events, the menus (`cmp*`), Magatama and party screens.
 6. **Engine layers:** files, CD and PAC archives, resources; models,

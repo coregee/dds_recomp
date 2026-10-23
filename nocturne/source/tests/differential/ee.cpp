@@ -13,6 +13,7 @@ uint32_t EE_FPU_ADD_S(uint32_t, uint32_t);
 uint32_t EE_FPU_SUB_S(uint32_t, uint32_t);
 uint32_t EE_FPU_MUL_S(uint32_t, uint32_t);
 uint32_t EE_FPU_DIV_S(uint32_t, uint32_t);
+uint32_t EE_FPU_RSQRT_S(uint32_t, uint32_t);
 uint32_t EE_FPU_COMPARE_S(uint32_t, uint32_t, unsigned);
 }
 
@@ -97,6 +98,177 @@ uint64_t Interpreter::call(uint32_t entry, std::initializer_list<uint64_t> args,
     return cpu.r[2];
 }
 
+// MULT, MULTU (three-operand: also into rd), DIV, DIVU on one pipeline's HI / LO.
+void Interpreter::multiplyDivide(uint32_t funct, uint64_t s, uint64_t t, uint64_t* d, uint64_t& hi, uint64_t& lo)
+{
+    switch (funct) {
+    case 0x18: {                                                                // MULT
+        const int64_t p = static_cast<int64_t>(static_cast<int32_t>(s)) * static_cast<int32_t>(t);
+        lo = sx32(static_cast<uint64_t>(p));
+        hi = sx32(static_cast<uint64_t>(p) >> 32);
+        if (d) *d = lo;
+        break;
+    }
+    case 0x19: {                                                                // MULTU
+        const uint64_t p = static_cast<uint64_t>(static_cast<uint32_t>(s)) * static_cast<uint32_t>(t);
+        lo = sx32(p);
+        hi = sx32(p >> 32);
+        if (d) *d = lo;
+        break;
+    }
+    case 0x1a: {                                                                // DIV
+        const int32_t a = static_cast<int32_t>(s), b = static_cast<int32_t>(t);
+        if (b == 0) { lo = a < 0 ? 1 : ~0ull; hi = sx32(static_cast<uint32_t>(a)); }
+        else if (a == INT32_MIN && b == -1) { lo = sx32(static_cast<uint32_t>(a)); hi = 0; }
+        else { lo = sx32(static_cast<uint32_t>(a / b)); hi = sx32(static_cast<uint32_t>(a % b)); }
+        break;
+    }
+    default: {                                                                  // DIVU
+        const uint32_t a = static_cast<uint32_t>(s), b = static_cast<uint32_t>(t);
+        if (b == 0) { lo = ~0ull; hi = sx32(a); }
+        else { lo = sx32(a / b); hi = sx32(a % b); }
+        break;
+    }
+    }
+}
+
+uint32_t Interpreter::vf(uint32_t reg, int lane) const
+{
+    static const uint32_t zero[4] = {0, 0, 0, 0x3f800000};
+    return reg ? cpu.vf[reg][lane] : zero[lane];
+}
+
+void Interpreter::setVf(uint32_t reg, int lane, uint32_t value)
+{
+    if (reg)
+        cpu.vf[reg][lane] = value;
+}
+
+// A VU0 macro instruction (COP2 with bit 25 set): the arithmetic, ACC and
+// conversion instructions, lane by lane on the destination mask; flags, the
+// I register and the square roots are not modelled.
+void Interpreter::vu0(uint32_t pc, uint32_t op)
+{
+    const uint32_t dest = op >> 21 & 15, ft = op >> 16 & 31, fs = op >> 11 & 31, fd = op >> 6 & 31;
+    const int bc = static_cast<int>(op & 3);
+    auto lanes = [&](auto f) {
+        for (int i = 0; i < 4; ++i)
+            if (dest >> (3 - i) & 1)
+                f(i);
+    };
+    using Op = uint32_t (*)(uint32_t, uint32_t);
+    const Op add = [](uint32_t a, uint32_t b) { return EE_FPU_ADD_S(a, b); };
+    const Op sub = [](uint32_t a, uint32_t b) { return EE_FPU_SUB_S(a, b); };
+    const Op mul = [](uint32_t a, uint32_t b) { return EE_FPU_MUL_S(a, b); };
+    auto mulAdd = [](bool subtract, uint32_t acc, uint32_t a, uint32_t b) {
+        return subtract ? EE_FPU_SUB_S(acc, EE_FPU_MUL_S(a, b)) : EE_FPU_ADD_S(acc, EE_FPU_MUL_S(a, b));
+    };
+    // The second operand: one lane of ft broadcast, Q, or ft's same lane.
+    enum Source { kBroadcast, kQ, kLane };
+    auto operand = [&](Source source, int lane) { return source == kBroadcast ? vf(ft, bc) : source == kQ ? cpu.q : vf(ft, lane); };
+    auto toFd = [&](Op f, Source source) {
+        uint32_t out[4] = {};
+        lanes([&](int i) { out[i] = f(vf(fs, i), operand(source, i)); });
+        lanes([&](int i) { setVf(fd, i, out[i]); });
+    };
+    auto toAcc = [&](Op f, Source source) { lanes([&](int i) { cpu.vacc[i] = f(vf(fs, i), operand(source, i)); }); };
+    auto maddFd = [&](bool subtract, Source source) {
+        uint32_t out[4] = {};
+        lanes([&](int i) { out[i] = mulAdd(subtract, cpu.vacc[i], vf(fs, i), operand(source, i)); });
+        lanes([&](int i) { setVf(fd, i, out[i]); });
+    };
+    auto maddAcc = [&](bool subtract, Source source) {
+        lanes([&](int i) { cpu.vacc[i] = mulAdd(subtract, cpu.vacc[i], vf(fs, i), operand(source, i)); });
+    };
+    // The outer product's operands: (fs.y, fs.z, fs.x) and (ft.z, ft.x, ft.y).
+    auto cross = [&](int i, bool left) { return left ? vf(fs, (i + 1) % 3) : vf(ft, (i + 2) % 3); };
+    const uint32_t funct = op & 63;
+    if (funct < 0x3c) {
+        switch (funct) {
+        case 0x00: case 0x01: case 0x02: case 0x03: toFd(add, kBroadcast); return;    // VADDbc
+        case 0x04: case 0x05: case 0x06: case 0x07: toFd(sub, kBroadcast); return;    // VSUBbc
+        case 0x08: case 0x09: case 0x0a: case 0x0b: maddFd(false, kBroadcast); return; // VMADDbc
+        case 0x0c: case 0x0d: case 0x0e: case 0x0f: maddFd(true, kBroadcast); return;  // VMSUBbc
+        case 0x18: case 0x19: case 0x1a: case 0x1b: toFd(mul, kBroadcast); return;    // VMULbc
+        case 0x1c: toFd(mul, kQ); return;                                              // VMULq
+        case 0x20: toFd(add, kQ); return;                                              // VADDq
+        case 0x21: maddFd(false, kQ); return;                                          // VMADDq
+        case 0x24: toFd(sub, kQ); return;                                              // VSUBq
+        case 0x25: maddFd(true, kQ); return;                                           // VMSUBq
+        case 0x28: toFd(add, kLane); return;                                           // VADD
+        case 0x29: maddFd(false, kLane); return;                                       // VMADD
+        case 0x2a: toFd(mul, kLane); return;                                           // VMUL
+        case 0x2c: toFd(sub, kLane); return;                                           // VSUB
+        case 0x2d: maddFd(true, kLane); return;                                        // VMSUB
+        case 0x2e: {                                                                   // VOPMSUB: ACC - fs x ft
+            uint32_t out[3];
+            for (int i = 0; i < 3; ++i)
+                out[i] = mulAdd(true, cpu.vacc[i], cross(i, true), cross(i, false));
+            for (int i = 0; i < 3; ++i)
+                if (dest >> (3 - i) & 1)
+                    setVf(fd, i, out[i]);
+            return;
+        }
+        default: fail("unsupported VU0 instruction", pc, op);
+        }
+    }
+    switch ((op >> 6 & 31) << 2 | (funct & 3)) {
+    case 0x00: case 0x01: case 0x02: case 0x03: toAcc(add, kBroadcast); return;       // VADDAbc
+    case 0x04: case 0x05: case 0x06: case 0x07: toAcc(sub, kBroadcast); return;       // VSUBAbc
+    case 0x08: case 0x09: case 0x0a: case 0x0b: maddAcc(false, kBroadcast); return;   // VMADDAbc
+    case 0x0c: case 0x0d: case 0x0e: case 0x0f: maddAcc(true, kBroadcast); return;    // VMSUBAbc
+    case 0x10: case 0x11: case 0x12: case 0x13: {                                      // VITOF0/4/12/15
+        static const uint32_t scale[4] = {0x3f800000, 0x3d800000, 0x39800000, 0x38000000};   // 1, 1/16, 1/4096, 1/32768
+        lanes([&](int i) {
+            const uint32_t v = EE_FPU_CVT_S_W(vf(fs, i));
+            setVf(ft, i, (funct & 3) ? EE_FPU_MUL_S(v, scale[funct & 3]) : v);
+        });
+        return;
+    }
+    case 0x14: case 0x15: case 0x16: case 0x17: {                                      // VFTOI0/4/12/15
+        static const uint32_t scale[4] = {0x3f800000, 0x41800000, 0x45800000, 0x47000000};   // 1, 16, 4096, 32768
+        lanes([&](int i) {
+            const uint32_t v = vf(fs, i);
+            setVf(ft, i, EE_FPU_CVT_W_S((funct & 3) ? EE_FPU_MUL_S(v, scale[funct & 3]) : v));
+        });
+        return;
+    }
+    case 0x18: case 0x19: case 0x1a: case 0x1b: toAcc(mul, kBroadcast); return;       // VMULAbc
+    case 0x1c: toAcc(mul, kQ); return;                                                 // VMULAq
+    case 0x1d: lanes([&](int i) { setVf(ft, i, vf(fs, i) & 0x7fffffffu); }); return;   // VABS
+    case 0x20: toAcc(add, kQ); return;                                                 // VADDAq
+    case 0x21: maddAcc(false, kQ); return;                                             // VMADDAq
+    case 0x24: toAcc(sub, kQ); return;                                                 // VSUBAq
+    case 0x25: maddAcc(true, kQ); return;                                              // VMSUBAq
+    case 0x28: toAcc(add, kLane); return;                                              // VADDA
+    case 0x29: maddAcc(false, kLane); return;                                          // VMADDA
+    case 0x2a: toAcc(mul, kLane); return;                                              // VMULA
+    case 0x2c: toAcc(sub, kLane); return;                                              // VSUBA
+    case 0x2d: maddAcc(true, kLane); return;                                           // VMSUBA
+    case 0x2e:                                                                         // VOPMULA: fs x ft
+        for (int i = 0; i < 3; ++i)
+            if (dest >> (3 - i) & 1)
+                cpu.vacc[i] = mul(cross(i, true), cross(i, false));
+        return;
+    case 0x2f: return;                                                                 // VNOP
+    case 0x30: lanes([&](int i) { setVf(ft, i, vf(fs, i)); }); return;                // VMOVE
+    case 0x31: {                                                                       // VMR32: lanes rotated
+        uint32_t out[4] = {};
+        lanes([&](int i) { out[i] = vf(fs, (i + 1) & 3); });
+        lanes([&](int i) { setVf(ft, i, out[i]); });
+        return;
+    }
+    case 0x38:                                                                         // VDIV: Q = fs.fsf / ft.ftf
+        cpu.q = EE_FPU_DIV_S(vf(fs, static_cast<int>(op >> 21 & 3)), vf(ft, static_cast<int>(op >> 23 & 3)));
+        return;
+    case 0x3a:                                                                         // VRSQRT: Q = fs.fsf / sqrt(ft.ftf)
+        cpu.q = EE_FPU_RSQRT_S(vf(fs, static_cast<int>(op >> 21 & 3)), vf(ft, static_cast<int>(op >> 23 & 3)));
+        return;
+    case 0x3b: return;                                                                 // VWAITQ
+    default: fail("unsupported VU0 instruction", pc, op);
+    }
+}
+
 void Interpreter::step()
 {
     const uint32_t pc = pc_;
@@ -141,7 +313,11 @@ void Interpreter::step()
         case 0x09: setD(pc + 8); npc_ = static_cast<uint32_t>(s); break;                    // JALR
         case 0x0a: if (t == 0) setD(s); break;                                              // MOVZ
         case 0x0b: if (t != 0) setD(s); break;                                              // MOVN
-        case 0x0d: fw_trap(op >> 16 & 0x3ff);                                               // BREAK
+        case 0x0d: {                                                                        // BREAK
+            // The code is in bits 16..25 (break 7, 0) or 6..15 (break 7).
+            const uint32_t code = op >> 6 & 0xfffff;
+            fw_trap(code > 0x3ff ? code >> 10 : code);
+        }
         case 0x0f: break;                                                                   // SYNC
         case 0x10: setD(cpu.hi); break;
         case 0x11: cpu.hi = s; break;
@@ -150,33 +326,9 @@ void Interpreter::step()
         case 0x14: setD(t << (s & 63)); break;                                              // DSLLV
         case 0x16: setD(t >> (s & 63)); break;                                              // DSRLV
         case 0x17: setD(static_cast<uint64_t>(s64(t) >> (s & 63))); break;                  // DSRAV
-        case 0x18: {                                                                        // MULT
-            int64_t p = static_cast<int64_t>(static_cast<int32_t>(s)) * static_cast<int32_t>(t);
-            cpu.lo = sx32(static_cast<uint64_t>(p));
-            cpu.hi = sx32(static_cast<uint64_t>(p) >> 32);
-            setD(cpu.lo);
+        case 0x18: case 0x19: case 0x1a: case 0x1b:                                         // MULT(U), DIV(U)
+            multiplyDivide(op & 63, s, t, d, cpu.hi, cpu.lo);
             break;
-        }
-        case 0x19: {                                                                        // MULTU
-            uint64_t p = static_cast<uint64_t>(static_cast<uint32_t>(s)) * static_cast<uint32_t>(t);
-            cpu.lo = sx32(p);
-            cpu.hi = sx32(p >> 32);
-            setD(cpu.lo);
-            break;
-        }
-        case 0x1a: {                                                                        // DIV
-            int32_t a = static_cast<int32_t>(s), b = static_cast<int32_t>(t);
-            if (b == 0) { cpu.lo = a < 0 ? 1 : ~0ull; cpu.hi = sx32(static_cast<uint32_t>(a)); }
-            else if (a == INT32_MIN && b == -1) { cpu.lo = sx32(static_cast<uint32_t>(a)); cpu.hi = 0; }
-            else { cpu.lo = sx32(static_cast<uint32_t>(a / b)); cpu.hi = sx32(static_cast<uint32_t>(a % b)); }
-            break;
-        }
-        case 0x1b: {                                                                        // DIVU
-            uint32_t a = static_cast<uint32_t>(s), b = static_cast<uint32_t>(t);
-            if (b == 0) { cpu.lo = ~0ull; cpu.hi = sx32(a); }
-            else { cpu.lo = sx32(a / b); cpu.hi = sx32(a % b); }
-            break;
-        }
         case 0x20: case 0x21: setD(sx32(s + t)); break;                                     // ADD(U)
         case 0x22: case 0x23: setD(sx32(s - t)); break;                                     // SUB(U)
         case 0x24: setD(s & t); break;
@@ -353,9 +505,83 @@ void Interpreter::step()
         }
         break;
     }
+    // COP2: VU0 in macro mode.
+    case 0x36:                                                                  // LQC2
+        for (int i = 0; i < 4; ++i)
+            setVf(rt, i, load<uint32_t>((address & ~15u) + 4u * static_cast<uint32_t>(i)));
+        break;
+    case 0x3e:                                                                  // SQC2
+        for (int i = 0; i < 4; ++i)
+            store<uint32_t>((address & ~15u) + 4u * static_cast<uint32_t>(i), vf(rt, i));
+        break;
+    case 0x12:
+        if (rs & 0x10) {
+            vu0(pc, op);
+            break;
+        }
+        switch (rs) {
+        case 0x01:                                                              // QMFC2
+            setT(static_cast<uint64_t>(vf(rd, 1)) << 32 | vf(rd, 0));
+            if (rt)
+                cpu.upper[rt] = static_cast<uint64_t>(vf(rd, 3)) << 32 | vf(rd, 2);
+            break;
+        case 0x05:                                                              // QMTC2
+            setVf(rd, 0, static_cast<uint32_t>(t));
+            setVf(rd, 1, static_cast<uint32_t>(t >> 32));
+            setVf(rd, 2, rt ? static_cast<uint32_t>(cpu.upper[rt]) : 0);
+            setVf(rd, 3, rt ? static_cast<uint32_t>(cpu.upper[rt] >> 32) : 0);
+            break;
+        default: fail("unsupported COP2 transfer", pc, op);
+        }
+        break;
+
+    // MMI: the second multiply pipeline and the packing instructions.
+    case 0x1c:
+        switch (op & 63) {
+        case 0x10: setD(cpu.hi1); goto done;                                    // MFHI1
+        case 0x11: cpu.hi1 = s; goto done;                                      // MTHI1
+        case 0x12: setD(cpu.lo1); goto done;                                    // MFLO1
+        case 0x13: cpu.lo1 = s; goto done;                                      // MTLO1
+        case 0x18: case 0x19: case 0x1a: case 0x1b:                             // MULT1, MULTU1, DIV1, DIVU1
+            multiplyDivide(op & 63, s, t, d, cpu.hi1, cpu.lo1);
+            goto done;
+        default: break;
+        }
+        if ((op & 63) == 0x08 && (sa == 0x17 || sa == 0x1b)) {
+            const uint64_t low[2] = {t, rt ? cpu.upper[rt] : 0}, high[2] = {s, rs ? cpu.upper[rs] : 0};
+            auto pack = [&](const uint64_t (&v)[2]) {
+                uint64_t out = 0;
+                if (sa == 0x17) {   // PPACH: the even halfwords
+                    for (int i = 0; i < 4; ++i)
+                        out |= (v[i / 2] >> (32 * (i % 2)) & 0xffff) << (16 * i);
+                } else {            // PPACB: the even bytes
+                    for (int i = 0; i < 8; ++i)
+                        out |= (v[i / 4] >> (16 * (i % 4)) & 0xff) << (8 * i);
+                }
+                return out;
+            };
+            if (rd) {
+                const uint64_t lo = pack(low), hi = pack(high);
+                cpu.r[rd] = lo;
+                cpu.upper[rd] = hi;
+            }
+            break;
+        }
+        if ((op & 63) == 0x09 && (sa == 0x1e || sa == 0x1f)) {                  // PEXEW, PROT3W
+            const uint32_t w[4] = {static_cast<uint32_t>(t), static_cast<uint32_t>(t >> 32),
+                                   rt ? static_cast<uint32_t>(cpu.upper[rt]) : 0u, rt ? static_cast<uint32_t>(cpu.upper[rt] >> 32) : 0u};
+            const uint32_t out[4] = {sa == 0x1e ? w[2] : w[1], sa == 0x1e ? w[1] : w[2], w[0], w[3]};
+            if (rd) {
+                cpu.r[rd] = static_cast<uint64_t>(out[1]) << 32 | out[0];
+                cpu.upper[rd] = static_cast<uint64_t>(out[3]) << 32 | out[2];
+            }
+            break;
+        }
+        fail("unsupported MMI instruction", pc, op);
     default: fail("unsupported instruction", pc, op);
     }
 
+done:
     if (skipDelaySlot) {
         next = npc_;
         npc_ = next + 4;

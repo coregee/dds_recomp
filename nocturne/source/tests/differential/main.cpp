@@ -207,7 +207,10 @@ void randomWorld(Gen& g)
     data.packno = g.range(0, 3);
     data.packindex = g.range(0, 11);
     static const int32_t kSpecialEncounters[] = {0, 0x10b, 0x11c, 0x149, 0x408, -1};
-    data.encno = g.chance(10) ? g.pick(kSpecialEncounters) : g.range(1, 1279);
+    // Boss refights (datBossPress_t encounters) sometimes.
+    static const int32_t kRefights[] = {14, 55, 83, 84, 116, 117, 271, 194, 196, 197, 198, 199,
+                                        713, 714, 329, 327, 328, 284, 970, 1008, 334, 472, 333, 267};
+    data.encno = g.chance(10) ? g.pick(kSpecialEncounters) : g.chance(20) ? g.pick(kRefights) : g.range(1, 1279);
     if (data.encno < 0) data.encno = g.range(1, 1279);
     static const uint32_t kStatBits[] = {0x1, 0x8, 0x10, 0x80, 0x400};
     for (uint32_t bit : kStatBits) if (g.chance(30)) data.stat |= bit;
@@ -228,6 +231,12 @@ void randomWorld(Gen& g)
     action.data.address = FW_MAIN;
     action.autoskill = -1;
 }
+
+} // namespace
+
+void difftest::battleWorld(Gen& g) { randomWorld(g); }
+
+namespace {
 
 // Formation indices that hold a unit.
 int occupiedForm(Gen& g, int lo = 0, int hi = 13)
@@ -317,7 +326,19 @@ const StaticRange kWrittenStatics[] = {
     {0x0054ea20, 4},                                       // pointer to the entered names
     {0x0056c880, 0x40},                                    // BuildCharacterName's buffer
     {0x0054e994, 0xc},                                     // the running scripts
-    {0x0054e970, 8},                                       // the screen quake
+    {0x0054e95c, 0x28},                                    // dds3DrawFlag, the screen blur and quake, refused settings
+    {0x00551bac, 12},                                      // the screen blur's fade
+    {0x00551c10, 0x48},                                    // the event effects' fades
+    {0x005572c0, 0x1f0},                                   // their settings
+    {0x0054f278, 8},                                       // which event effects are drawn
+    {0x003201d0, 0x28},                                    // Eve_Blur's settings
+    {0x00320258, 0x18},                                    // Eve_Filter's settings
+    {0x002f59bc, 4},                                       // the field of view
+    {0x002f5b40, 0x34},                                    // lights, ambient, fog
+    {0x00551bc0, 0x50},                                    // the light, ambient, fog and soften fades
+    {0x00557220, 0x80},                                    // the light colours' packed ends, direction turns
+    {0x005572a0, 0x20},                                    // the fog parameters' ends
+    {0x005518a8, 8},                                       // soften, bias
     {0x00551c58, 0x24},                                    // TwoOperation's operands; the running COMM's work
 };
 
@@ -825,7 +846,10 @@ std::vector<TestCase> tests()
     addAiTests(t);
     addMessageTests(t);
     addFontTests(t);
+    addPanelTests(t);
     addScriptTests(t);
+    addDataTests(t);
+    addKoukaTests(t);
     return t;
 }
 

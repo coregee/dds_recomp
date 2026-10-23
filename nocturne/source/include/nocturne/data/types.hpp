@@ -68,6 +68,9 @@ inline constexpr uint32_t Valid           = 0x01;
 inline constexpr uint32_t InParty         = 0x02; // with Valid: an active stock member
 inline constexpr uint32_t PlayerCharacter = 0x04; // the Demi-fiend (tentative name)
 inline constexpr uint32_t Enemy           = 0x20;
+inline constexpr uint32_t Unique          = 0x400;  // a story demon with a unique ID (datAddUniqueDevil)
+inline constexpr uint32_t KeepInStock     = 0x800;  // set by prm_UDV_DELETE_NG (tentative: can't be dismissed)
+inline constexpr uint32_t Pixie           = 0x1000; // unique ID 1: the Pixie who joins first ("Pikuko")
 } // namespace UnitFlag
 
 // Packed affinity word returned by nbGetAisyo / stored in affinity tables.

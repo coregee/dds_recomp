@@ -31,7 +31,7 @@ cl %CFLAGS% "%LEGACY%\tests\ee_fpu_values.c" /Fo"%OUT%\ee_fpu_values.obj" || got
 cl %CFLAGS% "%ROOT%\third_party\ps2float\ps2float.c" /Fo"%OUT%\ps2float.obj" || goto :failed
 
 rem The rewrite: every module plus the generated data tables.
-for %%F in ("%SOURCE%\src\battle\*.cpp" "%SOURCE%\src\data\*.cpp" "%SOURCE%\src\facility\*.cpp" "%SOURCE%\src\fusion\*.cpp" "%SOURCE%\src\interface\*.cpp" "%SOURCE%\src\kernel\*.cpp" "%SOURCE%\src\libc\*.cpp" "%SOURCE%\src\platform\*.cpp" "%SOURCE%\src\script\*.cpp" "%SOURCE%\tests\differential\*.cpp") do (
+for %%F in ("%SOURCE%\src\battle\*.cpp" "%SOURCE%\src\data\*.cpp" "%SOURCE%\src\ee\*.cpp" "%SOURCE%\src\effect\*.cpp" "%SOURCE%\src\facility\*.cpp" "%SOURCE%\src\fusion\*.cpp" "%SOURCE%\src\interface\*.cpp" "%SOURCE%\src\kernel\*.cpp" "%SOURCE%\src\libc\*.cpp" "%SOURCE%\src\platform\*.cpp" "%SOURCE%\src\script\*.cpp" "%SOURCE%\tests\differential\*.cpp") do (
     cl %CXXFLAGS% "%%~F" /Fo"%OUT%\%%~nF.obj" || goto :failed
 )
 

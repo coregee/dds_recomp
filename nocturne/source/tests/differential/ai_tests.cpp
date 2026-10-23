@@ -5,6 +5,8 @@
 #include <cstring>
 
 #include "harness.hpp"
+#include "interface_world.hpp"
+#include "nocturne/battle/action.hpp"
 #include "nocturne/battle/ai.hpp"
 #include "nocturne/battle/ai_script.hpp"
 #include "nocturne/battle/process.hpp"
@@ -118,8 +120,8 @@ void prepareAi(Gen& g)
     select.data.address = FW_MAIN;
     select.act.address = kAct;
 
-    int32_t* params = &at<int32_t>(FW_SCRIPT);
-    for (int i = 0; i < 8; ++i) params[i] = g.chance(80) ? g.range(0, 100) : g.range(0, 0x17f);   // negative ones make invalid conditions
+    scriptWork();
+    for (int i = 0; i < 8; ++i) scriptParam(i, g.chance(80) ? g.range(0, 100) : g.range(0, 0x17f));   // negative ones make invalid conditions
     at<int32_t>(0x005514e8) = g.range(-3, 20);   // the rotation counter (static, restored by the harness)
 }
 
@@ -225,6 +227,9 @@ void addAiTests(std::vector<TestCase>& t)
     });
     add("nbRunAi", [](Gen&) {
         return Pair{[] { return norm(nbRunAi(kAct)); }, [] { return norm(nb::ai::run(act())); }};
+    });
+    add("SetAction_AI", [](Gen&) {
+        return Pair{[] { return iface::origVmVoid(0x00253bf8, {kAct}); }, [] { nb::SetAction_AI(act()); return uint64_t{0}; }};
     });
 
     // ---- choosing targets --------------------------------------------------------------

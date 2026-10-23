@@ -109,15 +109,33 @@ struct MainProcessData {
     uint8_t turn;
     int8_t phase, nextphase;
     uint8_t esccnt;           // escape attempts so far; each one helps
-    uint8_t unknown_6c[0x84 - 0x6c];
+    uint16_t phasetime;
+    uint32_t battletime;
+    ee::Float press3;
+    int16_t press4_p;         // press turns: full icons left
+    int16_t press4_ten;       // ... and blinking (half) ones
+    int16_t press4_hansya, press4_miss;
+    int16_t StageMajor, StageMinor;
     int32_t summonallowed;    // nonzero: enemies may call allies (tentative; HD order suggests nakamayobi)
     int32_t aiextra;          // set by AI command 0xExxx with action 9 (meaning unknown)
-    uint8_t unknown_8c[0x98 - 0x8c];
+    int32_t eventrid;         // tentative (HD order)
+    int16_t negopformindex, negoeformindex;   // tentative (HD order): the talks' two sides
+    int32_t negoresult;       // nonzero: an AI script started talks (CheckAction_AISCR)
     uint8_t item[4];          // spoils so far
     uint8_t itemcnt[4];
     uint32_t maka;            // Macca earned
     uint32_t exp;             // EXP earned
-    uint8_t unknown_a8[0x14c - 0xa8];
+    uint32_t baselight, niidalight, gamecamera, niidacamera, eventcamera;   // tentative (HD order)
+    // The battle's processes.
+    uint32_t MainProcessID;   // the battle itself; AI scripts run as its children
+    uint32_t MaeProcessID, AtoProcessID, ResultProcessID, StageProcessID, UnitProcessID;   // tentative (HD order)
+    uint32_t ActionProcessID[4];   // a ring of action processes (battle/action.hpp)
+    int32_t NowActionProcess;
+    uint32_t CommSelProcessID, TarSelProcessID, EffectProcessID;   // tentative (HD order)
+    uint32_t KoukaProcessID;  // the presentation queue's process (battle/kouka.hpp)
+    uint32_t NegoProcessID, CameraProcessID, DebugProcessID;   // tentative (HD order)
+    uint32_t AiScriptProcessID;   // the AI or death script running, or 0
+    uint8_t unknown_108[0x14c - 0x108];
     int32_t piercedResistance;   // set when Pierce ignored Null/Drain (tentative name)
 };
 static_assert(offsetof(MainProcessData, party) == 0x10);
@@ -127,6 +145,10 @@ static_assert(offsetof(MainProcessData, endtype) == 0x44);
 static_assert(offsetof(MainProcessData, orderindex) == 0x54);
 static_assert(offsetof(MainProcessData, stat) == 0x60);
 static_assert(offsetof(MainProcessData, esccnt) == 0x6b);
+static_assert(offsetof(MainProcessData, press4_p) == 0x78 && offsetof(MainProcessData, summonallowed) == 0x84);
+static_assert(offsetof(MainProcessData, KoukaProcessID) == 0xf4);
+static_assert(offsetof(MainProcessData, negoresult) == 0x94 && offsetof(MainProcessData, MainProcessID) == 0xbc);
+static_assert(offsetof(MainProcessData, AiScriptProcessID) == 0x104);
 static_assert(offsetof(MainProcessData, item) == 0x98);
 static_assert(offsetof(MainProcessData, exp) == 0xa4);
 static_assert(offsetof(MainProcessData, piercedResistance) == 0x14c);
@@ -143,17 +165,28 @@ inline constexpr uint32_t DebugAlwaysRepel    = 0x40000000; // debug event bit 0
 
 // nbActionProcessData: one unit's action in progress. Also the enemy AI's
 // working state (the ai* fields).
+// nbTimeList_t: when a unit is next free and done during an action, and
+// its HP as the action's packets will leave it.
+struct TimeList {
+    uint16_t lockframe;
+    uint16_t endframe;
+    uint16_t hp;
+    uint16_t pad;
+};
+
+// (The PS2 record has no uniqueid: the action's own address identifies its
+// kouka packets.)
 struct ActionProcessData {
     Ptr32<MainProcessData> data;
     uint32_t stat;
-    int32_t uniqueid;
-    int8_t seq, nextseq;
+    int8_t seq, nextseq;      // the action's state (ActionSeq)
     uint16_t seqtime;
     int32_t seqcnt;
     int32_t skilltime;
     ee::Float press;
     int32_t newpresstype;
     int16_t newpress_p, newpress_ten;
+    int32_t newaddpresstype;
     Ptr32<Party> party;       // the acting unit's
     Ptr32<Formation> form;
     Ptr32<UnitWork> work;
@@ -168,7 +201,12 @@ struct ActionProcessData {
     int32_t autoskill;        // passive that fired (e.g. Might); tentative name
     int32_t allhpdamage, allmpdamage;
     int32_t massuruid;        // the skill item 1 rolled (nbGetItemSkillNo)
-    uint8_t unknown_68[0x190 - 0x68];
+    uint8_t unknown_68[0x74 - 0x68];   // three of the HD's negotype, motion, motse, motionO
+    uint32_t hEffBTL;         // the skill's effect (effBTL_t)
+    uint32_t hBed, hSkillSe, hSkillMem, skillmidi;
+    TimeList timelist[32];    // by formation index
+    uint32_t packettime;
+    int32_t hitstopframe;
     uint32_t aiselect;        // targets the AI conditions picked, one bit per party index
     int32_t aijokentbl;       // which AI check is being evaluated
     int8_t aichktbl[5];       // actions already tried this turn
@@ -179,6 +217,7 @@ static_assert(offsetof(ActionProcessData, party) == 0x24);
 static_assert(offsetof(ActionProcessData, select) == 0x3c);
 static_assert(offsetof(ActionProcessData, autoskill) == 0x58);
 static_assert(offsetof(ActionProcessData, aiselect) == 0x190);
+static_assert(offsetof(ActionProcessData, seq) == 0x08 && offsetof(ActionProcessData, timelist) == 0x88);
 static_assert(offsetof(ActionProcessData, aisummonid) == 0x1a0);
 
 // nbTarSelProcessData: the target-selection process (cursor and lists).

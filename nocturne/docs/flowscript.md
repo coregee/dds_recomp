@@ -93,15 +93,17 @@ Quirks kept as they are:
 - `scrStartScript1a/2/3` don't check that the script was added; the callers
   pass procedures that exist.
 
-The VM's own commands are rewritten with it: `BIT_CHK` / `BIT_ON` /
-`BIT_OFF`, `RND` (1..n), `SYNC`, `WAIT`, `PUT` / `PUTS` (debug prints),
-`FADE_IN` / `FADE_OUT` (mode 0 black, 1 white), `SEL_JMP`, `PAD_TRIG` /
-`PAD_PRESS`, `SCR_RUN` / `SCR_KILL` / `SCR_WAIT` / `SCR_STAT` / `SCR_TIME`
-(other procedures of the same script as processes of their own) and
-`QUAKE_ON(frames, range)` / `QUAKE_OFF` (`dds3SetQuake`: 0 frames shakes
-until stopped). The rest of `scrCommonCommand` (`PAD_ACT`, `SET_FOVY`, scene
-lighting, blur and filters) is still in the original, as are the commands of
-the other modules.
+The commands every script has (`scrCommonCommand`,
+`source/src/script/commands.cpp`) are rewritten with it: `BIT_CHK` /
+`BIT_ON` / `BIT_OFF`, `RND` (1..n), `SYNC`, `WAIT`, `PUT` / `PUTS` (debug
+prints), `FADE_IN` / `FADE_OUT` (mode 0 black, 1 white), `SEL_JMP`, the pad,
+`SCR_RUN` / `SCR_KILL` / `SCR_WAIT` / `SCR_STAT` / `SCR_TIME` (other
+procedures of the same script as processes of their own), and the screen
+effects, lights, fog, quake and field of view
+([screen-effects.md](screen-effects.md)). The parameter commands (`prm_*`: items, Magatama, Macca, the
+stock, boss refights; `parameter_commands.cpp`) are described in
+[party-and-field.md](party-and-field.md); the other modules' commands are
+still the original.
 
 ## Command names
 

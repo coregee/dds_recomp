@@ -41,8 +41,11 @@ sacrifices, accidents, Fiends), Magatama (bonuses, skills, mastery, the
 Demi-fiend's race), the compendium (`fclEncyc`) and the enemy AI (`nbAi`:
 conditions, action tables, target choice, AI script commands, targeting),
 the message windows (`itfMesManager`: dialogs, selections, the script
-commands that drive them) and the font engine (`frFont`: text layout, the
-glyph cache, entered names), plus the C library `qsort` the game sorts with.
+commands that drive them), the font engine (`frFont`: text layout, the
+glyph cache, entered names), the FlowScript VM and the commands every script
+uses (`scr*`; screen effects, lights and fog: [docs/screen-effects.md](docs/screen-effects.md);
+the party, stock, Macca and field damage: [docs/party-and-field.md](docs/party-and-field.md)),
+plus the C library `qsort` the game sorts with.
 Functions without legacy C are tested against the original instructions,
 run by an EE interpreter in the differential test.
 Scripts as source: every FlowScript — the enemy AI scripts embedded in the

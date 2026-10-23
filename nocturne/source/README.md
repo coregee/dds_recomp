@@ -38,10 +38,16 @@ include/nocturne/
   fusion/accident.hpp    fusion accidents
   fusion/sort.hpp        inherited-skill and devil-list sorting
   libc/qsort.hpp         the PS2 C library qsort (its tie order is observable)
-  interface/message.hpp  message windows (itfMesManager), panels
+  interface/message.hpp  message windows (itfMesManager)
+  interface/panel.hpp    window backgrounds (itfPanel)
   interface/font.hpp     the font engine (frFont)
-  script/vm.hpp          the FlowScript VM: processes, opcodes, its own commands
-  kernel/quake.hpp       the screen quake (dds3SetQuake)
+  script/vm.hpp          the FlowScript VM: processes, opcodes, argument access
+  script/commands.hpp    the commands every script uses (scrCommonCommand, scrParameterCommand)
+  data/field_skill.hpp   skills used outside battle, field damage to the party
+  battle/kouka.hpp       the battle's presentation queue (kouka packets)
+  battle/action.hpp      an action's state machine and time list
+  kernel/draw.hpp        the kernel's screen state: quake, blur, effect fades, lights, fog
+  effect/event.hpp       the event screen effects' switches and settings (effEvent)
   external.hpp           engine functions not rewritten yet (bridged to legacy C)
 src/
   data/unit.cpp, progression.cpp   datCalc
@@ -52,8 +58,14 @@ src/
   fusion/*.cpp                      cmb / fclCombineCalcCore, by topic
   interface/message.cpp             itfMesManager: message windows, selections
   interface/font*.cpp               frFont: text layout, glyph cache, message pages
-  script/vm.cpp                     ScrScriptProcess, ScrTraceCode, scrCommonCommand
-  kernel/quake.cpp                  dds3KernelDraw: the screen quake
+  script/vm.cpp                     ScrScriptProcess, ScrTraceCode
+  script/commands.cpp               scrCommonCommand
+  script/parameter_commands.cpp     scrParameterCommand: the prm_* commands
+  data/field_skill.cpp              datCalc: skills from the menu, the field's damage to the party
+  battle/kouka.cpp                  nbKoukaProcess, nbMakePacket: queueing an action's presentation
+  battle/action.cpp                 nbActionProcess: states, the time list
+  kernel/draw.cpp                   dds3KernelDraw: screen state set by the scripts
+  effect/event.cpp                  effEvent
   libc/*.cpp                        C library functions whose exact behaviour matters
   platform/legacy_bridge.cpp        external.hpp -> legacy C ABI
 scripts/                 FlowScript: .flow (readable) and .flowasm (exact) per script,

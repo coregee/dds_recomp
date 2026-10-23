@@ -12,6 +12,7 @@
 #include <cstring>
 
 #include "nocturne/external.hpp"
+#include "nocturne/script/vm.hpp"
 
 namespace nocturne {
 
@@ -830,7 +831,7 @@ void OpenMessagePanel(Instance& pinst)
 {
     Window& w = pinst.window;
     if (!w.mes)
-        w.mes.address = itf::PnlRegist2(pinst.type == 2 ? 8 : 6, manager().texture);
+        w.mes.address = itf::PnlRegist2(pinst.type == 2 ? itf::kPanelFacility : itf::kPanelMesWin2, manager().texture);
     const IVector2 pos = pinst.message.pos;
     itf::PnlSetPosition(w.mes.address, pos.x + w.mes_offset[0], pos.y + w.mes_offset[1], pos.x + w.mes_offset[2],
                         pos.y + w.mes_offset[3], pinst.z);
@@ -848,7 +849,7 @@ void OpenSpeakerPanel(Instance& pinst)
     if (s.pfont && !(pinst.stat & kNoSpeakerName)) {
         if (!w.spk) {
             int32_t width = s.pfont->w_pxls << 4;
-            uint32_t panel = itf::PnlRegist2(7, manager().texture);
+            uint32_t panel = itf::PnlRegist2(itf::kPanelSpkWin2, manager().texture);
             w.spk.address = panel;
             itf::PnlSetPosition(panel, s.pos.x - 720, s.pos.y - 104, s.pos.x + width + 720, s.pos.y + 232, pinst.z);
             itf::PnlSetColor(w.spk.address, 127, 127, 127, 0);
@@ -1377,11 +1378,11 @@ void CalcManagerProc()
 // MESSAGE(n): shows message n; done once it has finished.
 int32_t CommandMessage()
 {
-    int32_t id = scr::GetMessageHandle();
+    int32_t id = scr::scrGetMessageHandle();
     if (id < 0)
         return 1;
     Instance& pinst = instance(id);
-    int32_t message = scr::GetIntPara(0);
+    int32_t message = scr::scrGetIntPara(0);
     int8_t phase = pinst.message.phase;
     if (phase == 0)
         return RequestMessage(id, message, 0) ? 0 : 1;
@@ -1401,11 +1402,11 @@ void CommandSetPhase(int32_t msgid, int8_t phase) { instance(msgid).message.phas
 // becomes the command's result.
 int32_t CommandSelect()
 {
-    int32_t id = scr::GetMessageHandle();
+    int32_t id = scr::scrGetMessageHandle();
     if (id < 0)
         return 1;
     Instance& pinst = instance(id);
-    int32_t select = scr::GetIntPara(0);
+    int32_t select = scr::scrGetIntPara(0);
     int16_t phase = pinst.select.phase;
     if (phase == 0) {
         RequestSelect(id, select);
@@ -1414,7 +1415,7 @@ int32_t CommandSelect()
     if (phase >= 0)
         return 0;
     pinst.select.phase = 0;
-    scr::SetIntReturnValue(pinst.select.select);
+    scr::scrSetIntReturnValue(pinst.select.select);
     RequestSelectRelease(id);
     return 1;
 }
@@ -1429,18 +1430,18 @@ int16_t CommandGetSelectNo(int32_t msgid) { return instance(msgid).select.select
 // itfMesMngMaskSelect @ 0x001CD510: MASK_SELECT(mask) hides options.
 int32_t CommandMaskSelect()
 {
-    int32_t id = scr::GetMessageHandle();
+    int32_t id = scr::scrGetMessageHandle();
     if (id >= 0)
-        SetMaskSelect(id, static_cast<uint32_t>(scr::GetIntPara(0)));
+        SetMaskSelect(id, static_cast<uint32_t>(scr::scrGetIntPara(0)));
     return 1;
 }
 
 // itfMesMng_SEL_SELNO @ 0x001CD560: SEL_SELNO(n) puts the cursor on option n.
 int32_t CommandSetSelectNo()
 {
-    int32_t id = scr::GetMessageHandle();
+    int32_t id = scr::scrGetMessageHandle();
     if (id >= 0)
-        SetSelect(id, scr::GetIntPara(0));
+        SetSelect(id, scr::scrGetIntPara(0));
     return 1;
 }
 
@@ -1448,7 +1449,7 @@ int32_t CommandSetSelectNo()
 // OPEN_MSG_WIN: the next message fades the window in.
 int32_t CommandOpenWindow()
 {
-    int32_t id = scr::GetMessageHandle();
+    int32_t id = scr::scrGetMessageHandle();
     if (id >= 0)
         MarkBitStat(id, kWindowOpen);
     return 1;
@@ -1458,7 +1459,7 @@ int32_t CommandOpenWindow()
 // CLOSE_MSG_WIN: fades the window out; done once it is gone.
 int32_t CommandCloseWindow()
 {
-    int32_t id = scr::GetMessageHandle();
+    int32_t id = scr::scrGetMessageHandle();
     if (id < 0)
         return 1;
     uint32_t phase = instance(id).stat & kWindowPhaseMask;
@@ -1476,9 +1477,9 @@ int32_t CommandCloseSelectWindow() { return 1; }
 // IGNORE_CONFIG(on): the player's message speed doesn't hurry the text.
 int32_t CommandIgnoreConfig()
 {
-    int32_t id = scr::GetMessageHandle();
+    int32_t id = scr::scrGetMessageHandle();
     if (id >= 0) {
-        if (scr::GetIntPara(0) == 0)
+        if (scr::scrGetIntPara(0) == 0)
             ClearBitStat(id, kKeepSpeed);
         else
             MarkBitStat(id, kKeepSpeed);
@@ -1489,10 +1490,10 @@ int32_t CommandIgnoreConfig()
 // itfMesMngSetMesPositionScript @ 0x001CD7F8: MSG_POS(x, y) in pixels.
 int32_t CommandSetMesPosition()
 {
-    int32_t id = scr::GetMessageHandle();
+    int32_t id = scr::scrGetMessageHandle();
     if (id >= 0) {
-        int32_t x = scr::GetIntPara(0);
-        int32_t y = scr::GetIntPara(1);
+        int32_t x = scr::scrGetIntPara(0);
+        int32_t y = scr::scrGetIntPara(1);
         SetMesPosition(id, x << 4, y << 3);
     }
     return 1;
@@ -1501,7 +1502,7 @@ int32_t CommandSetMesPosition()
 // itfMesMngSetMesPosDefault @ 0x001CD860
 int32_t CommandSetMesPosDefault()
 {
-    int32_t id = scr::GetMessageHandle();
+    int32_t id = scr::scrGetMessageHandle();
     if (id >= 0)
         SetMesPosition(id, 0x4b0, 0xa88);
     return 1;
@@ -1511,9 +1512,9 @@ int32_t CommandSetMesPosDefault()
 // VALIDATE_NEXT(on): 0 makes pages end without waiting for the button.
 int32_t CommandValidateNext()
 {
-    int32_t id = scr::GetMessageHandle();
+    int32_t id = scr::scrGetMessageHandle();
     if (id >= 0) {
-        if (scr::GetIntPara(0) == 0) {
+        if (scr::scrGetIntPara(0) == 0) {
             MarkBitStat(id, kAutoNext);
             MarkBitStat(id, kNoCursor);
         } else {
@@ -1527,19 +1528,19 @@ int32_t CommandValidateNext()
 // itfMesMngWindowType @ 0x001CD920
 int32_t CommandWindowType()
 {
-    int32_t id = scr::GetMessageHandle();
+    int32_t id = scr::scrGetMessageHandle();
     if (id >= 0)
-        ChangeWindowType(id, scr::GetIntPara(0), 0);
+        ChangeWindowType(id, scr::scrGetIntPara(0), 0);
     return 1;
 }
 
 // itfMesMngWindowTypeAlpha @ 0x001CD970
 int32_t CommandWindowTypeAlpha()
 {
-    int32_t id = scr::GetMessageHandle();
+    int32_t id = scr::scrGetMessageHandle();
     if (id >= 0) {
-        int32_t type = scr::GetIntPara(0);
-        int32_t alpha = scr::GetIntPara(1);
+        int32_t type = scr::scrGetIntPara(0);
+        int32_t alpha = scr::scrGetIntPara(1);
         ChangeWindowType(id, type, alpha);
     }
     return 1;
@@ -1548,10 +1549,10 @@ int32_t CommandWindowTypeAlpha()
 // itfMesMngSelectDefKey @ 0x001CD9D8: SELECT_DEFKEY(key, option).
 int32_t CommandSelectDefKey()
 {
-    int32_t id = scr::GetMessageHandle();
+    int32_t id = scr::scrGetMessageHandle();
     if (id >= 0) {
-        int32_t key = scr::GetIntPara(0);
-        int32_t index = scr::GetIntPara(1);
+        int32_t key = scr::scrGetIntPara(0);
+        int32_t index = scr::scrGetIntPara(1);
         SetSelectDefKey(id, static_cast<uint16_t>(key), static_cast<uint16_t>(index));
     }
     return 1;
@@ -1561,11 +1562,11 @@ int32_t CommandSelectDefKey()
 // itfMesMngSetVarScr @ 0x001CD710: SET_VAR(index, value, type).
 int32_t CommandSetVar()
 {
-    int32_t id = scr::GetMessageHandle();
+    int32_t id = scr::scrGetMessageHandle();
     if (id >= 0) {
-        int32_t index = scr::GetIntPara(0);
-        int32_t number = scr::GetIntPara(1);
-        int32_t type = scr::GetIntPara(2);
+        int32_t index = scr::scrGetIntPara(0);
+        int32_t number = scr::scrGetIntPara(1);
+        int32_t type = scr::scrGetIntPara(2);
         SetVarFormatted(id, index, number, static_cast<uint64_t>(static_cast<int64_t>(type)));
     }
     return 1;

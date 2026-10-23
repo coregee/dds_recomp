@@ -29,7 +29,7 @@ enum {
     FW_SCRATCH    = 0x01105400, /* 0xC00 bytes for test buffers */
     FW_DYNAMIC_BEGIN = 0x01000000,
     FW_TARSEL     = 0x01106000, /* nbTarSelProcessData */
-    FW_SCRIPT     = 0x01106100, /* fake script VM: int params [8], then returns: count, values;
+    FW_SCRIPT     = 0x01106100, /* the running command's script work (scr::ProcessWork, harness.hpp);
                                    at 0x60 the message handle */
     FW_MES_INSTANCE = 0x01107000, /* two message windows (instanceMes_tag, 0x200 apart) */
     FW_MES_TABLE  = 0x011a0000,   /* a message table (MSG1), up to 0x10000 bytes */

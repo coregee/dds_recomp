@@ -8,7 +8,12 @@
 
 #include <cstdint>
 
+#include "nocturne/battle/process.hpp"
+
 namespace nocturne::nb::ai::script {
+
+// Starts an AI script procedure for the action (nbInitAiScript).
+void start(ActionProcessData& act, int32_t procedure);
 
 void checkCondition(uint32_t condition);   // nbAiScriptChkJoken
 

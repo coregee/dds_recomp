@@ -3,13 +3,15 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "nocturne/battle/kouka.hpp"
 #include "nocturne/battle/process.hpp"
+#include "nocturne/data/progression.hpp"
 #include "nocturne/data/records.hpp"
 #include "nocturne/fusion/combine.hpp"
 #include "nocturne/fusion/sort.hpp"
 #include "nocturne/interface/font.hpp"
 #include "nocturne/interface/message.hpp"
-#include "nocturne/kernel/quake.hpp"
+#include "nocturne/kernel/draw.hpp"
 #include "nocturne/script/vm.hpp"
 
 namespace ghidra {
@@ -82,6 +84,9 @@ SAME_OFFSET(nbMainProcessData, nb::MainProcessData, esccnt, esccnt);
 SAME_OFFSET(nbMainProcessData, nb::MainProcessData, exp, exp);
 SAME_OFFSET(nbMainProcessData, nb::MainProcessData, piercedResistance, piercedResistance);
 SAME_OFFSET(nbActionProcessData, nb::ActionProcessData, autoskill, autoskill);
+SAME_OFFSET(nbActionProcessData, nb::ActionProcessData, seq, seq);
+SAME_OFFSET(nbActionProcessData, nb::ActionProcessData, timelist, timelist);
+SAME_OFFSET(nbActionProcessData, nb::ActionProcessData, hitstopframe, hitstopframe);
 SAME_OFFSET(nbActionProcessData, nb::ActionProcessData, aiselect, aiselect);
 SAME_OFFSET(nbActionProcessData, nb::ActionProcessData, aisummonid, aisummonid);
 SAME_OFFSET(nbMainProcessData, nb::MainProcessData, summonallowed, summonallowed);
@@ -102,6 +107,18 @@ SAME_SIZE(frMsgInfo, fr::MessageInfo);
 SAME_OFFSET(frSettings, fr::Settings, style, style);
 SAME_OFFSET(frText, fr::Text, next, next);
 SAME_OFFSET(itfpanel, itf::Panel, type, type);
+SAME_OFFSET(nbMainProcessData, nb::MainProcessData, negoresult, negoresult);
+SAME_OFFSET(nbMainProcessData, nb::MainProcessData, MainProcessID, MainProcessID);
+SAME_OFFSET(nbMainProcessData, nb::MainProcessData, AiScriptProcessID, AiScriptProcessID);
+SAME_SIZE(itfPanelMesWinWork, itf::MesWinWork);
+SAME_OFFSET(itfPanelMesWinWork, itf::MesWinWork, shade, shade);
+SAME_SIZE(itfPanelSelWinWork, itf::SelWinWork);
+SAME_SIZE(itfPanelNormalWork, itf::NormalWork);
+SAME_SIZE(itfPanelPlainWork, itf::PlainWork);
+SAME_SIZE(itfPanelPera1Work, itf::Pera1Work);
+SAME_SIZE(itfPanelLeftFadeWork, itf::LeftFadeWork);
+SAME_SIZE(itfPanelFacilityWork, itf::FacilityWork);
+SAME_OFFSET(itfPanelFacilityWork, itf::FacilityWork, edge, edge);
 SAME_SIZE(itfMesBinFileHeader, mes::FileHeader);
 SAME_OFFSET(itfMesBinMesHeader, mes::MesHeader, addr, addr);
 SAME_OFFSET(itfMesBinSelHeader, mes::SelHeader, ptr, ptr);
@@ -126,5 +143,24 @@ SAME_OFFSET(scrProcessWork, scr::ProcessWork, LocalInt, LocalInt);
 SAME_OFFSET(scrProcessWork, scr::ProcessWork, data, data);
 SAME_SIZE(scrScriptList, scr::ScriptList);
 SAME_SIZE(dds3Quake, dds3::Quake);
+SAME_SIZE(dds3Effect_Blur, eff::Blur);
+SAME_SIZE(dds3Effect_PartialMultiBlurParam, eff::PartialMultiBlurParam);
+SAME_SIZE(dds3Effect_DistortionBlurParam, eff::DistortionBlurParam);
+SAME_OFFSET(dds3Effect_DistortionBlurParam, eff::DistortionBlurParam, width, width);
+SAME_SIZE(dds3Effect_RippleBlurParam, eff::RippleBlurParam);
+SAME_OFFSET(dds3Effect_RippleBlurParam, eff::RippleBlurParam, area, area);
+SAME_SIZE(dds3Effect_Filter, eff::Filter);
+SAME_SIZE(dds3Effect_PartialMultiFilterParam, eff::PartialMultiFilterParam);
+SAME_SIZE(sdf3DFogParam, dds3::FogParam);
+SAME_SIZE(dds3EffectFades, dds3::EffectFades);
+SAME_SIZE(dds3SceneFades, dds3::SceneFades);
+SAME_SIZE(datBossPress, dat::BossPress);
+SAME_SIZE(nbKoukaPacket, nb::KoukaPacket);
+SAME_OFFSET(nbKoukaPacket, nb::KoukaPacket, v, v);
+SAME_SIZE(nbKoukaProcessData, nb::KoukaProcessData);
+SAME_OFFSET(nbMainProcessData, nb::MainProcessData, press4_p, press4_p);
+SAME_OFFSET(nbMainProcessData, nb::MainProcessData, KoukaProcessID, KoukaProcessID);
+SAME_OFFSET(dds3SceneFades, dds3::SceneFades, fogrgbbase, fogrgbbase);
+SAME_OFFSET(dds3SceneFades, dds3::SceneFades, biastarget, biastarget);
 
 } // namespace

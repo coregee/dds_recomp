@@ -2,9 +2,9 @@
 // SLUS_209.11 (loaded into the fake RAM by fw_load_elf) so a rewrite can be
 // compared with the game's own code where no legacy C exists.
 //
-// Integer instructions, LQ / SQ and the COP1 FPU (with the EE's own float
-// rules, through the same EE_FPU_* primitives as ee::Float); no VU0 or MMI
-// arithmetic. Registers follow the R5900's rules (32-bit results
+// Integer instructions, LQ / SQ, the COP1 FPU and VU0 macro mode (with the
+// EE's own float rules, through the same EE_FPU_* primitives as ee::Float),
+// and the MMI packing instructions the game uses with VU0 (PPACH, PPACB). Registers follow the R5900's rules (32-bit results
 // sign-extended, three-operand MULT, DIV by zero without a trap). Calls to hooked addresses run a host function instead (the shared
 // fakes of fake_world.c); calls into `interpreted` ranges run the original
 // callee; any other call is a test setup error.
@@ -23,9 +23,13 @@ struct Cpu {
     uint64_t r[32]{};
     uint64_t upper[32]{};        // bits 64..127 (LQ / SQ only)
     uint64_t hi = 0, lo = 0;
+    uint64_t hi1 = 0, lo1 = 0;   // the second multiply / divide pipeline (MULT1, DIV1 ...)
     uint32_t f[32]{};            // COP1 registers, as bits
     uint32_t acc = 0;            // COP1 accumulator
     bool fcc = false;            // COP1 condition
+    uint32_t vf[32][4]{};        // VU0 registers in macro mode (lanes x y z w, as bits); vf0 is (0, 0, 0, 1)
+    uint32_t vacc[4]{};          // VU0 ACC
+    uint32_t q = 0;              // VU0 Q
 
     // Arguments of a hooked call: a0..a3, then t0..t3 (the EE ABI).
     uint64_t arg(int index) const { return r[index < 4 ? 4 + index : 8 + index - 4]; }
@@ -49,6 +53,10 @@ public:
 private:
     bool interpreted(uint32_t address) const;
     void step();
+    void vu0(uint32_t pc, uint32_t op);
+    static void multiplyDivide(uint32_t funct, uint64_t s, uint64_t t, uint64_t* d, uint64_t& hi, uint64_t& lo);
+    uint32_t vf(uint32_t reg, int lane) const;
+    void setVf(uint32_t reg, int lane, uint32_t value);
 
     std::unordered_map<uint32_t, Hook> hooks_;
     std::vector<std::pair<uint32_t, uint32_t>> ranges_;

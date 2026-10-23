@@ -16,9 +16,13 @@
 
 namespace nocturne {
 
-namespace dat {
-bool BossRashChk(int32_t encno);                           // boss refight (reduced rewards)
-} // namespace dat
+namespace eff {
+void BTLDelete(uint32_t handle);                             // effBTLDelete: frees a battle effect
+} // namespace eff
+
+namespace cmp {
+int32_t RemoveDevilEx(uint16_t devil);                     // cmpRemoveDevilEx: a demon leaves the stock
+} // namespace cmp
 
 namespace nb {
 MainProcessData* GetMainProcessData();
@@ -28,22 +32,6 @@ UnitWork* GetUnitWorkPointer(MainProcessData& data, Party& party);
 } // namespace nb
 
 // The script VM (flowscript), as seen by script commands.
-namespace scr {
-uint32_t GetData();                 // the running script's data (for AI scripts: ActionProcessData)
-int32_t GetIntPara(int32_t index);  // an integer argument
-void SetIntReturnValue(int32_t value);
-int32_t GetMessageHandle();         // the script's message window, or negative
-} // namespace scr
-
-// Window panels (itfPanel). Panels are addresses of itf::Panel records.
-namespace itf {
-uint32_t PnlRegist2(int32_t type, uint32_t texture);
-void PnlSetPosition(uint32_t panel, int32_t x0, int32_t y0, int32_t x1, int32_t y1, uint32_t z);
-void PnlSetPositionOffset(uint32_t panel, int32_t x0, int32_t y0, int32_t x1, int32_t y1, uint32_t z);
-void PnlSetColor(uint32_t panel, int32_t red, int32_t green, int32_t blue, int32_t alpha);
-void PnlRelease(uint32_t panel);
-} // namespace itf
-
 // Textures.
 namespace tex {
 uint32_t Load(uint32_t name);              // (0x1CB0D8) load a .TMX file into a texture
@@ -93,6 +81,11 @@ int32_t callCommand(uint32_t entry); // a script command not rewritten yet
 
 // Engine process table.
 namespace dds3 {
+// dds3ProcessID_t, as far as the rewrite reads it.
+struct ProcessID {
+    uint8_t unknown_00[0x20];
+    int32_t priority;
+};
 uint32_t SearchProcessName(uint32_t name);   // name: address of a C string
 uint32_t GetProcessData(uint32_t process);   // the process's data, as an address
 // Starts a process: `processfunc` runs every frame, `shutdownfunc` at its
@@ -103,9 +96,11 @@ int32_t GetFrameIndex();   // which of the two display buffers is being built (0
 void SetProcessData(uint32_t process, uint32_t data);
 void KillProcess(uint32_t process, int32_t delay);
 bool ExistProcess(uint32_t process);
+void LinkProcess(uint32_t parent, uint32_t process);   // makes `process` the last child of `parent`
 int32_t GetRunTime(uint32_t process);
 void FadeIn(int32_t r, int32_t g, int32_t b, int32_t frames);    // from the color
 void FadeOut(int32_t r, int32_t g, int32_t b, int32_t frames);   // to the color
+void PadAct(uint32_t mode, uint8_t pow, uint32_t frame);         // dds3PadAct: the pad's vibration
 } // namespace dds3
 
 namespace evt {
@@ -149,6 +144,12 @@ enum class Message : uint32_t {
     FusionAccident   = 0x0053caf8, // "Combione accident!!!..." (passed the accident type)
     CompendiumFull   = 0x0053d7e8, // "****** FATAL!! The encyclopedia record is bound to burst!!!"
     AiActionTable    = 0x00545830, // "Koukatbl = %d" (the action chosen)
+    DidPhysical      = 0x00544070, // 物理攻撃を行った (made a physical attack): an action's stat bits 0x10000..
+    DidMagicAttack   = 0x00544088, // 魔法攻撃を行った (made a magic attack)
+    DidHeal          = 0x005440a0, // 回復を行った (healed)
+    DidMagic         = 0x005440b0, // 魔法を使用した (used magic)
+    DidItem          = 0x005440c0, // アイテムを使用した (used an item)
+    DidSummon        = 0x005440d8, // 召喚を行った (summoned)
     AiTable          = 0x00545840, // "AItbl = %d"
     AiNoSkill        = 0x005457d8, // "no skill"
     AiNoTarget       = 0x005457e8, // "taisyo nashi!!!" (no target)

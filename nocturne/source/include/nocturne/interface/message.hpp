@@ -10,25 +10,9 @@
 
 #include "nocturne/guest.hpp"
 #include "nocturne/interface/font.hpp"
+#include "nocturne/interface/panel.hpp"
 
 namespace nocturne {
-
-// ---- panels (itfPanel) -------------------------------------------------------------
-
-namespace itf {
-
-// itfpanel_t: a window background.
-struct Panel {
-    uint32_t handle, workhandle;   // memory handles of the panel and its work
-    uint32_t pwork;
-    uint32_t z;
-    int32_t pos[4];                // x0, y0, x1, y1
-    int32_t color[4];              // r, g, b, alpha
-    uint8_t type;
-};
-static_assert(offsetof(Panel, color) == 0x20 && offsetof(Panel, type) == 0x30);
-
-} // namespace itf
 
 // ---- the message table, as loaded ------------------------------------------------
 

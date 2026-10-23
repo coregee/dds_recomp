@@ -76,7 +76,7 @@ address	size	name	name_source	status	rewrite	legacy
 00103a00	304	FUN_00103a00	DEFAULT	unknown		
 00103b30	1260	FUN_00103b30	DEFAULT	unknown		
 00104030	112	FUN_00104030	DEFAULT	unknown		
-001040a8	192	FUN_001040a8	DEFAULT	unknown		
+001040a8	192	dds3PadAct	USER_DEFINED	named		
 00104170	56	FUN_00104170	DEFAULT	unknown		
 001041a8	240	FUN_001041a8	DEFAULT	unknown		
 001042a0	40	FUN_001042a0	DEFAULT	unknown		
@@ -116,9 +116,9 @@ address	size	name	name_source	status	rewrite	legacy
 00104b20	8	FUN_00104b20	DEFAULT	unknown		
 00104b28	8	FUN_00104b28	DEFAULT	unknown		
 00104b30	512	FUN_00104b30	DEFAULT	unknown		
-00104d38	92	dds3SetQuake	USER_DEFINED	rewritten	src/kernel/quake.cpp:dds3SetQuake	
-00104d98	8	dds3StopQuake	USER_DEFINED	rewritten	src/kernel/quake.cpp:dds3StopQuake	
-00104da0	348	FUN_00104da0	DEFAULT	unknown		
+00104d38	92	dds3SetQuake	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetQuake	
+00104d98	8	dds3StopQuake	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3StopQuake	
+00104da0	348	dds3RunQuake	USER_DEFINED	named		
 00104f00	120	FUN_00104f00	DEFAULT	unknown		
 00104f78	40	dds3FadeClear	USER_DEFINED	legacy		field_movement_encounter_constructor.c:body_00104f78;screen_fade.c:dds3FadeClear
 00104fa0	40	ps2FadeSetRGBA	USER_DEFINED	legacy		screen_fade.c:ps2FadeSetRGBA
@@ -131,56 +131,56 @@ address	size	name	name_source	status	rewrite	legacy
 00105158	168	dds3FadeUpdate	USER_DEFINED	legacy		screen_fade.c:dds3FadeUpdate
 00105200	212	FUN_00105200	DEFAULT	unknown		
 001052d8	680	dds3DrawFade	USER_DEFINED	legacy		screen_fade.c:dds3DrawFade
-00105580	12	dds3SetScreenFovy	USER_DEFINED	legacy		event_camera.c:dds3SetScreenFovy
-00105590	24	FUN_00105590	DEFAULT	unknown		
-001055a8	56	FUN_001055a8	DEFAULT	unknown		
-001055e0	24	FUN_001055e0	DEFAULT	unknown		
-001055f8	28	FUN_001055f8	DEFAULT	unknown		
-00105618	12	FUN_00105618	DEFAULT	unknown		
-00105628	12	FUN_00105628	DEFAULT	unknown		
-00105638	200	FUN_00105638	DEFAULT	unknown		
-00105700	132	FUN_00105700	DEFAULT	unknown		
-00105788	108	FUN_00105788	DEFAULT	unknown		
-001057f8	12	FUN_001057f8	DEFAULT	unknown		
-00105808	12	FUN_00105808	DEFAULT	unknown		
-00105818	24	FUN_00105818	DEFAULT	unknown		
-00105830	200	FUN_00105830	DEFAULT	unknown		
-00105900	112	FUN_00105900	DEFAULT	unknown		
-00105978	108	FUN_00105978	DEFAULT	unknown		
-001059e8	112	FUN_001059e8	DEFAULT	unknown		
-00105a60	24	FUN_00105a60	DEFAULT	unknown		
-00105a78	12	FUN_00105a78	DEFAULT	unknown		
-00105a88	20	FUN_00105a88	DEFAULT	unknown		
-00105aa0	232	FUN_00105aa0	DEFAULT	unknown		
-00105b88	132	FUN_00105b88	DEFAULT	unknown		
-00105c10	108	FUN_00105c10	DEFAULT	unknown		
-00105c80	24	FUN_00105c80	DEFAULT	unknown		
-00105c98	12	FUN_00105c98	DEFAULT	unknown		
-00105ca8	24	FUN_00105ca8	DEFAULT	unknown		
-00105cc0	212	FUN_00105cc0	DEFAULT	unknown		
-00105d98	104	FUN_00105d98	DEFAULT	unknown		
-00105e00	116	FUN_00105e00	DEFAULT	unknown		
-00105e78	68	ps2DistBlurSetPara_00105E78	USER_DEFINED	legacy		script_distortion.c:ps2DistBlurSetPara_00105E78
-00105ec0	12	ps2DistBlurSetRgba_00105EC0	USER_DEFINED	legacy		script_distortion.c:ps2DistBlurSetRgba_00105EC0
-00105ed0	24	ps2DistBlurSetArea_00105ED0	USER_DEFINED	legacy		script_distortion.c:ps2DistBlurSetArea_00105ED0
-00105ee8	216	FUN_00105ee8	DEFAULT	unknown		
-00105fc8	112	ps2DistBlurOn_00105FC8	USER_DEFINED	legacy		script_distortion.c:ps2DistBlurOn_00105FC8
-00106038	100	FUN_00106038	DEFAULT	unknown		
-001060a0	68	FUN_001060a0	DEFAULT	unknown		
-001060e8	12	FUN_001060e8	DEFAULT	unknown		
-001060f8	24	FUN_001060f8	DEFAULT	unknown		
-00106110	216	FUN_00106110	DEFAULT	unknown		
-001061f0	120	FUN_001061f0	DEFAULT	unknown		
-00106270	108	FUN_00106270	DEFAULT	unknown		
-001062e0	3036	FUN_001062e0	DEFAULT	unknown		
-00106ee0	484	FUN_00106ee0	DEFAULT	unknown		
-001070d0	248	FUN_001070d0	DEFAULT	unknown		
-001071d0	320	FUN_001071d0	DEFAULT	unknown		
-00107310	188	FUN_00107310	DEFAULT	unknown		
-001073d0	132	FUN_001073d0	DEFAULT	unknown		
-00107458	148	FUN_00107458	DEFAULT	unknown		
-001074f0	1532	FUN_001074f0	DEFAULT	unknown		
-00107af0	76	FUN_00107af0	DEFAULT	unknown		
+00105580	12	dds3SetScreenFovy	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetScreenFovy	event_camera.c:dds3SetScreenFovy
+00105590	24	dds3SetAmbient	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetAmbient	
+001055a8	56	dds3SetFog	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetFog	
+001055e0	24	dds3SetLight	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetLight	
+001055f8	28	setdraw_xy	USER_DEFINED	rewritten	src/kernel/draw.cpp:setdraw_xy	
+00105618	12	dds3SetFilter2Para	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetFilter2Para	
+00105628	12	dds3SetFilter2RGBA	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetFilter2RGBA	
+00105638	200	dds3Filter2Swap	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3Filter2Swap	
+00105700	132	dds3Filter2On	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3Filter2On	
+00105788	108	dds3Filter2Off	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3Filter2Off	
+001057f8	12	dds3SetMFilterPara	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetMFilterPara	
+00105808	12	dds3SetMFilterRGBA	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetMFilterRGBA	
+00105818	24	dds3SetMFilterArea	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetMFilterArea	
+00105830	200	dds3MFilterSwap	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3MFilterSwap	
+00105900	112	dds3MFilterOn	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3MFilterOn	
+00105978	108	dds3MFilterOff	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3MFilterOff	
+001059e8	112	dds3SetBlur	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetBlur	
+00105a60	24	dds3SetBlur2Para	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetBlur2Para	
+00105a78	12	dds3SetBlur2RGBA	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetBlur2RGBA	
+00105a88	20	dds3SetBlur2Area	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetBlur2Area	
+00105aa0	232	dds3Blur2Swap	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3Blur2Swap	
+00105b88	132	dds3Blur2On	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3Blur2On	
+00105c10	108	dds3Blur2Off	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3Blur2Off	
+00105c80	24	dds3SetMultiBlurPara	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetMultiBlurPara	
+00105c98	12	dds3SetMultiBlurRGBA	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetMultiBlurRGBA	
+00105ca8	24	dds3SetMultiBlurArea	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetMultiBlurArea	
+00105cc0	212	dds3MultiBlurSwap	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3MultiBlurSwap	
+00105d98	104	dds3MultiBlurOn	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3MultiBlurOn	
+00105e00	116	dds3MultiBlurOff	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3MultiBlurOff	
+00105e78	68	ps2DistBlurSetPara_00105E78	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetDistBlurPara	script_distortion.c:ps2DistBlurSetPara_00105E78
+00105ec0	12	ps2DistBlurSetRgba_00105EC0	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetDistBlurRGBA	script_distortion.c:ps2DistBlurSetRgba_00105EC0
+00105ed0	24	ps2DistBlurSetArea_00105ED0	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetDistBlurArea	script_distortion.c:ps2DistBlurSetArea_00105ED0
+00105ee8	216	dds3DistBlurSwap	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3DistBlurSwap	
+00105fc8	112	ps2DistBlurOn_00105FC8	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3DistBlurOn	script_distortion.c:ps2DistBlurOn_00105FC8
+00106038	100	dds3DistBlurOff	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3DistBlurOff	
+001060a0	68	dds3SetRipBlurPara	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetRipBlurPara	
+001060e8	12	dds3SetRipBlurRGBA	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetRipBlurRGBA	
+001060f8	24	dds3SetRipBlurArea	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetRipBlurArea	
+00106110	216	dds3RipBlurSwap	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3RipBlurSwap	
+001061f0	120	dds3RipBlurOn	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3RipBlurOn	
+00106270	108	dds3RipBlurOff	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3RipBlurOff	
+001062e0	3036	dds3BlurUpdate	USER_DEFINED	named		
+00106ee0	484	dds3RotationArc	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3RotationArc	
+001070d0	248	dds3SetLightColor	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetLightColor	
+001071d0	320	dds3SetLightDir	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetLightDir	
+00107310	188	dds3SetAmbientColor	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetAmbientColor	
+001073d0	132	dds3SetFogColor	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetFogColor	
+00107458	148	dds3SetFogPara	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetFogPara	
+001074f0	1532	dds3SceneLightUpdateFirst	USER_DEFINED	named		
+00107af0	76	dds3SetSoftenBias	USER_DEFINED	rewritten	src/kernel/draw.cpp:dds3SetSoftenBias	
 00107b40	52	FUN_00107b40	DEFAULT	unknown		
 00107b78	8	FUN_00107b78	DEFAULT	unknown		
 00107b80	276	FUN_00107b80	DEFAULT	unknown		
@@ -394,101 +394,101 @@ address	size	name	name_source	status	rewrite	legacy
 0010b830	12	scrGetMessageHandle	USER_DEFINED	rewritten	src/script/vm.cpp:scrGetMessageHandle	script_core.c:scrGetMessageHandle
 0010b840	8	scrGetScriptHandle	USER_DEFINED	rewritten	src/script/vm.cpp:scrGetScriptHandle	script_core.c:scrGetScriptHandle
 0010b848	12	scrGetData	USER_DEFINED	rewritten	src/script/vm.cpp:scrGetData	script_core.c:scrGetData
-0010b858	44	ps2ScriptSkipRequested	USER_DEFINED	legacy		script_core.c:ps2ScriptSkipRequested
-0010b888	48	scrCommand_BIT_CHK	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_BIT_CHK	script_common_bits.c:scrCommand_BIT_CHK
-0010b8b8	40	scrCommand_BIT_ON	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_BIT_ON	script_common_bits.c:scrCommand_BIT_ON
-0010b8e0	40	scrCommand_BIT_OFF	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_BIT_OFF	script_common_bits.c:scrCommand_BIT_OFF
-0010b908	52	scrCommand_RND	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_RND	battle_script_commands.c:scrCommand_RND
-0010b940	32	scrCommand_SYNC	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_SYNC	script_core.c:scrCommand_SYNC
-0010b960	72	scrCommand_WAIT	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_WAIT	script_core.c:scrCommand_WAIT
-0010b9a8	72	scrCommand_PUT	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_PUT	
-0010b9f0	72	scrCommand_PUTS	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_PUTS	
-0010ba38	148	scrCommand_FADE_IN	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_FADE_IN	screen_fade.c:scrCommand_FADE_IN
-0010bad8	148	scrCommand_FADE_OUT	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_FADE_OUT	screen_fade.c:scrCommand_FADE_OUT
-0010bb78	88	scrCommand_SEL_JMP	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_SEL_JMP	script_core.c:scrCommand_SEL_JMP
-0010bbd0	52	scrCommand_PAD_TRIG	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_PAD_TRIG	
-0010bc08	52	scrCommand_PAD_PRESS	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_PAD_PRESS	
-0010bc40	88	FUN_0010bc40	DEFAULT	unknown		
-0010bc98	132	FUN_0010bc98	DEFAULT	unknown		
-0010bd20	188	scrCommand_SCR_RUN	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_SCR_RUN	script_lifecycle_commands.c:scrCommand_SCR_RUN
-0010bde0	72	scrCommand_SCR_KILL	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_SCR_KILL	script_lifecycle_commands.c:scrCommand_SCR_KILL
-0010be28	40	scrCommand_SCR_WAIT	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_SCR_WAIT	script_lifecycle_commands.c:scrCommand_SCR_WAIT
-0010be50	72	scrCommand_SCR_STAT	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_SCR_STAT	script_lifecycle_commands.c:scrCommand_SCR_STAT
-0010be98	92	scrCommand_SCR_TIME	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_SCR_TIME	script_lifecycle_commands.c:scrCommand_SCR_TIME
-0010bef8	64	scrCommand_QUAKE_ON	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_QUAKE_ON	
-0010bf38	32	scrCommand_QUAKE_OFF	USER_DEFINED	rewritten	src/script/vm.cpp:scrCommand_QUAKE_OFF	
-0010bf58	116	FUN_0010bf58	DEFAULT	unknown		
-0010bfd0	172	FUN_0010bfd0	DEFAULT	unknown		
-0010c080	112	FUN_0010c080	DEFAULT	unknown		
-0010c0f0	84	FUN_0010c0f0	DEFAULT	unknown		
-0010c148	296	FUN_0010c148	DEFAULT	unknown		
-0010c280	88	FUN_0010c280	DEFAULT	unknown		
-0010c2d8	88	FUN_0010c2d8	DEFAULT	unknown		
-0010c330	132	FUN_0010c330	DEFAULT	unknown		
-0010c3b8	132	FUN_0010c3b8	DEFAULT	unknown		
-0010c440	88	FUN_0010c440	DEFAULT	unknown		
-0010c498	40	FUN_0010c498	DEFAULT	unknown		
-0010c4c0	40	FUN_0010c4c0	DEFAULT	unknown		
-0010c4e8	40	FUN_0010c4e8	DEFAULT	unknown		
-0010c510	228	scrCommand_DIST_BLUR_PARA	USER_DEFINED	legacy		script_distortion.c:scrCommand_DIST_BLUR_PARA
-0010c5f8	132	scrCommand_DIST_BLUR_RGBA	USER_DEFINED	legacy		script_distortion.c:scrCommand_DIST_BLUR_RGBA
-0010c680	88	scrCommand_DIST_BLUR_AREA	USER_DEFINED	legacy		script_distortion.c:scrCommand_DIST_BLUR_AREA
-0010c6d8	40	FUN_0010c6d8	DEFAULT	unknown		
-0010c700	40	scrCommand_DIST_BLUR_ON	USER_DEFINED	legacy		script_distortion.c:scrCommand_DIST_BLUR_ON
-0010c728	40	FUN_0010c728	DEFAULT	unknown		
-0010c750	228	FUN_0010c750	DEFAULT	unknown		
-0010c838	132	FUN_0010c838	DEFAULT	unknown		
-0010c8c0	88	FUN_0010c8c0	DEFAULT	unknown		
-0010c918	40	FUN_0010c918	DEFAULT	unknown		
-0010c940	40	FUN_0010c940	DEFAULT	unknown		
-0010c968	40	FUN_0010c968	DEFAULT	unknown		
-0010c990	152	FUN_0010c990	DEFAULT	unknown		
-0010ca30	132	FUN_0010ca30	DEFAULT	unknown		
-0010cab8	64	FUN_0010cab8	DEFAULT	unknown		
-0010caf8	40	FUN_0010caf8	DEFAULT	unknown		
-0010cb20	40	FUN_0010cb20	DEFAULT	unknown		
-0010cb48	40	FUN_0010cb48	DEFAULT	unknown		
-0010cb70	120	FUN_0010cb70	DEFAULT	unknown		
-0010cbf0	132	FUN_0010cbf0	DEFAULT	unknown		
-0010cc78	40	FUN_0010cc78	DEFAULT	unknown		
-0010cca0	40	FUN_0010cca0	DEFAULT	unknown		
-0010ccc8	40	FUN_0010ccc8	DEFAULT	unknown		
-0010ccf0	120	FUN_0010ccf0	DEFAULT	unknown		
-0010cd70	132	FUN_0010cd70	DEFAULT	unknown		
-0010cdf8	88	FUN_0010cdf8	DEFAULT	unknown		
-0010ce50	40	FUN_0010ce50	DEFAULT	unknown		
-0010ce78	40	FUN_0010ce78	DEFAULT	unknown		
-0010cea0	40	FUN_0010cea0	DEFAULT	unknown		
-0010cec8	72	FUN_0010cec8	DEFAULT	unknown		
-0010cf10	40	FUN_0010cf10	DEFAULT	unknown		
-0010cf38	64	FUN_0010cf38	DEFAULT	unknown		
-0010cf78	40	FUN_0010cf78	DEFAULT	unknown		
-0010cfa0	64	FUN_0010cfa0	DEFAULT	unknown		
-0010cfe0	40	FUN_0010cfe0	DEFAULT	unknown		
-0010d008	40	FUN_0010d008	DEFAULT	unknown		
-0010d030	72	FUN_0010d030	DEFAULT	unknown		
-0010d078	40	ps2FieldSkillScriptPartyDamage_0010D078	USER_DEFINED	legacy		field_skill.c:ps2FieldSkillScriptPartyDamage_0010D078
-0010d0a0	48	ps2FieldSkillScriptPartyRecover_0010D0A0	USER_DEFINED	legacy		field_skill.c:ps2FieldSkillScriptPartyRecover_0010D0A0
-0010d0d0	32	ps2FieldSkillScriptPartyRecoverSilent_0010D0D0	USER_DEFINED	legacy		field_skill.c:ps2FieldSkillScriptPartyRecoverSilent_0010D0D0
-0010d0f0	176	FUN_0010d0f0	DEFAULT	unknown		
-0010d1a0	76	FUN_0010d1a0	DEFAULT	unknown		
-0010d1f0	88	FUN_0010d1f0	DEFAULT	unknown		
-0010d248	76	FUN_0010d248	DEFAULT	unknown		
-0010d298	48	FUN_0010d298	DEFAULT	unknown		
-0010d2c8	100	FUN_0010d2c8	DEFAULT	unknown		
-0010d330	96	FUN_0010d330	DEFAULT	unknown		
-0010d390	60	FUN_0010d390	DEFAULT	unknown		
-0010d3d0	64	FUN_0010d3d0	DEFAULT	unknown		
-0010d410	48	FUN_0010d410	DEFAULT	unknown		
-0010d440	64	FUN_0010d440	DEFAULT	unknown		
-0010d480	72	FUN_0010d480	DEFAULT	unknown		
-0010d4c8	40	FUN_0010d4c8	DEFAULT	unknown		
-0010d4f0	40	FUN_0010d4f0	DEFAULT	unknown		
-0010d518	40	FUN_0010d518	DEFAULT	unknown		
-0010d540	164	FUN_0010d540	DEFAULT	unknown		
-0010d5e8	104	FUN_0010d5e8	DEFAULT	unknown		
-0010d658	72	FUN_0010d658	DEFAULT	unknown		
-0010d6a0	136	FUN_0010d6a0	DEFAULT	unknown		
+0010b858	44	ps2ScriptSkipRequested	USER_DEFINED	rewritten	src/script/vm.cpp:SDF_ABORT1	script_core.c:ps2ScriptSkipRequested
+0010b888	48	scrCommand_BIT_CHK	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_BIT_CHK	script_common_bits.c:scrCommand_BIT_CHK
+0010b8b8	40	scrCommand_BIT_ON	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_BIT_ON	script_common_bits.c:scrCommand_BIT_ON
+0010b8e0	40	scrCommand_BIT_OFF	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_BIT_OFF	script_common_bits.c:scrCommand_BIT_OFF
+0010b908	52	scrCommand_RND	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_RND	battle_script_commands.c:scrCommand_RND
+0010b940	32	scrCommand_SYNC	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_SYNC	script_core.c:scrCommand_SYNC
+0010b960	72	scrCommand_WAIT	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_WAIT	script_core.c:scrCommand_WAIT
+0010b9a8	72	scrCommand_PUT	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_PUT	
+0010b9f0	72	scrCommand_PUTS	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_PUTS	
+0010ba38	148	scrCommand_FADE_IN	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_FADE_IN	screen_fade.c:scrCommand_FADE_IN
+0010bad8	148	scrCommand_FADE_OUT	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_FADE_OUT	screen_fade.c:scrCommand_FADE_OUT
+0010bb78	88	scrCommand_SEL_JMP	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_SEL_JMP	script_core.c:scrCommand_SEL_JMP
+0010bbd0	52	scrCommand_PAD_TRIG	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_PAD_TRIG	
+0010bc08	52	scrCommand_PAD_PRESS	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_PAD_PRESS	
+0010bc40	88	scrCommand_PAD_ACT	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_PAD_ACT	
+0010bc98	132	scrCommand_SET_FOVY	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_SET_FOVY	
+0010bd20	188	scrCommand_SCR_RUN	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_SCR_RUN	script_lifecycle_commands.c:scrCommand_SCR_RUN
+0010bde0	72	scrCommand_SCR_KILL	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_SCR_KILL	script_lifecycle_commands.c:scrCommand_SCR_KILL
+0010be28	40	scrCommand_SCR_WAIT	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_SCR_WAIT	script_lifecycle_commands.c:scrCommand_SCR_WAIT
+0010be50	72	scrCommand_SCR_STAT	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_SCR_STAT	script_lifecycle_commands.c:scrCommand_SCR_STAT
+0010be98	92	scrCommand_SCR_TIME	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_SCR_TIME	script_lifecycle_commands.c:scrCommand_SCR_TIME
+0010bef8	64	scrCommand_QUAKE_ON	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_QUAKE_ON	
+0010bf38	32	scrCommand_QUAKE_OFF	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_QUAKE_OFF	
+0010bf58	116	scrCommand_SCENE_LIGHT_RGB	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_SCENE_LIGHT_RGB	
+0010bfd0	172	scrCommand_SCENE_LIGHT_DIR	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_SCENE_LIGHT_DIR	
+0010c080	112	scrCommand_SCENE_AMBIENT	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_SCENE_AMBIENT	
+0010c0f0	84	scrCommand_SCENE_FOG_RGB	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_SCENE_FOG_RGB	
+0010c148	296	scrCommand_SCENE_FOG_PARA	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_SCENE_FOG_PARA	
+0010c280	88	scrCommand_SOFTEN_BIAS	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_SOFTEN_BIAS	
+0010c2d8	88	scrCommand_BLUR	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_BLUR	
+0010c330	132	scrCommand_MUL_BLUR_PARA	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_MUL_BLUR_PARA	
+0010c3b8	132	scrCommand_MUL_BLUR_RGBA	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_MUL_BLUR_RGBA	
+0010c440	88	scrCommand_MUL_BLUR_AREA	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_MUL_BLUR_AREA	
+0010c498	40	scrCommand_MUL_BLUR_SWAP	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_MUL_BLUR_SWAP	
+0010c4c0	40	scrCommand_MUL_BLUR_ON	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_MUL_BLUR_ON	
+0010c4e8	40	scrCommand_MUL_BLUR_OFF	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_MUL_BLUR_OFF	
+0010c510	228	scrCommand_DIST_BLUR_PARA	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_DIST_BLUR_PARA	script_distortion.c:scrCommand_DIST_BLUR_PARA
+0010c5f8	132	scrCommand_DIST_BLUR_RGBA	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_DIST_BLUR_RGBA	script_distortion.c:scrCommand_DIST_BLUR_RGBA
+0010c680	88	scrCommand_DIST_BLUR_AREA	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_DIST_BLUR_AREA	script_distortion.c:scrCommand_DIST_BLUR_AREA
+0010c6d8	40	scrCommand_DIST_BLUR_SWAP	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_DIST_BLUR_SWAP	
+0010c700	40	scrCommand_DIST_BLUR_ON	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_DIST_BLUR_ON	script_distortion.c:scrCommand_DIST_BLUR_ON
+0010c728	40	scrCommand_DIST_BLUR_OFF	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_DIST_BLUR_OFF	
+0010c750	228	scrCommand_RIP_BLUR_PARA	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_RIP_BLUR_PARA	
+0010c838	132	scrCommand_RIP_BLUR_RGBA	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_RIP_BLUR_RGBA	
+0010c8c0	88	scrCommand_RIP_BLUR_AREA	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_RIP_BLUR_AREA	
+0010c918	40	scrCommand_RIP_BLUR_SWAP	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_RIP_BLUR_SWAP	
+0010c940	40	scrCommand_RIP_BLUR_ON	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_RIP_BLUR_ON	
+0010c968	40	scrCommand_RIP_BLUR_OFF	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_RIP_BLUR_OFF	
+0010c990	152	scrCommand_BLUR2_PARA	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_BLUR2_PARA	
+0010ca30	132	scrCommand_BLUR2_RGBA	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_BLUR2_RGBA	
+0010cab8	64	scrCommand_BLUR2_AREA	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_BLUR2_AREA	
+0010caf8	40	scrCommand_BLUR2_SWAP	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_BLUR2_SWAP	
+0010cb20	40	scrCommand_BLUR2_ON	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_BLUR2_ON	
+0010cb48	40	scrCommand_BLUR2_OFF	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_BLUR2_OFF	
+0010cb70	120	scrCommand_FILTER2_PARA	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_FILTER2_PARA	
+0010cbf0	132	scrCommand_FILTER2_RGBA	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_FILTER2_RGBA	
+0010cc78	40	scrCommand_FILTER2_SWAP	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_FILTER2_SWAP	
+0010cca0	40	scrCommand_FILTER2_ON	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_FILTER2_ON	
+0010ccc8	40	scrCommand_FILTER2_OFF	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_FILTER2_OFF	
+0010ccf0	120	scrCommand_MFILTER_PARA	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_MFILTER_PARA	
+0010cd70	132	scrCommand_MFILTER_RGBA	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_MFILTER_RGBA	
+0010cdf8	88	scrCommand_MFILTER_AREA	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_MFILTER_AREA	
+0010ce50	40	scrCommand_MFILTER_SWAP	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_MFILTER_SWAP	
+0010ce78	40	scrCommand_MFILTER_ON	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_MFILTER_ON	
+0010cea0	40	scrCommand_MFILTER_OFF	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_MFILTER_OFF	
+0010cec8	72	scrCommand_BLUR_ALLOFF	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_BLUR_ALLOFF	
+0010cf10	40	scrCommand_FILTER_ALLOFF	USER_DEFINED	rewritten	src/script/commands.cpp:scrCommand_FILTER_ALLOFF	
+0010cf38	64	prm_ITEM_PLUS	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_ITEM_PLUS	
+0010cf78	40	prm_DH_PLUS	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_DH_PLUS	
+0010cfa0	64	prm_DH_EQUIP	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_DH_EQUIP	
+0010cfe0	40	prm_MAKA_PLUS	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_MAKA_PLUS	
+0010d008	40	prm_MAKA_PLUS_PER	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_MAKA_PLUS_PER	
+0010d030	72	prm_MAKA_CHECK	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_MAKA_CHECK	
+0010d078	40	ps2FieldSkillScriptPartyDamage_0010D078	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_PARTY_DAMAGE	field_skill.c:ps2FieldSkillScriptPartyDamage_0010D078
+0010d0a0	48	ps2FieldSkillScriptPartyRecover_0010D0A0	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_PARTY_KAIFUKU	field_skill.c:ps2FieldSkillScriptPartyRecover_0010D0A0
+0010d0d0	32	ps2FieldSkillScriptPartyRecoverSilent_0010D0D0	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_PARTY_KAIFUKU2	field_skill.c:ps2FieldSkillScriptPartyRecoverSilent_0010D0D0
+0010d0f0	176	prm_DV_PLUS	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_DV_PLUS	
+0010d1a0	76	prm_DV_CHECK	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_DV_CHECK	
+0010d1f0	88	prm_UDV_LEAVE	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_UDV_LEAVE	
+0010d248	76	prm_UDV_CHECK	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_UDV_CHECK	
+0010d298	48	prm_UDV_GETID	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_UDV_GETID	
+0010d2c8	100	prm_UDV_DELETE_OK	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_UDV_DELETE_OK	
+0010d330	96	prm_UDV_DELETE_NG	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_UDV_DELETE_NG	
+0010d390	60	prm_STOCK_PLUS	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_STOCK_PLUS	
+0010d3d0	64	prm_STOCK_FULL_CHECK	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_STOCK_FULL_CHECK	
+0010d410	48	prm_PLAYER_GET_PARAM	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_PLAYER_GET_PARAM	
+0010d440	64	prm_PLAYER_ADD_PARAM	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_PLAYER_ADD_PARAM	
+0010d480	72	prm_NAKAMA_GET_PARAM	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_NAKAMA_GET_PARAM	
+0010d4c8	40	prm_PLAYER_GET_LND	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_PLAYER_GET_LND	
+0010d4f0	40	prm_PLAYER_GET_LEVEL	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_PLAYER_GET_LEVEL	
+0010d518	40	prm_NAKAMA_DEAD	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_NAKAMA_DEAD	
+0010d540	164	prm_NAKAMA_CHK_PIKUKO	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_NAKAMA_CHK_PIKUKO	
+0010d5e8	104	prm_PIKUKO_GETID	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_PIKUKO_GETID	
+0010d658	72	prm_BOSS_PRESS_REC	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_BOSS_PRESS_REC	
+0010d6a0	136	prm_DV_COPY_PARAM	USER_DEFINED	rewritten	src/script/parameter_commands.cpp:prm_DV_COPY_PARAM	
 0010d730	764	FUN_0010d730	DEFAULT	unknown		
 0010da30	136	FUN_0010da30	DEFAULT	unknown		
 0010dab8	292	FUN_0010dab8	DEFAULT	unknown		
@@ -3216,34 +3216,34 @@ address	size	name	name_source	status	rewrite	legacy
 001acc10	336	FUN_001acc10	DEFAULT	unknown		
 001acd60	1040	FUN_001acd60	DEFAULT	unknown		
 001ad170	192	FUN_001ad170	DEFAULT	unknown		
-001ad230	12	FUN_001ad230	DEFAULT	unknown		
-001ad240	8	FUN_001ad240	DEFAULT	unknown		
-001ad248	96	FUN_001ad248	DEFAULT	unknown		
-001ad2a8	12	FUN_001ad2a8	DEFAULT	unknown		
-001ad2b8	12	FUN_001ad2b8	DEFAULT	unknown		
-001ad2c8	8	FUN_001ad2c8	DEFAULT	unknown		
-001ad2d0	96	FUN_001ad2d0	DEFAULT	unknown		
-001ad330	8	FUN_001ad330	DEFAULT	unknown		
+001ad230	12	Eve_BlurON	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_BlurON	
+001ad240	8	Eve_BlurOFF	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_BlurOFF	
+001ad248	96	Eve_BlurSetParam	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_BlurSetParam	
+001ad2a8	12	Eve_BlurGetParam	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_BlurGetParam	
+001ad2b8	12	Eve_PartialMultiBlurON	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_PartialMultiBlurON	
+001ad2c8	8	Eve_PartialMultiBlurOFF	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_PartialMultiBlurOFF	
+001ad2d0	96	Eve_PartialMultiBlurSetParam	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_PartialMultiBlurSetParam	
+001ad330	8	Eve_PartialMultiBlurEditorGetParams	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_PartialMultiBlurEditorGetParams	
 001ad348	36	FUN_001ad348	DEFAULT	unknown		
-001ad370	12	ps2DistBlurFlagSet_001AD370	USER_DEFINED	legacy		script_distortion.c:ps2DistBlurFlagSet_001AD370
-001ad380	8	ps2DistBlurFlagClear_001AD380	USER_DEFINED	legacy		script_distortion.c:ps2DistBlurFlagClear_001AD380
-001ad388	96	ps2DistBlurCopyConfig_001AD388	USER_DEFINED	legacy		script_distortion.c:ps2DistBlurCopyConfig_001AD388
-001ad3e8	8	FUN_001ad3e8	DEFAULT	unknown		
-001ad3f0	12	FUN_001ad3f0	DEFAULT	unknown		
+001ad370	12	ps2DistBlurFlagSet_001AD370	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_DistortionBlurON	script_distortion.c:ps2DistBlurFlagSet_001AD370
+001ad380	8	ps2DistBlurFlagClear_001AD380	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_DistortionBlurOFF	script_distortion.c:ps2DistBlurFlagClear_001AD380
+001ad388	96	ps2DistBlurCopyConfig_001AD388	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_DistortionBlurSetParam	script_distortion.c:ps2DistBlurCopyConfig_001AD388
+001ad3e8	8	Eve_DistortionBlurEditorGetParams	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_DistortionBlurEditorGetParams	
+001ad3f0	12	Eve_DistortionBlurSetTex	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_DistortionBlurSetTex	
 001ad400	36	FUN_001ad400	DEFAULT	unknown		
-001ad428	12	FUN_001ad428	DEFAULT	unknown		
-001ad438	8	FUN_001ad438	DEFAULT	unknown		
-001ad440	96	FUN_001ad440	DEFAULT	unknown		
-001ad4a0	8	ps2PostEffectFourthOwner_001AD4A0	USER_DEFINED	legacy		script_distortion_owner.c:ps2PostEffectFourthOwner_001AD4A0
+001ad428	12	Eve_RippleBlurON	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_RippleBlurON	
+001ad438	8	Eve_RippleBlurOFF	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_RippleBlurOFF	
+001ad440	96	Eve_RippleBlurSetParam	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_RippleBlurSetParam	
+001ad4a0	8	ps2PostEffectFourthOwner_001AD4A0	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_RippleBlurEditorGetParams	script_distortion_owner.c:ps2PostEffectFourthOwner_001AD4A0
 001ad4b8	36	FUN_001ad4b8	DEFAULT	unknown		
-001ad4e0	12	FUN_001ad4e0	DEFAULT	unknown		
-001ad4f0	8	FUN_001ad4f0	DEFAULT	unknown		
-001ad4f8	64	FUN_001ad4f8	DEFAULT	unknown		
-001ad538	12	FUN_001ad538	DEFAULT	unknown		
-001ad548	12	FUN_001ad548	DEFAULT	unknown		
-001ad558	8	FUN_001ad558	DEFAULT	unknown		
-001ad560	80	FUN_001ad560	DEFAULT	unknown		
-001ad5b0	8	FUN_001ad5b0	DEFAULT	unknown		
+001ad4e0	12	Eve_FilterON	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_FilterON	
+001ad4f0	8	Eve_FilterOFF	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_FilterOFF	
+001ad4f8	64	Eve_FilterSetParam	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_FilterSetParam	
+001ad538	12	Eve_FilterEditorGetParams	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_FilterEditorGetParams	
+001ad548	12	Eve_PartialMultiFilterON	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_PartialMultiFilterON	
+001ad558	8	Eve_PartialMultiFilterOFF	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_PartialMultiFilterOFF	
+001ad560	80	Eve_PartialMultiFilterSetParam	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_PartialMultiFilterSetParam	
+001ad5b0	8	Eve_PartialMultiFilterEditorGetParams	USER_DEFINED	rewritten	src/effect/event.cpp:Eve_PartialMultiFilterEditorGetParams	
 001ad5c8	36	FUN_001ad5c8	DEFAULT	unknown		
 001ad5f0	96	ps2PostEffectInitializeOwners_001AD5F0	USER_DEFINED	legacy		script_distortion_owner.c:ps2PostEffectInitializeOwners_001AD5F0
 001ad650	148	FUN_001ad650	DEFAULT	unknown		
@@ -3661,7 +3661,7 @@ address	size	name	name_source	status	rewrite	legacy
 001cae58	96	itfMiscLinkInit	USER_DEFINED	rewritten	src/interface/message.cpp:MiscLinkInit	
 001caeb8	92	itfMiscLinkTake	USER_DEFINED	rewritten	src/interface/message.cpp:MiscLinkTake	message_construction.c:itfMiscLinkTake
 001caf20	80	itfMiscLinkGive	USER_DEFINED	rewritten	src/interface/message.cpp:MiscLinkGive	message_construction.c:itfMiscLinkGive
-001caf78	124	ps2PanelScaleColors	USER_DEFINED	legacy		panel_construction.c:ps2PanelScaleColors
+001caf78	124	ps2PanelScaleColors	USER_DEFINED	rewritten	src/interface/panel.cpp:MiscSetRatioRGB	panel_construction.c:ps2PanelScaleColors
 001cb0d8	76	FUN_001cb0d8	DEFAULT	unknown		
 001cb128	296	FUN_001cb128	DEFAULT	unknown		
 001cb250	312	ps2PanelDrawColoredFan4	USER_DEFINED	legacy		panel_draw.c:ps2PanelDrawColoredFan4
@@ -3675,26 +3675,26 @@ address	size	name	name_source	status	rewrite	legacy
 001cbe90	420	FUN_001cbe90	DEFAULT	unknown		
 001cc040	8	ps2ScriptCommandSlot079	USER_DEFINED	named		
 001cc048	56	FUN_001cc048	DEFAULT	unknown		
-001cc080	200	itfPnlRegist2	USER_DEFINED	legacy		panel_construction.c:itfPnlRegist2
-001cc150	76	itfPnlRelease	USER_DEFINED	legacy		script_lifetime.c:itfPnlRelease
-001cc1a0	72	itfPnlSetPosition	USER_DEFINED	legacy		panel_construction.c:itfPnlSetPosition
-001cc1e8	132	itfPnlSetPositionOffset	USER_DEFINED	legacy		message_update_support.c:itfPnlSetPositionOffset
-001cc270	68	itfPnlSetColor	USER_DEFINED	legacy		panel_construction.c:itfPnlSetColor
+001cc080	200	itfPnlRegist2	USER_DEFINED	rewritten	src/interface/panel.cpp:PnlRegist2	panel_construction.c:itfPnlRegist2
+001cc150	76	itfPnlRelease	USER_DEFINED	rewritten	src/interface/panel.cpp:PnlRelease	script_lifetime.c:itfPnlRelease
+001cc1a0	72	itfPnlSetPosition	USER_DEFINED	rewritten	src/interface/panel.cpp:PnlSetPosition	panel_construction.c:itfPnlSetPosition
+001cc1e8	132	itfPnlSetPositionOffset	USER_DEFINED	rewritten	src/interface/panel.cpp:PnlSetPositionOffset	message_update_support.c:itfPnlSetPositionOffset
+001cc270	68	itfPnlSetColor	USER_DEFINED	rewritten	src/interface/panel.cpp:PnlSetColor	panel_construction.c:itfPnlSetColor
 001cc2b8	108	ps2PanelSubmitDraw	USER_DEFINED	legacy		message_frame_draw.c:ps2PanelSubmitDraw
 001cc328	48	itfPnlDraw	USER_DEFINED	legacy		panel_draw.c:itfPnlDraw
-001cc358	120	ps2PanelVertexNormal	USER_DEFINED	legacy		panel_construction.c:ps2PanelVertexNormal
-001cc3d0	364	ps2PanelVertexMessage	USER_DEFINED	legacy		panel_construction.c:ps2PanelVertexMessage
-001cc540	324	ps2PanelVertexSelection	USER_DEFINED	legacy		panel_construction.c:ps2PanelVertexSelection
-001cc688	48	ps2PanelVertexPlain	USER_DEFINED	legacy		panel_construction.c:ps2PanelVertexPlain
-001cc6b8	108	ps2PanelVertexFacility	USER_DEFINED	legacy		panel_construction.c:ps2PanelVertexFacility
-001cc728	120	ps2PanelVertexPera	USER_DEFINED	legacy		panel_construction.c:ps2PanelVertexPera
-001cc7a0	44	ps2PanelColorNormal	USER_DEFINED	legacy		panel_construction.c:ps2PanelColorNormal
-001cc7d0	96	ps2PanelColorMessage	USER_DEFINED	legacy		panel_construction.c:ps2PanelColorMessage
-001cc830	96	ps2PanelColorSelection	USER_DEFINED	legacy		panel_construction.c:ps2PanelColorSelection
-001cc890	140	ps2PanelColorPlain	USER_DEFINED	legacy		panel_construction.c:ps2PanelColorPlain
-001cc920	24	ps2PanelColorLeftFade	USER_DEFINED	legacy		panel_construction.c:ps2PanelColorLeftFade
-001cc938	44	ps2PanelColorFacility	USER_DEFINED	legacy		panel_construction.c:ps2PanelColorFacility
-001cc968	56	ps2PanelColorPera	USER_DEFINED	legacy		panel_construction.c:ps2PanelColorPera
+001cc358	120	ps2PanelVertexNormal	USER_DEFINED	rewritten	src/interface/panel.cpp:CreateVertexNormal	panel_construction.c:ps2PanelVertexNormal
+001cc3d0	364	ps2PanelVertexMessage	USER_DEFINED	rewritten	src/interface/panel.cpp:CreateVertexMesWin	panel_construction.c:ps2PanelVertexMessage
+001cc540	324	ps2PanelVertexSelection	USER_DEFINED	rewritten	src/interface/panel.cpp:CreateVertexSelWin	panel_construction.c:ps2PanelVertexSelection
+001cc688	48	ps2PanelVertexPlain	USER_DEFINED	rewritten	src/interface/panel.cpp:CreateVertexPlain	panel_construction.c:ps2PanelVertexPlain
+001cc6b8	108	ps2PanelVertexFacility	USER_DEFINED	rewritten	src/interface/panel.cpp:CreateVertexLeftFade	panel_construction.c:ps2PanelVertexFacility
+001cc728	120	ps2PanelVertexPera	USER_DEFINED	rewritten	src/interface/panel.cpp:CreateVertexFacility	panel_construction.c:ps2PanelVertexPera
+001cc7a0	44	ps2PanelColorNormal	USER_DEFINED	rewritten	src/interface/panel.cpp:CreateColorNormal	panel_construction.c:ps2PanelColorNormal
+001cc7d0	96	ps2PanelColorMessage	USER_DEFINED	rewritten	src/interface/panel.cpp:CreateColorMesWin	panel_construction.c:ps2PanelColorMessage
+001cc830	96	ps2PanelColorSelection	USER_DEFINED	rewritten	src/interface/panel.cpp:CreateColorSelWin	panel_construction.c:ps2PanelColorSelection
+001cc890	140	ps2PanelColorPlain	USER_DEFINED	rewritten	src/interface/panel.cpp:CreateColorPlain	panel_construction.c:ps2PanelColorPlain
+001cc920	24	ps2PanelColorLeftFade	USER_DEFINED	rewritten	src/interface/panel.cpp:CreateColorPera1	panel_construction.c:ps2PanelColorLeftFade
+001cc938	44	ps2PanelColorFacility	USER_DEFINED	rewritten	src/interface/panel.cpp:CreateColorLeftFade	panel_construction.c:ps2PanelColorFacility
+001cc968	56	ps2PanelColorPera	USER_DEFINED	rewritten	src/interface/panel.cpp:CreateColorFacility	panel_construction.c:ps2PanelColorPera
 001cc9a0	172	ps2PanelDrawNormal	USER_DEFINED	legacy		panel_draw.c:ps2PanelDrawNormal
 001cca50	272	ps2PanelDrawMessage	USER_DEFINED	legacy		panel_draw.c:ps2PanelDrawMessage
 001ccb60	272	ps2PanelDrawSelection	USER_DEFINED	legacy		panel_draw.c:ps2PanelDrawSelection
@@ -5931,15 +5931,15 @@ address	size	name	name_source	status	rewrite	legacy
 00242cb0	100	datGetMagicHitPow	USER_DEFINED	rewritten	src/data/unit.cpp:magicAccuracy	battle_action_skill_registered_frames.c:body_00242cb0;unit_progression.c:ps2UnitMagicHitPower_00242CB0
 00242d18	52	datGetDefPow	USER_DEFINED	rewritten	src/data/unit.cpp:defensePower	battle_action_formula_frames.c:body_00242d18;battle_action_formula_frames.c:ps2BattleActionFormula_00242D18;battle_targeting.c:datGetDefPow
 00242d50	176	datGetSakePow	USER_DEFINED	rewritten	src/data/unit.cpp:evasionPower	battle_action_skill_registered_frames.c:body_00242d50;unit_progression.c:ps2UnitEvasionPower_00242D50
-00242e00	472	ps2FieldSkillPhysicalPower_00242E00	USER_DEFINED	legacy		field_skill.c:ps2FieldSkillPhysicalPower_00242E00
-00242fe0	20	ps2FieldSkillPhysicalRecovery_00242FE0	USER_DEFINED	legacy		field_skill.c:ps2FieldSkillPhysicalRecovery_00242FE0
-00242ff8	372	ps2FieldSkillMagicPower_00242FF8	USER_DEFINED	legacy		field_skill.c:ps2FieldSkillMagicPower_00242FF8
-00243170	144	ps2FieldSkillMagicRecovery_00243170	USER_DEFINED	legacy		field_skill.c:ps2FieldSkillMagicRecovery_00243170
-00243200	204	ps2FieldSkillMaxHpPower_00243200	USER_DEFINED	legacy		field_skill.c:ps2FieldSkillMaxHpPower_00243200
-002432d0	152	ps2FieldSkillAffinityRate_002432D0	USER_DEFINED	legacy		field_skill.c:ps2FieldSkillAffinityRate_002432D0
-00243368	992	ps2FieldSkillEffectAmount_00243368	USER_DEFINED	legacy		field_skill.c:ps2FieldSkillEffectAmount_00243368
-00243760	564	ps2FieldSkillStatus_00243760	USER_DEFINED	legacy		field_skill.c:ps2FieldSkillStatus_00243760
-00243998	488	ps2FieldSkillExecute_00243998	USER_DEFINED	legacy		field_skill.c:ps2FieldSkillExecute_00243998
+00242e00	472	ps2FieldSkillPhysicalPower_00242E00	USER_DEFINED	rewritten	src/data/field_skill.cpp:fieldPhysicalPower	field_skill.c:ps2FieldSkillPhysicalPower_00242E00
+00242fe0	20	ps2FieldSkillPhysicalRecovery_00242FE0	USER_DEFINED	rewritten	src/data/field_skill.cpp:fieldPhysicalHealPower	field_skill.c:ps2FieldSkillPhysicalRecovery_00242FE0
+00242ff8	372	ps2FieldSkillMagicPower_00242FF8	USER_DEFINED	rewritten	src/data/field_skill.cpp:fieldMagicPower	field_skill.c:ps2FieldSkillMagicPower_00242FF8
+00243170	144	ps2FieldSkillMagicRecovery_00243170	USER_DEFINED	rewritten	src/data/field_skill.cpp:fieldMagicHealPower	field_skill.c:ps2FieldSkillMagicRecovery_00243170
+00243200	204	ps2FieldSkillMaxHpPower_00243200	USER_DEFINED	rewritten	src/data/field_skill.cpp:fieldMaxHpPower	field_skill.c:ps2FieldSkillMaxHpPower_00243200
+002432d0	152	ps2FieldSkillAffinityRate_002432D0	USER_DEFINED	rewritten	src/data/field_skill.cpp:fieldAffinityRate	field_skill.c:ps2FieldSkillAffinityRate_002432D0
+00243368	992	ps2FieldSkillEffectAmount_00243368	USER_DEFINED	rewritten	src/data/field_skill.cpp:fieldSkillEffect	field_skill.c:ps2FieldSkillEffectAmount_00243368
+00243760	564	ps2FieldSkillStatus_00243760	USER_DEFINED	rewritten	src/data/field_skill.cpp:fieldSkillAilment	field_skill.c:ps2FieldSkillStatus_00243760
+00243998	488	ps2FieldSkillExecute_00243998	USER_DEFINED	rewritten	src/data/field_skill.cpp:useFieldSkill	field_skill.c:ps2FieldSkillExecute_00243998
 00243b98	48	datOverwriteBadStat	USER_DEFINED	rewritten	src/data/unit.cpp:overwriteAilment	dat_work.c:datOverwriteBadStat
 00243bd0	60	datSetBadStat	USER_DEFINED	rewritten	src/data/unit.cpp:setAilment	battle_action_formula_frames.c:body_00243bd0;battle_action_formula_frames.c:ps2BattleActionFormula_00243BD0;dat_work.c:datSetBadStat
 00243c10	20	datResetBadStat	USER_DEFINED	rewritten	src/data/unit.cpp:clearAilment	battle_action_formula_frames.c:body_00243c10;battle_action_formula_frames.c:ps2BattleActionFormula_00243C10;dat_work.c:datResetBadStat
@@ -5951,37 +5951,37 @@ address	size	name	name_source	status	rewrite	legacy
 00243ee0	92	datGetParam	USER_DEFINED	rewritten	src/data/unit.cpp:param	battle_action_formula_frames.c:body_00243ee0;battle_action_formula_frames.c:ps2BattleActionFormula_00243EE0;dat_queries.c:datGetParam
 00243f40	164	datCheckSyojiSkill	USER_DEFINED	rewritten	src/data/unit.cpp:hasSkill	battle_action_formula_frames.c:body_00243f40;battle_action_formula_frames.c:ps2BattleActionFormula_00243F40;battle_panel_renderer_remaining.c:body_00243f40;dat_skills.c:datCheckSyojiSkill;field_movement_encounter_constructor.c:body_00243f40
 00243fe8	144	datGetAisyo	USER_DEFINED	rewritten	src/data/unit.cpp:affinity	battle_action_formula_frames.c:body_00243fe8;battle_action_formula_frames.c:ps2BattleActionFormula_00243FE8;battle_targeting.c:datGetAisyo
-00244078	32	FUN_00244078	DEFAULT	unknown		
+00244078	32	affinityRate	USER_DEFINED	rewritten	src/data/progression.cpp:affinityRate	
 00244098	36	ps2UnitAffinityFlags_00244098	USER_DEFINED	rewritten	src/data/progression.cpp:affinityFlags	unit_progression.c:ps2UnitAffinityFlags_00244098
 002440c0	316	datGetBadStatusAttr	USER_DEFINED	rewritten	src/data/unit.cpp:ailmentElement	battle_action_formula_frames.c:body_002440c0;battle_action_formula_frames.c:ps2BattleActionFormula_002440C0;dat_queries.c:datGetBadStatusAttr
 00244200	52	datCheckDying	USER_DEFINED	rewritten	src/data/unit.cpp:isDying	battle_panel_color_prerequisites.c:body_00244200;battle_panel_renderer_prerequisites.c:body_00244200;dat_queries.c:datCheckDying
-00244238	44	datAddMaka	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_00244238;battle_reward_dependencies.c:body_00244238;battle_reward_dependencies.c:ps2BattleRewardDependency_00244238;battle_reward_levelup_dependencies.c:body_00244238;battle_reward_levelup_dependencies.c:ps2BattleRewardLevelupDependency_00244238;battle_reward_phase_dependencies.c:body_00244238;battle_reward_phase_dependencies.c:ps2BattleRewardPhaseDependency_00244238;dat_work.c:datAddMaka
+00244238	44	datAddMaka	USER_DEFINED	rewritten	src/data/progression.cpp:addMacca	battle_action_skill_registered_frames.c:body_00244238;battle_reward_dependencies.c:body_00244238;battle_reward_dependencies.c:ps2BattleRewardDependency_00244238;battle_reward_levelup_dependencies.c:body_00244238;battle_reward_levelup_dependencies.c:ps2BattleRewardLevelupDependency_00244238;battle_reward_phase_dependencies.c:body_00244238;battle_reward_phase_dependencies.c:ps2BattleRewardPhaseDependency_00244238;dat_work.c:datAddMaka
 00244268	92	ps2UnitAddMakaPercent_00244268	USER_DEFINED	rewritten	src/data/progression.cpp:addMaccaPercent	unit_progression.c:ps2UnitAddMakaPercent_00244268
-002442c8	20	datCheckMaka	USER_DEFINED	legacy		dat_work.c:datCheckMaka
+002442c8	20	datCheckMaka	USER_DEFINED	rewritten	src/data/progression.cpp:hasMacca	dat_work.c:datCheckMaka
 002442e0	268	datAddItem	USER_DEFINED	rewritten	src/data/progression.cpp:addItem	battle_reward_dependencies.c:body_002442e0;battle_reward_dependencies.c:ps2BattleRewardDependency_002442E0;battle_reward_levelup_dependencies.c:body_002442e0;battle_reward_levelup_dependencies.c:ps2BattleRewardLevelupDependency_002442E0;battle_reward_phase_dependencies.c:body_002442e0;battle_reward_phase_dependencies.c:ps2BattleRewardPhaseDependency_002442E0;hearts_inventory.c:datAddItem
 002443f8	24	datCheckItem	USER_DEFINED	rewritten	src/data/progression.cpp:hasItem	dat_queries.c:datCheckItem
-00244410	88	datCheckItemFull	USER_DEFINED	legacy		dat_queries.c:datCheckItemFull
+00244410	88	datCheckItemFull	USER_DEFINED	rewritten	src/data/progression.cpp:isItemFull	dat_queries.c:datCheckItemFull
 00244470	52	datGetRace	USER_DEFINED	rewritten	src/data/unit.cpp:race	dat_resources.c:datGetRace
-002444a8	136	datCheckTalk	USER_DEFINED	legacy		battle_action_status.c:datCheckTalk
-00244530	100	datSearchDevilStock	USER_DEFINED	legacy		battle_action_status.c:datSearchDevilStock
+002444a8	136	datCheckTalk	USER_DEFINED	rewritten	src/data/progression.cpp:canTalk	battle_action_status.c:datCheckTalk
+00244530	100	datSearchDevilStock	USER_DEFINED	rewritten	src/data/progression.cpp:findDevil	battle_action_status.c:datSearchDevilStock
 00244598	12	datGetPlayerLevel	USER_DEFINED	rewritten	src/data/unit.cpp:playerLevel	battle_action_reward_frames.c:body_00244598;battle_action_reward_frames.c:ps2BattleActionReward_00244598;dat_queries.c:datGetPlayerLevel;field_movement_encounter_constructor.c:body_00244598
-002445a8	24	FUN_002445a8	DEFAULT	unknown		
+002445a8	24	datCheckPlayerDead	USER_DEFINED	rewritten	src/data/progression.cpp:isPlayerDead	
 002445c0	80	ps2UnitPlayerParameter_002445C0	USER_DEFINED	rewritten	src/data/progression.cpp:playerParam	unit_progression.c:ps2UnitPlayerParameter_002445C0
 00244610	88	ps2UnitAddPlayerParameter_00244610	USER_DEFINED	rewritten	src/data/progression.cpp:addPlayerParam	unit_progression.c:ps2UnitAddPlayerParameter_00244610
 00244668	68	ps2UnitCompanionParameter_00244668	USER_DEFINED	rewritten	src/data/progression.cpp:companionParam	unit_progression.c:ps2UnitCompanionParameter_00244668
 002446b0	68	ps2UnitPlayerAlignment_002446B0	USER_DEFINED	rewritten	src/data/progression.cpp:playerAlignment	unit_progression.c:ps2UnitPlayerAlignment_002446B0
 002446f8	196	ps2UnitKillCompanion_002446F8	USER_DEFINED	rewritten	src/data/progression.cpp:killCompanion	unit_progression.c:ps2UnitKillCompanion_002446F8
-002447c0	632	ps2FieldSkillPartyDamage_002447C0	USER_DEFINED	legacy		field_skill.c:ps2FieldSkillPartyDamage_002447C0
-00244a38	648	ps2FieldSkillPartyStatusDamage_00244A38	USER_DEFINED	legacy		field_movement_encounter_constructor.c:body_00244a38;field_skill.c:ps2FieldSkillPartyStatusDamage_00244A38
-00244cc0	276	ps2FieldSkillPartyPipeDamage_00244CC0	USER_DEFINED	legacy		field_skill.c:ps2FieldSkillPartyPipeDamage_00244CC0
-00244dd8	140	ps2FieldSkillPartyRecover_00244DD8	USER_DEFINED	legacy		field_skill.c:ps2FieldSkillPartyRecover_00244DD8
+002447c0	632	ps2FieldSkillPartyDamage_002447C0	USER_DEFINED	rewritten	src/data/field_skill.cpp:partyDamage	field_skill.c:ps2FieldSkillPartyDamage_002447C0
+00244a38	648	ps2FieldSkillPartyStatusDamage_00244A38	USER_DEFINED	rewritten	src/data/field_skill.cpp:partyFieldDamage	field_movement_encounter_constructor.c:body_00244a38;field_skill.c:ps2FieldSkillPartyStatusDamage_00244A38
+00244cc0	276	ps2FieldSkillPartyPipeDamage_00244CC0	USER_DEFINED	rewritten	src/data/field_skill.cpp:partyPipeDamage	field_skill.c:ps2FieldSkillPartyPipeDamage_00244CC0
+00244dd8	140	ps2FieldSkillPartyRecover_00244DD8	USER_DEFINED	rewritten	src/data/field_skill.cpp:partyRecover	field_skill.c:ps2FieldSkillPartyRecover_00244DD8
 00244e68	76	datGet3Zokusei	USER_DEFINED	rewritten	src/data/unit.cpp:alignment	battle_action_skill_registered_frames.c:body_00244e68;battle_targeting.c:datGet3Zokusei
-00244eb8	60	datCheckStockFull	USER_DEFINED	legacy		dat_queries.c:datCheckStockFull
+00244eb8	60	datCheckStockFull	USER_DEFINED	rewritten	src/data/progression.cpp:isStockFull	dat_queries.c:datCheckStockFull
 00244ef8	292	ps2UnitInitializeCompanion_00244EF8	USER_DEFINED	rewritten	src/data/progression.cpp:initDevil	battle_action_skill_registered_frames.c:body_00244ef8;unit_progression.c:ps2UnitInitializeCompanion_00244EF8
 00245020	352	ps2UnitAddCompanion_00245020	USER_DEFINED	rewritten	src/data/progression.cpp:addDevil	unit_progression.c:ps2UnitAddCompanion_00245020
 00245180	108	ps2UnitAddUniqueCompanion_00245180	USER_DEFINED	rewritten	src/data/progression.cpp:addUniqueDevil	unit_progression.c:ps2UnitAddUniqueCompanion_00245180
 002451f0	96	ps2UnitFindUniqueCompanion_002451F0	USER_DEFINED	rewritten	src/data/progression.cpp:findUniqueDevil	unit_progression.c:ps2UnitFindUniqueCompanion_002451F0
-00245250	100	datGetUniqueDevilId	USER_DEFINED	legacy		dat_queries.c:datGetUniqueDevilId
+00245250	100	datGetUniqueDevilId	USER_DEFINED	rewritten	src/data/progression.cpp:uniqueDevilId	dat_queries.c:datGetUniqueDevilId
 002452b8	16	ps2UnitAddExperience_002452B8	USER_DEFINED	rewritten	src/data/progression.cpp:addExp	battle_reward_dependencies.c:body_002452b8;battle_reward_dependencies.c:ps2BattleRewardDependency_002452B8;battle_reward_levelup_dependencies.c:body_002452b8;battle_reward_levelup_dependencies.c:ps2BattleRewardLevelupDependency_002452B8;battle_reward_phase_dependencies.c:body_002452b8;battle_reward_phase_dependencies.c:ps2BattleRewardPhaseDependency_002452B8;unit_progression.c:ps2UnitAddExperience_002452B8
 002452c8	180	datAddHearts	USER_DEFINED	rewritten	src/data/magatama.cpp:add	battle_reward_dependencies.c:body_002452c8;battle_reward_dependencies.c:ps2BattleRewardDependency_002452C8;battle_reward_levelup_dependencies.c:body_002452c8;battle_reward_levelup_dependencies.c:ps2BattleRewardLevelupDependency_002452C8;battle_reward_phase_dependencies.c:body_002452c8;battle_reward_phase_dependencies.c:ps2BattleRewardPhaseDependency_002452C8;hearts_inventory.c:datAddHearts
 00245380	100	ps2UnitRemoveMagatama_00245380	USER_DEFINED	rewritten	src/data/progression.cpp:removeMagatama	unit_progression.c:ps2UnitRemoveMagatama_00245380
@@ -5995,15 +5995,15 @@ address	size	name	name_source	status	rewrite	legacy
 00245890	60	ps2UnitAddReasonPoints_00245890	USER_DEFINED	rewritten	src/data/progression.cpp:addReasonPoints	unit_progression.c:ps2UnitAddReasonPoints_00245890
 002458d0	280	ps2UnitReasonRank_002458D0	USER_DEFINED	rewritten	src/data/progression.cpp:reasonRank	unit_progression.c:ps2UnitReasonRank_002458D0
 002459e8	292	datGetSkillCost	USER_DEFINED	rewritten	src/data/unit.cpp:skillCost	battle_ai_conditions.c:datGetSkillCost
-00245b10	300	FUN_00245b10	DEFAULT	unknown		
-00245c40	52	FUN_00245c40	DEFAULT	unknown		
-00245c78	24	datDelDevil	USER_DEFINED	legacy		cmp_stock.c:datDelDevil
+00245b10	300	datInitPlayer	USER_DEFINED	rewritten	src/data/progression.cpp:initPlayer	
+00245c40	52	datInitBossPress	USER_DEFINED	rewritten	src/data/progression.cpp:initBossPress	
+00245c78	24	datDelDevil	USER_DEFINED	rewritten	src/data/progression.cpp:removeDevil	cmp_stock.c:datDelDevil
 00245c90	132	datGetItemSkillNo	USER_DEFINED	rewritten	src/data/progression.cpp:itemSkill	battle_action_skill_registered_frames.c:body_00245c90;battle_panel_renderer_remaining.c:body_00245c90;battle_targeting.c:datGetItemSkillNo
-00245d18	20	datGetLevelForDraw	USER_DEFINED	legacy		battle_panel_analyze_dependencies.c:body_00245d18;dat_work.c:datGetLevelForDraw
+00245d18	20	datGetLevelForDraw	USER_DEFINED	rewritten	src/data/progression.cpp:levelForDraw	battle_panel_analyze_dependencies.c:body_00245d18;dat_work.c:datGetLevelForDraw
 00245d30	304	ps2UnitRefreshCompanion_00245D30	USER_DEFINED	rewritten	src/data/progression.cpp:resetToSpecies	unit_progression.c:ps2UnitRefreshCompanion_00245D30
-00245e60	256	datBossRashGetRec	USER_DEFINED	legacy		dat_boss.c:datBossRashGetRec
-00245f68	204	datBossRashUpdRec	USER_DEFINED	legacy		dat_boss.c:datBossRashUpdRec
-00246038	116	datBossRashChk	USER_DEFINED	legacy		battle_action_reward_frames.c:body_00246038;battle_action_reward_frames.c:ps2BattleActionReward_00246038;dat_boss.c:datBossRashChk
+00245e60	256	datBossRashGetRec	USER_DEFINED	rewritten	src/data/progression.cpp:bossPressRecord	dat_boss.c:datBossRashGetRec
+00245f68	204	datBossRashUpdRec	USER_DEFINED	rewritten	src/data/progression.cpp:updateBossPressRecord	dat_boss.c:datBossRashUpdRec
+00246038	116	datBossRashChk	USER_DEFINED	rewritten	src/data/progression.cpp:isBossRefight	battle_action_reward_frames.c:body_00246038;battle_action_reward_frames.c:ps2BattleActionReward_00246038;dat_boss.c:datBossRashChk
 002460b0	408	FUN_002460b0	DEFAULT	unknown		
 00246248	776	FUN_00246248	DEFAULT	unknown		
 00246550	276	FUN_00246550	DEFAULT	unknown		
@@ -6159,20 +6159,20 @@ address	size	name	name_source	status	rewrite	legacy
 0024fcc0	384	FUN_0024fcc0	DEFAULT	legacy		battle_action_skill_core_frames.c:body_0024fcc0;battle_action_skill_core_frames.c:ps2BattleActionSkill_0024FCC0
 0024fe40	284	FUN_0024fe40	DEFAULT	legacy		battle_action_skill_core_frames.c:body_0024fe40;battle_action_skill_core_frames.c:ps2BattleActionSkill_0024FE40
 0024ff60	5240	ps2BattleAction_0024FF60	USER_DEFINED	legacy		battle_action_consumer.c:body_0024ff60;battle_action_consumer.c:ps2BattleAction_0024FF60
-00251428	196	FUN_00251428	DEFAULT	legacy		battle_status_pairs.c:body_00251428;battle_status_pairs_native.c:body_00251428
-002514f0	68	nbActionClearTimeList	USER_DEFINED	legacy		battle_action_sequence.c:nbActionClearTimeList;battle_panel_renderer_remaining.c:body_002514f0
-00251538	156	nbActionSetHpForTimeList	USER_DEFINED	legacy		battle_action_sequence.c:nbActionSetHpForTimeList;battle_panel_renderer_remaining.c:body_00251538
-002515d8	16	nbActionGetTimeListHp	USER_DEFINED	legacy		battle_action_formula_frames.c:body_002515d8;battle_action_formula_frames.c:ps2BattleActionFormula_002515D8;battle_action_status.c:nbActionGetTimeListHp
-002515e8	60	nbActionCheckTimeListDead	USER_DEFINED	legacy		battle_action_packet_frames.c:body_002515e8;battle_action_packet_frames.c:ps2BattleActionPacket_002515E8;battle_action_status.c:nbActionCheckTimeListDead
-00251628	188	nbActionCheckTimeListDeadEnemyParty	USER_DEFINED	legacy		battle_action_status.c:nbActionCheckTimeListDeadEnemyParty
-002516e8	76	nbActionAddTimeListHp	USER_DEFINED	legacy		battle_action_formula_frames.c:body_002516e8;battle_action_formula_frames.c:ps2BattleActionFormula_002516E8;battle_action_status.c:nbActionAddTimeListHp
-00251738	20	FUN_00251738	DEFAULT	unknown		
-00251750	16	ps2BattleAction_00251750	USER_DEFINED	legacy		battle_action_consumer.c:body_00251750;battle_action_consumer.c:ps2BattleAction_00251750
-00251760	16	nbActionGetEndTime	USER_DEFINED	legacy		battle_action_status.c:nbActionGetEndTime
-00251770	112	FUN_00251770	DEFAULT	legacy		battle_action_skill_core_frames.c:body_00251770;battle_action_skill_core_frames.c:ps2BattleActionSkill_00251770
-002517e0	116	nbActionSetTimeList	USER_DEFINED	legacy		battle_action_finish.c:nbActionSetTimeList;battle_action_formula_frames.c:body_002517e0;battle_action_formula_frames.c:ps2BattleActionFormula_002517E0;battle_panel_renderer_remaining.c:body_002517e0
-00251858	52	nbActionGetAllEndTime	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_00251858;battle_action_status.c:nbActionGetAllEndTime
-00251890	52	nbActionGetAllUnlockTime	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_00251890;battle_action_status.c:nbActionGetAllUnlockTime
+00251428	196	SetTarget	USER_DEFINED	legacy		battle_status_pairs.c:body_00251428;battle_status_pairs_native.c:body_00251428
+002514f0	68	nbActionClearTimeList	USER_DEFINED	rewritten	src/battle/action.cpp:ClearTimeList	battle_action_sequence.c:nbActionClearTimeList;battle_panel_renderer_remaining.c:body_002514f0
+00251538	156	nbActionSetHpForTimeList	USER_DEFINED	rewritten	src/battle/action.cpp:SetHpForTimeList	battle_action_sequence.c:nbActionSetHpForTimeList;battle_panel_renderer_remaining.c:body_00251538
+002515d8	16	nbActionGetTimeListHp	USER_DEFINED	rewritten	src/battle/action.cpp:GetTimeListHp	battle_action_formula_frames.c:body_002515d8;battle_action_formula_frames.c:ps2BattleActionFormula_002515D8;battle_action_status.c:nbActionGetTimeListHp
+002515e8	60	nbActionCheckTimeListDead	USER_DEFINED	rewritten	src/battle/action.cpp:CheckTimeListDead	battle_action_packet_frames.c:body_002515e8;battle_action_packet_frames.c:ps2BattleActionPacket_002515E8;battle_action_status.c:nbActionCheckTimeListDead
+00251628	188	nbActionCheckTimeListDeadEnemyParty	USER_DEFINED	rewritten	src/battle/action.cpp:CheckTimeListDeadEnemyParty	battle_action_status.c:nbActionCheckTimeListDeadEnemyParty
+002516e8	76	nbActionAddTimeListHp	USER_DEFINED	rewritten	src/battle/action.cpp:nbAddTimeListHp	battle_action_formula_frames.c:body_002516e8;battle_action_formula_frames.c:ps2BattleActionFormula_002516E8;battle_action_status.c:nbActionAddTimeListHp
+00251738	20	AddTimeListHp	USER_DEFINED	rewritten	src/battle/action.cpp:AddTimeListHp	
+00251750	16	ps2BattleAction_00251750	USER_DEFINED	rewritten	src/battle/action.cpp:GetUnlockTime	battle_action_consumer.c:body_00251750;battle_action_consumer.c:ps2BattleAction_00251750
+00251760	16	nbActionGetEndTime	USER_DEFINED	rewritten	src/battle/action.cpp:GetEndTime	battle_action_status.c:nbActionGetEndTime
+00251770	112	OverwriteTimeList	USER_DEFINED	rewritten	src/battle/action.cpp:OverwriteTimeList	battle_action_skill_core_frames.c:body_00251770;battle_action_skill_core_frames.c:ps2BattleActionSkill_00251770
+002517e0	116	nbActionSetTimeList	USER_DEFINED	rewritten	src/battle/action.cpp:SetTimeList	battle_action_finish.c:nbActionSetTimeList;battle_action_formula_frames.c:body_002517e0;battle_action_formula_frames.c:ps2BattleActionFormula_002517E0;battle_panel_renderer_remaining.c:body_002517e0
+00251858	52	nbActionGetAllEndTime	USER_DEFINED	rewritten	src/battle/action.cpp:GetAllEndTime	battle_action_skill_registered_frames.c:body_00251858;battle_action_status.c:nbActionGetAllEndTime
+00251890	52	nbActionGetAllUnlockTime	USER_DEFINED	rewritten	src/battle/action.cpp:GetAllUnlockTime	battle_action_skill_registered_frames.c:body_00251890;battle_action_status.c:nbActionGetAllUnlockTime
 002518c8	1556	FUN_002518c8	DEFAULT	legacy		battle_action_skill_core_frames.c:body_002518c8;battle_action_skill_core_frames.c:ps2BattleActionSkill_002518C8
 00251ef0	224	ps2BattleActionChoice_00251EF0	USER_DEFINED	legacy		battle_action_choice.c:body_00251ef0;battle_action_choice.c:ps2BattleActionChoice_00251EF0;battle_callback_choice.c:body_00251ef0
 00251fd8	136	ps2BattleActionChoice_00251FD8	USER_DEFINED	legacy		battle_action_choice.c:body_00251fd8;battle_action_choice.c:ps2BattleActionChoice_00251FD8;battle_callback_choice.c:body_00251fd8
@@ -6188,16 +6188,16 @@ address	size	name	name_source	status	rewrite	legacy
 00252ee8	200	FUN_00252ee8	DEFAULT	unknown		
 00252fb8	728	FUN_00252fb8	DEFAULT	legacy		battle_action_skill_core_frames.c:body_00252fb8;battle_action_skill_core_frames.c:ps2BattleActionSkill_00252FB8
 002532a8	480	ps2BattleActionChoice_002532A8	USER_DEFINED	legacy		battle_action_choice.c:body_002532a8;battle_action_choice.c:ps2BattleActionChoice_002532A8;battle_callback_choice.c:body_002532a8;battle_callback_choice.c:ps2BattleCallbackChoice_002532A8
-00253488	8	nbActionSetNone	USER_DEFINED	legacy		battle_action_entry.c:nbActionSetNone
+00253488	8	nbActionSetNone	USER_DEFINED	rewritten	src/battle/action.cpp:SetAction_NON	battle_action_entry.c:nbActionSetNone
 00253490	904	ps2BattleActionChoice_00253490	USER_DEFINED	legacy		battle_action_choice.c:body_00253490;battle_action_choice.c:ps2BattleActionChoice_00253490;battle_callback_choice.c:body_00253490;battle_callback_choice.c:ps2BattleCallbackChoice_00253490
-00253830	104	FUN_00253830	DEFAULT	unknown		
-002538a0	852	FUN_002538a0	DEFAULT	unknown		
-00253bf8	36	nbActionSetAi	USER_DEFINED	legacy		battle_action_entry.c:nbActionSetAi
-00253c20	32	nbActionCheckAi	USER_DEFINED	legacy		battle_action_entry.c:nbActionCheckAi
-00253c40	72	ps2BattleStartActorAi	USER_DEFINED	legacy		battle_work_access.c:ps2BattleStartActorAi
-00253c88	120	nbActionCheckAiScript	USER_DEFINED	legacy		battle_action_sequence.c:nbActionCheckAiScript
-00253d00	52	nbActionSetDeadScript	USER_DEFINED	legacy		battle_action_sequence.c:nbActionSetDeadScript
-00253d38	160	nbActionCheckDeadScript	USER_DEFINED	legacy		battle_action_finish.c:nbActionCheckDeadScript
+00253830	104	SetAction_COMM	USER_DEFINED	named		
+002538a0	852	CheckAction_COMM	USER_DEFINED	named		
+00253bf8	36	nbActionSetAi	USER_DEFINED	rewritten	src/battle/action.cpp:SetAction_AI	battle_action_entry.c:nbActionSetAi
+00253c20	32	nbActionCheckAi	USER_DEFINED	rewritten	src/battle/action.cpp:CheckAction_AI	battle_action_entry.c:nbActionCheckAi
+00253c40	72	ps2BattleStartActorAi	USER_DEFINED	rewritten	src/battle/action.cpp:SetAction_AISCR	battle_work_access.c:ps2BattleStartActorAi
+00253c88	120	nbActionCheckAiScript	USER_DEFINED	rewritten	src/battle/action.cpp:CheckAction_AISCR	battle_action_sequence.c:nbActionCheckAiScript
+00253d00	52	nbActionSetDeadScript	USER_DEFINED	rewritten	src/battle/action.cpp:SetAction_DEADSCRIPT	battle_action_sequence.c:nbActionSetDeadScript
+00253d38	160	nbActionCheckDeadScript	USER_DEFINED	rewritten	src/battle/action.cpp:CheckAction_DEADSCRIPT	battle_action_finish.c:nbActionCheckDeadScript
 00253de0	28	FUN_00253de0	DEFAULT	legacy		battle_status_pairs.c:body_00253de0;battle_status_pairs.c:ps2BattleStatusPairs_00253DE0;battle_status_pairs_native.c:body_00253de0;battle_status_pairs_native.c:ps2BattleStatusPairsNative_00253DE0
 00253e00	508	FUN_00253e00	DEFAULT	legacy		battle_status_pairs.c:body_00253e00;battle_status_pairs.c:ps2BattleStatusPairs_00253E00;battle_status_pairs_native.c:body_00253e00;battle_status_pairs_native.c:ps2BattleStatusPairsNative_00253E00
 00254010	72	FUN_00254010	DEFAULT	legacy		battle_status_pairs.c:body_00254010;battle_status_pairs.c:ps2BattleStatusPairs_00254010;battle_status_pairs_native.c:body_00254010;battle_status_pairs_native.c:ps2BattleStatusPairsNative_00254010
@@ -6220,20 +6220,20 @@ address	size	name	name_source	status	rewrite	legacy
 002572c0	224	ps2BattleOutcome_002572C0	USER_DEFINED	legacy		battle_outcome.c:body_002572c0;battle_outcome.c:ps2BattleOutcome_002572C0
 002573a8	152	ps2BattleOutcome_002573A8	USER_DEFINED	legacy		battle_outcome.c:body_002573a8;battle_outcome.c:ps2BattleOutcome_002573A8
 00257440	32	ps2BattleOutcome_00257440	USER_DEFINED	legacy		battle_outcome.c:body_00257440;battle_outcome.c:ps2BattleOutcome_00257440
-00257460	8	ps2BattleActionEnterWait	USER_DEFINED	legacy		battle_action_process.c:ps2BattleActionEnterWait
-00257468	32	nbActionCheckWait	USER_DEFINED	legacy		battle_action_process.c:nbActionCheckWait
+00257460	8	ps2BattleActionEnterWait	USER_DEFINED	rewritten	src/battle/action.cpp:SetAction_WAIT	battle_action_process.c:ps2BattleActionEnterWait
+00257468	32	nbActionCheckWait	USER_DEFINED	rewritten	src/battle/action.cpp:CheckAction_WAIT	battle_action_process.c:nbActionCheckWait
 00257488	840	ps2BattleActionChoice_00257488	USER_DEFINED	legacy		battle_action_choice.c:body_00257488;battle_action_choice.c:ps2BattleActionChoice_00257488;battle_callback_choice.c:body_00257488;battle_callback_choice.c:ps2BattleCallbackChoice_00257488
 002577d8	628	ps2BattleActionChoice_002577D8	USER_DEFINED	legacy		battle_action_choice.c:body_002577d8;battle_action_choice.c:ps2BattleActionChoice_002577D8;battle_callback_choice.c:body_002577d8;battle_callback_choice.c:ps2BattleCallbackChoice_002577D8
-00257a68	8	ps2BattleActionEnterCheck3	USER_DEFINED	legacy		battle_action_process.c:ps2BattleActionEnterCheck3
-00257a70	68	nbActionCheckCheck3	USER_DEFINED	legacy		battle_action_process.c:nbActionCheckCheck3
-00257ab8	8	ps2BattleActionEnterAfter	USER_DEFINED	legacy		battle_action_process.c:ps2BattleActionEnterAfter
-00257ac0	72	nbActionCheckAfter	USER_DEFINED	legacy		battle_action_finish.c:nbActionCheckAfter
-00257b08	232	nbActionSetEnd	USER_DEFINED	legacy		battle_action_process.c:nbActionSetEnd
-00257bf0	8	ps2BattleActionCheckEnd	USER_DEFINED	legacy		battle_action_process.c:ps2BattleActionCheckEnd
-00257bf8	40	nbGetActionSeq	USER_DEFINED	legacy		battle_action_sequence.c:nbGetActionSeq
-00257c20	88	nbGetPrevActionSeq	USER_DEFINED	legacy		battle_action_sequence.c:nbGetPrevActionSeq
+00257a68	8	ps2BattleActionEnterCheck3	USER_DEFINED	rewritten	src/battle/action.cpp:SetAction_CHECK3	battle_action_process.c:ps2BattleActionEnterCheck3
+00257a70	68	nbActionCheckCheck3	USER_DEFINED	rewritten	src/battle/action.cpp:CheckAction_CHECK3	battle_action_process.c:nbActionCheckCheck3
+00257ab8	8	ps2BattleActionEnterAfter	USER_DEFINED	rewritten	src/battle/action.cpp:SetAction_ATO	battle_action_process.c:ps2BattleActionEnterAfter
+00257ac0	72	nbActionCheckAfter	USER_DEFINED	rewritten	src/battle/action.cpp:CheckAction_ATO	battle_action_finish.c:nbActionCheckAfter
+00257b08	232	nbActionSetEnd	USER_DEFINED	rewritten	src/battle/action.cpp:SetAction_END	battle_action_process.c:nbActionSetEnd
+00257bf0	8	ps2BattleActionCheckEnd	USER_DEFINED	rewritten	src/battle/action.cpp:CheckAction_END	battle_action_process.c:ps2BattleActionCheckEnd
+00257bf8	40	nbGetActionSeq	USER_DEFINED	rewritten	src/battle/action.cpp:nbGetActionSeq	battle_action_sequence.c:nbGetActionSeq
+00257c20	88	nbGetPrevActionSeq	USER_DEFINED	rewritten	src/battle/action.cpp:nbGetPrevActionSeq	battle_action_sequence.c:nbGetPrevActionSeq
 00257c80	68	nbActionSetSeq	USER_DEFINED	legacy		battle_action_entry.c:nbActionSetSeq;battle_action_skill_bridge_frames.c:body_00257c80;battle_callback_dispatch.c:nbActionSetSeq;battle_callback_native.c:body_00257c80;battle_callback_native.c:ps2BattleCallbackNative_00257C80
-00257cc8	8	nbActionSetNextSeq	USER_DEFINED	legacy		battle_action_sequence.c:nbActionSetNextSeq;battle_panel_renderer_remaining.c:body_00257cc8
+00257cc8	8	nbActionSetNextSeq	USER_DEFINED	rewritten	src/battle/action.cpp:SetNextActionSeq	battle_action_sequence.c:nbActionSetNextSeq;battle_panel_renderer_remaining.c:body_00257cc8
 00257cd0	344	nbActionProcess1	USER_DEFINED	legacy		battle_action_process.c:nbActionProcess1;battle_callback_dispatch.c:nbActionProcess1;battle_callback_native.c:body_00257cd0;battle_callback_native.c:ps2BattleCallbackNative_00257CD0
 00257e30	124	ps2BattleActionChoice_00257E30	USER_DEFINED	legacy		battle_action_choice.c:body_00257e30;battle_action_choice.c:ps2BattleActionChoice_00257E30
 00257eb0	248	ps2BattleActionChoice_00257EB0	USER_DEFINED	legacy		battle_action_choice.c:body_00257eb0;battle_action_choice.c:ps2BattleActionChoice_00257EB0
@@ -6269,9 +6269,9 @@ address	size	name	name_source	status	rewrite	legacy
 00259908	288	FUN_00259908	DEFAULT	unknown		
 00259a30	44	nbGetUnitID	USER_DEFINED	rewritten	src/battle/combatant.cpp:unitModelId	battle_action_packet_frames.c:body_00259a30;battle_action_packet_frames.c:ps2BattleActionPacket_00259A30;battle_action_status.c:nbGetUnitID
 00259a60	80	nbGetUnitVisual	USER_DEFINED	rewritten	src/battle/calc.cpp:unitVisual	battle_action_skill_registered_frames.c:body_00259a60;combat_calculation.c:ps2CombatModelScaleDescriptor_00259A60
-00259ab0	96	nbCheckEventDead	USER_DEFINED	legacy		battle_action_packet_frames.c:body_00259ab0;battle_action_packet_frames.c:ps2BattleActionPacket_00259AB0;battle_action_status.c:nbCheckEventDead
-00259b10	92	nbCheckDeadScript	USER_DEFINED	legacy		battle_action_status.c:nbCheckDeadScript
-00259b70	92	nbCheckDeadEvent	USER_DEFINED	legacy		battle_action_packet_frames.c:body_00259b70;battle_action_packet_frames.c:ps2BattleActionPacket_00259B70;battle_action_status.c:nbCheckDeadEvent
+00259ab0	96	nbCheckEventDead	USER_DEFINED	rewritten	src/battle/combatant.cpp:nbCheckEventDead	battle_action_packet_frames.c:body_00259ab0;battle_action_packet_frames.c:ps2BattleActionPacket_00259AB0;battle_action_status.c:nbCheckEventDead
+00259b10	92	nbCheckDeadScript	USER_DEFINED	rewritten	src/battle/combatant.cpp:nbCheckDeadScript	battle_action_status.c:nbCheckDeadScript
+00259b70	92	nbCheckDeadEvent	USER_DEFINED	rewritten	src/battle/combatant.cpp:nbCheckDeadEvent	battle_action_packet_frames.c:body_00259b70;battle_action_packet_frames.c:ps2BattleActionPacket_00259B70;battle_action_status.c:nbCheckDeadEvent
 00259bd0	116	FUN_00259bd0	DEFAULT	unknown		
 00259c48	72	nbGetItemSkillNo	USER_DEFINED	rewritten	src/battle/targeting.cpp:itemSkillFor	battle_action_skill_registered_frames.c:body_00259c48;battle_panel_renderer_remaining.c:body_00259c48;battle_targeting.c:nbGetItemSkillNo
 00259c90	96	FUN_00259c90	DEFAULT	legacy		battle_status_pairs.c:body_00259c90;battle_status_pairs_native.c:body_00259c90
@@ -6335,20 +6335,20 @@ address	size	name	name_source	status	rewrite	legacy
 0025e7d8	40	FUN_0025e7d8	DEFAULT	unknown		
 0025e800	112	FUN_0025e800	DEFAULT	unknown		
 0025e870	108	FUN_0025e870	DEFAULT	unknown		
-0025e8e0	36	nbGetKoukaProcessData	USER_DEFINED	legacy		battle_action_packet_frames.c:body_0025e8e0;battle_action_packet_frames.c:ps2BattleActionPacket_0025E8E0;battle_action_process.c:nbGetKoukaProcessData;battle_panel_renderer_remaining.c:body_0025e8e0
-0025e928	80	ps2BattleCountContextKouka	USER_DEFINED	legacy		battle_action_process.c:ps2BattleCountContextKouka
-0025e978	80	FUN_0025e978	DEFAULT	unknown		
-0025e9c8	56	nbLinkKoukaPacket	USER_DEFINED	legacy		battle_action_finish.c:nbLinkKoukaPacket;battle_action_packet_frames.c:body_0025e9c8;battle_action_packet_frames.c:ps2BattleActionPacket_0025E9C8;battle_panel_renderer_remaining.c:body_0025e9c8
-0025ea00	64	FUN_0025ea00	DEFAULT	unknown		
-0025ea48	168	nbAddKoukaPacket	USER_DEFINED	legacy		battle_action_finish.c:nbAddKoukaPacket;battle_action_packet_frames.c:body_0025ea48;battle_action_packet_frames.c:ps2BattleActionPacket_0025EA48;battle_panel_renderer_remaining.c:body_0025ea48
+0025e8e0	36	nbGetKoukaProcessData	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbGetKoukaProcessData	battle_action_packet_frames.c:body_0025e8e0;battle_action_packet_frames.c:ps2BattleActionPacket_0025E8E0;battle_action_process.c:nbGetKoukaProcessData;battle_panel_renderer_remaining.c:body_0025e8e0
+0025e928	80	ps2BattleCountContextKouka	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbGetUniqueIdKoukaPacketCnt	battle_action_process.c:ps2BattleCountContextKouka
+0025e978	80	nbGetKoukaPacketTypeCnt	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbGetKoukaPacketTypeCnt	
+0025e9c8	56	nbLinkKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:LinkKoukaPacket	battle_action_finish.c:nbLinkKoukaPacket;battle_action_packet_frames.c:body_0025e9c8;battle_action_packet_frames.c:ps2BattleActionPacket_0025E9C8;battle_panel_renderer_remaining.c:body_0025e9c8
+0025ea00	64	UnlinkKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:UnlinkKoukaPacket	
+0025ea48	168	nbAddKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddKoukaPacket	battle_action_finish.c:nbAddKoukaPacket;battle_action_packet_frames.c:body_0025ea48;battle_action_packet_frames.c:ps2BattleActionPacket_0025EA48;battle_panel_renderer_remaining.c:body_0025ea48
 0025eaf0	304	FUN_0025eaf0	DEFAULT	unknown		
 0025ec28	44	FUN_0025ec28	DEFAULT	unknown		
 0025ec58	104	FUN_0025ec58	DEFAULT	unknown		
 0025ecc0	104	FUN_0025ecc0	DEFAULT	unknown		
 0025ed28	148	FUN_0025ed28	DEFAULT	unknown		
 0025edc0	184	FUN_0025edc0	DEFAULT	unknown		
-0025ee78	148	nbOnOffKoukaPacketFlag	USER_DEFINED	legacy		battle_kouka_packets.c:nbOnOffKoukaPacketFlag
-0025ef10	192	nbCheckSePacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_0025ef10;battle_action_packet_frames.c:ps2BattleActionPacket_0025EF10;battle_kouka_packets.c:nbCheckSePacket;battle_panel_renderer_remaining.c:body_0025ef10
+0025ee78	148	nbOnOffKoukaPacketFlag	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbOnOffKoukaPacketFlag	battle_kouka_packets.c:nbOnOffKoukaPacketFlag
+0025ef10	192	nbCheckSePacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbCheckSePacket	battle_action_packet_frames.c:body_0025ef10;battle_action_packet_frames.c:ps2BattleActionPacket_0025EF10;battle_kouka_packets.c:nbCheckSePacket;battle_panel_renderer_remaining.c:body_0025ef10
 0025efd0	140	FUN_0025efd0	DEFAULT	unknown		
 0025f068	152	FUN_0025f068	DEFAULT	unknown		
 0025f100	160	FUN_0025f100	DEFAULT	unknown		
@@ -6392,79 +6392,79 @@ address	size	name	name_source	status	rewrite	legacy
 002613f8	88	FUN_002613f8	DEFAULT	unknown		
 00261450	60	FUN_00261450	DEFAULT	unknown		
 00261490	108	FUN_00261490	DEFAULT	unknown		
-00261500	104	FUN_00261500	DEFAULT	legacy		battle_action_skill_core_frames.c:body_00261500;battle_action_skill_core_frames.c:ps2BattleActionSkill_00261500
+00261500	104	nbAddSkillEffectKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddSkillEffectKoukaPacket	battle_action_skill_core_frames.c:body_00261500;battle_action_skill_core_frames.c:ps2BattleActionSkill_00261500
 00261568	208	FUN_00261568	DEFAULT	unknown		
-00261638	176	FUN_00261638	DEFAULT	legacy		battle_action_skill_core_frames.c:body_00261638;battle_action_skill_core_frames.c:ps2BattleActionSkill_00261638
-002616e8	108	FUN_002616e8	DEFAULT	unknown		
-00261758	76	nbAddHatudoEffectEndPacket	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_00261758;battle_kouka_packets.c:nbAddHatudoEffectEndPacket
+00261638	176	nbAddSkillEffectKoukaPacket2	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddSkillEffectKoukaPacket2	battle_action_skill_core_frames.c:body_00261638;battle_action_skill_core_frames.c:ps2BattleActionSkill_00261638
+002616e8	108	nbAddSkillEffectKoukaPacket1	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddSkillEffectKoukaPacket1	
+00261758	76	nbAddHatudoEffectEndPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddHatudoEffectEndPacket	battle_action_skill_registered_frames.c:body_00261758;battle_kouka_packets.c:nbAddHatudoEffectEndPacket
 002617a8	552	FUN_002617a8	DEFAULT	unknown		
-00261aa0	140	FUN_00261aa0	DEFAULT	unknown		
-00261b30	112	FUN_00261b30	DEFAULT	unknown		
-00261ba0	140	FUN_00261ba0	DEFAULT	unknown		
-00261c30	112	FUN_00261c30	DEFAULT	unknown		
-00261ca0	128	nbAddUnitColKoukaPacket	USER_DEFINED	legacy		battle_action_finish.c:nbAddUnitColKoukaPacket;battle_action_packet_frames.c:body_00261ca0;battle_action_packet_frames.c:ps2BattleActionPacket_00261CA0;battle_panel_renderer_remaining.c:body_00261ca0
-00261d20	112	nbAddUnitHomeColKoukaPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_00261d20;battle_action_packet_frames.c:ps2BattleActionPacket_00261D20;battle_kouka_packets.c:nbAddUnitHomeColKoukaPacket;battle_panel_renderer_remaining.c:body_00261d20
-00261d90	128	nbAddUnitAKoukaPacket	USER_DEFINED	legacy		battle_action_finish.c:nbAddUnitAKoukaPacket;battle_action_packet_frames.c:body_00261d90;battle_action_packet_frames.c:ps2BattleActionPacket_00261D90
-00261e10	112	nbAddUnitHomeAKoukaPacket	USER_DEFINED	legacy		battle_action_packet_composite_frames.c:body_00261e10;battle_action_packet_composite_frames.c:ps2BattleActionPacketComposite_00261E10;battle_kouka_packets.c:nbAddUnitHomeAKoukaPacket
-00261e80	172	FUN_00261e80	DEFAULT	legacy		battle_action_skill_core_frames.c:body_00261e80;battle_action_skill_core_frames.c:ps2BattleActionSkill_00261E80
-00261f30	96	FUN_00261f30	DEFAULT	unknown		
-00261f90	96	nbAddMotionStopClearPacket	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_00261f90;battle_kouka_packets.c:nbAddMotionStopClearPacket
-00261ff0	112	nbAddMotionKoukaPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_00261ff0;battle_action_packet_frames.c:ps2BattleActionPacket_00261FF0;battle_kouka_packets.c:nbAddMotionKoukaPacket
-00262060	144	FUN_00262060	DEFAULT	unknown		
-002620f0	128	nbAddDmgMotKoukaPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_002620f0;battle_action_packet_frames.c:ps2BattleActionPacket_002620F0;battle_kouka_packets.c:nbAddDmgMotKoukaPacket
-00262170	112	nbAddEasyDmgMotKoukaPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_00262170;battle_action_packet_frames.c:ps2BattleActionPacket_00262170;battle_kouka_packets.c:nbAddEasyDmgMotKoukaPacket
-002621e0	128	nbAddBadDmgMotKoukaPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_002621e0;battle_action_packet_frames.c:ps2BattleActionPacket_002621E0;battle_kouka_packets.c:nbAddBadDmgMotKoukaPacket
-00262260	112	FUN_00262260	DEFAULT	unknown		
-002622d0	112	nbAddReturnKoukaPacket	USER_DEFINED	legacy		battle_action_finish.c:nbAddReturnKoukaPacket;battle_action_packet_composite_frames.c:body_002622d0;battle_action_packet_composite_frames.c:ps2BattleActionPacketComposite_002622D0
-00262340	128	FUN_00262340	DEFAULT	legacy		battle_action_skill_core_frames.c:body_00262340;battle_action_skill_core_frames.c:ps2BattleActionSkill_00262340
-002623c0	112	FUN_002623c0	DEFAULT	unknown		
-00262430	76	FUN_00262430	DEFAULT	legacy		battle_action_skill_core_frames.c:body_00262430;battle_action_skill_core_frames.c:ps2BattleActionSkill_00262430
+00261aa0	140	nbAddTargetMoveKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddTargetMoveKoukaPacket	
+00261b30	112	nbAddHomeMoveKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddHomeMoveKoukaPacket	
+00261ba0	140	nbAddRotKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddRotKoukaPacket	
+00261c30	112	nbAddHomeRotKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddHomeRotKoukaPacket	
+00261ca0	128	nbAddUnitColKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddUnitColKoukaPacket	battle_action_finish.c:nbAddUnitColKoukaPacket;battle_action_packet_frames.c:body_00261ca0;battle_action_packet_frames.c:ps2BattleActionPacket_00261CA0;battle_panel_renderer_remaining.c:body_00261ca0
+00261d20	112	nbAddUnitHomeColKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddUnitHomeColKoukaPacket	battle_action_packet_frames.c:body_00261d20;battle_action_packet_frames.c:ps2BattleActionPacket_00261D20;battle_kouka_packets.c:nbAddUnitHomeColKoukaPacket;battle_panel_renderer_remaining.c:body_00261d20
+00261d90	128	nbAddUnitAKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddUnitAKoukaPacket	battle_action_finish.c:nbAddUnitAKoukaPacket;battle_action_packet_frames.c:body_00261d90;battle_action_packet_frames.c:ps2BattleActionPacket_00261D90
+00261e10	112	nbAddUnitHomeAKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddUnitHomeAKoukaPacket	battle_action_packet_composite_frames.c:body_00261e10;battle_action_packet_composite_frames.c:ps2BattleActionPacketComposite_00261E10;battle_kouka_packets.c:nbAddUnitHomeAKoukaPacket
+00261e80	172	nbAddSakeKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddSakeKoukaPacket	battle_action_skill_core_frames.c:body_00261e80;battle_action_skill_core_frames.c:ps2BattleActionSkill_00261E80
+00261f30	96	nbAddMotionStopPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddMotionStopPacket	
+00261f90	96	nbAddMotionStopClearPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddMotionStopClearPacket	battle_action_skill_registered_frames.c:body_00261f90;battle_kouka_packets.c:nbAddMotionStopClearPacket
+00261ff0	112	nbAddMotionKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddMotionKoukaPacket	battle_action_packet_frames.c:body_00261ff0;battle_action_packet_frames.c:ps2BattleActionPacket_00261FF0;battle_kouka_packets.c:nbAddMotionKoukaPacket
+00262060	144	nbAddSkillMotionKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddSkillMotionKoukaPacket	
+002620f0	128	nbAddDmgMotKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddDmgMotKoukaPacket	battle_action_packet_frames.c:body_002620f0;battle_action_packet_frames.c:ps2BattleActionPacket_002620F0;battle_kouka_packets.c:nbAddDmgMotKoukaPacket
+00262170	112	nbAddEasyDmgMotKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddEasyDmgMotKoukaPacket	battle_action_packet_frames.c:body_00262170;battle_action_packet_frames.c:ps2BattleActionPacket_00262170;battle_kouka_packets.c:nbAddEasyDmgMotKoukaPacket
+002621e0	128	nbAddBadDmgMotKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddBadDmgMotKoukaPacket	battle_action_packet_frames.c:body_002621e0;battle_action_packet_frames.c:ps2BattleActionPacket_002621E0;battle_kouka_packets.c:nbAddBadDmgMotKoukaPacket
+00262260	112	nbAddBadMotKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddBadMotKoukaPacket	
+002622d0	112	nbAddReturnKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddReturnKoukaPacket	battle_action_finish.c:nbAddReturnKoukaPacket;battle_action_packet_composite_frames.c:body_002622d0;battle_action_packet_composite_frames.c:ps2BattleActionPacketComposite_002622D0
+00262340	128	nbAddSummonKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddSummonKoukaPacket	battle_action_skill_core_frames.c:body_00262340;battle_action_skill_core_frames.c:ps2BattleActionSkill_00262340
+002623c0	112	nbAddSkillColorPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddSkillColorPacket	
+00262430	76	nbAddSkillColorOffPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddSkillColorOffPacket	battle_action_skill_core_frames.c:body_00262430;battle_action_skill_core_frames.c:ps2BattleActionSkill_00262430
 00262480	388	ps2BattleAction_00262480	USER_DEFINED	legacy		battle_action_consumer.c:body_00262480;battle_action_consumer.c:ps2BattleAction_00262480;battle_panel_renderer_remaining.c:body_00262480
-00262610	96	nbAddBadEffKaifukuPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_00262610;battle_action_packet_frames.c:ps2BattleActionPacket_00262610;battle_kouka_packets.c:nbAddBadEffKaifukuPacket;battle_panel_renderer_remaining.c:body_00262610
-00262670	332	nbAddBadEffKoukaPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_00262670;battle_action_packet_frames.c:ps2BattleActionPacket_00262670;battle_check1_packets.c:nbAddBadEffKoukaPacket
-002627c0	272	nbAddNumEffKoukaPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_002627c0;battle_action_packet_frames.c:ps2BattleActionPacket_002627C0;battle_check1_packets.c:nbAddNumEffKoukaPacket;battle_panel_renderer_remaining.c:body_002627c0
-002628d0	276	nbAddMojiEffKoukaPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_002628d0;battle_action_packet_frames.c:ps2BattleActionPacket_002628D0;battle_check1_packets.c:nbAddMojiEffKoukaPacket
-002629e8	128	nbAddHpMpKoukaPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_002629e8;battle_action_packet_frames.c:ps2BattleActionPacket_002629E8;battle_kouka_packets.c:nbAddHpMpKoukaPacket;battle_panel_renderer_remaining.c:body_002629e8
-00262a68	96	ps2BattleOutcome_00262A68	USER_DEFINED	legacy		battle_action_skill_core_frames.c:body_00262a68;battle_action_skill_core_frames.c:ps2BattleActionSkill_00262A68;battle_outcome.c:body_00262a68;battle_outcome.c:ps2BattleOutcome_00262A68;battle_panel_renderer_remaining.c:body_00262a68
-00262ac8	112	ps2BattleOutcome_00262AC8	USER_DEFINED	legacy		battle_action_skill_core_frames.c:body_00262ac8;battle_action_skill_core_frames.c:ps2BattleActionSkill_00262AC8;battle_outcome.c:body_00262ac8;battle_outcome.c:ps2BattleOutcome_00262AC8;battle_panel_renderer_remaining.c:body_00262ac8
-00262b38	128	nbAddBadStatKoukaPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_00262b38;battle_action_packet_frames.c:ps2BattleActionPacket_00262B38;battle_kouka_packets.c:nbAddBadStatKoukaPacket;battle_panel_renderer_remaining.c:body_00262b38
-00262bb8	96	nbAddBadMotKaifukuPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_00262bb8;battle_action_packet_frames.c:ps2BattleActionPacket_00262BB8;battle_kouka_packets.c:nbAddBadMotKaifukuPacket;battle_panel_renderer_remaining.c:body_00262bb8
-00262c18	164	nbAddDeadPcmPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_00262c18;battle_action_packet_frames.c:ps2BattleActionPacket_00262C18;battle_kouka_packets.c:nbAddDeadPcmPacket
-00262cc0	120	nbAddSePacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_00262cc0;battle_action_packet_frames.c:ps2BattleActionPacket_00262CC0;battle_kouka_packets.c:nbAddSePacket;battle_panel_renderer_remaining.c:body_00262cc0
-00262d38	120	ps2NegoResourcePacket_00262D38	USER_DEFINED	legacy		negotiation_fullmoon_support.c:ps2NegoResourcePacket_00262D38
-00262db0	120	FUN_00262db0	DEFAULT	unknown		
-00262e28	76	FUN_00262e28	DEFAULT	legacy		battle_action_skill_core_frames.c:body_00262e28;battle_action_skill_core_frames.c:ps2BattleActionSkill_00262E28
-00262e78	96	FUN_00262e78	DEFAULT	legacy		battle_action_skill_core_frames.c:body_00262e78;battle_action_skill_core_frames.c:ps2BattleActionSkill_00262E78
-00262ed8	128	FUN_00262ed8	DEFAULT	legacy		battle_action_skill_core_frames.c:body_00262ed8;battle_action_skill_core_frames.c:ps2BattleActionSkill_00262ED8
-00262f58	96	nbAddSkillNamePacket	USER_DEFINED	legacy		battle_action_formula_frames.c:body_00262f58;battle_action_formula_frames.c:ps2BattleActionFormula_00262F58;battle_kouka_packets.c:nbAddSkillNamePacket
-00262fb8	112	nbAddFormOnOffPacket	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_00262fb8;battle_kouka_packets.c:nbAddFormOnOffPacket
-00263028	128	FUN_00263028	DEFAULT	legacy		battle_action_skill_core_frames.c:body_00263028;battle_action_skill_core_frames.c:ps2BattleActionSkill_00263028
-002630a8	100	nbAddFlyKoukaPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_002630a8;battle_action_packet_frames.c:ps2BattleActionPacket_002630A8;battle_kouka_packets.c:nbAddFlyKoukaPacket
+00262610	96	nbAddBadEffKaifukuPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddBadEffKaifukuPacket	battle_action_packet_frames.c:body_00262610;battle_action_packet_frames.c:ps2BattleActionPacket_00262610;battle_kouka_packets.c:nbAddBadEffKaifukuPacket;battle_panel_renderer_remaining.c:body_00262610
+00262670	332	nbAddBadEffKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddBadEffKoukaPacket	battle_action_packet_frames.c:body_00262670;battle_action_packet_frames.c:ps2BattleActionPacket_00262670;battle_check1_packets.c:nbAddBadEffKoukaPacket
+002627c0	272	nbAddNumEffKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddNumEffKoukaPacket	battle_action_packet_frames.c:body_002627c0;battle_action_packet_frames.c:ps2BattleActionPacket_002627C0;battle_check1_packets.c:nbAddNumEffKoukaPacket;battle_panel_renderer_remaining.c:body_002627c0
+002628d0	276	nbAddMojiEffKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddMojiEffKoukaPacket	battle_action_packet_frames.c:body_002628d0;battle_action_packet_frames.c:ps2BattleActionPacket_002628D0;battle_check1_packets.c:nbAddMojiEffKoukaPacket
+002629e8	128	nbAddHpMpKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddHpMpKoukaPacket	battle_action_packet_frames.c:body_002629e8;battle_action_packet_frames.c:ps2BattleActionPacket_002629E8;battle_kouka_packets.c:nbAddHpMpKoukaPacket;battle_panel_renderer_remaining.c:body_002629e8
+00262a68	96	ps2BattleOutcome_00262A68	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddPressPacket	battle_action_skill_core_frames.c:body_00262a68;battle_action_skill_core_frames.c:ps2BattleActionSkill_00262A68;battle_outcome.c:body_00262a68;battle_outcome.c:ps2BattleOutcome_00262A68;battle_panel_renderer_remaining.c:body_00262a68
+00262ac8	112	ps2BattleOutcome_00262AC8	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddNewPressPacket	battle_action_skill_core_frames.c:body_00262ac8;battle_action_skill_core_frames.c:ps2BattleActionSkill_00262AC8;battle_outcome.c:body_00262ac8;battle_outcome.c:ps2BattleOutcome_00262AC8;battle_panel_renderer_remaining.c:body_00262ac8
+00262b38	128	nbAddBadStatKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddBadStatKoukaPacket	battle_action_packet_frames.c:body_00262b38;battle_action_packet_frames.c:ps2BattleActionPacket_00262B38;battle_kouka_packets.c:nbAddBadStatKoukaPacket;battle_panel_renderer_remaining.c:body_00262b38
+00262bb8	96	nbAddBadMotKaifukuPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddBadMotKaifukuPacket	battle_action_packet_frames.c:body_00262bb8;battle_action_packet_frames.c:ps2BattleActionPacket_00262BB8;battle_kouka_packets.c:nbAddBadMotKaifukuPacket;battle_panel_renderer_remaining.c:body_00262bb8
+00262c18	164	nbAddDeadPcmPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddDeadPcmPacket	battle_action_packet_frames.c:body_00262c18;battle_action_packet_frames.c:ps2BattleActionPacket_00262C18;battle_kouka_packets.c:nbAddDeadPcmPacket
+00262cc0	120	nbAddSePacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddSePacket	battle_action_packet_frames.c:body_00262cc0;battle_action_packet_frames.c:ps2BattleActionPacket_00262CC0;battle_kouka_packets.c:nbAddSePacket;battle_panel_renderer_remaining.c:body_00262cc0
+00262d38	120	ps2NegoResourcePacket_00262D38	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddSePacket2	negotiation_fullmoon_support.c:ps2NegoResourcePacket_00262D38
+00262db0	120	nbAddSePacket3	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddSePacket3	
+00262e28	76	nbAddHitStopPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddHitStopPacket	battle_action_skill_core_frames.c:body_00262e28;battle_action_skill_core_frames.c:ps2BattleActionSkill_00262E28
+00262e78	96	nbAddAnalyzePacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddAnalyzePacket	battle_action_skill_core_frames.c:body_00262e78;battle_action_skill_core_frames.c:ps2BattleActionSkill_00262E78
+00262ed8	128	nbAddJyokyoHelpPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddJyokyoHelpPacket	battle_action_skill_core_frames.c:body_00262ed8;battle_action_skill_core_frames.c:ps2BattleActionSkill_00262ED8
+00262f58	96	nbAddSkillNamePacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddSkillNamePacket	battle_action_formula_frames.c:body_00262f58;battle_action_formula_frames.c:ps2BattleActionFormula_00262F58;battle_kouka_packets.c:nbAddSkillNamePacket
+00262fb8	112	nbAddFormOnOffPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddFormOnOffPacket	battle_action_skill_registered_frames.c:body_00262fb8;battle_kouka_packets.c:nbAddFormOnOffPacket
+00263028	128	nbAddFormFlagOnOffPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddFormFlagOnOffPacket	battle_action_skill_core_frames.c:body_00263028;battle_action_skill_core_frames.c:ps2BattleActionSkill_00263028
+002630a8	100	nbAddFlyKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddFlyKoukaPacket	battle_action_packet_frames.c:body_002630a8;battle_action_packet_frames.c:ps2BattleActionPacket_002630A8;battle_kouka_packets.c:nbAddFlyKoukaPacket
 00263110	144	FUN_00263110	DEFAULT	unknown		
 002631a0	176	FUN_002631a0	DEFAULT	unknown		
 00263250	128	FUN_00263250	DEFAULT	legacy		battle_action_skill_core_frames.c:body_00263250;battle_action_skill_core_frames.c:ps2BattleActionSkill_00263250
 002632d0	128	FUN_002632d0	DEFAULT	legacy		battle_action_skill_core_frames.c:body_002632d0;battle_action_skill_core_frames.c:ps2BattleActionSkill_002632D0
-00263350	148	nbAddDeadEventKoukaPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_00263350;battle_action_packet_frames.c:ps2BattleActionPacket_00263350;battle_kouka_packets.c:nbAddDeadEventKoukaPacket
-002633e8	112	nbAddFadeOutKoukaPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_002633e8;battle_action_packet_frames.c:ps2BattleActionPacket_002633E8;battle_kouka_packets.c:nbAddFadeOutKoukaPacket
-00263458	112	nbAddFadeInKoukaPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_00263458;battle_action_packet_frames.c:ps2BattleActionPacket_00263458;battle_kouka_packets.c:nbAddFadeInKoukaPacket
-002634c8	128	ps2BattleAction_002634C8	USER_DEFINED	legacy		battle_action_consumer.c:body_002634c8;battle_action_consumer.c:ps2BattleAction_002634C8
-00263548	96	FUN_00263548	DEFAULT	legacy		battle_action_skill_core_frames.c:body_00263548;battle_action_skill_core_frames.c:ps2BattleActionSkill_00263548
-002635a8	128	nbAddPadShockPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_002635a8;battle_action_packet_frames.c:ps2BattleActionPacket_002635A8;battle_kouka_packets.c:nbAddPadShockPacket
-00263628	76	nbAddPanelStockFadeOutPacket	USER_DEFINED	legacy		battle_kouka_packets.c:nbAddPanelStockFadeOutPacket
-00263678	76	nbAddPanelStockEndPacket	USER_DEFINED	legacy		battle_kouka_packets.c:nbAddPanelStockEndPacket
-002636c8	172	FUN_002636c8	DEFAULT	legacy		battle_action_skill_core_frames.c:body_002636c8;battle_action_skill_core_frames.c:ps2BattleActionSkill_002636C8
-00263778	148	ps2BattleOutcome_00263778	USER_DEFINED	legacy		battle_action_skill_core_frames.c:body_00263778;battle_action_skill_core_frames.c:ps2BattleActionSkill_00263778;battle_outcome.c:body_00263778;battle_outcome.c:ps2BattleOutcome_00263778
-00263810	144	nbMakeUnitFadeInPacket	USER_DEFINED	legacy		battle_action_packet_composite_frames.c:body_00263810;battle_action_packet_composite_frames.c:ps2BattleActionPacketComposite_00263810;battle_kouka_packets.c:nbMakeUnitFadeInPacket
-002638a0	116	nbMakeUnitFadeOutPacket	USER_DEFINED	legacy		battle_action_finish.c:nbMakeUnitFadeOutPacket;battle_action_packet_frames.c:body_002638a0;battle_action_packet_frames.c:ps2BattleActionPacket_002638A0
+00263350	148	nbAddDeadEventKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddDeadEventKoukaPacket	battle_action_packet_frames.c:body_00263350;battle_action_packet_frames.c:ps2BattleActionPacket_00263350;battle_kouka_packets.c:nbAddDeadEventKoukaPacket
+002633e8	112	nbAddFadeOutKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddFadeOutKoukaPacket	battle_action_packet_frames.c:body_002633e8;battle_action_packet_frames.c:ps2BattleActionPacket_002633E8;battle_kouka_packets.c:nbAddFadeOutKoukaPacket
+00263458	112	nbAddFadeInKoukaPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddFadeInKoukaPacket	battle_action_packet_frames.c:body_00263458;battle_action_packet_frames.c:ps2BattleActionPacket_00263458;battle_kouka_packets.c:nbAddFadeInKoukaPacket
+002634c8	128	ps2BattleAction_002634C8	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddHojoKoukaPacket	battle_action_consumer.c:body_002634c8;battle_action_consumer.c:ps2BattleAction_002634C8
+00263548	96	nbAddFlareChargePacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddFlareChargePacket	battle_action_skill_core_frames.c:body_00263548;battle_action_skill_core_frames.c:ps2BattleActionSkill_00263548
+002635a8	128	nbAddPadShockPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddPadShockPacket	battle_action_packet_frames.c:body_002635a8;battle_action_packet_frames.c:ps2BattleActionPacket_002635A8;battle_kouka_packets.c:nbAddPadShockPacket
+00263628	76	nbAddPanelStockFadeOutPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddPanelStockFadeOutPacket	battle_kouka_packets.c:nbAddPanelStockFadeOutPacket
+00263678	76	nbAddPanelStockEndPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbAddPanelStockEndPacket	battle_kouka_packets.c:nbAddPanelStockEndPacket
+002636c8	172	nbMakeSummonPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbMakeSummonPacket	battle_action_skill_core_frames.c:body_002636c8;battle_action_skill_core_frames.c:ps2BattleActionSkill_002636C8
+00263778	148	ps2BattleOutcome_00263778	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbMakeReturnPacket	battle_action_skill_core_frames.c:body_00263778;battle_action_skill_core_frames.c:ps2BattleActionSkill_00263778;battle_outcome.c:body_00263778;battle_outcome.c:ps2BattleOutcome_00263778
+00263810	144	nbMakeUnitFadeInPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbMakeUnitFadeInPacket	battle_action_packet_composite_frames.c:body_00263810;battle_action_packet_composite_frames.c:ps2BattleActionPacketComposite_00263810;battle_kouka_packets.c:nbMakeUnitFadeInPacket
+002638a0	116	nbMakeUnitFadeOutPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbMakeUnitFadeOutPacket	battle_action_finish.c:nbMakeUnitFadeOutPacket;battle_action_packet_frames.c:body_002638a0;battle_action_packet_frames.c:ps2BattleActionPacket_002638A0
 00263918	736	ps2BattleAction_00263918	USER_DEFINED	legacy		battle_action_consumer.c:body_00263918;battle_action_consumer.c:ps2BattleAction_00263918
 00263c00	1012	ps2BattleAction_00263C00	USER_DEFINED	legacy		battle_action_consumer.c:body_00263c00;battle_action_consumer.c:ps2BattleAction_00263C00
 00264010	484	ps2BattleAction_00264010	USER_DEFINED	legacy		battle_action_consumer.c:body_00264010;battle_action_consumer.c:ps2BattleAction_00264010;battle_panel_renderer_remaining.c:body_00264010
-002641f8	228	nbMakeDeadPacket	USER_DEFINED	legacy		battle_action_packet_composite_frames.c:body_002641f8;battle_action_packet_composite_frames.c:ps2BattleActionPacketComposite_002641F8;battle_check1_packets.c:nbMakeDeadPacket
-002642e0	128	ps2BattleOutcome_002642E0	USER_DEFINED	legacy		battle_action_skill_core_frames.c:body_002642e0;battle_action_skill_core_frames.c:ps2BattleActionSkill_002642E0;battle_outcome.c:body_002642e0;battle_outcome.c:ps2BattleOutcome_002642E0;battle_panel_renderer_remaining.c:body_002642e0
-00264368	404	ps2BattleOutcome_00264368	USER_DEFINED	legacy		battle_action_skill_core_frames.c:body_00264368;battle_action_skill_core_frames.c:ps2BattleActionSkill_00264368;battle_outcome.c:body_00264368;battle_outcome.c:ps2BattleOutcome_00264368;battle_panel_renderer_remaining.c:body_00264368
-00264508	32	nbMakeFlyBadPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_00264508;battle_action_packet_frames.c:ps2BattleActionPacket_00264508;battle_kouka_packets.c:nbMakeFlyBadPacket
-00264528	128	nbMakeBadDamagePacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_00264528;battle_action_packet_frames.c:ps2BattleActionPacket_00264528;battle_check1_packets.c:nbMakeBadDamagePacket
-002645a8	348	nbMakeBadKaifukuPacket	USER_DEFINED	legacy		battle_action_packet_frames.c:body_002645a8;battle_action_packet_frames.c:ps2BattleActionPacket_002645A8;battle_check1_packets.c:nbMakeBadKaifukuPacket;battle_panel_renderer_remaining.c:body_002645a8
+002641f8	228	nbMakeDeadPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbMakeDeadPacket	battle_action_packet_composite_frames.c:body_002641f8;battle_action_packet_composite_frames.c:ps2BattleActionPacketComposite_002641F8;battle_check1_packets.c:nbMakeDeadPacket
+002642e0	128	ps2BattleOutcome_002642E0	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbMakePressPacket	battle_action_skill_core_frames.c:body_002642e0;battle_action_skill_core_frames.c:ps2BattleActionSkill_002642E0;battle_outcome.c:body_002642e0;battle_outcome.c:ps2BattleOutcome_002642E0;battle_panel_renderer_remaining.c:body_002642e0
+00264368	404	ps2BattleOutcome_00264368	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbMakeNewPressPacket	battle_action_skill_core_frames.c:body_00264368;battle_action_skill_core_frames.c:ps2BattleActionSkill_00264368;battle_outcome.c:body_00264368;battle_outcome.c:ps2BattleOutcome_00264368;battle_panel_renderer_remaining.c:body_00264368
+00264508	32	nbMakeFlyBadPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbMakeFlyBadPacket	battle_action_packet_frames.c:body_00264508;battle_action_packet_frames.c:ps2BattleActionPacket_00264508;battle_kouka_packets.c:nbMakeFlyBadPacket
+00264528	128	nbMakeBadDamagePacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbMakeBadDamagePacket	battle_action_packet_frames.c:body_00264528;battle_action_packet_frames.c:ps2BattleActionPacket_00264528;battle_check1_packets.c:nbMakeBadDamagePacket
+002645a8	348	nbMakeBadKaifukuPacket	USER_DEFINED	rewritten	src/battle/kouka.cpp:nbMakeBadKaifukuPacket	battle_action_packet_frames.c:body_002645a8;battle_action_packet_frames.c:ps2BattleActionPacket_002645A8;battle_check1_packets.c:nbMakeBadKaifukuPacket;battle_panel_renderer_remaining.c:body_002645a8
 00264710	428	FUN_00264710	DEFAULT	unknown		
 002648c0	2132	FUN_002648c0	DEFAULT	unknown		
 00265130	356	FUN_00265130	DEFAULT	unknown		
@@ -7132,7 +7132,7 @@ address	size	name	name_source	status	rewrite	legacy
 00288ce8	36	nbCommand_BTL_AI_ROT_GET	USER_DEFINED	rewritten	src/battle/ai_script.cpp:rotationGet	battle_ai_actions.c:nbCommand_BTL_AI_ROT_GET
 00288d10	52	nbCommand_BTL_AI_CHANGE_OFF	USER_DEFINED	legacy		battle_presentation.c:nbCommand_BTL_AI_CHANGE_OFF
 00288d48	56	nbCommand_BTL_AI_CHANGE_ON	USER_DEFINED	legacy		battle_presentation.c:nbCommand_BTL_AI_CHANGE_ON
-00288d80	152	nbInitAiScript	USER_DEFINED	legacy		battle_ai_startup.c:nbInitAiScript
+00288d80	152	nbInitAiScript	USER_DEFINED	rewritten	src/battle/ai_script.cpp:start	battle_ai_startup.c:nbInitAiScript
 00288e18	492	FUN_00288e18	DEFAULT	legacy		battle_action_skill_support_frames.c:body_00288e18;battle_action_skill_support_frames.c:ps2BattleActionSkill_00288E18;battle_status_pairs.c:body_00288e18;battle_status_pairs_native.c:body_00288e18
 00289008	56	FUN_00289008	DEFAULT	legacy		battle_action_skill_support_frames.c:body_00289008;battle_action_skill_support_frames.c:ps2BattleActionSkill_00289008
 00289040	56	FUN_00289040	DEFAULT	unknown		
@@ -8349,7 +8349,7 @@ address	size	name	name_source	status	rewrite	legacy
 002c0258	176	ps2FieldDoorAtan2Bits_002C0258	USER_DEFINED	legacy		field_door_motion.c:ps2FieldDoorAtan2Bits_002C0258;field_movement_encounter_constructor.c:body_002c0258
 002c0388	128	FUN_002c0388	DEFAULT	unknown		
 002c0488	44	sdfQuatMult	USER_DEFINED	legacy		basic_pose.c:sdfQuatMult
-002c04e8	36	ps2QuaternionNormalize	USER_DEFINED	legacy		path_rotation.c:ps2QuaternionNormalize
+002c04e8	36	ps2QuaternionNormalize	USER_DEFINED	rewritten	src/kernel/draw.cpp:ps2QuaternionNormalize	path_rotation.c:ps2QuaternionNormalize
 002c0560	80	ps2FieldInfControllerNative_002C0560	USER_DEFINED	legacy		field_inf_controller_native.c:body_002c0560;field_inf_controller_native.c:ps2FieldInfControllerNative_002C0560
 002c05b0	80	FUN_002c05b0	DEFAULT	unknown		
 002c0600	112	sdfQuatToMatrix	USER_DEFINED	legacy		basic_pose.c:sdfQuatToMatrix;battle_action_model_frames.c:body_002c0600;battle_action_model_frames.c:ps2BattleActionModel_002C0600

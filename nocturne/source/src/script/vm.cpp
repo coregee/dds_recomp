@@ -15,7 +15,7 @@
 #include "nocturne/ee/float.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/interface/message.hpp"
-#include "nocturne/kernel/quake.hpp"
+#include "nocturne/script/commands.hpp"
 
 namespace nocturne::scr {
 
@@ -99,10 +99,10 @@ bool equal(uint32_t a, uint32_t b) { return ee::Float::fromBits(a) == ee::Float:
 bool less(uint32_t a, uint32_t b) { return ee::Float::fromBits(a) < ee::Float::fromBits(b); }
 bool lessEqual(uint32_t a, uint32_t b) { return ee::Float::fromBits(a) <= ee::Float::fromBits(b); }
 
+} // namespace
+
 // scrPrintf @ 0x001097E8 (no original name): a debug print, compiled out.
 void scrPrintf(uint32_t, uint32_t) {}
-
-} // namespace
 
 ScriptList& scriptList() { return *guest::table<ScriptList>(kScriptList); }
 ProcessWork* current() { return guest::table<Ptr32<ProcessWork>>(kCurrent)->get(); }
@@ -829,218 +829,9 @@ ProcessWork* scrGetScriptHandle() { return current(); }
 // scrGetData @ 0x0010B848
 uint32_t scrGetData() { return current()->data; }
 
-// ---- commands -------------------------------------------------------------------------------
-
-// The command table holds the original functions; those rewritten run here,
-// the rest through the engine.
-int32_t CallCommand(uint32_t entry)
-{
-    switch (entry) {
-    case 0x0010b888: return scrCommand_BIT_CHK();
-    case 0x0010b8b8: return scrCommand_BIT_ON();
-    case 0x0010b8e0: return scrCommand_BIT_OFF();
-    case 0x0010b908: return scrCommand_RND();
-    case 0x0010b940: return scrCommand_SYNC();
-    case 0x0010b960: return scrCommand_WAIT();
-    case 0x0010b9a8: return scrCommand_PUT();
-    case 0x0010b9f0: return scrCommand_PUTS();
-    case 0x0010ba38: return scrCommand_FADE_IN();
-    case 0x0010bad8: return scrCommand_FADE_OUT();
-    case 0x0010bb78: return scrCommand_SEL_JMP();
-    case 0x0010bbd0: return scrCommand_PAD_TRIG();
-    case 0x0010bc08: return scrCommand_PAD_PRESS();
-    case 0x0010bd20: return scrCommand_SCR_RUN();
-    case 0x0010bde0: return scrCommand_SCR_KILL();
-    case 0x0010be28: return scrCommand_SCR_WAIT();
-    case 0x0010be50: return scrCommand_SCR_STAT();
-    case 0x0010be98: return scrCommand_SCR_TIME();
-    case 0x0010bef8: return scrCommand_QUAKE_ON();
-    case 0x0010bf38: return scrCommand_QUAKE_OFF();
-    default: return guest::callCommand(entry);
-    }
-}
-
-// ---- the VM's own commands ----------------------------------------------------------------
-
-// scrCommand_BIT_CHK @ 0x0010B888: BIT_CHK(n), an event flag.
-int32_t scrCommand_BIT_CHK()
-{
-    scrSetIntReturnValue(evt::BitCheck(scrGetIntPara(0)) ? 1 : 0);
-    return 1;
-}
-
-// scrCommand_BIT_ON @ 0x0010B8B8
-int32_t scrCommand_BIT_ON()
-{
-    evt::BitOn(scrGetIntPara(0));
-    return 1;
-}
-
-// scrCommand_BIT_OFF @ 0x0010B8E0
-int32_t scrCommand_BIT_OFF()
-{
-    evt::BitOff(scrGetIntPara(0));
-    return 1;
-}
-
-// scrCommand_RND @ 0x0010B908: RND(n), 1..n.
-int32_t scrCommand_RND()
-{
-    scrSetIntReturnValue(sdf::GetRandInt(scrGetIntPara(0)) + 1);
-    return 1;
-}
-
-// scrCommand_SYNC @ 0x0010B940: waits one frame.
-int32_t scrCommand_SYNC() { return scrGetCommandTimer() != 0; }
-
-// scrCommand_WAIT @ 0x0010B960: WAIT(frames).
-int32_t scrCommand_WAIT()
-{
-    if (scrGetIntPara(0) <= 0)
-        return 1;
-    const int32_t timer = scrGetCommandTimer();
-    return timer >= scrGetIntPara(0);
-}
-
-// scrCommand_PUT @ 0x0010B9A8: PUT(n), a debug print.
-int32_t scrCommand_PUT()
-{
-    diag::print(diag::Message::ScriptPut, scrGetIntPara(0));
-    scrPrintf(0x0052f598, static_cast<uint32_t>(scrGetIntPara(0)));
-    return 1;
-}
-
-// scrCommand_PUTS @ 0x0010B9F0: PUTS(string)
-int32_t scrCommand_PUTS()
-{
-    diag::print(diag::Message::ScriptPuts, scrGetStrPara(0));
-    scrPrintf(0x0052f5b8, scrGetStrPara(0));
-    return 1;
-}
-
-namespace {
-
-// FADE_IN / FADE_OUT(mode, frames): mode 0 from / to black, 1 white.
-int32_t fade(bool in)
-{
-    if (scrGetCommandTimer())
-        return 1;
-    const int32_t mode = scrGetIntPara(0);
-    if (mode != 0 && mode != 1)
-        return 1;
-    const int32_t frames = scrGetIntPara(1);
-    const int32_t color = mode ? 255 : 0;
-    if (in)
-        dds3::FadeIn(color, color, color, frames);
-    else
-        dds3::FadeOut(color, color, color, frames);
-    return 0;
-}
-
-} // namespace
-
-// scrCommand_FADE_IN @ 0x0010BA38
-int32_t scrCommand_FADE_IN() { return fade(true); }
-
-// scrCommand_FADE_OUT @ 0x0010BAD8
-int32_t scrCommand_FADE_OUT() { return fade(false); }
-
-// scrCommand_SEL_JMP @ 0x0010BB78: SEL_JMP(n, label0, label1, ...) jumps to label n.
-int32_t scrCommand_SEL_JMP()
-{
-    const int32_t choice = scrGetIntPara(0);
-    if (choice < 0)
-        return 1;
-    const int32_t label = scrGetIntPara(choice + 1);
-    if (label < 0)
-        return 1;
-    scrSetCodePointer(scrGetLabelCodeAddress(label));
-    return 1;
-}
-
-namespace {
-
-// The pad manager's state of each button (DDS3_PADCHECK_*): bit 7 when
-// pressed this frame, bit 0 while held.
-int8_t padButton(int32_t button) { return guest::table<int8_t>(0x005298c8)[button]; }
-
-} // namespace
-
-// scrCommand_PAD_TRIG @ 0x0010BBD0: PAD_TRIG(button), pressed this frame.
-int32_t scrCommand_PAD_TRIG()
-{
-    scrSetIntReturnValue(padButton(scrGetIntPara(0)) < 0 ? 1 : 0);
-    return 1;
-}
-
-// scrCommand_PAD_PRESS @ 0x0010BC08: PAD_PRESS(button), held.
-int32_t scrCommand_PAD_PRESS()
-{
-    scrSetIntReturnValue(padButton(scrGetIntPara(0)) & 1);
-    return 1;
-}
-
-// scrCommand_SCR_RUN @ 0x0010BD20
-// SCR_RUN(procedure, priority offset): starts another procedure of this
-// script in a process of its own; returns the process.
-int32_t scrCommand_SCR_RUN()
-{
-    const int32_t index = scrGetIntPara(0);
-    ProcessWork* w = scrGetScriptHandle();
-    if (!w)
-        return 1;
-    if (!w->ProcessID) {
-        diag::print(diag::Message::ScriptRunWithoutProcess);
-    } else if (index >= 0 && index < w->typeTable->ItemCount) {
-        const int32_t displacement = scrGetIntPara(1);
-        const int32_t priority = *guest::table<int32_t>(w->ProcessID + 0x20) + displacement;
-        const uint32_t child = scrStartScript1a(priority, w->header.address, w->typeTable.address, w->procTable.address,
-                                                w->labelTable.address, w->code.address, w->MessageData, w->StringData, index);
-        scrSetIntReturnValue(static_cast<int32_t>(child));
-    }
-    return 1;
-}
-
-// scrCommand_SCR_KILL @ 0x0010BDE0: ends a process (on the next frame).
-int32_t scrCommand_SCR_KILL()
-{
-    const uint32_t process = static_cast<uint32_t>(scrGetIntPara(0));
-    if (dds3::ExistProcess(process))
-        dds3::KillProcess(process, 1);
-    return 1;
-}
-
-// scrCommand_SCR_WAIT @ 0x0010BE28: waits for a process to end.
-int32_t scrCommand_SCR_WAIT() { return dds3::ExistProcess(static_cast<uint32_t>(scrGetIntPara(0))) ? 0 : 1; }
-
-// scrCommand_SCR_STAT @ 0x0010BE50: whether a process is running.
-int32_t scrCommand_SCR_STAT()
-{
-    scrSetIntReturnValue(dds3::ExistProcess(static_cast<uint32_t>(scrGetIntPara(0))) ? 1 : 0);
-    return 1;
-}
-
-// scrCommand_SCR_TIME @ 0x0010BE98: how long a process has run.
-int32_t scrCommand_SCR_TIME()
-{
-    const uint32_t process = static_cast<uint32_t>(scrGetIntPara(0));
-    scrSetIntReturnValue(dds3::ExistProcess(process) ? dds3::GetRunTime(process) : 0);
-    return 1;
-}
-
-// scrCommand_QUAKE_ON @ 0x0010BEF8: QUAKE_ON(frames, range) shakes the view.
-int32_t scrCommand_QUAKE_ON()
-{
-    const int32_t frame = scrGetIntPara(0);
-    dds3::dds3SetQuake(frame, static_cast<uint32_t>(scrGetIntPara(1)));
-    return 1;
-}
-
-// scrCommand_QUAKE_OFF @ 0x0010BF38
-int32_t scrCommand_QUAKE_OFF()
-{
-    dds3::dds3StopQuake();
-    return 1;
-}
+// SDF_ABORT1 @ 0x0010B858
+// Whether the player asks to skip a waiting command: it has waited a frame
+// and the pad's button 1 was just pressed (DDS3_PADCHECK_TRIG).
+bool SDF_ABORT1() { return scrGetCommandTimer() != 0 && guest::table<int8_t>(0x005298c8)[1] < 0; }
 
 } // namespace nocturne::scr

@@ -21,6 +21,7 @@ uint32_t EE_FPU_SUB_S(uint32_t left_bits, uint32_t right_bits);
 uint32_t EE_FPU_MUL_S(uint32_t left_bits, uint32_t right_bits);
 uint32_t EE_FPU_DIV_S(uint32_t left_bits, uint32_t right_bits);
 uint32_t EE_FPU_COMPARE_S(uint32_t left_bits, uint32_t right_bits, unsigned predicate);
+uint32_t EE_FPU_RSQRT_S(uint32_t numerator_bits, uint32_t radicand_bits);   // src/ee/vu.cpp
 }
 
 namespace nocturne::ee {
@@ -39,6 +40,8 @@ public:
     float value() const { return std::bit_cast<float>(bits_); }
     constexpr uint32_t bits() const { return bits_; }
     Float abs() const { return fromBits(bits_ & 0x7fffffffu); }
+    // VRSQRT / RSQRT.S: a / sqrt(|b|).
+    friend Float rsqrt(Float a, Float b) { return fromBits(EE_FPU_RSQRT_S(a.bits_, b.bits_)); }
 
     friend Float operator+(Float a, Float b) { return fromBits(EE_FPU_ADD_S(a.bits_, b.bits_)); }
     friend Float operator-(Float a, Float b) { return fromBits(EE_FPU_SUB_S(a.bits_, b.bits_)); }

@@ -90,6 +90,25 @@ uint32_t affinityFlags(const UnitWork& unit, Attribute attr)
     return affinity(unit, attr) & 0xffff0000u;
 }
 
+// 0x00244078 (no original name): datGetAisyo's low half.
+uint32_t affinityRate(const UnitWork& unit, Attribute attr) { return affinity(unit, attr) & 0xffff; }
+
+// datCheckTalk @ 0x002444A8: no talking while shocked, frozen, asleep,
+// panicked, bound, flying or stoned.
+bool canTalk(const UnitWork& unit)
+{
+    switch (unit.badstat & kAilmentMask) {
+    case ailment::Shock: case ailment::Freeze: case ailment::Sleep: case ailment::Panic:
+    case ailment::Bind: case ailment::Fly: case ailment::Stone:
+        return false;
+    default:
+        return true;
+    }
+}
+
+// datGetLevelForDraw @ 0x00245D18
+int32_t levelForDraw(const UnitWork& unit) { return unit.level > 99 ? 99 : unit.level; }
+
 // datAddExp @ 0x002452B8
 void addExp(UnitWork& unit, int32_t exp)
 {
@@ -159,6 +178,38 @@ int32_t playerAlignment()
 {
     uint8_t race = magatama::playerRace();
     return race ? (race - 1) % 3 : 1;
+}
+
+// datCheckPlayerDead @ 0x002445A8
+bool isPlayerDead() { return (player().badstat & kAilmentMask) == ailment::Dead; }
+
+// datAddMaka @ 0x00244238
+void addMacca(int32_t amount)
+{
+    GlobalWork& global = globalWork();
+    int32_t macca = static_cast<int32_t>(static_cast<uint32_t>(global.maka) + static_cast<uint32_t>(amount));
+    if (macca < 0)
+        macca = 0;
+    if (macca > 9999999)
+        macca = 9999999;
+    global.maka = macca;
+}
+
+// datCheckMaka @ 0x002442C8
+bool hasMacca(int32_t amount) { return amount <= globalWork().maka; }
+
+// datInitPlayer @ 0x00245B10: the Demi-fiend from the template at 0x3493C0.
+void initPlayer()
+{
+    GlobalWork& global = globalWork();
+    std::memset(global.units, 0, sizeof global.units);
+    std::memcpy(&global.units[0], guest::table<uint8_t>(0x003493c0), 0xe8);
+    global.stock_list[0] = 0;
+    global.stock_count = 1;
+    global.maka = 0;
+    for (uint8_t& count : global.item_counts)
+        count = 0;
+    evt::BitOn(0xc04);
 }
 
 // datAddMakaPar @ 0x00244268: change Macca by a percentage (32-bit math).
@@ -287,6 +338,36 @@ int32_t findUniqueDevil(int32_t uniqueId)
     return -1;
 }
 
+// datGetUniqueDevilId @ 0x00245250
+int32_t uniqueDevilId(int32_t uniqueId)
+{
+    const int32_t index = findUniqueDevil(uniqueId);
+    return index < 0 ? -1 : globalWork().units[index].id;
+}
+
+// datSearchDevilStock @ 0x00244530: a demon (not the Demi-fiend) of that species.
+int32_t findDevil(int32_t devil)
+{
+    for (int i = 0; i < 16; ++i) {
+        const UnitWork& unit = globalWork().units[i];
+        if ((unit.flag & UnitFlag::Valid) && !(unit.flag & UnitFlag::PlayerCharacter) && unit.id == devil)
+            return i;
+    }
+    return -1;
+}
+
+// datCheckStockFull @ 0x00244EB8: as many demons as the stock holds.
+bool isStockFull()
+{
+    int32_t count = 0;
+    for (int i = 4; i < 16; ++i)
+        count += globalWork().units[i].flag & UnitFlag::Valid;
+    return globalWork().stock_capacity <= count;
+}
+
+// datDelDevil @ 0x00245C78
+int32_t removeDevil(int32_t devil) { return cmp::RemoveDevilEx(static_cast<uint16_t>(devil)); }
+
 // datAllClearCommMemory @ 0x00245808
 void clearPartyCommandMemory()
 {
@@ -302,6 +383,13 @@ void clearPartyCommandMemory()
 bool hasItem(int32_t item, int32_t count)
 {
     return count <= globalWork().item_counts[item];
+}
+
+// datCheckItemFull @ 0x00244410: items below 0x70 stack to 99; the rest are one-off.
+bool isItemFull(int32_t item)
+{
+    const uint8_t count = globalWork().item_counts[item];
+    return item < 0x70 ? count >= 99 : count != 0;
 }
 
 // datAddItem @ 0x002442E0
@@ -455,6 +543,80 @@ int32_t reasonRank(int32_t rank)
         }
     }
     return order[rank];
+}
+
+// ===========================================================================
+// Boss refights
+// ===========================================================================
+
+namespace {
+
+const BossPress* bossPresses() { return guest::table<const BossPress>(0x003fa430); }
+constexpr int kBossPresses = 40;
+
+} // namespace
+
+// datInitBossPress @ 0x00245C40
+void initBossPress()
+{
+    for (auto& record : globalWork().boss_records) {
+        record[0] = -1;
+        record[1] = -1;
+    }
+}
+
+// datBossRashGetRec @ 0x00245E60
+// The last fight's record needs the refight open; a closed entry for the
+// same encounter is skipped and the search goes on.
+int32_t bossPressRecord(int32_t encounter, int32_t type)
+{
+    for (int i = 0; i < kBossPresses; ++i) {
+        const BossPress& boss = bossPresses()[i];
+        if (boss.encid != encounter)
+            continue;
+        const int16_t* record = globalWork().boss_records[i];
+        if (type == 0)
+            return record[0] < 1 ? 999 : record[0];
+        if (type != 1)
+            return boss.dbest;
+        if (evt::BitCheck(boss.flag))
+            return record[1] == 0 ? 1 : record[1];
+    }
+    return 0;
+}
+
+// datBossRashUpdRec @ 0x00245F68
+// A refight's press turns (at least 1); a new best also sets the entry's
+// second event bit. Two story fights count as their refights' encounters.
+void updateBossPressRecord(int32_t encounter, int32_t press)
+{
+    if (encounter == 0x3e1)
+        encounter = 0x1d8;
+    if (encounter == 0x3e0)
+        encounter = 0x14e;
+    if (press == 0)
+        press = 1;
+    int i = 0;
+    while (bossPresses()[i].encid != encounter)
+        if (++i >= kBossPresses)
+            return;
+    const BossPress& boss = bossPresses()[i];
+    if (!evt::BitCheck(boss.flag))
+        return;
+    globalWork().boss_records[i][1] = static_cast<int16_t>(press);
+    if (bossPressRecord(encounter, 0) <= press)
+        return;
+    globalWork().boss_records[i][0] = static_cast<int16_t>(press);
+    evt::BitOn(boss.flag2);
+}
+
+// datBossRashChk @ 0x00246038: an open refight of that encounter.
+bool isBossRefight(int32_t encounter)
+{
+    for (int i = 0; i < kBossPresses; ++i)
+        if (bossPresses()[i].encid == encounter && evt::BitCheck(bossPresses()[i].flag))
+            return true;
+    return false;
 }
 
 } // namespace nocturne::dat

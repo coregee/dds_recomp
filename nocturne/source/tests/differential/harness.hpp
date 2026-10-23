@@ -35,6 +35,14 @@ struct Gen {
     template <class T, size_t N> T pick(const T (&values)[N]) { return values[below(N)]; }
 };
 
+// The running script command's work at FW_SCRIPT (script/vm.hpp): eight int
+// arguments on its stack, its data the battle action (FW_ACTION) and its
+// message window `messageHandle`. Commands of both sides read it through the
+// rewritten VM.
+void scriptWork(int32_t messageHandle = -1);
+void scriptParam(int32_t index, int32_t value);
+int32_t& scriptMessageHandle();
+
 // The legacy and rewritten calls for one case; both return the result as a
 // normalised 64-bit value.
 struct Pair {
@@ -47,6 +55,7 @@ struct TestCase {
 };
 
 int32_t interestingSkill(Gen& g);
+void battleWorld(Gen& g);   // a random battle: units, formations, parties, main and action data (main.cpp)
 void randomUnit(Gen& g, UnitWork& u, bool enemy);
 
 // A random save game: stock, stock list, Magatama, Reason points (fusion_tests.cpp).
@@ -60,6 +69,9 @@ void addMagatamaTests(std::vector<TestCase>& t);      // magatama_tests.cpp
 void addAiTests(std::vector<TestCase>& t);            // ai_tests.cpp
 void addMessageTests(std::vector<TestCase>& t);       // message_tests.cpp
 void addFontTests(std::vector<TestCase>& t);          // font_tests.cpp
+void addPanelTests(std::vector<TestCase>& t);         // panel_tests.cpp
 void addScriptTests(std::vector<TestCase>& t);        // script_tests.cpp
+void addDataTests(std::vector<TestCase>& t);          // data_tests.cpp
+void addKoukaTests(std::vector<TestCase>& t);         // kouka_tests.cpp
 
 } // namespace difftest

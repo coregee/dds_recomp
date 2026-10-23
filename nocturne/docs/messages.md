@@ -120,6 +120,29 @@ selection, 0x300 and 0x3000 the message and speaker panels (fading in,
 shown, fading out); the flags above 0xFFFF are set by script commands
 (`itfMesMngMarkBitStat` / `ClearBitStat` can only touch those).
 
+## Panels
+
+A window's background is a panel (`itfPanel`, `source/src/interface/panel.cpp`):
+a rectangle (in 1/16 pixels), a depth and a colour, and a work block of its
+type with the vertices and vertex colours it is drawn with. Placing or
+moving a panel rebuilds the vertices, colouring it the colours.
+
+| Type | Name | Shape |
+|---|---|---|
+| 0 | Normal | soft ends 32 pixels wide (meeting in the middle when narrower) |
+| 1 | MesWin | a 4x4 grid 16 pixels out at the sides and 8 above and below, lines 0, 0.5 and 3 pixels in from the top and bottom; six shades of the colour |
+| 2 | SelWin | the same grid, lines 0 and 0.5 pixels in; four shades |
+| 3 | Plain | a rectangle; three shades, the last two at half alpha |
+| 4 | Pera1 | a rectangle, one colour |
+| 5 | LeftFade | transparent at the left, solid for the last 90 pixels |
+| 6 | MesWin2 | textured, no vertices: the message window the manager uses |
+| 7 | SpkWin2 | textured: the speaker's name |
+| 8 | Facility | textured, a fixed width (26 to 485 pixels), always blue: the message panel of a window of type 2 (`WINDOW_TYPE`) |
+
+The shades are the colour scaled by 16.16 ratios from tables in the
+executable (`itfMiscSetRatioRGB`, at most 255). The PS2 has the same types
+as the HD remaster; drawing them (`itfPnlDraw`) is not rewritten yet.
+
 ## Encoding details
 
 From `tools/messages.py` (the module docstring has the byte layout):

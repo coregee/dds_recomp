@@ -169,28 +169,9 @@ int32_t scrGetCommandTimer();
 int32_t scrGetMessageHandle();
 ProcessWork* scrGetScriptHandle();
 uint32_t scrGetData();
+bool SDF_ABORT1();   // a waiting command skipped with the pad
 
-// ---- commands ----
-int32_t CallCommand(uint32_t entry);   // a command table entry's function
-int32_t scrCommand_BIT_CHK();
-int32_t scrCommand_BIT_ON();
-int32_t scrCommand_BIT_OFF();
-int32_t scrCommand_RND();
-int32_t scrCommand_SYNC();
-int32_t scrCommand_WAIT();
-int32_t scrCommand_PUT();
-int32_t scrCommand_PUTS();
-int32_t scrCommand_FADE_IN();
-int32_t scrCommand_FADE_OUT();
-int32_t scrCommand_SEL_JMP();
-int32_t scrCommand_PAD_TRIG();
-int32_t scrCommand_PAD_PRESS();
-int32_t scrCommand_SCR_RUN();
-int32_t scrCommand_SCR_KILL();
-int32_t scrCommand_SCR_WAIT();
-int32_t scrCommand_SCR_STAT();
-int32_t scrCommand_SCR_TIME();
-int32_t scrCommand_QUAKE_ON();
-int32_t scrCommand_QUAKE_OFF();
+// A debug print compiled out of the game (kept for the record of what printed).
+void scrPrintf(uint32_t format, uint32_t value = 0);
 
 } // namespace nocturne::scr

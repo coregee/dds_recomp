@@ -44,9 +44,10 @@ of work.
 5. **Prove it.** Add every function to the differential test
    (`source/tests/differential/`: `main.cpp` for battle/unit code,
    `fusion_tests.cpp`, `fusion_core_tests.cpp`, `progression_tests.cpp`,
-   `magatama_tests.cpp`, `ai_tests.cpp`, `message_tests.cpp` and
-   `font_tests.cpp` (against the original instructions; their shared world,
-   with the game's fonts and message tables, is `interface_world.cpp`);
+   `magatama_tests.cpp`, `ai_tests.cpp`, and against the original
+   instructions `message_tests.cpp`, `font_tests.cpp`, `script_tests.cpp`,
+   `data_tests.cpp` and `kouka_tests.cpp` (their shared interpreter and world, with the
+   game's fonts, message tables and scripts, are in `interface_world.cpp`);
    shared helpers in `harness.hpp`, engine fakes in `fake_world.c`) and run
    `source\tests\differential\build.cmd`. Results, traps, RNG draw
    order, debug prints and all written RAM must match the legacy C. Make sure

@@ -120,4 +120,27 @@ void markEndureUsed(int32_t formindex)
         party->flag = static_cast<int16_t>(party->flag | PartyFlag::EndureSpent);
 }
 
+// nbCheckEventDead @ 0x00259AB0
+bool nbCheckEventDead(const Formation& form)
+{
+    const int32_t id = unitModelId(*GetUnitWorkFromFormindex(form.formindex));
+    if (id == 0)
+        return false;
+    return dat::devilAI(id).deadscriptid != 0 || dat::devilAI(id).deadeventno != 0;
+}
+
+// nbCheckDeadScript @ 0x00259B10
+int32_t nbCheckDeadScript(const Formation& form)
+{
+    const int32_t id = unitModelId(*GetUnitWorkFromFormindex(form.formindex));
+    return id == 0 ? 0 : dat::devilAI(id).deadscriptid;
+}
+
+// nbCheckDeadEvent @ 0x00259B70
+int32_t nbCheckDeadEvent(const Formation& form)
+{
+    const int32_t id = unitModelId(*GetUnitWorkFromFormindex(form.formindex));
+    return id == 0 ? 0 : dat::devilAI(id).deadeventno;
+}
+
 } // namespace nocturne::nb

@@ -6,6 +6,8 @@
 #include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/calc.hpp"
 #include "nocturne/external.hpp"
+#include "nocturne/interface/message.hpp"
+#include "nocturne/script/vm.hpp"
 #include "nocturne/guest.hpp"
 
 namespace nocturne::nb::ai::script {
@@ -13,14 +15,15 @@ namespace nocturne::nb::ai::script {
 namespace {
 
 constexpr uint32_t kRotation = 0x005514e8;   // int32: the rotation counter
+constexpr uint32_t kScripts = 0x004f0800;    // the AI scripts (a FlowScript in the executable)
 
-ActionProcessData& act() { return *guest::table<ActionProcessData>(scr::GetData()); }
+ActionProcessData& act() { return *guest::table<ActionProcessData>(scr::scrGetData()); }
 int32_t& rotation() { return *guest::table<int32_t>(kRotation); }
 
 // AI_CHK_* pass the condition type with the script's first argument.
 int32_t check(uint32_t type)
 {
-    checkCondition(static_cast<uint32_t>(scr::GetIntPara(0)) | type << 16);
+    checkCondition(static_cast<uint32_t>(scr::scrGetIntPara(0)) | type << 16);
     return 1;
 }
 
@@ -37,7 +40,7 @@ void checkCondition(uint32_t word)
 {
     ActionProcessData& a = act();
     a.aiselect = 0;
-    scr::SetIntReturnValue(condition(a, word) ? 1 : 0);
+    scr::scrSetIntReturnValue(condition(a, word) ? 1 : 0);
 }
 
 // nbCommand_AI_CHK_MYHP @ 0x002883A8
@@ -92,42 +95,42 @@ int32_t checkCannotAfford() { return check(28); }
 // nbCommand_AI_CHK_ESCAPE @ 0x002888C0
 int32_t checkEscape()
 {
-    scr::SetIntReturnValue(escapeAllowed(*act().data) ? 1 : 0);
+    scr::scrSetIntReturnValue(escapeAllowed(*act().data) ? 1 : 0);
     return 1;
 }
 
 // nbCommand_AI_GET_TURN @ 0x00288788
 int32_t getTurn()
 {
-    scr::SetIntReturnValue(act().data->turn);
+    scr::scrSetIntReturnValue(act().data->turn);
     return 1;
 }
 
 // nbCommand_AI_GET_PRESSKOUDO @ 0x002887F0
 int32_t getPressCount()
 {
-    scr::SetIntReturnValue(buffCounter(act().form->formindex, 18));
+    scr::scrSetIntReturnValue(buffCounter(act().form->formindex, 18));
     return 1;
 }
 
 // nbCommand_AI_GET_MYLV @ 0x00288828
 int32_t getOwnLevel()
 {
-    scr::SetIntReturnValue(act().work->level);
+    scr::scrSetIntReturnValue(act().work->level);
     return 1;
 }
 
 // nbCommand_AI_GET_MYAISYO @ 0x00288858
 int32_t getOwnAffinityRow()
 {
-    scr::SetIntReturnValue(affinityRowOf(act().form->formindex));
+    scr::scrSetIntReturnValue(affinityRowOf(act().form->formindex));
     return 1;
 }
 
 // nbCommand_AI_GET_FUREA @ 0x00288890
 int32_t getMoonPhase()
 {
-    scr::SetIntReturnValue(evt::GetAgeOfMoon16() / 2);
+    scr::scrSetIntReturnValue(evt::GetAgeOfMoon16() / 2);
     return 1;
 }
 
@@ -153,7 +156,7 @@ int32_t actEscape()
 int32_t actSkill()
 {
     ActionProcessData& a = act();
-    uint16_t skill = static_cast<uint16_t>(scr::GetIntPara(0));
+    uint16_t skill = static_cast<uint16_t>(scr::scrGetIntPara(0));
     a.work->nowindex = skill;
     a.work->nowcommand = 1;
     return 1;
@@ -163,10 +166,10 @@ int32_t actSkill()
 int32_t actSummon()
 {
     ActionProcessData& a = act();
-    uint16_t skill = static_cast<uint16_t>(scr::GetIntPara(0));
+    uint16_t skill = static_cast<uint16_t>(scr::scrGetIntPara(0));
     a.work->nowcommand = 1;
     a.work->nowindex = skill;
-    int32_t devil = scr::GetIntPara(1);
+    int32_t devil = scr::scrGetIntPara(1);
     a.aisummonid = static_cast<uint32_t>(devil);
     prepareSummonSlots(*a.data, devil);
     return 1;
@@ -206,7 +209,7 @@ int32_t rotationClear()
 // the division (which traps for n = 0).
 int32_t rotationNext()
 {
-    int32_t divisor = scr::GetIntPara(0);
+    int32_t divisor = scr::scrGetIntPara(0);
     int32_t next = static_cast<int32_t>(static_cast<uint32_t>(rotation()) + 1u);
     rotation() = next;
     if (divisor == 0)
@@ -218,8 +221,23 @@ int32_t rotationNext()
 // nbCommand_BTL_AI_ROT_GET @ 0x00288CE8
 int32_t rotationGet()
 {
-    scr::SetIntReturnValue(rotation());
+    scr::scrSetIntReturnValue(rotation());
     return 1;
+}
+
+// nbInitAiScript @ 0x00288D80: runs the procedure as a child of the battle
+// process, one step ahead of it, with the action as its data. If the
+// script has a message window, {var 0} is the devil's name.
+void start(ActionProcessData& act, int32_t procedure)
+{
+    const uint32_t battle = act.data->MainProcessID;
+    const uint32_t process = scr::scrStartScript2(guest::table<dds3::ProcessID>(battle)->priority - 1, kScripts, procedure);
+    scr::scrSetUserData(process, guest::addressOf(&act));
+    const int32_t window = guest::table<scr::ProcessWork>(dds3::GetProcessData(process))->MesHandle;
+    if (window >= 0)
+        mes::SetVarFormatted(window, 0, act.work->id, mes::kVarDevil);
+    dds3::LinkProcess(act.data->MainProcessID, process);
+    act.data->AiScriptProcessID = process;
 }
 
 // nbCommand_BTL_PNL_ON @ 0x00288AD8: does nothing on the PS2.

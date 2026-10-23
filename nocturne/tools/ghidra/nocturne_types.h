@@ -348,26 +348,42 @@ typedef struct nbMainProcessData {
     u8 turn;
     s8 phase, nextphase;
     u8 esccnt;
-    u8 unknown_6c[0x84 - 0x6c];
+    u16 phasetime;
+    u32 battletime;
+    float press3;
+    s16 press4_p, press4_ten, press4_hansya, press4_miss;
+    s16 StageMajor, StageMinor;
     s32 summonallowed;
     s32 aiextra;
-    u8 unknown_8c[0x98 - 0x8c];
+    s32 eventrid;
+    s16 negopformindex, negoeformindex;
+    s32 negoresult;
     u8 item[4], itemcnt[4];
     u32 maka, exp;
-    u8 unknown_a8[0x14c - 0xa8];
+    u32 baselight, niidalight, gamecamera, niidacamera, eventcamera;
+    u32 MainProcessID, MaeProcessID, AtoProcessID, ResultProcessID, StageProcessID, UnitProcessID;
+    u32 ActionProcessID[4];
+    s32 NowActionProcess;
+    u32 CommSelProcessID, TarSelProcessID, EffectProcessID;
+    u32 KoukaProcessID;
+    u32 NegoProcessID, CameraProcessID, DebugProcessID, AiScriptProcessID;
+    u8 unknown_108[0x14c - 0x108];
     s32 piercedResistance;
 } nbMainProcessData;
+
+/* nbTimeList_t */
+typedef struct nbTimeList { u16 lockframe, endframe, hp, pad; } nbTimeList;
 
 typedef struct nbActionProcessData {
     PTR32(nbMainProcessData) data;
     u32 stat;
-    s32 uniqueid;
     s8 seq, nextseq;
     u16 seqtime;
     s32 seqcnt, skilltime;
     float press;
     s32 newpresstype;
     s16 newpress_p, newpress_ten;
+    s32 newaddpresstype;
     PTR32(nbParty) party;
     PTR32(nbFormation) form;
     PTR32(datUnitWork) work;
@@ -376,7 +392,11 @@ typedef struct nbActionProcessData {
     s32 runerr, jyokyomes, jyo_varid, jyo_varind, adata;
     s32 autoskill;
     s32 allhpdamage, allmpdamage, massuruid;
-    u8 unknown_68[0x190 - 0x68];
+    u8 unknown_68[0x74 - 0x68];
+    u32 hEffBTL, hBed, hSkillSe, hSkillMem, skillmidi;
+    nbTimeList timelist[32];
+    u32 packettime;
+    s32 hitstopframe;
     u32 aiselect;
     s32 aijokentbl;
     s8 aichktbl[5];
@@ -530,6 +550,24 @@ typedef struct itfpanel {
     u8 type;
 } itfpanel;
 
+/* A panel's vertices and colours (itfPanelTypeWork_t, by type). */
+typedef struct itfPanelVertex { s32 x, y; } itfPanelVertex;
+typedef struct itfPanelColor { s32 r, g, b, a; } itfPanelColor;
+typedef struct itfColorRatio { s32 r, g, b, unused; } itfColorRatio;
+typedef struct itfPanelNormalWork { itfPanelVertex vertex[8]; itfPanelColor edge, body; } itfPanelNormalWork;
+typedef struct itfPanelMesWinWork {
+    itfPanelVertex grid[16], top[12], bottom[12];
+    itfPanelColor edge, body, shade[6];
+} itfPanelMesWinWork;
+typedef struct itfPanelSelWinWork {
+    itfPanelVertex grid[16], top[8], bottom[8];
+    itfPanelColor edge, body, shade[4];
+} itfPanelSelWinWork;
+typedef struct itfPanelPlainWork { itfPanelVertex vertex[4]; itfPanelColor body, shade[3]; } itfPanelPlainWork;
+typedef struct itfPanelPera1Work { itfPanelVertex vertex[4]; itfPanelColor body; } itfPanelPera1Work;
+typedef struct itfPanelLeftFadeWork { itfPanelVertex vertex[6]; itfPanelColor edge, body; } itfPanelLeftFadeWork;
+typedef struct itfPanelFacilityWork { u32 texture; itfPanelVertex vertex[8]; itfPanelColor edge, body; } itfPanelFacilityWork;
+
 /* itfMesBinFileHeader_t and the dialog headers of a loaded MSG1 table. */
 typedef struct itfMesBinFileHeader {
     u8 filetype, format;
@@ -657,5 +695,95 @@ typedef struct scrScriptList {
 
 /* The screen quake (0x54E970, dds3KernelDraw). */
 typedef struct dds3Quake { u16 dds3QuakeFlag; s16 dds3QuakeFrame; u16 dds3QuakeXRange, dds3QuakeYRange; } dds3Quake;
+
+
+/* ---- the screen effects (source/include/nocturne/effect/event.hpp, kernel/draw.hpp) ---- */
+
+typedef struct sdfIVector2 { s32 x, y; } sdfIVector2;
+typedef struct dds3Vector4 { float x, y, z, w; } dds3Vector4;
+
+/* dds3Effect_Blur_t */
+typedef struct dds3Effect_Blur {
+    u32 abgr;
+    s32 blend;
+    float rotate, scale;
+    sdfIVector2 center;
+    sdfIVector2 xy[2];
+} dds3Effect_Blur;
+typedef struct dds3Effect_PartialMultiBlurParam { s32 area; dds3Effect_Blur Blur; } dds3Effect_PartialMultiBlurParam;
+typedef struct dds3Effect_DistortionBlurParam {
+    u32 number, interval;
+    float speed;
+    u32 abgr;
+    s32 blend;
+    float rotate, distortion;
+    sdfIVector2 center;
+    s32 area, width;
+} dds3Effect_DistortionBlurParam;
+typedef struct dds3Effect_RippleBlurParam {
+    u32 number;
+    float speed, interval;
+    u32 abgr;
+    s32 blend;
+    float rotate, power, frequency;
+    sdfIVector2 center;
+    s32 area;
+} dds3Effect_RippleBlurParam;
+typedef struct dds3Effect_Filter { u32 abgr; s32 blend; sdfIVector2 xy[2]; } dds3Effect_Filter;
+typedef struct dds3Effect_PartialMultiFilterParam {
+    s32 area;
+    sdfIVector2 center;
+    dds3Effect_Filter Filter;
+} dds3Effect_PartialMultiFilterParam;
+
+/* sdf3DFogParam_t */
+typedef struct sdf3DFogParam { float fogMax, fogMin, fogNear, fogFar; u32 color; } sdf3DFogParam;
+
+/* An event effect's fades (0x551C10: mulblur, distblur, ripblur, blur2, filter2, mfilter). */
+typedef struct dds3EffectFade { u16 now, max, abase, atarget, swapnow, swapmax; } dds3EffectFade;
+typedef struct dds3EffectFades { dds3EffectFade mulblur, distblur, ripblur, blur2, filter2, mfilter; } dds3EffectFades;
+
+/* The lights', ambient's, fog's and soften / bias fades (0x551BC0). */
+typedef struct dds3SceneFades {
+    u16 lightrgbnow[4], lightrgbmax[4];
+    u16 lightdirnow[4], lightdirmax[3];
+    u16 ambientnow, ambientmax, pad;
+    u32 ambientbase, ambienttarget;
+    u16 fogrgbnow, fogrgbmax, fogparanow, fogparamax;
+    u32 fogrgbbase, fogrgbtarget;
+    u16 sbnow, sbmax;
+    float softenbase, softentarget, biasbase, biastarget;
+} dds3SceneFades;
+
+
+/* datBossPress_t: a boss refight (0x3FA430, 40 entries). */
+typedef struct datBossPress { s32 flag, flag2, encid, dbest; } datBossPress;
+
+
+/* ---- the battle's presentation queue (source/include/nocturne/battle/kouka.hpp) ---- */
+
+typedef struct nbKoukaPacket nbKoukaPacket;
+struct nbKoukaPacket {
+    s16 startframe, framelength;
+    s8 type;
+    u8 flag;
+    u16 time;
+    s32 uniqueid;
+    PTR32(nbKoukaPacket) next;
+    PTR32(nbKoukaPacket) prev;
+    PTR32(nbFormation) form;
+    PTR32(datUnitWork) unit;
+    PTR32(nbParty) party;
+    s32 partyno;
+    u32 cuteff;
+    u32 data1, data2;
+    dds3Vector4 v;
+};
+typedef struct nbKoukaProcessData {
+    PTR32(nbMainProcessData) data;
+    s32 packetcnt;
+    PTR32(nbKoukaPacket) first;
+    PTR32(nbKoukaPacket) last;
+} nbKoukaProcessData;
 
 #endif

@@ -10,15 +10,10 @@
 #include "nocturne/interface/message.hpp"
 
 extern "C" {
-uint64_t scrGetMessageHandle(void);
 uint64_t scrGetIntPara(uint64_t);
-void scrSetIntReturnValue(uint64_t);
-uint64_t itfPnlRegist2(uint64_t, uint64_t);
-void itfPnlSetPosition(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
-void itfPnlSetPositionOffset(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
-void itfPnlSetColor(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
-void itfPnlRelease(uint64_t);
 uint64_t ps2SoundPlay(uint64_t, uint64_t, uint64_t);
+void dds3LinkProcess(uint64_t, uint64_t);
+uint64_t nbRunAi(uint64_t);   // legacy (battle_ai_execution.c), tested against the rewrite
 uint32_t ps2MemoryHandleAllocate(int32_t);
 uint32_t ps2MemoryHandleAcquirePointer(uint32_t);
 void ps2MemoryHandleFree(uint32_t);
@@ -35,12 +30,21 @@ uint32_t evtBitCheck(int32_t);
 void evtBitOn(int32_t);
 void evtBitOff(int32_t);
 uint32_t sdfGetRandInt(uint32_t*, uint32_t);
+float sdfGetRandFloat(uint32_t*);
 uint64_t dds3KillProcess(uint64_t, uint64_t);
 uint64_t dds3ExistProcess(uint64_t);
 uint64_t ps2ProcessGetRunTime(uint64_t);
 void dds3SetProcessData(uint64_t, uint64_t);
 uint64_t dds3GetProcessData(uint64_t);
 void dds3FadeIn(uint64_t, uint64_t, uint64_t, uint64_t);
+void dds3PadAct(uint64_t, uint64_t, uint64_t);
+uint64_t nbGetMainProcessData(void);
+uint64_t nbGetUnitWorkPointer(uint64_t, uint64_t);
+uint64_t nbGetPartyFromFormindex(uint64_t);
+uint64_t nbGetUnitWorkFromFormindex(uint64_t);
+uint64_t dds3SearchProcessName(uint64_t);
+int32_t cmpRemoveDevilEx(uint16_t);
+void effBTLDelete(uint64_t);
 void dds3FadeOut(uint64_t, uint64_t, uint64_t, uint64_t);
 void ps2PoolRelease(uint32_t);
 }
@@ -59,34 +63,75 @@ std::vector<std::vector<uint8_t>> gTables;
 std::vector<uint8_t> gFonts[4];
 std::vector<std::vector<uint8_t>> gScripts;
 
-// With `vm`, the script VM's own functions run as original code; otherwise
-// its argument and result functions are the fake script of fake_world.c (for
-// commands tested on their own).
-ee::Interpreter makeOriginal(bool vm)
+// The original code around the interface, the script VM and the data it
+// changes; the commands read the script work at FW_SCRIPT (script_bridge.cpp).
+ee::Interpreter makeOriginal()
 {
     ee::Interpreter e;
     e.interpret(0x001c6018, 0x001cae58);   // the font engine (frFont)
     e.interpret(0x001cae58, 0x001caf88);   // itfMiscLink*
     e.interpret(0x001cd2e0, 0x001d1108);   // the message manager (itfMesManager)
     e.interpret(0x00158940, 0x00158948);   // an empty function (HD: the UI's open / close hook)
-    e.interpret(0x001097e8, 0x0010bf58);   // the script VM and its commands
+    e.interpret(0x001097e8, 0x0010d730);   // the script VM, scrCommonCommand and scrParameterCommand
     e.interpret(0x00104d38, 0x00104da0);   // dds3SetQuake, dds3StopQuake
+    e.interpret(0x00105580, 0x001062e0);   // dds3KernelDraw: the camera, the screen blur and the event effects
+    e.interpret(0x001070d0, 0x00107310);   // dds3SetLightColor, dds3SetLightDir
+    e.interpret(0x00106ee0, 0x001070d0);   // dds3RotationArc
+    e.interpret(0x002c04e8, 0x002c050c);   // ps2QuaternionNormalize
+    e.interpret(0x00107310, 0x001074f0);   // dds3SetAmbientColor, dds3SetFogColor, dds3SetFogPara
+    e.interpret(0x00107af0, 0x00107b40);   // dds3SetSoftenBias
+    e.interpret(0x001ad230, 0x001ad5c8);
+    e.interpret(0x00242a88, 0x002460b0);   // datCalc
+    e.interpret(0x0025e8e0, 0x0025eaf0);   // nbKoukaProcess: the queue
+    e.interpret(0x0025ee78, 0x0025efd0);
+    e.interpret(0x00261500, 0x00264710);   // nbMakePacket
+    e.interpret(0x00259a30, 0x00259a5c);   // nbGetUnitID
+    e.interpret(0x00259ab0, 0x00259bd0);   // nbCheckEventDead, nbCheckDeadScript, nbCheckDeadEvent
+    e.interpret(0x00267788, 0x002677b4);   // nbGetBadStat
+    e.interpret(0x002514f0, 0x002518c8);   // nbActionProcess: the time list
+    e.interpret(0x0026a7d0, 0x0026a824);   // nbGetDevilFormatFlag
+    e.interpret(0x00253488, 0x00253490);   // SetAction_NON
+    e.interpret(0x00253bf8, 0x00253de0);   // SetAction_AI .. CheckAction_DEADSCRIPT
+    e.interpret(0x00288d80, 0x00288e18);   // nbInitAiScript
+    e.interpret(0x00257b08, 0x00257bf0);   // SetAction_END
+    e.interpret(0x00257460, 0x00257488);   // WAIT
+    e.interpret(0x00257a68, 0x00257b08);   // CHECK3, ATO
+    e.interpret(0x00257bf0, 0x00257c80);   // CheckAction_END, nbGetActionSeq, nbGetPrevActionSeq
+    e.interpret(0x00257cc8, 0x00257cd0);   // SetNextActionSeq
+    e.interpret(0x00223628, 0x00223668);   // cmpCalcLevelUpBaseExp
+    e.interpret(0x00223668, 0x00223728);   // cmbCalcLevelUpExp
+    e.interpret(0x00222160, 0x002221cc);   // cmbGetMasterHeartsNums
+    e.interpret(0x00221f20, 0x002220c0);   // cmbChkMasterHeartsStatNums
+    e.interpret(0x00221e70, 0x00221ef4);   // cmbGetPlayerRaceID
+    e.interpret(0x00216b78, 0x00216b90);   // fclEncycGetNum
+    e.interpret(0x00216b90, 0x00216bec);   // fclEncycGetRatio2
+    e.interpret(0x00219df0, 0x00219fbc);   // fclEncyc_SetElem
+    e.interpret(0x00216b20, 0x00216b78);   // ps2CompendiumRestore_00216B20
+    e.interpret(0x00216a18, 0x00216b20);   // ps2CompendiumRecords_00216A18
+    e.interpret(0x00221550, 0x00221558);   // ps2UnitMagatamaEquipHook_00221550
+    e.interpret(0x00222408, 0x0022246c);   // ps2HeartsAddParam
+    e.interpret(0x00240a98, 0x00240b48);   // ps2UnitRecalculateMaxHpMp_00240A98
+    e.interpret(0x00221558, 0x00221560);   // ps2UnitMagatamaUnequipHook_00221558
+    e.interpret(0x002222c0, 0x00222318);   // cmbGetHeartsDefaultParam
+    e.interpret(0x00222318, 0x0022239c);   // cmbGetHeartsParamEx
+    e.interpret(0x00222140, 0x0022215c);   // cmbChkHeartsMaster
+    e.interpret(0x002223a0, 0x00222404);   // cmbGetHeartsParam
+    e.interpret(0x00222470, 0x002224d4);   // cmbSubHeartsParam
+    e.interpret(0x00222550, 0x00222610);   // cmbCreateDefaultHeartsSkill
+    e.interpret(0x002328c8, 0x00232920);   // cmpChkHaveHearts
+    e.interpret(0x00232880, 0x002328c8);   // cmpChkHaveNormalHeartsAll
+    e.interpret(0x002138c0, 0x00213934);   // fclChkItemHearts   // effEvent: the event effects' switches and settings
+    e.interpret(0x001caf78, 0x001caff4);   // itfMiscSetRatioRGB
+    e.interpret(0x001cc080, 0x001cc2b8);   // itfPanel: registering, releasing, placing, colouring
+    e.interpret(0x001cc358, 0x001cc9a0);   // itfPanel: the vertex and colour builders
     e.interpret(0x002d1550, 0x002d1d68);   // libgcc soft double
-    e.interpret(0x002d3398, 0x002d3808);
+    e.interpret(0x002d3398, 0x002d3810);
     auto a = [](ee::Cpu& c, int i) { return c.arg(i); };
     auto none = [](auto) { return uint64_t{0}; };
     (void)none;
-    if (!vm) {
-        e.hook(0x0010b830, [](ee::Cpu&) { return scrGetMessageHandle(); });
-        e.hook(0x0010b5c8, [=](ee::Cpu& c) { return scrGetIntPara(a(c, 0)); });
-        e.hook(0x0010b790, [=](ee::Cpu& c) { scrSetIntReturnValue(a(c, 0)); return uint64_t{0}; });
-    }
-    e.hook(0x001cc080, [=](ee::Cpu& c) { return itfPnlRegist2(a(c, 0), a(c, 1)); });
-    e.hook(0x001cc1a0, [=](ee::Cpu& c) { itfPnlSetPosition(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5)); return uint64_t{0}; });
-    e.hook(0x001cc1e8, [=](ee::Cpu& c) { itfPnlSetPositionOffset(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5)); return uint64_t{0}; });
-    e.hook(0x001cc270, [=](ee::Cpu& c) { itfPnlSetColor(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4)); return uint64_t{0}; });
-    e.hook(0x001cc150, [=](ee::Cpu& c) { itfPnlRelease(a(c, 0)); return uint64_t{0}; });
     e.hook(0x002c18d8, [=](ee::Cpu& c) { return ps2SoundPlay(a(c, 0), a(c, 1), a(c, 2)); });
+    e.hook(0x00101af8, [=](ee::Cpu& c) { dds3LinkProcess(a(c, 0), a(c, 1)); return uint64_t{0}; });
+    e.hook(0x00287cb8, [=](ee::Cpu& c) { return nbRunAi(a(c, 0)); });
     e.hook(0x002a9038, [=](ee::Cpu& c) { return uint64_t{ps2MemoryHandleAllocate(static_cast<int32_t>(a(c, 0)))}; });
     e.hook(0x002a9688, [=](ee::Cpu& c) { return uint64_t{ps2MemoryHandleAcquirePointer(static_cast<uint32_t>(a(c, 0)))}; });
     e.hook(0x002a9558, [=](ee::Cpu& c) { ps2MemoryHandleFree(static_cast<uint32_t>(a(c, 0))); return uint64_t{0}; });
@@ -116,6 +161,15 @@ ee::Interpreter makeOriginal(bool vm)
     e.hook(0x00101ab0, [=](ee::Cpu& c) { return dds3GetProcessData(a(c, 0)); });
     e.hook(0x00104fe0, [=](ee::Cpu& c) { dds3FadeIn(a(c, 0), a(c, 1), a(c, 2), a(c, 3)); return uint64_t{0}; });
     e.hook(0x00105098, [=](ee::Cpu& c) { dds3FadeOut(a(c, 0), a(c, 1), a(c, 2), a(c, 3)); return uint64_t{0}; });
+    e.hook(0x002c0c00, [](ee::Cpu& c) { c.f[0] = static_cast<uint32_t>(floatBits(sdfGetRandFloat(nullptr))); return uint64_t{0}; });
+    e.hook(0x0016ab10, [=](ee::Cpu& c) { effBTLDelete(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x0022e168, [=](ee::Cpu& c) { return static_cast<uint64_t>(static_cast<int64_t>(cmpRemoveDevilEx(static_cast<uint16_t>(a(c, 0))))); });
+    e.hook(0x002469a0, [](ee::Cpu&) { return nbGetMainProcessData(); });
+    e.hook(0x002469c0, [=](ee::Cpu& c) { return nbGetUnitWorkPointer(a(c, 0), a(c, 1)); });
+    e.hook(0x00246a40, [=](ee::Cpu& c) { return nbGetPartyFromFormindex(a(c, 0)); });
+    e.hook(0x00246ab8, [=](ee::Cpu& c) { return nbGetUnitWorkFromFormindex(a(c, 0)); });
+    e.hook(0x00101898, [=](ee::Cpu& c) { return dds3SearchProcessName(a(c, 0)); });
+    e.hook(0x001040a8, [=](ee::Cpu& c) { dds3PadAct(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
     e.hook(0x002a8bd8, [=](ee::Cpu& c) { ps2PoolRelease(static_cast<uint32_t>(a(c, 0))); return uint64_t{0}; });
     // The C library: plain host versions on guest memory.
     auto checked = [](ee::Cpu& c, uint64_t address) -> char* {
@@ -151,19 +205,19 @@ ee::Interpreter makeOriginal(bool vm)
     return e;
 }
 
-ee::Interpreter& original(bool vm)
+ee::Interpreter& original()
 {
-    static ee::Interpreter commands = makeOriginal(false), withVm = makeOriginal(true);
-    return vm ? withVm : commands;
+    static ee::Interpreter e = makeOriginal();
+    return e;
 }
 
 // The guest stack starts zeroed, as the rewrite's local buffers are: the
 // original copies a few bytes past a string's end from its stack buffer.
-uint64_t call(uint32_t entry, std::initializer_list<uint64_t> args, bool vm = false,
+uint64_t call(uint32_t entry, std::initializer_list<uint64_t> args, bool /*vm*/ = false,
               std::initializer_list<uint32_t> floatArgs = {})
 {
     std::memset(fw_ram + FW_STACK_TOP - 0x2000, 0, 0x2000 + 0x40);
-    return original(vm).call(entry, args, floatArgs);
+    return original().call(entry, args, floatArgs);
 }
 
 std::vector<uint8_t> readFile(const std::string& path)
@@ -210,7 +264,7 @@ uint64_t origVmVoid(uint32_t entry, std::initializer_list<uint64_t> args, std::i
     call(entry, args, true, floatArgs);
     return 0;
 }
-uint32_t origVmFloat() { return original(true).cpu.f[0]; }
+uint32_t origVmFloat() { return original().cpu.f[0]; }
 uint64_t origVoid(uint32_t entry, std::initializer_list<uint64_t> args) { call(entry, args); return 0; }
 
 const std::vector<std::vector<uint8_t>>& messageTables() { return gTables; }
