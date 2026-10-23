@@ -75,6 +75,7 @@ inline constexpr uint16_t Inactive   = 0x004; // tentative
 inline constexpr uint16_t AlwaysCrit = 0x100; // tentative: forces critical hits
 inline constexpr uint16_t EndureFired = 0x200; // Endure / Never Yield saved this unit
 inline constexpr uint16_t EndureSpent = 0x400; // ... and cannot again this battle
+inline constexpr uint16_t ThrewMacca  = 0x800; // an ailment made the unit throw Macca (BadMaka)
 } // namespace PartyFlag
 
 // nbMainProcessData: the battle as a whole.
@@ -135,7 +136,11 @@ struct MainProcessData {
     uint32_t KoukaProcessID;  // the presentation queue's process (battle/kouka.hpp)
     uint32_t NegoProcessID, CameraProcessID, DebugProcessID;   // tentative (HD order)
     uint32_t AiScriptProcessID;   // the AI or death script running, or 0
-    uint8_t unknown_108[0x14c - 0x108];
+    uint32_t PanelProcessID, HelpProcessID, AutoCommProcessID, EncProcessID, EventProcessID;   // tentative (HD order)
+    uint32_t HatudoEff;                                      // tentative (HD order)
+    uint32_t hPnlTex1, hPnlTex2, hPnlTex3, hPnlTex4;         // tentative (HD order)
+    int32_t jyokyomsgid;      // the status line's message table (nbDispJyokyoHelp)
+    uint8_t unknown_134[0x14c - 0x134];
     int32_t piercedResistance;   // set when Pierce ignored Null/Drain (tentative name)
 };
 static_assert(offsetof(MainProcessData, party) == 0x10);
@@ -149,6 +154,7 @@ static_assert(offsetof(MainProcessData, press4_p) == 0x78 && offsetof(MainProces
 static_assert(offsetof(MainProcessData, KoukaProcessID) == 0xf4);
 static_assert(offsetof(MainProcessData, negoresult) == 0x94 && offsetof(MainProcessData, MainProcessID) == 0xbc);
 static_assert(offsetof(MainProcessData, AiScriptProcessID) == 0x104);
+static_assert(offsetof(MainProcessData, jyokyomsgid) == 0x130);
 static_assert(offsetof(MainProcessData, item) == 0x98);
 static_assert(offsetof(MainProcessData, exp) == 0xa4);
 static_assert(offsetof(MainProcessData, piercedResistance) == 0x14c);
@@ -201,7 +207,8 @@ struct ActionProcessData {
     int32_t autoskill;        // passive that fired (e.g. Might); tentative name
     int32_t allhpdamage, allmpdamage;
     int32_t massuruid;        // the skill item 1 rolled (nbGetItemSkillNo)
-    uint8_t unknown_68[0x74 - 0x68];   // three of the HD's negotype, motion, motse, motionO
+    int32_t negotype;         // how a talk goes (6: started by an ailment, BadNego)
+    uint8_t unknown_6c[0x74 - 0x6c];   // two of the HD's motion, motse, motionO
     uint32_t hEffBTL;         // the skill's effect (effBTL_t)
     uint32_t hBed, hSkillSe, hSkillMem, skillmidi;
     TimeList timelist[32];    // by formation index
@@ -219,6 +226,7 @@ static_assert(offsetof(ActionProcessData, autoskill) == 0x58);
 static_assert(offsetof(ActionProcessData, aiselect) == 0x190);
 static_assert(offsetof(ActionProcessData, seq) == 0x08 && offsetof(ActionProcessData, timelist) == 0x88);
 static_assert(offsetof(ActionProcessData, aisummonid) == 0x1a0);
+static_assert(offsetof(ActionProcessData, negotype) == 0x68);
 
 // nbTarSelProcessData: the target-selection process (cursor and lists).
 struct TargetSelectData {

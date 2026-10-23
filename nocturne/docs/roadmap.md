@@ -19,9 +19,9 @@ hand-scheduled VU code), it is isolated, documented and still tested.
   bytes;
 - the mechanics are documented in `docs/` in plain language.
 
-Progress is the function map (`tools/ghidra/export-annotations.ps1`): 926 of
-9,067 functions rewritten (10.2%) on 2026-10-23, 2,346 still only in legacy
-C, 5,535 not yet identified.
+Progress is the function map (`tools/ghidra/export-annotations.ps1`): 957 of
+9,067 functions rewritten (10.6%) on 2026-10-23, 2,316 still only in legacy
+C, 5,534 not yet identified.
 
 ## Principles
 
@@ -72,11 +72,12 @@ rewritten or simple to fake, and grow the tools when they block progress.
    per-frame fades (`dds3BlurUpdate`, `dds3SceneLightUpdateFirst`) and the
    effects' drawing, with the GS platform layer.
 4. **Battle** (`nb*`, the largest area): the presentation queue's builders
-   are done, and of the turn engine (`nbAction*`) the time list, the
-   simple states, the AI and death-script states and END
-   (docs/battle-presentation.md). Next: the rest of the action states (choosing, skills, negotiation, results, which build
-   those packets), the kouka process that plays
-   them, the remaining calculations, rewards, the battle UI.
+   are done, and of the turn engine (`nbAction*`) the time list and the
+   simple, AI, ailment, death-script, wait, escape and return states
+   (docs/battle-presentation.md), with the ailment AI (docs/enemy-ai.md).
+   Next: the rest of the action states (choosing, skills, negotiation,
+   results, which build those packets), the kouka process that plays them,
+   the remaining calculations, rewards, the battle UI.
 5. **Game systems:** negotiation, shops and facilities, field movement and
    events, the menus (`cmp*`), Magatama and party screens.
 6. **Engine layers:** files, CD and PAC archives, resources; models,

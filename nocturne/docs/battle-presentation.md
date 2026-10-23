@@ -70,7 +70,7 @@ packets (which frees those effects) and the kouka process itself.
 Each action runs as a process (`nbActionProcess`, `source/src/battle/action.cpp`)
 through a state machine: a table at 0x3FA7C0 of `SetAction_*` (entering a
 state) and `CheckAction_*` (each frame; true when done, after choosing the
-next state) pairs. Fixed transitions: AI → READY (7), WAIT → CHECK1 (18),
+next state) pairs. Fixed transitions: AI → READY (7), INVISIBLE → CHECK1 (18),
 CHECK3 → ATO (21, once the action's packets are all played), ATO → END
 (22, freeing the skill's effect).
 
@@ -81,16 +81,42 @@ CHECK3 → ATO (21, once the action's packets are all played), ATO → END
   once it ends, the action goes to READY, or to the talks' result (10,
   NEGORESULT) when the script started talks (`negoresult`). That this
   matches state 10 supports the tentative numbering.
+- **BAD** (4) checks the unit's ailment at the start of its turn. Shock,
+  freeze, sleep, bind and stone cost the turn (the press turn icons change
+  as for a pass); shock and freeze then wear off, and sleep restores an
+  eighth of HP and MP. The unit is busy for 30 frames and the action goes
+  to CHECK1. A charmed or panicked unit, or a cursed one with no other
+  ailment, acts by the ailment AI (enemy-ai.md) and goes to **BADWAIT**
+  (11), which shows the status line at frame 5 and then waits (until frame
+  31 for a lost turn or the curse's damage; else until the line is gone or
+  frame 41) before READY. Any other unit goes to NON (0), as entering a
+  state clears the next one (`nbActionSetSeq`), and chooses its command as
+  usual.
+- The camera: BADWAIT asks for camera state COMMAND_BAD, or ENEMY_BAD when
+  the battle's stat bit 8 is set, which by this and the status line's
+  second message forms marks the enemies' turn. The camera states are named
+  by debug strings in their table (0x320C50; `battle/camera.hpp`).
 - **DEADSCRIPT** (19) runs a dying unit's script (the procedure in
   `adata`); when it ends, the unit fades out and leaves the field (a return
   packet at frame 25, the unit busy for 30 frames) and the action goes to
   CHECK1.
 - **END** (22) prints debug messages for what the action did: stat bits
   0x10000 .. 0x200000 are a physical attack, a magic attack, healing, magic,
-  an item and a summon. The numbers of the states between BAD
-and INVISIBLE are placed by the order of their code (tentative). Four
-action processes form a ring in the main process data (`ActionProcessID`,
-`NowActionProcess`).
+  an item and a summon.
+- **WAIT** (12): a pass costs half a press turn icon; a turn lost to an
+  ailment a whole one; a cursed unit takes 15% of its maximum HP
+  (`SetDamagePacket`, which Endure can survive). **ESCAPE** (13) counts the
+  attempt and uses all the press turns; a success ends the battle (endtype
+  3) and fades the screen to white at frame 30, a failure may give an awake
+  enemy a free action. **RETURN** (14) sends a devil back to the stock for
+  half an icon. **INVISIBLE** (15) does nothing. Each then goes to CHECK1.
+- **NEGO** (9) waits for the talks' process; a dead Demi-fiend's talks end
+  with result 8.
+
+The pairs' code is in the HD remaster's order of the states, and what each
+pair does confirms its number (WAIT, ESCAPE, RETURN and INVISIBLE were first
+numbered one off). Four action processes form a ring in the main process
+data (`ActionProcessID`, `NowActionProcess`).
 
 The time list schedules the units an action touches, one entry per
 formation slot: `lockframe` (busy until), `endframe` (done at) and `hp` as

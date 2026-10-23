@@ -29,6 +29,18 @@ MainProcessData* GetMainProcessData();
 UnitWork* GetUnitWorkFromFormindex(int32_t formindex);   // null for an empty slot
 Party* GetPartyFromFormindex(int32_t formindex);
 UnitWork* GetUnitWorkPointer(MainProcessData& data, Party& party);
+// (0x264010) healing's numbers and effects, through the effect library
+void MakeKaifukuPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t type, int32_t hp, int32_t mp,
+                       uint32_t badstat);
+// (0x2892A8) shows a status line message; var_id >= 0 fills {var 0} first
+void DispJyokyoHelp(int32_t msgid, int32_t no, int32_t var_id, int32_t var_ind);
+// (0x2532A8) damage to the acting unit (the curse's), with Endure
+void SetDamagePacket(ActionProcessData& a, int32_t hp);
+// (0x252CD8, no HD name) after a failed escape: a random awake enemy gets
+// an action against the party; true if one does
+bool EscapeFailed(ActionProcessData& a);
+// (0x282200) the battle panel's input on or off
+void PanelSetEnabled(bool enabled);
 } // namespace nb
 
 // The script VM (flowscript), as seen by script commands.
@@ -150,6 +162,9 @@ enum class Message : uint32_t {
     DidMagic         = 0x005440b0, // 魔法を使用した (used magic)
     DidItem          = 0x005440c0, // アイテムを使用した (used an item)
     DidSummon        = 0x005440d8, // 召喚を行った (summoned)
+    BadRitu          = 0x00545d40, // BAD行動確率 type:%d ritu:%d (an ailment action's weight)
+    Returning        = 0x00544020, // 帰還します (a devil returns to the stock)
+    NegoResult       = 0x00543fb8, // "nego result = %d"
     AiTable          = 0x00545840, // "AItbl = %d"
     AiNoSkill        = 0x005457d8, // "no skill"
     AiNoTarget       = 0x005457e8, // "taisyo nashi!!!" (no target)

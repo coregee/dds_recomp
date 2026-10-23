@@ -226,6 +226,9 @@ int fw_print_arg_count(uint32_t format)
     case 0x0053caf8: return 1;                  /* fusion accident */
     case 0x0053d7e8: return 0;                  /* compendium full */
     case 0x00545830: case 0x00545840: return 1; /* AI action / table */
+    case 0x00545d40: return 2;                  /* ailment action weights */
+    case 0x00544020: return 0;                  /* returning */
+    case 0x00543fb8: return 1;                  /* nego result */
     case 0x00544070: case 0x00544088: case 0x005440a0: case 0x005440b0: case 0x005440c0: case 0x005440d8: return 0; /* what an action did */
     case 0x00535a80: return 0;                  /* itfMesMngRequestMessage() escape 1 */
     case 0x00535aa8: return 1;                  /* itfMesMngRequestSelect() - Invalid Type */
@@ -636,6 +639,23 @@ uint64_t dds3KillProcess(uint64_t process, uint64_t delay)
 }
 uint64_t dds3ExistProcess(uint64_t process) { return fake_process((uint32_t)process) ? 1 : 0; }
 void dds3LinkProcess(uint64_t parent, uint64_t process) { fw_mes_log(27, (uint32_t)parent, (uint32_t)process); }
+void nbMakeKaifukuPacket(uint64_t startframe, uint64_t uniqueid, uint64_t form, uint64_t type, uint64_t hp, uint64_t mp,
+                         uint64_t badstat)
+{
+    fw_mes_log(28, (uint32_t)startframe ^ (uint32_t)type << 16, (uint32_t)uniqueid ^ (uint32_t)form);
+    fw_mes_log(29, (uint32_t)hp, (uint32_t)mp ^ (uint32_t)badstat << 16);
+}
+void ps2BattleActionChoice_002532A8(uint64_t action, uint64_t hp) { fw_mes_log(31, (uint32_t)action, (uint32_t)hp); }
+uint64_t ps2BattleOutcome_00252CD8(uint64_t action)
+{
+    fw_mes_log(32, (uint32_t)action, 0);
+    return fw_hash(15, (uint32_t)action, 0) & 1;
+}
+void ps2BattlePanelSetEnabled_00282200(uint64_t enabled) { fw_mes_log(33, (uint32_t)enabled, 0); }
+void nbDispJyokyoHelp(uint64_t msgid, uint64_t no, uint64_t var_id, uint64_t var_ind)
+{
+    fw_mes_log(30, (uint32_t)msgid ^ (uint32_t)no << 16, (uint32_t)var_id ^ (uint32_t)var_ind << 8);
+}
 uint64_t ps2ProcessGetRunTime(uint64_t process) { return (uint64_t)(int64_t)(int32_t)rd32((uint32_t)process + 0x28); }
 void dds3FadeIn(uint64_t r, uint64_t g, uint64_t b, uint64_t frames) { fw_mes_log(21, (uint32_t)r ^ (uint32_t)g << 8 ^ (uint32_t)b << 16, (uint32_t)frames); }
 void dds3FadeOut(uint64_t r, uint64_t g, uint64_t b, uint64_t frames) { fw_mes_log(22, (uint32_t)r ^ (uint32_t)g << 8 ^ (uint32_t)b << 16, (uint32_t)frames); }

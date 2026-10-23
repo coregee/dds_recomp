@@ -7,6 +7,7 @@
 #include "harness.hpp"
 #include "interface_world.hpp"
 #include "nocturne/battle/action.hpp"
+#include "nocturne/battle/bad_ai.hpp"
 #include "nocturne/battle/ai.hpp"
 #include "nocturne/battle/ai_script.hpp"
 #include "nocturne/battle/process.hpp"
@@ -228,6 +229,113 @@ void addAiTests(std::vector<TestCase>& t)
     add("nbRunAi", [](Gen&) {
         return Pair{[] { return norm(nbRunAi(kAct)); }, [] { return norm(nb::ai::run(act())); }};
     });
+    // ---- the ailment AI (against the original instructions) ----
+    // An ailing unit: panicked, charmed, cursed or neither; sometimes a
+    // Demi-fiend or an ally devil; healing and buff skills to choose from.
+    auto bad = [&](const char* name, std::function<Pair(Gen&)> make) {
+        add(name, [make](Gen& g) {
+            if (g.chance(50)) {   // the actor on the player's side
+                int f = g.range(0, 3), tries = 0;
+                while (!formUnit(f) && ++tries < 20)
+                    f = g.range(0, 3);
+                if (formUnit(f)) {
+                    nb::ActionProcessData& a = act();
+                    a.form.address = FW_FORMS + 0xf0 * static_cast<uint32_t>(f);
+                    a.partyindex = f;
+                    a.party.address = FW_PARTY + 128u * static_cast<uint32_t>(f);
+                    a.work.address = formUnit(f);
+                }
+            }
+            UnitWork& unit = *act().work;
+            unit.badstat = static_cast<uint16_t>(g.pick<int32_t>({0, 8, 8, 0x80, 0x80, 4, 0x40}) |
+                                                 (g.chance(30) ? kBadStatCurse : 0));
+            unit.flag &= ~0x24u;
+            unit.flag |= g.pick<uint32_t>({0, 4, 0x20, 0x20});
+            if (g.chance(30))
+                unit.id = static_cast<uint16_t>(g.range(0x100, 0x17f));
+            for (int i = 0; i < unit.skillcnt && i < 24; ++i)
+                if (g.chance(30))
+                    unit.skill[i] = static_cast<uint16_t>(g.chance(50) ? g.range(0x24, 0x29) : g.range(0x40, 0x44));
+            act().party->flag = static_cast<int16_t>(act().party->flag & ~0x800);
+            if (g.chance(20))
+                act().party->flag = static_cast<int16_t>(act().party->flag | 0x800);
+            dat::globalWork().maka = g.chance(20) ? 0 : g.range(1, 99999);
+            if (g.chance(20))
+                mainData().stat |= 1;
+            mainData().stat = g.chance(50) ? mainData().stat | 8 : mainData().stat & ~8u;
+            return make(g);
+        });
+    };
+    auto badVoid = [](uint32_t entry, auto rewrite) {
+        return Pair{[=] { return iface::origVmVoid(entry, {kAct}); }, [=] { rewrite(act()); return uint64_t{0}; }};
+    };
+    auto badInt = [](uint32_t entry, int32_t (*rewrite)(nb::ActionProcessData&)) {
+        return Pair{[=] { return iface::origVm(entry, {kAct}); }, [=] { return norm(rewrite(act())); }};
+    };
+    bad("SetSingleTarget", [=](Gen& g) {
+        if (g.chance(30)) {   // a single selectable slot
+            const int keep = g.range(0, 15);
+            for (int f = 0; f < 16; ++f)
+                if (f != keep)
+                    form(f).stat &= ~4u;
+            form(keep).stat |= 4;
+        }
+        return badVoid(0x0028e3c8, nb::SetSingleTarget);
+    });
+    bad("SetGroupTarget", [=](Gen&) { return badVoid(0x0028e470, nb::SetGroupTarget); });
+    bad("SetTarget", [](Gen& g) {
+        const int32_t rev = g.range(0, 1);
+        if (g.chance(50)) {   // any skill, for every target type
+            act().work->nowcommand = 1;
+            act().work->nowindex = static_cast<uint16_t>(g.range(1, 0x11f));
+        }
+        return Pair{[=] { return iface::origVm(0x0028e4b0, {kAct, sx(rev)}); }, [=] { return norm(nb::SetTarget(act(), rev)); }};
+    });
+    bad("CheckBadActionSkill", [](Gen& g) {
+        const int32_t skill = g.range(0x20, 0x48), type = g.range(1, 4);
+        return Pair{[=] { return iface::origVm(0x0028e560, {sx(skill), sx(type)}); },
+                    [=] { return norm(nb::CheckBadActionSkill(skill, type)); }};
+    });
+    bad("GetBadActionSkill", [](Gen& g) {
+        const int32_t type = g.range(1, 4);
+        return Pair{[=] { return iface::origVm(0x0028e5c8, {kAct, sx(type)}); },
+                    [=] { return norm(nb::GetBadActionSkill(act(), type)); }};
+    });
+    bad("BadKaja", [=](Gen&) { return badInt(0x0028e758, nb::BadKaja); });
+    bad("BadKaifuku", [=](Gen&) { return badInt(0x0028e818, nb::BadKaifuku); });
+    bad("BadAttack", [=](Gen&) { return badInt(0x0028e8d8, nb::BadAttack); });
+    bad("BadMaka", [=](Gen&) { return badInt(0x0028e9b8, nb::BadMaka); });
+    bad("BadNego", [=](Gen&) { return badInt(0x0028eab8, nb::BadNego); });
+    bad("BadReturn", [=](Gen&) { return badInt(0x0028eb80, nb::BadReturn); });
+    bad("BadBadWait", [=](Gen&) { return badInt(0x0028ec18, nb::BadBadWait); });
+    bad("BadDamage", [=](Gen&) { return badInt(0x0028ec90, nb::BadDamage); });
+    bad("MakeRituList", [=](Gen&) { return badVoid(0x0028edc8, nb::MakeRituList); });
+    bad("GetBadAiAction", [](Gen& g) {
+        nb::MakeRituList(act());
+        auto* list = &at<nb::BadRitu>(0x00575490);
+        for (int i = 0; i < at<int32_t>(0x00551558); ++i)
+            if (g.chance(25))
+                list[i].ritu = 0;
+        return Pair{[] { return iface::origVm(0x0028ecc8, {}); }, [] { return norm(nb::GetBadAiAction()); }};
+    });
+    bad("AddRituList", [](Gen& g) {
+        at<int32_t>(0x00551558) = g.range(0, 9);
+        const int32_t type = g.range(0, 9), ritu = g.range(0, 60);
+        return Pair{[=] { return iface::origVmVoid(0x0028ed98, {sx(type), sx(ritu)}); },
+                    [=] { nb::AddRituList(type, ritu); return uint64_t{0}; }};
+    });
+    bad("nbRunBadAi", [=](Gen&) { return badInt(0x0028f0a0, nb::nbRunBadAi); });
+    bad("nbSetJyokyoMes", [](Gen& g) {
+        const int32_t mes = g.range(0, 0x60), id = g.range(-1, 3), ind = g.range(0, 0x17f);
+        return Pair{[=] { return iface::origVmVoid(0x002592b0, {kAct, sx(mes), sx(id), sx(ind)}); },
+                    [=] { nb::nbSetJyokyoMes(act(), mes, id, ind); return uint64_t{0}; }};
+    });
+    bad("nbGetJyokyoMes", [](Gen& g) {
+        const int32_t mes = g.range(0, 0x60);
+        return Pair{[=] { return iface::origVm(0x00259300, {FW_MAIN, sx(mes)}); },
+                    [=] { return norm(nb::nbGetJyokyoMes(mainData(), mes)); }};
+    });
+
     add("SetAction_AI", [](Gen&) {
         return Pair{[] { return iface::origVmVoid(0x00253bf8, {kAct}); }, [] { nb::SetAction_AI(act()); return uint64_t{0}; }};
     });

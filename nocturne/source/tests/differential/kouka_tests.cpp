@@ -7,9 +7,11 @@
 #include "interface_world.hpp"
 #include "nocturne/battle/action.hpp"
 #include "nocturne/battle/ai_script.hpp"
+#include "nocturne/battle/camera.hpp"
 #include "nocturne/interface/message.hpp"
 #include "nocturne/battle/combatant.hpp"
 #include "nocturne/battle/kouka.hpp"
+#include "nocturne/data/tables.hpp"
 
 extern "C" {
 uint32_t ps2PoolAllocate(int32_t);
@@ -582,8 +584,8 @@ void addKoukaTests(std::vector<TestCase>& t)
     static const State states[] = {
         {"SetAction_NON", 0x00253488, [](ActionProcessData& a) { SetAction_NON(a); return 0; }, false},
         {"CheckAction_AI", 0x00253c20, CheckAction_AI, true},
-        {"SetAction_WAIT", 0x00257460, [](ActionProcessData& a) { SetAction_WAIT(a); return 0; }, false},
-        {"CheckAction_WAIT", 0x00257468, CheckAction_WAIT, true},
+        {"SetAction_INVISIBLE", 0x00257460, [](ActionProcessData& a) { SetAction_INVISIBLE(a); return 0; }, false},
+        {"CheckAction_INVISIBLE", 0x00257468, CheckAction_INVISIBLE, true},
         {"SetAction_CHECK3", 0x00257a68, [](ActionProcessData& a) { SetAction_CHECK3(a); return 0; }, false},
         {"CheckAction_CHECK3", 0x00257a70, CheckAction_CHECK3, true},
         {"SetAction_ATO", 0x00257ab8, [](ActionProcessData& a) { SetAction_ATO(a); return 0; }, false},
@@ -601,6 +603,64 @@ void addKoukaTests(std::vector<TestCase>& t)
         return Pair{[=] { return origVmVoid(0x00288d80, {FW_ACTION, I(procedure)}); },
                     [=] { ai::script::start(act(), procedure); return uint64_t{0}; }};
     });
+    // (The camera is in the executable's data, which the harness doesn't
+    // compare: return its state.)
+    auto camera = [] { return std::ref(at<Camera>(0x00320e40)); };
+    auto cameraState = [=] { return uint64_t{camera().get().state_change} | uint64_t{camera().get().state} << 32; };
+    script("nbCameraSetState", [=](Gen& g) {
+        const uint16_t state = static_cast<uint16_t>(g.chance(20) ? 25 : g.range(0, 29));
+        camera().get().state = g.range(1, 9);
+        return Pair{[=] { origVmVoid(0x001b1740, {state}); return cameraState(); },
+                    [=] { nbCameraSetState(state); return cameraState(); }};
+    });
+    // An ailing actor: any ailment, sometimes cursed; a status line maybe
+    // pending; any point of its wait.
+    auto ailing = [&, camera, cameraState](const char* name, uint32_t entry, int32_t (*rewrite)(ActionProcessData&), bool result) {
+        script(name, [=](Gen& g) {
+            ActionProcessData& a = act();
+            UnitWork& unit = *a.work;
+            unit.badstat = static_cast<uint16_t>(
+                (g.chance(15) ? 0 : 1u << g.range(0, 11)) | (g.chance(30) ? nocturne::kBadStatCurse : 0));
+            unit.nowcommand = static_cast<int16_t>(g.range(-1, 11));
+            unit.flag = (unit.flag & ~0x24u) | g.pick<uint32_t>({0, 4, 0x20});
+            a.seqtime = static_cast<uint16_t>(g.chance(30) ? 5 : g.chance(50) ? g.range(0, 50) : g.pick<int32_t>({0, 30, 31, 40, 41, 100}));
+            MainProcessData& main = at<MainProcessData>(FW_MAIN);
+            main.endtype = g.chance(50) ? 3 : g.range(0, 4);
+            main.esccnt = static_cast<uint8_t>(g.chance(10) ? 0xff : g.range(0, 5));
+            main.NegoProcessID = g.chance(50) ? 0 : 0x00777000;
+            main.negoresult = g.range(0, 9);
+            unit.maxhp = static_cast<uint16_t>(g.range(1, 999));
+            if (g.chance(20))
+                nocturne::dat::globalWork().units[0].badstat = static_cast<uint16_t>(g.chance(50) ? 0x800 : 0);
+            a.jyokyomes = g.chance(40) ? 0 : g.range(-1, 0x50);
+            a.jyo_varid = g.range(-1, 2);
+            a.jyo_varind = g.range(0, 0x17f);
+            at<MainProcessData>(FW_MAIN).jyokyomsgid = g.range(0, 5);
+            if (g.chance(50))
+                at<MainProcessData>(FW_MAIN).stat ^= 8;
+            camera().get().state_change = 0xffff;
+            // (void states: the camera state they asked for)
+            return Pair{[=] {
+                            const uint64_t r = result ? origVm(entry, {FW_ACTION}) : origVmVoid(entry, {FW_ACTION});
+                            return result ? r : cameraState();
+                        },
+                        [=] {
+                            const int32_t r = rewrite(act());
+                            return result ? norm(r) : cameraState();
+                        }};
+        });
+    };
+    ailing("CheckAction_BAD", 0x00253e00, CheckAction_BAD, true);
+    ailing("SetAction_BADWAIT", 0x00254010, [](ActionProcessData& a) { SetAction_BADWAIT(a); return 0; }, false);
+    ailing("CheckAction_BADWAIT", 0x00254058, CheckAction_BADWAIT, true);
+    ailing("SetAction_WAIT", 0x002570b8, [](ActionProcessData& a) { SetAction_WAIT(a); return 0; }, false);
+    ailing("CheckAction_WAIT", 0x00257210, CheckAction_WAIT, true);
+    ailing("SetAction_ESCAPE", 0x00257230, [](ActionProcessData& a) { SetAction_ESCAPE(a); return 0; }, false);
+    ailing("CheckAction_ESCAPE", 0x002572c0, CheckAction_ESCAPE, true);
+    ailing("SetAction_RETURN", 0x002573a8, [](ActionProcessData& a) { SetAction_RETURN(a); return 0; }, false);
+    ailing("CheckAction_RETURN", 0x00257440, CheckAction_RETURN, true);
+    ailing("CheckAction_NEGO", 0x00256b88, CheckAction_NEGO, true);
+    ailing("CheckAction_NEGORESULT", 0x00257098, CheckAction_NEGORESULT, true);
     static const State scriptStates[] = {
         {"SetAction_AISCR", 0x00253c40, [](ActionProcessData& a) { SetAction_AISCR(a); return 0; }, false},
         {"CheckAction_AISCR", 0x00253c88, CheckAction_AISCR, true},

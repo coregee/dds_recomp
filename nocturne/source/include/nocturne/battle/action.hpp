@@ -11,12 +11,12 @@
 namespace nocturne::nb {
 
 // The action's states (the table of SetAction_* / CheckAction_* pairs at
-// 0x3FA7C0). The numbers of BAD .. INVISIBLE are placed by the order of
-// their code (tentative); 16, 17 and 23 are unused.
+// 0x3FA7C0). Each pair's code follows the HD remaster's order of the
+// states, and what the pairs do confirms it; 16, 17 and 23 are unused.
 enum ActionSeq : int8_t {
     kActionNon = 0, kActionComm = 1, kActionAi = 2, kActionAiScript = 3, kActionBad = 4, kActionTarSel = 5,
     kActionStkSel = 6, kActionReady = 7, kActionSkill = 8, kActionNego = 9, kActionNegoResult = 10,
-    kActionBadWait = 11, kActionEscape = 12, kActionReturn = 13, kActionInvisible = 14, kActionWait = 15,
+    kActionBadWait = 11, kActionWait = 12, kActionEscape = 13, kActionReturn = 14, kActionInvisible = 15,
     kActionCheck1 = 18, kActionDeadScript = 19, kActionCheck3 = 20, kActionAto = 21, kActionEnd = 22,
 };
 
@@ -45,10 +45,21 @@ void SetAction_AI(ActionProcessData& a);
 int32_t CheckAction_AI(ActionProcessData& a);
 void SetAction_AISCR(ActionProcessData& a);
 int32_t CheckAction_AISCR(ActionProcessData& a);
+int32_t CheckAction_BAD(ActionProcessData& a);
+void SetAction_BADWAIT(ActionProcessData& a);
+int32_t CheckAction_BADWAIT(ActionProcessData& a);
 void SetAction_DEADSCRIPT(ActionProcessData& a);
 int32_t CheckAction_DEADSCRIPT(ActionProcessData& a);
 void SetAction_WAIT(ActionProcessData& a);
 int32_t CheckAction_WAIT(ActionProcessData& a);
+void SetAction_ESCAPE(ActionProcessData& a);
+int32_t CheckAction_ESCAPE(ActionProcessData& a);
+void SetAction_RETURN(ActionProcessData& a);
+int32_t CheckAction_RETURN(ActionProcessData& a);
+void SetAction_INVISIBLE(ActionProcessData& a);
+int32_t CheckAction_INVISIBLE(ActionProcessData& a);
+int32_t CheckAction_NEGO(ActionProcessData& a);
+int32_t CheckAction_NEGORESULT(ActionProcessData& a);
 void SetAction_CHECK3(ActionProcessData& a);
 int32_t CheckAction_CHECK3(ActionProcessData& a);
 void SetAction_ATO(ActionProcessData& a);

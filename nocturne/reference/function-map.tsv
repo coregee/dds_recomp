@@ -3311,7 +3311,7 @@ address	size	name	name_source	status	rewrite	legacy
 001b15f0	148	FUN_001b15f0	DEFAULT	unknown		
 001b1688	148	FUN_001b1688	DEFAULT	unknown		
 001b1720	28	FUN_001b1720	DEFAULT	unknown		
-001b1740	48	nbCameraSetState	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_001b1740;battle_panel_renderer_remaining.c:body_001b1740;battle_presentation.c:nbCameraSetState
+001b1740	48	nbCameraSetState	USER_DEFINED	rewritten	src/battle/camera.cpp:nbCameraSetState	battle_action_skill_registered_frames.c:body_001b1740;battle_panel_renderer_remaining.c:body_001b1740;battle_presentation.c:nbCameraSetState
 001b17a0	60	FUN_001b17a0	DEFAULT	unknown		
 001b17e0	44	ps2BattleOutcome_001B17E0	USER_DEFINED	legacy		battle_outcome.c:body_001b17e0;battle_outcome.c:ps2BattleOutcome_001B17E0
 001b1810	60	ps2NegoCameraTarget_001B1810	USER_DEFINED	legacy		negotiation_fullmoon_support.c:ps2NegoCameraTarget_001B1810
@@ -6199,9 +6199,9 @@ address	size	name	name_source	status	rewrite	legacy
 00253d00	52	nbActionSetDeadScript	USER_DEFINED	rewritten	src/battle/action.cpp:SetAction_DEADSCRIPT	battle_action_sequence.c:nbActionSetDeadScript
 00253d38	160	nbActionCheckDeadScript	USER_DEFINED	rewritten	src/battle/action.cpp:CheckAction_DEADSCRIPT	battle_action_finish.c:nbActionCheckDeadScript
 00253de0	28	FUN_00253de0	DEFAULT	legacy		battle_status_pairs.c:body_00253de0;battle_status_pairs.c:ps2BattleStatusPairs_00253DE0;battle_status_pairs_native.c:body_00253de0;battle_status_pairs_native.c:ps2BattleStatusPairsNative_00253DE0
-00253e00	508	FUN_00253e00	DEFAULT	legacy		battle_status_pairs.c:body_00253e00;battle_status_pairs.c:ps2BattleStatusPairs_00253E00;battle_status_pairs_native.c:body_00253e00;battle_status_pairs_native.c:ps2BattleStatusPairsNative_00253E00
-00254010	72	FUN_00254010	DEFAULT	legacy		battle_status_pairs.c:body_00254010;battle_status_pairs.c:ps2BattleStatusPairs_00254010;battle_status_pairs_native.c:body_00254010;battle_status_pairs_native.c:ps2BattleStatusPairsNative_00254010
-00254058	280	FUN_00254058	DEFAULT	legacy		battle_status_pairs.c:body_00254058;battle_status_pairs.c:ps2BattleStatusPairs_00254058;battle_status_pairs_native.c:body_00254058;battle_status_pairs_native.c:ps2BattleStatusPairsNative_00254058
+00253e00	508	CheckAction_BAD	USER_DEFINED	rewritten	src/battle/action.cpp:CheckAction_BAD	battle_status_pairs.c:body_00253e00;battle_status_pairs.c:ps2BattleStatusPairs_00253E00;battle_status_pairs_native.c:body_00253e00;battle_status_pairs_native.c:ps2BattleStatusPairsNative_00253E00
+00254010	72	SetAction_BADWAIT	USER_DEFINED	rewritten	src/battle/action.cpp:SetAction_BADWAIT	battle_status_pairs.c:body_00254010;battle_status_pairs.c:ps2BattleStatusPairs_00254010;battle_status_pairs_native.c:body_00254010;battle_status_pairs_native.c:ps2BattleStatusPairsNative_00254010
+00254058	280	CheckAction_BADWAIT	USER_DEFINED	rewritten	src/battle/action.cpp:CheckAction_BADWAIT	battle_status_pairs.c:body_00254058;battle_status_pairs.c:ps2BattleStatusPairs_00254058;battle_status_pairs_native.c:body_00254058;battle_status_pairs_native.c:ps2BattleStatusPairsNative_00254058
 00254178	20	FUN_00254178	DEFAULT	legacy		battle_status_pairs.c:body_00254178;battle_status_pairs.c:ps2BattleStatusPairs_00254178;battle_status_pairs_native.c:body_00254178;battle_status_pairs_native.c:ps2BattleStatusPairsNative_00254178
 00254190	444	FUN_00254190	DEFAULT	legacy		battle_status_pairs.c:body_00254190;battle_status_pairs.c:ps2BattleStatusPairs_00254190;battle_status_pairs_native.c:body_00254190;battle_status_pairs_native.c:ps2BattleStatusPairsNative_00254190
 00254360	60	FUN_00254360	DEFAULT	legacy		battle_status_pairs.c:body_00254360;battle_status_pairs.c:ps2BattleStatusPairs_00254360;battle_status_pairs_native.c:body_00254360;battle_status_pairs_native.c:ps2BattleStatusPairsNative_00254360
@@ -6211,17 +6211,17 @@ address	size	name	name_source	status	rewrite	legacy
 00255650	5016	FUN_00255650	DEFAULT	legacy		battle_action_skill_core_frames.c:body_00255650;battle_action_skill_core_frames.c:ps2BattleActionSkill_00255650
 00256a78	32	FUN_00256a78	DEFAULT	unknown		
 00256a98	240	FUN_00256a98	DEFAULT	unknown		
-00256b88	116	FUN_00256b88	DEFAULT	unknown		
+00256b88	116	CheckAction_NEGO	USER_DEFINED	rewritten	src/battle/action.cpp:CheckAction_NEGO	
 00256c00	1152	ps2BattleOutcome_00256C00	USER_DEFINED	legacy		battle_outcome.c:body_00256c00;battle_outcome.c:ps2BattleOutcome_00256C00
-00257098	32	ps2BattleOutcome_00257098	USER_DEFINED	legacy		battle_outcome.c:body_00257098;battle_outcome.c:ps2BattleOutcome_00257098
-002570b8	332	ps2BattleOutcome_002570B8	USER_DEFINED	legacy		battle_outcome.c:body_002570b8;battle_outcome.c:ps2BattleOutcome_002570B8
-00257210	32	ps2BattleOutcome_00257210	USER_DEFINED	legacy		battle_outcome.c:body_00257210;battle_outcome.c:ps2BattleOutcome_00257210
-00257230	144	ps2BattleOutcome_00257230	USER_DEFINED	legacy		battle_outcome.c:body_00257230;battle_outcome.c:ps2BattleOutcome_00257230
-002572c0	224	ps2BattleOutcome_002572C0	USER_DEFINED	legacy		battle_outcome.c:body_002572c0;battle_outcome.c:ps2BattleOutcome_002572C0
-002573a8	152	ps2BattleOutcome_002573A8	USER_DEFINED	legacy		battle_outcome.c:body_002573a8;battle_outcome.c:ps2BattleOutcome_002573A8
-00257440	32	ps2BattleOutcome_00257440	USER_DEFINED	legacy		battle_outcome.c:body_00257440;battle_outcome.c:ps2BattleOutcome_00257440
-00257460	8	ps2BattleActionEnterWait	USER_DEFINED	rewritten	src/battle/action.cpp:SetAction_WAIT	battle_action_process.c:ps2BattleActionEnterWait
-00257468	32	nbActionCheckWait	USER_DEFINED	rewritten	src/battle/action.cpp:CheckAction_WAIT	battle_action_process.c:nbActionCheckWait
+00257098	32	ps2BattleOutcome_00257098	USER_DEFINED	rewritten	src/battle/action.cpp:CheckAction_NEGORESULT	battle_outcome.c:body_00257098;battle_outcome.c:ps2BattleOutcome_00257098
+002570b8	332	ps2BattleOutcome_002570B8	USER_DEFINED	rewritten	src/battle/action.cpp:SetAction_WAIT	battle_outcome.c:body_002570b8;battle_outcome.c:ps2BattleOutcome_002570B8
+00257210	32	ps2BattleOutcome_00257210	USER_DEFINED	rewritten	src/battle/action.cpp:CheckAction_WAIT	battle_outcome.c:body_00257210;battle_outcome.c:ps2BattleOutcome_00257210
+00257230	144	ps2BattleOutcome_00257230	USER_DEFINED	rewritten	src/battle/action.cpp:SetAction_ESCAPE	battle_outcome.c:body_00257230;battle_outcome.c:ps2BattleOutcome_00257230
+002572c0	224	ps2BattleOutcome_002572C0	USER_DEFINED	rewritten	src/battle/action.cpp:CheckAction_ESCAPE	battle_outcome.c:body_002572c0;battle_outcome.c:ps2BattleOutcome_002572C0
+002573a8	152	ps2BattleOutcome_002573A8	USER_DEFINED	rewritten	src/battle/action.cpp:SetAction_RETURN	battle_outcome.c:body_002573a8;battle_outcome.c:ps2BattleOutcome_002573A8
+00257440	32	ps2BattleOutcome_00257440	USER_DEFINED	rewritten	src/battle/action.cpp:CheckAction_RETURN	battle_outcome.c:body_00257440;battle_outcome.c:ps2BattleOutcome_00257440
+00257460	8	ps2BattleActionEnterWait	USER_DEFINED	rewritten	src/battle/action.cpp:SetAction_INVISIBLE	battle_action_process.c:ps2BattleActionEnterWait
+00257468	32	nbActionCheckWait	USER_DEFINED	rewritten	src/battle/action.cpp:CheckAction_INVISIBLE	battle_action_process.c:nbActionCheckWait
 00257488	840	ps2BattleActionChoice_00257488	USER_DEFINED	legacy		battle_action_choice.c:body_00257488;battle_action_choice.c:ps2BattleActionChoice_00257488;battle_callback_choice.c:body_00257488;battle_callback_choice.c:ps2BattleCallbackChoice_00257488
 002577d8	628	ps2BattleActionChoice_002577D8	USER_DEFINED	legacy		battle_action_choice.c:body_002577d8;battle_action_choice.c:ps2BattleActionChoice_002577D8;battle_callback_choice.c:body_002577d8;battle_callback_choice.c:ps2BattleCallbackChoice_002577D8
 00257a68	8	ps2BattleActionEnterCheck3	USER_DEFINED	rewritten	src/battle/action.cpp:SetAction_CHECK3	battle_action_process.c:ps2BattleActionEnterCheck3
@@ -6258,8 +6258,8 @@ address	size	name	name_source	status	rewrite	legacy
 00259018	352	nbSetNormalSkill0	USER_DEFINED	rewritten	src/battle/ai.cpp:setNormalAttack	battle_ai_actions.c:nbSetNormalSkill0
 00259180	224	ps2BattleRoster_00259180	USER_DEFINED	legacy		battle_roster.c:body_00259180;battle_roster.c:ps2BattleRoster_00259180
 00259268	64	FUN_00259268	DEFAULT	unknown		
-002592b0	76	ps2BattleAction_002592B0	USER_DEFINED	legacy		battle_action_consumer.c:body_002592b0;battle_action_consumer.c:ps2BattleAction_002592B0;battle_panel_renderer_remaining.c:body_002592b0
-00259300	24	ps2BattleAction_00259300	USER_DEFINED	legacy		battle_action_consumer.c:body_00259300;battle_action_consumer.c:ps2BattleAction_00259300;battle_panel_renderer_remaining.c:body_00259300
+002592b0	76	ps2BattleAction_002592B0	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:nbSetJyokyoMes	battle_action_consumer.c:body_002592b0;battle_action_consumer.c:ps2BattleAction_002592B0;battle_panel_renderer_remaining.c:body_002592b0
+00259300	24	ps2BattleAction_00259300	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:nbGetJyokyoMes	battle_action_consumer.c:body_00259300;battle_action_consumer.c:ps2BattleAction_00259300;battle_panel_renderer_remaining.c:body_00259300
 00259318	380	FUN_00259318	DEFAULT	unknown		
 002594b0	236	ps2BattleRoster_002594B0	USER_DEFINED	legacy		battle_action_skill_core_frames.c:body_002594b0;battle_action_skill_core_frames.c:ps2BattleActionSkill_002594B0;battle_roster.c:body_002594b0;battle_roster.c:ps2BattleRoster_002594B0
 002595a0	180	FUN_002595a0	DEFAULT	legacy		battle_action_skill_core_frames.c:body_002595a0;battle_action_skill_core_frames.c:ps2BattleActionSkill_002595A0
@@ -7140,7 +7140,7 @@ address	size	name	name_source	status	rewrite	legacy
 002890b0	52	FUN_002890b0	DEFAULT	unknown		
 002891a8	56	FUN_002891a8	DEFAULT	unknown		
 002891e0	192	FUN_002891e0	DEFAULT	unknown		
-002892a8	100	FUN_002892a8	DEFAULT	legacy		battle_status_pairs.c:body_002892a8;battle_status_pairs_native.c:body_002892a8
+002892a8	100	nbDispJyokyoHelp	USER_DEFINED	legacy		battle_status_pairs.c:body_002892a8;battle_status_pairs_native.c:body_002892a8
 00289310	312	FUN_00289310	DEFAULT	legacy		battle_status_pairs.c:body_00289310;battle_status_pairs_native.c:body_00289310
 00289450	136	FUN_00289450	DEFAULT	legacy		battle_action_skill_support_frames.c:body_00289450;battle_action_skill_support_frames.c:ps2BattleActionSkill_00289450;battle_status_pairs.c:body_00289450;battle_status_pairs_native.c:body_00289450
 002894e0	336	FUN_002894e0	DEFAULT	unknown		
@@ -7237,23 +7237,23 @@ address	size	name	name_source	status	rewrite	legacy
 0028e2c8	116	FUN_0028e2c8	DEFAULT	unknown		
 0028e340	32	FUN_0028e340	DEFAULT	unknown		
 0028e360	104	FUN_0028e360	DEFAULT	unknown		
-0028e3c8	164	FUN_0028e3c8	DEFAULT	legacy		battle_status_pairs.c:body_0028e3c8;battle_status_pairs_native.c:body_0028e3c8
-0028e470	60	FUN_0028e470	DEFAULT	legacy		battle_status_pairs.c:body_0028e470;battle_status_pairs_native.c:body_0028e470
-0028e4b0	172	FUN_0028e4b0	DEFAULT	legacy		battle_status_pairs.c:body_0028e4b0;battle_status_pairs_native.c:body_0028e4b0
-0028e560	96	FUN_0028e560	DEFAULT	legacy		battle_status_pairs.c:body_0028e560;battle_status_pairs_native.c:body_0028e560
-0028e5c8	396	FUN_0028e5c8	DEFAULT	legacy		battle_status_pairs.c:body_0028e5c8;battle_status_pairs_native.c:body_0028e5c8
-0028e758	184	FUN_0028e758	DEFAULT	legacy		battle_status_pairs.c:body_0028e758;battle_status_pairs_native.c:body_0028e758
-0028e818	184	FUN_0028e818	DEFAULT	legacy		battle_status_pairs.c:body_0028e818;battle_status_pairs_native.c:body_0028e818
-0028e8d8	212	FUN_0028e8d8	DEFAULT	legacy		battle_status_pairs.c:body_0028e8d8;battle_status_pairs_native.c:body_0028e8d8
-0028e9b8	244	FUN_0028e9b8	DEFAULT	legacy		battle_status_pairs.c:body_0028e9b8;battle_status_pairs_native.c:body_0028e9b8
-0028eab8	192	FUN_0028eab8	DEFAULT	legacy		battle_status_pairs.c:body_0028eab8;battle_status_pairs_native.c:body_0028eab8
-0028eb80	148	FUN_0028eb80	DEFAULT	legacy		battle_status_pairs.c:body_0028eb80;battle_status_pairs_native.c:body_0028eb80
-0028ec18	116	FUN_0028ec18	DEFAULT	legacy		battle_status_pairs.c:body_0028ec18;battle_status_pairs_native.c:body_0028ec18
-0028ec90	56	FUN_0028ec90	DEFAULT	legacy		battle_status_pairs.c:body_0028ec90;battle_status_pairs_native.c:body_0028ec90
-0028ecc8	200	FUN_0028ecc8	DEFAULT	legacy		battle_status_pairs.c:body_0028ecc8;battle_status_pairs_native.c:body_0028ecc8
-0028ed98	44	FUN_0028ed98	DEFAULT	legacy		battle_status_pairs.c:body_0028ed98;battle_status_pairs_native.c:body_0028ed98
-0028edc8	708	FUN_0028edc8	DEFAULT	legacy		battle_status_pairs.c:body_0028edc8;battle_status_pairs_native.c:body_0028edc8
-0028f0a0	368	FUN_0028f0a0	DEFAULT	legacy		battle_status_pairs.c:body_0028f0a0;battle_status_pairs_native.c:body_0028f0a0
+0028e3c8	164	SetSingleTarget	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:SetSingleTarget	battle_status_pairs.c:body_0028e3c8;battle_status_pairs_native.c:body_0028e3c8
+0028e470	60	SetGroupTarget	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:SetGroupTarget	battle_status_pairs.c:body_0028e470;battle_status_pairs_native.c:body_0028e470
+0028e4b0	172	SetTarget	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:SetTarget	battle_status_pairs.c:body_0028e4b0;battle_status_pairs_native.c:body_0028e4b0
+0028e560	96	CheckBadActionSkill	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:CheckBadActionSkill	battle_status_pairs.c:body_0028e560;battle_status_pairs_native.c:body_0028e560
+0028e5c8	396	GetBadActionSkill	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:GetBadActionSkill	battle_status_pairs.c:body_0028e5c8;battle_status_pairs_native.c:body_0028e5c8
+0028e758	184	BadKaja	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:BadKaja	battle_status_pairs.c:body_0028e758;battle_status_pairs_native.c:body_0028e758
+0028e818	184	BadKaifuku	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:BadKaifuku	battle_status_pairs.c:body_0028e818;battle_status_pairs_native.c:body_0028e818
+0028e8d8	212	BadAttack	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:BadAttack	battle_status_pairs.c:body_0028e8d8;battle_status_pairs_native.c:body_0028e8d8
+0028e9b8	244	BadMaka	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:BadMaka	battle_status_pairs.c:body_0028e9b8;battle_status_pairs_native.c:body_0028e9b8
+0028eab8	192	BadNego	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:BadNego	battle_status_pairs.c:body_0028eab8;battle_status_pairs_native.c:body_0028eab8
+0028eb80	148	BadReturn	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:BadReturn	battle_status_pairs.c:body_0028eb80;battle_status_pairs_native.c:body_0028eb80
+0028ec18	116	BadBadWait	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:BadBadWait	battle_status_pairs.c:body_0028ec18;battle_status_pairs_native.c:body_0028ec18
+0028ec90	56	BadDamage	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:BadDamage	battle_status_pairs.c:body_0028ec90;battle_status_pairs_native.c:body_0028ec90
+0028ecc8	200	GetBadAiAction	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:GetBadAiAction	battle_status_pairs.c:body_0028ecc8;battle_status_pairs_native.c:body_0028ecc8
+0028ed98	44	AddRituList	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:AddRituList	battle_status_pairs.c:body_0028ed98;battle_status_pairs_native.c:body_0028ed98
+0028edc8	708	MakeRituList	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:MakeRituList	battle_status_pairs.c:body_0028edc8;battle_status_pairs_native.c:body_0028edc8
+0028f0a0	368	nbRunBadAi	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:nbRunBadAi	battle_status_pairs.c:body_0028f0a0;battle_status_pairs_native.c:body_0028f0a0
 0028f218	56	FUN_0028f218	DEFAULT	unknown		
 0028f258	84	FUN_0028f258	DEFAULT	unknown		
 0028f2b0	72	FUN_0028f2b0	DEFAULT	unknown		

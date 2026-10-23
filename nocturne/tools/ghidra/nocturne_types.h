@@ -367,7 +367,10 @@ typedef struct nbMainProcessData {
     u32 CommSelProcessID, TarSelProcessID, EffectProcessID;
     u32 KoukaProcessID;
     u32 NegoProcessID, CameraProcessID, DebugProcessID, AiScriptProcessID;
-    u8 unknown_108[0x14c - 0x108];
+    u32 PanelProcessID, HelpProcessID, AutoCommProcessID, EncProcessID, EventProcessID;
+    u32 HatudoEff, hPnlTex1, hPnlTex2, hPnlTex3, hPnlTex4;
+    s32 jyokyomsgid;
+    u8 unknown_134[0x14c - 0x134];
     s32 piercedResistance;
 } nbMainProcessData;
 
@@ -392,7 +395,8 @@ typedef struct nbActionProcessData {
     s32 runerr, jyokyomes, jyo_varid, jyo_varind, adata;
     s32 autoskill;
     s32 allhpdamage, allmpdamage, massuruid;
-    u8 unknown_68[0x74 - 0x68];
+    s32 negotype;
+    u8 unknown_6c[0x74 - 0x6c];
     u32 hEffBTL, hBed, hSkillSe, hSkillMem, skillmidi;
     nbTimeList timelist[32];
     u32 packettime;

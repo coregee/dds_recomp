@@ -340,6 +340,9 @@ const StaticRange kWrittenStatics[] = {
     {0x005572a0, 0x20},                                    // the fog parameters' ends
     {0x005518a8, 8},                                       // soften, bias
     {0x00551c58, 0x24},                                    // TwoOperation's operands; the running COMM's work
+    {0x00575490, 0x80},                                    // the ailment AI's weighted actions
+    {0x00551558, 4},                                       // ... and how many
+    {0x00320e40, 0x30},                                    // the battle camera (nbCameraCurrent)
 };
 
 std::vector<uint8_t> captureStatics()

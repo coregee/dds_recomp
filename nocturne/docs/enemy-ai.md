@@ -170,3 +170,41 @@ Before attacking, `nbSetNormalSkill0` rewrites skill 0 (the normal attack)
 in the skill tables for the attacker: its element and hit count come from
 the devil's `attackattr` / `attackcnt`, and Attack All makes it hit
 everyone. Skills 0xA4..0xA7 get the same treatment.
+
+## Ailments that take the turn (`nbBadAi`)
+
+A charmed, panicked or cursed unit, on either side, doesn't act as told.
+Its turn draws an action by weight (`MakeRituList`, `GetBadAiAction`) and
+tries it; an action that can't be done is struck off and another drawn, and
+after ten tries the unit just loses its turn (`nbRunBadAi`). Source:
+`source/src/battle/bad_ai.cpp`, tested against the original instructions.
+
+| Who | Attack | Heal | Buff | Throw Macca | Talk | Return | Hurt itself | Lose the turn |
+|---|---|---|---|---|---|---|---|---|
+| charmed | 40 | 20 | 20 | | | | | 20 |
+| cursed | 50 | | | | | | 50 | |
+| the Demi-fiend | | | | 20 | 30 | | | 20 |
+| an ally devil | | | | 20 | 20 | 10 | | 20 |
+| an enemy | | | | 30 | | 20 | | 40 |
+
+- **Panic gets the last three rows**, not the charm row: the original sets
+  the charm state in a branch delay slot that panic's branch skips, and it
+  doesn't check the curse either. So a panicked unit never attacks; it throws
+  Macca, talks, runs or does nothing.
+- Talking isn't listed in a boss battle (`BattleStat` 1).
+- **Attack**, **heal** and **buff** pick targets as if from the other side
+  (`SetTarget` with `rev`): a charmed unit attacks its friends and heals or
+  buffs its enemies. Heal and buff use a random skill of the unit's own: from
+  its skill list on the player's side (healing skills 0x24..0x29, buffs
+  0x40..0x44), from its devil's AI tables on the enemy's.
+- **Throw Macca** is skill 0xF7: on the player's side only with Macca on
+  hand, and an enemy does it once a battle (party flag 0x800).
+- **Talk** is the talk command (4) with index 0x180 and `negotype` 6; only
+  on the player's side.
+- **Return** sends a devil back (command 7); not the Demi-fiend, nor units
+  0x100 and up.
+- **Hurt itself** is command 10 (the curse's damage).
+- The status line says what happened (`nbSetJyokyoMes`): messages 0x2E
+  (panicked) and 0x36 (charmed) for an action, 0x30 / 0x38 for a lost turn,
+  0x4A / 0x4C for the curse's attack and damage. Each has a second form, the
+  next number, used when the battle's stat bit 8 is set.

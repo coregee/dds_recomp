@@ -49,6 +49,13 @@ void dds3SetProcessData(uint64_t process, uint64_t data);
 uint64_t dds3KillProcess(uint64_t process, uint64_t delay);
 uint64_t dds3ExistProcess(uint64_t process);
 void dds3LinkProcess(uint64_t parent, uint64_t process);
+// No named legacy C yet (the tests fake them):
+void nbMakeKaifukuPacket(uint64_t startframe, uint64_t uniqueid, uint64_t form, uint64_t type, uint64_t hp, uint64_t mp,
+                         uint64_t badstat);   // 0x264010
+void nbDispJyokyoHelp(uint64_t msgid, uint64_t no, uint64_t var_id, uint64_t var_ind);   // 0x2892A8
+void ps2BattleActionChoice_002532A8(uint64_t action, uint64_t hp);   // SetDamagePacket
+uint64_t ps2BattleOutcome_00252CD8(uint64_t action);
+void ps2BattlePanelSetEnabled_00282200(uint64_t enabled);
 uint64_t ps2ProcessGetRunTime(uint64_t process);
 void dds3FadeIn(uint64_t r, uint64_t g, uint64_t b, uint64_t frames);
 void dds3PadAct(uint64_t mode, uint64_t pow, uint64_t frame);
@@ -147,6 +154,19 @@ void dds3::SetProcessData(uint32_t process, uint32_t data) { dds3SetProcessData(
 void dds3::KillProcess(uint32_t process, int32_t delay) { dds3KillProcess(word(process), signExtend(delay)); }
 bool dds3::ExistProcess(uint32_t process) { return dds3ExistProcess(word(process)) != 0; }
 void dds3::LinkProcess(uint32_t parent, uint32_t process) { dds3LinkProcess(word(parent), word(process)); }
+void nb::MakeKaifukuPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t type, int32_t hp, int32_t mp,
+                           uint32_t badstat)
+{
+    nbMakeKaifukuPacket(signExtend(startframe), signExtend(uniqueid), word(guest::addressOf(form)), signExtend(type),
+                        signExtend(hp), signExtend(mp), word(badstat));
+}
+void nb::DispJyokyoHelp(int32_t msgid, int32_t no, int32_t var_id, int32_t var_ind)
+{
+    nbDispJyokyoHelp(signExtend(msgid), signExtend(no), signExtend(var_id), signExtend(var_ind));
+}
+void nb::SetDamagePacket(ActionProcessData& a, int32_t hp) { ps2BattleActionChoice_002532A8(word(guest::addressOf(&a)), signExtend(hp)); }
+bool nb::EscapeFailed(ActionProcessData& a) { return ps2BattleOutcome_00252CD8(word(guest::addressOf(&a))) != 0; }
+void nb::PanelSetEnabled(bool enabled) { ps2BattlePanelSetEnabled_00282200(enabled ? 1 : 0); }
 int32_t dds3::GetRunTime(uint32_t process) { return static_cast<int32_t>(ps2ProcessGetRunTime(word(process))); }
 void dds3::PadAct(uint32_t mode, uint8_t pow, uint32_t frame) { dds3PadAct(mode, pow, frame); }
 void dds3::FadeIn(int32_t r, int32_t g, int32_t b, int32_t frames) { dds3FadeIn(signExtend(r), signExtend(g), signExtend(b), signExtend(frames)); }

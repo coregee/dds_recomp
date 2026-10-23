@@ -4,8 +4,12 @@
 
 #include "nocturne/battle/ai.hpp"
 #include "nocturne/battle/ai_script.hpp"
+#include "nocturne/battle/bad_ai.hpp"
+#include "nocturne/battle/calc.hpp"
+#include "nocturne/battle/camera.hpp"
 #include "nocturne/battle/combatant.hpp"
 #include "nocturne/battle/kouka.hpp"
+#include "nocturne/data/progression.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/external.hpp"
 
@@ -204,6 +208,82 @@ int32_t CheckAction_AISCR(ActionProcessData& a)
     return 1;
 }
 
+// CheckAction_BAD @ 0x00253E00: the unit's ailment at the start of its
+// turn. Shock, freeze, sleep, bind and stone cost the turn (a press turn
+// icon): shock and freeze then wear off, and sleep restores an eighth of HP
+// and MP. A charmed or panicked unit, or a cursed one, acts by the ailment AI
+// (bad_ai.hpp) and goes on to BADWAIT; otherwise the unit acts normally.
+int32_t CheckAction_BAD(ActionProcessData& a)
+{
+    ClearTimeList(a);
+    SetHpForTimeList(a);
+    a.jyokyomes = 0;
+    const int32_t uniqueid = static_cast<int32_t>(guest::addressOf(&a));
+    const auto loseTurn = [&] {
+        nbMakePressPacket(0, uniqueid, ee::Float::fromInt(-1));
+        nbMakeNewPressPacket(0, uniqueid, 0);
+    };
+    switch (badStat(a.form->formindex)) {
+    case static_cast<uint32_t>(Ailment::Panic):
+    case static_cast<uint32_t>(Ailment::Charm):
+        nbRunBadAi(a);
+        SetNextActionSeq(a, kActionBadWait);
+        return 1;
+    case static_cast<uint32_t>(Ailment::Shock):
+    case static_cast<uint32_t>(Ailment::Freeze):
+        loseTurn();
+        nbMakeBadKaifukuPacket(5, uniqueid, *a.form);
+        break;
+    case static_cast<uint32_t>(Ailment::Sleep):
+        loseTurn();
+        nb::MakeKaifukuPacket(10, uniqueid, a.form.get(), 0, a.work->maxhp >> 3, a.work->maxmp >> 3, 0);
+        break;
+    case static_cast<uint32_t>(Ailment::Bind):
+    case static_cast<uint32_t>(Ailment::Stone):
+        loseTurn();
+        break;
+    default:
+        if (isCursed(a.form->formindex)) {
+            nbRunBadAi(a);
+            SetNextActionSeq(a, kActionBadWait);
+        }
+        return 1;
+    }
+    if (a.data->stat & BattleStat::InitiativeRolled)
+        nbCameraSetState(kCameraEnemyBad);
+    SetTimeList(a, a.form->formindex, 0, 30, 30);
+    SetNextActionSeq(a, kActionCheck1);
+    return 1;
+}
+
+// SetAction_BADWAIT @ 0x00254010: the camera on the ailing unit.
+void SetAction_BADWAIT(ActionProcessData& a)
+{
+    a.stat |= 0x20;
+    nbCameraSetState((a.data->stat & BattleStat::InitiativeRolled) ? kCameraEnemyBad : kCameraCommandBad);
+}
+
+// CheckAction_BADWAIT @ 0x00254058: shows the ailment AI's status line at
+// frame 5 and waits, then on to READY: until frame 31 for a lost turn (8)
+// or the curse's damage (10), else until the status line has gone or frame
+// 41.
+int32_t CheckAction_BADWAIT(ActionProcessData& a)
+{
+    if (a.seqtime == 5 && a.jyokyomes > 0)
+        nb::DispJyokyoHelp(a.data->jyokyomsgid, a.jyokyomes, a.jyo_varid, a.jyo_varind);
+    bool done;
+    switch (a.work->nowcommand) {
+    case 8:
+    case 10: done = a.seqtime >= 31; break;
+    default: done = a.seqtime >= 41 || a.jyokyomes == 0; break;
+    }
+    if (done) {
+        SetNextActionSeq(a, kActionReady);
+        a.jyokyomes = 0;
+    }
+    return done ? 1 : 0;
+}
+
 // SetAction_DEADSCRIPT @ 0x00253D00: runs a dying unit's script (the
 // procedure is in adata).
 void SetAction_DEADSCRIPT(ActionProcessData& a)
@@ -228,11 +308,129 @@ int32_t CheckAction_DEADSCRIPT(ActionProcessData& a)
     return 1;
 }
 
-// SetAction_WAIT @ 0x00257460
-void SetAction_WAIT(ActionProcessData&) {}
+// SetAction_WAIT @ 0x002570B8: the unit passes (half a press turn icon),
+// loses its turn to an ailment, or takes the curse's damage (15% of its
+// maximum HP).
+void SetAction_WAIT(ActionProcessData& a)
+{
+    const int32_t uniqueid = static_cast<int32_t>(guest::addressOf(&a));
+    switch (a.work->nowcommand) {
+    case 3:   // pass
+        nbMakePressPacket(0, uniqueid, ee::Float::fromBits(0xbf000000));   // -0.5
+        nbMakeNewPressPacket(0, uniqueid, 1);
+        SetTimeList(a, a.form->formindex, 0, 5, 5);
+        break;
+    case 8:   // an ailment took the turn
+        nbMakePressPacket(0, uniqueid, ee::Float::fromInt(-1));
+        nbMakeNewPressPacket(0, uniqueid, 0);
+        SetTimeList(a, a.form->formindex, 0, 5, 5);
+        break;
+    case 10:  // the curse's damage
+        nb::SetDamagePacket(a, static_cast<int32_t>(static_cast<uint32_t>(a.work->maxhp) * 15u / 100u));
+        nbMakePressPacket(0, uniqueid, ee::Float::fromInt(-1));
+        nbMakeNewPressPacket(0, uniqueid, 0);
+        break;
+    default:
+        break;
+    }
+}
 
-// CheckAction_WAIT @ 0x00257468
+// CheckAction_WAIT @ 0x00257210
 int32_t CheckAction_WAIT(ActionProcessData& a)
+{
+    SetNextActionSeq(a, kActionCheck1);
+    return 1;
+}
+
+// SetAction_ESCAPE @ 0x00257230: one more attempt; all the press turns go.
+// A successful escape ends the battle (endtype 3); a failed one may give an
+// enemy a free action.
+void SetAction_ESCAPE(ActionProcessData& a)
+{
+    MainProcessData& main = *a.data;
+    if (main.esccnt != 0xff)
+        ++main.esccnt;
+    const int32_t uniqueid = static_cast<int32_t>(guest::addressOf(&a));
+    nbMakePressPacket(0, uniqueid, ee::Float::fromInt(-10));
+    nbMakeNewPressPacket(0, uniqueid, 8);
+    if (rollEscape(*a.data))
+        a.data->endtype = 3;
+    else
+        nb::EscapeFailed(a);
+}
+
+// CheckAction_ESCAPE @ 0x002572C0: at frame 15 a failed escape is done; at
+// frame 30 a successful one fades the screen to white with a sound.
+int32_t CheckAction_ESCAPE(ActionProcessData& a)
+{
+    switch (a.seqtime / 15) {
+    case 1:
+        if (a.data->endtype == 3)
+            return 0;
+        a.packettime = 0;
+        break;
+    case 2:
+        if (a.data->endtype != 3)
+            return 0;
+        a.packettime = 30;
+        dds3::FadeOut(255, 255, 255, 20);
+        nbAddSePacket(0, static_cast<int32_t>(guest::addressOf(&a)), 0x10000);
+        SetTimeList(a, a.form->formindex, 0, 17, 17);
+        break;
+    default:
+        return 0;
+    }
+    SetNextActionSeq(a, kActionCheck1);
+    return 1;
+}
+
+// SetAction_RETURN @ 0x002573A8: a devil goes back to the stock (half a
+// press turn icon).
+void SetAction_RETURN(ActionProcessData& a)
+{
+    diag::print(diag::Message::Returning);
+    if (a.data->stat & BattleStat::InitiativeRolled)
+        nbCameraSetState(kCameraEnemySide);
+    const int32_t uniqueid = static_cast<int32_t>(guest::addressOf(&a));
+    nbMakeReturnPacket(0, uniqueid, *a.party);
+    SetTimeList(a, a.form->formindex, 0, 40, 40);
+    nbMakePressPacket(10, uniqueid, ee::Float::fromBits(0xbf000000));   // -0.5
+    nbMakeNewPressPacket(10, uniqueid, 9);
+}
+
+// CheckAction_RETURN @ 0x00257440
+int32_t CheckAction_RETURN(ActionProcessData& a)
+{
+    SetNextActionSeq(a, kActionCheck1);
+    return 1;
+}
+
+// CheckAction_NEGO @ 0x00256B88: waits for the talks to end; on to their
+// result (a dead Demi-fiend's talks end with result 8).
+int32_t CheckAction_NEGO(ActionProcessData& a)
+{
+    if (a.data->NegoProcessID)
+        return 0;
+    diag::print(diag::Message::NegoResult, a.data->negoresult);
+    SetNextActionSeq(a, kActionNegoResult);
+    nb::PanelSetEnabled(true);
+    if (dat::isPlayerDead())
+        a.data->negoresult = 8;
+    return 1;
+}
+
+// CheckAction_NEGORESULT @ 0x00257098
+int32_t CheckAction_NEGORESULT(ActionProcessData& a)
+{
+    SetNextActionSeq(a, kActionCheck1);
+    return 1;
+}
+
+// SetAction_INVISIBLE @ 0x00257460
+void SetAction_INVISIBLE(ActionProcessData&) {}
+
+// CheckAction_INVISIBLE @ 0x00257468
+int32_t CheckAction_INVISIBLE(ActionProcessData& a)
 {
     SetNextActionSeq(a, kActionCheck1);
     return 1;

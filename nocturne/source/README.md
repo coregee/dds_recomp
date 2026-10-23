@@ -46,6 +46,8 @@ include/nocturne/
   data/field_skill.hpp   skills used outside battle, field damage to the party
   battle/kouka.hpp       the battle's presentation queue (kouka packets)
   battle/action.hpp      an action's state machine and time list
+  battle/bad_ai.hpp      what an ailing (charmed, panicked, cursed) unit does
+  battle/camera.hpp      the battle camera: its named states
   kernel/draw.hpp        the kernel's screen state: quake, blur, effect fades, lights, fog
   effect/event.hpp       the event screen effects' switches and settings (effEvent)
   external.hpp           engine functions not rewritten yet (bridged to legacy C)

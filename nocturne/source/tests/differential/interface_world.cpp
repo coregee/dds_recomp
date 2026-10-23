@@ -13,7 +13,19 @@ extern "C" {
 uint64_t scrGetIntPara(uint64_t);
 uint64_t ps2SoundPlay(uint64_t, uint64_t, uint64_t);
 void dds3LinkProcess(uint64_t, uint64_t);
+void nbMakeKaifukuPacket(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
+void nbDispJyokyoHelp(uint64_t, uint64_t, uint64_t, uint64_t);
+void ps2BattleActionChoice_002532A8(uint64_t, uint64_t);
+uint64_t ps2BattleOutcome_00252CD8(uint64_t);
+void ps2BattlePanelSetEnabled_00282200(uint64_t);
+uint64_t ps2CombatCheckEscape_00269E98(uint64_t);   // legacy nbCheckEscape, tested against the rewrite
 uint64_t nbRunAi(uint64_t);   // legacy (battle_ai_execution.c), tested against the rewrite
+// More legacy functions tested against the rewrite, for the ailment AI.
+void nbGetTargetTypeRuleArea(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
+uint64_t nbSetSelectOkMark(uint64_t, uint64_t, uint64_t, uint64_t);
+uint64_t nbGetSelectBit(uint64_t);
+uint64_t nbCheckFormationPlayerSide(uint64_t);
+uint64_t ps2CombatCheckCurse_002677B8(uint64_t);
 uint32_t ps2MemoryHandleAllocate(int32_t);
 uint32_t ps2MemoryHandleAcquirePointer(uint32_t);
 void ps2MemoryHandleFree(uint32_t);
@@ -93,8 +105,13 @@ ee::Interpreter makeOriginal()
     e.interpret(0x00253488, 0x00253490);   // SetAction_NON
     e.interpret(0x00253bf8, 0x00253de0);   // SetAction_AI .. CheckAction_DEADSCRIPT
     e.interpret(0x00288d80, 0x00288e18);   // nbInitAiScript
+    e.interpret(0x0028e3c8, 0x0028f218);   // nbBadAi
+    e.interpret(0x00253e00, 0x00254178);   // CheckAction_BAD, the BADWAIT pair
+    e.interpret(0x001b1740, 0x001b1770);   // nbCameraSetState
+    e.interpret(0x002592b0, 0x00259318);   // nbSetJyokyoMes, nbGetJyokyoMes
     e.interpret(0x00257b08, 0x00257bf0);   // SetAction_END
-    e.interpret(0x00257460, 0x00257488);   // WAIT
+    e.interpret(0x00257098, 0x00257488);   // NEGORESULT's check, WAIT, ESCAPE, RETURN, INVISIBLE
+    e.interpret(0x00256b88, 0x00256c00);   // CheckAction_NEGO
     e.interpret(0x00257a68, 0x00257b08);   // CHECK3, ATO
     e.interpret(0x00257bf0, 0x00257c80);   // CheckAction_END, nbGetActionSeq, nbGetPrevActionSeq
     e.interpret(0x00257cc8, 0x00257cd0);   // SetNextActionSeq
@@ -131,7 +148,24 @@ ee::Interpreter makeOriginal()
     (void)none;
     e.hook(0x002c18d8, [=](ee::Cpu& c) { return ps2SoundPlay(a(c, 0), a(c, 1), a(c, 2)); });
     e.hook(0x00101af8, [=](ee::Cpu& c) { dds3LinkProcess(a(c, 0), a(c, 1)); return uint64_t{0}; });
+    e.hook(0x00264010, [=](ee::Cpu& c) {
+        nbMakeKaifukuPacket(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5), a(c, 6));
+        return uint64_t{0};
+    });
+    e.hook(0x002892a8, [=](ee::Cpu& c) { nbDispJyokyoHelp(a(c, 0), a(c, 1), a(c, 2), a(c, 3)); return uint64_t{0}; });
+    e.hook(0x002532a8, [=](ee::Cpu& c) { ps2BattleActionChoice_002532A8(a(c, 0), a(c, 1)); return uint64_t{0}; });
+    e.hook(0x00252cd8, [=](ee::Cpu& c) { return ps2BattleOutcome_00252CD8(a(c, 0)); });
+    e.hook(0x00282200, [=](ee::Cpu& c) { ps2BattlePanelSetEnabled_00282200(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00269e98, [=](ee::Cpu& c) { return ps2CombatCheckEscape_00269E98(a(c, 0)); });
     e.hook(0x00287cb8, [=](ee::Cpu& c) { return nbRunAi(a(c, 0)); });
+    e.hook(0x00258de8, [=](ee::Cpu& c) {
+        nbGetTargetTypeRuleArea(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5));
+        return uint64_t{0};
+    });
+    e.hook(0x0025dc00, [=](ee::Cpu& c) { return nbSetSelectOkMark(a(c, 0), a(c, 1), a(c, 2), a(c, 3)); });
+    e.hook(0x00246b68, [=](ee::Cpu& c) { return nbGetSelectBit(a(c, 0)); });
+    e.hook(0x0026a468, [=](ee::Cpu& c) { return nbCheckFormationPlayerSide(a(c, 0)); });
+    e.hook(0x002677b8, [=](ee::Cpu& c) { return ps2CombatCheckCurse_002677B8(a(c, 0)); });
     e.hook(0x002a9038, [=](ee::Cpu& c) { return uint64_t{ps2MemoryHandleAllocate(static_cast<int32_t>(a(c, 0)))}; });
     e.hook(0x002a9688, [=](ee::Cpu& c) { return uint64_t{ps2MemoryHandleAcquirePointer(static_cast<uint32_t>(a(c, 0)))}; });
     e.hook(0x002a9558, [=](ee::Cpu& c) { ps2MemoryHandleFree(static_cast<uint32_t>(a(c, 0))); return uint64_t{0}; });
