@@ -3,6 +3,7 @@
 #include "nocturne/battle/kouka.hpp"
 
 #include "nocturne/battle/combatant.hpp"
+#include "nocturne/effect/boss.hpp"
 #include "nocturne/external.hpp"
 
 namespace nocturne::nb {
@@ -547,6 +548,45 @@ KoukaPacket& nbAddFlyKoukaPacket(int32_t startframe, int32_t uniqueid, Formation
 {
     KoukaPacket& p = addFor(startframe, uniqueid, form, kFly);
     p.data1.raw = 0;
+    return p;
+}
+
+// nbAddOngBunshinPacket @ 0x00263110 (no HD name: the HD remaster has only
+// the three-clone version)
+KoukaPacket& nbAddOngBunshinPacket(int32_t startframe, int32_t uniqueid, Formation* sform, Formation* eform)
+{
+    KoukaPacket& p = nbAddKoukaPacket(nbGetKoukaProcessData(), startframe, eff::effPCPBossBUNSINGetLength(), uniqueid);
+    p.data1.raw = eff::PCPBossBUNSINCreate({guest::addressOf(sform), guest::addressOf(eform)});
+    p.type = kOngBunshin;
+    return p;
+}
+
+// nbAddOngBunshin2Packet @ 0x002631A0
+KoukaPacket& nbAddOngBunshin2Packet(int32_t startframe, int32_t uniqueid, Formation* sform, Formation* form1,
+                                    Formation* form2, Formation* form3)
+{
+    KoukaPacket& p = nbAddKoukaPacket(nbGetKoukaProcessData(), startframe, eff::effPCPBossBUNSIN2GetLength(), uniqueid);
+    p.data1.raw = eff::PCPBossBUNSIN2Create(
+        {guest::addressOf(sform), guest::addressOf(form1), guest::addressOf(form2), guest::addressOf(form3)});
+    p.type = kOngBunshin2;
+    return p;
+}
+
+// nbAddOngOutPacket @ 0x00263250
+KoukaPacket& nbAddOngOutPacket(int32_t startframe, int32_t uniqueid, Formation* form)
+{
+    KoukaPacket& p = nbAddKoukaPacket(nbGetKoukaProcessData(), startframe, eff::effPCPBossONGYGetLength(), uniqueid);
+    p.data1.raw = eff::PCPBossONGYCreate({guest::addressOf(form)});
+    p.type = kOngOut;
+    return p;
+}
+
+// nbAddOngOut2Packet @ 0x002632D0
+KoukaPacket& nbAddOngOut2Packet(int32_t startframe, int32_t uniqueid, Formation* form)
+{
+    KoukaPacket& p = nbAddKoukaPacket(nbGetKoukaProcessData(), startframe, eff::effPCPBossONGY2GetLength(), uniqueid);
+    p.data1.raw = eff::PCPBossONGY2Create({guest::addressOf(form)});
+    p.type = kOngOut2;
     return p;
 }
 

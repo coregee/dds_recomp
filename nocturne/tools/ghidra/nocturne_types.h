@@ -126,6 +126,16 @@ typedef struct datSpecialSkill {
     s16 n, m, a, b;
 } datSpecialSkill;
 
+/* datDevilNegoFormat_s: how a devil talks (48 bytes per devil). */
+typedef struct datNegoPresent { u8 ritu, item; } datNegoPresent;
+typedef struct datDevilNegoFormat {
+    u32 kucyo, tokucyo;
+    u8 tokuboutype, honboutype, fighttype, reqtype, tuikareqtype, privatesel, privateselindex;
+    u8 senseitype, inotitype, binjotype;
+    u16 mukantype, mukanindex;
+    datNegoPresent itema[6], itemb[6], stone[1];
+} datDevilNegoFormat;
+
 typedef struct datDevilFormat {
     u32 flag;
     u8 race, level;

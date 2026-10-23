@@ -119,6 +119,24 @@ struct SpecialSkill {
 };
 static_assert(sizeof(SpecialSkill) == 8);
 
+// datDevilNegoFormat_s: how a devil talks (table at 0x3DCB38, 48 bytes per
+// devil). Only the talk-starting types are used by the rewrite so far.
+struct NegoPresent {           // datNegoPresent_s
+    uint8_t ritu, item;
+};
+struct DevilNegoFormat {
+    uint32_t kucyo, tokucyo;
+    uint8_t tokuboutype, honboutype, fighttype, reqtype, tuikareqtype;
+    uint8_t privatesel, privateselindex;
+    uint8_t senseitype;        // nonzero: it may open an ambush with talk (CheckSenseiNego)
+    uint8_t inotitype;         // ... beg for its life (CheckInotiNego)
+    uint8_t binjotype;         // ... ask to join (CheckBinjoNego)
+    uint16_t mukantype;        // ... speak up as the last one able to (CheckMukanNego)
+    uint16_t mukanindex;
+    NegoPresent itema[6], itemb[6], stone[1];   // tentative split of the last 26 bytes
+};
+static_assert(sizeof(DevilNegoFormat) == 0x30 && offsetof(DevilNegoFormat, mukantype) == 0x12);
+
 // datDevilFormat: species data for each devil ID. Table at 0x3497C0, 60 bytes.
 struct DevilFormat {
     uint32_t flag;

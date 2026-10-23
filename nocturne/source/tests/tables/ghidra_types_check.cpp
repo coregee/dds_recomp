@@ -35,6 +35,8 @@ SAME_OFFSET(datNormalSkill, NormalSkill, program, program);
 SAME_OFFSET(datNormalSkill, NormalSkill, magiclimit, magiclimit);
 SAME_SIZE(datSpecialSkill, SpecialSkill);
 SAME_SIZE(datDevilFormat, DevilFormat);
+SAME_SIZE(datDevilNegoFormat, DevilNegoFormat);
+SAME_OFFSET(datDevilNegoFormat, DevilNegoFormat, mukantype, mukantype);
 SAME_OFFSET(datDevilFormat, DevilFormat, specialbit, specialbit);
 SAME_OFFSET(datDevilFormat, DevilFormat, reserve1, reserve1);
 SAME_SIZE(datEncount, Encount);

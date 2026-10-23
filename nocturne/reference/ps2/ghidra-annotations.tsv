@@ -1047,6 +1047,14 @@ symbol	001942b0	Function	ps2BattleAction_001942B0	Global
 symbol	001942d0	Function	ps2BattleAction_001942D0	Global
 symbol	00194450	Function	ps2BattleAction_00194450	Global
 symbol	001948e0	Function	ps2EffectRelease_001948e0	Global
+symbol	00198200	Function	effPCPBossONGYCreate	Global
+symbol	00198860	Function	effPCPBossONGYGetLength	Global
+symbol	00198868	Function	effPCPBossONGY2Create	Global
+symbol	00198ff8	Function	effPCPBossONGY2GetLength	Global
+symbol	00199000	Function	effPCPBossBUNSINCreate	Global
+symbol	00199b08	Function	effPCPBossBUNSINGetLength	Global
+symbol	00199b10	Function	effPCPBossBUNSIN2Create	Global
+symbol	00199cb0	Function	effPCPBossBUNSIN2GetLength	Global
 symbol	001a1ff8	Function	ps2EffectCopy_001a1ff8	Global
 symbol	001a2098	Function	ps2EffectRelease_001a2098	Global
 symbol	001a21c0	Function	ps2DistBlurInitializeParticle_001A21C0	Global
@@ -2005,6 +2013,7 @@ symbol	00251d50	Label	case_6	FUN_002518c8::override::jmp_00251d18
 symbol	00251d58	Label	case_7	FUN_002518c8::override::jmp_00251d18
 symbol	00251ef0	Function	ps2BattleActionChoice_00251EF0	Global
 symbol	00251fd8	Function	ps2BattleActionChoice_00251FD8	Global
+symbol	00252060	Function	CheckArrCounter	Global
 symbol	002521c8	Function	ps2BattleAction_002521C8	Global
 symbol	00252400	Function	ps2BattleActionChoice_00252400	Global
 symbol	002525f0	Function	ps2BattleActionChoice_002525F0	Global
@@ -2012,6 +2021,9 @@ symbol	00252720	Function	ps2BattleActionChoice_00252720	Global
 symbol	002529d0	Function	ps2BattleActionChoice_002529D0	Global
 symbol	00252c28	Function	nbActionQueueDeadScripts	Global
 symbol	00252cd8	Function	ps2BattleOutcome_00252CD8	Global
+symbol	00252ea8	Function	KyouseiPress	Global
+symbol	00252ee8	Function	DokodemoPoa	Global
+symbol	00252fb8	Function	SetNowActionStat	Global
 symbol	002532a8	Function	ps2BattleActionChoice_002532A8	Global
 symbol	00253488	Function	nbActionSetNone	Global
 symbol	00253490	Function	ps2BattleActionChoice_00253490	Global
@@ -2134,6 +2146,10 @@ symbol	00262f58	Function	nbAddSkillNamePacket	Global
 symbol	00262fb8	Function	nbAddFormOnOffPacket	Global
 symbol	00263028	Function	nbAddFormFlagOnOffPacket	Global
 symbol	002630a8	Function	nbAddFlyKoukaPacket	Global
+symbol	00263110	Function	nbAddOngBunshinPacket	Global
+symbol	002631a0	Function	nbAddOngBunshin2Packet	Global
+symbol	00263250	Function	nbAddOngOutPacket	Global
+symbol	002632d0	Function	nbAddOngOut2Packet	Global
 symbol	00263350	Function	nbAddDeadEventKoukaPacket	Global
 symbol	002633e8	Function	nbAddFadeOutKoukaPacket	Global
 symbol	00263458	Function	nbAddFadeInKoukaPacket	Global
@@ -3498,6 +3514,7 @@ symbol	003d6998	Label	datSkill_tbl	Global
 symbol	003d7998	Label	datNormalSkill_tbl	Global
 symbol	003dc1e0	Label	datSpecialSkill_tbl	Global
 symbol	003dc4a0	Label	datItem_tbl	Global
+symbol	003dcb38	Label	datDevilNegoFormat_tbl	Global
 symbol	003fa430	Label	datBossPress	Global
 symbol	004f0788	Label	nbAiFuncTbl	Global
 symbol	004f0800	Label	nbAiScript_bf	Global
@@ -7099,6 +7116,18 @@ function_repeatable_comment	00195cc0		FUN_00195cc0	Recovered missing PS2 functio
 function_repeatable_comment	00197030		FUN_00197030	Recovered missing PS2 function entry. ELF data words point to this decoded entry: 0031ebd0; leaf body has JR RA, no calls, and no epilogue requiring an external prologue; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
 function_repeatable_comment	00197040		FUN_00197040	Recovered missing PS2 function entry. ELF data words point to this decoded entry: 0031ebd4; leaf body has JR RA, no calls, and no epilogue requiring an external prologue; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
 function_repeatable_comment	001973c0		FUN_001973c0	Recovered missing PS2 function entry. Decoded negative stack adjustment; saved RA; JR RA return; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
+signature	00198200		effPCPBossONGYCreate	u32 effPCPBossONGYCreate(void * pParam)
+variable	00198200	a0_lo:4	pParam	void *
+signature	00198860		effPCPBossONGYGetLength	int effPCPBossONGYGetLength(void)
+signature	00198868		effPCPBossONGY2Create	u32 effPCPBossONGY2Create(void * pParam)
+variable	00198868	a0_lo:4	pParam	void *
+signature	00198ff8		effPCPBossONGY2GetLength	int effPCPBossONGY2GetLength(void)
+signature	00199000		effPCPBossBUNSINCreate	u32 effPCPBossBUNSINCreate(void * pParam)
+variable	00199000	a0_lo:4	pParam	void *
+signature	00199b08		effPCPBossBUNSINGetLength	int effPCPBossBUNSINGetLength(void)
+signature	00199b10		effPCPBossBUNSIN2Create	u32 effPCPBossBUNSIN2Create(void * pParam)
+variable	00199b10	a0_lo:4	pParam	void *
+signature	00199cb0		effPCPBossBUNSIN2GetLength	int effPCPBossBUNSIN2GetLength(void)
 function_repeatable_comment	0019ecc8		FUN_0019ecc8	Recovered missing PS2 function entry. Decoded negative stack adjustment; saved RA; JR RA return; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
 function_repeatable_comment	0019ee60		FUN_0019ee60	Recovered missing PS2 function entry. ELF data words point to this decoded entry: 0031ef18; leaf body has JR RA, no calls, and no epilogue requiring an external prologue; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
 function_repeatable_comment	0019ee78		FUN_0019ee78	Recovered missing PS2 function entry. ELF data words point to this decoded entry: 0031ef1c; leaf body has JR RA, no calls, and no epilogue requiring an external prologue; computed body has no overlap with the saved baseline's existing functions. Semantic identity remains unreviewed.
@@ -10301,12 +10330,12 @@ variable	00246ab8	a0_lo:4	formindex	int
 signature	00246b68		nbGetSelectBit	uint nbGetSelectBit(nbMainProcessData * data)
 function_repeatable_comment	00246b68		nbGetSelectBit	Eleven complete native action/normal-skill/selection/rotation/no-op bodies. Original command descriptors, real VM parameter/data/return helpers, passive skill lookup and printf execute. Full declared RAM, defined raw64 results, Status, CPU primitives, returning callee saves and ordered VM targets compared. All141 embedded BF procedure records traverse actual script/message construction; native header omits240 trailing string bytes, which remain backed. Synthetic connected programs execute actual action and rotation commands; original AI decision paths, automatic targeting, AI startup, scheduling and physical battle runtime remain unproved. Zero divisor reaches original BREAK7 after visible increment; no return or unwinding contract is assigned. Unity roles and community names corroborate identity, not PS2 layouts. No new full-suite run.
 variable	00246b68	a0_lo:4	data	nbMainProcessData *
-signature	00247ed8		nbPushAction	void nbPushAction(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3)
+signature	00247ed8		nbPushAction	void nbPushAction(int type, int from, int to, int d)
 function_repeatable_comment	00247ed8		nbPushAction	Twenty-one complete original CHECK1 prerequisites. Actual process lookup, unit/party routing and skill search execute. All384 unchanged AI record endings are read by each of three death queries. Native A4 record stride, A0/A2 unsigned death halfwords, signed LH forms, signed LW descriptor flags, full64 predicates, fixed32 timers/12 order bytes/16 stock slots, positive HP wrap and live stack-count reloads retained. Bounded backed RAM, finite queues and selected aliases; arbitrary invalid pointers, unchecked excessive IDs, outer CHECK1 callbacks, physical battle runtime and a matching executable remain unproved. Twenty-one HD roles and attributed community record/build/source-unit context reviewed; complete DDS comparison is separate. One rolling capture, no checkpoints.
-variable	00247ed8	a0:8	arg_0	ulonglong
-variable	00247ed8	a1:8	arg_1	ulonglong
-variable	00247ed8	a2:8	arg_2	ulonglong
-variable	00247ed8	a3:8	arg_3	ulonglong
+variable	00247ed8	a0_lo:4	type	int
+variable	00247ed8	a1_lo:4	from	int
+variable	00247ed8	a2_lo:4	to	int
+variable	00247ed8	a3_lo:4	d	int
 signature	002492e0		nbMainProcess_ClearLocalBit	void __stdcall nbMainProcess_ClearLocalBit(void)
 function_repeatable_comment	002492e0		nbMainProcess_ClearLocalBit	Reviewed static counterpart: nbMainProcess$$ClearLocalBit at HD VA 0x182734260. Loop16 calls to event-bit clear fromBF0 throughBFF; identical range,callee and loop count in HD. Platform differences/limits: HD adds method context argument. C/Ghidra name class-qualified to avoid generic ClearLocalBit collisions. Original PS2 source spelling inferred from HD; no runtime validation. Shared-SMT candidate only; offsets must be checked separately for each executable.
 signature	002493a8		nbMainProcess_SetDebugFlag	void __stdcall nbMainProcess_SetDebugFlag(nbMainProcessData_PS2_prefix * data)
@@ -10535,36 +10564,46 @@ variable	00251858	a0_lo:4	a	nbActionProcessData *
 signature	00251890		nbActionGetAllUnlockTime	int nbActionGetAllUnlockTime(nbActionProcessData * a)
 function_repeatable_comment	00251890		nbActionGetAllUnlockTime	Twenty-one complete original CHECK1 prerequisites. Actual process lookup, unit/party routing and skill search execute. All384 unchanged AI record endings are read by each of three death queries. Native A4 record stride, A0/A2 unsigned death halfwords, signed LH forms, signed LW descriptor flags, full64 predicates, fixed32 timers/12 order bytes/16 stock slots, positive HP wrap and live stack-count reloads retained. Bounded backed RAM, finite queues and selected aliases; arbitrary invalid pointers, unchecked excessive IDs, outer CHECK1 callbacks, physical battle runtime and a matching executable remain unproved. Twenty-one HD roles and attributed community record/build/source-unit context reviewed; complete DDS comparison is separate. One rolling capture, no checkpoints.
 variable	00251890	a0_lo:4	a	nbActionProcessData *
-signature	00251ef0		ps2BattleActionChoice_00251EF0	void ps2BattleActionChoice_00251EF0(ulonglong arg_0)
+signature	00251ef0		ps2BattleActionChoice_00251EF0	void ps2BattleActionChoice_00251EF0(nbActionProcessData * a)
 function_repeatable_comment	00251ef0		ps2BattleActionChoice_00251EF0	Complete13 action selector/CHECK1/lifecycle bodies,1453 original instructions,6VOID/7raw64,1/2/5rawslots. Full original/probe cohort including actual-return and readonlypriorRAM argument bindings, actual two reachable BREAK7 paths and statically constant100 deadthird. Genuine pool/process/RNG/stdio/packet dependencies. No fullprivateframe/volatile/FCSRarithmetic/hardware claim.
-variable	00251ef0	a0:8	arg_0	ulonglong
-signature	00251fd8		ps2BattleActionChoice_00251FD8	void ps2BattleActionChoice_00251FD8(ulonglong arg_0, ulonglong arg_1)
+variable	00251ef0	a0_lo:4	a	nbActionProcessData *
+signature	00251fd8		ps2BattleActionChoice_00251FD8	void ps2BattleActionChoice_00251FD8(nbActionProcessData * a, int partyindex)
 function_repeatable_comment	00251fd8		ps2BattleActionChoice_00251FD8	Complete13 action selector/CHECK1/lifecycle bodies,1453 original instructions,6VOID/7raw64,1/2/5rawslots. Full original/probe cohort including actual-return and readonlypriorRAM argument bindings, actual two reachable BREAK7 paths and statically constant100 deadthird. Genuine pool/process/RNG/stdio/packet dependencies. No fullprivateframe/volatile/FCSRarithmetic/hardware claim.
-variable	00251fd8	a0:8	arg_0	ulonglong
-variable	00251fd8	a1:8	arg_1	ulonglong
-signature	002521c8		ps2BattleAction_002521C8	ulonglong ps2BattleAction_002521C8(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2)
+variable	00251fd8	a0_lo:4	a	nbActionProcessData *
+variable	00251fd8	a1_lo:4	partyindex	int
+signature	00252060		CheckArrCounter	int CheckArrCounter(nbActionProcessData * a)
+variable	00252060	a0_lo:4	a	nbActionProcessData *
+signature	002521c8		ps2BattleAction_002521C8	int ps2BattleAction_002521C8(nbActionProcessData * a, int from, int to)
 function_repeatable_comment	002521c8		ps2BattleAction_002521C8	Battle action84 native aliases:20344 recognized/20520 spanbytes.67 definedV0:8 and17void; six genuine scalarF12:4 slots;263C00 has eight low64 GPRs plus four uint32 words in incoming8-byte slots0/8/16/24. Typed C/H and original member/storage witnesses independently constrained. Actual523 standalone2756 strict original comparison (2752returns/fourBREAK7), declaredRAM/full8KiBstack/finite kernel and primitive observations remain separately pinned. Declared arithmetic FCSR model and callee-save profile are qualified; full arbitrary volatile775/nativeABI and final external secondaryHI1/LO1 are not claimed. Metadata changes no executable, C bytes, corpus, original capture or registry.
-variable	002521c8	a0:8	arg_0	ulonglong
-variable	002521c8	a1:8	arg_1	ulonglong
-variable	002521c8	a2:8	arg_2	ulonglong
-signature	00252400		ps2BattleActionChoice_00252400	ulonglong ps2BattleActionChoice_00252400(ulonglong arg_0)
+variable	002521c8	a0_lo:4	a	nbActionProcessData *
+variable	002521c8	a1_lo:4	from	int
+variable	002521c8	a2_lo:4	to	int
+signature	00252400		ps2BattleActionChoice_00252400	int ps2BattleActionChoice_00252400(nbActionProcessData * a)
 function_repeatable_comment	00252400		ps2BattleActionChoice_00252400	Complete13 action selector/CHECK1/lifecycle bodies,1453 original instructions,6VOID/7raw64,1/2/5rawslots. Full original/probe cohort including actual-return and readonlypriorRAM argument bindings, actual two reachable BREAK7 paths and statically constant100 deadthird. Genuine pool/process/RNG/stdio/packet dependencies. No fullprivateframe/volatile/FCSRarithmetic/hardware claim.
-variable	00252400	a0:8	arg_0	ulonglong
-signature	002525f0		ps2BattleActionChoice_002525F0	ulonglong ps2BattleActionChoice_002525F0(ulonglong arg_0)
+variable	00252400	a0_lo:4	a	nbActionProcessData *
+signature	002525f0		ps2BattleActionChoice_002525F0	int ps2BattleActionChoice_002525F0(nbActionProcessData * a)
 function_repeatable_comment	002525f0		ps2BattleActionChoice_002525F0	Complete13 action selector/CHECK1/lifecycle bodies,1453 original instructions,6VOID/7raw64,1/2/5rawslots. Full original/probe cohort including actual-return and readonlypriorRAM argument bindings, actual two reachable BREAK7 paths and statically constant100 deadthird. Genuine pool/process/RNG/stdio/packet dependencies. No fullprivateframe/volatile/FCSRarithmetic/hardware claim.
-variable	002525f0	a0:8	arg_0	ulonglong
-signature	00252720		ps2BattleActionChoice_00252720	ulonglong ps2BattleActionChoice_00252720(ulonglong arg_0)
+variable	002525f0	a0_lo:4	a	nbActionProcessData *
+signature	00252720		ps2BattleActionChoice_00252720	int ps2BattleActionChoice_00252720(nbActionProcessData * a)
 function_repeatable_comment	00252720		ps2BattleActionChoice_00252720	Complete13 action selector/CHECK1/lifecycle bodies,1453 original instructions,6VOID/7raw64,1/2/5rawslots. Full original/probe cohort including actual-return and readonlypriorRAM argument bindings, actual two reachable BREAK7 paths and statically constant100 deadthird. Genuine pool/process/RNG/stdio/packet dependencies. No fullprivateframe/volatile/FCSRarithmetic/hardware claim.
-variable	00252720	a0:8	arg_0	ulonglong
-signature	002529d0		ps2BattleActionChoice_002529D0	ulonglong ps2BattleActionChoice_002529D0(ulonglong arg_0)
+variable	00252720	a0_lo:4	a	nbActionProcessData *
+signature	002529d0		ps2BattleActionChoice_002529D0	int ps2BattleActionChoice_002529D0(nbActionProcessData * a)
 function_repeatable_comment	002529d0		ps2BattleActionChoice_002529D0	Complete13 action selector/CHECK1/lifecycle bodies,1453 original instructions,6VOID/7raw64,1/2/5rawslots. Full original/probe cohort including actual-return and readonlypriorRAM argument bindings, actual two reachable BREAK7 paths and statically constant100 deadthird. Genuine pool/process/RNG/stdio/packet dependencies. No fullprivateframe/volatile/FCSRarithmetic/hardware claim.
-variable	002529d0	a0:8	arg_0	ulonglong
-signature	00252c28		nbActionQueueDeadScripts	void nbActionQueueDeadScripts(ulonglong arg_0)
+variable	002529d0	a0_lo:4	a	nbActionProcessData *
+signature	00252c28		nbActionQueueDeadScripts	void nbActionQueueDeadScripts(nbActionProcessData * a)
 function_repeatable_comment	00252c28		nbActionQueueDeadScripts	Thirteen complete native CHECK1 prerequisites. Actual process/packet allocation/list/SE suppression, unit/party/bad-status access, death queries and action-stack writes execute. Full64 equality/order, low32 signed DIV remainder, unsigned event halfwords, signed controller IDs, successor snapshots and window SH/clamp order retained. Twelve HD roles; PS2 motion length remains a descriptive alias because HD stub/animator candidates differ. Original immutable fade table and original AI ending inputs checked where selected. Bounded backed lists and selected aliases; corrupt lists, hit-effect constructors/indirect callbacks, outer CHECK1/communication completion, physical runtime and matching executable remain unproved. Original callback frontier separately audited. One rolling capture, no checkpoints.
-variable	00252c28	a0:8	arg_0	ulonglong
-signature	00252cd8		ps2BattleOutcome_00252CD8	ulonglong ps2BattleOutcome_00252CD8(ulonglong arg_0)
+variable	00252c28	a0_lo:4	a	nbActionProcessData *
+signature	00252cd8		ps2BattleOutcome_00252CD8	int ps2BattleOutcome_00252CD8(nbActionProcessData * a)
 function_repeatable_comment	00252cd8		ps2BattleOutcome_00252CD8	Whole Outcome23/1203 original instructions. Actual custom native storage: integer A0..T0 raw64, six additional F12 binary32 inputs, eleven VOID/eleven V0 raw64/one F0 binary32 result. Host uint64 carrier for native F0 is transport only and is not the native signature. Actual registered native printf/lookup and ordinary RAM/caller-bank profile; private frame equality, full volatile state, FP exception flags and physical timing unclaimed. Original/probe complete-cohort proof required before application.
-variable	00252cd8	a0:8	arg_0	ulonglong
+variable	00252cd8	a0_lo:4	a	nbActionProcessData *
+signature	00252ea8		KyouseiPress	void KyouseiPress(nbActionProcessData * a)
+variable	00252ea8	a0_lo:4	a	nbActionProcessData *
+signature	00252ee8		DokodemoPoa	void DokodemoPoa(nbActionProcessData * a)
+variable	00252ee8	a0_lo:4	a	nbActionProcessData *
+signature	00252fb8		SetNowActionStat	void SetNowActionStat(nbActionProcessData * a, int comm, int nskill)
+variable	00252fb8	a0_lo:4	a	nbActionProcessData *
+variable	00252fb8	a1_lo:4	comm	int
+variable	00252fb8	a2_lo:4	nskill	int
 signature	002532a8		ps2BattleActionChoice_002532A8	void ps2BattleActionChoice_002532A8(nbActionProcessData * a, int hp)
 function_repeatable_comment	002532a8		ps2BattleActionChoice_002532A8	Complete13 action selector/CHECK1/lifecycle bodies,1453 original instructions,6VOID/7raw64,1/2/5rawslots. Full original/probe cohort including actual-return and readonlypriorRAM argument bindings, actual two reachable BREAK7 paths and statically constant100 deadthird. Genuine pool/process/RNG/stdio/packet dependencies. No fullprivateframe/volatile/FCSRarithmetic/hardware claim.
 variable	002532a8	a0_lo:4	a	nbActionProcessData *
@@ -11092,6 +11131,26 @@ function_repeatable_comment	002630a8		nbAddFlyKoukaPacket	Twenty-seven complete 
 variable	002630a8	a0_lo:4	startframe	int
 variable	002630a8	a1_lo:4	uniqueid	int
 variable	002630a8	a2_lo:4	form	nbFormation *
+signature	00263110		nbAddOngBunshinPacket	nbKoukaPacket * nbAddOngBunshinPacket(int startframe, int uniqueid, nbFormation * sform, nbFormation * eform)
+variable	00263110	a0_lo:4	startframe	int
+variable	00263110	a1_lo:4	uniqueid	int
+variable	00263110	a2_lo:4	sform	nbFormation *
+variable	00263110	a3_lo:4	eform	nbFormation *
+signature	002631a0		nbAddOngBunshin2Packet	nbKoukaPacket * nbAddOngBunshin2Packet(int startframe, int uniqueid, nbFormation * sform, nbFormation * form1, nbFormation * form2, nbFormation * form3)
+variable	002631a0	a0_lo:4	startframe	int
+variable	002631a0	a1_lo:4	uniqueid	int
+variable	002631a0	a2_lo:4	sform	nbFormation *
+variable	002631a0	a3_lo:4	form1	nbFormation *
+variable	002631a0	t0_lo:4	form2	nbFormation *
+variable	002631a0	t1_lo:4	form3	nbFormation *
+signature	00263250		nbAddOngOutPacket	nbKoukaPacket * nbAddOngOutPacket(int startframe, int uniqueid, nbFormation * form)
+variable	00263250	a0_lo:4	startframe	int
+variable	00263250	a1_lo:4	uniqueid	int
+variable	00263250	a2_lo:4	form	nbFormation *
+signature	002632d0		nbAddOngOut2Packet	nbKoukaPacket * nbAddOngOut2Packet(int startframe, int uniqueid, nbFormation * form)
+variable	002632d0	a0_lo:4	startframe	int
+variable	002632d0	a1_lo:4	uniqueid	int
+variable	002632d0	a2_lo:4	form	nbFormation *
 signature	00263350		nbAddDeadEventKoukaPacket	nbKoukaPacket * nbAddDeadEventKoukaPacket(int startframe, int uniqueid, nbFormation * form, int eventno)
 function_repeatable_comment	00263350		nbAddDeadEventKoukaPacket	Twenty-seven complete packet constructors, composites and native list helpers. Actual named kouka/main lookups, process queues, unit-work access and64-byte pool allocator execute. F12 raw32 copies through real float interfaces, full raw64 predicates, signed LH/LB, SUBU/SX32 sound windows, partial initialization, live reloads and store order retained. Original kinds and fields are pinned; HD IDs, managed references and extra guards are not imported. Valid finite backed lists, bounded pooled objects and selected backed aliases; arbitrary corrupt lists, packet execution, state18 entry/update, chooser, physical runtime and matching executable remain unproved. Community build/source-unit context checked; complete DDS spans independently investigated. Current working files and rolling outputs, no checkpoints.
 variable	00263350	a0_lo:4	startframe	int
@@ -11165,13 +11224,13 @@ variable	002638a0	a3_lo:4	col	u32
 variable	002638a0	t0_lo:4	delay	int
 variable	002638a0	t1_lo:4	colframe	int
 variable	002638a0	t2_lo:4	aframe	int
-signature	00263918		ps2BattleAction_00263918	ulonglong ps2BattleAction_00263918(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4)
+signature	00263918		ps2BattleAction_00263918	int ps2BattleAction_00263918(int startframe, int uniqueid, nbFormation * form, int deadtype, int deadpcm)
 function_repeatable_comment	00263918		ps2BattleAction_00263918	Battle action84 native aliases:20344 recognized/20520 spanbytes.67 definedV0:8 and17void; six genuine scalarF12:4 slots;263C00 has eight low64 GPRs plus four uint32 words in incoming8-byte slots0/8/16/24. Typed C/H and original member/storage witnesses independently constrained. Actual523 standalone2756 strict original comparison (2752returns/fourBREAK7), declaredRAM/full8KiBstack/finite kernel and primitive observations remain separately pinned. Declared arithmetic FCSR model and callee-save profile are qualified; full arbitrary volatile775/nativeABI and final external secondaryHI1/LO1 are not claimed. Metadata changes no executable, C bytes, corpus, original capture or registry.
-variable	00263918	a0:8	arg_0	ulonglong
-variable	00263918	a1:8	arg_1	ulonglong
-variable	00263918	a2:8	arg_2	ulonglong
-variable	00263918	a3:8	arg_3	ulonglong
-variable	00263918	t0:8	arg_4	ulonglong
+variable	00263918	a0_lo:4	startframe	int
+variable	00263918	a1_lo:4	uniqueid	int
+variable	00263918	a2_lo:4	form	nbFormation *
+variable	00263918	a3_lo:4	deadtype	int
+variable	00263918	t0_lo:4	deadpcm	int
 signature	00263c00		ps2BattleAction_00263C00	int ps2BattleAction_00263C00(int startframe, int uniqueid, nbFormation * form, int type, int hp, int mp, int badstat, int hiteff, int dead, int deadtype, int moji, int animeoff)
 function_repeatable_comment	00263c00		ps2BattleAction_00263C00	Battle action84 native aliases:20344 recognized/20520 spanbytes.67 definedV0:8 and17void; six genuine scalarF12:4 slots;263C00 has eight low64 GPRs plus four uint32 words in incoming8-byte slots0/8/16/24. Typed C/H and original member/storage witnesses independently constrained. Actual523 standalone2756 strict original comparison (2752returns/fourBREAK7), declaredRAM/full8KiBstack/finite kernel and primitive observations remain separately pinned. Declared arithmetic FCSR model and callee-save profile are qualified; full arbitrary volatile775/nativeABI and final external secondaryHI1/LO1 are not claimed. Metadata changes no executable, C bytes, corpus, original capture or registry.
 variable	00263c00	a0_lo:4	startframe	int
@@ -11948,10 +12007,10 @@ function_repeatable_comment	0027fa78		FUN_0027fa78	[Nocturne StatusPairs private
 function_repeatable_comment	0027fa98		FUN_0027fa98	[Nocturne StatusPairs private bank contract]\nSource-derived candidate; no behavioral admission or public prototype claim.\nInteger entry slots (raw low64): []; resident FP inputs: none identified.\nAll actual CPU/FPR/VU/HI-LO/Status/FCSR/RAM effects and native RA/SP continuation remain part of the private bank contract. GP, saved registers and native frame contents remain context inputs.\nRole: No integer inputs; actual Main list rebuild and GP-relative globals set; final V0 is packed constant store operand.\nNo semantic scalar result is promoted; incidental V0 effects remain intact.\nExternal services may stop execution; no kernel/IOP completion is supplied.\nEvidence: analysis/battle-status-pairs-helper-contracts.json; ELF member words SHA256=f1db00b9a435ba0f37f7a836979eaffeb8b7f827a5bd16bed04f24c224e681a0.\n[/Nocturne StatusPairs private bank contract]
 signature	0027fba0		nbPanelStockSelectCtrl	ulonglong nbPanelStockSelectCtrl(void)
 function_repeatable_comment	0027fba0		nbPanelStockSelectCtrl	Nineteen complete original stock renderer prerequisites. Actual font constructors/cache/measurement/drawing/recycle, work allocation, DMA chains, OT callbacks, dying predicate and raw COP1/VU value paths execute. Original upper GPR words at three color QMTC2 sites are observed architectural operands, not substituted game results. Raw64 arguments and original stack words preserved. Full declared RAM, Status, primitives, FCSR condition, ordered callbacks and all32 VU/ACC/overflow/Q values compared. Finite backed text, glyph cache, lists, texture and packet memory; no fabricated dependency results. Original table/coefficients retained. Stock renderer and party animation remain pending; physical rendering/gameplay, malformed unbacked text, full FPU/VU flags and matching binary unproved. HD additions/layouts differ; community engine/data research attributed. Current outputs only; no checkpoints.
-signature	0027fd18		nbPanelStockSelect	ulonglong nbPanelStockSelect(ulonglong arg_0, ulonglong arg_1)
+signature	0027fd18		nbPanelStockSelect	u32 nbPanelStockSelect(nbMainProcessData * data, int sw)
 function_repeatable_comment	0027fd18		nbPanelStockSelect	Five complete native stock/party rendering bodies, with actual font, formatter, packet, texture, allocator, ordering, color, RNG and main-process dependencies. Original UI tables and sine coefficients retained. Compare all declared RAM, defined raw64 returns, Status, primitives, COP1 condition and VU/ACC/overflow/Q plus observed upper GPR color operands and ordered callbacks. Constructed finite backed states; physical rendering/gameplay, malformed unbacked inputs, full FPU flags and a matching binary remain unproved. Community source-unit and build/offset notes guide interpretation; DDS battle code is not assumed identical. HD UI objects/layouts and additional parameters differ. Current outputs only; no checkpoints.
-variable	0027fd18	a0:8	arg_0	ulonglong
-variable	0027fd18	a1:8	arg_1	ulonglong
+variable	0027fd18	a0_lo:4	data	nbMainProcessData *
+variable	0027fd18	a1_lo:4	sw	int
 signature	00280508		nbPanelAnalyzeInit	void nbPanelAnalyzeInit(void)
 function_repeatable_comment	00280508		nbPanelAnalyzeInit	Complete7 Analyze bodies6892 recognizedB/1723words,6932spanB;10 excluded zeroNOP words. Original276worlds/2100calls/6614028instructions and1104 strictOd/O2 bank+typed world executions/8400calls pass on actual600. Full32GPR128,FPR,VU/ACC/Q/clip,bothHI/LO,FCSRcondition,Status/SA/FPUacc/Cause/EPC,every per-call declaredRAMhash and finaldeclaredbyte match. Independent75866check review. Native heaplock/queue/cursor/85OT/layer initializers,real SYS/kernel/ERET ownership,4 connected opening/closing worlds and16 genuine missingVishnu style1V glyph uploads enqueue without supplied service outcomes. Gradient ABI is7GPR64+F12/F13. Draw280538 is native8B deferredunit setter;HD immediateUnityDraw is only a qualifiedrole. No HD boss-range mask override added. 1709/1723new words exercised;11 highunsignedFPconversion words and3realBREAK guards unexercised. Allsource remains complete. ExactPC/word/SE32 MULT/MULT1 provider independently checked22357 assertions; no sharedlanguage changes or guest normalization. Texture/font contexts are explicit preexisting source-valid objects;no upstreamassetinstallation,GSresidency,uploadcompletion,physicaldisplay ortiming claim. Private19variants carry zeroextraidentity;pending2AAF20 belongs solely toreward. Rootowns canonicaladmission.
 signature	00280518		nbPanelAnalyzeStart	void nbPanelAnalyzeStart(void)

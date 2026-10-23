@@ -50,6 +50,7 @@ include/nocturne/
   battle/camera.hpp      the battle camera: its named states
   kernel/draw.hpp        the kernel's screen state: quake, blur, effect fades, lights, fog
   effect/event.hpp       the event screen effects' switches and settings (effEvent)
+  effect/boss.hpp        boss effects (effPCPBoss): Ongyo-Ki's effects' lengths
   external.hpp           engine functions not rewritten yet (bridged to legacy C)
 src/
   data/unit.cpp, progression.cpp   datCalc
@@ -65,9 +66,13 @@ src/
   script/parameter_commands.cpp     scrParameterCommand: the prm_* commands
   data/field_skill.cpp              datCalc: skills from the menu, the field's damage to the party
   battle/kouka.cpp                  nbKoukaProcess, nbMakePacket: queueing an action's presentation
-  battle/action.cpp                 nbActionProcess: states, the time list
+  battle/action.cpp                 nbActionProcess: states, the time list, result helpers
+  battle/action_events.cpp          nbActionProcess: counters, talks, death scripts
+  battle/bad_ai.cpp                 nbBadAi: ailments that take the turn
+  battle/camera.cpp                 nbCameraProcess: camera states
   kernel/draw.cpp                   dds3KernelDraw: screen state set by the scripts
   effect/event.cpp                  effEvent
+  effect/boss.cpp                   effPCPBoss: effect lengths
   libc/*.cpp                        C library functions whose exact behaviour matters
   platform/legacy_bridge.cpp        external.hpp -> legacy C ABI
 scripts/                 FlowScript: .flow (readable) and .flowasm (exact) per script,

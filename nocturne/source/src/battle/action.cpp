@@ -11,6 +11,7 @@
 #include "nocturne/battle/combatant.hpp"
 #include "nocturne/battle/kouka.hpp"
 #include "nocturne/data/progression.hpp"
+#include "nocturne/effect/boss.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/external.hpp"
 
@@ -341,6 +342,52 @@ void SetMissPacket(ActionProcessData& a, int32_t, int32_t, int32_t dformindex, i
     SetNewPress(a, 4);
 }
 
+// SetOngShadowPacket @ 0x0024FCC0: an attack found the real Ongyo-Ki
+// among his clones ("Miss" shown as word 4): he leaves and dies, and the
+// clones stagger (motion 14). Two icons lost (result type 14).
+void SetOngShadowPacket(ActionProcessData& a, int32_t, int32_t, int32_t dformindex, int32_t, int32_t frame)
+{
+    Formation& form = formAt(a, dformindex);
+    nbAddMojiEffKoukaPacket(frame, 0x2d, uniqueOf(a), &form, 4);
+    nbAddOngOutPacket(frame, uniqueOf(a), &form);
+    nbAddUnitAKoukaPacket(frame + 1, uniqueOf(a), &form, 0, 0);
+    nbMakeDeadPacket(frame + eff::effPCPBossONGYGetLength(), uniqueOf(a), form, 1);
+    SetTimeList(a, dformindex, frame, 30, 30);
+    const int32_t after = frame + eff::effPCPBossONGYGetLength();
+    for (int32_t f = kFirstEnemyFormation; f < kFormationCount; ++f) {
+        if (f == dformindex)
+            continue;
+        Formation& clone = formAt(a, f);
+        if ((clone.stat & FormationStat::Present) && (clone.stat & FormationStat::Shadow)) {
+            nbAddMotionKoukaPacket(after, uniqueOf(a), &clone, 14);
+            SetTimeList(a, f, after, 20, 20);
+        }
+    }
+    SetPress(a, ee::Float::fromInt(-2));
+    SetNewPress(a, 14);
+}
+
+// SetOngShadowPacket2 @ 0x0024FE40: the other clones vanish; the battle
+// notes it (stat bit 0x4000) when there were any.
+void SetOngShadowPacket2(ActionProcessData& a, int32_t dformindex, int32_t frame)
+{
+    int32_t gone = 0;
+    for (int32_t f = kFirstEnemyFormation; f < kFormationCount; ++f) {
+        if (f == dformindex)
+            continue;
+        Formation& clone = formAt(a, f);
+        if ((clone.stat & FormationStat::Present) && (clone.stat & FormationStat::Shadow)) {
+            ++gone;
+            nbAddUnitAKoukaPacket(frame + 1, uniqueOf(a), &clone, 0, 0);
+            nbMakeDeadPacket(frame + eff::effPCPBossONGY2GetLength() + 1, uniqueOf(a), clone, 1);
+            nbAddOngOut2Packet(frame, uniqueOf(a), &clone);
+            SetTimeList(a, f, frame, 30, 30);
+        }
+    }
+    if (gone > 0)
+        a.data->stat |= 0x4000;
+}
+
 // SetDamagePacket @ 0x002532A8: damage to the acting unit itself (the
 // curse's), after its last unit is free. Endure, or Never Yield while it
 // lasts, leaves the unit at 1 HP once.
@@ -385,6 +432,113 @@ int32_t nbGetPrevActionSeq()
         prev = 3;
     const uint32_t process = main.ActionProcessID[prev];
     return process ? nbGetActionSeq(process) : -1;
+}
+
+namespace {
+
+// The state table (0x3FA7C0): each state's SetAction_* and CheckAction_*.
+// The rewrite runs the rewritten ones itself and calls the others' original
+// code by address.
+struct StateEntry {
+    uint32_t set, check;
+};
+constexpr uint32_t kStateTable = 0x003fa7c0;
+
+struct StateFunctions {
+    void (*set)(ActionProcessData&);
+    int32_t (*check)(ActionProcessData&);
+};
+constexpr StateFunctions kStates[24] = {
+    {SetAction_NON, nullptr},                       // 0 NON
+    {nullptr, nullptr},                             // 1 COMM
+    {SetAction_AI, CheckAction_AI},                 // 2 AI
+    {SetAction_AISCR, CheckAction_AISCR},           // 3 AISCR
+    {nullptr, CheckAction_BAD},                     // 4 BAD
+    {nullptr, nullptr},                             // 5 TARSEL
+    {nullptr, nullptr},                             // 6 STKSEL
+    {nullptr, nullptr},                             // 7 READY
+    {nullptr, nullptr},                             // 8 SKILL
+    {nullptr, CheckAction_NEGO},                    // 9 NEGO
+    {nullptr, CheckAction_NEGORESULT},              // 10 NEGORESULT
+    {SetAction_BADWAIT, CheckAction_BADWAIT},       // 11 BADWAIT
+    {SetAction_WAIT, CheckAction_WAIT},             // 12 WAIT
+    {SetAction_ESCAPE, CheckAction_ESCAPE},         // 13 ESCAPE
+    {SetAction_RETURN, CheckAction_RETURN},         // 14 RETURN
+    {SetAction_INVISIBLE, CheckAction_INVISIBLE},   // 15 INVISIBLE
+    {nullptr, nullptr},                             // 16 (unused)
+    {nullptr, nullptr},                             // 17 (unused)
+    {nullptr, nullptr},                             // 18 CHECK1
+    {SetAction_DEADSCRIPT, CheckAction_DEADSCRIPT}, // 19 DEADSCRIPT
+    {SetAction_CHECK3, CheckAction_CHECK3},         // 20 CHECK3
+    {SetAction_ATO, CheckAction_ATO},               // 21 ATO
+    {SetAction_END, CheckAction_END},               // 22 END
+    {nullptr, nullptr},                             // 23 (unused)
+};
+
+const StateEntry& stateEntry(int32_t seq) { return guest::table<const StateEntry>(kStateTable)[seq]; }
+
+void enterState(ActionProcessData& a, int32_t seq)
+{
+    if (seq >= 0 && seq < 24 && kStates[seq].set)
+        kStates[seq].set(a);
+    else
+        guest::callActionSet(stateEntry(seq).set, guest::addressOf(&a));
+}
+
+int32_t checkState(ActionProcessData& a, int32_t seq)
+{
+    if (seq >= 0 && seq < 24 && kStates[seq].check)
+        return kStates[seq].check(a);
+    return guest::callActionCheck(stateEntry(seq).check, guest::addressOf(&a));
+}
+
+} // namespace
+
+// SetActionSeq @ 0x00257C80 (nbActionSetSeq): a new state starts with its
+// counters cleared and no next state chosen.
+void SetActionSeq(ActionProcessData& a, int32_t seq)
+{
+    a.seq = static_cast<int8_t>(seq);
+    a.nextseq = 0;
+    a.seqcnt = 0;
+    a.seqtime = 0;
+    enterState(a, static_cast<int8_t>(seq));
+}
+
+// nbActionProcess1 @ 0x00257CD0: each frame, the state's check runs until
+// it reports done (stat bit 2); the next frame enters the state it chose.
+// END's next frame ends the process (-1). An action at READY waits for the
+// action before it to reach state 19 or later (or for there to be none),
+// and stops a streamed voice. Stat bit 0x40 holds the action; bit 0x400
+// keeps the stock panel's selection.
+int32_t nbActionProcess1(uint32_t process)
+{
+    ActionProcessData& a = *guest::table<ActionProcessData>(dds3::GetProcessData(process));
+    if (a.stat & 0x400)
+        nb::PanelStockSelect(*a.data, 0);
+    const int32_t previous = nbGetPrevActionSeq();
+    bool go = true;
+    if (((a.stat & 2) ? a.nextseq : a.seq) == kActionReady) {
+        go = static_cast<uint32_t>(previous) >= 19;
+        if (movie::CheckAdpcmFlag()) {
+            diag::print(diag::Message::AdpcmPlaying);
+            movie::StopAdpcm();
+        }
+    }
+    if ((a.stat & 0x40) || !go)
+        return 0;
+    if (a.stat & 2) {
+        if (a.seq == kActionEnd)
+            return -1;
+        SetActionSeq(a, a.nextseq);
+        a.stat &= ~2u;
+        return 0;
+    }
+    if (checkState(a, a.seq))
+        a.stat |= 2;
+    if (a.seqtime <= 0xfffe)
+        ++a.seqtime;
+    return 0;
 }
 
 // SetNextActionSeq @ 0x00257CC8
@@ -584,7 +738,7 @@ void SetAction_ESCAPE(ActionProcessData& a)
     if (rollEscape(*a.data))
         a.data->endtype = 3;
     else
-        nb::EscapeFailed(a);
+        CheckKoketaNego(a);
 }
 
 // CheckAction_ESCAPE @ 0x002572C0: at frame 15 a failed escape is done; at

@@ -51,13 +51,33 @@ void SetAnalyzePacket(ActionProcessData& a, int32_t dformindex, int32_t sframe);
 int32_t SetPlayerSummonPacket(ActionProcessData& a, int32_t nskill, int32_t sformindex, int32_t dformindex,
                               int32_t sframe);
 void SetSakePacket(ActionProcessData& a, int32_t nskill, int32_t sformindex, int32_t dformindex, int32_t cnt, int32_t frame);
+void SetOngShadowPacket(ActionProcessData& a, int32_t nskill, int32_t sformindex, int32_t dformindex, int32_t cnt,
+                        int32_t frame);
+void SetOngShadowPacket2(ActionProcessData& a, int32_t dformindex, int32_t frame);
 void SetMissPacket(ActionProcessData& a, int32_t nskill, int32_t sformindex, int32_t dformindex, int32_t cnt, int32_t frame);
 void SetDamagePacket(ActionProcessData& a, int32_t hp);
+
+// ---- side events: counters, talks, death scripts (action_events.cpp) ----
+void SetTargetPlayer(ActionProcessData& a);
+void SetTargetParty(ActionProcessData& a, int32_t partyindex);
+bool CheckArrCounter(ActionProcessData& a);
+bool CheckCounter(ActionProcessData& a, int32_t from, int32_t to);
+bool CheckMukanNego(ActionProcessData& a);
+bool CheckSenseiNego(ActionProcessData& a);
+bool CheckInotiNego(ActionProcessData& a);
+bool CheckBinjoNego(ActionProcessData& a);
+void CheckDeadScript(ActionProcessData& a);
+bool CheckKoketaNego(ActionProcessData& a);
+void KyouseiPress(ActionProcessData& a);
+void DokodemoPoa(ActionProcessData& a);
+void SetNowActionStat(ActionProcessData& a, int32_t comm, int32_t nskill);
 
 // ---- the state ----
 int32_t nbGetActionSeq(uint32_t process);   // of an action process, 0 for none
 int32_t nbGetPrevActionSeq();               // of the action before the current one, -1 for none
 void SetNextActionSeq(ActionProcessData& a, int32_t nextseq);
+void SetActionSeq(ActionProcessData& a, int32_t seq);   // enters a state
+int32_t nbActionProcess1(uint32_t process);               // the action process, each frame
 
 void SetAction_NON(ActionProcessData& a);
 void SetAction_AI(ActionProcessData& a);

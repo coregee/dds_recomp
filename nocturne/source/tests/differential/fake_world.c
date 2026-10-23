@@ -227,8 +227,12 @@ int fw_print_arg_count(uint32_t format)
     case 0x0053d7e8: return 0;                  /* compendium full */
     case 0x00545830: case 0x00545840: return 1; /* AI action / table */
     case 0x00545d40: return 2;                  /* ailment action weights */
+    case 0x005440e8: return 0;                  /* AD-PCM playing */
     case 0x00544020: return 0;                  /* returning */
     case 0x00543fb8: return 1;                  /* nego result */
+    case 0x00543880: case 0x005438c0: case 0x00543908: return 0;   /* counters, a failed escape's hit */
+    case 0x005438d8: return 2;                  /* inoti party */
+    case 0x005438f0: return 1;                  /* binjo party */
     case 0x00544070: case 0x00544088: case 0x005440a0: case 0x005440b0: case 0x005440c0: case 0x005440d8: return 0; /* what an action did */
     case 0x00535a80: return 0;                  /* itfMesMngRequestMessage() escape 1 */
     case 0x00535aa8: return 1;                  /* itfMesMngRequestSelect() - Invalid Type */
@@ -655,10 +659,32 @@ uint64_t ps2BattleAction_00263C00(uint64_t startframe, uint64_t uniqueid, uint64
     return 0;
 }
 void nbPanelAnalyzeStart(void) { fw_mes_log(36, 0, 0); }
-uint64_t ps2BattleOutcome_00252CD8(uint64_t action)
+/* READY's SetAction / CheckAction (not rewritten): logged. */
+void fw_ready_set(uint64_t action) { fw_mes_log(43, (uint32_t)action, 0); }
+uint64_t fw_ready_check(uint64_t action) { fw_mes_log(44, (uint32_t)action, 0); return fw_hash(16, (uint32_t)action, 0) & 1; }
+uint64_t nbPanelStockSelect(uint64_t data, uint64_t sw) { fw_mes_log(41, (uint32_t)data, (uint32_t)sw); return 0; }
+uint64_t ps2MovieCheckAdpcmFlag(void) { return (uint64_t)(int64_t)(int32_t)rd32(0x5519c8); }
+uint64_t ps2MovieStopAdpcm(void) { fw_mes_log(42, 0, 0); return 0; }
+/* Ongyo-Ki's effects: log the parameter words, hand out a handle. */
+static uint64_t fake_effect(uint32_t kind, uint64_t param, unsigned words)
 {
-    fw_mes_log(32, (uint32_t)action, 0);
-    return fw_hash(15, (uint32_t)action, 0) & 1;
+    uint32_t h = kind;
+    for (unsigned i = 0; i < words; ++i) {
+        uint32_t w = rd32((uint32_t)param + 4u * i);
+        fw_mes_log(kind, i, w);
+        h = (uint32_t)fw_hash(h, w, i);
+    }
+    return 0x00a00000u | (h & 0xffffu);
+}
+uint64_t ps2BattleActionSkill_00198200(uint64_t param) { return fake_effect(37, param, 1); }
+uint64_t ps2BattleActionSkill_00198868(uint64_t param) { return fake_effect(38, param, 1); }
+uint64_t effPCPBossBUNSINCreate(uint64_t param) { return fake_effect(39, param, 2); }
+uint64_t effPCPBossBUNSIN2Create(uint64_t param) { return fake_effect(40, param, 4); }
+uint64_t ps2BattleAction_00263918(uint64_t startframe, uint64_t uniqueid, uint64_t form, uint64_t deadtype,
+                                  uint64_t deadpcm)
+{
+    fw_mes_log(32, (uint32_t)startframe ^ (uint32_t)deadtype << 16 ^ (uint32_t)deadpcm << 24, (uint32_t)uniqueid ^ (uint32_t)form);
+    return 1;
 }
 void ps2BattlePanelSetEnabled_00282200(uint64_t enabled) { fw_mes_log(33, (uint32_t)enabled, 0); }
 void nbDispJyokyoHelp(uint64_t msgid, uint64_t no, uint64_t var_id, uint64_t var_ind)

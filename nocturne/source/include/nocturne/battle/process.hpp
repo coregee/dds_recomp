@@ -50,6 +50,7 @@ static_assert(offsetof(Formation, formindex) == 0x92);
 
 namespace FormationStat {
 inline constexpr uint32_t Present     = 0x0001; // a combatant stands here
+inline constexpr uint32_t Shadow      = 0x0002; // tentative: one of Ongyo-Ki's clones (SetOngShadowPacket)
 inline constexpr uint32_t Selectable  = 0x0004; // a valid target for the current action
 inline constexpr uint32_t Selected    = 0x0008; // chosen as a target
 inline constexpr uint32_t CheckParty  = 0x0040; // check the party flags before targeting (tentative)
@@ -101,8 +102,8 @@ struct MainProcessData {
     int32_t packindex;
     int32_t encno;            // index into the Encount table
     int32_t formationtype;
-    uint32_t actionstack;     // tentative
-    int32_t actionstackp;     // tentative
+    uint32_t actionstack;     // queued actions: {type, from, to, data} words (nbPushAction)
+    int32_t actionstackp;     // how many
     uint32_t endtype;         // how the battle ended (3 = escaped)
     int8_t order[12];         // tentative
     int8_t orderindex;

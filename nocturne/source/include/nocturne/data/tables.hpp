@@ -54,6 +54,7 @@ extern const DevilAI kDevilAI[384];
 namespace address {
 inline constexpr uint32_t Affinity          = 0x003a7fe0;
 inline constexpr uint32_t DevilFormat       = 0x003497c0;
+inline constexpr uint32_t DevilNegoFormat   = 0x003dcb38;
 inline constexpr uint32_t DefaultUnitVisual = 0x003494b0;
 inline constexpr uint32_t UnitVisual        = 0x0034f1e0;
 inline constexpr uint32_t Encount           = 0x003aefe0;
@@ -96,6 +97,10 @@ inline const SkillInfo& skillInfo(int32_t id) { return guest::table<const SkillI
 inline const uint32_t* affinityRow(int32_t row) { return guest::table<const uint32_t>(address::Affinity) + row * 16; }
 inline constexpr int32_t kStoneAffinityRow = 246;
 inline constexpr int32_t kFlyAffinityRow = 247;
+inline const DevilNegoFormat& devilNegoFormat(int32_t id)
+{
+    return guest::table<const DevilNegoFormat>(address::DevilNegoFormat)[id];
+}
 inline const DevilFormat& devilFormat(int32_t id) { return guest::table<const DevilFormat>(address::DevilFormat)[id]; }
 inline const Encount& encount(int32_t id) { return guest::table<const Encount>(address::Encount)[id]; }
 inline const EncountPack& encountPack(int32_t id) { return guest::table<const EncountPack>(address::EncountPack)[id]; }

@@ -61,7 +61,7 @@ turn, `nbAddHomeRotKoukaPacket`), 0x20 (with the motion stop,
 `nbAddSkillColorPacket`) and a third sound channel (`nbAddSePacket3`).
 
 Not rewritten yet: the builders that create effects through the effect
-library (skill and passive effects, hit effects, Ongyo-Ki's clones), the
+library (skill and passive effects, hit effects), the
 damage, healing and death-visual compositions built on them, removing
 packets (which frees those effects) and the kouka process itself.
 
@@ -118,6 +118,15 @@ pair does confirms its number (WAIT, ESCAPE, RETURN and INVISIBLE were first
 numbered one off). Four action processes form a ring in the main process
 data (`ActionProcessID`, `NowActionProcess`).
 
+Each frame, `nbActionProcess1` runs the state's check until it reports done
+(action stat bit 2); the next frame enters the state the check chose
+(`nbActionSetSeq`, which clears the state's counters and next state), and a
+done END ends the process. An action about to be READY waits until the one
+before it in the ring has reached state 19 or later (or there is none), and
+stops a streamed voice that is still playing. Action stat bit 0x40 holds the
+action where it is. States not rewritten yet are called through the table
+by address.
+
 The time list schedules the units an action touches, one entry per
 formation slot: `lockframe` (busy until), `endframe` (done at) and `hp` as
 the action's packets will leave it. `SetTimeList` starts no earlier than
@@ -162,6 +171,39 @@ packets (`source/src/battle/action.cpp`; their code runs from 0x24F420 to
 - A devil talked into joining enters the stock at unit 4 or the first free
   one after it, and the compendium (`nbGetNakama`).
 
-Not rewritten yet: Ongyo-Ki's clones
-(`SetOngShadowPacket`, `SetOngShadowPacket2`) and `SetAllPacket`, which
-builds a skill's whole result.
+- **Ongyo-Ki's clones** (formation stat bit 2): an attack that finds the
+  real one among them (`SetOngShadowPacket`) shows word 4, he leaves (the
+  `ONGY` effect, 22 frames) and dies, and the clones stagger (motion 14); it
+  costs two icons (result type 14). `SetOngShadowPacket2` makes the other
+  clones vanish (`ONGY2`, 27 frames) and marks the battle (stat 0x4000). His
+  splitting into clones is the `BUNSIN` effects (24 frames, 48 for three);
+  the PS2 also has a one-clone packet (`nbAddOngBunshinPacket`) the HD
+  remaster dropped.
+
+Not rewritten yet: `SetAllPacket`, which builds a skill's whole result.
+
+## Side events: counters, talks, death scripts
+
+After an action, its process checks for events that push another action
+onto the battle's queue (`nbPushAction`; `source/src/battle/action_events.cpp`):
+
+| Check | Push | When |
+|---|---|---|
+| `CheckCounter` | 4 | the unit hit has Avenge, Retaliate or Counter (passives 0x133..0x131, tried in that order, each at 100 / its rate percent) and isn't shocked, frozen, asleep, bound, stunned, charmed or stoned |
+| `CheckArrCounter` | 4 (skill 0xF3) | Ahriman (first form) counters a kind of party action once the story unlocks it (event bits 0x851..0x856: physical attack, magic attack, healing, magic, item, summon) |
+| `CheckInotiNego` | 1 | the last enemy, hit by the party and at 24% HP or less, begs for its life (6%), if it isn't above the Demi-fiend's level |
+| `CheckBinjoNego` | 2 | an enemy the party's action didn't target asks to join (2%), once each |
+| `CheckKoketaNego` | 3 | after a failed escape, a random enemy that can act gets a free action |
+| `CheckDeadScript` | 5 | an enemy the action killed has a death script |
+
+`CheckSenseiNego` lets an enemy that ambushed the party open with talk
+(21 / enemies percent); `CheckMukanNego` lets the last silent enemy speak up
+(5%, from the third turn). Talks need the devil's talk record to allow them
+(`datDevilNegoFormat`: `senseitype`, `inotitype`, `binjotype`,
+`mukantype`), no full Kagutsuchi, and the speakers able to talk. No devil in
+the PS2 data has a `mukantype`, so that talk never happens. A battle stat bit
+(0x2000000, tentative: a debug switch) makes every talk certain.
+
+`SetNowActionStat` records what a party action does as the action's stat
+bits, which Ahriman's counter and `SetAction_END`'s debug messages read.
+`KyouseiPress` ends the press turns at once; `DokodemoPoa` kills every enemy.

@@ -18,6 +18,10 @@ uint64_t nbGetPartyFromFormindex(uint64_t formindex);
 uint64_t nbGetUnitWorkPointer(uint64_t main_data, uint64_t party);
 int32_t cmpRemoveDevilEx(uint16_t devil);
 void effBTLDelete(uint64_t handle);
+uint64_t ps2BattleActionSkill_00198200(uint64_t param);   // effPCPBossONGYCreate
+uint64_t ps2BattleActionSkill_00198868(uint64_t param);   // effPCPBossONGY2Create
+uint64_t effPCPBossBUNSINCreate(uint64_t param);          // 0x199000: no legacy C yet (the tests fake it)
+uint64_t effPCPBossBUNSIN2Create(uint64_t param);         // 0x199B10: no legacy C yet (the tests fake it)
 uint32_t evtBitCheck(int32_t no);
 uint32_t evtGetAgeOfMoon(void);
 uint32_t sdfGetRandInt(uint32_t* state, uint32_t limit);
@@ -57,7 +61,14 @@ uint64_t ps2BattleAction_00263C00(uint64_t startframe, uint64_t uniqueid, uint64
                                   uint64_t mp, uint64_t badstat, uint64_t hiteff, uint64_t dead, uint64_t deadtype,
                                   uint64_t moji, uint64_t animeoff);   // nbMakeDamagePacket
 void nbPanelAnalyzeStart(void);
-uint64_t ps2BattleOutcome_00252CD8(uint64_t action);
+uint64_t nbPanelStockSelect(uint64_t data, uint64_t sw);
+uint64_t ps2MovieCheckAdpcmFlag(void);
+uint64_t ps2MovieStopAdpcm(void);
+void nocturneInvokeBattleActionEntry(uint32_t entry, uint64_t context);
+uint64_t nocturneInvokeBattleActionUpdate(uint32_t target, uint64_t context);
+void nbPushAction(uint64_t type, uint64_t from, uint64_t to, uint64_t data);
+uint64_t ps2BattleAction_00263918(uint64_t startframe, uint64_t uniqueid, uint64_t form, uint64_t deadtype,
+                                  uint64_t deadpcm);   // nbMakeDeadVisualPacket
 void ps2BattlePanelSetEnabled_00282200(uint64_t enabled);
 uint64_t ps2ProcessGetRunTime(uint64_t process);
 void dds3FadeIn(uint64_t r, uint64_t g, uint64_t b, uint64_t frames);
@@ -86,6 +97,24 @@ uint64_t signExtend(int32_t value) { return static_cast<uint64_t>(static_cast<in
 // ---- dat ---------------------------------------------------------------------
 
 void eff::BTLDelete(uint32_t handle) { effBTLDelete(handle); }
+
+namespace {
+// Calls an effect's create function with its parameters in guest memory.
+template <class Param>
+uint32_t createWith(uint64_t (*create)(uint64_t), const Param& param)
+{
+    Param copy = param;
+    const uint32_t address = nocturneLibcStreamLocalAddress(&copy, sizeof copy);
+    const uint32_t handle = static_cast<uint32_t>(create(signExtend(static_cast<int32_t>(address))));
+    nocturneLibcStreamEndLocal();
+    return handle;
+}
+} // namespace
+
+uint32_t eff::PCPBossONGYCreate(const PCPBossONGYParam& param) { return createWith(ps2BattleActionSkill_00198200, param); }
+uint32_t eff::PCPBossONGY2Create(const PCPBossONGY2Param& param) { return createWith(ps2BattleActionSkill_00198868, param); }
+uint32_t eff::PCPBossBUNSINCreate(const PCPBossBUNSINParam& param) { return createWith(effPCPBossBUNSINCreate, param); }
+uint32_t eff::PCPBossBUNSIN2Create(const PCPBossBUNSIN2Param& param) { return createWith(effPCPBossBUNSIN2Create, param); }
 int32_t cmp::RemoveDevilEx(uint16_t devil) { return static_cast<int32_t>(cmpRemoveDevilEx(devil)); }
 
 // ---- nb ----------------------------------------------------------------------
@@ -175,7 +204,26 @@ void nb::MakeDamagePacket(int32_t startframe, int32_t uniqueid, Formation* form,
                              signExtend(deadtype), signExtend(moji), signExtend(animeoff));
 }
 void nb::PanelAnalyzeStart() { nbPanelAnalyzeStart(); }
-bool nb::EscapeFailed(ActionProcessData& a) { return ps2BattleOutcome_00252CD8(word(guest::addressOf(&a))) != 0; }
+uint32_t nb::PanelStockSelect(MainProcessData& data, int32_t sw)
+{
+    return static_cast<uint32_t>(nbPanelStockSelect(word(guest::addressOf(&data)), signExtend(sw)));
+}
+bool movie::CheckAdpcmFlag() { return ps2MovieCheckAdpcmFlag() != 0; }
+void movie::StopAdpcm() { ps2MovieStopAdpcm(); }
+void guest::callActionSet(uint32_t entry, uint32_t action) { nocturneInvokeBattleActionEntry(entry, word(action)); }
+int32_t guest::callActionCheck(uint32_t entry, uint32_t action)
+{
+    return static_cast<int32_t>(nocturneInvokeBattleActionUpdate(entry, word(action)));
+}
+void nb::PushAction(int32_t type, int32_t from, int32_t to, int32_t data)
+{
+    nbPushAction(signExtend(type), signExtend(from), signExtend(to), signExtend(data));
+}
+void nb::MakeDeadVisualPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t deadtype, int32_t deadpcm)
+{
+    ps2BattleAction_00263918(signExtend(startframe), signExtend(uniqueid), word(guest::addressOf(form)),
+                             signExtend(deadtype), signExtend(deadpcm));
+}
 void nb::PanelSetEnabled(bool enabled) { ps2BattlePanelSetEnabled_00282200(enabled ? 1 : 0); }
 int32_t dds3::GetRunTime(uint32_t process) { return static_cast<int32_t>(ps2ProcessGetRunTime(word(process))); }
 void dds3::PadAct(uint32_t mode, uint8_t pow, uint32_t frame) { dds3PadAct(mode, pow, frame); }

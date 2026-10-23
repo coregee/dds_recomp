@@ -65,6 +65,7 @@ enum KoukaType : int8_t {
     kBadEff = 0x17, kBadEffKaifuku = 0x18, kSe = 0x19, kSkillEffect1 = 0x1a, kMotion = 0x1b, kSe2 = 0x1c,
     kSe3 = 0x1d, kHitStop = 0x1e, kNewPress = 0x1f, kMotionStop = 0x20, kMotionStopClear = 0x21,
     kAnalyze = 0x22, kJyokyoHelp = 0x23, kDeadPcm = 0x24, kBadMot = 0x25, kFormOnOff = 0x26,
+    kOngBunshin = 0x27, kOngBunshin2 = 0x28, kOngOut = 0x29, kOngOut2 = 0x2a,   // Ongyo-Ki's clones
     kFormFlagOnOff = 0x2c, kFly = 0x2d, kDeadEvent = 0x2e, kFadeOut = 0x2f, kFadeIn = 0x30, kSkillName = 0x31,
     kHojo = 0x32, kFlareCharge = 0x33, kPadShock = 0x34, kEasyDmgMot = 0x35, kSkillColor = 0x36,
     kSkillMotion = 0x37, kPanelStockFadeOut = 0x38, kPanelStockEnd = 0x39, kHatudoEffectEnd = 0x3a,
@@ -127,6 +128,13 @@ KoukaPacket& nbAddHitStopPacket(int32_t startframe, int32_t uniqueid);
 KoukaPacket& nbAddAnalyzePacket(int32_t startframe, int32_t uniqueid, Formation* form);
 KoukaPacket& nbAddJyokyoHelpPacket(int32_t startframe, int32_t uniqueid, int16_t no, int16_t var_id, int32_t var_ind);
 KoukaPacket& nbAddSkillNamePacket(int32_t startframe, int32_t uniqueid, int32_t id);
+// Ongyo-Ki: splitting into clones and leaving the field (the effect's
+// handle in data1, the effect's length as the packet's).
+KoukaPacket& nbAddOngBunshinPacket(int32_t startframe, int32_t uniqueid, Formation* sform, Formation* eform);
+KoukaPacket& nbAddOngBunshin2Packet(int32_t startframe, int32_t uniqueid, Formation* sform, Formation* form1,
+                                    Formation* form2, Formation* form3);
+KoukaPacket& nbAddOngOutPacket(int32_t startframe, int32_t uniqueid, Formation* form);
+KoukaPacket& nbAddOngOut2Packet(int32_t startframe, int32_t uniqueid, Formation* form);
 KoukaPacket& nbAddFormOnOffPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t sw);
 KoukaPacket& nbAddFormFlagOnOffPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t sw, uint32_t flag);
 KoukaPacket& nbAddFlyKoukaPacket(int32_t startframe, int32_t uniqueid, Formation* form);

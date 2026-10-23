@@ -13,11 +13,17 @@
 #include "nocturne/data/records.hpp"
 #include "nocturne/data/types.hpp"
 #include "nocturne/ee/float.hpp"
+#include "nocturne/effect/boss.hpp"
 
 namespace nocturne {
 
 namespace eff {
 void BTLDelete(uint32_t handle);                             // effBTLDelete: frees a battle effect
+// Ongyo-Ki's effects (effPCPBoss*Create): the effect's handle.
+uint32_t PCPBossONGYCreate(const PCPBossONGYParam& param);       // (0x198200)
+uint32_t PCPBossONGY2Create(const PCPBossONGY2Param& param);     // (0x198868)
+uint32_t PCPBossBUNSINCreate(const PCPBossBUNSINParam& param);   // (0x199000)
+uint32_t PCPBossBUNSIN2Create(const PCPBossBUNSIN2Param& param); // (0x199B10)
 } // namespace eff
 
 namespace cmp {
@@ -39,9 +45,21 @@ void MakeDamagePacket(int32_t startframe, int32_t uniqueid, Formation* form, int
                       int32_t badstat, int32_t hiteff, int32_t dead, int32_t deadtype, int32_t moji, int32_t animeoff);
 // (0x280518) the battle panel shows the analysed unit
 void PanelAnalyzeStart();
-// (0x252CD8, no HD name) after a failed escape: a random awake enemy gets
-// an action against the party; true if one does
-bool EscapeFailed(ActionProcessData& a);
+// (0x27FD18) the stock panel's selection (sw 0: keep it as it is)
+uint32_t PanelStockSelect(MainProcessData& data, int32_t sw);
+} // namespace nb
+
+// Streamed voice (ADPCM) for movies and events.
+namespace movie {
+bool CheckAdpcmFlag();   // (0x2C2178) a stream is playing
+void StopAdpcm();        // (0x2C2180)
+} // namespace movie
+
+namespace nb {
+// (0x247ED8) queues an action to run next (counters, talks, death scripts)
+void PushAction(int32_t type, int32_t from, int32_t to, int32_t data);
+// (0x263918) a death's visuals, through the effect library
+void MakeDeadVisualPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t deadtype, int32_t deadpcm);
 // (0x282200) the battle panel's input on or off
 void PanelSetEnabled(bool enabled);
 } // namespace nb
@@ -91,6 +109,9 @@ void RelocatePointers(uint32_t destination, uint32_t base, uint32_t table, uint3
 
 namespace guest {
 void callFunction(uint32_t entry);   // call original code through a function pointer
+// An action state not rewritten yet: its SetAction_* / CheckAction_* by address.
+void callActionSet(uint32_t entry, uint32_t action);
+int32_t callActionCheck(uint32_t entry, uint32_t action);
 int32_t callCommand(uint32_t entry); // a script command not rewritten yet
 } // namespace guest
 
@@ -166,7 +187,13 @@ enum class Message : uint32_t {
     DidItem          = 0x005440c0, // アイテムを使用した (used an item)
     DidSummon        = 0x005440d8, // 召喚を行った (summoned)
     BadRitu          = 0x00545d40, // BAD行動確率 type:%d ritu:%d (an ailment action's weight)
+    AdpcmPlaying     = 0x005440e8, // AD-PCM再生中! (a streamed voice is playing)
     Returning        = 0x00544020, // 帰還します (a devil returns to the stock)
+    AhrimanCounter   = 0x00543880, // アーリマンカウンター発生!!! (Ahriman counters)
+    Counter          = 0x005438c0, // カウンター発生!!! (a counter)
+    InotiParty       = 0x005438d8, // "inoti party = %d (%X)" (an enemy begs for its life)
+    BinjoParty       = 0x005438f0, // "binjo party = %d" (an enemy asks to join)
+    EscapeErrParty   = 0x00543908, // "escape err party" (a free hit after a failed escape)
     NegoResult       = 0x00543fb8, // "nego result = %d"
     AiTable          = 0x00545840, // "AItbl = %d"
     AiNoSkill        = 0x005457d8, // "no skill"

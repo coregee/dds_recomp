@@ -1,6 +1,7 @@
 // The battle's presentation queue (nbKoukaProcess, nbMakePacket): the
 // rewrite against the original instructions, run by the EE interpreter, in a
 // random battle with some packets already queued.
+#include <algorithm>
 #include <cstring>
 
 #include "harness.hpp"
@@ -13,11 +14,23 @@
 #include "nocturne/battle/combatant.hpp"
 #include "nocturne/battle/kouka.hpp"
 #include "nocturne/data/tables.hpp"
+#include "nocturne/external.hpp"
 #include "nocturne/facility/compendium.hpp"
 
 extern "C" {
 uint32_t ps2PoolAllocate(int32_t);
 uint64_t dds3StartProcess(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
+}
+
+// Action states not rewritten yet are called by address; here they run as
+// original code in the interpreter, as on the original side.
+extern "C" void nocturneInvokeBattleActionEntry(uint32_t entry, uint64_t context)
+{
+    difftest::iface::origVmVoid(entry, {context});
+}
+extern "C" uint64_t nocturneInvokeBattleActionUpdate(uint32_t target, uint64_t context)
+{
+    return difftest::iface::origVm(target, {context});
 }
 
 namespace difftest {
@@ -107,7 +120,7 @@ void actionWorld(Gen& g)
         process = 0;
         if (g.chance(70)) {
             const uint32_t data = ps2PoolAllocate(static_cast<int32_t>(sizeof(ActionProcessData)));
-            at<ActionProcessData>(data).seq = static_cast<int8_t>(g.range(-1, 22));
+            at<ActionProcessData>(data).seq = static_cast<int8_t>(g.chance(40) ? g.range(18, 20) : g.range(-1, 22));
             process = static_cast<uint32_t>(dds3StartProcess(0x00544350, 1, 0, 0, 0, 0, data));
         }
     }
@@ -617,8 +630,7 @@ void addKoukaTests(std::vector<TestCase>& t)
     });
     // An ailing actor: any ailment, sometimes cursed; a status line maybe
     // pending; any point of its wait.
-    auto ailing = [&, camera, cameraState](const char* name, uint32_t entry, int32_t (*rewrite)(ActionProcessData&), bool result) {
-        script(name, [=](Gen& g) {
+    auto ailingWorld = [=](Gen& g) {
             ActionProcessData& a = act();
             UnitWork& unit = *a.work;
             unit.badstat = static_cast<uint16_t>(
@@ -641,6 +653,10 @@ void addKoukaTests(std::vector<TestCase>& t)
             if (g.chance(50))
                 at<MainProcessData>(FW_MAIN).stat ^= 8;
             camera().get().state_change = 0xffff;
+    };
+    auto ailing = [&, camera, cameraState, ailingWorld](const char* name, uint32_t entry, int32_t (*rewrite)(ActionProcessData&), bool result) {
+        script(name, [=](Gen& g) {
+            ailingWorld(g);
             // (void states: the camera state they asked for)
             return Pair{[=] {
                             const uint64_t r = result ? origVm(entry, {FW_ACTION}) : origVmVoid(entry, {FW_ACTION});
@@ -652,6 +668,45 @@ void addKoukaTests(std::vector<TestCase>& t)
                         }};
         });
     };
+    // ---- entering states and the per-frame driver ----
+    // States whose code runs in this world (others call original code the
+    // test can't run).
+    static const int32_t kEnterable[] = {0, 3, 11, 12, 13, 14, 15, 19, 20, 21, 22};
+    static const int32_t kCheckable[] = {3, 4, 9, 10, 11, 12, 13, 14, 15, 19, 20, 21, 22};
+    script("SetActionSeq", [=](Gen& g) {
+        ailingWorld(g);
+        const int32_t seq = g.pick(kEnterable);
+        act().get().nextseq = static_cast<int8_t>(g.range(0, 22));
+        act().get().seqcnt = g.range(0, 9);
+        return Pair{[=] { origVmVoid(0x00257c80, {FW_ACTION, I(seq)}); return cameraState(); },
+                    [=] { SetActionSeq(act(), seq); return cameraState(); }};
+    });
+    script("nbActionProcess1", [=](Gen& g) {
+        ailingWorld(g);
+        ActionProcessData& a = act();
+        a.stat = (a.stat & ~0x442u) | (g.chance(40) ? 2u : 0u) | (g.chance(10) ? 0x40u : 0u) | (g.chance(20) ? 0x400u : 0u);
+        a.seq = static_cast<int8_t>(g.chance(25) ? kActionReady : g.pick(kCheckable));
+        a.nextseq = static_cast<int8_t>(g.chance(30) ? kActionReady : g.pick(kEnterable));
+        if (g.chance(10))
+            a.seqtime = 0xffff;
+        if (a.stat & 2 && a.seq == kActionReady)
+            a.seq = static_cast<int8_t>(g.pick(kCheckable));
+        // (READY's own functions aren't rewritten; both sides reach fakes of them.)
+        at<uint32_t>(0x005519c8) = g.chance(20) ? 1u : 0u;   // a streamed voice playing
+        MainProcessData& main = at<MainProcessData>(FW_MAIN);
+        for (uint32_t& p : main.ActionProcessID)
+            p = 0;
+        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(0x00544350, 3, 0, 0, 0, 0, FW_ACTION));
+        main.NowActionProcess = g.range(0, 3);
+        if (g.chance(70)) {   // the action before this one
+            const uint32_t data = ps2PoolAllocate(static_cast<int32_t>(sizeof(ActionProcessData)));
+            at<ActionProcessData>(data).seq = static_cast<int8_t>(g.range(-1, 22));
+            main.ActionProcessID[main.NowActionProcess == 0 ? 3 : main.NowActionProcess - 1] =
+                static_cast<uint32_t>(dds3StartProcess(0x00544350, 1, 0, 0, 0, 0, data));
+        }
+        return Pair{[=] { const uint64_t r = origVm(0x00257cd0, {process}); return r ^ cameraState() << 8; },
+                    [=] { return norm(nbActionProcess1(process)) ^ cameraState() << 8; }};
+    });
     ailing("CheckAction_BAD", 0x00253e00, CheckAction_BAD, true);
     ailing("SetAction_BADWAIT", 0x00254010, [](ActionProcessData& a) { SetAction_BADWAIT(a); return 0; }, false);
     ailing("CheckAction_BADWAIT", 0x00254058, CheckAction_BADWAIT, true);
@@ -796,6 +851,306 @@ void addKoukaTests(std::vector<TestCase>& t)
             hp = GetTimeListHp(act(), act().get().form->formindex);
         return voidPair(0x002532a8, {FW_ACTION, I(hp)}, [=] { SetDamagePacket(act(), hp); });
     });
+    // ---- Ongyo-Ki ----
+    script("nbAddOngBunshinPacket", [=](Gen& g) {
+        const uint32_t s = someForm(g), e = someForm(g);
+        const int32_t start = frame(g), id = uid(g);
+        return Pair{[=] { return origVm(0x00263110, {I(start), I(id), s, e}); },
+                    [=] { return R(&nbAddOngBunshinPacket(start, id, F(s), F(e))); }};
+    });
+    script("nbAddOngBunshin2Packet", [=](Gen& g) {
+        const uint32_t s = someForm(g), f1 = someForm(g), f2 = someForm(g), f3 = someForm(g);
+        const int32_t start = frame(g), id = uid(g);
+        return Pair{[=] { return origVm(0x002631a0, {I(start), I(id), s, f1, f2, f3}); },
+                    [=] { return R(&nbAddOngBunshin2Packet(start, id, F(s), F(f1), F(f2), F(f3))); }};
+    });
+    script("nbAddOngOutPacket", [=](Gen& g) {
+        const uint32_t f = someForm(g);
+        const int32_t start = frame(g), id = uid(g);
+        return Pair{[=] { return origVm(0x00263250, {I(start), I(id), f}); }, [=] { return R(&nbAddOngOutPacket(start, id, F(f))); }};
+    });
+    script("nbAddOngOut2Packet", [=](Gen& g) {
+        const uint32_t f = someForm(g);
+        const int32_t start = frame(g), id = uid(g);
+        return Pair{[=] { return origVm(0x002632d0, {I(start), I(id), f}); }, [=] { return R(&nbAddOngOut2Packet(start, id, F(f))); }};
+    });
+    // Ongyo-Ki and his clones (formation stat 2) among the enemies.
+    auto clones = [=](Gen& g) {
+        results(g);
+        for (int f = 4; f < 14; ++f) {
+            Formation& form = at<Formation>(formAddress(f));
+            form.stat &= ~2u;
+            if (g.chance(50) && at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)))   // clones are units
+                form.stat |= 2;
+            form.formindex = static_cast<int16_t>(f);
+        }
+    };
+    script("SetOngShadowPacket", [=](Gen& g) {
+        clones(g);
+        int32_t d = g.range(4, 13);
+        while (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(d)))
+            d = g.range(4, 13);
+        const int32_t frame = g.range(0, 40);
+        Formation& real = at<Formation>(formAddress(d));   // the real one is there
+        real.stat |= FormationStat::Present | FormationStat::CheckParty;
+        Party& party = at<Party>(FW_PARTY + 128u * static_cast<uint32_t>(real.partyindex));
+        party.flag = static_cast<int16_t>(party.flag | PartyFlag::Active);
+        return voidPair(0x0024fcc0, {FW_ACTION, I(0), I(0), I(d), I(0), I(frame)},
+                        [=] { SetOngShadowPacket(act(), 0, 0, d, 0, frame); });
+    });
+    script("SetOngShadowPacket2", [=](Gen& g) {
+        clones(g);
+        for (int f = 4; f < 14; ++f) {   // the clones that vanish are on the field
+            Formation& form = at<Formation>(formAddress(f));
+            if ((form.stat & 3) == 3) {
+                form.stat |= FormationStat::CheckParty;
+                Party& party = at<Party>(FW_PARTY + 128u * static_cast<uint32_t>(form.partyindex));
+                party.flag = static_cast<int16_t>(party.flag | PartyFlag::Active);
+            }
+        }
+        const int32_t d = g.range(4, 13), frame = g.range(0, 40);
+        return voidPair(0x0024fe40, {FW_ACTION, I(d), I(frame)}, [=] { SetOngShadowPacket2(act(), d, frame); });
+    });
+
+    // ---- side events: counters, talks, death scripts ----
+    // Present, checkable slots have units and active parties, as in the
+    // game; the talk conditions are drawn around their edges.
+    auto sideWorld = [=](Gen& g) {
+        results(g);
+        auto* forms = &at<Formation>(FW_FORMS);
+        for (int f = 0; f < 14; ++f) {
+            Formation& form = forms[f];
+            form.partyindex = static_cast<int16_t>(f);
+            form.formindex = static_cast<int16_t>(f);
+            if (g.chance(30))
+                form.stat |= FormationStat::Present | FormationStat::CheckParty;
+            if (g.chance(20))
+                form.stat ^= FormationStat::Selected;
+            if (g.chance(30))
+                form.stat |= 0x100;
+            Party& party = at<Party>(FW_PARTY + 128u * static_cast<uint32_t>(f));
+            const uint32_t unit = at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f));
+            if (!unit)   // someone on the field is a unit
+                form.stat &= ~(FormationStat::Present | FormationStat::CheckParty | 0x100u);
+            else if (form.stat & FormationStat::Present)
+                form.stat |= FormationStat::CheckParty;
+            if ((form.stat & FormationStat::Present) && (form.stat & FormationStat::CheckParty)) {
+                {
+                    party.flag = static_cast<int16_t>((party.flag | PartyFlag::Active) & ~0x60);
+                    if (g.chance(15))
+                        party.flag = static_cast<int16_t>(party.flag | g.pick<int32_t>({0x20, 0x40}));
+                    UnitWork& u = at<UnitWork>(unit);
+                    if (g.chance(40))
+                        u.id = static_cast<uint16_t>(g.chance(30) ? 0x123 : g.range(1, 383));
+                    u.badstat = static_cast<uint16_t>(g.chance(60) ? 0 : 1u << g.range(0, 11));
+                    u.flag = (u.flag & ~0x24u) | (f < 4 ? (f == 0 ? 4u : 0u) : 0x20u);
+                    u.maxhp = static_cast<uint16_t>(g.range(1, 500));
+                    u.level = static_cast<uint16_t>(g.range(1, 99));
+                    if (g.chance(30))
+                        u.skill[g.below(8)] = static_cast<uint16_t>(g.range(0x131, 0x133));
+                }
+            } else {
+                form.stat &= ~0x100u;
+            }
+        }
+        std::memset(&forms[14], 0, 2 * sizeof(Formation));
+        MainProcessData& main = at<MainProcessData>(FW_MAIN);
+        main.press4_hansya = static_cast<int16_t>(g.chance(15) ? g.range(0xf0, 0xf6) : g.range(0, 3));
+        main.stat &= ~(0x1u | 0x10u | 0x80u | 0x100u | 0x2000000u);
+        for (uint32_t bit : {0x1u, 0x10u, 0x80u, 0x100u, 0x2000000u})
+            if (g.chance(bit == 0x80u ? 50 : 15))
+                main.stat |= bit;
+        main.enemypcnt = static_cast<int16_t>(g.range(0, 4));
+        main.turn = static_cast<uint8_t>(g.range(0, 5));
+        main.CommSelProcessID = g.chance(50) ? 0 : 0x00777000;
+        main.actionstack = ps2PoolAllocate(16 * 16);   // the queue pushed actions go to
+        main.actionstackp = g.range(0, 3);
+        ActionProcessData& a = act();
+        a.stat = static_cast<uint32_t>(g.rng()) & 0x3f0008u;
+        a.type = g.range(3, 6);
+        for (int k = 0; k < 6; ++k)
+            if (g.chance(30))
+                nocturne::evt::BitOn(0x851 + k);
+        for (int f = 0; f < 14; ++f) {
+            a.timelist[f].hp = static_cast<uint16_t>(g.chance(20) ? 0 : g.range(1, 500));
+            if (g.chance(20))
+                setBuffCounter(f, 0x10, 1);
+        }
+        nocturne::dat::globalWork().units[0].level = static_cast<uint16_t>(g.range(1, 99));
+    };
+    // Devils whose talk record allows each kind of talk.
+    struct Talkers { std::vector<uint16_t> mukan, sensei, inoti, binjo; };
+    static const Talkers talkers = [] {
+        Talkers t;
+        for (uint16_t id = 1; id < 384; ++id) {
+            const auto& n = nocturne::dat::devilNegoFormat(id);
+            if (n.mukantype) t.mukan.push_back(id);
+            if (n.senseitype) t.sensei.push_back(id);
+            if (n.inotitype) t.inoti.push_back(id);
+            if (n.binjotype) t.binjo.push_back(id);
+        }
+        return t;
+    }();
+    auto pickFrom = [](Gen& g, const std::vector<uint16_t>& ids) {
+        return ids.empty() ? static_cast<uint16_t>(g.range(1, 383)) : ids[g.below(static_cast<uint32_t>(ids.size()))];
+    };
+    auto side = [&](const char* name, std::function<Pair(Gen&)> body) {
+        script(name, [=](Gen& g) {
+            sideWorld(g);
+            return body(g);
+        });
+    };
+    auto sideBool = [=](uint32_t entry, bool (*rewrite)(ActionProcessData&)) {
+        return Pair{[=] { return origVm(entry, {FW_ACTION}); }, [=] { return norm(rewrite(act()) ? 1 : 0); }};
+    };
+    auto sideVoid = [=](uint32_t entry, void (*rewrite)(ActionProcessData&)) {
+        return Pair{[=] { return origVmVoid(entry, {FW_ACTION}); }, [=] { rewrite(act()); return uint64_t{0}; }};
+    };
+    side("SetTargetPlayer", [=](Gen&) { return sideVoid(0x00251ef0, SetTargetPlayer); });
+    side("SetTargetParty", [=](Gen& g) {
+        const int32_t shift = g.range(0, 13);   // party slots needn't match formation slots
+        for (int f = 0; f < 14; ++f)
+            at<Formation>(formAddress(f)).partyindex = static_cast<int16_t>((f + shift) % 14);
+        const int32_t pi = g.range(-1, 14);
+        return Pair{[=] { return origVmVoid(0x00251fd8, {FW_ACTION, I(pi)}); }, [=] { SetTargetParty(act(), pi); return uint64_t{0}; }};
+    });
+    side("CheckArrCounter", [=](Gen& g) {
+        act().get().partyindex = g.range(0, 5);
+        bool any = false;   // (an enemy is on the field)
+        for (int f = 4; f < 14; ++f)
+            any = any || (at<Formation>(formAddress(f)).stat & FormationStat::Present);
+        for (int f = 4; !any && f < 14; ++f)
+            if (at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f))) {
+                at<Formation>(formAddress(f)).stat |= FormationStat::Present | FormationStat::CheckParty;
+                Party& party = at<Party>(FW_PARTY + 128u * static_cast<uint32_t>(f));
+                party.flag = static_cast<int16_t>(party.flag | PartyFlag::Active);
+                any = true;
+            }
+        return sideBool(0x00252060, CheckArrCounter);
+    });
+    side("CheckCounter", [=](Gen& g) {
+        int from = occupied(g);
+        UnitWork& hit = at<UnitWork>(at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(from)));
+        if (g.chance(80)) {   // with a counter passive, able to use it
+            hit.skill[g.below(4)] = static_cast<uint16_t>(g.range(0x131, 0x133));
+            hit.skillcnt = static_cast<uint16_t>(std::max<int>(hit.skillcnt, 4));
+            hit.badstat = static_cast<uint16_t>(g.chance(70) ? 0 : 1u << g.range(0, 11));
+        }
+        Formation& form = at<Formation>(formAddress(from));
+        form.stat |= FormationStat::Present | FormationStat::CheckParty;
+        Party& party = at<Party>(FW_PARTY + 128u * static_cast<uint32_t>(from));
+        party.flag = static_cast<int16_t>(party.flag | PartyFlag::Active);
+        const int to = g.range(0, 13);
+        return Pair{[=] { return origVm(0x002521c8, {FW_ACTION, I(from), I(to)}); },
+                    [=] { return norm(CheckCounter(act(), from, to) ? 1 : 0); }};
+    });
+    auto talker = [=](Gen& g) {   // the actor: a unit that may talk
+        ActionProcessData& a = act();
+        a.party->flag = static_cast<int16_t>(g.chance(50) ? (a.party->flag | 2) : (a.party->flag & ~6));
+        a.partyindex = g.range(0, 5);
+        a.work->nowcommand = static_cast<int16_t>(g.range(-1, 6));
+        a.work->badstat = static_cast<uint16_t>(g.chance(80) ? 0 : 0x80);
+        if (g.chance(50))
+            a.work->id = static_cast<uint16_t>(g.range(1, 383));
+    };
+    side("CheckMukanNego", [=](Gen& g) {
+        talker(g);
+        if (g.chance(60)) {   // an enemy that may speak up, the last silent one
+            ActionProcessData& a = act();
+            MainProcessData& main = at<MainProcessData>(FW_MAIN);
+            int self = g.range(4, 13);   // the actor is an enemy
+            while (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(self)))
+                self = g.range(4, 13);
+            a.form.address = formAddress(self);
+            a.party.address = FW_PARTY + 128u * static_cast<uint32_t>(self);
+            a.work.address = at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(self));
+            a.partyindex = self;
+            a.party->flag = static_cast<int16_t>(a.party->flag | 2);
+            a.work->id = static_cast<uint16_t>(g.range(1, 383));
+            // No devil talks this way in the shipped data; patch the
+            // actor's record so the dormant code runs.
+            const_cast<nocturne::DevilNegoFormat&>(nocturne::dat::devilNegoFormat(a.work->id)).mukantype = 1;
+            a.work->badstat = 0;
+            nocturne::dat::globalWork().units[0].badstat = 0;
+            main.stat &= ~1u;
+            main.enemypcnt = static_cast<int16_t>(g.range(2, 4));
+            main.turn = static_cast<uint8_t>(g.range(2, 5));
+            for (int f = 4; f < 14; ++f)
+                setBuffCounter(f, 0x10, g.chance(80) ? 1 : 0);
+            setBuffCounter(a.form->formindex, 0x10, 0);
+            a.form->stat |= FormationStat::Present | FormationStat::CheckParty;
+            if (g.chance(30))
+                main.stat |= 0x2000000;
+        }
+        return sideBool(0x00252400, CheckMukanNego);
+    });
+    side("CheckSenseiNego", [=](Gen& g) {
+        talker(g);
+        if (g.chance(70)) {   // an ambush by a devil that may talk
+            MainProcessData& main = at<MainProcessData>(FW_MAIN);
+            act().get().work->id = pickFrom(g, talkers.sensei);
+            act().get().work->badstat = 0;
+            nocturne::dat::globalWork().units[0].badstat = 0;
+            main.stat = (main.stat & ~(0x1u | 0x10u | 0x100u)) | 0x80u;
+            main.press4_hansya = 0;
+            main.enemypcnt = static_cast<int16_t>(g.chance(70) ? 1 : g.range(2, 4));
+        }
+        return sideBool(0x002525f0, CheckSenseiNego);
+    });
+    side("CheckInotiNego", [=](Gen& g) {
+        talker(g);
+        if (g.chance(60)) {   // the party's attack left the last enemy weak
+            ActionProcessData& a = act();
+            MainProcessData& main = at<MainProcessData>(FW_MAIN);
+            a.party->flag = static_cast<int16_t>(a.party->flag & ~6);
+            a.partyindex = g.range(0, 3);
+            a.work->nowcommand = static_cast<int16_t>(g.pick<int32_t>({0, 1, 5}));
+            main.stat &= ~1u;
+            main.enemypcnt = 1;
+            for (int f = 4; f < 14; ++f) {
+                Formation& form = at<Formation>(formAddress(f));
+                if (!(form.stat & FormationStat::Present))
+                    continue;
+                form.stat |= FormationStat::Selected;
+                UnitWork& enemy = at<UnitWork>(at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)));
+                enemy.id = pickFrom(g, talkers.inoti);
+                enemy.badstat = 0;
+                enemy.level = static_cast<uint16_t>(g.range(1, 40));
+                a.timelist[f].hp = static_cast<uint16_t>(g.range(1, enemy.maxhp / 3 + 1));
+            }
+            nocturne::dat::globalWork().units[0].level = static_cast<uint16_t>(g.range(30, 99));
+        }
+        return sideBool(0x00252720, CheckInotiNego);
+    });
+    side("CheckBinjoNego", [=](Gen& g) {
+        talker(g);
+        if (g.chance(60)) {
+            ActionProcessData& a = act();
+            a.party->flag = static_cast<int16_t>(a.party->flag & ~6);
+            a.partyindex = g.range(0, 3);
+            a.stat |= 8;
+            at<MainProcessData>(FW_MAIN).stat &= ~1u;
+            for (int f = 4; f < 14; ++f)
+                if (at<Formation>(formAddress(f)).stat & FormationStat::Present) {
+                    at<UnitWork>(at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f))).id = pickFrom(g, talkers.binjo);
+                    at<UnitWork>(at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f))).badstat = 0;
+                }
+        }
+        return sideBool(0x002529d0, CheckBinjoNego);
+    });
+    side("CheckDeadScript", [=](Gen&) { return sideVoid(0x00252c28, CheckDeadScript); });
+    side("CheckKoketaNego", [=](Gen& g) { talker(g); return sideBool(0x00252cd8, CheckKoketaNego); });
+    side("KyouseiPress", [=](Gen&) { return sideVoid(0x00252ea8, KyouseiPress); });
+    side("DokodemoPoa", [=](Gen&) { return sideVoid(0x00252ee8, DokodemoPoa); });
+    side("SetNowActionStat", [=](Gen& g) {
+        act().get().partyindex = g.range(0, 5);
+        act().get().stat = 0;
+        const int32_t comm = g.chance(50) ? 1 : g.range(-1, 7);
+        const int32_t skill = g.chance(40) ? g.pick<int32_t>({0x50, 0xde, 0xe2, 0xe3, 0xdf, 0xff, 0xfc}) : g.range(0, 0x11f);
+        return Pair{[=] { return origVmVoid(0x00252fb8, {FW_ACTION, I(comm), I(skill)}); },
+                    [=] { SetNowActionStat(act(), comm, skill); return uint64_t{0}; }};
+    });
+
     // ---- the stock and the enemies' units ----
     // A random stock (the Demi-fiend, devils in and out of the party, dead
     // or spent ones) and enemy units.

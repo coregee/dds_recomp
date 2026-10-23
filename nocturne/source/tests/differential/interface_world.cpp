@@ -18,6 +18,14 @@ void nbDispJyokyoHelp(uint64_t, uint64_t, uint64_t, uint64_t);
 uint64_t ps2BattleAction_00263C00(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t,
                                   uint64_t, uint64_t, uint64_t, uint64_t);
 void nbPanelAnalyzeStart(void);
+uint64_t nbPanelStockSelect(uint64_t, uint64_t);
+void fw_ready_set(uint64_t);
+uint64_t fw_ready_check(uint64_t);
+uint64_t ps2MovieStopAdpcm(void);
+uint64_t ps2BattleActionSkill_00198200(uint64_t);
+uint64_t ps2BattleActionSkill_00198868(uint64_t);
+uint64_t effPCPBossBUNSINCreate(uint64_t);
+uint64_t effPCPBossBUNSIN2Create(uint64_t);
 // Legacy functions tested against the rewrite, for the action's result helpers.
 void ps2CombatAddRewards_00269448(uint64_t);
 uint64_t ps2CombatSingleTargetSkill_0026A448(uint64_t);
@@ -27,7 +35,10 @@ uint64_t nbGetHojoCounter(uint64_t, uint64_t);
 uint64_t nbCheckKuisibariSkill(uint64_t);
 uint64_t nbCheckKuisibari2Skill(uint64_t);
 void nbSetKuisibariStop(uint64_t);
-uint64_t ps2BattleOutcome_00252CD8(uint64_t);
+void nbPushAction(uint64_t, uint64_t, uint64_t, uint64_t);   // legacy, tested against the rewrite
+uint64_t ps2BattleAction_00263918(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
+uint64_t nbSetHojoAddCounter(uint64_t, uint64_t, uint64_t, uint64_t);   // legacy, tested against the rewrite
+uint32_t evtGetAgeOfMoon(void);
 void ps2BattlePanelSetEnabled_00282200(uint64_t);
 uint64_t ps2CombatCheckEscape_00269E98(uint64_t);   // legacy nbCheckEscape, tested against the rewrite
 uint64_t nbRunAi(uint64_t);   // legacy (battle_ai_execution.c), tested against the rewrite
@@ -125,13 +136,24 @@ ee::Interpreter makeOriginal()
     e.interpret(0x00256b88, 0x00256c00);   // CheckAction_NEGO
     e.interpret(0x0024f420, 0x0024f990);   // UnitKyoseiDisp .. SetAnalyzePacket
     e.interpret(0x0024fb38, 0x0024fcc0);   // SetSakePacket, SetMissPacket
+    e.interpret(0x00251ef0, 0x002532a8);   // SetTargetPlayer .. SetNowActionStat: side events
+    e.interpret(0x0028fa80, 0x0028fad8);   // the first enemy slot with someone in it
     e.interpret(0x002532a8, 0x00253488);   // SetDamagePacket
     e.interpret(0x0024f990, 0x0024fb38);   // SetPlayerSummonPacket
+    e.interpret(0x0024fcc0, 0x0024ff60);   // SetOngShadowPacket, SetOngShadowPacket2
+    e.interpret(0x00263110, 0x00263350);   // Ongyo-Ki's packets
+    e.interpret(0x00198860, 0x00198868);   // effPCPBossONGYGetLength
+    e.interpret(0x00198ff8, 0x00199000);   // effPCPBossONGY2GetLength
+    e.interpret(0x00199b08, 0x00199b10);   // effPCPBossBUNSINGetLength
+    e.interpret(0x00199cb0, 0x00199cd0);   // effPCPBossBUNSIN2GetLength
     e.interpret(0x00259180, 0x002592b0);   // nbGetNakama, nbSetDevilNameMes
     e.interpret(0x002594b0, 0x00259658);   // nbAppendEnemyDevilWork, nbGetRandamStock
     e.interpret(0x002596d0, 0x00259740);   // nbClearCommandMemeoyRenzoku
     e.interpret(0x00257a68, 0x00257b08);   // CHECK3, ATO
     e.interpret(0x00257bf0, 0x00257c80);   // CheckAction_END, nbGetActionSeq, nbGetPrevActionSeq
+    e.interpret(0x00257c80, 0x00257cc8);   // nbActionSetSeq
+    e.interpret(0x00257cd0, 0x00257e30);   // nbActionProcess1
+    e.interpret(0x002c2178, 0x002c2180);   // ps2MovieCheckAdpcmFlag
     e.interpret(0x00257cc8, 0x00257cd0);   // SetNextActionSeq
     e.interpret(0x00223628, 0x00223668);   // cmpCalcLevelUpBaseExp
     e.interpret(0x00223668, 0x00223728);   // cmbCalcLevelUpExp
@@ -177,6 +199,14 @@ ee::Interpreter makeOriginal()
                                         stack(0), stack(1), stack(2), stack(3));
     });
     e.hook(0x00280518, [](ee::Cpu&) { nbPanelAnalyzeStart(); return uint64_t{0}; });
+    e.hook(0x0027fd18, [=](ee::Cpu& c) { return nbPanelStockSelect(a(c, 0), a(c, 1)); });
+    e.hook(0x00254488, [=](ee::Cpu& c) { fw_ready_set(a(c, 0)); return uint64_t{0}; });   // SetAction_READY
+    e.hook(0x00255260, [=](ee::Cpu& c) { return fw_ready_check(a(c, 0)); });             // CheckAction_READY
+    e.hook(0x002c2180, [](ee::Cpu&) { return ps2MovieStopAdpcm(); });
+    e.hook(0x00198200, [=](ee::Cpu& c) { return ps2BattleActionSkill_00198200(a(c, 0)); });
+    e.hook(0x00198868, [=](ee::Cpu& c) { return ps2BattleActionSkill_00198868(a(c, 0)); });
+    e.hook(0x00199000, [=](ee::Cpu& c) { return effPCPBossBUNSINCreate(a(c, 0)); });
+    e.hook(0x00199b10, [=](ee::Cpu& c) { return effPCPBossBUNSIN2Create(a(c, 0)); });
     e.hook(0x00269448, [=](ee::Cpu& c) { ps2CombatAddRewards_00269448(a(c, 0)); return uint64_t{0}; });
     e.hook(0x0026a448, [=](ee::Cpu& c) { return ps2CombatSingleTargetSkill_0026A448(a(c, 0)); });
     e.hook(0x0026a4b0, [=](ee::Cpu& c) { return ps2CombatScatteredMoney_0026A4B0(a(c, 0)); });
@@ -185,7 +215,10 @@ ee::Interpreter makeOriginal()
     e.hook(0x0026a2d8, [=](ee::Cpu& c) { return nbCheckKuisibariSkill(a(c, 0)); });
     e.hook(0x0026a338, [=](ee::Cpu& c) { return nbCheckKuisibari2Skill(a(c, 0)); });
     e.hook(0x0026a398, [=](ee::Cpu& c) { nbSetKuisibariStop(a(c, 0)); return uint64_t{0}; });
-    e.hook(0x00252cd8, [=](ee::Cpu& c) { return ps2BattleOutcome_00252CD8(a(c, 0)); });
+    e.hook(0x00247ed8, [=](ee::Cpu& c) { nbPushAction(a(c, 0), a(c, 1), a(c, 2), a(c, 3)); return uint64_t{0}; });
+    e.hook(0x00263918, [=](ee::Cpu& c) { return ps2BattleAction_00263918(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4)); });
+    e.hook(0x00267f58, [=](ee::Cpu& c) { return nbSetHojoAddCounter(a(c, 0), a(c, 1), a(c, 2), a(c, 3)); });
+    e.hook(0x001e9998, [](ee::Cpu&) { return uint64_t{evtGetAgeOfMoon()}; });
     e.hook(0x00282200, [=](ee::Cpu& c) { ps2BattlePanelSetEnabled_00282200(a(c, 0)); return uint64_t{0}; });
     e.hook(0x00269e98, [=](ee::Cpu& c) { return ps2CombatCheckEscape_00269E98(a(c, 0)); });
     e.hook(0x00287cb8, [=](ee::Cpu& c) { return nbRunAi(a(c, 0)); });

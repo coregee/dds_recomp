@@ -21,6 +21,7 @@ public class ImportTypes extends GhidraScript {
     // Fixed tables: address, element type, count, label (original HD names).
     private static final Object[][] TABLES = {
         {0x003497c0L, "datDevilFormat", 384, "datDevilFormat_tbl"},
+        {0x003dcb38L, "datDevilNegoFormat", 384, "datDevilNegoFormat_tbl"},
         {0x003d7998L, "datNormalSkill", 288, "datNormalSkill_tbl"},
         {0x003dc1e0L, "datSpecialSkill", 88, "datSpecialSkill_tbl"},
         {0x003aefe0L, "datEncount", 1270, "datEncount_tbl"},
