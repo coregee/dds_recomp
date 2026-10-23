@@ -315,7 +315,9 @@ typedef struct nbFormation {
     s32 serial;
     u32 hunit;
     s16 partyindex, formindex;
-    u8 unknown_94[0xf0 - 0x94];
+    u8 unknown_94[0xa4 - 0x94];
+    s16 unknown_a4;
+    u8 unknown_a6[0xf0 - 0xa6];
 } nbFormation;
 
 typedef struct nbParty {
@@ -328,8 +330,9 @@ typedef struct nbParty {
 
 typedef struct nbMainProcessData {
     PTR32(nbFormation) form;
+    u32 unknown_04;
     PTR32(datUnitWork) enemyunit;
-    u8 unknown_08[8];
+    u32 unknown_0c;
     PTR32(nbParty) party;
     u32 unknown_14;
     s16 playerpcnt, enemypcnt, activeunit;

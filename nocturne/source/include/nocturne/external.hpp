@@ -34,8 +34,11 @@ void MakeKaifukuPacket(int32_t startframe, int32_t uniqueid, Formation* form, in
                        uint32_t badstat);
 // (0x2892A8) shows a status line message; var_id >= 0 fills {var 0} first
 void DispJyokyoHelp(int32_t msgid, int32_t no, int32_t var_id, int32_t var_ind);
-// (0x2532A8) damage to the acting unit (the curse's), with Endure
-void SetDamagePacket(ActionProcessData& a, int32_t hp);
+// (0x263C00) damage's numbers and effects, through the effect library
+void MakeDamagePacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t type, int32_t hp, int32_t mp,
+                      int32_t badstat, int32_t hiteff, int32_t dead, int32_t deadtype, int32_t moji, int32_t animeoff);
+// (0x280518) the battle panel shows the analysed unit
+void PanelAnalyzeStart();
 // (0x252CD8, no HD name) after a failed escape: a random awake enemy gets
 // an action against the party; true if one does
 bool EscapeFailed(ActionProcessData& a);

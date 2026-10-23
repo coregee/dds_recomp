@@ -38,9 +38,12 @@ struct Formation {
     uint32_t hunit;
     int16_t partyindex;
     int16_t formindex;
-    uint8_t unknown_94[0xf0 - 0x94];
+    uint8_t unknown_94[0xa4 - 0x94];
+    int16_t unknown_a4;       // 2: hidden until UnitKyoseiDisp fades the unit in
+    uint8_t unknown_a6[0xf0 - 0xa6];
 };
 static_assert(sizeof(Formation) == 0xf0);
+static_assert(offsetof(Formation, unknown_a4) == 0xa4);
 static_assert(offsetof(Formation, scl) == 0x5c);
 static_assert(offsetof(Formation, stat) == 0x78);
 static_assert(offsetof(Formation, formindex) == 0x92);
@@ -81,8 +84,9 @@ inline constexpr uint16_t ThrewMacca  = 0x800; // an ailment made the unit throw
 // nbMainProcessData: the battle as a whole.
 struct MainProcessData {
     Ptr32<Formation> form;    // [kFormationCount]
-    Ptr32<UnitWork> enemyunit;   // tentative
-    uint8_t unknown_08[8];
+    uint32_t unknown_04;
+    Ptr32<UnitWork> enemyunit;   // [10] the enemies' units (nbAppendEnemyDevilWork)
+    uint32_t unknown_0c;
     Ptr32<Party> party;       // [kFormationCount]
     uint32_t unknown_14;
     int16_t playerpcnt;       // tentative
@@ -143,7 +147,7 @@ struct MainProcessData {
     uint8_t unknown_134[0x14c - 0x134];
     int32_t piercedResistance;   // set when Pierce ignored Null/Drain (tentative name)
 };
-static_assert(offsetof(MainProcessData, party) == 0x10);
+static_assert(offsetof(MainProcessData, party) == 0x10 && offsetof(MainProcessData, enemyunit) == 8);
 static_assert(offsetof(MainProcessData, encpackno) == 0x28);
 static_assert(offsetof(MainProcessData, encno) == 0x34);
 static_assert(offsetof(MainProcessData, endtype) == 0x44);

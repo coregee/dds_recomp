@@ -7,11 +7,13 @@
 #include "interface_world.hpp"
 #include "nocturne/battle/action.hpp"
 #include "nocturne/battle/ai_script.hpp"
+#include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/camera.hpp"
 #include "nocturne/interface/message.hpp"
 #include "nocturne/battle/combatant.hpp"
 #include "nocturne/battle/kouka.hpp"
 #include "nocturne/data/tables.hpp"
+#include "nocturne/facility/compendium.hpp"
 
 extern "C" {
 uint32_t ps2PoolAllocate(int32_t);
@@ -661,6 +663,200 @@ void addKoukaTests(std::vector<TestCase>& t)
     ailing("CheckAction_RETURN", 0x00257440, CheckAction_RETURN, true);
     ailing("CheckAction_NEGO", 0x00256b88, CheckAction_NEGO, true);
     ailing("CheckAction_NEGORESULT", 0x00257098, CheckAction_NEGORESULT, true);
+    // ---- an action's results ----
+    auto occupied = [](Gen& g) {
+        int f = g.range(0, 13);
+        while (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)))
+            f = g.range(0, 13);
+        return f;
+    };
+    auto pressBits = [](Gen& g) {
+        return g.pick<uint32_t>({0, 0xbf000000, 0xbf800000, 0xc0000000, 0xc1200000, 0x3f000000, 0x3f800000, 0xbfc00000});
+    };
+    // The action's results so far.
+    auto results = [=](Gen& g) {
+        ActionProcessData& a = act();
+        a.press = nocturne::ee::Float::fromBits(pressBits(g));
+        a.newpresstype = g.range(-1, 17);
+        a.hitstopframe = g.chance(40) ? 0 : g.range(1, 60);
+        a.newaddpresstype = 0;
+        a.form->unknown_a4 = static_cast<int16_t>(g.pick<int32_t>({0, 2, 2, 1}));
+        for (int k = 0; k < 14; ++k)
+            if (g.chance(10))
+                at<Party>(FW_PARTY + 128u * static_cast<uint32_t>(k)).flag |= 0x20;
+        nocturne::dat::globalWork().maka = g.chance(20) ? 0 : g.range(0, 50000);
+        SetHpForTimeList(a);
+    };
+    auto voidPair = [](uint32_t entry, std::initializer_list<uint64_t> args, std::function<void()> rewrite,
+                       std::initializer_list<uint32_t> floats = {}) {
+        std::vector<uint64_t> argv(args);
+        std::vector<uint32_t> fv(floats);
+        return Pair{[=] {
+                        switch (argv.size()) {
+                        case 2: return fv.empty() ? origVmVoid(entry, {argv[0], argv[1]}) : origVmVoid(entry, {argv[0]}, {fv[0]});
+                        case 3: return origVmVoid(entry, {argv[0], argv[1], argv[2]});
+                        case 6: return origVmVoid(entry, {argv[0], argv[1], argv[2], argv[3], argv[4], argv[5]});
+                        default: return origVmVoid(entry, {argv[0]}, {fv[0]});
+                        }
+                    },
+                    [=] { rewrite(); return uint64_t{0}; }};
+    };
+    script("UnitKyoseiDisp", [=](Gen& g) {
+        results(g);
+        const int32_t start = g.range(0, 40);
+        return voidPair(0x0024f420, {FW_ACTION, I(start)}, [=] { UnitKyoseiDisp(act(), start); });
+    });
+    script("SetDeadPacket", [=](Gen& g) {
+        results(g);
+        const int32_t f = occupied(g);
+        Formation& dying = at<Formation>(formAddress(f));   // a dying unit is there
+        dying.stat |= FormationStat::Present | FormationStat::CheckParty;
+        dying.formindex = static_cast<int16_t>(f);
+        Party& party = at<Party>(FW_PARTY + 128u * static_cast<uint32_t>(dying.partyindex));
+        party.flag = static_cast<int16_t>(party.flag | PartyFlag::Active);
+        return voidPair(0x0024f478, {FW_ACTION, I(f)}, [=] { SetDeadPacket(act(), f); });
+    });
+    script("SetPress", [=](Gen& g) {
+        results(g);
+        const uint32_t press = pressBits(g);
+        return voidPair(0x0024f548, {FW_ACTION}, [=] { SetPress(act(), nocturne::ee::Float::fromBits(press)); }, {press});
+    });
+    script("SetNewPress", [=](Gen& g) {
+        results(g);
+        const int32_t type = g.range(-1, 18);
+        return voidPair(0x0024f5b0, {FW_ACTION, I(type)}, [=] { SetNewPress(act(), type); });
+    });
+    script("SetHitStopFrame", [=](Gen& g) {
+        results(g);
+        const int32_t frame = g.range(-10, 70);
+        return voidPair(0x0024f5c8, {FW_ACTION, I(frame)}, [=] { SetHitStopFrame(act(), frame); });
+    });
+    script("SetEnemyEscapePacket", [=](Gen& g) {
+        results(g);
+        const int32_t f = occupied(g), frame = g.range(0, 40);
+        return voidPair(0x0024f5f0, {FW_ACTION, I(f), I(frame)}, [=] { SetEnemyEscapePacket(act(), f, frame); });
+    });
+    script("SetAuroraPacket", [=](Gen& g) {
+        results(g);
+        const int32_t f = occupied(g), frame = g.range(0, 40);
+        setBuffCounter(f, 19, g.pick<int32_t>({0, 0xf8, 0xf9, 0xfa, 0xfb, 5, 0xfc}));
+        return voidPair(0x0024f658, {FW_ACTION, I(f), I(frame)}, [=] { SetAuroraPacket(act(), f, frame); });
+    });
+    script("SetAddPressPacket", [=](Gen& g) {
+        results(g);
+        static std::vector<int32_t> granting;   // skills of program 13
+        if (granting.empty())
+            for (int32_t s = 0; s < 0x120; ++s)
+                if (nocturne::dat::normalSkill(s).program == 13)
+                    granting.push_back(s);
+        const int32_t skill = !granting.empty() && g.chance(60) ? granting[g.below(static_cast<uint32_t>(granting.size()))]
+                                                                 : g.range(0, 0x11f);
+        return voidPair(0x0024f728, {FW_ACTION, I(skill)}, [=] { SetAddPressPacket(act(), skill); });
+    });
+    script("SetAddFlareChargePacket", [=](Gen& g) {
+        results(g);
+        const int32_t start = g.range(0, 40);
+        return voidPair(0x0024f7b8, {FW_ACTION, I(start)}, [=] { SetAddFlareChargePacket(act(), start); });
+    });
+    script("SetMakaPacket", [=](Gen& g) {
+        results(g);
+        const int32_t f = occupied(g), frame = g.range(0, 40);
+        return voidPair(0x0024f7e0, {FW_ACTION, I(f), I(frame)}, [=] { SetMakaPacket(act(), f, frame); });
+    });
+    script("SetTorafuPacket", [=](Gen& g) {
+        results(g);
+        const int32_t f = occupied(g), frame = g.range(0, 40);
+        return voidPair(0x0024f8a8, {FW_ACTION, I(f), I(frame)}, [=] { SetTorafuPacket(act(), f, frame); });
+    });
+    script("SetAnalyzePacket", [=](Gen& g) {
+        results(g);
+        const int32_t f = occupied(g), frame = g.range(0, 40);
+        return voidPair(0x0024f938, {FW_ACTION, I(f), I(frame)}, [=] { SetAnalyzePacket(act(), f, frame); });
+    });
+    script("SetSakePacket", [=](Gen& g) {
+        results(g);
+        const int32_t skill = g.range(0, 0x11f), s = occupied(g), d = occupied(g), cnt = g.range(0, 3), frame = g.range(0, 40);
+        return voidPair(0x0024fb38, {FW_ACTION, I(skill), I(s), I(d), I(cnt), I(frame)},
+                        [=] { SetSakePacket(act(), skill, s, d, cnt, frame); });
+    });
+    script("SetMissPacket", [=](Gen& g) {
+        results(g);
+        const int32_t skill = g.range(0, 0x11f), s = occupied(g), d = occupied(g), cnt = g.range(0, 3), frame = g.range(0, 40);
+        return voidPair(0x0024fc28, {FW_ACTION, I(skill), I(s), I(d), I(cnt), I(frame)},
+                        [=] { SetMissPacket(act(), skill, s, d, cnt, frame); });
+    });
+    script("SetDamagePacket", [=](Gen& g) {
+        results(g);
+        UnitWork& unit = *act().get().work;
+        if (g.chance(40))   // Endure (0x159) or Never Yield (0x168) among its skills
+            unit.skill[g.below(8)] = static_cast<uint16_t>(g.chance(50) ? 0x159 : 0x168);
+        act().get().party->flag = static_cast<int16_t>(act().get().party->flag & ~(PartyFlag::EndureFired | PartyFlag::EndureSpent));
+        int32_t hp = g.chance(10) ? g.range(-5, 0) : g.range(1, 600);
+        if (g.chance(25))   // exactly the HP left
+            hp = GetTimeListHp(act(), act().get().form->formindex);
+        return voidPair(0x002532a8, {FW_ACTION, I(hp)}, [=] { SetDamagePacket(act(), hp); });
+    });
+    // ---- the stock and the enemies' units ----
+    // A random stock (the Demi-fiend, devils in and out of the party, dead
+    // or spent ones) and enemy units.
+    auto stockWorld = [=](Gen& g) {
+        nocturne::GlobalWork& global = nocturne::dat::globalWork();
+        for (int i = 1; i < 16; ++i) {
+            nocturne::UnitWork& unit = global.units[i];
+            unit.flag = g.chance(60) ? (1u | (g.chance(40) ? 2u : 0u) | (g.chance(10) ? 0x10u : 0u)) : 0u;
+            unit.id = static_cast<uint16_t>(g.range(1, 383));
+            unit.hp = static_cast<uint16_t>(g.chance(15) ? 0 : g.range(1, 500));
+            unit.badstat = static_cast<uint16_t>(g.chance(15) ? 0x800 : 0);
+        }
+        global.stock_count = g.range(0, 8);
+        global.stock_capacity = g.range(4, 12);
+        const uint32_t enemies = ps2PoolAllocate(10 * static_cast<int32_t>(sizeof(nocturne::UnitWork)));
+        const bool crowded = g.chance(30);   // all but the last slot (or all) taken
+        for (uint32_t i = 0; i < 10; ++i)
+            at<nocturne::UnitWork>(enemies + i * sizeof(nocturne::UnitWork)).flag =
+                crowded ? (i < 9 || g.chance(50) ? 1u : 0u) : (g.chance(50) ? 1u : 0u);
+        at<MainProcessData>(FW_MAIN).enemyunit.address = enemies;
+        at<MainProcessData>(FW_MAIN).summonallowed = g.range(-1, 3);
+    };
+    script("nbGetNakama", [=](Gen& g) {
+        stockWorld(g);
+        const uint32_t s = static_cast<uint32_t>(act().get().work.address);
+        if (g.chance(50))   // already in the compendium (with other stats)
+            nocturne::fcl::record(at<nocturne::UnitWork>(s), false);
+        return Pair{[=] { return origVm(0x00259180, {s}); }, [=] { return norm(nbGetNakama(at<nocturne::UnitWork>(s))); }};
+    });
+    script("nbAppendEnemyDevilWork", [=](Gen& g) {
+        stockWorld(g);
+        const int32_t id = g.range(1, 383);
+        return Pair{[=] { return origVm(0x002594b0, {FW_MAIN, I(id)}); },
+                    [=] { return norm(nbAppendEnemyDevilWork(at<MainProcessData>(FW_MAIN), id)); }};
+    });
+    script("nbGetRandamStock", [=](Gen& g) {
+        stockWorld(g);
+        return Pair{[] { return origVm(0x002595a0, {}); }, [] { return norm(nbGetRandamStock()); }};
+    });
+    script("nbClearCommandMemeoyRenzoku", [=](Gen& g) {
+        for (int f = 0; f < 4; ++f) {
+            const uint32_t unit = at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f));
+            if (unit) {
+                at<nocturne::UnitWork>(unit).prevtarea = static_cast<int16_t>(g.range(-1, 3));
+                at<nocturne::UnitWork>(unit).prevtform = static_cast<int16_t>(g.range(-1, 13));
+            }
+        }
+        return Pair{[] { return origVmVoid(0x002596d0, {}); }, [] { nbClearCommandMemeoyRenzoku(); return uint64_t{0}; }};
+    });
+    script("SetPlayerSummonPacket", [=](Gen& g) {
+        results(g);
+        stockWorld(g);
+        ActionProcessData& a = act();
+        a.party->flag = static_cast<int16_t>(g.chance(50) ? (a.party->flag | 2) : (a.party->flag & ~2));
+        a.aisummonid = static_cast<uint32_t>(g.range(1, 383));
+        a.work->nowcommand = static_cast<int16_t>(g.pick<int32_t>({1, 1, 0, 5}));
+        a.work->nowindex = static_cast<uint16_t>(g.chance(40) ? 0xdf : g.range(0, 15));
+        const int32_t d = g.range(0, 13), frame = g.range(0, 40);
+        return Pair{[=] { return origVm(0x0024f990, {FW_ACTION, I(0), I(0), I(d), I(frame)}); },
+                    [=] { return norm(SetPlayerSummonPacket(act(), 0, 0, d, frame)); }};
+    });
     static const State scriptStates[] = {
         {"SetAction_AISCR", 0x00253c40, [](ActionProcessData& a) { SetAction_AISCR(a); return 0; }, false},
         {"CheckAction_AISCR", 0x00253c88, CheckAction_AISCR, true},

@@ -5,6 +5,7 @@
 #include "nocturne/battle/ai.hpp"
 #include "nocturne/battle/ai_script.hpp"
 #include "nocturne/battle/bad_ai.hpp"
+#include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/calc.hpp"
 #include "nocturne/battle/camera.hpp"
 #include "nocturne/battle/combatant.hpp"
@@ -136,6 +137,233 @@ int32_t GetAllUnlockTime(ActionProcessData& a)
         if (latest < t.lockframe)
             latest = t.lockframe;
     return latest;
+}
+
+// ---- an action's results ---------------------------------------------------------------------
+
+namespace {
+
+int32_t uniqueOf(ActionProcessData& a) { return static_cast<int32_t>(guest::addressOf(&a)); }
+Formation& formAt(ActionProcessData& a, int32_t formindex) { return a.data->form[formindex]; }
+
+constexpr uint16_t kPartyGone = 0x20;   // tentative: the unit has left the battle
+
+} // namespace
+
+// UnitKyoseiDisp @ 0x0024F420: a hidden unit fades back in.
+void UnitKyoseiDisp(ActionProcessData& a, int32_t start)
+{
+    if (a.form->unknown_a4 == 2) {
+        nbMakeUnitFadeInPacket(start, uniqueOf(a), a.form.get(), 0, 2, 4, 4);
+        a.form->unknown_a4 = 0;
+    }
+}
+
+// SetDeadPacket @ 0x0024F478: a unit dies when its last packet ends; an
+// enemy leaves its rewards.
+void SetDeadPacket(ActionProcessData& a, int32_t formindex)
+{
+    Party& party = a.data->party[formAt(a, formindex).partyindex];
+    if (party.flag & kPartyGone)
+        return;
+    const int32_t start = GetEndTime(a, formindex);
+    const UnitWork& unit = *GetUnitWorkPointer(*a.data, party);
+    if (unit.isEnemy())
+        addDefeatRewards(unit);
+    nbMakeDeadPacket(start, uniqueOf(a), formAt(a, formindex), 0);
+}
+
+// SetPress @ 0x0024F548: the action's press turn cost, the worst result
+// kept. Below -1 (more than a whole icon) the larger loss wins; above -1 a
+// larger value wins unless more than an icon is already lost; -1 or a
+// smaller gain only fills an empty (0) cost.
+void SetPress(ActionProcessData& a, ee::Float press)
+{
+    const ee::Float one = ee::Float::fromInt(-1);
+    if (press < one) {
+        if (press < a.press)
+            a.press = press;
+        return;
+    }
+    if (one < press) {
+        if (!(one <= a.press))
+            return;
+        if (a.press < press) {
+            a.press = press;
+            return;
+        }
+    }
+    if (a.press == ee::Float::fromBits(0))
+        a.press = press;
+}
+
+// SetNewPress @ 0x0024F5B0: the press turn result type, the highest kept.
+void SetNewPress(ActionProcessData& a, int32_t presstype)
+{
+    if (a.newpresstype < presstype)
+        a.newpresstype = presstype;
+}
+
+// SetHitStopFrame @ 0x0024F5C8: the earliest hit, plus 7 frames.
+void SetHitStopFrame(ActionProcessData& a, int32_t frame)
+{
+    const int32_t stop = frame + 7;
+    if (a.hitstopframe == 0 || stop < a.hitstopframe)
+        a.hitstopframe = stop;
+}
+
+// SetEnemyEscapePacket @ 0x0024F5F0: an enemy runs away.
+void SetEnemyEscapePacket(ActionProcessData& a, int32_t dformindex, int32_t sframe)
+{
+    nbMakeReturnPacket(sframe, uniqueOf(a), *GetPartyFromFormindex(dformindex));
+    SetTimeList(a, dformindex, sframe, 30, 30);
+}
+
+// SetAuroraPacket @ 0x0024F658: turns the unit's affinities through rows
+// 0xF8 .. 0xFB of the affinity table (buff counter 19); other rows stay.
+void SetAuroraPacket(ActionProcessData& a, int32_t dformindex, int32_t)
+{
+    GetPartyFromFormindex(dformindex);
+    const int32_t type = static_cast<int32_t>(Hojo::AffinityRow);
+    int32_t row = buffCounter(dformindex, type);
+    switch (row) {
+    case 0: row = 0xf8; break;
+    case 0xf8: row = 0xf9; break;
+    case 0xf9: row = 0xfa; break;
+    case 0xfa: row = 0xfb; break;
+    case 0xfb: row = 0xf8; break;
+    default: break;
+    }
+    setBuffCounter(dformindex, type, row);
+    nbSetJyokyoMes(a, 0x5a, 1, GetUnitWorkFromFormindex(dformindex)->id);
+}
+
+// SetAddPressPacket @ 0x0024F728: a skill that grants press turns
+// (program 13): 2, 3 or 4 icons (hojopoint) are result types 15, 17, 16.
+void SetAddPressPacket(ActionProcessData& a, int32_t nskill)
+{
+    const NormalSkill& skill = dat::normalSkill(nskill);
+    if (skill.program != 13)
+        return;
+    switch (skill.hojopoint) {
+    case 2: a.newaddpresstype = 15; break;
+    case 3: a.newaddpresstype = 17; break;
+    case 4: a.newaddpresstype = 16; break;
+    default: break;
+    }
+}
+
+// SetAddFlareChargePacket @ 0x0024F7B8
+void SetAddFlareChargePacket(ActionProcessData& a, int32_t start) { nbAddFlareChargePacket(start, uniqueOf(a), 2); }
+
+// SetMakaPacket @ 0x0024F7E0: Macca thrown (BadMaka): the player's side
+// loses it (no more than it has), an enemy's throw gives it.
+void SetMakaPacket(ActionProcessData& a, int32_t, int32_t sframe)
+{
+    int32_t amount = scatteredMacca(*a.work);
+    if (isPlayerSide(a.form->formindex) && dat::globalWork().maka < amount)
+        amount = dat::globalWork().maka;
+    SetTimeList(a, a.form->formindex, sframe, 30, 30);
+    nbSetJyokyoMes(a, 0x2c, 0, amount);
+    dat::addMacca(isPlayerSide(a.form->formindex) ? -amount : amount);
+}
+
+// SetTorafuPacket @ 0x0024F8A8: a Trafuri-like escape: the unit fades out
+// and the battle ends (endtype 3).
+void SetTorafuPacket(ActionProcessData& a, int32_t dformindex, int32_t sframe)
+{
+    Formation& form = formAt(a, dformindex);
+    nbMakeUnitFadeOutPacket(sframe, uniqueOf(a), &form, 0, 6, 6, 6);
+    nbAddFormOnOffPacket(sframe + 12, uniqueOf(a), &form, 0);
+    a.data->endtype = 3;
+}
+
+// SetAnalyzePacket @ 0x0024F938
+void SetAnalyzePacket(ActionProcessData& a, int32_t dformindex, int32_t sframe)
+{
+    nbAddAnalyzePacket(sframe + 2, uniqueOf(a), &formAt(a, dformindex));
+    nb::PanelAnalyzeStart();
+    a.stat |= 0x10;
+}
+
+// SetPlayerSummonPacket @ 0x0024F990: a devil called into slot dformindex.
+// An enemy calls one of its kind into a new enemy unit (one fewer call
+// allowed); the player's side summons a stock devil, or a random one for
+// skill 0xDF (none: "no one answered", message 0x3E, and false).
+int32_t SetPlayerSummonPacket(ActionProcessData& a, int32_t, int32_t, int32_t dformindex, int32_t sframe)
+{
+    const bool enemy = (a.party->flag & PartyFlag::EnemySide) != 0;
+    int32_t stock;
+    if (enemy) {
+        stock = nbAppendEnemyDevilWork(*a.data, static_cast<int32_t>(a.aisummonid));
+        if (a.data->summonallowed > 0)
+            --a.data->summonallowed;
+    } else {
+        const UnitWork& unit = *a.work;
+        stock = unit.nowindex;
+        if (unit.nowcommand == 1 && unit.nowindex == 0xdf) {
+            stock = nbGetRandamStock();
+            if (stock < 0) {
+                nbSetJyokyoMes(a, 0x3e, -1, 0);
+                return 0;
+            }
+        }
+    }
+    nbMakeSummonPacket(sframe, uniqueOf(a), enemy ? 1 : 0, static_cast<int16_t>(stock), static_cast<int16_t>(dformindex));
+    SetTimeList(a, a.form->formindex, sframe, 15, 20);
+    const uint32_t units = enemy ? a.data->enemyunit.address : guest::addressOf(&dat::globalWork().units[0]);
+    const UnitWork& summoned = *guest::table<UnitWork>(units + static_cast<uint32_t>(stock) * sizeof(UnitWork));
+    a.timelist[dformindex].hp = summoned.hp;
+    nbSetJyokyoMes(a, enemy ? 0x40 : 8, 1, summoned.id);
+    return 1;
+}
+
+// SetSakePacket @ 0x0024FB38: a dodge: two press turn icons lost; a
+// single-target skill says "dodged" (message 2 on the player's side, 4 on
+// the enemy's).
+void SetSakePacket(ActionProcessData& a, int32_t nskill, int32_t, int32_t dformindex, int32_t, int32_t frame)
+{
+    nbAddSakeKoukaPacket(frame, uniqueOf(a), formAt(a, dformindex));
+    SetHitStopFrame(a, frame);
+    SetTimeList(a, dformindex, frame, 10, 20);
+    if (isSingleTargetSkill(nskill))
+        nbSetJyokyoMes(a, isPlayerSide(dformindex) ? 2 : 4, -1, 0);
+    SetPress(a, ee::Float::fromInt(-2));
+    SetNewPress(a, 4);
+}
+
+// SetMissPacket @ 0x0024FC28: a miss ("Miss", word 3): two icons lost.
+void SetMissPacket(ActionProcessData& a, int32_t, int32_t, int32_t dformindex, int32_t, int32_t frame)
+{
+    nbAddMojiEffKoukaPacket(frame, 0x2d, uniqueOf(a), &formAt(a, dformindex), 3);
+    SetTimeList(a, dformindex, frame, 10, 20);
+    SetPress(a, ee::Float::fromInt(-2));
+    SetNewPress(a, 4);
+}
+
+// SetDamagePacket @ 0x002532A8: damage to the acting unit itself (the
+// curse's), after its last unit is free. Endure, or Never Yield while it
+// lasts, leaves the unit at 1 HP once.
+void SetDamagePacket(ActionProcessData& a, int32_t hp)
+{
+    const int32_t start = GetAllUnlockTime(a);
+    const int32_t self = a.form->formindex;
+    const bool endure = checkEndure(self);
+    if (endure || checkNeverYield(self)) {
+        if (hp > 0 && GetTimeListHp(a, self) <= hp) {
+            hp = GetTimeListHp(a, self) - 1;
+            nbAddSkillNamePacket(start, uniqueOf(a), endure ? 0x159 : 0x168);
+            markEndureUsed(self);
+        }
+    }
+    AddTimeListHp(a, self, -hp);
+    const bool dead = CheckTimeListDead(a, self);
+    nb::MakeDamagePacket(start, uniqueOf(a), a.form.get(), 3, hp, -1, 0, 0, dead ? 1 : 0, 0, 1, 0);
+    SetTimeList(a, self, start, 30, 30);
+    if (dead) {
+        SetDeadPacket(a, self);
+        SetTimeList(a, self, start, 20, 20);
+    }
 }
 
 // ---- the state ------------------------------------------------------------------------------
@@ -326,7 +554,7 @@ void SetAction_WAIT(ActionProcessData& a)
         SetTimeList(a, a.form->formindex, 0, 5, 5);
         break;
     case 10:  // the curse's damage
-        nb::SetDamagePacket(a, static_cast<int32_t>(static_cast<uint32_t>(a.work->maxhp) * 15u / 100u));
+        SetDamagePacket(a, static_cast<int32_t>(static_cast<uint32_t>(a.work->maxhp) * 15u / 100u));
         nbMakePressPacket(0, uniqueid, ee::Float::fromInt(-1));
         nbMakeNewPressPacket(0, uniqueid, 0);
         break;

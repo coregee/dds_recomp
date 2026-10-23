@@ -1967,6 +1967,18 @@ symbol	0024f478	Function	ps2BattleAction_0024F478	Global
 symbol	0024f548	Function	ps2BattleAction_0024F548	Global
 symbol	0024f5b0	Function	ps2BattleAction_0024F5B0	Global
 symbol	0024f5c8	Function	ps2BattleAction_0024F5C8	Global
+symbol	0024f5f0	Function	SetEnemyEscapePacket	Global
+symbol	0024f658	Function	SetAuroraPacket	Global
+symbol	0024f728	Function	SetAddPressPacket	Global
+symbol	0024f7b8	Function	SetAddFlareChargePacket	Global
+symbol	0024f7e0	Function	SetMakaPacket	Global
+symbol	0024f8a8	Function	SetTorafuPacket	Global
+symbol	0024f938	Function	SetAnalyzePacket	Global
+symbol	0024f990	Function	SetPlayerSummonPacket	Global
+symbol	0024fb38	Function	SetSakePacket	Global
+symbol	0024fc28	Function	SetMissPacket	Global
+symbol	0024fcc0	Function	SetOngShadowPacket	Global
+symbol	0024fe40	Function	SetOngShadowPacket2	Global
 symbol	0024ff60	Function	ps2BattleAction_0024FF60	Global
 symbol	00251428	Function	SetTarget	Global
 symbol	002514f0	Function	nbActionClearTimeList	Global
@@ -2050,10 +2062,14 @@ symbol	002584c8	Function	nbUpdateOrder	Global
 symbol	00258de8	Function	nbGetTargetTypeRuleArea	Global
 symbol	00259018	Function	nbSetNormalSkill0	Global
 symbol	00259180	Function	ps2BattleRoster_00259180	Global
+symbol	00259268	Function	nbSetDevilNameMes	Global
 symbol	002592b0	Function	ps2BattleAction_002592B0	Global
 symbol	00259300	Function	ps2BattleAction_00259300	Global
+symbol	00259318	Function	nbGetModelColor	Global
 symbol	002594b0	Function	ps2BattleRoster_002594B0	Global
+symbol	002595a0	Function	nbGetRandamStock	Global
 symbol	00259658	Function	nbSetEncounterAndReset	Global
+symbol	002596d0	Function	nbClearCommandMemeoyRenzoku	Global
 symbol	00259740	Function	ps2BattleFormation_00259740	Global
 symbol	00259a30	Function	nbGetUnitID	Global
 symbol	00259a60	Function	nbGetUnitVisual	Global
@@ -10375,36 +10391,93 @@ function_repeatable_comment	0024e178		ps2BattleFormation_0024E178	Whole Formatio
 variable	0024e178	a0:8	arg_0	ulonglong
 variable	0024e178	a1:8	arg_1	ulonglong
 variable	0024e178	a2:8	arg_2	ulonglong
-signature	0024f420		ps2BattleAction_0024F420	void ps2BattleAction_0024F420(ulonglong arg_0, ulonglong arg_1)
+signature	0024f420		ps2BattleAction_0024F420	void ps2BattleAction_0024F420(nbActionProcessData * a, int start)
 function_repeatable_comment	0024f420		ps2BattleAction_0024F420	Battle action84 native aliases:20344 recognized/20520 spanbytes.67 definedV0:8 and17void; six genuine scalarF12:4 slots;263C00 has eight low64 GPRs plus four uint32 words in incoming8-byte slots0/8/16/24. Typed C/H and original member/storage witnesses independently constrained. Actual523 standalone2756 strict original comparison (2752returns/fourBREAK7), declaredRAM/full8KiBstack/finite kernel and primitive observations remain separately pinned. Declared arithmetic FCSR model and callee-save profile are qualified; full arbitrary volatile775/nativeABI and final external secondaryHI1/LO1 are not claimed. Metadata changes no executable, C bytes, corpus, original capture or registry.
-variable	0024f420	a0:8	arg_0	ulonglong
-variable	0024f420	a1:8	arg_1	ulonglong
-signature	0024f478		ps2BattleAction_0024F478	void ps2BattleAction_0024F478(ulonglong arg_0, ulonglong arg_1)
+variable	0024f420	a0_lo:4	a	nbActionProcessData *
+variable	0024f420	a1_lo:4	start	int
+signature	0024f478		ps2BattleAction_0024F478	void ps2BattleAction_0024F478(nbActionProcessData * a, int formindex)
 function_repeatable_comment	0024f478		ps2BattleAction_0024F478	Battle action84 native aliases:20344 recognized/20520 spanbytes.67 definedV0:8 and17void; six genuine scalarF12:4 slots;263C00 has eight low64 GPRs plus four uint32 words in incoming8-byte slots0/8/16/24. Typed C/H and original member/storage witnesses independently constrained. Actual523 standalone2756 strict original comparison (2752returns/fourBREAK7), declaredRAM/full8KiBstack/finite kernel and primitive observations remain separately pinned. Declared arithmetic FCSR model and callee-save profile are qualified; full arbitrary volatile775/nativeABI and final external secondaryHI1/LO1 are not claimed. Metadata changes no executable, C bytes, corpus, original capture or registry.
-variable	0024f478	a0:8	arg_0	ulonglong
-variable	0024f478	a1:8	arg_1	ulonglong
-signature	0024f548		ps2BattleAction_0024F548	void ps2BattleAction_0024F548(ulonglong arg_0, float arg_1)
+variable	0024f478	a0_lo:4	a	nbActionProcessData *
+variable	0024f478	a1_lo:4	formindex	int
+signature	0024f548		ps2BattleAction_0024F548	void ps2BattleAction_0024F548(nbActionProcessData * a, float press)
 function_repeatable_comment	0024f548		ps2BattleAction_0024F548	Battle action84 native aliases:20344 recognized/20520 spanbytes.67 definedV0:8 and17void; six genuine scalarF12:4 slots;263C00 has eight low64 GPRs plus four uint32 words in incoming8-byte slots0/8/16/24. Typed C/H and original member/storage witnesses independently constrained. Actual523 standalone2756 strict original comparison (2752returns/fourBREAK7), declaredRAM/full8KiBstack/finite kernel and primitive observations remain separately pinned. Declared arithmetic FCSR model and callee-save profile are qualified; full arbitrary volatile775/nativeABI and final external secondaryHI1/LO1 are not claimed. Metadata changes no executable, C bytes, corpus, original capture or registry.
-variable	0024f548	a0:8	arg_0	ulonglong
-variable	0024f548	f12:4	arg_1	float
-signature	0024f5b0		ps2BattleAction_0024F5B0	void ps2BattleAction_0024F5B0(ulonglong arg_0, ulonglong arg_1)
+variable	0024f548	a0_lo:4	a	nbActionProcessData *
+variable	0024f548	f12:4	press	float
+signature	0024f5b0		ps2BattleAction_0024F5B0	void ps2BattleAction_0024F5B0(nbActionProcessData * a, int presstype)
 function_repeatable_comment	0024f5b0		ps2BattleAction_0024F5B0	Battle action84 native aliases:20344 recognized/20520 spanbytes.67 definedV0:8 and17void; six genuine scalarF12:4 slots;263C00 has eight low64 GPRs plus four uint32 words in incoming8-byte slots0/8/16/24. Typed C/H and original member/storage witnesses independently constrained. Actual523 standalone2756 strict original comparison (2752returns/fourBREAK7), declaredRAM/full8KiBstack/finite kernel and primitive observations remain separately pinned. Declared arithmetic FCSR model and callee-save profile are qualified; full arbitrary volatile775/nativeABI and final external secondaryHI1/LO1 are not claimed. Metadata changes no executable, C bytes, corpus, original capture or registry.
-variable	0024f5b0	a0:8	arg_0	ulonglong
-variable	0024f5b0	a1:8	arg_1	ulonglong
-signature	0024f5c8		ps2BattleAction_0024F5C8	void ps2BattleAction_0024F5C8(ulonglong arg_0, ulonglong arg_1)
+variable	0024f5b0	a0_lo:4	a	nbActionProcessData *
+variable	0024f5b0	a1_lo:4	presstype	int
+signature	0024f5c8		ps2BattleAction_0024F5C8	void ps2BattleAction_0024F5C8(nbActionProcessData * a, int frame)
 function_repeatable_comment	0024f5c8		ps2BattleAction_0024F5C8	Battle action84 native aliases:20344 recognized/20520 spanbytes.67 definedV0:8 and17void; six genuine scalarF12:4 slots;263C00 has eight low64 GPRs plus four uint32 words in incoming8-byte slots0/8/16/24. Typed C/H and original member/storage witnesses independently constrained. Actual523 standalone2756 strict original comparison (2752returns/fourBREAK7), declaredRAM/full8KiBstack/finite kernel and primitive observations remain separately pinned. Declared arithmetic FCSR model and callee-save profile are qualified; full arbitrary volatile775/nativeABI and final external secondaryHI1/LO1 are not claimed. Metadata changes no executable, C bytes, corpus, original capture or registry.
-variable	0024f5c8	a0:8	arg_0	ulonglong
-variable	0024f5c8	a1:8	arg_1	ulonglong
-signature	0024ff60		ps2BattleAction_0024FF60	void ps2BattleAction_0024FF60(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4, ulonglong arg_5, ulonglong arg_6, float arg_7)
+variable	0024f5c8	a0_lo:4	a	nbActionProcessData *
+variable	0024f5c8	a1_lo:4	frame	int
+signature	0024f5f0		SetEnemyEscapePacket	void SetEnemyEscapePacket(nbActionProcessData * a, int dformindex, int sframe)
+variable	0024f5f0	a0_lo:4	a	nbActionProcessData *
+variable	0024f5f0	a1_lo:4	dformindex	int
+variable	0024f5f0	a2_lo:4	sframe	int
+signature	0024f658		SetAuroraPacket	void SetAuroraPacket(nbActionProcessData * a, int dformindex, int sframe)
+variable	0024f658	a0_lo:4	a	nbActionProcessData *
+variable	0024f658	a1_lo:4	dformindex	int
+variable	0024f658	a2_lo:4	sframe	int
+signature	0024f728		SetAddPressPacket	void SetAddPressPacket(nbActionProcessData * a, int nskill)
+variable	0024f728	a0_lo:4	a	nbActionProcessData *
+variable	0024f728	a1_lo:4	nskill	int
+signature	0024f7b8		SetAddFlareChargePacket	void SetAddFlareChargePacket(nbActionProcessData * a, int start)
+variable	0024f7b8	a0_lo:4	a	nbActionProcessData *
+variable	0024f7b8	a1_lo:4	start	int
+signature	0024f7e0		SetMakaPacket	void SetMakaPacket(nbActionProcessData * a, int dformindex, int sframe)
+variable	0024f7e0	a0_lo:4	a	nbActionProcessData *
+variable	0024f7e0	a1_lo:4	dformindex	int
+variable	0024f7e0	a2_lo:4	sframe	int
+signature	0024f8a8		SetTorafuPacket	void SetTorafuPacket(nbActionProcessData * a, int dformindex, int sframe)
+variable	0024f8a8	a0_lo:4	a	nbActionProcessData *
+variable	0024f8a8	a1_lo:4	dformindex	int
+variable	0024f8a8	a2_lo:4	sframe	int
+signature	0024f938		SetAnalyzePacket	void SetAnalyzePacket(nbActionProcessData * a, int dformindex, int sframe)
+variable	0024f938	a0_lo:4	a	nbActionProcessData *
+variable	0024f938	a1_lo:4	dformindex	int
+variable	0024f938	a2_lo:4	sframe	int
+signature	0024f990		SetPlayerSummonPacket	int SetPlayerSummonPacket(nbActionProcessData * a, int nskill, int sformindex, int dformindex, int sframe)
+variable	0024f990	a0_lo:4	a	nbActionProcessData *
+variable	0024f990	a1_lo:4	nskill	int
+variable	0024f990	a2_lo:4	sformindex	int
+variable	0024f990	a3_lo:4	dformindex	int
+variable	0024f990	t0_lo:4	sframe	int
+signature	0024fb38		SetSakePacket	void SetSakePacket(nbActionProcessData * a, int nskill, int sformindex, int dformindex, int cnt, int frame)
+variable	0024fb38	a0_lo:4	a	nbActionProcessData *
+variable	0024fb38	a1_lo:4	nskill	int
+variable	0024fb38	a2_lo:4	sformindex	int
+variable	0024fb38	a3_lo:4	dformindex	int
+variable	0024fb38	t0_lo:4	cnt	int
+variable	0024fb38	t1_lo:4	frame	int
+signature	0024fc28		SetMissPacket	void SetMissPacket(nbActionProcessData * a, int nskill, int sformindex, int dformindex, int cnt, int frame)
+variable	0024fc28	a0_lo:4	a	nbActionProcessData *
+variable	0024fc28	a1_lo:4	nskill	int
+variable	0024fc28	a2_lo:4	sformindex	int
+variable	0024fc28	a3_lo:4	dformindex	int
+variable	0024fc28	t0_lo:4	cnt	int
+variable	0024fc28	t1_lo:4	frame	int
+signature	0024fcc0		SetOngShadowPacket	void SetOngShadowPacket(nbActionProcessData * a, int nskill, int sformindex, int dformindex, int cnt, int frame)
+variable	0024fcc0	a0_lo:4	a	nbActionProcessData *
+variable	0024fcc0	a1_lo:4	nskill	int
+variable	0024fcc0	a2_lo:4	sformindex	int
+variable	0024fcc0	a3_lo:4	dformindex	int
+variable	0024fcc0	t0_lo:4	cnt	int
+variable	0024fcc0	t1_lo:4	frame	int
+signature	0024fe40		SetOngShadowPacket2	void SetOngShadowPacket2(nbActionProcessData * a, int dformindex, int frame)
+variable	0024fe40	a0_lo:4	a	nbActionProcessData *
+variable	0024fe40	a1_lo:4	dformindex	int
+variable	0024fe40	a2_lo:4	frame	int
+signature	0024ff60		ps2BattleAction_0024FF60	void ps2BattleAction_0024FF60(nbActionProcessData * a, int koukatype, int nskill, int sformindex, int dformindex, int cnt, int frame, float koukaritu)
 function_repeatable_comment	0024ff60		ps2BattleAction_0024FF60	Battle action84 native aliases:20344 recognized/20520 spanbytes.67 definedV0:8 and17void; six genuine scalarF12:4 slots;263C00 has eight low64 GPRs plus four uint32 words in incoming8-byte slots0/8/16/24. Typed C/H and original member/storage witnesses independently constrained. Actual523 standalone2756 strict original comparison (2752returns/fourBREAK7), declaredRAM/full8KiBstack/finite kernel and primitive observations remain separately pinned. Declared arithmetic FCSR model and callee-save profile are qualified; full arbitrary volatile775/nativeABI and final external secondaryHI1/LO1 are not claimed. Metadata changes no executable, C bytes, corpus, original capture or registry.
-variable	0024ff60	a0:8	arg_0	ulonglong
-variable	0024ff60	a1:8	arg_1	ulonglong
-variable	0024ff60	a2:8	arg_2	ulonglong
-variable	0024ff60	a3:8	arg_3	ulonglong
-variable	0024ff60	t0:8	arg_4	ulonglong
-variable	0024ff60	t1:8	arg_5	ulonglong
-variable	0024ff60	t2:8	arg_6	ulonglong
-variable	0024ff60	f12:4	arg_7	float
+variable	0024ff60	a0_lo:4	a	nbActionProcessData *
+variable	0024ff60	a1_lo:4	koukatype	int
+variable	0024ff60	a2_lo:4	nskill	int
+variable	0024ff60	a3_lo:4	sformindex	int
+variable	0024ff60	t0_lo:4	dformindex	int
+variable	0024ff60	t1_lo:4	cnt	int
+variable	0024ff60	t2_lo:4	frame	int
+variable	0024ff60	f12:4	koukaritu	float
 signature	00251428		SetTarget	void SetTarget(nbActionProcessData * a)
 function_repeatable_comment	00251428		SetTarget	[Nocturne StatusPairs private bank contract]\nSource-derived candidate; no behavioral admission or public prototype claim.\nInteger entry slots (raw low64): ["a0"]; resident FP inputs: none identified.\nAll actual CPU/FPR/VU/HI-LO/Status/FCSR/RAM effects and native RA/SP continuation remain part of the private bank contract. GP, saved registers and native frame contents remain context inputs.\nRole: Context A0 only; actual local JR rule and guestSP0/4/8 outputs feed five-slot25DFA0; incidental target result is retained only in native banks.\nNo semantic scalar result is promoted; incidental V0 effects remain intact.\nExternal services may stop execution; no kernel/IOP completion is supplied.\nEvidence: analysis/battle-status-pairs-helper-contracts.json; ELF member words SHA256=cc52c208020caf3b9d5dbebb3248ff455dbe53517d9560a77a307c9fbd6a69f3.\n[/Nocturne StatusPairs private bank contract]
 variable	00251428	a0_lo:4	a	nbActionProcessData *
@@ -10649,9 +10722,13 @@ variable	00258de8	t1_lo:4	reverse	int
 signature	00259018		nbSetNormalSkill0	void nbSetNormalSkill0(datUnitWork * work)
 function_repeatable_comment	00259018		nbSetNormalSkill0	Eleven complete native action/normal-skill/selection/rotation/no-op bodies. Original command descriptors, real VM parameter/data/return helpers, passive skill lookup and printf execute. Full declared RAM, defined raw64 results, Status, CPU primitives, returning callee saves and ordered VM targets compared. All141 embedded BF procedure records traverse actual script/message construction; native header omits240 trailing string bytes, which remain backed. Synthetic connected programs execute actual action and rotation commands; original AI decision paths, automatic targeting, AI startup, scheduling and physical battle runtime remain unproved. Zero divisor reaches original BREAK7 after visible increment; no return or unwinding contract is assigned. Unity roles and community names corroborate identity, not PS2 layouts. No new full-suite run.
 variable	00259018	a0_lo:4	work	datUnitWork *
-signature	00259180		ps2BattleRoster_00259180	ulonglong ps2BattleRoster_00259180(ulonglong arg_0)
+signature	00259180		ps2BattleRoster_00259180	int ps2BattleRoster_00259180(datUnitWork * s)
 function_repeatable_comment	00259180		ps2BattleRoster_00259180	Recovered whole original battle roster/order3 native scalar interfaces. Actual original/probe608 proof is required before metadata application, including all defined connected child results. Order is genuineVOID; recruit and enemy append define raw64 V0. Enemy nativeABI has two slots, unlike its HD three-argument counterpart. Descriptive names, ordinaryRAM/callee-save semantic profile; fullvolatile/privateframes/physical gameplay unclaimed. See analysis/battle-roster-C-validation.json.
-variable	00259180	a0:8	arg_0	ulonglong
+variable	00259180	a0_lo:4	s	datUnitWork *
+signature	00259268		nbSetDevilNameMes	void nbSetDevilNameMes(int hmsg, int no, datUnitWork * work)
+variable	00259268	a0_lo:4	hmsg	int
+variable	00259268	a1_lo:4	no	int
+variable	00259268	a2_lo:4	work	datUnitWork *
 signature	002592b0		ps2BattleAction_002592B0	void ps2BattleAction_002592B0(nbActionProcessData * a, int jyokyomes, int var_id, int var_ind)
 function_repeatable_comment	002592b0		ps2BattleAction_002592B0	Battle action84 native aliases:20344 recognized/20520 spanbytes.67 definedV0:8 and17void; six genuine scalarF12:4 slots;263C00 has eight low64 GPRs plus four uint32 words in incoming8-byte slots0/8/16/24. Typed C/H and original member/storage witnesses independently constrained. Actual523 standalone2756 strict original comparison (2752returns/fourBREAK7), declaredRAM/full8KiBstack/finite kernel and primitive observations remain separately pinned. Declared arithmetic FCSR model and callee-save profile are qualified; full arbitrary volatile775/nativeABI and final external secondaryHI1/LO1 are not claimed. Metadata changes no executable, C bytes, corpus, original capture or registry.
 variable	002592b0	a0_lo:4	a	nbActionProcessData *
@@ -10662,13 +10739,17 @@ signature	00259300		ps2BattleAction_00259300	int ps2BattleAction_00259300(nbMain
 function_repeatable_comment	00259300		ps2BattleAction_00259300	Battle action84 native aliases:20344 recognized/20520 spanbytes.67 definedV0:8 and17void; six genuine scalarF12:4 slots;263C00 has eight low64 GPRs plus four uint32 words in incoming8-byte slots0/8/16/24. Typed C/H and original member/storage witnesses independently constrained. Actual523 standalone2756 strict original comparison (2752returns/fourBREAK7), declaredRAM/full8KiBstack/finite kernel and primitive observations remain separately pinned. Declared arithmetic FCSR model and callee-save profile are qualified; full arbitrary volatile775/nativeABI and final external secondaryHI1/LO1 are not claimed. Metadata changes no executable, C bytes, corpus, original capture or registry.
 variable	00259300	a0_lo:4	data	nbMainProcessData *
 variable	00259300	a1_lo:4	jyokyomes	int
-signature	002594b0		ps2BattleRoster_002594B0	ulonglong ps2BattleRoster_002594B0(ulonglong arg_0, ulonglong arg_1)
+signature	00259318		nbGetModelColor	u32 nbGetModelColor(nbFormation * form)
+variable	00259318	a0_lo:4	form	nbFormation *
+signature	002594b0		ps2BattleRoster_002594B0	int ps2BattleRoster_002594B0(nbMainProcessData * data, int id)
 function_repeatable_comment	002594b0		ps2BattleRoster_002594B0	Recovered whole original battle roster/order3 native scalar interfaces. Actual original/probe608 proof is required before metadata application, including all defined connected child results. Order is genuineVOID; recruit and enemy append define raw64 V0. Enemy nativeABI has two slots, unlike its HD three-argument counterpart. Descriptive names, ordinaryRAM/callee-save semantic profile; fullvolatile/privateframes/physical gameplay unclaimed. See analysis/battle-roster-C-validation.json.
-variable	002594b0	a0:8	arg_0	ulonglong
-variable	002594b0	a1:8	arg_1	ulonglong
-signature	00259658		nbSetEncounterAndReset	void nbSetEncounterAndReset(int encno)
+variable	002594b0	a0_lo:4	data	nbMainProcessData *
+variable	002594b0	a1_lo:4	id	int
+signature	002595a0		nbGetRandamStock	int nbGetRandamStock(void)
+signature	00259658		nbSetEncounterAndReset	void nbSetEncounterAndReset(int enc)
 function_repeatable_comment	00259658		nbSetEncounterAndReset	Combat calculation34 native aliases,9292 recognized/9392 spanbytes. Actual raw64 A0..A3 slots, explicit unused positionalA1 for658B8, mixedA0/F12 forA828,24 definedV0:8/fourF0:4/sixvoid. Native original names, custom-storage witnesses and HD/community leads remain separately pinned. Standalone1220 semantic pass (1216returning/fourBREAK7) is qualified; full volatilebanks/guestframes/HI1LO1/FCSRarithmeticflags/physicalhardware are not proved. DecompiledC is reference only. Metadata changes no executable/C bytes or registration.
-variable	00259658	a0_lo:4	encno	int
+variable	00259658	a0_lo:4	enc	int
+signature	002596d0		nbClearCommandMemeoyRenzoku	void nbClearCommandMemeoyRenzoku(void)
 signature	00259740		ps2BattleFormation_00259740	void ps2BattleFormation_00259740(ulonglong arg_0, ulonglong arg_1)
 function_repeatable_comment	00259740		ps2BattleFormation_00259740	Whole Formation8/1274 original instructions; seven scalarVOID and one raw64 return, canonical A0..A3 slots. Getter0028A2E0 defines actual128bit VF10 independently of scalarVOID. Genuine registered formation/pose/quaternion/motion/encounter dependencies. Original and probe full-cohort proof required before application; descriptive names and finite ordinaryRAM/value semantics, no physical timing or fullvolatile/privateframe claim.
 variable	00259740	a0:8	arg_0	ulonglong
@@ -11091,20 +11172,20 @@ variable	00263918	a1:8	arg_1	ulonglong
 variable	00263918	a2:8	arg_2	ulonglong
 variable	00263918	a3:8	arg_3	ulonglong
 variable	00263918	t0:8	arg_4	ulonglong
-signature	00263c00		ps2BattleAction_00263C00	ulonglong ps2BattleAction_00263C00(ulonglong arg_0, ulonglong arg_1, ulonglong arg_2, ulonglong arg_3, ulonglong arg_4, ulonglong arg_5, ulonglong arg_6, ulonglong arg_7, uint arg_8, uint arg_9, uint arg_10, uint arg_11)
+signature	00263c00		ps2BattleAction_00263C00	int ps2BattleAction_00263C00(int startframe, int uniqueid, nbFormation * form, int type, int hp, int mp, int badstat, int hiteff, int dead, int deadtype, int moji, int animeoff)
 function_repeatable_comment	00263c00		ps2BattleAction_00263C00	Battle action84 native aliases:20344 recognized/20520 spanbytes.67 definedV0:8 and17void; six genuine scalarF12:4 slots;263C00 has eight low64 GPRs plus four uint32 words in incoming8-byte slots0/8/16/24. Typed C/H and original member/storage witnesses independently constrained. Actual523 standalone2756 strict original comparison (2752returns/fourBREAK7), declaredRAM/full8KiBstack/finite kernel and primitive observations remain separately pinned. Declared arithmetic FCSR model and callee-save profile are qualified; full arbitrary volatile775/nativeABI and final external secondaryHI1/LO1 are not claimed. Metadata changes no executable, C bytes, corpus, original capture or registry.
-variable	00263c00	a0:8	arg_0	ulonglong
-variable	00263c00	a1:8	arg_1	ulonglong
-variable	00263c00	a2:8	arg_2	ulonglong
-variable	00263c00	a3:8	arg_3	ulonglong
-variable	00263c00	t0:8	arg_4	ulonglong
-variable	00263c00	t1:8	arg_5	ulonglong
-variable	00263c00	t2:8	arg_6	ulonglong
-variable	00263c00	t3:8	arg_7	ulonglong
-variable	00263c00	Stack[0x0]:4	arg_8	uint
-variable	00263c00	Stack[0x8]:4	arg_9	uint
-variable	00263c00	Stack[0x10]:4	arg_10	uint
-variable	00263c00	Stack[0x18]:4	arg_11	uint
+variable	00263c00	a0_lo:4	startframe	int
+variable	00263c00	a1_lo:4	uniqueid	int
+variable	00263c00	a2_lo:4	form	nbFormation *
+variable	00263c00	a3_lo:4	type	int
+variable	00263c00	t0_lo:4	hp	int
+variable	00263c00	t1_lo:4	mp	int
+variable	00263c00	t2_lo:4	badstat	int
+variable	00263c00	t3_lo:4	hiteff	int
+variable	00263c00	Stack[0x0]:4	dead	int
+variable	00263c00	Stack[0x8]:4	deadtype	int
+variable	00263c00	Stack[0x10]:4	moji	int
+variable	00263c00	Stack[0x18]:4	animeoff	int
 signature	00264010		ps2BattleAction_00264010	void ps2BattleAction_00264010(int startframe, int uniqueid, nbFormation * form, int type, int hp, int mp, u32 badstat)
 function_repeatable_comment	00264010		ps2BattleAction_00264010	Battle action84 native aliases:20344 recognized/20520 spanbytes.67 definedV0:8 and17void; six genuine scalarF12:4 slots;263C00 has eight low64 GPRs plus four uint32 words in incoming8-byte slots0/8/16/24. Typed C/H and original member/storage witnesses independently constrained. Actual523 standalone2756 strict original comparison (2752returns/fourBREAK7), declaredRAM/full8KiBstack/finite kernel and primitive observations remain separately pinned. Declared arithmetic FCSR model and callee-save profile are qualified; full arbitrary volatile775/nativeABI and final external secondaryHI1/LO1 are not claimed. Metadata changes no executable, C bytes, corpus, original capture or registry.
 variable	00264010	a0_lo:4	startframe	int

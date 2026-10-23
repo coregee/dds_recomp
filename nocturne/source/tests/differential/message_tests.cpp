@@ -7,6 +7,7 @@
 
 #include "harness.hpp"
 #include "interface_world.hpp"
+#include "nocturne/battle/combatant.hpp"
 #include "nocturne/interface/message.hpp"
 
 extern "C" {
@@ -694,6 +695,17 @@ void addMessageTests(std::vector<TestCase>& t)
         scriptParam(1, num);
         scriptParam(2, static_cast<int32_t>(type));
     }));
+    t.push_back({"nbSetDevilNameMes", [](Gen& g) {
+        World w = world(g);
+        const int32_t index = g.range(0, 31);
+        const uint32_t unit = (iface::guestString("a unit's first sixteen bytes") + 3u) & ~3u;   // only its ID is read
+        at<uint16_t>(unit + 4) = static_cast<uint16_t>(g.chance(20) ? 0 : g.range(1, 383));
+        return Pair{[=] { return origVoid(0x00259268, {I(w.id), I(index), unit}); },
+                    [=] {
+                        nocturne::nb::nbSetDevilNameMes(w.id, index, at<nocturne::UnitWork>(unit));
+                        return uint64_t{0};
+                    }};
+    }});
     t.push_back({"itfMesMngInitializeManager", [](Gen& g) {
         World w = world(g);
         return Pair{[=] { return origVoid(0x001ceb58, {}); }, [=] { InitializeManager(); return uint64_t{0}; }};

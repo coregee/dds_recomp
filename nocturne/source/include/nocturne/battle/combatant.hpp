@@ -21,6 +21,13 @@ bool nbCheckEventDead(const Formation& form);           // it runs a script or s
 int32_t nbCheckDeadScript(const Formation& form);        // the script to run, or 0
 int32_t nbCheckDeadEvent(const Formation& form);         // the event to start, or 0
 
+// The stock and the enemies' units (nbMisc).
+bool nbGetNakama(const UnitWork& s);                     // a devil talked into joining enters the stock
+void nbSetDevilNameMes(int32_t hmsg, int32_t no, const UnitWork& work);   // {var no}: its name ({var 0} "nobody" for id 0)
+int32_t nbAppendEnemyDevilWork(MainProcessData& data, int32_t id);   // a called enemy's unit: its index, or -1
+int32_t nbGetRandamStock();                               // a random devil in the stock that can be summoned, or -1
+void nbClearCommandMemeoyRenzoku();                       // forget the party's last targets on the other side
+
 // Can the combatant use this skill now?
 enum class SkillCheck : int32_t { Ok = 0, NotEnoughHp = 1, NotEnoughMp = 2, Muted = 3 };
 SkillCheck checkSkillCost(int32_t formindex, int32_t skill);   // nbCheckSkillCost

@@ -509,8 +509,9 @@ void updateHpModelScale(Formation& form)
 // Encounter flow
 // ===========================================================================
 
-// 0x00259658 (unnamed): switch the battle to another encounter and reset
-// per-encounter state.
+// nbSetRenzokuEncount @ 0x00259658: switch the battle to another encounter
+// (the next of a consecutive, "renzoku", battle) and reset per-encounter
+// state.
 void setEncounter(int32_t encno)
 {
     MainProcessData& data = *GetMainProcessData();

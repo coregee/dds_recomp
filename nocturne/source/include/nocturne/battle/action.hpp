@@ -35,6 +35,25 @@ void SetTimeList(ActionProcessData& a, int32_t formindex, int32_t start, int32_t
 int32_t GetAllEndTime(ActionProcessData& a);
 int32_t GetAllUnlockTime(ActionProcessData& a);
 
+// ---- an action's results: packets, press turns, messages ----
+void UnitKyoseiDisp(ActionProcessData& a, int32_t start);
+void SetDeadPacket(ActionProcessData& a, int32_t formindex);
+void SetPress(ActionProcessData& a, ee::Float press);
+void SetNewPress(ActionProcessData& a, int32_t presstype);
+void SetHitStopFrame(ActionProcessData& a, int32_t frame);
+void SetEnemyEscapePacket(ActionProcessData& a, int32_t dformindex, int32_t sframe);
+void SetAuroraPacket(ActionProcessData& a, int32_t dformindex, int32_t sframe);
+void SetAddPressPacket(ActionProcessData& a, int32_t nskill);
+void SetAddFlareChargePacket(ActionProcessData& a, int32_t start);
+void SetMakaPacket(ActionProcessData& a, int32_t dformindex, int32_t sframe);
+void SetTorafuPacket(ActionProcessData& a, int32_t dformindex, int32_t sframe);
+void SetAnalyzePacket(ActionProcessData& a, int32_t dformindex, int32_t sframe);
+int32_t SetPlayerSummonPacket(ActionProcessData& a, int32_t nskill, int32_t sformindex, int32_t dformindex,
+                              int32_t sframe);
+void SetSakePacket(ActionProcessData& a, int32_t nskill, int32_t sformindex, int32_t dformindex, int32_t cnt, int32_t frame);
+void SetMissPacket(ActionProcessData& a, int32_t nskill, int32_t sformindex, int32_t dformindex, int32_t cnt, int32_t frame);
+void SetDamagePacket(ActionProcessData& a, int32_t hp);
+
 // ---- the state ----
 int32_t nbGetActionSeq(uint32_t process);   // of an action process, 0 for none
 int32_t nbGetPrevActionSeq();               // of the action before the current one, -1 for none

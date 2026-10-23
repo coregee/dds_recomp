@@ -1,9 +1,12 @@
 // Questions about one combatant (original unit: nbCalc).
 #include "nocturne/battle/combatant.hpp"
 
+#include "nocturne/data/progression.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/unit.hpp"
 #include "nocturne/external.hpp"
+#include "nocturne/facility/compendium.hpp"
+#include "nocturne/interface/message.hpp"
 
 namespace nocturne::nb {
 
@@ -118,6 +121,93 @@ void markEndureUsed(int32_t formindex)
     Party* party = GetPartyFromFormindex(formindex);
     if (party && (party->flag & PartyFlag::EndureFired))
         party->flag = static_cast<int16_t>(party->flag | PartyFlag::EndureSpent);
+}
+
+// nbGetNakama @ 0x00259180: the devil enters the stock (unit 4, or the
+// first free one after it) and the compendium, and goes last in the
+// stock's order. False when the stock is full. (The original also looks
+// the devil up in the stock and ignores the answer.)
+bool nbGetNakama(const UnitWork& s)
+{
+    if (dat::isStockFull())
+        return false;
+    GlobalWork& global = dat::globalWork();
+    int32_t slot = 4;
+    UnitWork* unit = &global.units[slot];
+    if (unit->flag & UnitFlag::Valid) {
+        unit = nullptr;
+        for (slot = 5; slot < 16; ++slot) {
+            if (!(global.units[slot].flag & UnitFlag::Valid)) {
+                unit = &global.units[slot];
+                break;
+            }
+        }
+    }
+    dat::initDevil(s.id, *unit);
+    fcl::record(*unit, false);
+    global.stock_list[global.stock_count] = static_cast<uint8_t>(slot);
+    ++global.stock_count;
+    return true;
+}
+
+// nbSetDevilNameMes @ 0x00259268
+void nbSetDevilNameMes(int32_t hmsg, int32_t no, const UnitWork& work)
+{
+    if (work.id == 0)
+        mes::SetVarFormatted(hmsg, 0, 0, mes::kVarCharacter);
+    else
+        mes::SetVarFormatted(hmsg, no, work.id, mes::kVarDevil);
+}
+
+// nbAppendEnemyDevilWork @ 0x002594B0: the first free of the 10 enemy
+// units becomes the devil, in the party, with its HP and MP from its
+// format.
+int32_t nbAppendEnemyDevilWork(MainProcessData& data, int32_t id)
+{
+    int32_t index = 0;
+    while (index < 10 && (data.enemyunit.get()[index].flag & UnitFlag::Valid))
+        ++index;
+    if (index == 10)
+        return -1;
+    UnitWork& unit = data.enemyunit.get()[index];
+    dat::initDevil(static_cast<uint16_t>(id), unit);
+    const DevilFormat& format = dat::devilFormat(id);
+    unit.flag |= UnitFlag::InParty;
+    unit.maxhp = format.maxhp;
+    unit.hp = format.hp;
+    unit.maxmp = format.maxmp;
+    unit.mp = format.mp;
+    return index;
+}
+
+// nbGetRandamStock @ 0x002595A0: a stock devil not in the party, not
+// already out (flag 0x10), alive and with HP left.
+int32_t nbGetRandamStock()
+{
+    int32_t candidates[16];
+    uint32_t count = 0;
+    const GlobalWork& global = dat::globalWork();
+    for (int32_t i = 0; i < 16; ++i) {
+        const UnitWork& unit = global.units[i];
+        if ((unit.flag & UnitFlag::Valid) && !(unit.flag & UnitFlag::InParty) && !(unit.flag & 0x10) &&
+            unit.ailment() != static_cast<uint16_t>(Ailment::Dead) && unit.hp != 0)
+            candidates[count++] = i;
+    }
+    return count ? candidates[sdf::GetRandInt(static_cast<int32_t>(count))] : -1;
+}
+
+// nbClearCommandMemeoyRenzoku @ 0x002596D0: before a consecutive battle
+// ("renzoku"), the party's remembered targets on the other side are
+// forgotten.
+void nbClearCommandMemeoyRenzoku()
+{
+    for (int32_t formindex = 0; formindex < 4; ++formindex) {
+        UnitWork* unit = GetUnitWorkFromFormindex(formindex);
+        if (unit && unit->prevtarea == 2) {
+            unit->prevtform = -1;
+            unit->prevtarea = -1;
+        }
+    }
 }
 
 // nbCheckEventDead @ 0x00259AB0

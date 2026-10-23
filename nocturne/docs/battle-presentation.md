@@ -127,3 +127,41 @@ unless its devil can't die (format flag 0x100).
 
 The PS2 action data has no `uniqueid` field (the HD remaster's): the
 action's own address identifies its kouka packets.
+
+## An action's results (`Set*Packet`)
+
+Helpers of the action process record what an action did and queue its
+packets (`source/src/battle/action.cpp`; their code runs from 0x24F420 to
+`SetTarget` at 0x251428, in the HD remaster's order):
+
+- **Press turns:** `SetPress` keeps the worst cost. Below -1 (more than a
+  whole icon) the larger loss wins; above -1 a larger value wins unless more
+  than an icon is already lost; -1 or less only fills an empty (0) cost.
+  `SetNewPress` keeps the highest result type (the table above).
+  `SetAddPressPacket` turns a skill that grants icons (program 13; 2, 3 or 4
+  icons) into result types 15, 17 or 16.
+- **Dodges and misses** (`SetSakePacket`, `SetMissPacket`) cost two icons
+  (result type 4); a dodged single-target skill says so on the status line.
+  `SetHitStopFrame` keeps the earliest hit plus 7 frames.
+- **Deaths** (`SetDeadPacket`) happen when the unit's last packet ends; an
+  enemy leaves its rewards. `SetDamagePacket` hurts the acting unit itself
+  (the curse): Endure, or Never Yield, leaves it at 1 HP once.
+- **Others:** an enemy running away (`SetEnemyEscapePacket`), Macca thrown
+  (`SetMakaPacket`: the player's side can't lose more than it has), a
+  Trafuri-like escape that ends the battle (`SetTorafuPacket`), Analyze,
+  Flare's charge, a hidden unit fading back in (`UnitKyoseiDisp`), and
+  `SetAuroraPacket`, which turns a unit's affinities through rows 0xF8..0xFB
+  of the affinity table.
+
+- **Summons** (`SetPlayerSummonPacket`): an enemy's call for help puts a
+  devil of its choice into the first free of the 10 enemy units
+  (`nbAppendEnemyDevilWork`, HP and MP from its format) and uses up one of
+  the battle's allowed calls; the player's side summons a stock devil, or for
+  skill 0xDF a random one that is in the stock, not out, alive and not at
+  0 HP (`nbGetRandamStock`; none: "no one answered", message 0x3E).
+- A devil talked into joining enters the stock at unit 4 or the first free
+  one after it, and the compendium (`nbGetNakama`).
+
+Not rewritten yet: Ongyo-Ki's clones
+(`SetOngShadowPacket`, `SetOngShadowPacket2`) and `SetAllPacket`, which
+builds a skill's whole result.

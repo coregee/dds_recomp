@@ -53,7 +53,10 @@ void dds3LinkProcess(uint64_t parent, uint64_t process);
 void nbMakeKaifukuPacket(uint64_t startframe, uint64_t uniqueid, uint64_t form, uint64_t type, uint64_t hp, uint64_t mp,
                          uint64_t badstat);   // 0x264010
 void nbDispJyokyoHelp(uint64_t msgid, uint64_t no, uint64_t var_id, uint64_t var_ind);   // 0x2892A8
-void ps2BattleActionChoice_002532A8(uint64_t action, uint64_t hp);   // SetDamagePacket
+uint64_t ps2BattleAction_00263C00(uint64_t startframe, uint64_t uniqueid, uint64_t form, uint64_t type, uint64_t hp,
+                                  uint64_t mp, uint64_t badstat, uint64_t hiteff, uint64_t dead, uint64_t deadtype,
+                                  uint64_t moji, uint64_t animeoff);   // nbMakeDamagePacket
+void nbPanelAnalyzeStart(void);
 uint64_t ps2BattleOutcome_00252CD8(uint64_t action);
 void ps2BattlePanelSetEnabled_00282200(uint64_t enabled);
 uint64_t ps2ProcessGetRunTime(uint64_t process);
@@ -164,7 +167,14 @@ void nb::DispJyokyoHelp(int32_t msgid, int32_t no, int32_t var_id, int32_t var_i
 {
     nbDispJyokyoHelp(signExtend(msgid), signExtend(no), signExtend(var_id), signExtend(var_ind));
 }
-void nb::SetDamagePacket(ActionProcessData& a, int32_t hp) { ps2BattleActionChoice_002532A8(word(guest::addressOf(&a)), signExtend(hp)); }
+void nb::MakeDamagePacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t type, int32_t hp, int32_t mp,
+                          int32_t badstat, int32_t hiteff, int32_t dead, int32_t deadtype, int32_t moji, int32_t animeoff)
+{
+    ps2BattleAction_00263C00(signExtend(startframe), signExtend(uniqueid), word(guest::addressOf(form)), signExtend(type),
+                             signExtend(hp), signExtend(mp), signExtend(badstat), signExtend(hiteff), signExtend(dead),
+                             signExtend(deadtype), signExtend(moji), signExtend(animeoff));
+}
+void nb::PanelAnalyzeStart() { nbPanelAnalyzeStart(); }
 bool nb::EscapeFailed(ActionProcessData& a) { return ps2BattleOutcome_00252CD8(word(guest::addressOf(&a))) != 0; }
 void nb::PanelSetEnabled(bool enabled) { ps2BattlePanelSetEnabled_00282200(enabled ? 1 : 0); }
 int32_t dds3::GetRunTime(uint32_t process) { return static_cast<int32_t>(ps2ProcessGetRunTime(word(process))); }

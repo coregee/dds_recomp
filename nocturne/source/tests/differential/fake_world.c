@@ -645,7 +645,16 @@ void nbMakeKaifukuPacket(uint64_t startframe, uint64_t uniqueid, uint64_t form, 
     fw_mes_log(28, (uint32_t)startframe ^ (uint32_t)type << 16, (uint32_t)uniqueid ^ (uint32_t)form);
     fw_mes_log(29, (uint32_t)hp, (uint32_t)mp ^ (uint32_t)badstat << 16);
 }
-void ps2BattleActionChoice_002532A8(uint64_t action, uint64_t hp) { fw_mes_log(31, (uint32_t)action, (uint32_t)hp); }
+uint64_t ps2BattleAction_00263C00(uint64_t startframe, uint64_t uniqueid, uint64_t form, uint64_t type, uint64_t hp,
+                                  uint64_t mp, uint64_t badstat, uint64_t hiteff, uint64_t dead, uint64_t deadtype,
+                                  uint64_t moji, uint64_t animeoff)
+{
+    fw_mes_log(31, (uint32_t)startframe ^ (uint32_t)type << 20, (uint32_t)uniqueid ^ (uint32_t)form);
+    fw_mes_log(34, (uint32_t)hp, (uint32_t)mp ^ (uint32_t)badstat << 8 ^ (uint32_t)hiteff << 16);
+    fw_mes_log(35, (uint32_t)dead | (uint32_t)deadtype << 8 | (uint32_t)moji << 16 | (uint32_t)animeoff << 24, 0);
+    return 0;
+}
+void nbPanelAnalyzeStart(void) { fw_mes_log(36, 0, 0); }
 uint64_t ps2BattleOutcome_00252CD8(uint64_t action)
 {
     fw_mes_log(32, (uint32_t)action, 0);

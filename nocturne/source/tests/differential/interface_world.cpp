@@ -15,7 +15,18 @@ uint64_t ps2SoundPlay(uint64_t, uint64_t, uint64_t);
 void dds3LinkProcess(uint64_t, uint64_t);
 void nbMakeKaifukuPacket(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
 void nbDispJyokyoHelp(uint64_t, uint64_t, uint64_t, uint64_t);
-void ps2BattleActionChoice_002532A8(uint64_t, uint64_t);
+uint64_t ps2BattleAction_00263C00(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t,
+                                  uint64_t, uint64_t, uint64_t, uint64_t);
+void nbPanelAnalyzeStart(void);
+// Legacy functions tested against the rewrite, for the action's result helpers.
+void ps2CombatAddRewards_00269448(uint64_t);
+uint64_t ps2CombatSingleTargetSkill_0026A448(uint64_t);
+uint64_t ps2CombatScatteredMoney_0026A4B0(uint64_t);
+void nbSetHojoCounter(uint64_t, uint64_t, uint64_t);
+uint64_t nbGetHojoCounter(uint64_t, uint64_t);
+uint64_t nbCheckKuisibariSkill(uint64_t);
+uint64_t nbCheckKuisibari2Skill(uint64_t);
+void nbSetKuisibariStop(uint64_t);
 uint64_t ps2BattleOutcome_00252CD8(uint64_t);
 void ps2BattlePanelSetEnabled_00282200(uint64_t);
 uint64_t ps2CombatCheckEscape_00269E98(uint64_t);   // legacy nbCheckEscape, tested against the rewrite
@@ -112,6 +123,13 @@ ee::Interpreter makeOriginal()
     e.interpret(0x00257b08, 0x00257bf0);   // SetAction_END
     e.interpret(0x00257098, 0x00257488);   // NEGORESULT's check, WAIT, ESCAPE, RETURN, INVISIBLE
     e.interpret(0x00256b88, 0x00256c00);   // CheckAction_NEGO
+    e.interpret(0x0024f420, 0x0024f990);   // UnitKyoseiDisp .. SetAnalyzePacket
+    e.interpret(0x0024fb38, 0x0024fcc0);   // SetSakePacket, SetMissPacket
+    e.interpret(0x002532a8, 0x00253488);   // SetDamagePacket
+    e.interpret(0x0024f990, 0x0024fb38);   // SetPlayerSummonPacket
+    e.interpret(0x00259180, 0x002592b0);   // nbGetNakama, nbSetDevilNameMes
+    e.interpret(0x002594b0, 0x00259658);   // nbAppendEnemyDevilWork, nbGetRandamStock
+    e.interpret(0x002596d0, 0x00259740);   // nbClearCommandMemeoyRenzoku
     e.interpret(0x00257a68, 0x00257b08);   // CHECK3, ATO
     e.interpret(0x00257bf0, 0x00257c80);   // CheckAction_END, nbGetActionSeq, nbGetPrevActionSeq
     e.interpret(0x00257cc8, 0x00257cd0);   // SetNextActionSeq
@@ -153,7 +171,20 @@ ee::Interpreter makeOriginal()
         return uint64_t{0};
     });
     e.hook(0x002892a8, [=](ee::Cpu& c) { nbDispJyokyoHelp(a(c, 0), a(c, 1), a(c, 2), a(c, 3)); return uint64_t{0}; });
-    e.hook(0x002532a8, [=](ee::Cpu& c) { ps2BattleActionChoice_002532A8(a(c, 0), a(c, 1)); return uint64_t{0}; });
+    e.hook(0x00263c00, [=](ee::Cpu& c) {   // nbMakeDamagePacket: arguments 9..12 in 8-byte stack slots
+        auto stack = [&](uint32_t slot) { return sx(at<int32_t>(static_cast<uint32_t>(c.r[29]) + 8 * slot)); };
+        return ps2BattleAction_00263C00(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5), a(c, 6), a(c, 7),
+                                        stack(0), stack(1), stack(2), stack(3));
+    });
+    e.hook(0x00280518, [](ee::Cpu&) { nbPanelAnalyzeStart(); return uint64_t{0}; });
+    e.hook(0x00269448, [=](ee::Cpu& c) { ps2CombatAddRewards_00269448(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x0026a448, [=](ee::Cpu& c) { return ps2CombatSingleTargetSkill_0026A448(a(c, 0)); });
+    e.hook(0x0026a4b0, [=](ee::Cpu& c) { return ps2CombatScatteredMoney_0026A4B0(a(c, 0)); });
+    e.hook(0x00267e50, [=](ee::Cpu& c) { nbSetHojoCounter(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
+    e.hook(0x00267e90, [=](ee::Cpu& c) { return nbGetHojoCounter(a(c, 0), a(c, 1)); });
+    e.hook(0x0026a2d8, [=](ee::Cpu& c) { return nbCheckKuisibariSkill(a(c, 0)); });
+    e.hook(0x0026a338, [=](ee::Cpu& c) { return nbCheckKuisibari2Skill(a(c, 0)); });
+    e.hook(0x0026a398, [=](ee::Cpu& c) { nbSetKuisibariStop(a(c, 0)); return uint64_t{0}; });
     e.hook(0x00252cd8, [=](ee::Cpu& c) { return ps2BattleOutcome_00252CD8(a(c, 0)); });
     e.hook(0x00282200, [=](ee::Cpu& c) { ps2BattlePanelSetEnabled_00282200(a(c, 0)); return uint64_t{0}; });
     e.hook(0x00269e98, [=](ee::Cpu& c) { return ps2CombatCheckEscape_00269E98(a(c, 0)); });
