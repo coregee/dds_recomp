@@ -10,6 +10,7 @@
 #include "nocturne/battle/talk.hpp"
 #include "nocturne/battle/event_process.hpp"
 #include "nocturne/battle/macca_window.hpp"
+#include "nocturne/battle/sound.hpp"
 #include "nocturne/data/progression.hpp"
 #include "nocturne/data/records.hpp"
 #include "nocturne/fusion/combine.hpp"
@@ -126,6 +127,9 @@ SAME_SIZE(nbNegoProcessData, nb::TalkState);
 SAME_SIZE(nbMakaProcessData, nb::MaccaWindow);
 SAME_OFFSET(nbMakaProcessData, nb::MaccaWindow, offtime, closeframes);
 SAME_SIZE(nbEventProcessData, nb::EventProcessData);
+SAME_SIZE(nbSound, nb::SoundEntry);
+SAME_OFFSET(nbSound, nb::SoundEntry, motse_h, handles);
+SAME_OFFSET(nbSound, nb::SoundEntry, negose_h, talkHandle);
 SAME_OFFSET(nbEventProcessData, nb::EventProcessData, mem, mem);
 SAME_OFFSET(nbNegoProcessData, nb::TalkState, nextkouho, candidates);
 SAME_OFFSET(nbNegoProcessData, nb::TalkState, history, history);

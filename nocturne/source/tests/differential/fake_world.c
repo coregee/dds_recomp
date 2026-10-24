@@ -260,6 +260,9 @@ int fw_print_arg_count(uint32_t format)
     case 0x00543e98: return 1;                  /* skill kouka unlock time */
     case 0x00543eb8: return 0;                  /* Kereijyou Koukaga nai */
     case 0x00543ee8: return 1;                  /* press %f */
+    case 0x00545bd0: return 1;                  /* MIDI=0x%08X */
+    case 0x00545ce0: return 2;                  /* nbBgmStop(%d,%d) */
+    case 0x00545ba0: return 2;                  /* encounter rate %d/%d */
     case 0x00543d80: return 0;
     case 0x00543d70: return 0;
     case 0x00543d50: return 0;
@@ -856,6 +859,10 @@ uint64_t frDrawFontEx2(uint64_t font, uint64_t mode, uint64_t ot)
 /* The battle events' surroundings: music, banks, packs, the basic effect. */
 uint64_t ps2SoundPlayMidi_002C1670(uint64_t midi) { fw_mes_log(129, (uint32_t)midi, 0); return 0; }
 uint64_t ps2SoundFadeOut_002C2070(uint64_t midi) { fw_mes_log(129, (uint32_t)midi, 1); return 0; }
+uint64_t ps2SoundSelectOutput_002C20F0(uint64_t value) { fw_mes_log(132, (uint32_t)value, 0); return 0; }
+uint64_t ps2SoundSelectChannel_002C1E70(uint64_t value) { fw_mes_log(133, (uint32_t)value, 0); return 0; }
+/* A memory handle's size (0x2A8FE8). */
+uint64_t fw_handle_size(uint64_t handle) { fw_mes_log(134, (uint32_t)handle, 0); return fw_hash(134, (uint32_t)handle, 0) & 0xfff0; }
 void ps2SoundEnsureBank(uint64_t bank) { fw_mes_log(129, (uint32_t)bank, 2); }
 uint64_t ps2ResourcePacRequestFree(uint64_t request) { fw_mes_log(129, (uint32_t)request, 3); return 0; }
 void ps2BattleActionRequest_00296B88(void) { fw_mes_log(129, 0, 4); }
@@ -899,7 +906,7 @@ void effBTLSkillStart(uint64_t skill, uint64_t arg) { fw_mes_log(66, (uint32_t)s
 void effBTLSkillEnd(void) { fw_mes_log(67, 0, 0); }
 uint64_t effBTLBedName(uint64_t skill) { fw_mes_log(68, (uint32_t)skill, 0); return 0x00777400u + ((uint32_t)skill & 0xff); }
 uint64_t effBTLLoad(uint64_t data) { fw_mes_log(69, (uint32_t)data, 0); return 0x00778000u + (fw_hash(69, (uint32_t)data, 0) & 0xff); }
-uint64_t ps2SoundBankStatus(uint64_t bank) { fw_mes_log(70, (uint32_t)bank, 0); return fw_hash(70, (uint32_t)bank, 0) % 3 != 0; }
+uint64_t ps2SoundBankStatus(uint64_t bank) { fw_mes_log(70, (uint32_t)bank, 0); return fw_hash(70, (uint32_t)bank, 0) % 3; }   /* 0 none, 1 loaded, 2 loading */
 void ps2SoundSetBankSource(uint64_t data, uint64_t size) { fw_mes_log(71, (uint32_t)data, (uint32_t)size); }
 uint64_t fileRequest(uint64_t path) { fw_mes_log(72, (uint32_t)path, 0); return fw_hash(72, (uint32_t)path, 0) % 4 == 0 ? 0 : 0x00779000u + (fw_hash(73, (uint32_t)path, 0) & 0xfff); }
 uint64_t fileCheckEnd(uint64_t request) { fw_mes_log(74, (uint32_t)request, 0); return fw_hash(74, (uint32_t)request, 0) % 3 != 0; }

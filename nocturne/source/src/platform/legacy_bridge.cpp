@@ -40,9 +40,6 @@ void ps2ResourceRequestRelease(uint64_t request);
 uint64_t nbGetMotionActframe(uint64_t form, uint64_t motion, uint32_t speed);   // 0x24D3A0: float in f12
 uint32_t nbGetMotionSpeed(uint64_t form, uint64_t motion, uint32_t speed);      // 0x24D428: float in f12 and f0
 uint64_t nbGetMotionNo(uint64_t form, uint64_t motion);                         // 0x24D490
-void nbStopMotionSe(void);                                                      // 0x28DD78
-uint64_t nbGetMotionSeNo(uint64_t form, uint64_t motion);                       // 0x28D178
-uint64_t nbMemoryLoadMotionSe(uint64_t form, uint64_t motion);                  // 0x28D298
 void nbMakeSkillEffectPacket(uint64_t start, uint64_t timer, uint64_t act, uint64_t form, uint64_t hiteff,
                              uint64_t motiontype, uint64_t skill);              // 0x2617A8
 void nbAddHitEffPacket(uint64_t start, uint64_t act, uint64_t form, uint64_t kind);   // 0x262480
@@ -122,16 +119,16 @@ void nbFormDispOff(uint64_t formindex);
 void nbFormDispOn(uint64_t formindex);
 void nbSetFormPos(uint64_t form, uint64_t pos);
 void nbSetFormRot(uint64_t form, uint64_t rot);
-uint64_t ps2NegoActorMotionId_0028D1B8(uint64_t form);
 void NegoDebugDraw(uint64_t talk);         // 0x26BF00: no legacy C yet
 void NegoDebugSelectDraw(uint64_t talk);   // 0x26C0D8
 uint64_t NegoDebug(uint64_t talk);         // 0x26C2D8
-uint64_t nbMemoryLoadNegoSe(uint64_t form);   // 0x28D1D8: no legacy C yet
 uint64_t nocturneInvokeBattleTalkStep(uint32_t entry, uint64_t talk);
 uint64_t frDrawFontEx2(uint64_t font, uint64_t mode, uint64_t ot);
 uint64_t nocturneInvokeOriginal(uint32_t entry, uint64_t a0, uint64_t a1, uint64_t a2, uint64_t a3);
 uint64_t ps2SoundPlayMidi_002C1670(uint64_t midi);
 uint64_t ps2SoundFadeOut_002C2070(uint64_t midi);
+uint64_t ps2SoundSelectOutput_002C20F0(uint64_t value);
+uint64_t ps2SoundSelectChannel_002C1E70(uint64_t value);
 void ps2SoundEnsureBank(uint64_t bank);
 uint64_t ps2ResourcePacRequestFree(uint64_t request);
 void ps2BattleActionRequest_00296B88(void);
@@ -317,6 +314,9 @@ void eff::BTLSkillEnd() { effBTLSkillEnd(); }
 uint32_t eff::BTLBedName(int32_t skill) { return static_cast<uint32_t>(effBTLBedName(signExtend(skill))); }
 uint32_t eff::BTLLoad(uint32_t data) { return static_cast<uint32_t>(effBTLLoad(word(data))); }
 bool snd::BankReady(uint32_t bank) { return ps2SoundBankStatus(word(bank)) != 0; }
+int32_t snd::BankStatus(uint32_t bank) { return static_cast<int32_t>(ps2SoundBankStatus(word(bank))); }
+void snd::SelectOutput(int32_t piece) { ps2SoundSelectOutput_002C20F0(signExtend(piece)); }
+void snd::SelectChannel(int32_t value) { ps2SoundSelectChannel_002C1E70(signExtend(value)); }
 void snd::SetBankSource(uint32_t data, int32_t size) { ps2SoundSetBankSource(word(data), signExtend(size)); }
 uint32_t file::Request(uint32_t path) { return static_cast<uint32_t>(fileRequest(word(path))); }
 bool file::CheckEnd(uint32_t request) { return fileCheckEnd(word(request)) != 0; }
@@ -334,15 +334,6 @@ ee::Float nb::GetMotionSpeed(ee::Float speed, Formation& form, int32_t motion)
 int32_t nb::GetMotionNo(Formation& form, int32_t motion)
 {
     return static_cast<int32_t>(nbGetMotionNo(word(guest::addressOf(&form)), signExtend(motion)));
-}
-void nb::StopMotionSe() { nbStopMotionSe(); }
-uint32_t nb::GetMotionSeNo(Formation& form, int32_t motion)
-{
-    return static_cast<uint32_t>(nbGetMotionSeNo(word(guest::addressOf(&form)), signExtend(motion)));
-}
-int32_t nb::MemoryLoadMotionSe(Formation& form, int32_t motion)
-{
-    return static_cast<int32_t>(nbMemoryLoadMotionSe(word(guest::addressOf(&form)), signExtend(motion)));
 }
 void nb::MakeSkillEffectPacket(int32_t startframe, int32_t timer, ActionProcessData& a, Formation& form, int32_t hiteff,
                                int32_t motiontype, int32_t skill)
@@ -408,7 +399,6 @@ void nb::SetFormRot(Formation& form, const Vec4& rot) { nbSetFormRot(word(guest:
 void nb::TalkDebugDraw(uint32_t talk) { NegoDebugDraw(word(talk)); }
 void nb::TalkDebugSelectDraw(uint32_t talk) { NegoDebugSelectDraw(word(talk)); }
 int32_t nb::TalkDebug(uint32_t talk) { return static_cast<int32_t>(NegoDebug(word(talk))); }
-bool nb::LoadTalkSound(Formation& form) { return nbMemoryLoadNegoSe(word(guest::addressOf(&form))) != 0; }
 uint32_t guest::callOriginal(uint32_t entry, uint32_t a0, uint32_t a1, uint32_t a2, uint32_t a3)
 {
     return static_cast<uint32_t>(nocturneInvokeOriginal(entry, word(a0), word(a1), word(a2), word(a3)));
@@ -440,7 +430,6 @@ int32_t guest::callMovePackets(uint32_t entry, int32_t startframe, int32_t uniqu
 {
     return static_cast<int32_t>(nocturneInvokeBattleMovePackets(entry, signExtend(startframe), signExtend(uniqueid), word(form), word(target)));
 }
-int32_t nb::ActorSoundId(Formation& form) { return static_cast<int32_t>(ps2NegoActorMotionId_0028D1B8(word(guest::addressOf(&form)))); }
 void nb::AllFormDispOn() { nbAllFormDispOn(); }
 void nb::GroupFormDispOff(int32_t side) { nbGroupFormDispOff(signExtend(side)); }
 void nb::GroupFormDispOn(int32_t side) { nbGroupFormDispOn(signExtend(side)); }

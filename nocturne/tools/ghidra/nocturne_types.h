@@ -572,6 +572,16 @@ typedef struct nbEventProcessData {
     u32 userdata, usershutdown, file, pfile, mem;
 } nbEventProcessData;
 
+/* One unit's sound banks in the battle's table (nbSound_t). */
+typedef struct nbSound {
+    s16 exist;
+    u16 id;
+    s32 linkcnt;
+    u32 request[26];
+    u32 motse_h[26];
+    u32 negorequest, negose_h;
+} nbSound;
+
 typedef struct nbHelpProcessData {
     s32 type;
     PTR32(char) text1;

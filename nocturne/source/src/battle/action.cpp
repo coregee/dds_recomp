@@ -20,6 +20,7 @@
 #include "nocturne/battle/kouka.hpp"
 #include "nocturne/battle/pad.hpp"
 #include "nocturne/battle/skill_error.hpp"
+#include "nocturne/battle/sound.hpp"
 #include "nocturne/battle/target_select.hpp"
 #include "nocturne/battle/targeting.hpp"
 #include "nocturne/data/progression.hpp"
@@ -1373,7 +1374,7 @@ constexpr uint32_t kMidiPath = 0x00575360;   // char[]: the skill's sound file n
 void enterReady(ActionProcessData& a)
 {
     MainProcessData& main = *a.data;
-    nb::StopMotionSe();
+    switchMusic();
     a.press = ee::Float::fromBits(0);
     a.form->motionenddata = 0;
     a.form->motionend = 0;
@@ -1476,7 +1477,7 @@ void enterReady(ActionProcessData& a)
     a.form->motiontype = static_cast<int16_t>(motionType);
     a.motion = motion;
     if (!(a.stat & 0x100))
-        a.motionSound = nb::MemoryLoadMotionSe(*a.form, motion);
+        a.motionSound = loadMotionSound(*a.form, motion) ? 1 : 0;
 
     // When the hit lands (timer), and how the target packets aim.
     int16_t targeting = 0;
@@ -1659,12 +1660,12 @@ int32_t updateReady(ActionProcessData& a)
     case 0:
         ++a.skilltime;
         if (a.motionSound != 0) {
-            if (!snd::BankReady(nb::GetMotionSeNo(*a.form, a.motion))) {
+            if (!snd::BankReady(formationMotionBank(*a.form, a.motion))) {
                 diag::print(diag::Message::MotionSoundWait);
                 return 0;
             }
             a.data->stat &= ~0x200u;
-            addSoundPacket2(0, uniqueOf(a), nb::GetMotionSeNo(*a.form, a.motion));
+            addSoundPacket2(0, uniqueOf(a), formationMotionBank(*a.form, a.motion));
         }
         a.hEffBTL = 0;
         a.seqcnt = a.hSkillSe ? 1 : a.hBed ? 3 : 5;

@@ -5,6 +5,7 @@
 #include <cstring>
 #include <deque>
 #include <string>
+#include <vector>
 
 #include "harness.hpp"
 #include "interface_world.hpp"
@@ -20,6 +21,8 @@
 #include "nocturne/battle/kouka_process.hpp"
 #include "nocturne/battle/macca_window.hpp"
 #include "nocturne/battle/battle_panel.hpp"
+#include "nocturne/battle/encount.hpp"
+#include "nocturne/battle/sound.hpp"
 #include "nocturne/battle/talk.hpp"
 #include "nocturne/battle/talk_flow.hpp"
 #include "nocturne/effect/cut.hpp"
@@ -31,6 +34,8 @@
 
 extern "C" {
 uint32_t ps2PoolAllocate(int32_t);
+uint32_t ps2MemoryHandleAllocate(int32_t);
+uint32_t ps2MemoryHandleAcquirePointer(uint32_t);
 uint64_t dds3StartProcess(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
 uint64_t dds3GetProcessData(uint64_t);
 }
@@ -1799,6 +1804,8 @@ void addKoukaTests(std::vector<TestCase>& t)
     static int32_t talkWindow = 0;
     static std::vector<int32_t> talkMessages;   // the window's table's messages
     auto talkWorld = [](Gen& g) {
+        for (int f = 0; f < 14; ++f)   // (a formation's index is its slot, as in the game)
+            at<Formation>(formAddress(f)).formindex = static_cast<int16_t>(f);
         TalkState& n = at<TalkState>(FW_TALK);
         std::memset(&n, 0, sizeof(TalkState));
         n.stat = static_cast<uint32_t>(g.rng()) & 0xf;
@@ -1943,7 +1950,11 @@ void addKoukaTests(std::vector<TestCase>& t)
     for (int yes = 0; yes < 2; ++yes) {
         talk(yes ? "nbSetNegoYesMotion" : "nbSetNegoNoMotion", [=](Gen& g) {
             at<TalkState>(FW_TALK).actdata.address = FW_ACTION;
-            const uint32_t form = formAddress(g.range(0, 13));
+            int f = g.range(0, 13);   // (the talker, a unit)
+            while (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)))
+                f = g.range(0, 13);
+            const uint32_t form = formAddress(f);
+            at<Formation>(form).formindex = static_cast<int16_t>(f);
             const uint32_t original = yes ? 0x0026be40u : 0x0026bde0u;
             return Pair{[=] { return origVm(original, {FW_TALK, form}); },
                         [=] { return norm(yes ? agreeMotion(at<TalkState>(FW_TALK), at<Formation>(form))
@@ -2451,6 +2462,251 @@ void addKoukaTests(std::vector<TestCase>& t)
         eventWorld(g);
         return Pair{[] { return origVmVoid(0x0028ffb0, {FW_MAIN}); }, [] { startEvent(at<MainProcessData>(FW_MAIN)); return uint64_t{0}; }};
     });
+    // ---- the battle's sounds (nbSound) ----
+    // A formation with a unit, and its id as the sound table knows it.
+    auto soundForm = [](Gen& g) {
+        int f = g.range(0, 13);
+        while (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)))
+            f = g.range(0, 13);
+        Formation& form = at<Formation>(formAddress(f));
+        form.formindex = static_cast<int16_t>(f);
+        UnitWork& unit = at<UnitWork>(at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)));
+        unit.id = static_cast<uint16_t>(g.chance(10) ? g.range(0x150, 0x17f) : g.range(1, 0x14f));
+        return formAddress(f);
+    };
+    // The table of ten units' banks, some in use (the units' ids, or others),
+    // their files loading or loaded.
+    auto soundWorld = [=](Gen& g) {
+        koukaWorld(g);
+        MainProcessData& main = at<MainProcessData>(FW_MAIN);
+        main.sound_mem = ps2MemoryHandleAllocate(kSoundEntries * static_cast<int32_t>(sizeof(SoundEntry)));
+        main.sound = ps2MemoryHandleAcquirePointer(main.sound_mem);
+        std::vector<uint32_t> forms, ids;
+        for (int k = 0; k < 4; ++k)
+            forms.push_back(soundForm(g));
+        for (uint32_t f : forms)
+            ids.push_back(static_cast<uint32_t>(formationUnitId(at<Formation>(f))));
+        const bool full = g.chance(5);
+        for (int i = 0; i < kSoundEntries; ++i) {
+            SoundEntry& e = at<SoundEntry>(main.sound + static_cast<uint32_t>(i) * sizeof(SoundEntry));
+            e = SoundEntry{};
+            if (!full && !g.chance(55))
+                continue;
+            e.used = 1;
+            e.unitid = static_cast<uint16_t>(g.chance(50) ? ids[g.below(4)] : static_cast<uint32_t>(g.range(0, 0x17f)));
+            e.refs = g.range(1, 3);
+            for (int k = 0; k < kMotionSounds; ++k) {
+                if (g.chance(30))
+                    e.requests[k] = 0x00779000u + static_cast<uint32_t>(g.range(1, 0xfff));
+                if (g.chance(40))
+                    e.handles[k] = 0x0077a001u + 0x10u * static_cast<uint32_t>(g.range(0, 0xff));
+            }
+            if (g.chance(40))
+                e.talkRequest = 0x00779000u + static_cast<uint32_t>(g.range(1, 0xfff));
+            if (g.chance(50))
+                e.talkHandle = 0x0077a001u + 0x10u * static_cast<uint32_t>(g.range(0, 0xff));
+        }
+        main.stat = static_cast<uint32_t>(g.rng()) & ~0x200u;
+        return forms;
+    };
+    // One of those formations, or any other with a unit.
+    auto someSoundForm = [=](Gen& g, const std::vector<uint32_t>& forms) {
+        return g.chance(70) ? forms[g.below(static_cast<uint32_t>(forms.size()))] : soundForm(g);
+    };
+    auto someUnitId = [=](Gen& g, const std::vector<uint32_t>& forms) {
+        return g.chance(60) ? static_cast<uint32_t>(formationUnitId(at<Formation>(forms[g.below(static_cast<uint32_t>(forms.size()))])))
+                            : static_cast<uint32_t>(g.range(0, 0x17f));
+    };
+    add("GetUnitID", [=](Gen& g) {
+        const uint32_t form = soundForm(g);
+        return Pair{[=] { return origVm(0x0028d070, {form}); }, [=] { return norm(formationUnitId(at<Formation>(form))); }};
+    });
+    add("nbGetMotionSeNo", [](Gen& g) {
+        const int32_t model = g.chance(10) ? 0 : g.range(1, 303), motion = g.range(0, 26);
+        return Pair{[=] { return origVm(0x0028d0b0, {I(model), I(motion)}); }, [=] { return norm(motionSound(model, motion)); }};
+    });
+    add("GetMotionMIDI", [](Gen& g) {
+        const int32_t id = g.range(0, 0x17f), motion = g.range(0, 25);
+        return Pair{[=] { return origVm(0x0028d100, {I(id), I(motion)}); }, [=] { return norm(static_cast<int32_t>(motionBank(id, motion))); }};
+    });
+    add("nbGetMotionMIDI", [=](Gen& g) {
+        const uint32_t form = soundForm(g);
+        const int32_t motion = g.range(0, 25);
+        return Pair{[=] { return origVm(0x0028d178, {form, I(motion)}); },
+                    [=] { return norm(static_cast<int32_t>(formationMotionBank(at<Formation>(form), motion))); }};
+    });
+    add("GetNegoMIDI", [](Gen& g) {
+        const int32_t id = g.range(0, 0x17f);
+        return Pair{[=] { return origVm(0x0028d1a8, {I(id)}); }, [=] { return norm(static_cast<int32_t>(talkBank(id))); }};
+    });
+    add("nbGetNegoMIDI", [=](Gen& g) {
+        const uint32_t form = soundForm(g);
+        return Pair{[=] { return origVm(0x0028d1b8, {form}); }, [=] { return norm(static_cast<int32_t>(formationTalkBank(at<Formation>(form)))); }};
+    });
+    add("nbMemoryLoadNegoSe", [=](Gen& g) {
+        const uint32_t form = someSoundForm(g, soundWorld(g));
+        return Pair{[=] { return origVm(0x0028d1d8, {form}); }, [=] { return norm(loadTalkSound(at<Formation>(form))); }};
+    });
+    add("nbMemoryLoadMotionSe", [=](Gen& g) {
+        const uint32_t form = someSoundForm(g, soundWorld(g));
+        const int32_t motion = g.chance(5) ? -1 : g.range(0, 25);
+        return Pair{[=] { return origVm(0x0028d298, {form, I(motion)}); }, [=] { return norm(loadMotionSound(at<Formation>(form), motion)); }};
+    });
+    add("nbReleaseUnitSounds", [=](Gen& g) {   // (0x28D3A8)
+        const uint32_t id = someUnitId(g, soundWorld(g));
+        return Pair{[=] { return origVmVoid(0x0028d3a8, {id}); }, [=] { releaseUnitSounds(id); return uint64_t{0}; }};
+    });
+    add("nbRetainUnitSounds", [=](Gen& g) {   // (0x28D418)
+        const uint32_t id = someUnitId(g, soundWorld(g));
+        return Pair{[=] { return origVm(0x0028d418, {id}); }, [=] { return norm(static_cast<int32_t>(nocturne::guest::addressOf(retainUnitSounds(id)))); }};
+    });
+    add("nbRequestUnitSounds", [=](Gen& g) {   // (0x28D4B8)
+        const uint32_t id = someUnitId(g, soundWorld(g));
+        return Pair{[=] { return origVm(0x0028d4b8, {id}); }, [=] { return norm(requestUnitSounds(id)); }};
+    });
+    add("nbUpdateSoundTable", [=](Gen& g) {
+        soundWorld(g);
+        return Pair{[] { return origVmVoid(0x0028d5c0, {FW_MAIN}); }, [] { updateSoundTable(at<MainProcessData>(FW_MAIN)); return uint64_t{0}; }};
+    });
+    add("nbEmptySoundEntry", [=](Gen& g) {   // (0x28D6C0)
+        soundWorld(g);
+        return Pair{[] { return origVm(0x0028d6c0, {}); }, [] { return norm(emptySoundEntry()); }};
+    });
+    add("nbFindUnitSounds", [=](Gen& g) {   // (0x28D718)
+        const uint32_t id = someUnitId(g, soundWorld(g));
+        return Pair{[=] { return origVm(0x0028d718, {id}); }, [=] { return norm(findUnitSounds(id)); }};
+    });
+    add("nbFreeSound1", [=](Gen& g) {
+        soundWorld(g);
+        const int32_t index = g.range(0, kSoundEntries - 1);
+        return Pair{[=] { return origVmVoid(0x0028d778, {FW_MAIN, I(index)}); },
+                    [=] { clearSoundEntry(at<MainProcessData>(FW_MAIN), index); return uint64_t{0}; }};
+    });
+    add("nbFreeSound", [=](Gen& g) {
+        soundWorld(g);
+        return Pair{[] { return origVmVoid(0x0028d850, {FW_MAIN}); }, [] { freeSounds(at<MainProcessData>(FW_MAIN)); return uint64_t{0}; }};
+    });
+    add("nbInitSound", [](Gen& g) {
+        koukaWorld(g);
+        return Pair{[] { return origVmVoid(0x0028d8b0, {FW_MAIN}); }, [] { initSounds(at<MainProcessData>(FW_MAIN)); return uint64_t{0}; }};
+    });
+    // The music: the encounter's type (sometimes an area pack's, or none),
+    // and the loader's state.
+    auto musicWorld = [](Gen& g) {
+        koukaWorld(g);
+        MainProcessData& main = at<MainProcessData>(FW_MAIN);
+        main.encpackno = g.chance(20) ? 0 : g.chance(5) ? -1 : g.range(1, 255);
+        main.encno = g.range(0, 1269);
+        uint32_t* state = &at<uint32_t>(0x00551524);
+        static const uint32_t pieces[] = {0, 0x150001, 0x150002, 0x1f0002, 0x40001, 0x110000, 0x800001};
+        for (int i = 0; i < 3; ++i)
+            state[i] = g.pick(pieces);
+        if (g.chance(10))
+            state[1] = 0xffffffffu;
+        state[3] = static_cast<uint32_t>(g.range(0, 40));
+        state[4] = static_cast<uint32_t>(g.range(1, 0x8b)) << 16;
+        state[5] = static_cast<uint32_t>(g.range(1, 0x8b)) << 16;
+        state[6] = static_cast<uint32_t>(g.chance(30) ? 0 : g.range(0, 6));
+        state[7] = static_cast<uint32_t>(g.chance(70) ? 0 : 1);
+    };
+    auto encdata = [](Gen& g) {
+        return g.chance(30) ? 0u : static_cast<uint32_t>(g.range(0, 255)) << 24 | static_cast<uint32_t>(g.range(0, 1269));
+    };
+    add("GetBgmCategory", [](Gen& g) {
+        const int32_t pack = g.chance(20) ? 0 : g.chance(5) ? -g.range(1, 5) : g.range(1, 255), encno = g.range(0, 1269);
+        return Pair{[=] { return origVm(0x0028cfc8, {I(pack), I(encno)}); }, [=] { return norm(encounterMusic(pack, encno)); }};
+    });
+    add("nbGetBgmCategoryInBattle", [=](Gen& g) {
+        musicWorld(g);
+        return Pair{[] { return origVm(0x0028d028, {}); }, [] { return norm(battleMusic()); }};
+    });
+    add("nbGetBgmCategoryInField", [=](Gen& g) {
+        const uint32_t data = encdata(g);
+        return Pair{[=] { return origVm(0x0028d050, {data}); }, [=] { return norm(fieldMusic(data)); }};
+    });
+    // ---- random encounters (nbEncount) ----
+    // The walk so far, the count, the threshold rolled (or not yet), the
+    // field skills, Kagutsuchi and the Demi-fiend's level.
+    auto encounterWorld = [](Gen& g) {
+        GlobalWork& work = nocturne::dat::globalWork();
+        work.encountDistance = nocturne::ee::Float::fromBits(static_cast<uint32_t>(floatBits(g.chance(20) ? 0.0f : static_cast<float>(g.range(0, 4000)) / 16.0f)));
+        work.encountCount = static_cast<uint16_t>(g.chance(5) ? g.range(64995, 64999) : g.chance(10) ? g.range(64985, 65535) : g.chance(40) ? g.range(0, 60) : g.range(0, 400));
+        work.fieldskills = static_cast<uint32_t>(g.range(0, 15));
+        work.moon_phase = static_cast<uint8_t>(g.range(0, 15));
+        work.units[0].level = static_cast<uint16_t>(g.range(1, 99));
+        for (uint32_t& bits : work.event_bits)
+            bits = static_cast<uint32_t>(g.rng());
+        at<int32_t>(0x00551520) = g.chance(40) ? 0 : g.chance(10) ? -g.range(1, 10) : g.chance(50) ? g.range(16, 40) : g.range(16, 700);
+    };
+    // (Pack 169 is the only one with a second event bit.)
+    auto somePack = [](Gen& g) { return g.chance(5) ? 0 : g.chance(10) ? 169 : g.range(1, 255); };
+    add("nbGetEncountJoken", [=](Gen& g) {
+        encounterWorld(g);
+        const int32_t pack = somePack(g);
+        return Pair{[=] { return origVm(0x0028c9f0, {I(pack)}); }, [=] { return norm(encounterTable(pack)); }};
+    });
+    add("nbGetEncountMax", [=](Gen& g) {
+        encounterWorld(g);
+        const int32_t pack = somePack(g);
+        return Pair{[=] { return origVm(0x0028cb68, {I(pack)}); }, [=] { return norm(encounterThreshold(pack)); }};
+    });
+    add("nbGetEncountCnt", [=](Gen& g) {
+        encounterWorld(g);
+        return Pair{[] { return origVm(0x0028cc98, {}); }, [] { return norm(encounterCount()); }};
+    });
+    add("nbEncountCalc", [=](Gen& g) {
+        encounterWorld(g);
+        const int32_t pack = somePack(g);
+        float length = g.chance(10) ? 0.0f : g.chance(10) ? -1.5f : static_cast<float>(g.range(1, 9000)) / 16.0f;
+        if (g.chance(10)) {   // (exactly a step)
+            const uint32_t walked = nocturne::dat::globalWork().encountDistance.bits();
+            float f;
+            std::memcpy(&f, &walked, 4);
+            length = 100.0f - f;
+        }
+        if (g.chance(5)) {   // (one step without Riberama onto the count's cap)
+            GlobalWork& work = nocturne::dat::globalWork();
+            work.encountCount = 64999;
+            work.fieldskills &= ~2u;
+            work.encountDistance = nocturne::ee::Float::fromBits(0);
+            length = 100.0f;
+        }
+        const uint32_t bits = static_cast<uint32_t>(floatBits(length));
+        return Pair{[=] { return origVm(0x0028cca8, {I(pack)}, {bits}); },
+                    [=] { return norm(walkForEncounter(pack, nocturne::ee::Float::fromBits(bits))); }};
+    });
+    add("nbCheckEncountLevel", [=](Gen& g) {
+        encounterWorld(g);
+        const int32_t encno = g.chance(5) ? 0 : g.range(1, 1269);
+        return Pair{[=] { return origVm(0x0028cee0, {I(encno)}); }, [=] { return norm(encounterWorthFighting(encno)); }};
+    });
+    add("nbResetEncountCount", [=](Gen& g) {
+        encounterWorld(g);
+        return Pair{[] { return origVmVoid(0x0028cfb0, {}); }, [] { resetEncounterCount(); return uint64_t{0}; }};
+    });
+    add("nbBgmLoadChk", [=](Gen& g) {
+        musicWorld(g);
+        return Pair{[] { return origVm(0x0028d918, {}); }, [] { return norm(musicLoaded()); }};
+    });
+    add("nbBgmLoad", [=](Gen& g) {
+        musicWorld(g);
+        const uint32_t data = encdata(g);
+        if (g.chance(70))
+            at<uint32_t>(0x00551524 + 0x18) = 0;
+        return Pair{[=] { return origVmVoid(0x0028d9e0, {data}); }, [=] { loadMusic(data); return uint64_t{0}; }};
+    });
+    struct MusicCall { const char* name; uint32_t original; void (*rewrite)(); };
+    static const MusicCall kMusicCalls[] = {
+        {"nbBgmNext", 0x0028dd50, nextMusic}, {"nbBgmPlay", 0x0028dd60, playMusic}, {"nbBgmTrans", 0x0028dd78, switchMusic},
+        {"nbBgmFadeOut", 0x0028dda8, fadeOutMusic}, {"nbBgmStop", 0x0028ddd0, stopMusic}, {"nbBgmChannelReset", 0x0028de28, resetMusicChannel},
+    };
+    for (const MusicCall& call : kMusicCalls) {
+        const MusicCall* m = &call;
+        add(m->name, [=](Gen& g) {
+            musicWorld(g);
+            return Pair{[=] { return origVmVoid(m->original, {}); }, [=] { m->rewrite(); return uint64_t{0}; }};
+        });
+    }
     add("nbFormDispOff2", [](Gen& g) {
         const uint32_t f = formAddress(g.range(0, 13));
         return Pair{[=] { return origVmVoid(0x00289bb8, {f}); }, [=] { hideFormation(at<Formation>(f)); return uint64_t{0}; }};

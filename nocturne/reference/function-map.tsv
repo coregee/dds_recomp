@@ -5043,12 +5043,12 @@ address	size	name	name_source	status	rewrite	legacy
 00212e28	416	FUN_00212e28	DEFAULT	unknown		
 00212fd0	376	FUN_00212fd0	DEFAULT	unknown		
 002131e0	80	cmbSortKeisyoSkillCallback	USER_DEFINED	legacy		fusion_sort.c:ps2FusionSortCompareSkill_002131E0
-00213230	76	cmbDevilSortCallback	USER_DEFINED	legacy		fusion_sort.c:ps2FusionSortCompareDescriptor_00213230
+00213230	76	cmbDevilSortCallback	USER_DEFINED	rewritten	src/fusion/sort.cpp:compareDevils	fusion_sort.c:ps2FusionSortCompareDescriptor_00213230
 00213280	60	ps2FusionSortPack_00213280	USER_DEFINED	legacy		fusion_sort.c:ps2FusionSortPack_00213280
 002132c0	60	ps2FusionSortUnpack_002132C0	USER_DEFINED	legacy		fusion_sort.c:ps2FusionSortUnpack_002132C0
 00213300	36	FUN_00213300	DEFAULT	unknown		
 00213350	76	ps2FusionSortSkills_00213350	USER_DEFINED	rewritten	src/fusion/sort.cpp:sortInheritedSkills	fusion_sort.c:ps2FusionSortSkills_00213350
-002133a0	84	ps2FusionSortDescriptors_002133A0	USER_DEFINED	legacy		fusion_sort.c:ps2FusionSortDescriptors_002133A0
+002133a0	84	ps2FusionSortDescriptors_002133A0	USER_DEFINED	rewritten	src/fusion/sort.cpp:sortDevilsByRace	fusion_sort.c:ps2FusionSortDescriptors_002133A0
 002133f8	232	FUN_002133f8	DEFAULT	unknown		
 00213518	200	FUN_00213518	DEFAULT	unknown		
 002135e0	200	ps2ShopListCursorMove_002135E0	USER_DEFINED	legacy		shop_selection.c:ps2ShopListCursorMove_002135E0
@@ -6967,7 +6967,7 @@ address	size	name	name_source	status	rewrite	legacy
 0027fa48	40	FUN_0027fa48	DEFAULT	unknown		
 0027fa70	8	FUN_0027fa70	DEFAULT	unknown		
 0027fa78	12	nbPanelStockEnd	USER_DEFINED	legacy		battle_status_pairs.c:body_0027fa78;battle_status_pairs_native.c:body_0027fa78
-0027fa88	12	nbPanelStockFadeOut	USER_DEFINED	named		
+0027fa88	12	nbPanelStockFadeOut	USER_DEFINED	rewritten	src/battle/kouka_process.cpp:startStockPanelFadeOut	
 0027fa98	264	nbPanelStockSelectInit	USER_DEFINED	legacy		battle_status_pairs.c:body_0027fa98;battle_status_pairs_native.c:body_0027fa98
 0027fba0	360	nbPanelStockSelectCtrl	USER_DEFINED	legacy		battle_panel_color_prerequisites.c:body_0027fba0;battle_panel_renderer_prerequisites.c:body_0027fba0;battle_panel_support.c:nbPanelStockSelectCtrl
 0027fd18	2020	nbPanelStockSelect	USER_DEFINED	legacy		battle_panel_color_callers.c:body_0027fd18;battle_stock_renderer.c:nbPanelStockSelect
@@ -7195,41 +7195,41 @@ address	size	name	name_source	status	rewrite	legacy
 0028c8c8	72	FUN_0028c8c8	DEFAULT	unknown		
 0028c920	40	FUN_0028c920	DEFAULT	unknown		
 0028c948	164	FUN_0028c948	DEFAULT	unknown		
-0028c9f0	360	ps2FieldEncounterCondition_0028C9F0	USER_DEFINED	legacy		field_encounter.c:ps2FieldEncounterCondition_0028C9F0;field_movement_encounter_constructor.c:body_0028c9f0
-0028cb68	304	ps2FieldEncounterThreshold_0028CB68	USER_DEFINED	legacy		field_encounter.c:ps2FieldEncounterThreshold_0028CB68;field_movement_encounter_constructor.c:body_0028cb68
-0028cc98	12	ps2FieldEncounterCount_0028CC98	USER_DEFINED	legacy		field_encounter.c:ps2FieldEncounterCount_0028CC98
-0028cca8	560	ps2FieldEncounterAdvance_0028CCA8	USER_DEFINED	legacy		field_encounter.c:ps2FieldEncounterAdvance_0028CCA8;field_movement_encounter_constructor.c:body_0028cca8
-0028cee0	208	ps2FieldEncounterCheckLevel_0028CEE0	USER_DEFINED	legacy		field_encounter.c:ps2FieldEncounterCheckLevel_0028CEE0;field_movement_encounter_constructor.c:body_0028cee0
-0028cfb0	20	ps2FieldEncounterReset_0028CFB0	USER_DEFINED	legacy		field_encounter.c:ps2FieldEncounterReset_0028CFB0;field_movement_encounter_constructor.c:body_0028cfb0
-0028cfc8	96	ps2FieldEncounterMusic_0028CFC8	USER_DEFINED	legacy		field_encounter.c:ps2FieldEncounterMusic_0028CFC8
-0028d028	36	ps2FieldEncounterBattleMusic_0028D028	USER_DEFINED	legacy		field_encounter.c:ps2FieldEncounterBattleMusic_0028D028
-0028d050	28	ps2FieldEncounterFieldMusic_0028D050	USER_DEFINED	legacy		field_encounter.c:ps2FieldEncounterFieldMusic_0028D050
-0028d070	32	ps2NegoActorUnitId_0028D070	USER_DEFINED	legacy		negotiation_fullmoon_support.c:ps2NegoActorUnitId_0028D070
+0028c9f0	360	ps2FieldEncounterCondition_0028C9F0	USER_DEFINED	rewritten	src/battle/encount.cpp:encounterTable	field_encounter.c:ps2FieldEncounterCondition_0028C9F0;field_movement_encounter_constructor.c:body_0028c9f0
+0028cb68	304	ps2FieldEncounterThreshold_0028CB68	USER_DEFINED	rewritten	src/battle/encount.cpp:encounterThreshold	field_encounter.c:ps2FieldEncounterThreshold_0028CB68;field_movement_encounter_constructor.c:body_0028cb68
+0028cc98	12	ps2FieldEncounterCount_0028CC98	USER_DEFINED	rewritten	src/battle/encount.cpp:encounterCount	field_encounter.c:ps2FieldEncounterCount_0028CC98
+0028cca8	560	ps2FieldEncounterAdvance_0028CCA8	USER_DEFINED	rewritten	src/battle/encount.cpp:walkForEncounter	field_encounter.c:ps2FieldEncounterAdvance_0028CCA8;field_movement_encounter_constructor.c:body_0028cca8
+0028cee0	208	ps2FieldEncounterCheckLevel_0028CEE0	USER_DEFINED	rewritten	src/battle/encount.cpp:encounterWorthFighting	field_encounter.c:ps2FieldEncounterCheckLevel_0028CEE0;field_movement_encounter_constructor.c:body_0028cee0
+0028cfb0	20	ps2FieldEncounterReset_0028CFB0	USER_DEFINED	rewritten	src/battle/encount.cpp:resetEncounterCount	field_encounter.c:ps2FieldEncounterReset_0028CFB0;field_movement_encounter_constructor.c:body_0028cfb0
+0028cfc8	96	ps2FieldEncounterMusic_0028CFC8	USER_DEFINED	rewritten	src/battle/encount.cpp:encounterMusic	field_encounter.c:ps2FieldEncounterMusic_0028CFC8
+0028d028	36	ps2FieldEncounterBattleMusic_0028D028	USER_DEFINED	rewritten	src/battle/encount.cpp:battleMusic	field_encounter.c:ps2FieldEncounterBattleMusic_0028D028
+0028d050	28	ps2FieldEncounterFieldMusic_0028D050	USER_DEFINED	rewritten	src/battle/encount.cpp:fieldMusic	field_encounter.c:ps2FieldEncounterFieldMusic_0028D050
+0028d070	32	ps2NegoActorUnitId_0028D070	USER_DEFINED	rewritten	src/battle/sound.cpp:formationUnitId	negotiation_fullmoon_support.c:ps2NegoActorUnitId_0028D070
 0028d090	28	nbPlaySe	USER_DEFINED	rewritten	src/battle/target_select.cpp:playBattleSound	battle_status_pairs.c:body_0028d090;battle_status_pairs_native.c:body_0028d090
-0028d0b0	72	FUN_0028d0b0	DEFAULT	unknown		
-0028d100	120	FUN_0028d100	DEFAULT	unknown		
-0028d178	44	nbGetMotionSeNo	USER_DEFINED	named		
-0028d1a8	12	ps2NegoPackMotionId_0028D1A8	USER_DEFINED	legacy		negotiation_fullmoon_support.c:ps2NegoPackMotionId_0028D1A8
-0028d1b8	32	ps2NegoActorMotionId_0028D1B8	USER_DEFINED	legacy		negotiation_fullmoon_support.c:ps2NegoActorMotionId_0028D1B8
-0028d1d8	188	nbMemoryLoadNegoSe	USER_DEFINED	named		
-0028d298	272	nbMemoryLoadMotionSe	USER_DEFINED	named		
-0028d3a8	108	FUN_0028d3a8	DEFAULT	unknown		
-0028d418	156	FUN_0028d418	DEFAULT	unknown		
-0028d4b8	260	FUN_0028d4b8	DEFAULT	unknown		
-0028d5c0	256	FUN_0028d5c0	DEFAULT	unknown		
-0028d6c0	84	FUN_0028d6c0	DEFAULT	unknown		
-0028d718	96	FUN_0028d718	DEFAULT	unknown		
-0028d778	216	FUN_0028d778	DEFAULT	unknown		
-0028d850	92	FUN_0028d850	DEFAULT	unknown		
-0028d8b0	104	FUN_0028d8b0	DEFAULT	unknown		
-0028d918	196	FUN_0028d918	DEFAULT	unknown		
-0028d9e0	836	FUN_0028d9e0	DEFAULT	unknown		
-0028dd50	16	FUN_0028dd50	DEFAULT	legacy		battle_reward_lifecycle_native.c:body_0028dd50;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_0028DD50
-0028dd60	24	FUN_0028dd60	DEFAULT	unknown		
-0028dd78	44	nbStopMotionSe	USER_DEFINED	named		
-0028dda8	36	FUN_0028dda8	DEFAULT	legacy		battle_reward_lifecycle_native.c:body_0028dda8;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_0028DDA8
-0028ddd0	60	FUN_0028ddd0	DEFAULT	unknown		
-0028de28	24	FUN_0028de28	DEFAULT	unknown		
+0028d0b0	72	nbGetMotionSeNo	USER_DEFINED	rewritten	src/battle/sound.cpp:motionSound	
+0028d100	120	GetMotionMIDI	USER_DEFINED	rewritten	src/battle/sound.cpp:motionBank	
+0028d178	44	nbGetMotionSeNo	USER_DEFINED	rewritten	src/battle/sound.cpp:formationMotionBank	
+0028d1a8	12	ps2NegoPackMotionId_0028D1A8	USER_DEFINED	rewritten	src/battle/sound.cpp:talkBank	negotiation_fullmoon_support.c:ps2NegoPackMotionId_0028D1A8
+0028d1b8	32	ps2NegoActorMotionId_0028D1B8	USER_DEFINED	rewritten	src/battle/sound.cpp:formationTalkBank	negotiation_fullmoon_support.c:ps2NegoActorMotionId_0028D1B8
+0028d1d8	188	nbMemoryLoadNegoSe	USER_DEFINED	rewritten	src/battle/sound.cpp:loadTalkSound	
+0028d298	272	nbMemoryLoadMotionSe	USER_DEFINED	rewritten	src/battle/sound.cpp:loadMotionSound	
+0028d3a8	108	nbReleaseUnitSound	USER_DEFINED	rewritten	src/battle/sound.cpp:releaseUnitSounds	
+0028d418	156	nbRetainUnitSound	USER_DEFINED	rewritten	src/battle/sound.cpp:retainUnitSounds	
+0028d4b8	260	nbRequestUnitSound	USER_DEFINED	rewritten	src/battle/sound.cpp:requestUnitSounds	
+0028d5c0	256	nbUpdateSoundTable	USER_DEFINED	rewritten	src/battle/sound.cpp:updateSoundTable	
+0028d6c0	84	nbEmptySoundEntry	USER_DEFINED	rewritten	src/battle/sound.cpp:emptySoundEntry	
+0028d718	96	nbFindUnitSound	USER_DEFINED	rewritten	src/battle/sound.cpp:findUnitSounds	
+0028d778	216	nbFreeSound1	USER_DEFINED	rewritten	src/battle/sound.cpp:clearSoundEntry	
+0028d850	92	nbFreeSound	USER_DEFINED	rewritten	src/battle/sound.cpp:freeSounds	
+0028d8b0	104	nbInitSound	USER_DEFINED	rewritten	src/battle/sound.cpp:initSounds	
+0028d918	196	nbBgmLoadChk	USER_DEFINED	rewritten	src/battle/sound.cpp:musicLoaded	
+0028d9e0	836	nbBgmLoad	USER_DEFINED	rewritten	src/battle/sound.cpp:loadMusic	
+0028dd50	16	nbBgmNext	USER_DEFINED	rewritten	src/battle/sound.cpp:nextMusic	battle_reward_lifecycle_native.c:body_0028dd50;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_0028DD50
+0028dd60	24	nbBgmPlay	USER_DEFINED	rewritten	src/battle/sound.cpp:playMusic	
+0028dd78	44	nbStopMotionSe	USER_DEFINED	rewritten	src/battle/sound.cpp:switchMusic	
+0028dda8	36	nbBgmFadeOut	USER_DEFINED	rewritten	src/battle/sound.cpp:fadeOutMusic	battle_reward_lifecycle_native.c:body_0028dda8;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_0028DDA8
+0028ddd0	60	nbBgmStop	USER_DEFINED	rewritten	src/battle/sound.cpp:stopMusic	
+0028de28	24	nbBgmChannelReset	USER_DEFINED	rewritten	src/battle/sound.cpp:resetMusicChannel	
 0028de40	172	FUN_0028de40	DEFAULT	unknown		
 0028def0	212	FUN_0028def0	DEFAULT	unknown		
 0028dfc8	288	FUN_0028dfc8	DEFAULT	unknown		
@@ -7258,9 +7258,9 @@ address	size	name	name_source	status	rewrite	legacy
 0028f218	56	GetMakaProcessData	USER_DEFINED	rewritten	src/battle/macca_window.cpp:maccaWindow	
 0028f258	84	nbMakaDispOn	USER_DEFINED	rewritten	src/battle/macca_window.cpp:showMacca	
 0028f2b0	72	nbMakaDispOff	USER_DEFINED	rewritten	src/battle/macca_window.cpp:hideMacca	
-0028f2f8	80	nbMakaDigit	USER_DEFINED	named		
+0028f2f8	80	nbMakaDigit	USER_DEFINED	rewritten	src/battle/macca_window.cpp:maccaDigit	
 0028f348	692	DispMaka	USER_DEFINED	rewritten	src/battle/macca_window.cpp:drawMaccaWindow	
-0028f600	140	nbMakaFade	USER_DEFINED	named		
+0028f600	140	nbMakaFade	USER_DEFINED	rewritten	src/battle/macca_window.cpp:stepMaccaWindow	
 0028f698	88	nbMakaProcess1	USER_DEFINED	rewritten	src/battle/macca_window.cpp:runMaccaWindow	
 0028f6f0	48	nbMakaShutdown	USER_DEFINED	rewritten	src/battle/macca_window.cpp:shutdownMaccaWindow	
 0028f728	72	InitMakaProcessData	USER_DEFINED	rewritten	src/battle/macca_window.cpp:newMaccaWindow	

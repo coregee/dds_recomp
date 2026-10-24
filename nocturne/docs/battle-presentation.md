@@ -531,3 +531,42 @@ while `keep` is set; otherwise it closes 20 frames after `nbMakaDispOff`.
 `DispMaka` draws a three-piece panel from the battle panel texture, then
 seven digits, most significant first, with leading zeros left blank (a
 zero amount shows "0").
+
+## Sounds (`nbSound`)
+
+Sound banks are named by a file number in the upper half of a word:
+`/sound/MIDI%04X.SMG`. The lower half picks a piece in the bank.
+
+**Unit banks.** Each motion of a unit's model can have its own bank, and a
+demon's talks have one more:
+
+- a motion's bank is 0x1000 + model x 16 + the motion's piece, where the
+  model comes from the table at 0x3E7028. That table maps almost every unit
+  to itself; 173 to 175 and 204 to 206 share another unit's sounds. The
+  piece comes from the model record's motion entry, and -1 means no sound;
+- a talk bank is 0x500 + the unit.
+
+The battle keeps a table of ten units' banks (`MainProcessData::sound`, 0xE0
+bytes each):
+
+- a unit joining requests its files, or adds one more user to its entry;
+- `nbUpdateSoundTable` collects the files as they finish loading;
+- a motion or a talk sends its bank to sound memory when needed, unless the
+  bank is already there or on its way;
+- the last user leaving frees the entry.
+
+**Music.** The battle's music type is the encounter's own (`btlsound`), else
+its area pack's, else 1. Each type has a main bank, a bank of pieces, and
+the pieces played:
+
+- types 1 to 3 are the normal battles. Their pieces' bank is one of seven or
+  eight, picked by a counter that `nbBgmNext` advances;
+- types 1 and 2 also have a second piece. `nbBgmTrans` switches to it at
+  the first action's start (the action process's READY state).
+
+`nbBgmLoadChk` loads the two banks one step per call. `nbBgmStop` fades the
+pieces out, plus piece 0x2B0000.
+
+The names `nbBgmTrans` and `nbBgmFadeOut` are tentative: they follow the HD
+remaster's order. Ghidra's old name for the switch, `nbStopMotionSe`, was
+wrong.

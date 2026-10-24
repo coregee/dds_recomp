@@ -157,6 +157,9 @@ void effBTLSkillEnd(void);
 uint64_t effBTLBedName(uint64_t);
 uint64_t effBTLLoad(uint64_t);
 uint64_t ps2SoundBankStatus(uint64_t);
+uint64_t ps2SoundSelectOutput_002C20F0(uint64_t);
+uint64_t ps2SoundSelectChannel_002C1E70(uint64_t);
+uint64_t fw_handle_size(uint64_t);
 void ps2SoundSetBankSource(uint64_t, uint64_t);
 uint64_t fileRequest(uint64_t);
 uint64_t fileCheckEnd(uint64_t);
@@ -287,7 +290,7 @@ ee::Interpreter makeOriginal()
     e.interpret(0x00257488, 0x00257a68);   // CHECK1
     e.interpret(0x0025d690, 0x0025d948);   // nbTarSelProcess: the record, its state, AnimeTargetCursor
     e.interpret(0x0025de40, 0x0025e8e0);   // nbTarSelProcess: SetCursor .. nbInitTarSelProcess
-    e.interpret(0x0028d090, 0x0028d0b0);   // nbPlaySe
+    e.interpret(0x0028c9f0, 0x0028de40);   // nbEncount, nbSound (with nbPlaySe)
     e.interpret(0x00259c90, 0x00259d20);   // nbCommSelProcess: GetCommListCnt, GetCommSelProcessData
     e.interpret(0x0025b408, 0x0025b598);   // AnimeCommandList
     e.interpret(0x0025c190, 0x0025c908);   // CheckSelectError .. nbCloseCommSel
@@ -492,11 +495,9 @@ ee::Interpreter makeOriginal()
     e.hook(0x0024e020, [=](ee::Cpu& c) { nbSetDamage2(a(c, 0), static_cast<uint32_t>(c.f[12])); return uint64_t{0}; });
     e.hook(0x0024e040, [=](ee::Cpu& c) { nbSetBadstatMotion(a(c, 0), a(c, 1), static_cast<uint32_t>(c.f[12])); return uint64_t{0}; });
     e.hook(0x0024e0e8, [=](ee::Cpu& c) { nbSetBadstatMotion2(a(c, 0)); return uint64_t{0}; });
-    e.hook(0x0028d1b8, [=](ee::Cpu& c) { return ps2NegoActorMotionId_0028D1B8(a(c, 0)); });
     e.hook(0x0026bf00, [=](ee::Cpu& c) { NegoDebugDraw(a(c, 0)); return uint64_t{0}; });
     e.hook(0x0026c0d8, [=](ee::Cpu& c) { NegoDebugSelectDraw(a(c, 0)); return uint64_t{0}; });
     e.hook(0x0026c2d8, [=](ee::Cpu& c) { return NegoDebug(a(c, 0)); });
-    e.hook(0x0028d1d8, [=](ee::Cpu& c) { return nbMemoryLoadNegoSe(a(c, 0)); });
     e.hook(0x002c20a0, [](ee::Cpu&) { ps2SoundVolumeHalfDown_002C20A0(); return uint64_t{0}; });
     e.hook(0x002c20c8, [](ee::Cpu&) { ps2SoundVolumeHalfUp_002C20C8(); return uint64_t{0}; });
     e.hook(0x00777300, [=](ee::Cpu& c) { return fw_talk_step(a(c, 0)); });   // the tests' talk step
@@ -531,6 +532,9 @@ ee::Interpreter makeOriginal()
     e.hook(0x001748a0, [=](ee::Cpu& c) { return effBTLBedName(a(c, 0)); });
     e.hook(0x0016a9c0, [=](ee::Cpu& c) { return effBTLLoad(a(c, 0)); });
     e.hook(0x002c1c20, [=](ee::Cpu& c) { return ps2SoundBankStatus(a(c, 0)); });
+    e.hook(0x002c20f0, [=](ee::Cpu& c) { return ps2SoundSelectOutput_002C20F0(a(c, 0)); });
+    e.hook(0x002c1e70, [=](ee::Cpu& c) { return ps2SoundSelectChannel_002C1E70(a(c, 0)); });
+    e.hook(0x002a8fe8, [=](ee::Cpu& c) { return fw_handle_size(a(c, 0)); });
     e.hook(0x002c1db0, [=](ee::Cpu& c) { ps2SoundSetBankSource(a(c, 0), a(c, 1)); return uint64_t{0}; });
     e.hook(0x00296a68, [=](ee::Cpu& c) { return fileRequest(a(c, 0)); });
     e.hook(0x00296ac8, [=](ee::Cpu& c) { return fileCheckEnd(a(c, 0)); });
@@ -540,9 +544,6 @@ ee::Interpreter makeOriginal()
     e.hook(0x0024d3a0, [=](ee::Cpu& c) { return nbGetMotionActframe(a(c, 0), a(c, 1), c.f[12]); });
     e.hook(0x0024d428, [=](ee::Cpu& c) { c.f[0] = nbGetMotionSpeed(a(c, 0), a(c, 1), c.f[12]); return uint64_t{0}; });
     e.hook(0x0024d490, [=](ee::Cpu& c) { return nbGetMotionNo(a(c, 0), a(c, 1)); });
-    e.hook(0x0028dd78, [](ee::Cpu&) { nbStopMotionSe(); return uint64_t{0}; });
-    e.hook(0x0028d178, [=](ee::Cpu& c) { return nbGetMotionSeNo(a(c, 0), a(c, 1)); });
-    e.hook(0x0028d298, [=](ee::Cpu& c) { return nbMemoryLoadMotionSe(a(c, 0), a(c, 1)); });
     e.hook(0x002617a8, [=](ee::Cpu& c) {
         nbMakeSkillEffectPacket(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5), a(c, 6));
         return uint64_t{0};

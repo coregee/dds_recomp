@@ -94,6 +94,8 @@ src/
   battle/formation.cpp              nbFormation: formations shown, hidden, put back in place
   battle/event_process.cpp          nbEventProcess: the battle's events (deaths', scripts')
   battle/macca_window.cpp           nbMakaProcess: the Macca window (its process, fade and drawing)
+  battle/sound.cpp                  nbSound: the units' sound banks and the battle music
+  battle/encount.cpp                nbEncount: random encounters in the field, the music type
   battle/camera.cpp                 nbCameraProcess: camera states
   battle/target_select.cpp          nbTarSelProcess: choosing a target
   battle/skill_error.cpp            nbSkillError: skills that would do nothing

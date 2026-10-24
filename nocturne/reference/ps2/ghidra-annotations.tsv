@@ -3032,12 +3032,30 @@ symbol	0028d028	Function	ps2FieldEncounterBattleMusic_0028D028	Global
 symbol	0028d050	Function	ps2FieldEncounterFieldMusic_0028D050	Global
 symbol	0028d070	Function	ps2NegoActorUnitId_0028D070	Global
 symbol	0028d090	Function	nbPlaySe	Global
+symbol	0028d0b0	Function	nbGetMotionSeNo	Global
+symbol	0028d100	Function	GetMotionMIDI	Global
 symbol	0028d178	Function	nbGetMotionSeNo	Global
 symbol	0028d1a8	Function	ps2NegoPackMotionId_0028D1A8	Global
 symbol	0028d1b8	Function	ps2NegoActorMotionId_0028D1B8	Global
 symbol	0028d1d8	Function	nbMemoryLoadNegoSe	Global
 symbol	0028d298	Function	nbMemoryLoadMotionSe	Global
+symbol	0028d3a8	Function	nbReleaseUnitSound	Global
+symbol	0028d418	Function	nbRetainUnitSound	Global
+symbol	0028d4b8	Function	nbRequestUnitSound	Global
+symbol	0028d5c0	Function	nbUpdateSoundTable	Global
+symbol	0028d6c0	Function	nbEmptySoundEntry	Global
+symbol	0028d718	Function	nbFindUnitSound	Global
+symbol	0028d778	Function	nbFreeSound1	Global
+symbol	0028d850	Function	nbFreeSound	Global
+symbol	0028d8b0	Function	nbInitSound	Global
+symbol	0028d918	Function	nbBgmLoadChk	Global
+symbol	0028d9e0	Function	nbBgmLoad	Global
+symbol	0028dd50	Function	nbBgmNext	Global
+symbol	0028dd60	Function	nbBgmPlay	Global
 symbol	0028dd78	Function	nbStopMotionSe	Global
+symbol	0028dda8	Function	nbBgmFadeOut	Global
+symbol	0028ddd0	Function	nbBgmStop	Global
+symbol	0028de28	Function	nbBgmChannelReset	Global
 symbol	0028e3c8	Function	SetSingleTarget	Global
 symbol	0028e470	Function	SetGroupTarget	Global
 symbol	0028e4b0	Function	SetTarget	Global
@@ -13977,53 +13995,85 @@ signature	0028b528		nbSetEnemySummonFormation	int nbSetEnemySummonFormation(nbMa
 function_repeatable_comment	0028b528		nbSetEnemySummonFormation	Three complete native bodies using actual work/scheduler,affinity/effects/power/support,default RNG,parameters,software-double and libc dependencies;no game-result hooks. Raw64 results,full declared RAM,Status,FCSR condition,primitives,ordered libc traces and native callee saves compared. AI header modes1/2 and changed action/encounter/model tables are constructed branch states;retail384 AI modes are separately audited and all0. Preview estimator retains RNG/support-clear side effects;mode2 compact winning ordinal remaps across every flags4 slot. Summon clears4..13 before availability,reads encounter byte+22,stride26,loops unbounded unsigned byte count and uses full64 signed devil guard with lowword model address. Arithmetic FCSR flags,timing,physical gameplay and matching binary unproved. Bounded valid nonaliasing contexts,queues,units and libc stdout;selector orchestration/command52 remain outstanding. No checkpoint.
 variable	0028b528	a0_lo:4	data	nbMainProcessData *
 variable	0028b528	a1_lo:4	devil	int
-signature	0028c9f0		ps2FieldEncounterCondition_0028C9F0	ulonglong ps2FieldEncounterCondition_0028C9F0(ulonglong arg_0)
+signature	0028c9f0		ps2FieldEncounterCondition_0028C9F0	int ps2FieldEncounterCondition_0028C9F0(int id)
 function_repeatable_comment	0028c9f0		ps2FieldEncounterCondition_0028C9F0	Nine original Nocturne field encounter/Estoma/music bodies. Compiled C matches1200 original cases through native table/RNG/event/moon/player/process/formatter ownership. Native raw64 integer slots and mixed A0/F12 Advance interface retained; Reset has VOID result. 420-byte packs/12 choices,100-distance steps,16-bit wrap before65000 cap,11-halfword level scan and unsigned16 music are original PS2 behavior. Unity nbEncount supplies8 qualified role references; opaque Reset is a PS2-only alias. Semantic value profile excludes full volatile/private frames,FCSR arithmetic flags,timing,unrecovered field transition caller and physical gameplay. Source candidate and canonical integration retain separate evidence epochs; see analysis/field-encounter-study.json and analysis/field-encounter-review.json.
-variable	0028c9f0	a0:8	arg_0	ulonglong
-signature	0028cb68		ps2FieldEncounterThreshold_0028CB68	ulonglong ps2FieldEncounterThreshold_0028CB68(ulonglong arg_0)
+variable	0028c9f0	a0_lo:4	id	int
+signature	0028cb68		ps2FieldEncounterThreshold_0028CB68	int ps2FieldEncounterThreshold_0028CB68(int id)
 function_repeatable_comment	0028cb68		ps2FieldEncounterThreshold_0028CB68	Nine original Nocturne field encounter/Estoma/music bodies. Compiled C matches1200 original cases through native table/RNG/event/moon/player/process/formatter ownership. Native raw64 integer slots and mixed A0/F12 Advance interface retained; Reset has VOID result. 420-byte packs/12 choices,100-distance steps,16-bit wrap before65000 cap,11-halfword level scan and unsigned16 music are original PS2 behavior. Unity nbEncount supplies8 qualified role references; opaque Reset is a PS2-only alias. Semantic value profile excludes full volatile/private frames,FCSR arithmetic flags,timing,unrecovered field transition caller and physical gameplay. Source candidate and canonical integration retain separate evidence epochs; see analysis/field-encounter-study.json and analysis/field-encounter-review.json.
-variable	0028cb68	a0:8	arg_0	ulonglong
-signature	0028cc98		ps2FieldEncounterCount_0028CC98	ulonglong ps2FieldEncounterCount_0028CC98(void)
+variable	0028cb68	a0_lo:4	id	int
+signature	0028cc98		ps2FieldEncounterCount_0028CC98	int ps2FieldEncounterCount_0028CC98(void)
 function_repeatable_comment	0028cc98		ps2FieldEncounterCount_0028CC98	Nine original Nocturne field encounter/Estoma/music bodies. Compiled C matches1200 original cases through native table/RNG/event/moon/player/process/formatter ownership. Native raw64 integer slots and mixed A0/F12 Advance interface retained; Reset has VOID result. 420-byte packs/12 choices,100-distance steps,16-bit wrap before65000 cap,11-halfword level scan and unsigned16 music are original PS2 behavior. Unity nbEncount supplies8 qualified role references; opaque Reset is a PS2-only alias. Semantic value profile excludes full volatile/private frames,FCSR arithmetic flags,timing,unrecovered field transition caller and physical gameplay. Source candidate and canonical integration retain separate evidence epochs; see analysis/field-encounter-study.json and analysis/field-encounter-review.json.
-signature	0028cca8		ps2FieldEncounterAdvance_0028CCA8	ulonglong ps2FieldEncounterAdvance_0028CCA8(ulonglong arg_0, float arg_1)
+signature	0028cca8		ps2FieldEncounterAdvance_0028CCA8	int ps2FieldEncounterAdvance_0028CCA8(int id, float length)
 function_repeatable_comment	0028cca8		ps2FieldEncounterAdvance_0028CCA8	Nine original Nocturne field encounter/Estoma/music bodies. Compiled C matches1200 original cases through native table/RNG/event/moon/player/process/formatter ownership. Native raw64 integer slots and mixed A0/F12 Advance interface retained; Reset has VOID result. 420-byte packs/12 choices,100-distance steps,16-bit wrap before65000 cap,11-halfword level scan and unsigned16 music are original PS2 behavior. Unity nbEncount supplies8 qualified role references; opaque Reset is a PS2-only alias. Semantic value profile excludes full volatile/private frames,FCSR arithmetic flags,timing,unrecovered field transition caller and physical gameplay. Source candidate and canonical integration retain separate evidence epochs; see analysis/field-encounter-study.json and analysis/field-encounter-review.json.
-variable	0028cca8	a0:8	arg_0	ulonglong
-variable	0028cca8	f12:4	arg_1	float
-signature	0028cee0		ps2FieldEncounterCheckLevel_0028CEE0	ulonglong ps2FieldEncounterCheckLevel_0028CEE0(ulonglong arg_0)
+variable	0028cca8	a0_lo:4	id	int
+variable	0028cca8	f12:4	length	float
+signature	0028cee0		ps2FieldEncounterCheckLevel_0028CEE0	int ps2FieldEncounterCheckLevel_0028CEE0(int tbl)
 function_repeatable_comment	0028cee0		ps2FieldEncounterCheckLevel_0028CEE0	Nine original Nocturne field encounter/Estoma/music bodies. Compiled C matches1200 original cases through native table/RNG/event/moon/player/process/formatter ownership. Native raw64 integer slots and mixed A0/F12 Advance interface retained; Reset has VOID result. 420-byte packs/12 choices,100-distance steps,16-bit wrap before65000 cap,11-halfword level scan and unsigned16 music are original PS2 behavior. Unity nbEncount supplies8 qualified role references; opaque Reset is a PS2-only alias. Semantic value profile excludes full volatile/private frames,FCSR arithmetic flags,timing,unrecovered field transition caller and physical gameplay. Source candidate and canonical integration retain separate evidence epochs; see analysis/field-encounter-study.json and analysis/field-encounter-review.json.
-variable	0028cee0	a0:8	arg_0	ulonglong
+variable	0028cee0	a0_lo:4	tbl	int
 signature	0028cfb0		ps2FieldEncounterReset_0028CFB0	void ps2FieldEncounterReset_0028CFB0(void)
 function_repeatable_comment	0028cfb0		ps2FieldEncounterReset_0028CFB0	Nine original Nocturne field encounter/Estoma/music bodies. Compiled C matches1200 original cases through native table/RNG/event/moon/player/process/formatter ownership. Native raw64 integer slots and mixed A0/F12 Advance interface retained; Reset has VOID result. 420-byte packs/12 choices,100-distance steps,16-bit wrap before65000 cap,11-halfword level scan and unsigned16 music are original PS2 behavior. Unity nbEncount supplies8 qualified role references; opaque Reset is a PS2-only alias. Semantic value profile excludes full volatile/private frames,FCSR arithmetic flags,timing,unrecovered field transition caller and physical gameplay. Source candidate and canonical integration retain separate evidence epochs; see analysis/field-encounter-study.json and analysis/field-encounter-review.json.
-signature	0028cfc8		ps2FieldEncounterMusic_0028CFC8	ulonglong ps2FieldEncounterMusic_0028CFC8(ulonglong arg_0, ulonglong arg_1)
+signature	0028cfc8		ps2FieldEncounterMusic_0028CFC8	int ps2FieldEncounterMusic_0028CFC8(int packno, int encno)
 function_repeatable_comment	0028cfc8		ps2FieldEncounterMusic_0028CFC8	Nine original Nocturne field encounter/Estoma/music bodies. Compiled C matches1200 original cases through native table/RNG/event/moon/player/process/formatter ownership. Native raw64 integer slots and mixed A0/F12 Advance interface retained; Reset has VOID result. 420-byte packs/12 choices,100-distance steps,16-bit wrap before65000 cap,11-halfword level scan and unsigned16 music are original PS2 behavior. Unity nbEncount supplies8 qualified role references; opaque Reset is a PS2-only alias. Semantic value profile excludes full volatile/private frames,FCSR arithmetic flags,timing,unrecovered field transition caller and physical gameplay. Source candidate and canonical integration retain separate evidence epochs; see analysis/field-encounter-study.json and analysis/field-encounter-review.json.
-variable	0028cfc8	a0:8	arg_0	ulonglong
-variable	0028cfc8	a1:8	arg_1	ulonglong
-signature	0028d028		ps2FieldEncounterBattleMusic_0028D028	ulonglong ps2FieldEncounterBattleMusic_0028D028(void)
+variable	0028cfc8	a0_lo:4	packno	int
+variable	0028cfc8	a1_lo:4	encno	int
+signature	0028d028		ps2FieldEncounterBattleMusic_0028D028	int ps2FieldEncounterBattleMusic_0028D028(void)
 function_repeatable_comment	0028d028		ps2FieldEncounterBattleMusic_0028D028	Nine original Nocturne field encounter/Estoma/music bodies. Compiled C matches1200 original cases through native table/RNG/event/moon/player/process/formatter ownership. Native raw64 integer slots and mixed A0/F12 Advance interface retained; Reset has VOID result. 420-byte packs/12 choices,100-distance steps,16-bit wrap before65000 cap,11-halfword level scan and unsigned16 music are original PS2 behavior. Unity nbEncount supplies8 qualified role references; opaque Reset is a PS2-only alias. Semantic value profile excludes full volatile/private frames,FCSR arithmetic flags,timing,unrecovered field transition caller and physical gameplay. Source candidate and canonical integration retain separate evidence epochs; see analysis/field-encounter-study.json and analysis/field-encounter-review.json.
-signature	0028d050		ps2FieldEncounterFieldMusic_0028D050	ulonglong ps2FieldEncounterFieldMusic_0028D050(ulonglong arg_0)
+signature	0028d050		ps2FieldEncounterFieldMusic_0028D050	int ps2FieldEncounterFieldMusic_0028D050(int encdata)
 function_repeatable_comment	0028d050		ps2FieldEncounterFieldMusic_0028D050	Nine original Nocturne field encounter/Estoma/music bodies. Compiled C matches1200 original cases through native table/RNG/event/moon/player/process/formatter ownership. Native raw64 integer slots and mixed A0/F12 Advance interface retained; Reset has VOID result. 420-byte packs/12 choices,100-distance steps,16-bit wrap before65000 cap,11-halfword level scan and unsigned16 music are original PS2 behavior. Unity nbEncount supplies8 qualified role references; opaque Reset is a PS2-only alias. Semantic value profile excludes full volatile/private frames,FCSR arithmetic flags,timing,unrecovered field transition caller and physical gameplay. Source candidate and canonical integration retain separate evidence epochs; see analysis/field-encounter-study.json and analysis/field-encounter-review.json.
-variable	0028d050	a0:8	arg_0	ulonglong
-signature	0028d070		ps2NegoActorUnitId_0028D070	ulonglong ps2NegoActorUnitId_0028D070(ulonglong arg_0)
+variable	0028d050	a0_lo:4	encdata	int
+signature	0028d070		ps2NegoActorUnitId_0028D070	int ps2NegoActorUnitId_0028D070(nbFormation * form)
 function_repeatable_comment	0028d070		ps2NegoActorUnitId_0028D070	27 complete original FullMoon phase/prerequisite bodies,3816B. Authenticated HD roles; native integer widths, signed comparisons, original COP1 constant/arithmetic, queue aliases, real message construction/packet/formation/category owners prevail. Actual577 staged4480 original/8960 strictOd+O2 C proof. All954 original member words decoded; every ordinary PC outside9 cold selector1/default alternatives observed. Source retains alternatives. Phase11 other formatted lengths/private scratch tails, dispatcher2741F8, dialogue scheduling/rendering, runtime loaders and physical gameplay remain outside finite proof. No canonical/count mutation.
-variable	0028d070	a0:8	arg_0	ulonglong
+variable	0028d070	a0_lo:4	form	nbFormation *
 signature	0028d090		nbPlaySe	void nbPlaySe(int se)
 function_repeatable_comment	0028d090		nbPlaySe	[Nocturne StatusPairs private bank contract]\nSource-derived candidate; no behavioral admission or public prototype claim.\nInteger entry slots (raw low64): ["a0"]; resident FP inputs: none identified.\nAll actual CPU/FPR/VU/HI-LO/Status/FCSR/RAM effects and native RA/SP continuation remain part of the private bank contract. GP, saved registers and native frame contents remain context inputs.\nRole: A0 sound command plus source-owned constants127/63; tail2C18D8. Genuine kernel/sound boundaries remain possible.\nNo semantic scalar result is promoted; incidental V0 effects remain intact.\nExternal services may stop execution; no kernel/IOP completion is supplied.\nEvidence: analysis/battle-status-pairs-helper-contracts.json; ELF member words SHA256=6c31d8adf22ee4c274e2c503744180b326b187de3f82653174343ac4d9915362.\n[/Nocturne StatusPairs private bank contract]
 variable	0028d090	a0_lo:4	se	int
-signature	0028d178		nbGetMotionSeNo	u32 nbGetMotionSeNo(nbFormation * form, int motion)
+signature	0028d0b0		nbGetMotionSeNo	int nbGetMotionSeNo(int id, int mot)
+variable	0028d0b0	a0_lo:4	id	int
+variable	0028d0b0	a1_lo:4	mot	int
+signature	0028d100		GetMotionMIDI	u32 GetMotionMIDI(int id, int mot)
+variable	0028d100	a0_lo:4	id	int
+variable	0028d100	a1_lo:4	mot	int
+signature	0028d178		nbGetMotionSeNo	u32 nbGetMotionSeNo(nbFormation * form, int mot)
 variable	0028d178	a0_lo:4	form	nbFormation *
-variable	0028d178	a1_lo:4	motion	int
-signature	0028d1a8		ps2NegoPackMotionId_0028D1A8	ulonglong ps2NegoPackMotionId_0028D1A8(ulonglong arg_0)
+variable	0028d178	a1_lo:4	mot	int
+signature	0028d1a8		ps2NegoPackMotionId_0028D1A8	u32 ps2NegoPackMotionId_0028D1A8(int id)
 function_repeatable_comment	0028d1a8		ps2NegoPackMotionId_0028D1A8	27 complete original FullMoon phase/prerequisite bodies,3816B. Authenticated HD roles; native integer widths, signed comparisons, original COP1 constant/arithmetic, queue aliases, real message construction/packet/formation/category owners prevail. Actual577 staged4480 original/8960 strictOd+O2 C proof. All954 original member words decoded; every ordinary PC outside9 cold selector1/default alternatives observed. Source retains alternatives. Phase11 other formatted lengths/private scratch tails, dispatcher2741F8, dialogue scheduling/rendering, runtime loaders and physical gameplay remain outside finite proof. No canonical/count mutation.
-variable	0028d1a8	a0:8	arg_0	ulonglong
-signature	0028d1b8		ps2NegoActorMotionId_0028D1B8	ulonglong ps2NegoActorMotionId_0028D1B8(ulonglong arg_0)
+variable	0028d1a8	a0_lo:4	id	int
+signature	0028d1b8		ps2NegoActorMotionId_0028D1B8	u32 ps2NegoActorMotionId_0028D1B8(nbFormation * form)
 function_repeatable_comment	0028d1b8		ps2NegoActorMotionId_0028D1B8	27 complete original FullMoon phase/prerequisite bodies,3816B. Authenticated HD roles; native integer widths, signed comparisons, original COP1 constant/arithmetic, queue aliases, real message construction/packet/formation/category owners prevail. Actual577 staged4480 original/8960 strictOd+O2 C proof. All954 original member words decoded; every ordinary PC outside9 cold selector1/default alternatives observed. Source retains alternatives. Phase11 other formatted lengths/private scratch tails, dispatcher2741F8, dialogue scheduling/rendering, runtime loaders and physical gameplay remain outside finite proof. No canonical/count mutation.
-variable	0028d1b8	a0:8	arg_0	ulonglong
+variable	0028d1b8	a0_lo:4	form	nbFormation *
 signature	0028d1d8		nbMemoryLoadNegoSe	int nbMemoryLoadNegoSe(nbFormation * form)
 variable	0028d1d8	a0_lo:4	form	nbFormation *
-signature	0028d298		nbMemoryLoadMotionSe	int nbMemoryLoadMotionSe(nbFormation * form, int motion)
+signature	0028d298		nbMemoryLoadMotionSe	int nbMemoryLoadMotionSe(nbFormation * form, int mot)
 variable	0028d298	a0_lo:4	form	nbFormation *
-variable	0028d298	a1_lo:4	motion	int
+variable	0028d298	a1_lo:4	mot	int
+signature	0028d3a8		nbReleaseUnitSound	void nbReleaseUnitSound(u32 id)
+variable	0028d3a8	a0_lo:4	id	u32
+signature	0028d418		nbRetainUnitSound	nbSound * nbRetainUnitSound(u32 id)
+variable	0028d418	a0_lo:4	id	u32
+signature	0028d4b8		nbRequestUnitSound	int nbRequestUnitSound(u32 id)
+variable	0028d4b8	a0_lo:4	id	u32
+signature	0028d5c0		nbUpdateSoundTable	void nbUpdateSoundTable(nbMainProcessData * data)
+variable	0028d5c0	a0_lo:4	data	nbMainProcessData *
+signature	0028d6c0		nbEmptySoundEntry	int nbEmptySoundEntry(void)
+signature	0028d718		nbFindUnitSound	int nbFindUnitSound(u32 id)
+variable	0028d718	a0_lo:4	id	u32
+signature	0028d778		nbFreeSound1	void nbFreeSound1(nbMainProcessData * data, int index)
+variable	0028d778	a0_lo:4	data	nbMainProcessData *
+variable	0028d778	a1_lo:4	index	int
+signature	0028d850		nbFreeSound	void nbFreeSound(nbMainProcessData * data)
+variable	0028d850	a0_lo:4	data	nbMainProcessData *
+signature	0028d8b0		nbInitSound	void nbInitSound(nbMainProcessData * data)
+variable	0028d8b0	a0_lo:4	data	nbMainProcessData *
+signature	0028d918		nbBgmLoadChk	int nbBgmLoadChk(void)
+signature	0028d9e0		nbBgmLoad	void nbBgmLoad(u32 encdata)
+variable	0028d9e0	a0_lo:4	encdata	u32
+signature	0028dd50		nbBgmNext	void nbBgmNext(void)
+signature	0028dd60		nbBgmPlay	void nbBgmPlay(void)
 signature	0028dd78		nbStopMotionSe	void nbStopMotionSe(void)
+signature	0028dda8		nbBgmFadeOut	void nbBgmFadeOut(void)
+signature	0028ddd0		nbBgmStop	void nbBgmStop(void)
+signature	0028de28		nbBgmChannelReset	void nbBgmChannelReset(void)
 signature	0028e3c8		SetSingleTarget	void SetSingleTarget(nbActionProcessData * a)
 function_repeatable_comment	0028e3c8		SetSingleTarget	[Nocturne StatusPairs private bank contract]\nSource-derived candidate; no behavioral admission or public prototype claim.\nInteger entry slots (raw low64): ["a0"]; resident FP inputs: none identified.\nAll actual CPU/FPR/VU/HI-LO/Status/FCSR/RAM effects and native RA/SP continuation remain part of the private bank contract. GP, saved registers and native frame contents remain context inputs.\nRole: Action context A0; native list over16 actors, real RNG, actor+78 bit8 update.\nNo semantic scalar result is promoted; incidental V0 effects remain intact.\nExternal services may stop execution; no kernel/IOP completion is supplied.\nEvidence: analysis/battle-status-pairs-helper-contracts.json; ELF member words SHA256=f05ba17fcaded7f27949688af949177a6b9c4afb8a7c8dbe8694f1e8e1ae5dd1.\n[/Nocturne StatusPairs private bank contract]
 variable	0028e3c8	a0_lo:4	a	nbActionProcessData *

@@ -350,6 +350,8 @@ const StaticRange kWrittenStatics[] = {
     {0x0054e804, 0x20},                                    // the kernel's stop and slow motion (dds3Stop, dds3SlowOn)
     {0x00551208, 4},                                       // the stock panel's fade out
     {0x00551d80, 4},                                       // the skill effect's state (effBTLSkillSetState)
+    {0x00551520, 0x24},                                    // the encounter threshold (nbGetEncountMax), the battle music (nbBgmLoad)
+    {0x00575450, 0x20},                                    // a unit's sound file name
 };
 
 std::vector<uint8_t> captureStatics()

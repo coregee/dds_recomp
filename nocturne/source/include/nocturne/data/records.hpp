@@ -351,7 +351,8 @@ static_assert(sizeof(EventDevil) == 8);
 struct UnitMotion {
     uint8_t unknown_00[0x10];
     int16_t targeting;        // the target packet's kind for this motion (nbMakeTargetPacket)
-    uint8_t unknown_12[4];
+    uint8_t unknown_12[3];
+    int8_t sound;             // its piece in the unit's motion banks (-1 none; nbGetMotionSeNo)
     uint8_t endtype;          // how it ends (Formation::motionend)
     int8_t enddata;
     ee::Float speed;
@@ -441,7 +442,9 @@ struct GlobalWork {
     uint8_t loanCounts[64];   // Loans taken from demons, by race (HD: syakkincnt)
     uint8_t questionAnswers[4];   // the talks' questions answered: [0] in all, [1..3] by kind (HD: negoques)
     uint8_t reason_points[4]; // [1..3]: points toward each Reason (Kotowari)
-    uint8_t unknown_1cf0[0xa];
+    uint8_t unknown_1cf0[4];
+    ee::Float encountDistance; // walked toward the next encounter roll (HD: encountkyori)
+    uint16_t encountCount;    // the encounter count (HD: encountcnt)
     uint8_t hearts_equipped;  // Magatama ID, 0 = none
     uint8_t hearts_owned[64];
     uint8_t hearts_skill_state[64];

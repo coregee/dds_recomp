@@ -51,7 +51,7 @@ void hideMacca()
     }
 }
 
-// (0x0028F2F8; no original name): (value % 10^(place+1)) / 10^place,
+// 0x0028F2F8 (no original name): (value % 10^(place+1)) / 10^place,
 // with the original's trap on a zero divisor (which a power of ten never is).
 int32_t maccaDigit(int32_t value, int32_t place)
 {
@@ -95,7 +95,7 @@ void drawMaccaWindow(MaccaWindow&, int32_t x, int32_t y, uint32_t color, uint32_
     }
 }
 
-// (0x0028F600; no original name) the fade: opening, up by 0x20 to 0x80;
+// 0x0028F600 (no original name) the fade: opening, up by 0x20 to 0x80;
 // closing, after its frames, down by 0x14 to 0, then closed.
 void stepMaccaWindow(MaccaWindow& w)
 {

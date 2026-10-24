@@ -12,6 +12,7 @@
 #include "nocturne/battle/camera.hpp"
 #include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/kouka.hpp"
+#include "nocturne/battle/sound.hpp"
 #include "nocturne/data/ids.hpp"
 #include "nocturne/data/progression.hpp"
 #include "nocturne/data/tables.hpp"
@@ -396,7 +397,7 @@ int32_t breaksIn(TalkState& n)
     if (n.talkPhase == 0) {
         addWordPacket(0, 0x1e, static_cast<int32_t>(n.actdata.address), &form, 0);
         cameraOnObstructor(form);
-        LoadTalkSound(form);
+        loadTalkSound(form);
         return 0;
     }
     if (n.talkPhase != 1)

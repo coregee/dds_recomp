@@ -26,7 +26,7 @@ int compareInherited(const void* left, const void* right)
     return a > b ? 1 : a < b ? -1 : 0;
 }
 
-// (0x213230) by race, then highest level first.
+// 0x00213230: by race, then highest level first.
 int compareDevils(const void* left, const void* right)
 {
     const DevilFormat* a = static_cast<const DevilSortEntry*>(left)->format.get();
@@ -56,7 +56,7 @@ void sortInheritedSkills(UnitWork& unit)
     }
 }
 
-// (0x002133A0)
+// 0x002133A0
 void sortDevilsByRace(DevilSortEntry* entries, uint16_t count)
 {
     for (uint16_t i = 0; i < count; ++i) {

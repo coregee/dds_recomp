@@ -60,7 +60,7 @@ bool eventPacksLoaded(MainProcessData& data)
             continue;
         if (e.resource != 0 && static_cast<int32_t>(guest::callOriginal(kEventPackState, static_cast<uint32_t>(e.resource))) != 2)
             return false;
-        if (e.seBank != 0 && !snd::BankReady(static_cast<uint32_t>(e.seBank)))
+        if (e.seBank != 0 && snd::BankStatus(static_cast<uint32_t>(e.seBank)) != 1)   // (in memory, not on its way)
             return false;
     }
     return true;

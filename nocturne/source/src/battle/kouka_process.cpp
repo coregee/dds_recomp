@@ -642,7 +642,7 @@ void playSkillColor(EffectQueue&, EffectPacket& p)
         eff::BTLSkillStart(p.data1.i(), p.data2.i());
 }
 
-// (0x0027FA88; tentative name)
+// 0x0027FA88 (tentative name)
 void startStockPanelFadeOut() { word(kStockPanelFading) = 1; }
 
 // RunStockPanelFadeOutKouka @ 0x00260F08

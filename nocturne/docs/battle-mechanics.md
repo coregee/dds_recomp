@@ -67,6 +67,25 @@ they are recorded here and fixed in Ghidra and `source/` instead:
   successor. Global-work bit `0xA4C & 2` quintuples the chance (unknown
   source). Encounter flag 0x10 forces encounter 0x149.
 - Encounters 0x10B and 0x11C cap rewards at 20,000 EXP / 10,000 Macca.
+- **Random encounters** (nbEncount, battle/encount.cpp):
+  - **Which table:** each area pack has four tables. In the moon phases its
+    mask names, the pack uses its moon table; otherwise it picks one of four
+    by two event bits (only pack 169 has a second bit).
+  - **The count:** every 100 units walked add 2..4 to the encounter count, or
+    8..12 under Riberama (field skill bit 2, so the "unknown source" above is
+    Riberama). The count is capped at 65,000.
+  - **The threshold:** rolled once per stretch and kept in `encmax`:
+    16 + rand(2 x base - 32), where base is 370 less 48% of the table's
+    normal weight.
+  - **The roll:** once the count reaches the threshold, each step rolls the
+    table's twelve entries by weight out of 1,000.
+  - **Estoma** (bit 1) turns an encounter away, and resets the count, when
+    the Demi-fiend's level is above the group's average level plus a quarter
+    of his own.
+  - **Encounter data:** an encounter is passed as table << 24 | entry << 16 |
+    encounter. `nbGetBgmCategoryInField` reads the table byte as an area pack
+    (the HD remaster calls it NB_GET_PACKNO). So a field encounter with no
+    music of its own takes pack 1..3's music, depending on its table.
 
 ## Damage
 

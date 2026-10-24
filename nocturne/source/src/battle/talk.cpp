@@ -1,6 +1,7 @@
 // Talks with a demon (original unit: nbNegoProcess): the talk's helpers.
 // Rewritten from the original instructions.
 #include "nocturne/battle/talk.hpp"
+#include "nocturne/battle/sound.hpp"
 #include "nocturne/battle/talk_flow.hpp"
 
 #include <cstring>
@@ -461,7 +462,7 @@ int32_t refuseMotion(TalkState& n, Formation& form)
     closeTalkWindow(n);
     const int32_t action = static_cast<int32_t>(n.actdata.address);
     addMotionPacket(0, action, &form, 0xf);
-    addSoundPacket2(0, action, static_cast<uint32_t>(ActorSoundId(form) + 1));
+    addSoundPacket2(0, action, formationTalkBank(form) + 1);
     return 0xf;
 }
 
@@ -471,7 +472,7 @@ int32_t agreeMotion(TalkState& n, Formation& form)
     closeTalkWindow(n);
     const int32_t action = static_cast<int32_t>(n.actdata.address);
     addMotionPacket(0, action, &form, 0xe);
-    addSoundPacket2(0, action, static_cast<uint32_t>(ActorSoundId(form)));
+    addSoundPacket2(0, action, formationTalkBank(form));
     return 0xf;
 }
 
@@ -609,7 +610,7 @@ uint32_t newTalk(ActionProcessData& act, int32_t pformindex, int32_t eformindex,
     n.helpmsg = openTable(n, kHelpMessages);
     n.helpmsg2 = openTable(n, kHelpMessages2);
     n.innenmsg = openTable(n, kFatedMessages);
-    LoadTalkSound(*n.eform);
+    loadTalkSound(*n.eform);
     return address;
 }
 

@@ -76,9 +76,6 @@ int32_t GetMotionActframe(ee::Float speed, Formation& form, int32_t motion);   /
 ee::Float GetMotionSpeed(ee::Float speed, Formation& form, int32_t motion);    // (0x24D428)
 int32_t GetMotionNo(Formation& form, int32_t motion);                           // (0x24D490)
 // The motions' sounds (nbSound; tentative names).
-void StopMotionSe();                                        // (0x28DD78)
-uint32_t GetMotionSeNo(Formation& form, int32_t motion);    // (0x28D178) its sound bank
-int32_t MemoryLoadMotionSe(Formation& form, int32_t motion);   // (0x28D298) 1 when the bank is being sent
 // Packets READY builds (nbMakePacket; tentative names).
 void MakeSkillEffectPacket(int32_t startframe, int32_t timer, ActionProcessData& a, Formation& form, int32_t hiteff,
                            int32_t motiontype, int32_t skill);                          // (0x2617A8)
@@ -137,7 +134,6 @@ void CameraScriptSet1Shot(Formation* form);    // nbCameraScriptSet1Shot
 void TalkDebugDraw(uint32_t talk);
 void TalkDebugSelectDraw(uint32_t talk);
 int32_t TalkDebug(uint32_t talk);
-bool LoadTalkSound(Formation& form);   // nbMemoryLoadNegoSe (0x28D1D8): the demon's voice bank
 void CameraScriptSetBougai(Formation* form);   // nbCameraScriptSetBougai
 // nbReturnUnit (0x24D980): a unit leaves the field for the stock (dead: it died)
 void ReturnUnit(int32_t partyno, int32_t lost, int32_t dead);
@@ -145,7 +141,6 @@ void ReturnUnit(int32_t partyno, int32_t lost, int32_t dead);
 void MoveToTarget(ee::Float speed, int32_t partyno, const Vec4* pos);
 void MoveHome(ee::Float speed, int32_t partyno);
 // (0x28D1B8) the unit's voice sound (tentative name)
-int32_t ActorSoundId(Formation& form);
 // (0x1E3700, 0x1E37E8) a unit model's colour / alpha moves to `value` over
 // `frames` (0: at once); tentative names
 void UnitSetColor(uint32_t unit, int32_t frames, uint32_t color);
@@ -189,6 +184,9 @@ void QueueUpload(const UploadRecord& record);
 namespace snd {
 void Play(int32_t sound, int32_t volume, int32_t pan);   // ps2SoundPlay
 bool BankReady(uint32_t bank);                            // ps2SoundBankStatus: the bank is in sound memory
+int32_t BankStatus(uint32_t bank);                        // ... 0 not, 1 in sound memory, 2 on its way
+void SelectOutput(int32_t piece);                         // (0x2C20F0, legacy name) a sound command's output for a piece
+void SelectChannel(int32_t value);                        // (0x2C1E70, legacy name)
 void VolumeHalfDown();   // (0x2C20A0) the music at half volume
 void VolumeHalfUp();     // (0x2C20C8) ... back up
 void StopEffectMidi(uint32_t sound);                      // (0x2C1730) a playing effect's music stops
@@ -391,6 +389,9 @@ enum class Message : uint32_t {
     InfoChosen       = 0x00544e48, // "select info usemestype = %d mesno =%d" (nbGetInfoMsg)
     InfoCounts       = 0x00544e70, // "normal_mesno = %d jouken_mesno = %d"
     SkillPress       = 0x00543ee8, // "press %f" (the press turns the action used)
+    MotionMidi       = 0x00545bd0, // "MIDI=0x%08X" (a motion's sound bank)
+    BgmStop          = 0x00545ce0, // "nbBgmStop(%d,%d)"
+    EncounterRate    = 0x00545ba0, // エンカウント率 %d/%d (the encounter threshold rolled, and its base)
 };
 // Integer arguments are passed sign-extended; %f arguments are ee::Double bits.
 void print(Message message, int64_t a = 0, int64_t b = 0, int64_t c = 0, int64_t d = 0, int64_t e = 0);
