@@ -769,6 +769,8 @@ void addKoukaTests(std::vector<TestCase>& t)
             if (g.chance(50))
                 at<MainProcessData>(FW_MAIN).stat ^= 8;
             camera().get().state_change = 0xffff;
+            for (int f = 0; f < 14; ++f)   // (a formation's index is its slot, as in the game)
+                at<Formation>(formAddress(f)).formindex = static_cast<int16_t>(f);
     };
     auto ailing = [&, camera, cameraState, ailingWorld](const char* name, uint32_t entry, int32_t (*rewrite)(ActionProcessData&), bool result) {
         script(name, [=](Gen& g) {
