@@ -48,4 +48,14 @@ nocturne::fr::Request* chain(Gen& g, int32_t x, int32_t y);
 // Puts a message table at FW_MES_TABLE, relocated or not.
 void loadTable(Gen& g, bool relocate);
 
+// The battle's help line (nocturne/battle/help.hpp): fonts, a message window
+// on a table with messages at each of `needed`, and the help record at
+// FW_HELP showing something. Built on top of the caller's world (it only
+// takes from the fakes' pool).
+struct HelpWorld {
+    int32_t id;                      // the window
+    std::vector<int32_t> messages;   // the table's messages (not selections)
+};
+HelpWorld helpWorld(Gen& g, std::initializer_list<int32_t> needed = {});
+
 } // namespace difftest::iface

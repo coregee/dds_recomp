@@ -58,6 +58,18 @@ int32_t actSkill();            // nbCommand_AI_ACT_SKILL
 int32_t actSummon();           // nbCommand_AI_ACT_SUMMON: skill, devil
 int32_t setCritical();         // nbCommand_AI_SET_CRITICAL: next hit is critical
 int32_t targetByAi();          // nbCommand_AI_TAR_AI
+int32_t actWait();             // nbCommand_AI_ACT_WAIT: the unit passes
+// AI_TAR_*: the targets by one rule (the AI's selectors, nbSetAiTarget)
+int32_t targetLowestHp();      // nbCommand_AI_TAR_LIFEMIN
+int32_t targetLowestLevelNotFlying(); // nbCommand_AI_TAR_BAARLV
+int32_t targetLowestLevel();   // nbCommand_AI_TAR_LVMIN
+int32_t targetAilment();       // nbCommand_AI_TAR_BAD (argument: the ailment)
+int32_t targetDevil();         // nbCommand_AI_TAR_ID (argument: the devil)
+int32_t targetLight();         // nbCommand_AI_TAR_LIGHT
+int32_t targetDark();          // nbCommand_AI_TAR_DARK
+int32_t targetDemiFiend();     // nbCommand_AI_TAR_PLAYER
+int32_t targetAll();           // nbCommand_AI_TAR_RND
+int32_t targetByCondition();   // nbCommand_AI_TAR_JOKEN: those the last AI_CHK_* matched
 int32_t runTableAi();          // nbCommand_AI: the table AI
 
 // BTL_*: a counter for rotating through actions, and two no-ops.
@@ -65,6 +77,20 @@ int32_t rotationClear();       // nbCommand_BTL_AI_ROT_CLR
 int32_t rotationNext();        // nbCommand_BTL_AI_ROT_NEXT: (counter + 1) mod n
 int32_t rotationGet();         // nbCommand_BTL_AI_ROT_GET
 int32_t panelOn();             // nbCommand_BTL_PNL_ON
+int32_t panelOff();            // nbCommand_BTL_PNL_OFF
+int32_t startEvent();          // nbCommand_BTL_EVENT (argument: the event)
+int32_t pressTalk();           // nbCommand_BTL_PRESS: the unit talks to press for more
+int32_t joinTalk();            // nbCommand_BTL_NAKAMA: the unit talks to join
+int32_t leaveTalk();           // nbCommand_BTL_TAIKYO: the unit leaves (talk result 2)
+int32_t allLeaveTalk();        // nbCommand_BTL_ALLTAIKYO: the enemies all leave (6)
+int32_t showPlayerFormations(); // nbCommand_BTL_FORM_PLY_ON: the player's side only
+int32_t cameraTwoShot();       // nbCommand_BTL_CAM_2SHOT: does nothing on the PS2
+int32_t showAllFormations();   // nbCommand_BTL_FORM_ALL_ON
+int32_t showEnemyFormations(); // nbCommand_BTL_FORM_ENE_ON: the enemies only
+int32_t lockAi();              // nbCommand_BTL_AI_CHANGE_OFF: no AI changes (stat 0x40000)
+int32_t unlockAi();            // nbCommand_BTL_AI_CHANGE_ON
+int32_t cameraOneShot();       // nbCommand_BTL_CAM_1SHOT: a camera shot on the unit
+int32_t cameraObstruct();      // nbCommand_BTL_CAM_BOUGAI
 int32_t cameraOrigin();        // nbCommand_BTL_CAM_ORG
 
 } // namespace nocturne::nb::ai::script

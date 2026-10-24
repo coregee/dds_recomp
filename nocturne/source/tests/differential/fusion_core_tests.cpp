@@ -288,7 +288,7 @@ void addFusionCoreTests(std::vector<TestCase>& t)
         if (g.chance(30)) {   // a nearly full or full list
             int filled = g.range(20, 24);
             for (int i = 0; i < 24; ++i)
-                to.keisyoskill[i] = i < filled ? static_cast<uint16_t>(0x100 + i) : 0;
+                to.inheritedSkills[i] = i < filled ? static_cast<uint16_t>(0x100 + i) : 0;
         }
         return Pair{none([=] { ps2FusionCore_001FEB28(in.a, in.b); }), none([=] { cmb::addInheritableSkills(unitAt(in.a), unitAt(in.b)); })};
     });
@@ -299,7 +299,7 @@ void addFusionCoreTests(std::vector<TestCase>& t)
     });
     add("cmbMoveKeisyoSkillToSkill", [](Gen& g) {
         uint32_t u = unitAddress(g.range(0, 15));
-        uint16_t s = g.chance(70) ? unitAt(u).keisyoskill[g.below(24)] : static_cast<uint16_t>(g.below(0x200));
+        uint16_t s = g.chance(70) ? unitAt(u).inheritedSkills[g.below(24)] : static_cast<uint16_t>(g.below(0x200));
         return Pair{[=] { return norm(ps2FusionCore_001FEC68(s, u)); }, [=] { return norm(int32_t{cmb::learnInherited(s, unitAt(u))}); }};
     });
     add("cmbRndGetKeisyoSkill", [](Gen& g) {

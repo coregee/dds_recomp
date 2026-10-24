@@ -472,7 +472,7 @@ int32_t drawAction(ActionProcessData& act, int32_t table)
         uint8_t tried = static_cast<uint8_t>(act.aichktbl[k]);
         if (tried == 0 || (tried & 0x80)) {
             candidates[count++] = k;
-            total += actionAt(act, table, k).ritu;
+            total += actionAt(act, table, k).weight;
         }
     }
     if (count == 0 || total == 0)
@@ -480,7 +480,7 @@ int32_t drawAction(ActionProcessData& act, int32_t table)
     int32_t roll = sdf::GetRandInt(static_cast<int32_t>(total));
     uint32_t sum = 0;
     for (int32_t i = 0; i < count; ++i) {
-        sum += actionAt(act, table, candidates[i]).ritu;
+        sum += actionAt(act, table, candidates[i]).weight;
         if (roll < static_cast<int32_t>(sum))
             return candidates[i];
     }
@@ -518,7 +518,7 @@ void setAction(ActionProcessData& act, int32_t table, int32_t action)
     case 0xf000: unit.nowindex = 0xde; break;
     case 0xe000:
         unit.nowcommand = 9;
-        mainOf(act).aiextra = skill & 0xfff;
+        mainOf(act).eventno = skill & 0xfff;
         break;
     default:   // 0x8xxx otherwise: no skill, just the parameter
         break;
@@ -839,6 +839,28 @@ int32_t selectTargets(ActionProcessData& act, int32_t selector, int32_t paramete
         act.work->nowindex = 0;
     }
     return result;
+}
+
+// nbSetPlayerSummonFormation @ 0x0028B448: the first empty party slot
+// after an occupied one becomes the summon slot, placed 150 units plus the
+// neighbour's radius beyond it, facing the same way.
+void prepareAllySummonSlot(MainProcessData& main)
+{
+    for (int32_t i = 0; i < 4; ++i)
+        slot(main, i).stat &= ~FormationStat::SummonSlot;
+    for (int32_t i = 1; i < 4; ++i) {
+        Formation& form = slot(main, i);
+        if (form.stat & FormationStat::Present)
+            continue;
+        const Formation& prev = slot(main, i - 1);
+        form.orgpos = prev.orgpos;
+        form.orgpos.x = form.orgpos.x + (prev.r + ee::Float::fromInt(100) + ee::Float::fromInt(50));
+        form.pos = form.orgpos;
+        form.orgrot = prev.orgrot;
+        form.rot = form.orgrot;
+        form.stat |= FormationStat::SummonSlot;
+        return;
+    }
 }
 
 // nbSetEnemySummonFormation @ 0x0028B528: the first empty enemy slots up

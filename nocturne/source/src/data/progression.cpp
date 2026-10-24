@@ -187,16 +187,16 @@ bool isPlayerDead() { return (player().badstat & kAilmentMask) == ailment::Dead;
 void addMacca(int32_t amount)
 {
     GlobalWork& global = globalWork();
-    int32_t macca = static_cast<int32_t>(static_cast<uint32_t>(global.maka) + static_cast<uint32_t>(amount));
+    int32_t macca = static_cast<int32_t>(static_cast<uint32_t>(global.macca) + static_cast<uint32_t>(amount));
     if (macca < 0)
         macca = 0;
     if (macca > 9999999)
         macca = 9999999;
-    global.maka = macca;
+    global.macca = macca;
 }
 
 // datCheckMaka @ 0x002442C8
-bool hasMacca(int32_t amount) { return amount <= globalWork().maka; }
+bool hasMacca(int32_t amount) { return amount <= globalWork().macca; }
 
 // datInitPlayer @ 0x00245B10: the Demi-fiend from the template at 0x3493C0.
 void initPlayer()
@@ -206,7 +206,7 @@ void initPlayer()
     std::memcpy(&global.units[0], guest::table<uint8_t>(0x003493c0), 0xe8);
     global.stock_list[0] = 0;
     global.stock_count = 1;
-    global.maka = 0;
+    global.macca = 0;
     for (uint8_t& count : global.item_counts)
         count = 0;
     evt::BitOn(0xc04);
@@ -216,7 +216,7 @@ void initPlayer()
 void addMaccaPercent(int32_t percent)
 {
     GlobalWork& global = globalWork();
-    uint32_t macca = static_cast<uint32_t>(global.maka);
+    uint32_t macca = static_cast<uint32_t>(global.macca);
     uint32_t magnitude = percent < 0 ? 0u - static_cast<uint32_t>(percent) : static_cast<uint32_t>(percent);
     uint32_t change = static_cast<uint32_t>(eeDivide(wrappingMultiply(static_cast<int32_t>(macca), static_cast<int32_t>(magnitude)), 100));
     uint32_t result = percent < 0 ? macca - change : macca + change;
@@ -224,7 +224,7 @@ void addMaccaPercent(int32_t percent)
         result = 0;
     if (result > 9999999u)
         result = 9999999u;
-    global.maka = static_cast<int32_t>(result);
+    global.macca = static_cast<int32_t>(result);
 }
 
 // datRemoveHearts @ 0x00245380 (an empty hook at 0x221558 followed the

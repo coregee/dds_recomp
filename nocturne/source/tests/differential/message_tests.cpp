@@ -131,7 +131,7 @@ void randomInstance(Gen& g, Instance& p, const World& w)
     p.curctr.ctr0 = static_cast<int16_t>(g.chance(40) ? g.pick<int32_t>({32, 40, 64, 72, 246, 247, 255}) : g.range(-10, 300));
     p.curctr.ctr1 = static_cast<int16_t>(g.chance(30) ? g.pick<int32_t>({0, 1, 8}) : g.range(-20, 200));
     p.curctr.ctr_key = g.below(8);
-    p.func_kuti = g.chance(50) ? kKuti : 0;
+    p.mouthCallback = g.chance(50) ? kKuti : 0;
 }
 
 // Tables are relocated before the game shows them; `raw` sometimes leaves
@@ -458,6 +458,32 @@ void addMessageTests(std::vector<TestCase>& t)
         return Pair{[=] { return orig(0x001cdb80, {I(w.id), I(message), I(page)}); },
                     [=] { return norm(RequestMessage(w.id, message, page)); }};
     }});
+    // ... in a window marked 0x200000, as the talks do.
+    t.push_back({"itfMesMngRequestMessageMarked", [](Gen& g) {
+        World w = world(g);
+        int32_t message = pickMessage(g, w);
+        int32_t page = g.range(0, std::max<int32_t>(at<MesHeader>(dialogAddress(message)).page - 1, 0));
+        MarkBitStat(w.id, 0x200000);
+        return Pair{[=] { return orig(0x001cdb80, {I(w.id), I(message), I(page)}); },
+                    [=] { return norm(RequestMessage(w.id, message, page)); }};
+    }});
+    // ... over a message already shown.
+    t.push_back({"itfMesMngRequestMessageAgain", [](Gen& g) {
+        World w = world(g);
+        RequestMessage(w.id, pickMessage(g, w), 0);
+        int32_t message = pickMessage(g, w);
+        return Pair{[=] { return orig(0x001cdb80, {I(w.id), I(message), I(0)}); }, [=] { return norm(RequestMessage(w.id, message, 0)); }};
+    }});
+    // ... with some of the first variables unset (not {var 0}, which names
+    // the speaker of some messages: the game always sets it).
+    t.push_back({"itfMesMngRequestMessageUnset", [](Gen& g) {
+        World w = world(g);
+        for (int i = 1; i < 8; ++i)
+            if (g.chance(50))
+                inst(w).variable.pptr[i] = 0;
+        int32_t message = pickMessage(g, w);
+        return Pair{[=] { return orig(0x001cdb80, {I(w.id), I(message), I(0)}); }, [=] { return norm(RequestMessage(w.id, message, 0)); }};
+    }});
     t.push_back({"itfMesMngRequestSelect", [](Gen& g) {
         World w = world(g);
         int32_t select = pickSelection(g, w);
@@ -524,7 +550,7 @@ void addMessageTests(std::vector<TestCase>& t)
     t.push_back({"itfMesMngSetKutiCallback", [](Gen& g) {
         World w = world(g);
         uint32_t f = g.chance(50) ? kKuti : 0;
-        return Pair{[=] { return origVoid(0x001ceb38, {I(w.id), f}); }, [=] { SetKutiCallback(w.id, f); return uint64_t{0}; }};
+        return Pair{[=] { return origVoid(0x001ceb38, {I(w.id), f}); }, [=] { setMouthCallback(w.id, f); return uint64_t{0}; }};
     }});
     t.push_back({"itfMesMngGetConfig", [](Gen& g) {
         World w = world(g);
@@ -702,7 +728,7 @@ void addMessageTests(std::vector<TestCase>& t)
         at<uint16_t>(unit + 4) = static_cast<uint16_t>(g.chance(20) ? 0 : g.range(1, 383));
         return Pair{[=] { return origVoid(0x00259268, {I(w.id), I(index), unit}); },
                     [=] {
-                        nocturne::nb::nbSetDevilNameMes(w.id, index, at<nocturne::UnitWork>(unit));
+                        nocturne::nb::setDevilNameVariable(w.id, index, at<nocturne::UnitWork>(unit));
                         return uint64_t{0};
                     }};
     }});

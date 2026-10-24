@@ -1,6 +1,7 @@
 // Questions about one combatant (original unit: nbCalc).
 #include "nocturne/battle/combatant.hpp"
 
+#include "nocturne/battle/calc.hpp"
 #include "nocturne/data/progression.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/unit.hpp"
@@ -67,7 +68,7 @@ SkillCheck checkSkillCost(int32_t formindex, int32_t skill)
 {
     UnitWork& unit = *GetUnitWorkFromFormindex(formindex);
     const NormalSkill& s = dat::normalSkill(skill);
-    if (s.koukatype == 1 && unit.ailment() == ailment::Mute)
+    if (s.damageClass == 1 && unit.ailment() == ailment::Mute)
         return SkillCheck::Muted;
     if (s.flag & 4)
         return SkillCheck::Ok;
@@ -82,7 +83,7 @@ SkillCheck checkSkillCost(int32_t formindex, int32_t skill)
 int32_t checkSkillUse(int32_t formindex, int32_t skill)
 {
     UnitWork& unit = *GetUnitWorkFromFormindex(formindex);
-    if (unit.ailment() == ailment::Mute && dat::normalSkill(skill).koukatype == 1)
+    if (unit.ailment() == ailment::Mute && dat::normalSkill(skill).damageClass == 1)
         return 1;
     switch (checkSkillCost(formindex, skill)) {
     case SkillCheck::NotEnoughHp: return 2;
@@ -127,7 +128,7 @@ void markEndureUsed(int32_t formindex)
 // first free one after it) and the compendium, and goes last in the
 // stock's order. False when the stock is full. (The original also looks
 // the devil up in the stock and ignores the answer.)
-bool nbGetNakama(const UnitWork& s)
+bool recruitDevil(const UnitWork& s)
 {
     if (dat::isStockFull())
         return false;
@@ -151,7 +152,7 @@ bool nbGetNakama(const UnitWork& s)
 }
 
 // nbSetDevilNameMes @ 0x00259268
-void nbSetDevilNameMes(int32_t hmsg, int32_t no, const UnitWork& work)
+void setDevilNameVariable(int32_t hmsg, int32_t no, const UnitWork& work)
 {
     if (work.id == 0)
         mes::SetVarFormatted(hmsg, 0, 0, mes::kVarCharacter);
@@ -162,7 +163,7 @@ void nbSetDevilNameMes(int32_t hmsg, int32_t no, const UnitWork& work)
 // nbAppendEnemyDevilWork @ 0x002594B0: the first free of the 10 enemy
 // units becomes the devil, in the party, with its HP and MP from its
 // format.
-int32_t nbAppendEnemyDevilWork(MainProcessData& data, int32_t id)
+int32_t addEnemyUnit(MainProcessData& data, int32_t id)
 {
     int32_t index = 0;
     while (index < 10 && (data.enemyunit.get()[index].flag & UnitFlag::Valid))
@@ -182,7 +183,7 @@ int32_t nbAppendEnemyDevilWork(MainProcessData& data, int32_t id)
 
 // nbGetRandamStock @ 0x002595A0: a stock devil not in the party, not
 // already out (flag 0x10), alive and with HP left.
-int32_t nbGetRandamStock()
+int32_t randomSummonableStock()
 {
     int32_t candidates[16];
     uint32_t count = 0;
@@ -199,7 +200,7 @@ int32_t nbGetRandamStock()
 // nbClearCommandMemeoyRenzoku @ 0x002596D0: before a consecutive battle
 // ("renzoku"), the party's remembered targets on the other side are
 // forgotten.
-void nbClearCommandMemeoyRenzoku()
+void forgetChainTargets()
 {
     for (int32_t formindex = 0; formindex < 4; ++formindex) {
         UnitWork* unit = GetUnitWorkFromFormindex(formindex);
@@ -211,7 +212,7 @@ void nbClearCommandMemeoyRenzoku()
 }
 
 // nbCheckEventDead @ 0x00259AB0
-bool nbCheckEventDead(const Formation& form)
+bool diesByEvent(const Formation& form)
 {
     const int32_t id = unitModelId(*GetUnitWorkFromFormindex(form.formindex));
     if (id == 0)
@@ -220,17 +221,29 @@ bool nbCheckEventDead(const Formation& form)
 }
 
 // nbCheckDeadScript @ 0x00259B10
-int32_t nbCheckDeadScript(const Formation& form)
+int32_t hasDeathScript(const Formation& form)
 {
     const int32_t id = unitModelId(*GetUnitWorkFromFormindex(form.formindex));
     return id == 0 ? 0 : dat::devilAI(id).deadscriptid;
 }
 
 // nbCheckDeadEvent @ 0x00259B70
-int32_t nbCheckDeadEvent(const Formation& form)
+int32_t hasDeathEvent(const Formation& form)
 {
     const int32_t id = unitModelId(*GetUnitWorkFromFormindex(form.formindex));
     return id == 0 ? 0 : dat::devilAI(id).deadeventno;
+}
+
+// nbGetMotionEndType @ 0x0024D310: how one of the slot's unit's motions ends.
+int32_t motionEndType(const Formation& form, int32_t motion)
+{
+    return unitVisual(*GetUnitWorkFromFormindex(form.formindex)).motion[motion].endtype;
+}
+
+// nbGetMotionEndData @ 0x0024D358
+int32_t motionEndData(const Formation& form, int32_t motion)
+{
+    return unitVisual(*GetUnitWorkFromFormindex(form.formindex)).motion[motion].enddata;
 }
 
 } // namespace nocturne::nb

@@ -27,7 +27,7 @@ int32_t buffMax(int32_t type)
     if (static_cast<uint32_t>(type) >= 20) return 0;
     if (type < 4 || (type >= 16 && type < 19)) return 127;
     if (type < 9) return 4;
-    return type == static_cast<int32_t>(Hojo::AffinityRow) ? 32767 : 1;
+    return type == static_cast<int32_t>(BuffKind::AffinityRow) ? 32767 : 1;
 }
 
 // nbGetHojoCounterMin @ 0x00267F18: stat counters go down to -4.
@@ -79,7 +79,7 @@ int32_t applyBuffs(int32_t formindex, uint32_t mask, int32_t amount, bool previe
             add(9 + bit - 12, amount);
     }
     if (mask & 0x1000000)
-        add(static_cast<int32_t>(Hojo::Focus), amount);
+        add(static_cast<int32_t>(BuffKind::Focus), amount);
 
     if (mask & 0x400) {   // Dekaja
         for (int type = 4; type <= 8; ++type) {
@@ -119,14 +119,14 @@ Float buffMultiplier(int32_t formindex, int32_t type)
     Float result = 1.0f;
     if (counter != 0) {
         int32_t steps;
-        bool inverted = type == static_cast<int32_t>(Hojo::Evasion) || type == static_cast<int32_t>(Hojo::Defense);
+        bool inverted = type == static_cast<int32_t>(BuffKind::Evasion) || type == static_cast<int32_t>(BuffKind::Defense);
         if (inverted)
             steps = counter < 0 ? -counter * 2 : -counter;
         else
             steps = counter >= 0 ? counter * 2 : counter;
         result = (Float::fromInt(steps) + 8.0f) * 0.125f;
     }
-    if (type == static_cast<int32_t>(Hojo::Attack) && buffCounter(formindex, static_cast<int32_t>(Hojo::Focus)) > 0)
+    if (type == static_cast<int32_t>(BuffKind::Attack) && buffCounter(formindex, static_cast<int32_t>(BuffKind::Focus)) > 0)
         result = result * 2.5f;
     return result;
 }

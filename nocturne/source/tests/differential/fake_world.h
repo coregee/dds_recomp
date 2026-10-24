@@ -31,13 +31,22 @@ enum {
     FW_TARSEL     = 0x01106000, /* nbTarSelProcessData */
     FW_SCRIPT     = 0x01106100, /* the running command's script work (scr::ProcessWork, harness.hpp);
                                    at 0x60 the message handle */
+    FW_HELP       = 0x01106f00,   /* nbHelpProcessData (0x38 bytes) */
+    FW_HELP_PROCESS = 0x00777100, /* the "nb_help" process (only its data is real) */
     FW_MES_INSTANCE = 0x01107000, /* two message windows (instanceMes_tag, 0x200 apart) */
     FW_MES_TABLE  = 0x011a0000,   /* a message table (MSG1), up to 0x10000 bytes */
     FW_MES_STATE  = 0x0110a200,   /* the message fakes: pool cursor, log count, log {kind, a, b} */
     FW_MES_POOL   = 0x0110a800,   /* memory blocks, panels and pools the fakes hand out */
     FW_MES_POOL_END = 0x01160000,
     FW_FONTS      = 0x01160000,   /* the four .fnt files (game/dds3/font/EngFont) */
-    FW_DYNAMIC_END   = 0x011b0000,
+    FW_COMMSEL    = 0x011b0000,   /* nbCommSelProcessData (0x14D0 bytes) */
+    FW_COMMSEL_PROCESS = 0x00777200, /* the "nb_commsel" process (only its data is real) */
+    FW_BTL_EFFECT = 0x011b1600,   /* a skill's effect (effBTL_t, 0xC48 bytes) */
+    FW_BTL_CUT    = 0x011b2300,   /* the cut effBTLCutCreate hands out (0x120 bytes) */
+    FW_TALK       = 0x011b2420,   /* nbNegoProcessData (talks; 0x33C bytes) */
+    FW_MAKA       = 0x011b2780,   /* nbMakaProcessData (the Macca window; 0x40 bytes) */
+    FW_MAKA_PROCESS = 0x00777400, /* the "nb_maka" process (only its data is real) */
+    FW_DYNAMIC_END   = 0x011b27c0,
     /* Guest stack for legacy code that allocates on it (not compared). */
     FW_STACK_TOP     = 0x01300000,
 };

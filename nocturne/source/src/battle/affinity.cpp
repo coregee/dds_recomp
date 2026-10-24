@@ -19,10 +19,10 @@ bool isNonElemental(Attribute attr) { return attr >= Attribute(12) && attr <= At
 int32_t nullCounterFor(Attribute attr)
 {
     switch (attr) {
-    case Attribute::Fire:  return static_cast<int32_t>(Hojo::NullFire);
-    case Attribute::Ice:   return static_cast<int32_t>(Hojo::NullIce);
-    case Attribute::Expel: return static_cast<int32_t>(Hojo::NullExpel);
-    case Attribute::Death: return static_cast<int32_t>(Hojo::NullDeath);
+    case Attribute::Fire:  return static_cast<int32_t>(BuffKind::NullFire);
+    case Attribute::Ice:   return static_cast<int32_t>(BuffKind::NullIce);
+    case Attribute::Expel: return static_cast<int32_t>(BuffKind::NullExpel);
+    case Attribute::Death: return static_cast<int32_t>(BuffKind::NullDeath);
     default:               return -1;
     }
 }
@@ -44,8 +44,8 @@ Affinity affinity(int32_t skill, int32_t formindex, Attribute attr)
 
     UnitWork& unit = *unitPointer;
     int32_t column = static_cast<int32_t>(attr);
-    uint32_t packed = party.aisyo[column];
-    int32_t row = buffCounter(formindex, static_cast<int32_t>(Hojo::AffinityRow));
+    uint32_t packed = party.affinities[column];
+    int32_t row = buffCounter(formindex, static_cast<int32_t>(BuffKind::AffinityRow));
     if (row > 0)
         packed = dat::affinityRow(row)[column];
     if (unit.ailment() == ailment::Fly)
@@ -60,9 +60,9 @@ Affinity affinity(int32_t skill, int32_t formindex, Attribute attr)
     // Tetrakarn / Makarakarn reflect physical / magic skills of any element
     // except Almighty.
     if (skill >= 0 && attr != Attribute::Almighty && attr != Attribute(11)) {
-        uint8_t kind = dat::normalSkill(skill).koukatype;
+        uint8_t kind = dat::normalSkill(skill).damageClass;
         if (kind < 2) {
-            Hojo karn = kind == 1 ? Hojo::RepelMagic : Hojo::RepelPhysical;
+            BuffKind karn = kind == 1 ? BuffKind::RepelMagic : BuffKind::RepelPhysical;
             if (buffCounter(formindex, static_cast<int32_t>(karn)) > 0)
                 packed |= Affinity::Repel;
         }
@@ -105,8 +105,8 @@ uint32_t virtualAffinity(int32_t skill, int32_t /*source*/, int32_t target)
 int32_t affinityRowOf(int32_t formindex)
 {
     UnitWork& unit = *GetUnitWorkFromFormindex(formindex);
-    int32_t row = unit.isPlayerCharacter() ? 0 : dat::devilFormat(unit.id).aisyoid;
-    int32_t override = buffCounter(formindex, static_cast<int32_t>(Hojo::AffinityRow));
+    int32_t row = unit.isPlayerCharacter() ? 0 : dat::devilFormat(unit.id).affinityId;
+    int32_t override = buffCounter(formindex, static_cast<int32_t>(BuffKind::AffinityRow));
     if (override > 0)
         row = override;
     if (unit.ailment() == ailment::Fly)   return dat::kFlyAffinityRow;
@@ -133,7 +133,7 @@ Float damageRatio(int32_t skill, int32_t source, int32_t target)
         int32_t rate = a.ratePercent();
         if ((a.raw & (Affinity::Repel | Affinity::Drain)) && rate == 0)
             rate = 100;
-        bool physical = s.koukatype == 0;
+        bool physical = s.damageClass == 0;
         if (defender.ailment() == ailment::Freeze && physical && rate < 100)
             rate = 100;
         if (dat::hasSkill(attacker, skill::Pierce) && physical && rate < 100) {

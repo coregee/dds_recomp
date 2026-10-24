@@ -8,9 +8,10 @@ of work.
 ## Layout rules
 
 - New code goes in `source/` (C++20). Follow `source/README.md`: PS2 record
-  layouts with `static_assert`ed offsets, original field names, English
-  function names with the original name and address in a `// name @ 0xADDR`
-  comment directly above the definition (tools/function_map.py reads it).
+  layouts with `static_assert`ed offsets and English names for functions,
+  types and fields (never romanized Japanese). The original name and
+  address go in a `// name @ 0xADDR` comment directly above each function
+  (tools/function_map.py reads it); a renamed field notes `(HD: name)`.
 - `legacy/` is frozen reference material. Read it, compile units of it into
   tests, never edit it. When a whole legacy unit is rewritten, leave it in
   place; the function map tracks which implementation is current.
@@ -115,9 +116,10 @@ behaviour that depends on hardware.
   language for exports.
 - After naming work, run `tools/ghidra/export-annotations.ps1` (close the GUI
   first). Its text export is the backup of the Ghidra work and is committed.
-- Names: use the original name when the HD remaster or a string proves it.
-  Otherwise use a descriptive English name with no address suffix and say in
-  the function comment how sure it is.
+- Names: the HD remaster or a string proves what a function or field is;
+  name it in English from that and keep the original in the comment. With
+  no original, use a descriptive English name with no address suffix and
+  say in the function comment how sure it is.
 
 ## Evidence
 

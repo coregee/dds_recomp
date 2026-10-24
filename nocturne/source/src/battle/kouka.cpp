@@ -10,36 +10,36 @@ namespace nocturne::nb {
 
 namespace {
 
-KoukaPacket& addTo(int32_t startframe, int32_t framelength, int32_t uniqueid, KoukaType type)
+EffectPacket& addTo(int32_t startframe, int32_t framelength, int32_t uniqueid, PacketType type)
 {
-    KoukaPacket& p = nbAddKoukaPacket(nbGetKoukaProcessData(), startframe, framelength, uniqueid);
+    EffectPacket& p = addPacket(effectQueue(), startframe, framelength, uniqueid);
     p.type = type;
     return p;
 }
 
-KoukaPacket& add(int32_t startframe, int32_t uniqueid, KoukaType type) { return addTo(startframe, 0, uniqueid, type); }
+EffectPacket& add(int32_t startframe, int32_t uniqueid, PacketType type) { return addTo(startframe, 0, uniqueid, type); }
 
 // A packet on a formation slot.
-KoukaPacket& addFor(int32_t startframe, int32_t uniqueid, Formation* form, KoukaType type)
+EffectPacket& addFor(int32_t startframe, int32_t uniqueid, Formation* form, PacketType type)
 {
-    KoukaPacket& p = add(startframe, uniqueid, type);
+    EffectPacket& p = add(startframe, uniqueid, type);
     p.form.address = guest::addressOf(form);
     return p;
 }
 
 // The queue as the main process data names it (some functions reach it this way).
-KoukaProcessData* queueOfMainProcess()
+EffectQueue* queueOfMainProcess()
 {
-    const uint32_t process = GetMainProcessData()->KoukaProcessID;
+    const uint32_t process = GetMainProcessData()->EffectQueueProcessID;
     if (!process)
         return nullptr;
-    return guest::table<KoukaProcessData>(dds3::GetProcessData(process));
+    return guest::table<EffectQueue>(dds3::GetProcessData(process));
 }
 
 // A damage number or word on the same unit ends where the new one starts.
-void shortenEarlier(KoukaProcessData& k, KoukaType type, int32_t startframe, int32_t uniqueid, Formation* form)
+void shortenEarlier(EffectQueue& k, PacketType type, int32_t startframe, int32_t uniqueid, Formation* form)
 {
-    for (KoukaPacket* p = k.first.get(); p; p = p->next.get()) {
+    for (EffectPacket* p = k.first.get(); p; p = p->next.get()) {
         if (p->type != type || p->uniqueid != uniqueid || p->form.address != guest::addressOf(form))
             continue;
         if (startframe < p->startframe + p->framelength) {
@@ -52,11 +52,11 @@ void shortenEarlier(KoukaProcessData& k, KoukaType type, int32_t startframe, int
 }
 
 // A sound effect, unless the same one already starts within 5 frames before.
-KoukaPacket* addSound(int32_t startframe, int32_t uniqueid, uint32_t se, KoukaType type)
+EffectPacket* addSound(int32_t startframe, int32_t uniqueid, uint32_t se, PacketType type)
 {
-    if (nbCheckSePacket(startframe, static_cast<int32_t>(se), 5))
+    if (soundQueued(startframe, static_cast<int32_t>(se), 5))
         return nullptr;
-    KoukaPacket& p = add(startframe, uniqueid, type);
+    EffectPacket& p = add(startframe, uniqueid, type);
     p.data1.setInt(static_cast<int32_t>(se));
     return &p;
 }
@@ -66,33 +66,33 @@ KoukaPacket* addSound(int32_t startframe, int32_t uniqueid, uint32_t se, KoukaTy
 // ---- the queue -----------------------------------------------------------------------------
 
 // nbGetKoukaProcessData @ 0x0025E8E0: the "nbKoukaProcess" process's data.
-KoukaProcessData& nbGetKoukaProcessData()
+EffectQueue& effectQueue()
 {
-    return *guest::table<KoukaProcessData>(dds3::GetProcessData(dds3::SearchProcessName(0x00544350)));
+    return *guest::table<EffectQueue>(dds3::GetProcessData(dds3::SearchProcessName(0x00544350)));
 }
 
 // nbGetUniqueIdKoukaPacketCnt @ 0x0025E928: packets of one action.
-int32_t nbGetUniqueIdKoukaPacketCnt(int32_t uniqueid)
+int32_t countActionPackets(int32_t uniqueid)
 {
     int32_t count = 0;
-    for (const KoukaPacket* p = nbGetKoukaProcessData().first.get(); p; p = p->next.get())
+    for (const EffectPacket* p = effectQueue().first.get(); p; p = p->next.get())
         if (p->uniqueid == uniqueid)
             ++count;
     return count;
 }
 
 // nbGetKoukaPacketTypeCnt @ 0x0025E978
-int32_t nbGetKoukaPacketTypeCnt(int8_t type)
+int32_t countPacketsOfType(int8_t type)
 {
     int32_t count = 0;
-    for (const KoukaPacket* p = nbGetKoukaProcessData().first.get(); p; p = p->next.get())
+    for (const EffectPacket* p = effectQueue().first.get(); p; p = p->next.get())
         if (p->type == type)
             ++count;
     return count;
 }
 
 // LinkKoukaPacket @ 0x0025E9C8: at the end.
-void LinkKoukaPacket(KoukaProcessData& k, KoukaPacket& p)
+void linkPacket(EffectQueue& k, EffectPacket& p)
 {
     const uint32_t self = guest::addressOf(&p);
     if (!k.first)
@@ -108,7 +108,7 @@ void LinkKoukaPacket(KoukaProcessData& k, KoukaPacket& p)
 }
 
 // UnlinkKoukaPacket @ 0x0025EA00
-void UnlinkKoukaPacket(KoukaProcessData& k, KoukaPacket& p)
+void unlinkPacket(EffectQueue& k, EffectPacket& p)
 {
     if (!p.prev)
         k.first = p.next;
@@ -123,9 +123,9 @@ void UnlinkKoukaPacket(KoukaProcessData& k, KoukaPacket& p)
 
 // nbAddKoukaPacket @ 0x0025EA48: a cleared packet (its vector is left as
 // the pool gave it) at the end of the queue.
-KoukaPacket& nbAddKoukaPacket(KoukaProcessData& k, int32_t startframe, int32_t framelength, int32_t uniqueid)
+EffectPacket& addPacket(EffectQueue& k, int32_t startframe, int32_t framelength, int32_t uniqueid)
 {
-    KoukaPacket& p = *guest::table<KoukaPacket>(mem::PoolAllocate(sizeof(KoukaPacket)));
+    EffectPacket& p = *guest::table<EffectPacket>(mem::PoolAllocate(sizeof(EffectPacket)));
     p.startframe = static_cast<int16_t>(startframe);
     p.framelength = static_cast<int16_t>(framelength);
     p.uniqueid = uniqueid;
@@ -141,17 +141,99 @@ KoukaPacket& nbAddKoukaPacket(KoukaProcessData& k, int32_t startframe, int32_t f
     p.cuteff = 0;
     p.data1.raw = 0;
     p.data2.raw = 0;
-    LinkKoukaPacket(k, p);
+    linkPacket(k, p);
     return p;
 }
 
-// nbOnOffKoukaPacketFlag @ 0x0025EE78: flag bits of every packet of a type.
-void nbOnOffKoukaPacketFlag(int32_t type, uint32_t flg, int32_t sw)
+// DelKoukaPacket @ 0x0025EAF0: a packet leaves the queue, freeing the
+// effect it started (a skill's cut and, for 0x2B, its effect; a hit
+// effect's part; Ongyo-Ki's clones).
+void deletePacketFrom(EffectQueue& k, EffectPacket& p)
 {
-    KoukaProcessData* k = queueOfMainProcess();
+    switch (p.type) {
+    case kSkillEffect:
+    case kSkillEffect2:
+    case kSkillEffect3:
+        if (p.cuteff) {
+            eff::BTLCutDelete(p.cuteff);
+            p.cuteff = 0;
+        }
+        if (p.type == kSkillEffect3)
+            eff::BTLDelete(p.data1.raw);
+        break;
+    case kSkillEffect1:
+        if (p.cuteff) {
+            eff::BTLSystemCutDelete(p.cuteff);
+            p.cuteff = 0;
+        }
+        break;
+    case kHitEff:
+        if (p.data1.raw <= 10 && p.data1.raw != 3)   // (kind 3 has no part)
+            eff::BTLPartDelete(p.data2.raw);
+        break;
+    case kOngyokiClone: eff::OngyokiCloneEffectDelete(p.data1.raw); break;
+    case kOngyokiClone2: eff::OngyokiCloneEffect2Delete(p.data1.raw); break;
+    case kOngyokiOut: eff::OngyokiEffectDelete(p.data1.raw); break;
+    case kOngyokiOut2: eff::OngyokiEffect2Delete(p.data1.raw); break;
+    default: break;
+    }
+    unlinkPacket(k, p);
+    mem::PoolRelease(guest::addressOf(&p));
+}
+
+// nbDelKoukaPacket @ 0x0025EC28
+void deletePacket(EffectPacket& p) { deletePacketFrom(effectQueue(), p); }
+
+// 0x0025EC58 (no original name): every packet of an action.
+void deleteActionPackets(int32_t uniqueid)
+{
+    EffectQueue* k = queueOfMainProcess();
     if (!k)
         return;
-    for (KoukaPacket* p = k->first.get(); p; p = p->next.get()) {
+    for (EffectPacket* p = k->first.get(); p;) {
+        EffectPacket* next = p->next.get();
+        if (p->uniqueid == uniqueid)
+            deletePacket(*p);
+        p = next;
+    }
+}
+
+// nbDelAllKoukaPacketType @ 0x0025ECC0: every packet of a type.
+void deletePacketsOfType(int32_t type)
+{
+    EffectQueue* k = queueOfMainProcess();
+    if (!k)
+        return;
+    for (EffectPacket* p = k->first.get(); p;) {
+        EffectPacket* next = p->next.get();
+        if (p->type == type)
+            deletePacket(*p);
+        p = next;
+    }
+}
+
+// nbDelAllMojiNumEffectKoukaPacket @ 0x0025ED28: the numbers and words
+// shown over one slot.
+void deleteNumberWordPackets(const Formation* form)
+{
+    EffectQueue* k = queueOfMainProcess();
+    if (!k)
+        return;
+    for (EffectPacket* p = k->first.get(); p;) {
+        EffectPacket* next = p->next.get();
+        if ((p->type == kNumberEff || p->type == kWordEff) && p->form.address == guest::addressOf(form))
+            deletePacket(*p);
+        p = next;
+    }
+}
+
+// nbOnOffKoukaPacketFlag @ 0x0025EE78: flag bits of every packet of a type.
+void setPacketTypeFlag(int32_t type, uint32_t flg, int32_t sw)
+{
+    EffectQueue* k = queueOfMainProcess();
+    if (!k)
+        return;
+    for (EffectPacket* p = k->first.get(); p; p = p->next.get()) {
         if (p->type != type)
             continue;
         p->flag = static_cast<uint8_t>(sw ? p->flag | flg : p->flag & ~flg);
@@ -159,9 +241,9 @@ void nbOnOffKoukaPacketFlag(int32_t type, uint32_t flg, int32_t sw)
 }
 
 // nbCheckSePacket @ 0x0025EF10: a sound `se` starting in (start - frame, start].
-bool nbCheckSePacket(int32_t start, int32_t se, int32_t frame)
+bool soundQueued(int32_t start, int32_t se, int32_t frame)
 {
-    const KoukaPacket* p = guest::table<KoukaProcessData>(dds3::GetProcessData(GetMainProcessData()->KoukaProcessID))->first.get();
+    const EffectPacket* p = guest::table<EffectQueue>(dds3::GetProcessData(GetMainProcessData()->EffectQueueProcessID))->first.get();
     for (; p; p = p->next.get()) {
         if (start < p->startframe || static_cast<int32_t>(static_cast<uint32_t>(start) - static_cast<uint32_t>(frame)) >= p->startframe)
             continue;
@@ -174,18 +256,18 @@ bool nbCheckSePacket(int32_t start, int32_t se, int32_t frame)
 // ---- one packet each -----------------------------------------------------------------------
 
 // nbAddSkillEffectKoukaPacket @ 0x00261500
-KoukaPacket& nbAddSkillEffectKoukaPacket(int32_t startframe, int32_t framelength, int32_t uniqueid, uint32_t cuteff)
+EffectPacket& addSkillEffectPacket(int32_t startframe, int32_t framelength, int32_t uniqueid, uint32_t cuteff)
 {
-    KoukaPacket& p = addTo(startframe, framelength, uniqueid, kSkillEffect);
+    EffectPacket& p = addTo(startframe, framelength, uniqueid, kSkillEffect);
     p.cuteff = cuteff;
     return p;
 }
 
 // nbAddSkillEffectKoukaPacket2 @ 0x00261638: open-ended (flag 1) without a length.
-KoukaPacket& nbAddSkillEffectKoukaPacket2(int32_t startframe, int32_t framelength, int32_t uniqueid, uint32_t hbtl,
+EffectPacket& addSkillEffectPacket2(int32_t startframe, int32_t framelength, int32_t uniqueid, uint32_t hbtl,
                                           int16_t cutno, Formation* form, int16_t j)
 {
-    KoukaPacket& p = addTo(startframe, framelength, uniqueid, kSkillEffect2);
+    EffectPacket& p = addTo(startframe, framelength, uniqueid, kSkillEffect2);
     if (framelength == 0)
         p.flag |= 1;
     p.form.address = guest::addressOf(form);
@@ -196,20 +278,20 @@ KoukaPacket& nbAddSkillEffectKoukaPacket2(int32_t startframe, int32_t framelengt
 }
 
 // nbAddSkillEffectKoukaPacket1 @ 0x002616E8
-KoukaPacket& nbAddSkillEffectKoukaPacket1(int32_t startframe, int32_t framelength, int32_t uniqueid, uint32_t cuteff)
+EffectPacket& addSkillEffectPacket1(int32_t startframe, int32_t framelength, int32_t uniqueid, uint32_t cuteff)
 {
-    KoukaPacket& p = addTo(startframe, framelength, uniqueid, kSkillEffect1);
+    EffectPacket& p = addTo(startframe, framelength, uniqueid, kSkillEffect1);
     p.cuteff = cuteff;
     return p;
 }
 
 // nbAddHatudoEffectEndPacket @ 0x00261758: ends a passive's ("hatudo") effect.
-KoukaPacket& nbAddHatudoEffectEndPacket(int32_t startframe, int32_t uniqueid) { return add(startframe, uniqueid, kHatudoEffectEnd); }
+EffectPacket& addPassiveEffectEndPacket(int32_t startframe, int32_t uniqueid) { return add(startframe, uniqueid, kPassiveEffectEnd); }
 
 // nbAddTargetMoveKoukaPacket @ 0x00261AA0: a party member moves to `pos`.
-KoukaPacket& nbAddTargetMoveKoukaPacket(int32_t startframe, int32_t uniqueid, int32_t partyno, const Vec4& pos, ee::Float speed)
+EffectPacket& addMoveToTargetPacket(int32_t startframe, int32_t uniqueid, int32_t partyno, const Vec4& pos, ee::Float speed)
 {
-    KoukaPacket& p = add(startframe, uniqueid, kTargetMove);
+    EffectPacket& p = add(startframe, uniqueid, kTargetMove);
     p.partyno = partyno;
     p.v = pos;
     p.data1.setFloat(speed);
@@ -217,18 +299,18 @@ KoukaPacket& nbAddTargetMoveKoukaPacket(int32_t startframe, int32_t uniqueid, in
 }
 
 // nbAddHomeMoveKoukaPacket @ 0x00261B30: ... back to its place.
-KoukaPacket& nbAddHomeMoveKoukaPacket(int32_t startframe, int32_t uniqueid, int32_t partyno, ee::Float speed)
+EffectPacket& addMoveHomePacket(int32_t startframe, int32_t uniqueid, int32_t partyno, ee::Float speed)
 {
-    KoukaPacket& p = add(startframe, uniqueid, kHomeMove);
+    EffectPacket& p = add(startframe, uniqueid, kHomeMove);
     p.data1.setFloat(speed);
     p.partyno = partyno;
     return p;
 }
 
 // nbAddRotKoukaPacket @ 0x00261BA0: turns to `v`.
-KoukaPacket& nbAddRotKoukaPacket(int32_t startframe, int32_t uniqueid, int32_t partyno, const Vec4& v, int32_t speed)
+EffectPacket& addTurnPacket(int32_t startframe, int32_t uniqueid, int32_t partyno, const Vec4& v, int32_t speed)
 {
-    KoukaPacket& p = add(startframe, uniqueid, kRot);
+    EffectPacket& p = add(startframe, uniqueid, kRot);
     p.partyno = partyno;
     p.v = v;
     p.data1.setInt(speed);
@@ -236,169 +318,169 @@ KoukaPacket& nbAddRotKoukaPacket(int32_t startframe, int32_t uniqueid, int32_t p
 }
 
 // 0x00261C30 (no HD name; played with nbAddRotKoukaPacket's): turns back home.
-KoukaPacket& nbAddHomeRotKoukaPacket(int32_t startframe, int32_t uniqueid, int32_t partyno, int32_t speed)
+EffectPacket& addTurnHomePacket(int32_t startframe, int32_t uniqueid, int32_t partyno, int32_t speed)
 {
-    KoukaPacket& p = add(startframe, uniqueid, kHomeRot);
+    EffectPacket& p = add(startframe, uniqueid, kHomeRot);
     p.data1.setInt(speed);
     p.partyno = partyno;
     return p;
 }
 
 // nbAddUnitColKoukaPacket @ 0x00261CA0: tints a unit over `frame` frames.
-KoukaPacket& nbAddUnitColKoukaPacket(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t col, int32_t frame)
+EffectPacket& addUnitColorPacket(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t col, int32_t frame)
 {
-    KoukaPacket& p = addFor(startframe, uniqueid, form, kUnitCol);
+    EffectPacket& p = addFor(startframe, uniqueid, form, kUnitCol);
     p.data2.raw = col;
     p.data1.setInt(frame);
     return p;
 }
 
 // nbAddUnitHomeColKoukaPacket @ 0x00261D20: ... back to its own colour.
-KoukaPacket& nbAddUnitHomeColKoukaPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t frame)
+EffectPacket& addUnitColorHomePacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t frame)
 {
-    KoukaPacket& p = addFor(startframe, uniqueid, form, kUnitHomeCol);
+    EffectPacket& p = addFor(startframe, uniqueid, form, kUnitHomeCol);
     p.data1.setInt(frame);
     return p;
 }
 
 // nbAddUnitAKoukaPacket @ 0x00261D90: fades a unit to alpha `a`.
-KoukaPacket& nbAddUnitAKoukaPacket(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t a, int32_t frame)
+EffectPacket& addUnitAlphaPacket(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t a, int32_t frame)
 {
-    KoukaPacket& p = addFor(startframe, uniqueid, form, kUnitA);
+    EffectPacket& p = addFor(startframe, uniqueid, form, kUnitA);
     p.data2.raw = a;
     p.data1.setInt(frame);
     return p;
 }
 
 // nbAddUnitHomeAKoukaPacket @ 0x00261E10
-KoukaPacket& nbAddUnitHomeAKoukaPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t frame)
+EffectPacket& addUnitAlphaHomePacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t frame)
 {
-    KoukaPacket& p = addFor(startframe, uniqueid, form, kUnitHomeA);
+    EffectPacket& p = addFor(startframe, uniqueid, form, kUnitHomeA);
     p.data1.setInt(frame);
     return p;
 }
 
 // nbAddSakeKoukaPacket @ 0x00261E80: a dodge ("sake"), with its sound. The
 // step is 0.9 of the unit's radius, at most 100.
-KoukaPacket& nbAddSakeKoukaPacket(int32_t startframe, int32_t uniqueid, Formation& form)
+EffectPacket& addDodgePacket(int32_t startframe, int32_t uniqueid, Formation& form)
 {
-    KoukaPacket& p = add(startframe, uniqueid, kSake);
+    EffectPacket& p = add(startframe, uniqueid, kDodge);
     ee::Float step = form.r * *guest::table<ee::Float>(0x0054e510);   // 0.9
     if (!(step <= ee::Float(100.0f)))
         step = 100.0f;
     p.form.address = guest::addressOf(&form);
     p.data1.setFloat(step);
     p.data2.raw = *guest::table<uint32_t>(0x0054e514);                 // 0.3
-    nbAddSePacket(startframe, uniqueid, 0x10010);
+    addSoundPacket(startframe, uniqueid, 0x10010);
     return p;
 }
 
 // 0x00261F30 (no HD name; played with nbAddMotionStopClearPacket's)
-KoukaPacket& nbAddMotionStopPacket(int32_t startframe, int32_t uniqueid, Formation* form)
+EffectPacket& addMotionStopPacket(int32_t startframe, int32_t uniqueid, Formation* form)
 {
     return addFor(startframe, uniqueid, form, kMotionStop);
 }
 
 // nbAddMotionStopClearPacket @ 0x00261F90
-KoukaPacket& nbAddMotionStopClearPacket(int32_t startframe, int32_t uniqueid, Formation* form)
+EffectPacket& addMotionStopClearPacket(int32_t startframe, int32_t uniqueid, Formation* form)
 {
     return addFor(startframe, uniqueid, form, kMotionStopClear);
 }
 
 // nbAddMotionKoukaPacket @ 0x00261FF0
-KoukaPacket& nbAddMotionKoukaPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t motion)
+EffectPacket& addMotionPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t motion)
 {
-    KoukaPacket& p = addFor(startframe, uniqueid, form, kMotion);
+    EffectPacket& p = addFor(startframe, uniqueid, form, kMotion);
     p.data1.setInt(motion);
     return p;
 }
 
 // nbAddSkillMotionKoukaPacket @ 0x00262060
-KoukaPacket& nbAddSkillMotionKoukaPacket(int32_t startframe, int32_t uniqueid, Formation* form, int16_t motion,
+EffectPacket& addSkillMotionPacket(int32_t startframe, int32_t uniqueid, Formation* form, int16_t motion,
                                          int16_t endtype, ee::Float ritu)
 {
-    KoukaPacket& p = addFor(startframe, uniqueid, form, kSkillMotion);
+    EffectPacket& p = addFor(startframe, uniqueid, form, kSkillMotion);
     p.data2.setFloat(ritu);
     p.data1.setHalves(motion, endtype);
     return p;
 }
 
 // nbAddDmgMotKoukaPacket @ 0x002620F0: the hit reaction ("week": a weakness hit).
-KoukaPacket& nbAddDmgMotKoukaPacket(int32_t startframe, int32_t uniqueid, Formation* form, ee::Float range, int32_t week)
+EffectPacket& addDamageMotionPacket(int32_t startframe, int32_t uniqueid, Formation* form, ee::Float range, int32_t week)
 {
-    KoukaPacket& p = addFor(startframe, uniqueid, form, kDmgMot);
+    EffectPacket& p = addFor(startframe, uniqueid, form, kDamageMotion);
     p.data2.setInt(week);
     p.data1.setFloat(range);
     return p;
 }
 
 // nbAddEasyDmgMotKoukaPacket @ 0x00262170
-KoukaPacket& nbAddEasyDmgMotKoukaPacket(int32_t startframe, int32_t uniqueid, Formation* form, ee::Float range)
+EffectPacket& addLightDamageMotionPacket(int32_t startframe, int32_t uniqueid, Formation* form, ee::Float range)
 {
-    KoukaPacket& p = addFor(startframe, uniqueid, form, kEasyDmgMot);
+    EffectPacket& p = addFor(startframe, uniqueid, form, kLightDamageMotion);
     p.data1.setFloat(range);
     return p;
 }
 
 // nbAddBadDmgMotKoukaPacket @ 0x002621E0
-KoukaPacket& nbAddBadDmgMotKoukaPacket(int32_t startframe, int32_t uniqueid, Formation* form, ee::Float range,
+EffectPacket& addAilmentDamageMotionPacket(int32_t startframe, int32_t uniqueid, Formation* form, ee::Float range,
                                        uint32_t badstat)
 {
-    KoukaPacket& p = addFor(startframe, uniqueid, form, kBadDmgMot);
+    EffectPacket& p = addFor(startframe, uniqueid, form, kAilmentDamageMotion);
     p.data2.raw = badstat;
     p.data1.setFloat(range);
     return p;
 }
 
 // nbAddBadMotKoukaPacket @ 0x00262260
-KoukaPacket& nbAddBadMotKoukaPacket(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t badstat)
+EffectPacket& addAilmentMotionPacket(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t badstat)
 {
-    KoukaPacket& p = addFor(startframe, uniqueid, form, kBadMot);
+    EffectPacket& p = addFor(startframe, uniqueid, form, kAilmentMotion);
     p.data2.raw = badstat;
     return p;
 }
 
 // nbAddReturnKoukaPacket @ 0x002622D0: a unit leaves the field.
-KoukaPacket& nbAddReturnKoukaPacket(int32_t startframe, int32_t uniqueid, Party* party, int32_t dead)
+EffectPacket& addReturnPacket(int32_t startframe, int32_t uniqueid, Party* party, int32_t dead)
 {
-    KoukaPacket& p = add(startframe, uniqueid, kReturn);
+    EffectPacket& p = add(startframe, uniqueid, kReturn);
     p.data1.setInt(dead);
     p.party.address = guest::addressOf(party);
     return p;
 }
 
 // nbAddSummonKoukaPacket @ 0x00262340
-KoukaPacket& nbAddSummonKoukaPacket(int32_t startframe, int32_t uniqueid, int16_t side, int16_t stockno, int16_t formindex)
+EffectPacket& addSummonPacket(int32_t startframe, int32_t uniqueid, int16_t side, int16_t stockno, int16_t formindex)
 {
-    KoukaPacket& p = add(startframe, uniqueid, kSummon);
+    EffectPacket& p = add(startframe, uniqueid, kSummon);
     p.data2.raw = (p.data2.raw & 0xffff0000u) | static_cast<uint16_t>(formindex);
     p.data1.setHalves(side, stockno);
     return p;
 }
 
 // 0x002623C0 (no HD name; played with nbAddSkillColorOffPacket's)
-KoukaPacket& nbAddSkillColorPacket(int32_t startframe, int32_t uniqueid, int32_t col, int32_t frame)
+EffectPacket& addSkillColorPacket(int32_t startframe, int32_t uniqueid, int32_t col, int32_t frame)
 {
-    KoukaPacket& p = add(startframe, uniqueid, kSkillColor);
+    EffectPacket& p = add(startframe, uniqueid, kSkillColor);
     p.data2.setInt(frame);
     p.data1.setInt(col);
     return p;
 }
 
 // nbAddSkillColorOffPacket @ 0x00262430
-KoukaPacket& nbAddSkillColorOffPacket(int32_t startframe, int32_t uniqueid) { return add(startframe, uniqueid, kSkillColorOff); }
+EffectPacket& addSkillColorOffPacket(int32_t startframe, int32_t uniqueid) { return add(startframe, uniqueid, kSkillColorOff); }
 
 // nbAddBadEffKaifukuPacket @ 0x00262610: an ailment cured.
-KoukaPacket& nbAddBadEffKaifukuPacket(int32_t startframe, int32_t uniqueid, Formation* form)
+EffectPacket& addAilmentCureEffectPacket(int32_t startframe, int32_t uniqueid, Formation* form)
 {
-    return addFor(startframe, uniqueid, form, kBadEffKaifuku);
+    return addFor(startframe, uniqueid, form, kAilmentCureEff);
 }
 
 // nbAddBadEffKoukaPacket @ 0x00262670: an ailment's effect, numbered
 // 1..11 for Shock .. Stone (0 for anything else).
-KoukaPacket& nbAddBadEffKoukaPacket(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t bad)
+EffectPacket& addAilmentEffectPacket(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t bad)
 {
-    KoukaPacket& p = add(startframe, uniqueid, kBadEff);
+    EffectPacket& p = add(startframe, uniqueid, kAilmentEff);
     p.form.address = guest::addressOf(form);
     int32_t effect = 0;
     for (int32_t i = 0; i < 11; ++i)
@@ -409,80 +491,80 @@ KoukaPacket& nbAddBadEffKoukaPacket(int32_t startframe, int32_t uniqueid, Format
 }
 
 // nbAddNumEffKoukaPacket @ 0x002627C0: a damage number (n, n2: HP, MP).
-void nbAddNumEffKoukaPacket(int32_t startframe, int32_t frame, int32_t uniqueid, Formation* form, int32_t n, int32_t n2,
+void addNumberPacket(int32_t startframe, int32_t frame, int32_t uniqueid, Formation* form, int32_t n, int32_t n2,
                             int32_t type)
 {
-    KoukaProcessData& k = nbGetKoukaProcessData();
-    shortenEarlier(k, kNumEff, startframe, uniqueid, form);
-    KoukaPacket& p = nbAddKoukaPacket(k, startframe, frame, uniqueid);
+    EffectQueue& k = effectQueue();
+    shortenEarlier(k, kNumberEff, startframe, uniqueid, form);
+    EffectPacket& p = addPacket(k, startframe, frame, uniqueid);
     p.partyno = n2;
     p.form.address = guest::addressOf(form);
     p.data1.setInt(type);
     p.data2.setInt(n);
-    p.type = kNumEff;
+    p.type = kNumberEff;
 }
 
 // nbAddMojiEffKoukaPacket @ 0x002628D0: a word ("moji"): weak, resist ...;
 // type 4 also plays its sound.
-void nbAddMojiEffKoukaPacket(int32_t startframe, int32_t frame, int32_t uniqueid, Formation* form, int32_t type)
+void addWordPacket(int32_t startframe, int32_t frame, int32_t uniqueid, Formation* form, int32_t type)
 {
-    KoukaProcessData& k = nbGetKoukaProcessData();
-    shortenEarlier(k, kMojiEff, startframe, uniqueid, form);
+    EffectQueue& k = effectQueue();
+    shortenEarlier(k, kWordEff, startframe, uniqueid, form);
     if (type == 4)
-        nbAddSePacket(startframe, uniqueid, 0x1000a);
-    KoukaPacket& p = nbAddKoukaPacket(k, startframe, frame, uniqueid);
+        addSoundPacket(startframe, uniqueid, 0x1000a);
+    EffectPacket& p = addPacket(k, startframe, frame, uniqueid);
     p.data1.setInt(type);
     p.form.address = guest::addressOf(form);
-    p.type = kMojiEff;
+    p.type = kWordEff;
 }
 
 // nbAddHpMpKoukaPacket @ 0x002629E8: applies an HP (type 0) or MP change.
-KoukaPacket& nbAddHpMpKoukaPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t n, int32_t type)
+EffectPacket& addHpMpPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t n, int32_t type)
 {
-    KoukaPacket& p = addFor(startframe, uniqueid, form, kHpMp);
+    EffectPacket& p = addFor(startframe, uniqueid, form, kHpMp);
     p.data2.setInt(n);
     p.data1.setInt(type);
     return p;
 }
 
 // nbAddPressPacket @ 0x00262A68
-KoukaPacket& nbAddPressPacket(int32_t startframe, int32_t uniqueid, ee::Float press)
+EffectPacket& addPressPacket(int32_t startframe, int32_t uniqueid, ee::Float press)
 {
-    KoukaPacket& p = add(startframe, uniqueid, kPress);
+    EffectPacket& p = add(startframe, uniqueid, kPress);
     p.data1.setFloat(press);
     return p;
 }
 
 // nbAddNewPressPacket @ 0x00262AC8: press turn icons gained or lost.
-KoukaPacket& nbAddNewPressPacket(int32_t startframe, int32_t uniqueid, int16_t press_p, int16_t press_ten)
+EffectPacket& addPressResultPacket(int32_t startframe, int32_t uniqueid, int16_t press_p, int16_t press_ten)
 {
-    KoukaPacket& p = add(startframe, uniqueid, kNewPress);
+    EffectPacket& p = add(startframe, uniqueid, kNewPress);
     p.data1.setHalves(press_p, press_ten);
     return p;
 }
 
 // nbAddBadStatKoukaPacket @ 0x00262B38: sets (sw 1) or clears an ailment.
-KoukaPacket& nbAddBadStatKoukaPacket(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t badstat, int32_t sw)
+EffectPacket& addAilmentPacket(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t badstat, int32_t sw)
 {
-    KoukaPacket& p = addFor(startframe, uniqueid, form, kBadStat);
+    EffectPacket& p = addFor(startframe, uniqueid, form, kAilment);
     p.data2.raw = badstat;
     p.data1.setInt(sw);
     return p;
 }
 
 // nbAddBadMotKaifukuPacket @ 0x00262BB8
-KoukaPacket& nbAddBadMotKaifukuPacket(int32_t startframe, int32_t uniqueid, Formation* form)
+EffectPacket& addAilmentMotionCurePacket(int32_t startframe, int32_t uniqueid, Formation* form)
 {
-    return addFor(startframe, uniqueid, form, kBadMotKaifuku);
+    return addFor(startframe, uniqueid, form, kAilmentMotionCure);
 }
 
 // nbAddDeadPcmPacket @ 0x00262C18: the unit's death cry (255 when flying).
-KoukaPacket* nbAddDeadPcmPacket(int32_t startframe, int32_t uniqueid, Formation& form)
+EffectPacket* addDeathVoicePacket(int32_t startframe, int32_t uniqueid, Formation& form)
 {
     const UnitWork* unit = GetUnitWorkFromFormindex(form.formindex);
     if (!unit)
         return nullptr;
-    KoukaPacket& p = add(startframe, uniqueid, kDeadPcm);
+    EffectPacket& p = add(startframe, uniqueid, kDeadPcm);
     p.form.address = guest::addressOf(&form);
     p.data1.setInt((unit->badstat & kAilmentMask) == ailment::Fly ? 0xff : unit->id);
     return &p;
@@ -490,216 +572,216 @@ KoukaPacket* nbAddDeadPcmPacket(int32_t startframe, int32_t uniqueid, Formation&
 
 // nbAddSePacket @ 0x00262CC0 / nbAddSePacket2 @ 0x00262D38 / 0x00262DB0:
 // three sound channels, each skipping a repeat within 5 frames.
-KoukaPacket* nbAddSePacket(int32_t startframe, int32_t uniqueid, uint32_t se) { return addSound(startframe, uniqueid, se, kSe); }
+EffectPacket* addSoundPacket(int32_t startframe, int32_t uniqueid, uint32_t se) { return addSound(startframe, uniqueid, se, kSe); }
 
 // nbAddSePacket2 @ 0x00262D38
-KoukaPacket* nbAddSePacket2(int32_t startframe, int32_t uniqueid, uint32_t se) { return addSound(startframe, uniqueid, se, kSe2); }
+EffectPacket* addSoundPacket2(int32_t startframe, int32_t uniqueid, uint32_t se) { return addSound(startframe, uniqueid, se, kSe2); }
 
 // 0x00262DB0 (no HD name)
-KoukaPacket* nbAddSePacket3(int32_t startframe, int32_t uniqueid, uint32_t se) { return addSound(startframe, uniqueid, se, kSe3); }
+EffectPacket* addSoundPacket3(int32_t startframe, int32_t uniqueid, uint32_t se) { return addSound(startframe, uniqueid, se, kSe3); }
 
 // nbAddHitStopPacket @ 0x00262E28: two frames' pause.
-KoukaPacket& nbAddHitStopPacket(int32_t startframe, int32_t uniqueid) { return addTo(startframe, 2, uniqueid, kHitStop); }
+EffectPacket& addHitStopPacket(int32_t startframe, int32_t uniqueid) { return addTo(startframe, 2, uniqueid, kHitStop); }
 
 // nbAddAnalyzePacket @ 0x00262E78
-KoukaPacket& nbAddAnalyzePacket(int32_t startframe, int32_t uniqueid, Formation* form)
+EffectPacket& addAnalyzePacket(int32_t startframe, int32_t uniqueid, Formation* form)
 {
-    KoukaPacket& p = addTo(startframe, 2, uniqueid, kAnalyze);
+    EffectPacket& p = addTo(startframe, 2, uniqueid, kAnalyze);
     p.form.address = guest::addressOf(form);
     return p;
 }
 
 // nbAddJyokyoHelpPacket @ 0x00262ED8: a situation ("jyokyo") message.
-KoukaPacket& nbAddJyokyoHelpPacket(int32_t startframe, int32_t uniqueid, int16_t no, int16_t var_id, int32_t var_ind)
+EffectPacket& addStatusMessagePacket(int32_t startframe, int32_t uniqueid, int16_t no, int16_t var_id, int32_t var_ind)
 {
-    KoukaPacket& p = add(startframe, uniqueid, kJyokyoHelp);
+    EffectPacket& p = add(startframe, uniqueid, kStatusMessage);
     p.data2.setInt(var_ind);
     p.data1.setHalves(no, var_id);
     return p;
 }
 
 // nbAddSkillNamePacket @ 0x00262F58
-KoukaPacket& nbAddSkillNamePacket(int32_t startframe, int32_t uniqueid, int32_t id)
+EffectPacket& addSkillNamePacket(int32_t startframe, int32_t uniqueid, int32_t id)
 {
-    KoukaPacket& p = add(startframe, uniqueid, kSkillName);
+    EffectPacket& p = add(startframe, uniqueid, kSkillName);
     p.data1.setInt(id);
     return p;
 }
 
 // nbAddFormOnOffPacket @ 0x00262FB8: shows or hides a unit.
-KoukaPacket& nbAddFormOnOffPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t sw)
+EffectPacket& addFormationShowPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t sw)
 {
-    KoukaPacket& p = addFor(startframe, uniqueid, form, kFormOnOff);
+    EffectPacket& p = addFor(startframe, uniqueid, form, kFormOnOff);
     p.data1.setInt(sw);
     return p;
 }
 
 // nbAddFormFlagOnOffPacket @ 0x00263028
-KoukaPacket& nbAddFormFlagOnOffPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t sw, uint32_t flag)
+EffectPacket& addFormationFlagPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t sw, uint32_t flag)
 {
-    KoukaPacket& p = addFor(startframe, uniqueid, form, kFormFlagOnOff);
+    EffectPacket& p = addFor(startframe, uniqueid, form, kFormFlagOnOff);
     p.data2.raw = flag;
     p.data1.setInt(sw);
     return p;
 }
 
 // nbAddFlyKoukaPacket @ 0x002630A8
-KoukaPacket& nbAddFlyKoukaPacket(int32_t startframe, int32_t uniqueid, Formation* form)
+EffectPacket& addFlyPacket(int32_t startframe, int32_t uniqueid, Formation* form)
 {
-    KoukaPacket& p = addFor(startframe, uniqueid, form, kFly);
+    EffectPacket& p = addFor(startframe, uniqueid, form, kFly);
     p.data1.raw = 0;
     return p;
 }
 
 // nbAddOngBunshinPacket @ 0x00263110 (no HD name: the HD remaster has only
 // the three-clone version)
-KoukaPacket& nbAddOngBunshinPacket(int32_t startframe, int32_t uniqueid, Formation* sform, Formation* eform)
+EffectPacket& addOngyokiClonePacket(int32_t startframe, int32_t uniqueid, Formation* sform, Formation* eform)
 {
-    KoukaPacket& p = nbAddKoukaPacket(nbGetKoukaProcessData(), startframe, eff::effPCPBossBUNSINGetLength(), uniqueid);
-    p.data1.raw = eff::PCPBossBUNSINCreate({guest::addressOf(sform), guest::addressOf(eform)});
-    p.type = kOngBunshin;
+    EffectPacket& p = addPacket(effectQueue(), startframe, eff::ongyokiCloneEffectLength(), uniqueid);
+    p.data1.raw = eff::OngyokiCloneEffectCreate({guest::addressOf(sform), guest::addressOf(eform)});
+    p.type = kOngyokiClone;
     return p;
 }
 
 // nbAddOngBunshin2Packet @ 0x002631A0
-KoukaPacket& nbAddOngBunshin2Packet(int32_t startframe, int32_t uniqueid, Formation* sform, Formation* form1,
+EffectPacket& addOngyokiClonePacket2(int32_t startframe, int32_t uniqueid, Formation* sform, Formation* form1,
                                     Formation* form2, Formation* form3)
 {
-    KoukaPacket& p = nbAddKoukaPacket(nbGetKoukaProcessData(), startframe, eff::effPCPBossBUNSIN2GetLength(), uniqueid);
-    p.data1.raw = eff::PCPBossBUNSIN2Create(
+    EffectPacket& p = addPacket(effectQueue(), startframe, eff::ongyokiCloneEffect2Length(), uniqueid);
+    p.data1.raw = eff::OngyokiCloneEffect2Create(
         {guest::addressOf(sform), guest::addressOf(form1), guest::addressOf(form2), guest::addressOf(form3)});
-    p.type = kOngBunshin2;
+    p.type = kOngyokiClone2;
     return p;
 }
 
 // nbAddOngOutPacket @ 0x00263250
-KoukaPacket& nbAddOngOutPacket(int32_t startframe, int32_t uniqueid, Formation* form)
+EffectPacket& addOngyokiOutPacket(int32_t startframe, int32_t uniqueid, Formation* form)
 {
-    KoukaPacket& p = nbAddKoukaPacket(nbGetKoukaProcessData(), startframe, eff::effPCPBossONGYGetLength(), uniqueid);
-    p.data1.raw = eff::PCPBossONGYCreate({guest::addressOf(form)});
-    p.type = kOngOut;
+    EffectPacket& p = addPacket(effectQueue(), startframe, eff::ongyokiEffectLength(), uniqueid);
+    p.data1.raw = eff::OngyokiEffectCreate({guest::addressOf(form)});
+    p.type = kOngyokiOut;
     return p;
 }
 
 // nbAddOngOut2Packet @ 0x002632D0
-KoukaPacket& nbAddOngOut2Packet(int32_t startframe, int32_t uniqueid, Formation* form)
+EffectPacket& addOngyokiOutPacket2(int32_t startframe, int32_t uniqueid, Formation* form)
 {
-    KoukaPacket& p = nbAddKoukaPacket(nbGetKoukaProcessData(), startframe, eff::effPCPBossONGY2GetLength(), uniqueid);
-    p.data1.raw = eff::PCPBossONGY2Create({guest::addressOf(form)});
-    p.type = kOngOut2;
+    EffectPacket& p = addPacket(effectQueue(), startframe, eff::ongyokiEffect2Length(), uniqueid);
+    p.data1.raw = eff::OngyokiEffect2Create({guest::addressOf(form)});
+    p.type = kOngyokiOut2;
     return p;
 }
 
 // nbAddDeadEventKoukaPacket @ 0x00263350: a death that starts an event.
 // It also ends the battle (endtype 7); the event number it hands the main
 // process is the new packet's still-empty data, 0.
-KoukaPacket& nbAddDeadEventKoukaPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t eventno)
+EffectPacket& addDeathEventPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t eventno)
 {
-    KoukaProcessData& k = nbGetKoukaProcessData();
-    KoukaPacket& p = nbAddKoukaPacket(k, startframe, 0, uniqueid);
+    EffectQueue& k = effectQueue();
+    EffectPacket& p = addPacket(k, startframe, 0, uniqueid);
     MainProcessData& main = *k.data;
     main.actionstackp = 0;
     p.form.address = guest::addressOf(form);
     main.endtype = 7;
-    main.aiextra = p.data1.i();
+    main.eventno = p.data1.i();
     p.data1.setInt(eventno);
     p.type = kDeadEvent;
     return p;
 }
 
 // nbAddFadeOutKoukaPacket @ 0x002633E8 / nbAddFadeInKoukaPacket @ 0x00263458
-KoukaPacket& nbAddFadeOutKoukaPacket(int32_t startframe, int32_t uniqueid, int32_t length, int32_t coltype)
+EffectPacket& addFadeOutPacket(int32_t startframe, int32_t uniqueid, int32_t length, int32_t coltype)
 {
-    KoukaPacket& p = add(startframe, uniqueid, kFadeOut);
+    EffectPacket& p = add(startframe, uniqueid, kFadeOut);
     p.data2.setInt(coltype);
     p.data1.setInt(length);
     return p;
 }
 
 // nbAddFadeInKoukaPacket @ 0x00263458
-KoukaPacket& nbAddFadeInKoukaPacket(int32_t startframe, int32_t uniqueid, int32_t length, int32_t coltype)
+EffectPacket& addFadeInPacket(int32_t startframe, int32_t uniqueid, int32_t length, int32_t coltype)
 {
-    KoukaPacket& p = add(startframe, uniqueid, kFadeIn);
+    EffectPacket& p = add(startframe, uniqueid, kFadeIn);
     p.data2.setInt(coltype);
     p.data1.setInt(length);
     return p;
 }
 
 // nbAddHojoKoukaPacket @ 0x002634C8: a buff or debuff ("hojo") shown.
-KoukaPacket& nbAddHojoKoukaPacket(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t hojotype, int32_t hojopoint)
+EffectPacket& addBuffPacket(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t hojotype, int32_t hojopoint)
 {
-    KoukaPacket& p = addFor(startframe, uniqueid, form, kHojo);
+    EffectPacket& p = addFor(startframe, uniqueid, form, kBuff);
     p.data2.setInt(hojopoint);
     p.data1.raw = hojotype;
     return p;
 }
 
 // nbAddFlareChargePacket @ 0x00263548
-KoukaPacket& nbAddFlareChargePacket(int32_t startframe, int32_t uniqueid, int32_t point)
+EffectPacket& addFlareChargePacket(int32_t startframe, int32_t uniqueid, int32_t point)
 {
-    KoukaPacket& p = add(startframe, uniqueid, kFlareCharge);
+    EffectPacket& p = add(startframe, uniqueid, kFlareCharge);
     p.data1.setInt(point);
     return p;
 }
 
 // nbAddPadShockPacket @ 0x002635A8: the pad's vibration.
-KoukaPacket& nbAddPadShockPacket(int32_t startframe, int32_t uniqueid, int16_t mode, int16_t pow, int16_t time)
+EffectPacket& addPadShockPacket(int32_t startframe, int32_t uniqueid, int16_t mode, int16_t pow, int16_t time)
 {
-    KoukaPacket& p = add(startframe, uniqueid, kPadShock);
+    EffectPacket& p = add(startframe, uniqueid, kPadShock);
     p.data2.raw = (p.data2.raw & 0xffff0000u) | static_cast<uint16_t>(time);
     p.data1.setHalves(mode, pow);
     return p;
 }
 
 // nbAddPanelStockFadeOutPacket @ 0x00263628 / nbAddPanelStockEndPacket @ 0x00263678
-KoukaPacket& nbAddPanelStockFadeOutPacket(int32_t startframe, int32_t uniqueid) { return add(startframe, uniqueid, kPanelStockFadeOut); }
+EffectPacket& addStockPanelFadeOutPacket(int32_t startframe, int32_t uniqueid) { return add(startframe, uniqueid, kPanelStockFadeOut); }
 
 // nbAddPanelStockEndPacket @ 0x00263678
-KoukaPacket& nbAddPanelStockEndPacket(int32_t startframe, int32_t uniqueid) { return add(startframe, uniqueid, kPanelStockEnd); }
+EffectPacket& addStockPanelEndPacket(int32_t startframe, int32_t uniqueid) { return add(startframe, uniqueid, kPanelStockEnd); }
 
 // ---- packets for a whole event ---------------------------------------------------------------
 
 // nbMakeSummonPacket @ 0x002636C8: the unit appears and fades in.
-int32_t nbMakeSummonPacket(int32_t startframe, int32_t uniqueid, int16_t side, int16_t stockno, int16_t formindex)
+int32_t makeSummonPackets(int32_t startframe, int32_t uniqueid, int16_t side, int16_t stockno, int16_t formindex)
 {
     Formation* form = &GetMainProcessData()->form[formindex];
-    nbAddSummonKoukaPacket(startframe, uniqueid, side, stockno, formindex);
-    nbMakeUnitFadeInPacket(startframe + 1, uniqueid, form, 0, 0xf, 0xf, 0x14);
+    addSummonPacket(startframe, uniqueid, side, stockno, formindex);
+    makeFadeInPackets(startframe + 1, uniqueid, form, 0, 0xf, 0xf, 0x14);
     return 1;
 }
 
 // nbMakeReturnPacket @ 0x00263778: the unit fades out and leaves.
-int32_t nbMakeReturnPacket(int32_t startframe, int32_t uniqueid, Party& party)
+int32_t makeReturnPackets(int32_t startframe, int32_t uniqueid, Party& party)
 {
     Formation* forms = GetMainProcessData()->form.get();
     party.flag = static_cast<int16_t>(party.flag | 0x20);
-    nbMakeUnitFadeOutPacket(startframe, uniqueid, &forms[party.formindex], 0, 6, 6, 6);
-    nbAddReturnKoukaPacket(startframe + 0xd, uniqueid, &party, 0);
+    makeFadeOutPackets(startframe, uniqueid, &forms[party.formindex], 0, 6, 6, 6);
+    addReturnPacket(startframe + 0xd, uniqueid, &party, 0);
     return 1;
 }
 
 // nbMakeUnitFadeInPacket @ 0x00263810
-int32_t nbMakeUnitFadeInPacket(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t col, int32_t delay,
+int32_t makeFadeInPackets(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t col, int32_t delay,
                                int32_t aframe, int32_t colframe)
 {
-    nbAddUnitColKoukaPacket(startframe, uniqueid, form, col, 0);
-    nbAddUnitHomeAKoukaPacket(startframe, uniqueid, form, aframe);
-    nbAddUnitHomeColKoukaPacket(startframe + delay, uniqueid, form, colframe);
+    addUnitColorPacket(startframe, uniqueid, form, col, 0);
+    addUnitAlphaHomePacket(startframe, uniqueid, form, aframe);
+    addUnitColorHomePacket(startframe + delay, uniqueid, form, colframe);
     return 1;
 }
 
 // nbMakeUnitFadeOutPacket @ 0x002638A0
-int32_t nbMakeUnitFadeOutPacket(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t col, int32_t delay,
+int32_t makeFadeOutPackets(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t col, int32_t delay,
                                 int32_t colframe, int32_t aframe)
 {
-    nbAddUnitColKoukaPacket(startframe, uniqueid, form, col, colframe);
-    nbAddUnitAKoukaPacket(startframe + delay, uniqueid, form, 0, aframe);
+    addUnitColorPacket(startframe, uniqueid, form, col, colframe);
+    addUnitAlphaPacket(startframe + delay, uniqueid, form, 0, aframe);
     return 1;
 }
 
 // nbMakeDeadPacket @ 0x002641F8: a dead unit on the field leaves, unless its
 // death starts an event or it is the Demi-fiend (deadchk 1: leaves anyway).
-int32_t nbMakeDeadPacket(int32_t startframe, int32_t uniqueid, Formation& form, int32_t deadchk)
+int32_t makeDeathPackets(int32_t startframe, int32_t uniqueid, Formation& form, int32_t deadchk)
 {
     MainProcessData& main = *GetMainProcessData();
     if (!(form.stat & FormationStat::Present) || !(form.stat & FormationStat::CheckParty))
@@ -707,24 +789,24 @@ int32_t nbMakeDeadPacket(int32_t startframe, int32_t uniqueid, Formation& form, 
     Party& party = main.party[form.partyindex];
     const UnitWork& unit = *GetUnitWorkPointer(main, party);
     party.flag = static_cast<int16_t>(party.flag | 0x30);
-    if ((!nbCheckEventDead(form) && !(unit.flag & UnitFlag::PlayerCharacter)) || deadchk == 1)
-        nbAddReturnKoukaPacket(startframe, uniqueid, &party, 1);
+    if ((!diesByEvent(form) && !(unit.flag & UnitFlag::PlayerCharacter)) || deadchk == 1)
+        addReturnPacket(startframe, uniqueid, &party, 1);
     return 1;
 }
 
 // nbMakePressPacket @ 0x002642E0: `press` shared over the side's units
 // (the enemies' when stat bit 8 is set).
-int32_t nbMakePressPacket(int32_t startframe, int32_t uniqueid, ee::Float press)
+int32_t makePressPackets(int32_t startframe, int32_t uniqueid, ee::Float press)
 {
     const MainProcessData& main = *GetMainProcessData();
     const int16_t count = (main.stat & 8) ? main.enemypcnt : main.playerpcnt;
-    nbAddPressPacket(startframe, uniqueid, press / ee::Float::fromInt(count));
+    addPressPacket(startframe, uniqueid, press / ee::Float::fromInt(count));
     return 1;
 }
 
 // nbMakeNewPressPacket @ 0x00264368: how a result changes the press turn
 // icons (press4_p full, press4_ten blinking), neither above 8.
-int32_t nbMakeNewPressPacket(int32_t startframe, int32_t uniqueid, int32_t ptype)
+int32_t makePressResultPackets(int32_t startframe, int32_t uniqueid, int32_t ptype)
 {
     const MainProcessData& main = *GetMainProcessData();
     const int32_t full = main.press4_p, half = main.press4_ten;
@@ -768,41 +850,41 @@ int32_t nbMakeNewPressPacket(int32_t startframe, int32_t uniqueid, int32_t ptype
         dFull = 8 - full;
     if (half + dHalf >= 9)
         dHalf = 8 - half;
-    nbAddNewPressPacket(startframe, uniqueid, static_cast<int16_t>(dFull), static_cast<int16_t>(dHalf));
+    addPressResultPacket(startframe, uniqueid, static_cast<int16_t>(dFull), static_cast<int16_t>(dHalf));
     return 1;
 }
 
 // nbMakeFlyBadPacket @ 0x00264508
-int32_t nbMakeFlyBadPacket(int32_t startframe, int32_t uniqueid, Formation* form)
+int32_t makeFlyAilmentPackets(int32_t startframe, int32_t uniqueid, Formation* form)
 {
-    nbAddFlyKoukaPacket(startframe, uniqueid, form);
+    addFlyPacket(startframe, uniqueid, form);
     return 1;
 }
 
 // nbMakeBadDamagePacket @ 0x00264528: an ailment inflicted.
-int32_t nbMakeBadDamagePacket(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t bad)
+int32_t makeAilmentPackets(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t bad)
 {
-    nbAddBadDmgMotKoukaPacket(startframe, uniqueid, form, 17.0f, bad);
-    nbAddBadEffKoukaPacket(startframe, uniqueid, form, bad);
-    nbAddBadStatKoukaPacket(startframe, uniqueid, form, bad, 1);
+    addAilmentDamageMotionPacket(startframe, uniqueid, form, 17.0f, bad);
+    addAilmentEffectPacket(startframe, uniqueid, form, bad);
+    addAilmentPacket(startframe, uniqueid, form, bad, 1);
     return 1;
 }
 
 // nbMakeBadKaifukuPacket @ 0x002645A8: an ailment cured; the cure's motion
 // and effect for the player's side and a real ailment.
-int32_t nbMakeBadKaifukuPacket(int32_t startframe, int32_t uniqueid, Formation& form)
+int32_t makeAilmentCurePackets(int32_t startframe, int32_t uniqueid, Formation& form)
 {
     const int32_t formindex = form.formindex;
     const uint32_t bad = badStat(formindex);
     if (bad != 0)
-        nbAddBadStatKoukaPacket(startframe, uniqueid, &form, 0xfff, 0);
+        addAilmentPacket(startframe, uniqueid, &form, 0xfff, 0);
     if (formindex > 15)
         return 1;
     switch (bad) {
     case 1: case 2: case 4: case 8: case 0x10: case 0x20: case 0x40: case 0x80:
     case 0x100: case 0x200: case 0x400: case 0x800:
-        nbAddBadMotKaifukuPacket(startframe, uniqueid, &form);
-        nbAddBadEffKaifukuPacket(startframe, uniqueid, &form);
+        addAilmentMotionCurePacket(startframe, uniqueid, &form);
+        addAilmentCureEffectPacket(startframe, uniqueid, &form);
         break;
     default:
         break;

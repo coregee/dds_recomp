@@ -289,7 +289,7 @@ int32_t Initialize(uint32_t data)
     pinst.otindex = 0x47;
     pinst.z = 0xfffff0;
     pinst.type = 0;
-    pinst.func_kuti = 0;
+    pinst.mouthCallback = 0;
     InitializeSpeaker(pinst.speaker, true);
     InitializeMessage(pinst.message, true);
     InitializeSelect(pinst.select);
@@ -816,8 +816,8 @@ void ReadytoMessage(Instance& pinst)
         pinst.stat |= kNoSpeakerName;
     else
         pinst.stat &= ~kNoSpeakerName;
-    if (fr::frGetMessageResult(4) && pinst.func_kuti)
-        guest::callFunction(pinst.func_kuti);
+    if (fr::frGetMessageResult(4) && pinst.mouthCallback)
+        guest::callFunction(pinst.mouthCallback);
     ChangeZBuffer(request(font), pinst.z);
     fr::Request* last = GetLastLinkFontHandle(request(font));
     int32_t lines = CountLineMessage(*last, *request(font));
@@ -1044,7 +1044,7 @@ void SetSelect(int32_t id, int32_t selno)
 void SetDefaultSpeed(int32_t id, uint8_t speed) { instance(id).message.last_spd = speed; }
 
 // itfMesMngSetKutiCallback @ 0x001CEB38
-void SetKutiCallback(int32_t id, uint32_t function) { instance(id).func_kuti = function; }
+void setMouthCallback(int32_t id, uint32_t function) { instance(id).mouthCallback = function; }
 
 // itfMesMngGetConfig @ 0x001CEC68 (no original name)
 uint16_t GetConfig() { return manager().config; }

@@ -51,16 +51,16 @@ def record(spec, base):
 DEVIL = [
     ("flag", "I", 1, 0x00, "hex"), ("race", "B", 1, 0x04, "race"), ("level", "B", 1, 0x05, "num"),
     ("hp", "H", 1, 0x06, "num"), ("maxhp", "H", 1, 0x08, "num"), ("mp", "H", 1, 0x0A, "num"),
-    ("maxmp", "H", 1, 0x0C, "num"), ("aisyoid", "h", 1, 0x0E, "num"), ("param", "b", 6, 0x10, "num"),
-    ("skill", "H", 8, 0x16, "skill"), ("keisyotype", "h", 1, 0x26, "num"), ("keisyoform", "H", 1, 0x28, "hex"),
+    ("maxmp", "H", 1, 0x0C, "num"), ("affinityId", "h", 1, 0x0E, "num"), ("param", "b", 6, 0x10, "num"),
+    ("skill", "H", 8, 0x16, "skill"), ("inheritType", "h", 1, 0x26, "num"), ("inheritMask", "H", 1, 0x28, "hex"),
     ("dropmakka", "H", 1, 0x2A, "num"), ("dropexp", "H", 1, 0x2C, "num"), ("dropitem", "B", 2, 0x2E, "item"),
     ("droppoint", "B", 2, 0x30, "num"), ("specialbit", "H", 1, 0x32, "hex"), ("specialitem", "B", 1, 0x34, "item"),
-    ("specialpoint", "B", 1, 0x35, "num"), ("hougyokupoint", "B", 1, 0x36, "num"), ("masekipoint", "B", 1, 0x37, "num"),
+    ("specialpoint", "B", 1, 0x35, "num"), ("beadDropChance", "B", 1, 0x36, "num"), ("lifeStoneDropChance", "B", 1, 0x37, "num"),
     ("attackattr", "b", 1, 0x38, "num"), ("attackcnt", "B", 1, 0x39, "num"), ("attackinterval", "B", 1, 0x3A, "num"),
     ("reserve1", "B", 1, 0x3B, "num"),
 ]
 NORMAL_SKILL = [
-    ("flag", "B", 1, 0x00, "hex"), ("use", "B", 1, 0x01, "num"), ("koukatype", "B", 1, 0x02, "num"),
+    ("flag", "B", 1, 0x00, "hex"), ("use", "B", 1, 0x01, "num"), ("damageClass", "B", 1, 0x02, "num"),
     ("costtype", "B", 1, 0x03, "num"), ("cost", "H", 1, 0x04, "num"), ("costbase", "H", 1, 0x06, "num"),
     ("targettype", "B", 1, 0x08, "num"), ("targetarea", "B", 1, 0x09, "num"), ("targetrule", "B", 1, 0x0A, "num"),
     ("targetrandom", "B", 1, 0x0B, "num"), ("untargetbadstat", "H", 1, 0x0C, "ailments"),
@@ -69,7 +69,7 @@ NORMAL_SKILL = [
     ("hptype", "H", 1, 0x16, "num"), ("hpn", "h", 1, 0x18, "num"), ("mptype", "H", 1, 0x1A, "num"),
     ("mpn", "h", 1, 0x1C, "num"), ("hpbase", "h", 1, 0x1E, "num"), ("mpbase", "h", 1, 0x20, "num"),
     ("minus", "H", 1, 0x22, "num"), ("badtype", "B", 1, 0x24, "num"), ("badlevel", "B", 1, 0x25, "num"),
-    ("badstatus", "H", 1, 0x26, "ailments"), ("hojotype", "I", 1, 0x28, "hex"), ("hojopoint", "b", 1, 0x2C, "num"),
+    ("badstatus", "H", 1, 0x26, "ailments"), ("buffKinds", "I", 1, 0x28, "hex"), ("buffAmount", "b", 1, 0x2C, "num"),
     ("deadtype", "B", 1, 0x2D, "num"), ("unknown_2e", "B", 2, 0x2E, "num"), ("program", "I", 1, 0x30, "num"),
     ("criticalpoint", "h", 1, 0x34, "num"), ("failpoint", "h", 1, 0x36, "num"), ("magicbase", "h", 1, 0x38, "num"),
     ("magiclimit", "h", 1, 0x3A, "num"),
@@ -82,8 +82,8 @@ ENCOUNT = [
     ("btlsound", "H", 1, 0x24, "num"),
 ]
 ENCOUNT_RITU = [
-    ("encountid", "H", 1, 0, "num"), ("ritu", "H", 1, 2, "num"), ("sensei", "B", 1, 4, "num"),
-    ("renzokuritu", "B", 1, 5, "num"), ("renzokuindex", "H", 1, 6, "num"),
+    ("encountid", "H", 1, 0, "num"), ("weight", "H", 1, 2, "num"), ("firstStrike", "B", 1, 4, "num"),
+    ("chainChance", "B", 1, 5, "num"), ("chainEntry", "H", 1, 6, "num"),
 ]
 ENCOUNT_PACK_HEADER = [
     ("stageid", "H", 1, 0, "num"), ("areaid", "H", 1, 2, "num"), ("btlsound", "H", 1, 4, "num"),
@@ -93,7 +93,7 @@ ENCOUNT_PACK_HEADER = [
 
 SKILL_INFO = [
     ("skillattr", "b", 1, 0, "num"), ("type", "b", 1, 1, "num"), ("index", "h", 1, 2, "num"),
-    ("keisyoform", "H", 1, 4, "hex"), ("capacity", "b", 1, 6, "num"), ("flag", "B", 1, 7, "hex"),
+    ("inheritMask", "H", 1, 4, "hex"), ("capacity", "b", 1, 6, "num"), ("flag", "B", 1, 7, "hex"),
 ]
 
 TABLES = dict(
@@ -258,7 +258,7 @@ def generate_skills():
     out.append("};\n\n")
     base, count, stride = TABLES["normal_skill"]
     out += [f"// datNormalSkill, 0x{base:08X}: how each active skill hits.\n",
-           "// koukatype: 0 physical, 1 magic. hitlevel 255 = never misses.\n",
+           "// damageClass: 0 physical, 1 magic. hitlevel 255 = never misses.\n",
            f"const NormalSkill kNormalSkill[{count}] = {{\n"]
     for i in range(count):
         rec = record(NORMAL_SKILL, base + i * stride)
@@ -289,8 +289,8 @@ def generate_encounters():
 
     base, count, stride = TABLES["encount_pack"]
     out.append(f"// datEncountPack, 0x{base:08X}: random-encounter tables per area.\n")
-    out.append("// Each table: base rate, then up to 12 entries {encountid, ritu (weight), sensei,\n")
-    out.append("// renzokuritu (follow-up chance %), renzokuindex (follow-up entry)}.\n")
+    out.append("// Each table: base rate, then up to 12 entries {encountid, weight, firstStrike,\n")
+    out.append("// chainChance (follow-up chance %), chainEntry (follow-up entry)}.\n")
     out.append(f"const EncountPack kEncountPack[{count}] = {{\n")
     for i in range(count):
         p = base + i * stride
@@ -304,9 +304,9 @@ def generate_encounters():
                 ritu.pop()
             inner = []
             if normal:
-                inner.append(f".normalritu = {normal}")
+                inner.append(f".normalWeight = {normal}")
             if ritu:
-                inner.append(".ritu = {\n" + ",\n".join(
+                inner.append(".entries = {\n" + ",\n".join(
                     "                {" + ", ".join(r) + "}" for r in ritu) + ",\n            }")
             tables.append("{" + ", ".join(inner) + "}" if inner else "{}")
         while tables and tables[-1] == "{}":
@@ -337,7 +337,7 @@ def generate_affinity():
     for i in range(1, 384):
         users.setdefault(read(TABLES["devil"][0] + i * 60 + 0x0E, "h")[0], []).append(devil_names.get(i, f"0x{i:03X}"))
     out = [HEADER, f"// Affinity table, 0x{base:08X}: one row of 16 packed affinities per\n",
-           "// DevilFormat::aisyoid. Each entry: damage rate in percent, plus flags\n",
+           "// DevilFormat::affinityId. Each entry: damage rate in percent, plus flags\n",
            "// (Null, Repel, Drain, Weak; Flag100000 role unknown). See types.hpp Affinity.\n",
            "// Row 246 is used for petrified units, 247 for Fly.\n\n",
            "namespace {\n",
@@ -434,8 +434,8 @@ def generate_magatama():
         event = list(read(p + 58, "8B"))
         parts = [f".flag = {flag}"] if flag else []
         if u1: parts.append(f".unknown_01 = {u1}")
-        if aisyo: parts.append(f".aisyoid = {aisyo}")
-        if master: parts.append(f".masteraisyoid = {master}")
+        if aisyo: parts.append(f".affinityId = {aisyo}")
+        if master: parts.append(f".masteredAffinityId = {master}")
         for name, values in (("growparam", grow), ("mastergrowparam", mgrow), ("autoasignparam", auto)):
             if any(values): parts.append(f".{name} = {{{', '.join(map(str, values))}}}")
         if slv: parts.append(f".splitlevel = {slv}")

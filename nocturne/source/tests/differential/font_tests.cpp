@@ -454,6 +454,25 @@ void addFontTests(std::vector<TestCase>& t)
         return Pair{[=] { return orig(0x001c9d60, {I(bank), I(s), font, I(col)}); },
                     [=] { return R(AppendNameText(bank, s, P<Request>(font), col)); }};
     });
+    // Strings with 1- and 2-byte characters the fonts have.
+    static const char* const letters[] = {"Pixie", "Lv 12", "\x80\xe1\x80\xe3!", "R", "A\x80\xe5" "b"};
+    add("ps2FontLinkLetters", [](Gen& g) {
+        const int32_t x = g.range(-0x100, 0x2000), y = g.range(-0x100, 0x1000);
+        const uint32_t z = g.chance(50) ? 0xff0051 : static_cast<uint32_t>(g.rng()), col = static_cast<uint32_t>(g.rng());
+        const uint32_t s = iface::guestString(letters[g.below(5)]);
+        const int8_t style = static_cast<int8_t>(g.range(0, 3)), keep = static_cast<int8_t>(g.chance(50) ? 0 : g.range(-1, 2));
+        const uint32_t font = g.chance(50) ? addr(iface::chain(g, 0, 0)) : 0;
+        return Pair{[=] { return orig(0x001ca0d0, {I(x), I(y), I(static_cast<int32_t>(z)), I(static_cast<int32_t>(col)), s, I(style), I(keep), font}); },
+                    [=] { return R(LinkLetters(x, y, z, col, P<uint8_t>(s), style, keep, P<Request>(font))); }};
+    });
+    add("ps2FontLinkSpacedLetters", [](Gen& g) {
+        const int32_t x = g.range(-0x100, 0x2000), y = g.range(-0x100, 0x1000);
+        const uint32_t z = g.chance(50) ? 0xff0051 : static_cast<uint32_t>(g.rng()), col = static_cast<uint32_t>(g.rng());
+        const uint32_t s = iface::guestString(letters[g.below(5)]);
+        const uint32_t font = g.chance(50) ? addr(iface::chain(g, 0, 0)) : 0;
+        return Pair{[=] { return orig(0x001ca258, {I(x), I(y), I(static_cast<int32_t>(z)), I(static_cast<int32_t>(col)), s, font}); },
+                    [=] { return R(LinkSpacedLetters(x, y, z, col, P<uint8_t>(s), P<Request>(font))); }};
+    });
 
     // ---- laying out a page ----
     add("frCreateNewHandle", [](Gen& g) {

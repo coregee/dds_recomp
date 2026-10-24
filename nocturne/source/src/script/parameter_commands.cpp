@@ -44,7 +44,7 @@ template <class Match> UnitWork* findCompanion(Match match)
 } // namespace
 
 // prm_ITEM_PLUS @ 0x0010CF38: ITEM_PLUS(item, count)
-int32_t prm_ITEM_PLUS()
+int32_t addItem()
 {
     const int32_t item = para(0);
     dat::addItem(item, para(1));
@@ -52,14 +52,14 @@ int32_t prm_ITEM_PLUS()
 }
 
 // prm_DH_PLUS @ 0x0010CF78: DH_PLUS(Magatama), one more Magatama ("DH": devil hearts).
-int32_t prm_DH_PLUS()
+int32_t addMagatama()
 {
     magatama::add(para(0));
     return 1;
 }
 
 // prm_DH_EQUIP @ 0x0010CFA0: DH_EQUIP(Magatama), 0 to remove it.
-int32_t prm_DH_EQUIP()
+int32_t equipMagatama()
 {
     const int32_t id = para(0);
     if (id == 0)
@@ -70,31 +70,31 @@ int32_t prm_DH_EQUIP()
 }
 
 // prm_MAKA_PLUS @ 0x0010CFE0: MAKA_PLUS(Macca)
-int32_t prm_MAKA_PLUS()
+int32_t addMacca()
 {
     dat::addMacca(para(0));
     return 1;
 }
 
 // prm_MAKA_PLUS_PER @ 0x0010D008: MAKA_PLUS_PER(percent)
-int32_t prm_MAKA_PLUS_PER()
+int32_t addMaccaPercent()
 {
     dat::addMaccaPercent(para(0));
     return 1;
 }
 
 // prm_MAKA_CHECK @ 0x0010D030: MAKA_CHECK(Macca), whether there is that much.
-int32_t prm_MAKA_CHECK() { return answer(dat::hasMacca(para(0))); }
+int32_t hasMacca() { return answer(dat::hasMacca(para(0))); }
 
 // prm_PARTY_DAMAGE @ 0x0010D078: PARTY_DAMAGE(mode), see dat::partyDamage.
-int32_t prm_PARTY_DAMAGE()
+int32_t damageParty()
 {
     dat::partyDamage(para(0));
     return 1;
 }
 
 // prm_PARTY_KAIFUKU @ 0x0010D0A0: the whole stock healed, with the healing sound.
-int32_t prm_PARTY_KAIFUKU()
+int32_t healStock()
 {
     dat::partyRecover();
     snd::Play(0x10, 0x7f, 0x3f);
@@ -102,7 +102,7 @@ int32_t prm_PARTY_KAIFUKU()
 }
 
 // prm_PARTY_KAIFUKU2 @ 0x0010D0D0: the same, silently.
-int32_t prm_PARTY_KAIFUKU2()
+int32_t healStockSilently()
 {
     dat::partyRecover();
     return 1;
@@ -112,7 +112,7 @@ int32_t prm_PARTY_KAIFUKU2()
 // A demon joins unless one of its kind is already there (join: 1 into the
 // party, 2 into the party without a compendium entry); with a unique ID it
 // joins regardless, as a story demon.
-int32_t prm_DV_PLUS()
+int32_t addDevil()
 {
     const int32_t uniqueId = para(2);
     const int32_t join = para(1);
@@ -131,10 +131,10 @@ int32_t prm_DV_PLUS()
 }
 
 // prm_DV_CHECK @ 0x0010D1A0: DV_CHECK(devil), whether one is in the stock.
-int32_t prm_DV_CHECK() { return answer(dat::findDevil(para(0)) != -1); }
+int32_t hasDevil() { return answer(dat::findDevil(para(0)) != -1); }
 
 // prm_UDV_LEAVE @ 0x0010D1F0: UDV_LEAVE(unique ID), the story demon leaves.
-int32_t prm_UDV_LEAVE()
+int32_t storyDevilLeaves()
 {
     const int32_t index = dat::findUniqueDevil(para(0));
     if (index != -1)
@@ -143,14 +143,14 @@ int32_t prm_UDV_LEAVE()
 }
 
 // prm_UDV_CHECK @ 0x0010D248
-int32_t prm_UDV_CHECK() { return answer(dat::findUniqueDevil(para(0)) != -1); }
+int32_t hasStoryDevil() { return answer(dat::findUniqueDevil(para(0)) != -1); }
 
 // prm_UDV_GETID @ 0x0010D298: its devil ID (it may have evolved), or -1.
-int32_t prm_UDV_GETID() { return answerInt(dat::uniqueDevilId(para(0))); }
+int32_t storyDevilId() { return answerInt(dat::uniqueDevilId(para(0))); }
 
 // prm_UDV_DELETE_OK @ 0x0010D2C8 / prm_UDV_DELETE_NG @ 0x0010D330: whether
 // the story demon can be dismissed.
-int32_t prm_UDV_DELETE_OK()
+int32_t storyDevilMayLeave()
 {
     const int32_t index = dat::findUniqueDevil(para(0));
     if (index != -1)
@@ -159,7 +159,7 @@ int32_t prm_UDV_DELETE_OK()
 }
 
 // prm_UDV_DELETE_NG @ 0x0010D330
-int32_t prm_UDV_DELETE_NG()
+int32_t storyDevilMayNotLeave()
 {
     const int32_t index = dat::findUniqueDevil(para(0));
     if (index != -1)
@@ -168,7 +168,7 @@ int32_t prm_UDV_DELETE_NG()
 }
 
 // prm_STOCK_PLUS @ 0x0010D390: STOCK_PLUS(n), a bigger stock (at most 12).
-int32_t prm_STOCK_PLUS()
+int32_t growStock()
 {
     int32_t& capacity = dat::globalWork().stock_capacity;
     const int32_t grown = capacity + para(0);
@@ -177,13 +177,13 @@ int32_t prm_STOCK_PLUS()
 }
 
 // prm_STOCK_FULL_CHECK @ 0x0010D3D0
-int32_t prm_STOCK_FULL_CHECK() { return answer(dat::isStockFull()); }
+int32_t stockFull() { return answer(dat::isStockFull()); }
 
 // prm_PLAYER_GET_PARAM @ 0x0010D410: PLAYER_GET_PARAM(stat)
-int32_t prm_PLAYER_GET_PARAM() { return answerInt(dat::playerParam(stat(para(0)))); }
+int32_t playerStat() { return answerInt(dat::playerParam(stat(para(0)))); }
 
 // prm_PLAYER_ADD_PARAM @ 0x0010D440: PLAYER_ADD_PARAM(stat, amount)
-int32_t prm_PLAYER_ADD_PARAM()
+int32_t addPlayerStat()
 {
     const int32_t index = para(0);
     dat::addPlayerParam(stat(index), para(1));
@@ -191,20 +191,20 @@ int32_t prm_PLAYER_ADD_PARAM()
 }
 
 // prm_NAKAMA_GET_PARAM @ 0x0010D480: NAKAMA_GET_PARAM(devil, stat)
-int32_t prm_NAKAMA_GET_PARAM()
+int32_t devilStat()
 {
     const int32_t devil = para(0);
     return answerInt(dat::companionParam(static_cast<uint16_t>(devil), stat(para(1))));
 }
 
 // prm_PLAYER_GET_LND @ 0x0010D4C8: the Demi-fiend's alignment.
-int32_t prm_PLAYER_GET_LND() { return answerInt(dat::playerAlignment()); }
+int32_t playerAlignment() { return answerInt(dat::playerAlignment()); }
 
 // prm_PLAYER_GET_LEVEL @ 0x0010D4F0
-int32_t prm_PLAYER_GET_LEVEL() { return answerInt(dat::playerLevel()); }
+int32_t playerLevel() { return answerInt(dat::playerLevel()); }
 
 // prm_NAKAMA_DEAD @ 0x0010D518: NAKAMA_DEAD(devil), it dies and leaves the party.
-int32_t prm_NAKAMA_DEAD()
+int32_t devilDies()
 {
     dat::killCompanion(static_cast<uint16_t>(para(0)));
     return 1;
@@ -212,7 +212,7 @@ int32_t prm_NAKAMA_DEAD()
 
 // prm_NAKAMA_CHK_PIKUKO @ 0x0010D540: NAKAMA_CHK_PIKUKO(devil), whether the
 // first Pixie is in the stock as that species.
-int32_t prm_NAKAMA_CHK_PIKUKO()
+int32_t isFirstPixie()
 {
     return answer(findCompanion([](const UnitWork& unit) {
                       return unit.id == para(0) && (unit.flag & UnitFlag::Pixie);
@@ -220,14 +220,14 @@ int32_t prm_NAKAMA_CHK_PIKUKO()
 }
 
 // prm_PIKUKO_GETID @ 0x0010D5E8: the first Pixie's devil ID now, or 0.
-int32_t prm_PIKUKO_GETID()
+int32_t firstPixieId()
 {
     const UnitWork* pixie = findCompanion([](const UnitWork& unit) { return (unit.flag & UnitFlag::Pixie) != 0; });
     return answerInt(pixie ? pixie->id : 0);
 }
 
 // prm_BOSS_PRESS_REC @ 0x0010D658: BOSS_PRESS_REC(encounter, type), see dat::bossPressRecord.
-int32_t prm_BOSS_PRESS_REC()
+int32_t recordBossPress()
 {
     const int32_t encounter = para(0);
     return answerInt(dat::bossPressRecord(encounter, para(1)));
@@ -235,7 +235,7 @@ int32_t prm_BOSS_PRESS_REC()
 
 // prm_DV_COPY_PARAM @ 0x0010D6A0: DV_COPY_PARAM(devil, as), the stock's first
 // demon of that species reset to another's level, stats and skills.
-int32_t prm_DV_COPY_PARAM()
+int32_t copyDevilStats()
 {
     const int32_t devil = para(0);
     const int32_t as = para(1);

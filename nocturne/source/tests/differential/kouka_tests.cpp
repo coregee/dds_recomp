@@ -3,23 +3,36 @@
 // random battle with some packets already queued.
 #include <algorithm>
 #include <cstring>
+#include <deque>
+#include <string>
 
 #include "harness.hpp"
 #include "interface_world.hpp"
 #include "nocturne/battle/action.hpp"
 #include "nocturne/battle/ai_script.hpp"
 #include "nocturne/battle/buffs.hpp"
+#include "nocturne/battle/calc.hpp"
 #include "nocturne/battle/camera.hpp"
-#include "nocturne/interface/message.hpp"
 #include "nocturne/battle/combatant.hpp"
+#include "nocturne/battle/event_process.hpp"
+#include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/kouka.hpp"
+#include "nocturne/battle/kouka_process.hpp"
+#include "nocturne/battle/macca_window.hpp"
+#include "nocturne/battle/battle_panel.hpp"
+#include "nocturne/battle/talk.hpp"
+#include "nocturne/battle/talk_flow.hpp"
+#include "nocturne/effect/cut.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/facility/compendium.hpp"
+#include "nocturne/interface/message.hpp"
+#include "nocturne/kernel/main_loop.hpp"
 
 extern "C" {
 uint32_t ps2PoolAllocate(int32_t);
 uint64_t dds3StartProcess(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
+uint64_t dds3GetProcessData(uint64_t);
 }
 
 // Action states not rewritten yet are called by address; here they run as
@@ -31,6 +44,24 @@ extern "C" void nocturneInvokeBattleActionEntry(uint32_t entry, uint64_t context
 extern "C" uint64_t nocturneInvokeBattleActionUpdate(uint32_t target, uint64_t context)
 {
     return difftest::iface::origVm(target, {context});
+}
+// ... and so do the kouka process's players not rewritten yet.
+extern "C" uint64_t nocturneInvokeOriginal(uint32_t entry, uint64_t a0, uint64_t a1, uint64_t a2, uint64_t a3)
+{
+    return difftest::iface::origVm(entry, {a0, a1, a2, a3});
+}
+extern "C" uint64_t nocturneInvokeBattleMovePackets(uint32_t entry, uint64_t startframe, uint64_t uniqueid, uint64_t form,
+                                                    uint64_t target)
+{
+    return difftest::iface::origVm(entry, {startframe, uniqueid, form, target});
+}
+extern "C" uint64_t nocturneInvokeBattleTalkStep(uint32_t entry, uint64_t talk)
+{
+    return difftest::iface::origVm(entry, {talk});
+}
+extern "C" void nocturneInvokeBattleKoukaPlayer(uint32_t entry, uint64_t queue, uint64_t packet)
+{
+    difftest::iface::origVmVoid(entry, {queue, packet});
 }
 
 namespace difftest {
@@ -46,7 +77,7 @@ using iface::origVmVoid;
 // The queue is the data of the fake process 1 (dds3SearchProcessName's).
 constexpr uint32_t kQueue = FW_TARSEL;
 
-KoukaProcessData& queue() { return at<KoukaProcessData>(kQueue); }
+EffectQueue& queue() { return at<EffectQueue>(kQueue); }
 uint32_t formAddress(int f) { return FW_FORMS + 0xf0u * static_cast<uint32_t>(f); }
 
 // A random battle; the queue holds a few packets of earlier actions.
@@ -55,7 +86,7 @@ void koukaWorld(Gen& g)
     std::memset(fw_ram + FW_MES_STATE, 0, FW_MES_POOL_END - FW_MES_STATE);
     battleWorld(g);
     MainProcessData& main = at<MainProcessData>(FW_MAIN);
-    main.KoukaProcessID = 1;
+    main.EffectQueueProcessID = 1;
     main.press4_p = static_cast<int16_t>(g.range(0, 8));
     main.press4_ten = static_cast<int16_t>(g.range(0, 8));
     main.playerpcnt = static_cast<int16_t>(g.range(1, 4));
@@ -67,13 +98,13 @@ void koukaWorld(Gen& g)
         forms[f].partyindex = static_cast<int16_t>(f);
         forms[f].r = nocturne::ee::Float::fromInt(g.range(10, 200));
     }
-    KoukaProcessData& k = queue();
+    EffectQueue& k = queue();
     std::memset(&k, 0, sizeof k);
     k.data.address = FW_MAIN;
     const int existing = g.range(0, 6);
     for (int i = 0; i < existing; ++i) {
-        KoukaPacket& p = nbAddKoukaPacket(k, g.range(0, 60), g.range(0, 30), g.range(0, 3));
-        static const int8_t types[] = {kSe, kSe2, kSe3, kNumEff, kMojiEff, kMotion, kUnitCol, kDmgMot};
+        EffectPacket& p = addPacket(k, g.range(0, 60), g.range(0, 30), g.range(0, 3));
+        static const int8_t types[] = {kSe, kSe2, kSe3, kNumberEff, kWordEff, kMotion, kUnitCol, kDamageMotion};
         p.type = g.pick(types);
         p.form.address = formAddress(g.range(0, 13));
         p.data1.setInt(g.chance(50) ? 0x10010 : g.pick<int32_t>({0x1000a, 0x10000, 5}));
@@ -153,7 +184,7 @@ void scriptActor(Gen& g)
     nocturne::itf::MiscLinkInit(m.list, iface::addr(m.nodes), 0x80, sizeof(nocturne::itf::LinkNode));
     MainProcessData& main = at<MainProcessData>(FW_MAIN);
     main.MainProcessID = static_cast<uint32_t>(dds3StartProcess(0x00544350, g.range(1, 9), 0, 0, 0, 0, FW_MAIN));
-    main.negoresult = g.chance(50) ? 0 : g.range(-2, 3);
+    main.talkResult = g.chance(50) ? 0 : g.range(-2, 3);
     main.AiScriptProcessID = 0;
     if (g.chance(50))
         main.AiScriptProcessID = static_cast<uint32_t>(dds3StartProcess(0x00544350, 2, 0, 0, 0, 0, FW_ACTION));
@@ -176,57 +207,109 @@ void addKoukaTests(std::vector<TestCase>& t)
 
     // ---- the queue ----
     add("nbGetKoukaProcessData", [](Gen&) {
-        return Pair{[] { return origVm(0x0025e8e0, {}); }, [] { return R(&nbGetKoukaProcessData()); }};
+        return Pair{[] { return origVm(0x0025e8e0, {}); }, [] { return R(&effectQueue()); }};
     });
     add("nbGetUniqueIdKoukaPacketCnt", [](Gen& g) {
         const int32_t id = uid(g);
-        return Pair{[=] { return origVm(0x0025e928, {I(id)}); }, [=] { return norm(nbGetUniqueIdKoukaPacketCnt(id)); }};
+        return Pair{[=] { return origVm(0x0025e928, {I(id)}); }, [=] { return norm(countActionPackets(id)); }};
     });
     add("nbGetKoukaPacketTypeCnt", [](Gen& g) {
-        const int8_t type = static_cast<int8_t>(g.pick<int32_t>({kSe, kNumEff, kMotion, 0x7f, -1}));
-        return Pair{[=] { return origVm(0x0025e978, {I(type)}); }, [=] { return norm(nbGetKoukaPacketTypeCnt(type)); }};
+        const int8_t type = static_cast<int8_t>(g.pick<int32_t>({kSe, kNumberEff, kMotion, 0x7f, -1}));
+        return Pair{[=] { return origVm(0x0025e978, {I(type)}); }, [=] { return norm(countPacketsOfType(type)); }};
     });
     add("UnlinkKoukaPacket", [](Gen& g) {
         if (!queue().first)
-            nbAddKoukaPacket(queue(), 1, 1, 1);
-        KoukaPacket* p = queue().first.get();
+            addPacket(queue(), 1, 1, 1);
+        EffectPacket* p = queue().first.get();
         for (int n = g.range(0, 5); n > 0 && p->next; --n)
             p = p->next.get();
         const uint32_t packet = iface::addr(p);
         return Pair{[=] { return origVmVoid(0x0025ea00, {kQueue, packet}); },
-                    [=] { UnlinkKoukaPacket(queue(), at<KoukaPacket>(packet)); return uint64_t{0}; }};
+                    [=] { unlinkPacket(queue(), at<EffectPacket>(packet)); return uint64_t{0}; }};
     });
     add("nbAddKoukaPacket", [](Gen& g) {
         const int32_t s = frame(g), l = frame(g), id = uid(g);
-        return Pair{[=] { return origVm(0x0025ea48, {kQueue, I(s), I(l), I(id)}); }, [=] { return R(&nbAddKoukaPacket(queue(), s, l, id)); }};
+        return Pair{[=] { return origVm(0x0025ea48, {kQueue, I(s), I(l), I(id)}); }, [=] { return R(&addPacket(queue(), s, l, id)); }};
+    });
+    // ---- deleting packets ----
+    // Packets that own effects: skill cuts, hit effect parts, Ongyo-Ki's clones.
+    auto effectPackets = [](Gen& g) {
+        for (int n = g.range(1, 6); n > 0; --n) {
+            EffectPacket& p = addPacket(queue(), g.range(0, 60), g.range(0, 30), uid(g));
+            p.type = static_cast<int8_t>(g.pick<int32_t>({kSkillEffect, kSkillEffect2, kSkillEffect3, kSkillEffect1, kHitEff, kHitEff,
+                                                          kOngyokiClone, kOngyokiClone2, kOngyokiOut, kOngyokiOut2, kNumberEff, kWordEff, 0x26, -3}));
+            p.form.address = formAddress(g.range(0, 13));
+            p.cuteff = g.chance(30) ? 0 : 0x00700000u + g.below(0x1000);
+            p.data1.setInt(p.type == kHitEff ? g.range(0, 12) : static_cast<int32_t>(0x00710000u + g.below(0x1000)));
+            p.data2.setInt(static_cast<int32_t>(0x00720000u + g.below(0x1000)));
+        }
+    };
+    auto somePacket = [](Gen& g) {
+        int n = static_cast<int>(g.below(static_cast<uint32_t>(queue().packetcnt)));
+        EffectPacket* p = queue().first.get();
+        while (n-- > 0 && p->next)
+            p = p->next.get();
+        return iface::addr(p);
+    };
+    add("DelKoukaPacket", [=](Gen& g) {
+        effectPackets(g);
+        const uint32_t p = somePacket(g);
+        return Pair{[=] { return origVmVoid(0x0025eaf0, {kQueue, p}); },
+                    [=] { deletePacketFrom(queue(), at<EffectPacket>(p)); return uint64_t{0}; }};
+    });
+    add("nbDelKoukaPacket", [=](Gen& g) {
+        effectPackets(g);
+        const uint32_t p = somePacket(g);
+        return Pair{[=] { return origVmVoid(0x0025ec28, {p}); }, [=] { deletePacket(at<EffectPacket>(p)); return uint64_t{0}; }};
+    });
+    add("nbDelUniqueIdKoukaPacket", [=](Gen& g) {
+        effectPackets(g);
+        const int32_t id = uid(g);
+        if (g.chance(10))
+            at<MainProcessData>(FW_MAIN).EffectQueueProcessID = 0;
+        return Pair{[=] { return origVmVoid(0x0025ec58, {I(id)}); }, [=] { deleteActionPackets(id); return uint64_t{0}; }};
+    });
+    add("nbDelAllKoukaPacketType", [=](Gen& g) {
+        effectPackets(g);
+        const int32_t type = g.pick<int32_t>({kSkillEffect, kHitEff, kNumberEff, kSe, 0x26, -3, kOngyokiOut});
+        if (g.chance(10))
+            at<MainProcessData>(FW_MAIN).EffectQueueProcessID = 0;
+        return Pair{[=] { return origVmVoid(0x0025ecc0, {I(type)}); }, [=] { deletePacketsOfType(type); return uint64_t{0}; }};
+    });
+    add("nbDelAllMojiNumEffectKoukaPacket", [=](Gen& g) {
+        effectPackets(g);
+        const uint32_t form = someForm(g);
+        if (g.chance(10))
+            at<MainProcessData>(FW_MAIN).EffectQueueProcessID = 0;
+        return Pair{[=] { return origVmVoid(0x0025ed28, {form}); }, [=] { deleteNumberWordPackets(F(form)); return uint64_t{0}; }};
     });
     add("nbOnOffKoukaPacketFlag", [](Gen& g) {
-        const int32_t type = g.pick<int32_t>({kSe, kNumEff, kMotion, kUnitCol});
+        const int32_t type = g.pick<int32_t>({kSe, kNumberEff, kMotion, kUnitCol});
         const uint32_t flag = g.below(256);
         const int32_t sw = g.range(0, 1);
         if (g.chance(10))
-            at<MainProcessData>(FW_MAIN).KoukaProcessID = 0;
+            at<MainProcessData>(FW_MAIN).EffectQueueProcessID = 0;
         return Pair{[=] { return origVmVoid(0x0025ee78, {I(type), flag, I(sw)}); },
-                    [=] { nbOnOffKoukaPacketFlag(type, flag, sw); return uint64_t{0}; }};
+                    [=] { setPacketTypeFlag(type, flag, sw); return uint64_t{0}; }};
     });
     add("nbCheckSePacket", [](Gen& g) {
         const int32_t start = g.range(0, 70), se = g.pick<int32_t>({0x10010, 0x1000a, 5, 7}), frames = g.range(0, 10);
-        return Pair{[=] { return origVm(0x0025ef10, {I(start), I(se), I(frames)}); }, [=] { return norm(nbCheckSePacket(start, se, frames)); }};
+        return Pair{[=] { return origVm(0x0025ef10, {I(start), I(se), I(frames)}); }, [=] { return norm(soundQueued(start, se, frames)); }};
     });
 
     // ---- builders: (startframe, uniqueid, ...) ----
-    using P = KoukaPacket&;
+    using P = EffectPacket&;
     auto plain = [&](const char* name, uint32_t entry, P (*rewrite)(int32_t, int32_t)) {
         add(name, [=](Gen& g) {
             const int32_t s = frame(g), id = uid(g);
             return Pair{[=] { return origVm(entry, {I(s), I(id)}); }, [=] { return R(&rewrite(s, id)); }};
         });
     };
-    plain("nbAddHatudoEffectEndPacket", 0x00261758, nbAddHatudoEffectEndPacket);
-    plain("nbAddSkillColorOffPacket", 0x00262430, nbAddSkillColorOffPacket);
-    plain("nbAddHitStopPacket", 0x00262e28, nbAddHitStopPacket);
-    plain("nbAddPanelStockFadeOutPacket", 0x00263628, nbAddPanelStockFadeOutPacket);
-    plain("nbAddPanelStockEndPacket", 0x00263678, nbAddPanelStockEndPacket);
+    plain("nbAddHatudoEffectEndPacket", 0x00261758, addPassiveEffectEndPacket);
+    plain("nbAddSkillColorOffPacket", 0x00262430, addSkillColorOffPacket);
+    plain("nbAddHitStopPacket", 0x00262e28, addHitStopPacket);
+    plain("nbAddPanelStockFadeOutPacket", 0x00263628, addStockPanelFadeOutPacket);
+    plain("nbAddPanelStockEndPacket", 0x00263678, addStockPanelEndPacket);
 
     auto onForm = [&](const char* name, uint32_t entry, P (*rewrite)(int32_t, int32_t, Formation*)) {
         add(name, [=](Gen& g) {
@@ -235,12 +318,12 @@ void addKoukaTests(std::vector<TestCase>& t)
             return Pair{[=] { return origVm(entry, {I(s), I(id), f}); }, [=] { return R(&rewrite(s, id, F(f))); }};
         });
     };
-    onForm("nbAddMotionStopPacket", 0x00261f30, nbAddMotionStopPacket);
-    onForm("nbAddMotionStopClearPacket", 0x00261f90, nbAddMotionStopClearPacket);
-    onForm("nbAddBadEffKaifukuPacket", 0x00262610, nbAddBadEffKaifukuPacket);
-    onForm("nbAddBadMotKaifukuPacket", 0x00262bb8, nbAddBadMotKaifukuPacket);
-    onForm("nbAddAnalyzePacket", 0x00262e78, nbAddAnalyzePacket);
-    onForm("nbAddFlyKoukaPacket", 0x002630a8, nbAddFlyKoukaPacket);
+    onForm("nbAddMotionStopPacket", 0x00261f30, addMotionStopPacket);
+    onForm("nbAddMotionStopClearPacket", 0x00261f90, addMotionStopClearPacket);
+    onForm("nbAddBadEffKaifukuPacket", 0x00262610, addAilmentCureEffectPacket);
+    onForm("nbAddBadMotKaifukuPacket", 0x00262bb8, addAilmentMotionCurePacket);
+    onForm("nbAddAnalyzePacket", 0x00262e78, addAnalyzePacket);
+    onForm("nbAddFlyKoukaPacket", 0x002630a8, addFlyPacket);
 
     // (startframe, uniqueid, form, int)
     auto onFormInt = [&](const char* name, uint32_t entry, P (*rewrite)(int32_t, int32_t, Formation*, int32_t)) {
@@ -250,20 +333,20 @@ void addKoukaTests(std::vector<TestCase>& t)
             return Pair{[=] { return origVm(entry, {I(s), I(id), f, I(n)}); }, [=] { return R(&rewrite(s, id, F(f), n)); }};
         });
     };
-    onFormInt("nbAddUnitHomeColKoukaPacket", 0x00261d20, nbAddUnitHomeColKoukaPacket);
-    onFormInt("nbAddUnitHomeAKoukaPacket", 0x00261e10, nbAddUnitHomeAKoukaPacket);
-    onFormInt("nbAddMotionKoukaPacket", 0x00261ff0, nbAddMotionKoukaPacket);
-    onFormInt("nbAddFormOnOffPacket", 0x00262fb8, nbAddFormOnOffPacket);
-    onFormInt("nbAddDeadEventKoukaPacket", 0x00263350, nbAddDeadEventKoukaPacket);
+    onFormInt("nbAddUnitHomeColKoukaPacket", 0x00261d20, addUnitColorHomePacket);
+    onFormInt("nbAddUnitHomeAKoukaPacket", 0x00261e10, addUnitAlphaHomePacket);
+    onFormInt("nbAddMotionKoukaPacket", 0x00261ff0, addMotionPacket);
+    onFormInt("nbAddFormOnOffPacket", 0x00262fb8, addFormationShowPacket);
+    onFormInt("nbAddDeadEventKoukaPacket", 0x00263350, addDeathEventPacket);
     add("nbAddBadMotKoukaPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g);
         const uint32_t f = someForm(g), bad = 1u << g.range(0, 12);
-        return Pair{[=] { return origVm(0x00262260, {I(s), I(id), f, bad}); }, [=] { return R(&nbAddBadMotKoukaPacket(s, id, F(f), bad)); }};
+        return Pair{[=] { return origVm(0x00262260, {I(s), I(id), f, bad}); }, [=] { return R(&addAilmentMotionPacket(s, id, F(f), bad)); }};
     });
     add("nbAddBadEffKoukaPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g);
         const uint32_t f = someForm(g), bad = g.chance(80) ? 1u << g.range(0, 12) : g.below(0x1000);
-        return Pair{[=] { return origVm(0x00262670, {I(s), I(id), f, bad}); }, [=] { return R(&nbAddBadEffKoukaPacket(s, id, F(f), bad)); }};
+        return Pair{[=] { return origVm(0x00262670, {I(s), I(id), f, bad}); }, [=] { return R(&addAilmentEffectPacket(s, id, F(f), bad)); }};
     });
 
     // (startframe, uniqueid, form, int, int)
@@ -275,20 +358,20 @@ void addKoukaTests(std::vector<TestCase>& t)
                         [=] { return R(&rewrite(s, id, F(f), static_cast<uint32_t>(a), b)); }};
         });
     };
-    onForm2("nbAddUnitColKoukaPacket", 0x00261ca0, nbAddUnitColKoukaPacket);
-    onForm2("nbAddUnitAKoukaPacket", 0x00261d90, nbAddUnitAKoukaPacket);
+    onForm2("nbAddUnitColKoukaPacket", 0x00261ca0, addUnitColorPacket);
+    onForm2("nbAddUnitAKoukaPacket", 0x00261d90, addUnitAlphaPacket);
     onForm2("nbAddHpMpKoukaPacket", 0x002629e8, [](int32_t s, int32_t id, Formation* f, uint32_t n, int32_t type) -> P {
-        return nbAddHpMpKoukaPacket(s, id, f, static_cast<int32_t>(n), type);
+        return addHpMpPacket(s, id, f, static_cast<int32_t>(n), type);
     });
-    onForm2("nbAddBadStatKoukaPacket", 0x00262b38, nbAddBadStatKoukaPacket);
+    onForm2("nbAddBadStatKoukaPacket", 0x00262b38, addAilmentPacket);
     onForm2("nbAddHojoKoukaPacket", 0x002634c8, [](int32_t s, int32_t id, Formation* f, uint32_t type, int32_t point) -> P {
-        return nbAddHojoKoukaPacket(s, id, f, type, point);
+        return addBuffPacket(s, id, f, type, point);
     });
     add("nbAddFormFlagOnOffPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g), sw = g.range(0, 1);
         const uint32_t f = someForm(g), flag = static_cast<uint32_t>(g.rng());
         return Pair{[=] { return origVm(0x00263028, {I(s), I(id), f, I(sw), flag}); },
-                    [=] { return R(&nbAddFormFlagOnOffPacket(s, id, F(f), sw, flag)); }};
+                    [=] { return R(&addFormationFlagPacket(s, id, F(f), sw, flag)); }};
     });
 
     // (startframe, uniqueid, int [, int])
@@ -303,54 +386,54 @@ void addKoukaTests(std::vector<TestCase>& t)
                         [=] { return R(&rewrite(s, id, a, b, c)); }};
         });
     };
-    ints("nbAddSkillNamePacket", 0x00262f58, [](int32_t s, int32_t id, int32_t a, int32_t, int32_t) -> P { return nbAddSkillNamePacket(s, id, a); }, 1);
-    ints("nbAddFlareChargePacket", 0x00263548, [](int32_t s, int32_t id, int32_t a, int32_t, int32_t) -> P { return nbAddFlareChargePacket(s, id, a); }, 1);
-    ints("nbAddFadeOutKoukaPacket", 0x002633e8, [](int32_t s, int32_t id, int32_t a, int32_t b, int32_t) -> P { return nbAddFadeOutKoukaPacket(s, id, a, b); }, 2);
-    ints("nbAddFadeInKoukaPacket", 0x00263458, [](int32_t s, int32_t id, int32_t a, int32_t b, int32_t) -> P { return nbAddFadeInKoukaPacket(s, id, a, b); }, 2);
-    ints("nbAddSkillColorPacket", 0x002623c0, [](int32_t s, int32_t id, int32_t a, int32_t b, int32_t) -> P { return nbAddSkillColorPacket(s, id, a, b); }, 2);
-    ints("nbAddHomeRotKoukaPacket", 0x00261c30, [](int32_t s, int32_t id, int32_t a, int32_t b, int32_t) -> P { return nbAddHomeRotKoukaPacket(s, id, a, b); }, 2);
+    ints("nbAddSkillNamePacket", 0x00262f58, [](int32_t s, int32_t id, int32_t a, int32_t, int32_t) -> P { return addSkillNamePacket(s, id, a); }, 1);
+    ints("nbAddFlareChargePacket", 0x00263548, [](int32_t s, int32_t id, int32_t a, int32_t, int32_t) -> P { return addFlareChargePacket(s, id, a); }, 1);
+    ints("nbAddFadeOutKoukaPacket", 0x002633e8, [](int32_t s, int32_t id, int32_t a, int32_t b, int32_t) -> P { return addFadeOutPacket(s, id, a, b); }, 2);
+    ints("nbAddFadeInKoukaPacket", 0x00263458, [](int32_t s, int32_t id, int32_t a, int32_t b, int32_t) -> P { return addFadeInPacket(s, id, a, b); }, 2);
+    ints("nbAddSkillColorPacket", 0x002623c0, [](int32_t s, int32_t id, int32_t a, int32_t b, int32_t) -> P { return addSkillColorPacket(s, id, a, b); }, 2);
+    ints("nbAddHomeRotKoukaPacket", 0x00261c30, [](int32_t s, int32_t id, int32_t a, int32_t b, int32_t) -> P { return addTurnHomePacket(s, id, a, b); }, 2);
     ints("nbAddNewPressPacket", 0x00262ac8, [](int32_t s, int32_t id, int32_t a, int32_t b, int32_t) -> P {
-        return nbAddNewPressPacket(s, id, static_cast<int16_t>(a), static_cast<int16_t>(b));
+        return addPressResultPacket(s, id, static_cast<int16_t>(a), static_cast<int16_t>(b));
     }, 2);
     ints("nbAddSummonKoukaPacket", 0x00262340, [](int32_t s, int32_t id, int32_t a, int32_t b, int32_t c) -> P {
-        return nbAddSummonKoukaPacket(s, id, static_cast<int16_t>(a), static_cast<int16_t>(b), static_cast<int16_t>(c));
+        return addSummonPacket(s, id, static_cast<int16_t>(a), static_cast<int16_t>(b), static_cast<int16_t>(c));
     }, 3);
     ints("nbAddPadShockPacket", 0x002635a8, [](int32_t s, int32_t id, int32_t a, int32_t b, int32_t c) -> P {
-        return nbAddPadShockPacket(s, id, static_cast<int16_t>(a), static_cast<int16_t>(b), static_cast<int16_t>(c));
+        return addPadShockPacket(s, id, static_cast<int16_t>(a), static_cast<int16_t>(b), static_cast<int16_t>(c));
     }, 3);
     ints("nbAddJyokyoHelpPacket", 0x00262ed8, [](int32_t s, int32_t id, int32_t a, int32_t b, int32_t c) -> P {
-        return nbAddJyokyoHelpPacket(s, id, static_cast<int16_t>(a), static_cast<int16_t>(b), c);
+        return addStatusMessagePacket(s, id, static_cast<int16_t>(a), static_cast<int16_t>(b), c);
     }, 3);
 
     // (startframe, framelength, uniqueid, ...)
     add("nbAddSkillEffectKoukaPacket", [](Gen& g) {
         const int32_t s = frame(g), l = frame(g), id = uid(g);
         const uint32_t c = static_cast<uint32_t>(g.rng());
-        return Pair{[=] { return origVm(0x00261500, {I(s), I(l), I(id), c}); }, [=] { return R(&nbAddSkillEffectKoukaPacket(s, l, id, c)); }};
+        return Pair{[=] { return origVm(0x00261500, {I(s), I(l), I(id), c}); }, [=] { return R(&addSkillEffectPacket(s, l, id, c)); }};
     });
     add("nbAddSkillEffectKoukaPacket1", [](Gen& g) {
         const int32_t s = frame(g), l = frame(g), id = uid(g);
         const uint32_t c = static_cast<uint32_t>(g.rng());
-        return Pair{[=] { return origVm(0x002616e8, {I(s), I(l), I(id), c}); }, [=] { return R(&nbAddSkillEffectKoukaPacket1(s, l, id, c)); }};
+        return Pair{[=] { return origVm(0x002616e8, {I(s), I(l), I(id), c}); }, [=] { return R(&addSkillEffectPacket1(s, l, id, c)); }};
     });
     add("nbAddSkillEffectKoukaPacket2", [](Gen& g) {
         const int32_t s = frame(g), l = g.chance(30) ? 0 : frame(g), id = uid(g);
         const uint32_t h = static_cast<uint32_t>(g.rng()), f = someForm(g);
         const int16_t cut = static_cast<int16_t>(g.range(-2, 40)), j = static_cast<int16_t>(g.range(-2, 40));
         return Pair{[=] { return origVm(0x00261638, {I(s), I(l), I(id), h, I(cut), f, I(j)}); },
-                    [=] { return R(&nbAddSkillEffectKoukaPacket2(s, l, id, h, cut, F(f), j)); }};
+                    [=] { return R(&addSkillEffectPacket2(s, l, id, h, cut, F(f), j)); }};
     });
     add("nbAddNumEffKoukaPacket", [](Gen& g) {
         const int32_t s = frame(g), l = frame(g), id = uid(g), n = g.range(-5, 9999), n2 = g.range(-5, 999), type = g.range(0, 5);
         const uint32_t f = g.chance(50) && queue().first ? queue().first->form.address : someForm(g);
         return Pair{[=] { return origVmVoid(0x002627c0, {I(s), I(l), I(id), f, I(n), I(n2), I(type)}); },
-                    [=] { nbAddNumEffKoukaPacket(s, l, id, F(f), n, n2, type); return uint64_t{0}; }};
+                    [=] { addNumberPacket(s, l, id, F(f), n, n2, type); return uint64_t{0}; }};
     });
     add("nbAddMojiEffKoukaPacket", [](Gen& g) {
         const int32_t s = frame(g), l = frame(g), id = uid(g), type = g.range(0, 6);
         const uint32_t f = g.chance(50) && queue().first ? queue().first->form.address : someForm(g);
         return Pair{[=] { return origVmVoid(0x002628d0, {I(s), I(l), I(id), f, I(type)}); },
-                    [=] { nbAddMojiEffKoukaPacket(s, l, id, F(f), type); return uint64_t{0}; }};
+                    [=] { addWordPacket(s, l, id, F(f), type); return uint64_t{0}; }};
     });
 
     // floats in f12
@@ -358,62 +441,62 @@ void addKoukaTests(std::vector<TestCase>& t)
         const int32_t s = frame(g), id = uid(g), party = g.range(-1, 13);
         const uint32_t v = someVector(g), speed = someFloat(g);
         return Pair{[=] { return origVm(0x00261aa0, {I(s), I(id), I(party), v}, {speed}); },
-                    [=] { return R(&nbAddTargetMoveKoukaPacket(s, id, party, at<Vec4>(v), Fl(speed))); }};
+                    [=] { return R(&addMoveToTargetPacket(s, id, party, at<Vec4>(v), Fl(speed))); }};
     });
     add("nbAddHomeMoveKoukaPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g), party = g.range(-1, 13);
         const uint32_t speed = someFloat(g);
         return Pair{[=] { return origVm(0x00261b30, {I(s), I(id), I(party)}, {speed}); },
-                    [=] { return R(&nbAddHomeMoveKoukaPacket(s, id, party, Fl(speed))); }};
+                    [=] { return R(&addMoveHomePacket(s, id, party, Fl(speed))); }};
     });
     add("nbAddRotKoukaPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g), party = g.range(-1, 13), speed = g.range(0, 30);
         const uint32_t v = someVector(g);
         return Pair{[=] { return origVm(0x00261ba0, {I(s), I(id), I(party), v, I(speed)}); },
-                    [=] { return R(&nbAddRotKoukaPacket(s, id, party, at<Vec4>(v), speed)); }};
+                    [=] { return R(&addTurnPacket(s, id, party, at<Vec4>(v), speed)); }};
     });
     add("nbAddSkillMotionKoukaPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g);
         const int16_t motion = static_cast<int16_t>(g.range(0, 40)), end = static_cast<int16_t>(g.range(0, 3));
         const uint32_t f = someForm(g), ritu = someFloat(g);
         return Pair{[=] { return origVm(0x00262060, {I(s), I(id), f, I(motion), I(end)}, {ritu}); },
-                    [=] { return R(&nbAddSkillMotionKoukaPacket(s, id, F(f), motion, end, Fl(ritu))); }};
+                    [=] { return R(&addSkillMotionPacket(s, id, F(f), motion, end, Fl(ritu))); }};
     });
     add("nbAddDmgMotKoukaPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g), week = g.range(-1, 1);
         const uint32_t f = someForm(g), range = someFloat(g);
         return Pair{[=] { return origVm(0x002620f0, {I(s), I(id), f, I(week)}, {range}); },
-                    [=] { return R(&nbAddDmgMotKoukaPacket(s, id, F(f), Fl(range), week)); }};
+                    [=] { return R(&addDamageMotionPacket(s, id, F(f), Fl(range), week)); }};
     });
     add("nbAddEasyDmgMotKoukaPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g);
         const uint32_t f = someForm(g), range = someFloat(g);
         return Pair{[=] { return origVm(0x00262170, {I(s), I(id), f}, {range}); },
-                    [=] { return R(&nbAddEasyDmgMotKoukaPacket(s, id, F(f), Fl(range))); }};
+                    [=] { return R(&addLightDamageMotionPacket(s, id, F(f), Fl(range))); }};
     });
     add("nbAddBadDmgMotKoukaPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g);
         const uint32_t f = someForm(g), range = someFloat(g), bad = 1u << g.range(0, 12);
         return Pair{[=] { return origVm(0x002621e0, {I(s), I(id), f, bad}, {range}); },
-                    [=] { return R(&nbAddBadDmgMotKoukaPacket(s, id, F(f), Fl(range), bad)); }};
+                    [=] { return R(&addAilmentDamageMotionPacket(s, id, F(f), Fl(range), bad)); }};
     });
     add("nbAddPressPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g);
         const uint32_t press = someFloat(g);
-        return Pair{[=] { return origVm(0x00262a68, {I(s), I(id)}, {press}); }, [=] { return R(&nbAddPressPacket(s, id, Fl(press))); }};
+        return Pair{[=] { return origVm(0x00262a68, {I(s), I(id)}, {press}); }, [=] { return R(&addPressPacket(s, id, Fl(press))); }};
     });
 
     // sounds
-    auto sound = [&](const char* name, uint32_t entry, KoukaPacket* (*rewrite)(int32_t, int32_t, uint32_t)) {
+    auto sound = [&](const char* name, uint32_t entry, EffectPacket* (*rewrite)(int32_t, int32_t, uint32_t)) {
         add(name, [=](Gen& g) {
             const int32_t s = frame(g), id = uid(g);
             const uint32_t se = g.pick<uint32_t>({0x10010, 0x1000a, 5, 7});
             return Pair{[=] { return origVm(entry, {I(s), I(id), se}); }, [=] { return R(rewrite(s, id, se)); }};
         });
     };
-    sound("nbAddSePacket", 0x00262cc0, nbAddSePacket);
-    sound("nbAddSePacket2", 0x00262d38, nbAddSePacket2);
-    sound("nbAddSePacket3", 0x00262db0, nbAddSePacket3);
+    sound("nbAddSePacket", 0x00262cc0, addSoundPacket);
+    sound("nbAddSePacket2", 0x00262d38, addSoundPacket2);
+    sound("nbAddSePacket3", 0x00262db0, addSoundPacket3);
 
     // units and parties
     add("nbAddSakeKoukaPacket", [](Gen& g) {
@@ -421,18 +504,18 @@ void addKoukaTests(std::vector<TestCase>& t)
         const uint32_t f = formAddress(g.range(0, 13));
         if (g.chance(20))
             at<Formation>(f).r = nocturne::ee::Float::fromInt(g.range(100, 200));
-        return Pair{[=] { return origVm(0x00261e80, {I(s), I(id), f}); }, [=] { return R(&nbAddSakeKoukaPacket(s, id, at<Formation>(f))); }};
+        return Pair{[=] { return origVm(0x00261e80, {I(s), I(id), f}); }, [=] { return R(&addDodgePacket(s, id, at<Formation>(f))); }};
     });
     add("nbAddDeadPcmPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g);
         const uint32_t f = formAddress(g.range(0, 13));
-        return Pair{[=] { return origVm(0x00262c18, {I(s), I(id), f}); }, [=] { return R(nbAddDeadPcmPacket(s, id, at<Formation>(f))); }};
+        return Pair{[=] { return origVm(0x00262c18, {I(s), I(id), f}); }, [=] { return R(addDeathVoicePacket(s, id, at<Formation>(f))); }};
     });
     add("nbAddReturnKoukaPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g), dead = g.range(0, 1);
         const uint32_t party = FW_PARTY + 128u * g.below(14);
         return Pair{[=] { return origVm(0x002622d0, {I(s), I(id), party, I(dead)}); },
-                    [=] { return R(&nbAddReturnKoukaPacket(s, id, &at<Party>(party), dead)); }};
+                    [=] { return R(&addReturnPacket(s, id, &at<Party>(party), dead)); }};
     });
 
     // ---- whole events ----
@@ -441,24 +524,24 @@ void addKoukaTests(std::vector<TestCase>& t)
         const int16_t side = static_cast<int16_t>(g.range(0, 1)), stock = static_cast<int16_t>(g.range(0, 11)),
                       f = static_cast<int16_t>(g.range(0, 13));
         return Pair{[=] { return origVm(0x002636c8, {I(s), I(id), I(side), I(stock), I(f)}); },
-                    [=] { return norm(nbMakeSummonPacket(s, id, side, stock, f)); }};
+                    [=] { return norm(makeSummonPackets(s, id, side, stock, f)); }};
     });
     add("nbMakeReturnPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g);
         const uint32_t party = FW_PARTY + 128u * g.below(14);
-        return Pair{[=] { return origVm(0x00263778, {I(s), I(id), party}); }, [=] { return norm(nbMakeReturnPacket(s, id, at<Party>(party))); }};
+        return Pair{[=] { return origVm(0x00263778, {I(s), I(id), party}); }, [=] { return norm(makeReturnPackets(s, id, at<Party>(party))); }};
     });
     add("nbMakeUnitFadeInPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g), d = g.range(0, 20), a = g.range(0, 20), c = g.range(0, 20);
         const uint32_t f = someForm(g), col = static_cast<uint32_t>(g.rng());
         return Pair{[=] { return origVm(0x00263810, {I(s), I(id), f, col, I(d), I(a), I(c)}); },
-                    [=] { return norm(nbMakeUnitFadeInPacket(s, id, F(f), col, d, a, c)); }};
+                    [=] { return norm(makeFadeInPackets(s, id, F(f), col, d, a, c)); }};
     });
     add("nbMakeUnitFadeOutPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g), d = g.range(0, 20), c = g.range(0, 20), a = g.range(0, 20);
         const uint32_t f = someForm(g), col = static_cast<uint32_t>(g.rng());
         return Pair{[=] { return origVm(0x002638a0, {I(s), I(id), f, col, I(d), I(c), I(a)}); },
-                    [=] { return norm(nbMakeUnitFadeOutPacket(s, id, F(f), col, d, c, a)); }};
+                    [=] { return norm(makeFadeOutPackets(s, id, F(f), col, d, c, a)); }};
     });
     add("nbMakeDeadPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g), chk = g.range(0, 2);
@@ -475,7 +558,7 @@ void addKoukaTests(std::vector<TestCase>& t)
             at<Formation>(formAddress(f)).stat &= ~FormationStat::Present;
         const uint32_t form = formAddress(f);
         return Pair{[=] { return origVm(0x002641f8, {I(s), I(id), form, I(chk)}); },
-                    [=] { return norm(nbMakeDeadPacket(s, id, at<Formation>(form), chk)); }};
+                    [=] { return norm(makeDeathPackets(s, id, at<Formation>(form), chk)); }};
     });
     struct DeadCheck {
         const char* name;
@@ -483,9 +566,9 @@ void addKoukaTests(std::vector<TestCase>& t)
         int32_t (*rewrite)(const Formation&);
     };
     static const DeadCheck deadChecks[] = {
-        {"nbCheckEventDead", 0x00259ab0, [](const Formation& f) { return nbCheckEventDead(f) ? 1 : 0; }},
-        {"nbCheckDeadScript", 0x00259b10, nbCheckDeadScript},
-        {"nbCheckDeadEvent", 0x00259b70, nbCheckDeadEvent},
+        {"nbCheckEventDead", 0x00259ab0, [](const Formation& f) { return diesByEvent(f) ? 1 : 0; }},
+        {"nbCheckDeadScript", 0x00259b10, hasDeathScript},
+        {"nbCheckDeadEvent", 0x00259b70, hasDeathEvent},
     };
     for (const DeadCheck& d : deadChecks) {
         const uint32_t entry = d.entry;
@@ -512,7 +595,7 @@ void addKoukaTests(std::vector<TestCase>& t)
     };
     auto act = [] { return std::ref(at<ActionProcessData>(FW_ACTION)); };
     action("ClearTimeList", [=](Gen&) {
-        return Pair{[] { return origVmVoid(0x002514f0, {FW_ACTION}); }, [=] { ClearTimeList(act()); return uint64_t{0}; }};
+        return Pair{[] { return origVmVoid(0x002514f0, {FW_ACTION}); }, [=] { clearTimeList(act()); return uint64_t{0}; }};
     });
     action("SetHpForTimeList", [=](Gen&) {
         auto* forms = &at<Formation>(FW_FORMS);
@@ -521,7 +604,7 @@ void addKoukaTests(std::vector<TestCase>& t)
                 forms[f].stat &= ~FormationStat::CheckParty;
         // (slots 14 and 15 are read past the array; keep them empty)
         std::memset(&at<Formation>(formAddress(14)), 0, 2 * sizeof(Formation));
-        return Pair{[] { return origVmVoid(0x00251538, {FW_ACTION}); }, [=] { SetHpForTimeList(act()); return uint64_t{0}; }};
+        return Pair{[] { return origVmVoid(0x00251538, {FW_ACTION}); }, [=] { initTimeListHp(act()); return uint64_t{0}; }};
     });
     struct Getter {
         const char* name;
@@ -529,12 +612,12 @@ void addKoukaTests(std::vector<TestCase>& t)
         int32_t (*rewrite)(ActionProcessData&, int32_t);
     };
     static const Getter getters[] = {
-        {"GetTimeListHp", 0x002515d8, GetTimeListHp},
-        {"GetUnlockTime", 0x00251750, GetUnlockTime},
-        {"GetEndTime", 0x00251760, GetEndTime},
-        {"CheckTimeListDead", 0x002515e8, [](ActionProcessData& a, int32_t f) { return CheckTimeListDead(a, f) ? 1 : 0; }},
+        {"GetTimeListHp", 0x002515d8, timeListHp},
+        {"GetUnlockTime", 0x00251750, freeFrame},
+        {"GetEndTime", 0x00251760, doneFrame},
+        {"CheckTimeListDead", 0x002515e8, [](ActionProcessData& a, int32_t f) { return timeListDead(a, f) ? 1 : 0; }},
         {"CheckTimeListDeadEnemyParty", 0x00251628,
-         [](ActionProcessData& a, int32_t f) { return CheckTimeListDeadEnemyParty(a, f) ? 1 : 0; }},
+         [](ActionProcessData& a, int32_t f) { return otherSideAllDead(a, f) ? 1 : 0; }},
     };
     for (const Getter& d : getters) {
         const uint32_t entry = d.entry;
@@ -556,39 +639,39 @@ void addKoukaTests(std::vector<TestCase>& t)
     action("nbAddTimeListHp", [=](Gen& g) {
         const int32_t f = g.range(0, 31), amount = g.range(-1200, 1200);
         return Pair{[=] { return origVm(0x002516e8, {FW_ACTION, I(f), I(amount)}); },
-                    [=] { return norm(nbAddTimeListHp(act(), f, amount)); }};
+                    [=] { return norm(addTimeListHp(act(), f, amount)); }};
     });
     action("AddTimeListHp", [=](Gen& g) {
         const int32_t f = g.range(0, 31), amount = g.range(-1200, 1200);
         return Pair{[=] { return origVmVoid(0x00251738, {FW_ACTION, I(f), I(amount)}); },
-                    [=] { AddTimeListHp(act(), f, amount); return uint64_t{0}; }};
+                    [=] { addTimeListHpAt(act(), f, amount); return uint64_t{0}; }};
     });
     action("OverwriteTimeList", [=](Gen& g) {
         const int32_t f = g.range(0, 31), s = g.range(0, 90), lock = g.range(-2, 60), end = g.range(-2, 90);
         return Pair{[=] { return origVmVoid(0x00251770, {FW_ACTION, I(f), I(s), I(lock), I(end)}); },
-                    [=] { OverwriteTimeList(act(), f, s, lock, end); return uint64_t{0}; }};
+                    [=] { overwriteTimeList(act(), f, s, lock, end); return uint64_t{0}; }};
     });
     action("SetTimeList", [=](Gen& g) {
         const int32_t f = g.range(0, 31), s = g.range(0, 90), lock = g.range(-2, 60), end = g.range(-2, 90);
         return Pair{[=] { return origVmVoid(0x002517e0, {FW_ACTION, I(f), I(s), I(lock), I(end)}); },
-                    [=] { SetTimeList(act(), f, s, lock, end); return uint64_t{0}; }};
+                    [=] { setTimeList(act(), f, s, lock, end); return uint64_t{0}; }};
     });
     action("GetAllEndTime", [=](Gen&) {
-        return Pair{[] { return origVm(0x00251858, {FW_ACTION}); }, [=] { return norm(GetAllEndTime(act())); }};
+        return Pair{[] { return origVm(0x00251858, {FW_ACTION}); }, [=] { return norm(lastDoneFrame(act())); }};
     });
     action("GetAllUnlockTime", [=](Gen&) {
-        return Pair{[] { return origVm(0x00251890, {FW_ACTION}); }, [=] { return norm(GetAllUnlockTime(act())); }};
+        return Pair{[] { return origVm(0x00251890, {FW_ACTION}); }, [=] { return norm(lastFreeFrame(act())); }};
     });
     action("nbGetActionSeq", [](Gen& g) {
         const uint32_t process = g.chance(10) ? 0 : at<MainProcessData>(FW_MAIN).ActionProcessID[g.below(4)];
-        return Pair{[=] { return origVm(0x00257bf8, {process}); }, [=] { return norm(nbGetActionSeq(process)); }};
+        return Pair{[=] { return origVm(0x00257bf8, {process}); }, [=] { return norm(actionState(process)); }};
     });
     action("nbGetPrevActionSeq", [](Gen&) {
-        return Pair{[] { return origVm(0x00257c20, {}); }, [] { return norm(nbGetPrevActionSeq()); }};
+        return Pair{[] { return origVm(0x00257c20, {}); }, [] { return norm(previousActionState()); }};
     });
     action("SetNextActionSeq", [=](Gen& g) {
         const int32_t next = g.range(-1, 23);
-        return Pair{[=] { return origVmVoid(0x00257cc8, {FW_ACTION, I(next)}); }, [=] { SetNextActionSeq(act(), next); return uint64_t{0}; }};
+        return Pair{[=] { return origVmVoid(0x00257cc8, {FW_ACTION, I(next)}); }, [=] { setNextState(act(), next); return uint64_t{0}; }};
     });
     struct State {
         const char* name;
@@ -597,15 +680,15 @@ void addKoukaTests(std::vector<TestCase>& t)
         bool result;
     };
     static const State states[] = {
-        {"SetAction_NON", 0x00253488, [](ActionProcessData& a) { SetAction_NON(a); return 0; }, false},
-        {"CheckAction_AI", 0x00253c20, CheckAction_AI, true},
-        {"SetAction_INVISIBLE", 0x00257460, [](ActionProcessData& a) { SetAction_INVISIBLE(a); return 0; }, false},
-        {"CheckAction_INVISIBLE", 0x00257468, CheckAction_INVISIBLE, true},
-        {"SetAction_CHECK3", 0x00257a68, [](ActionProcessData& a) { SetAction_CHECK3(a); return 0; }, false},
-        {"CheckAction_CHECK3", 0x00257a70, CheckAction_CHECK3, true},
-        {"SetAction_ATO", 0x00257ab8, [](ActionProcessData& a) { SetAction_ATO(a); return 0; }, false},
-        {"CheckAction_ATO", 0x00257ac0, CheckAction_ATO, true},
-        {"CheckAction_END", 0x00257bf0, CheckAction_END, true},
+        {"SetAction_NON", 0x00253488, [](ActionProcessData& a) { enterNone(a); return 0; }, false},
+        {"CheckAction_AI", 0x00253c20, updateAi, true},
+        {"SetAction_INVISIBLE", 0x00257460, [](ActionProcessData& a) { enterInvisible(a); return 0; }, false},
+        {"CheckAction_INVISIBLE", 0x00257468, updateInvisible, true},
+        {"SetAction_CHECK3", 0x00257a68, [](ActionProcessData& a) { enterPlayOut(a); return 0; }, false},
+        {"CheckAction_CHECK3", 0x00257a70, updatePlayOut, true},
+        {"SetAction_ATO", 0x00257ab8, [](ActionProcessData& a) { enterCleanup(a); return 0; }, false},
+        {"CheckAction_ATO", 0x00257ac0, updateCleanup, true},
+        {"CheckAction_END", 0x00257bf0, updateEnd, true},
     };
     auto script = [&](const char* name, std::function<Pair(Gen&)> body) {
         action(name, [=](Gen& g) {
@@ -613,6 +696,36 @@ void addKoukaTests(std::vector<TestCase>& t)
             return body(g);
         });
     };
+    // The battle script commands, run by an AI or event script.
+    struct BattleCommand { const char* name; uint32_t original; int32_t (*rewrite)(); };
+    static const BattleCommand kBattleCommands[] = {
+        {"nbCommand_BTL_CAM_1SHOT", 0x00288a58, ai::script::cameraOneShot},
+        {"nbCommand_BTL_CAM_BOUGAI", 0x00288a88, ai::script::cameraObstruct},
+        {"nbCommand_BTL_PNL_OFF", 0x00288ab0, ai::script::panelOff},
+        {"nbCommand_BTL_EVENT", 0x00288ae0, ai::script::startEvent},
+        {"nbCommand_BTL_PRESS", 0x00288ba0, ai::script::pressTalk},
+        {"nbCommand_BTL_TAIKYO", 0x00288b20, ai::script::leaveTalk},
+        {"nbCommand_BTL_ALLTAIKYO", 0x00288b60, ai::script::allLeaveTalk},
+        {"nbCommand_BTL_FORM_PLY_ON", 0x00288c40, ai::script::showPlayerFormations},
+        {"nbCommand_BTL_CAM_2SHOT", 0x00288a80, ai::script::cameraTwoShot},
+        {"nbCommand_BTL_NAKAMA", 0x00288be0, ai::script::joinTalk},
+        {"nbCommand_BTL_FORM_ALL_ON", 0x00288c20, ai::script::showAllFormations},
+        {"nbCommand_BTL_FORM_ENE_ON", 0x00288c68, ai::script::showEnemyFormations},
+        {"nbCommand_BTL_AI_CHANGE_OFF", 0x00288d10, ai::script::lockAi},
+        {"nbCommand_BTL_AI_CHANGE_ON", 0x00288d48, ai::script::unlockAi},
+    };
+    for (const BattleCommand& c : kBattleCommands) {
+        const BattleCommand* command = &c;
+        script(command->name, [=](Gen& g) {
+            scriptWork();
+            scriptParam(0, g.range(-1, 300));
+            at<MainProcessData>(FW_MAIN).stat ^= g.chance(50) ? 0x40000u : 0u;
+            act().get().talkType = g.range(0, 6);
+            const uint32_t original = command->original;
+            auto rewrite = command->rewrite;
+            return Pair{[=] { return origVm(original, {}); }, [=] { return norm(rewrite()); }};
+        });
+    }
     script("nbInitAiScript", [=](Gen& g) {
         const int32_t procedure = g.range(0, 140);
         return Pair{[=] { return origVmVoid(0x00288d80, {FW_ACTION, I(procedure)}); },
@@ -626,7 +739,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         const uint16_t state = static_cast<uint16_t>(g.chance(20) ? 25 : g.range(0, 29));
         camera().get().state = g.range(1, 9);
         return Pair{[=] { origVmVoid(0x001b1740, {state}); return cameraState(); },
-                    [=] { nbCameraSetState(state); return cameraState(); }};
+                    [=] { setCameraState(state); return cameraState(); }};
     });
     // An ailing actor: any ailment, sometimes cursed; a status line maybe
     // pending; any point of its wait.
@@ -636,20 +749,23 @@ void addKoukaTests(std::vector<TestCase>& t)
             unit.badstat = static_cast<uint16_t>(
                 (g.chance(15) ? 0 : 1u << g.range(0, 11)) | (g.chance(30) ? nocturne::kBadStatCurse : 0));
             unit.nowcommand = static_cast<int16_t>(g.range(-1, 11));
+            // (a chosen skill or item is never index 0, whose name is Japanese)
+            unit.nowindex = static_cast<uint16_t>(unit.nowcommand == 5 ? 1 + unit.nowindex % 0x9f : unit.nowindex ? unit.nowindex : 1);
             unit.flag = (unit.flag & ~0x24u) | g.pick<uint32_t>({0, 4, 0x20});
             a.seqtime = static_cast<uint16_t>(g.chance(30) ? 5 : g.chance(50) ? g.range(0, 50) : g.pick<int32_t>({0, 30, 31, 40, 41, 100}));
             MainProcessData& main = at<MainProcessData>(FW_MAIN);
             main.endtype = g.chance(50) ? 3 : g.range(0, 4);
             main.esccnt = static_cast<uint8_t>(g.chance(10) ? 0xff : g.range(0, 5));
-            main.NegoProcessID = g.chance(50) ? 0 : 0x00777000;
-            main.negoresult = g.range(0, 9);
+            main.TalkProcessID = g.chance(50) ? 0 : 0x00777000;
+            main.talkResult = g.range(0, 9);
             unit.maxhp = static_cast<uint16_t>(g.range(1, 999));
             if (g.chance(20))
                 nocturne::dat::globalWork().units[0].badstat = static_cast<uint16_t>(g.chance(50) ? 0x800 : 0);
-            a.jyokyomes = g.chance(40) ? 0 : g.range(-1, 0x50);
-            a.jyo_varid = g.range(-1, 2);
-            a.jyo_varind = g.range(0, 0x17f);
-            at<MainProcessData>(FW_MAIN).jyokyomsgid = g.range(0, 5);
+            const iface::HelpWorld help = iface::helpWorld(g);
+            a.statusMessage = g.chance(40) ? 0 : g.chance(10) ? -1 : help.messages[g.below(static_cast<uint32_t>(help.messages.size()))];
+            a.statusVarType = g.range(-1, 2);
+            a.statusVarValue = g.range(0, 0x17f);
+            at<MainProcessData>(FW_MAIN).statusMessageTable = help.id;
             if (g.chance(50))
                 at<MainProcessData>(FW_MAIN).stat ^= 8;
             camera().get().state_change = 0xffff;
@@ -679,7 +795,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         act().get().nextseq = static_cast<int8_t>(g.range(0, 22));
         act().get().seqcnt = g.range(0, 9);
         return Pair{[=] { origVmVoid(0x00257c80, {FW_ACTION, I(seq)}); return cameraState(); },
-                    [=] { SetActionSeq(act(), seq); return cameraState(); }};
+                    [=] { enterState(act(), seq); return cameraState(); }};
     });
     script("nbActionProcess1", [=](Gen& g) {
         ailingWorld(g);
@@ -705,19 +821,19 @@ void addKoukaTests(std::vector<TestCase>& t)
                 static_cast<uint32_t>(dds3StartProcess(0x00544350, 1, 0, 0, 0, 0, data));
         }
         return Pair{[=] { const uint64_t r = origVm(0x00257cd0, {process}); return r ^ cameraState() << 8; },
-                    [=] { return norm(nbActionProcess1(process)) ^ cameraState() << 8; }};
+                    [=] { return norm(runActionProcess(process)) ^ cameraState() << 8; }};
     });
-    ailing("CheckAction_BAD", 0x00253e00, CheckAction_BAD, true);
-    ailing("SetAction_BADWAIT", 0x00254010, [](ActionProcessData& a) { SetAction_BADWAIT(a); return 0; }, false);
-    ailing("CheckAction_BADWAIT", 0x00254058, CheckAction_BADWAIT, true);
-    ailing("SetAction_WAIT", 0x002570b8, [](ActionProcessData& a) { SetAction_WAIT(a); return 0; }, false);
-    ailing("CheckAction_WAIT", 0x00257210, CheckAction_WAIT, true);
-    ailing("SetAction_ESCAPE", 0x00257230, [](ActionProcessData& a) { SetAction_ESCAPE(a); return 0; }, false);
-    ailing("CheckAction_ESCAPE", 0x002572c0, CheckAction_ESCAPE, true);
-    ailing("SetAction_RETURN", 0x002573a8, [](ActionProcessData& a) { SetAction_RETURN(a); return 0; }, false);
-    ailing("CheckAction_RETURN", 0x00257440, CheckAction_RETURN, true);
-    ailing("CheckAction_NEGO", 0x00256b88, CheckAction_NEGO, true);
-    ailing("CheckAction_NEGORESULT", 0x00257098, CheckAction_NEGORESULT, true);
+    ailing("CheckAction_BAD", 0x00253e00, updateAilment, true);
+    ailing("SetAction_BADWAIT", 0x00254010, [](ActionProcessData& a) { enterAilmentWait(a); return 0; }, false);
+    ailing("CheckAction_BADWAIT", 0x00254058, updateAilmentWait, true);
+    ailing("SetAction_WAIT", 0x002570b8, [](ActionProcessData& a) { enterWait(a); return 0; }, false);
+    ailing("CheckAction_WAIT", 0x00257210, updateWait, true);
+    ailing("SetAction_ESCAPE", 0x00257230, [](ActionProcessData& a) { enterEscape(a); return 0; }, false);
+    ailing("CheckAction_ESCAPE", 0x002572c0, updateEscape, true);
+    ailing("SetAction_RETURN", 0x002573a8, [](ActionProcessData& a) { enterReturn(a); return 0; }, false);
+    ailing("CheckAction_RETURN", 0x00257440, updateReturn, true);
+    ailing("CheckAction_NEGO", 0x00256b88, updateTalk, true);
+    ailing("CheckAction_NEGORESULT", 0x00257098, updateTalkResult, true);
     // ---- an action's results ----
     auto occupied = [](Gen& g) {
         int f = g.range(0, 13);
@@ -735,12 +851,12 @@ void addKoukaTests(std::vector<TestCase>& t)
         a.newpresstype = g.range(-1, 17);
         a.hitstopframe = g.chance(40) ? 0 : g.range(1, 60);
         a.newaddpresstype = 0;
-        a.form->unknown_a4 = static_cast<int16_t>(g.pick<int32_t>({0, 2, 2, 1}));
+        a.form->motionend = static_cast<int16_t>(g.pick<int32_t>({0, 2, 2, 1}));
         for (int k = 0; k < 14; ++k)
             if (g.chance(10))
                 at<Party>(FW_PARTY + 128u * static_cast<uint32_t>(k)).flag |= 0x20;
-        nocturne::dat::globalWork().maka = g.chance(20) ? 0 : g.range(0, 50000);
-        SetHpForTimeList(a);
+        nocturne::dat::globalWork().macca = g.chance(20) ? 0 : g.range(0, 50000);
+        initTimeListHp(a);
     };
     auto voidPair = [](uint32_t entry, std::initializer_list<uint64_t> args, std::function<void()> rewrite,
                        std::initializer_list<uint32_t> floats = {}) {
@@ -759,7 +875,7 @@ void addKoukaTests(std::vector<TestCase>& t)
     script("UnitKyoseiDisp", [=](Gen& g) {
         results(g);
         const int32_t start = g.range(0, 40);
-        return voidPair(0x0024f420, {FW_ACTION, I(start)}, [=] { UnitKyoseiDisp(act(), start); });
+        return voidPair(0x0024f420, {FW_ACTION, I(start)}, [=] { fadeInHiddenUnit(act(), start); });
     });
     script("SetDeadPacket", [=](Gen& g) {
         results(g);
@@ -769,33 +885,33 @@ void addKoukaTests(std::vector<TestCase>& t)
         dying.formindex = static_cast<int16_t>(f);
         Party& party = at<Party>(FW_PARTY + 128u * static_cast<uint32_t>(dying.partyindex));
         party.flag = static_cast<int16_t>(party.flag | PartyFlag::Active);
-        return voidPair(0x0024f478, {FW_ACTION, I(f)}, [=] { SetDeadPacket(act(), f); });
+        return voidPair(0x0024f478, {FW_ACTION, I(f)}, [=] { queueDeath(act(), f); });
     });
     script("SetPress", [=](Gen& g) {
         results(g);
         const uint32_t press = pressBits(g);
-        return voidPair(0x0024f548, {FW_ACTION}, [=] { SetPress(act(), nocturne::ee::Float::fromBits(press)); }, {press});
+        return voidPair(0x0024f548, {FW_ACTION}, [=] { setPressCost(act(), nocturne::ee::Float::fromBits(press)); }, {press});
     });
     script("SetNewPress", [=](Gen& g) {
         results(g);
         const int32_t type = g.range(-1, 18);
-        return voidPair(0x0024f5b0, {FW_ACTION, I(type)}, [=] { SetNewPress(act(), type); });
+        return voidPair(0x0024f5b0, {FW_ACTION, I(type)}, [=] { setPressResult(act(), type); });
     });
     script("SetHitStopFrame", [=](Gen& g) {
         results(g);
         const int32_t frame = g.range(-10, 70);
-        return voidPair(0x0024f5c8, {FW_ACTION, I(frame)}, [=] { SetHitStopFrame(act(), frame); });
+        return voidPair(0x0024f5c8, {FW_ACTION, I(frame)}, [=] { setHitStopFrame(act(), frame); });
     });
     script("SetEnemyEscapePacket", [=](Gen& g) {
         results(g);
         const int32_t f = occupied(g), frame = g.range(0, 40);
-        return voidPair(0x0024f5f0, {FW_ACTION, I(f), I(frame)}, [=] { SetEnemyEscapePacket(act(), f, frame); });
+        return voidPair(0x0024f5f0, {FW_ACTION, I(f), I(frame)}, [=] { queueEnemyEscape(act(), f, frame); });
     });
     script("SetAuroraPacket", [=](Gen& g) {
         results(g);
         const int32_t f = occupied(g), frame = g.range(0, 40);
         setBuffCounter(f, 19, g.pick<int32_t>({0, 0xf8, 0xf9, 0xfa, 0xfb, 5, 0xfc}));
-        return voidPair(0x0024f658, {FW_ACTION, I(f), I(frame)}, [=] { SetAuroraPacket(act(), f, frame); });
+        return voidPair(0x0024f658, {FW_ACTION, I(f), I(frame)}, [=] { queueAurora(act(), f, frame); });
     });
     script("SetAddPressPacket", [=](Gen& g) {
         results(g);
@@ -806,39 +922,39 @@ void addKoukaTests(std::vector<TestCase>& t)
                     granting.push_back(s);
         const int32_t skill = !granting.empty() && g.chance(60) ? granting[g.below(static_cast<uint32_t>(granting.size()))]
                                                                  : g.range(0, 0x11f);
-        return voidPair(0x0024f728, {FW_ACTION, I(skill)}, [=] { SetAddPressPacket(act(), skill); });
+        return voidPair(0x0024f728, {FW_ACTION, I(skill)}, [=] { queueExtraPress(act(), skill); });
     });
     script("SetAddFlareChargePacket", [=](Gen& g) {
         results(g);
         const int32_t start = g.range(0, 40);
-        return voidPair(0x0024f7b8, {FW_ACTION, I(start)}, [=] { SetAddFlareChargePacket(act(), start); });
+        return voidPair(0x0024f7b8, {FW_ACTION, I(start)}, [=] { queueFlareCharge(act(), start); });
     });
     script("SetMakaPacket", [=](Gen& g) {
         results(g);
         const int32_t f = occupied(g), frame = g.range(0, 40);
-        return voidPair(0x0024f7e0, {FW_ACTION, I(f), I(frame)}, [=] { SetMakaPacket(act(), f, frame); });
+        return voidPair(0x0024f7e0, {FW_ACTION, I(f), I(frame)}, [=] { queueMaccaThrow(act(), f, frame); });
     });
     script("SetTorafuPacket", [=](Gen& g) {
         results(g);
         const int32_t f = occupied(g), frame = g.range(0, 40);
-        return voidPair(0x0024f8a8, {FW_ACTION, I(f), I(frame)}, [=] { SetTorafuPacket(act(), f, frame); });
+        return voidPair(0x0024f8a8, {FW_ACTION, I(f), I(frame)}, [=] { queueTrafuri(act(), f, frame); });
     });
     script("SetAnalyzePacket", [=](Gen& g) {
         results(g);
         const int32_t f = occupied(g), frame = g.range(0, 40);
-        return voidPair(0x0024f938, {FW_ACTION, I(f), I(frame)}, [=] { SetAnalyzePacket(act(), f, frame); });
+        return voidPair(0x0024f938, {FW_ACTION, I(f), I(frame)}, [=] { queueAnalyze(act(), f, frame); });
     });
     script("SetSakePacket", [=](Gen& g) {
         results(g);
         const int32_t skill = g.range(0, 0x11f), s = occupied(g), d = occupied(g), cnt = g.range(0, 3), frame = g.range(0, 40);
         return voidPair(0x0024fb38, {FW_ACTION, I(skill), I(s), I(d), I(cnt), I(frame)},
-                        [=] { SetSakePacket(act(), skill, s, d, cnt, frame); });
+                        [=] { queueDodge(act(), skill, s, d, cnt, frame); });
     });
     script("SetMissPacket", [=](Gen& g) {
         results(g);
         const int32_t skill = g.range(0, 0x11f), s = occupied(g), d = occupied(g), cnt = g.range(0, 3), frame = g.range(0, 40);
         return voidPair(0x0024fc28, {FW_ACTION, I(skill), I(s), I(d), I(cnt), I(frame)},
-                        [=] { SetMissPacket(act(), skill, s, d, cnt, frame); });
+                        [=] { queueMiss(act(), skill, s, d, cnt, frame); });
     });
     script("SetDamagePacket", [=](Gen& g) {
         results(g);
@@ -848,31 +964,31 @@ void addKoukaTests(std::vector<TestCase>& t)
         act().get().party->flag = static_cast<int16_t>(act().get().party->flag & ~(PartyFlag::EndureFired | PartyFlag::EndureSpent));
         int32_t hp = g.chance(10) ? g.range(-5, 0) : g.range(1, 600);
         if (g.chance(25))   // exactly the HP left
-            hp = GetTimeListHp(act(), act().get().form->formindex);
-        return voidPair(0x002532a8, {FW_ACTION, I(hp)}, [=] { SetDamagePacket(act(), hp); });
+            hp = timeListHp(act(), act().get().form->formindex);
+        return voidPair(0x002532a8, {FW_ACTION, I(hp)}, [=] { queueDamage(act(), hp); });
     });
     // ---- Ongyo-Ki ----
     script("nbAddOngBunshinPacket", [=](Gen& g) {
         const uint32_t s = someForm(g), e = someForm(g);
         const int32_t start = frame(g), id = uid(g);
         return Pair{[=] { return origVm(0x00263110, {I(start), I(id), s, e}); },
-                    [=] { return R(&nbAddOngBunshinPacket(start, id, F(s), F(e))); }};
+                    [=] { return R(&addOngyokiClonePacket(start, id, F(s), F(e))); }};
     });
     script("nbAddOngBunshin2Packet", [=](Gen& g) {
         const uint32_t s = someForm(g), f1 = someForm(g), f2 = someForm(g), f3 = someForm(g);
         const int32_t start = frame(g), id = uid(g);
         return Pair{[=] { return origVm(0x002631a0, {I(start), I(id), s, f1, f2, f3}); },
-                    [=] { return R(&nbAddOngBunshin2Packet(start, id, F(s), F(f1), F(f2), F(f3))); }};
+                    [=] { return R(&addOngyokiClonePacket2(start, id, F(s), F(f1), F(f2), F(f3))); }};
     });
     script("nbAddOngOutPacket", [=](Gen& g) {
         const uint32_t f = someForm(g);
         const int32_t start = frame(g), id = uid(g);
-        return Pair{[=] { return origVm(0x00263250, {I(start), I(id), f}); }, [=] { return R(&nbAddOngOutPacket(start, id, F(f))); }};
+        return Pair{[=] { return origVm(0x00263250, {I(start), I(id), f}); }, [=] { return R(&addOngyokiOutPacket(start, id, F(f))); }};
     });
     script("nbAddOngOut2Packet", [=](Gen& g) {
         const uint32_t f = someForm(g);
         const int32_t start = frame(g), id = uid(g);
-        return Pair{[=] { return origVm(0x002632d0, {I(start), I(id), f}); }, [=] { return R(&nbAddOngOut2Packet(start, id, F(f))); }};
+        return Pair{[=] { return origVm(0x002632d0, {I(start), I(id), f}); }, [=] { return R(&addOngyokiOutPacket2(start, id, F(f))); }};
     });
     // Ongyo-Ki and his clones (formation stat 2) among the enemies.
     auto clones = [=](Gen& g) {
@@ -896,7 +1012,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         Party& party = at<Party>(FW_PARTY + 128u * static_cast<uint32_t>(real.partyindex));
         party.flag = static_cast<int16_t>(party.flag | PartyFlag::Active);
         return voidPair(0x0024fcc0, {FW_ACTION, I(0), I(0), I(d), I(0), I(frame)},
-                        [=] { SetOngShadowPacket(act(), 0, 0, d, 0, frame); });
+                        [=] { queueOngyokiFound(act(), 0, 0, d, 0, frame); });
     });
     script("SetOngShadowPacket2", [=](Gen& g) {
         clones(g);
@@ -909,7 +1025,7 @@ void addKoukaTests(std::vector<TestCase>& t)
             }
         }
         const int32_t d = g.range(4, 13), frame = g.range(0, 40);
-        return voidPair(0x0024fe40, {FW_ACTION, I(d), I(frame)}, [=] { SetOngShadowPacket2(act(), d, frame); });
+        return voidPair(0x0024fe40, {FW_ACTION, I(d), I(frame)}, [=] { queueOngyokiClonesVanish(act(), d, frame); });
     });
 
     // ---- side events: counters, talks, death scripts ----
@@ -955,14 +1071,14 @@ void addKoukaTests(std::vector<TestCase>& t)
         }
         std::memset(&forms[14], 0, 2 * sizeof(Formation));
         MainProcessData& main = at<MainProcessData>(FW_MAIN);
-        main.press4_hansya = static_cast<int16_t>(g.chance(15) ? g.range(0xf0, 0xf6) : g.range(0, 3));
+        main.press4_repel = static_cast<int16_t>(g.chance(15) ? g.range(0xf0, 0xf6) : g.range(0, 3));
         main.stat &= ~(0x1u | 0x10u | 0x80u | 0x100u | 0x2000000u);
         for (uint32_t bit : {0x1u, 0x10u, 0x80u, 0x100u, 0x2000000u})
             if (g.chance(bit == 0x80u ? 50 : 15))
                 main.stat |= bit;
         main.enemypcnt = static_cast<int16_t>(g.range(0, 4));
         main.turn = static_cast<uint8_t>(g.range(0, 5));
-        main.CommSelProcessID = g.chance(50) ? 0 : 0x00777000;
+        main.CommandMenuProcessID = g.chance(50) ? 0 : 0x00777000;
         main.actionstack = ps2PoolAllocate(16 * 16);   // the queue pushed actions go to
         main.actionstackp = g.range(0, 3);
         ActionProcessData& a = act();
@@ -979,15 +1095,15 @@ void addKoukaTests(std::vector<TestCase>& t)
         nocturne::dat::globalWork().units[0].level = static_cast<uint16_t>(g.range(1, 99));
     };
     // Devils whose talk record allows each kind of talk.
-    struct Talkers { std::vector<uint16_t> mukan, sensei, inoti, binjo; };
+    struct Talkers { std::vector<uint16_t> lastEnemy, ambush, begForLife, askToJoin; };
     static const Talkers talkers = [] {
         Talkers t;
         for (uint16_t id = 1; id < 384; ++id) {
-            const auto& n = nocturne::dat::devilNegoFormat(id);
-            if (n.mukantype) t.mukan.push_back(id);
-            if (n.senseitype) t.sensei.push_back(id);
-            if (n.inotitype) t.inoti.push_back(id);
-            if (n.binjotype) t.binjo.push_back(id);
+            const auto& n = nocturne::dat::devilTalkFormat(id);
+            if (n.lastEnemyTalk) t.lastEnemy.push_back(id);
+            if (n.ambushTalk) t.ambush.push_back(id);
+            if (n.begForLife) t.begForLife.push_back(id);
+            if (n.askToJoin) t.askToJoin.push_back(id);
         }
         return t;
     }();
@@ -1006,13 +1122,13 @@ void addKoukaTests(std::vector<TestCase>& t)
     auto sideVoid = [=](uint32_t entry, void (*rewrite)(ActionProcessData&)) {
         return Pair{[=] { return origVmVoid(entry, {FW_ACTION}); }, [=] { rewrite(act()); return uint64_t{0}; }};
     };
-    side("SetTargetPlayer", [=](Gen&) { return sideVoid(0x00251ef0, SetTargetPlayer); });
+    side("SetTargetPlayer", [=](Gen&) { return sideVoid(0x00251ef0, targetDemiFiend); });
     side("SetTargetParty", [=](Gen& g) {
         const int32_t shift = g.range(0, 13);   // party slots needn't match formation slots
         for (int f = 0; f < 14; ++f)
             at<Formation>(formAddress(f)).partyindex = static_cast<int16_t>((f + shift) % 14);
         const int32_t pi = g.range(-1, 14);
-        return Pair{[=] { return origVmVoid(0x00251fd8, {FW_ACTION, I(pi)}); }, [=] { SetTargetParty(act(), pi); return uint64_t{0}; }};
+        return Pair{[=] { return origVmVoid(0x00251fd8, {FW_ACTION, I(pi)}); }, [=] { targetPartySlot(act(), pi); return uint64_t{0}; }};
     });
     side("CheckArrCounter", [=](Gen& g) {
         act().get().partyindex = g.range(0, 5);
@@ -1026,7 +1142,7 @@ void addKoukaTests(std::vector<TestCase>& t)
                 party.flag = static_cast<int16_t>(party.flag | PartyFlag::Active);
                 any = true;
             }
-        return sideBool(0x00252060, CheckArrCounter);
+        return sideBool(0x00252060, checkAhrimanCounter);
     });
     side("CheckCounter", [=](Gen& g) {
         int from = occupied(g);
@@ -1042,7 +1158,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         party.flag = static_cast<int16_t>(party.flag | PartyFlag::Active);
         const int to = g.range(0, 13);
         return Pair{[=] { return origVm(0x002521c8, {FW_ACTION, I(from), I(to)}); },
-                    [=] { return norm(CheckCounter(act(), from, to) ? 1 : 0); }};
+                    [=] { return norm(checkCounter(act(), from, to) ? 1 : 0); }};
     });
     auto talker = [=](Gen& g) {   // the actor: a unit that may talk
         ActionProcessData& a = act();
@@ -1069,7 +1185,7 @@ void addKoukaTests(std::vector<TestCase>& t)
             a.work->id = static_cast<uint16_t>(g.range(1, 383));
             // No devil talks this way in the shipped data; patch the
             // actor's record so the dormant code runs.
-            const_cast<nocturne::DevilNegoFormat&>(nocturne::dat::devilNegoFormat(a.work->id)).mukantype = 1;
+            const_cast<nocturne::DevilTalkFormat&>(nocturne::dat::devilTalkFormat(a.work->id)).lastEnemyTalk = 1;
             a.work->badstat = 0;
             nocturne::dat::globalWork().units[0].badstat = 0;
             main.stat &= ~1u;
@@ -1082,20 +1198,20 @@ void addKoukaTests(std::vector<TestCase>& t)
             if (g.chance(30))
                 main.stat |= 0x2000000;
         }
-        return sideBool(0x00252400, CheckMukanNego);
+        return sideBool(0x00252400, checkLastEnemyTalks);
     });
     side("CheckSenseiNego", [=](Gen& g) {
         talker(g);
         if (g.chance(70)) {   // an ambush by a devil that may talk
             MainProcessData& main = at<MainProcessData>(FW_MAIN);
-            act().get().work->id = pickFrom(g, talkers.sensei);
+            act().get().work->id = pickFrom(g, talkers.ambush);
             act().get().work->badstat = 0;
             nocturne::dat::globalWork().units[0].badstat = 0;
             main.stat = (main.stat & ~(0x1u | 0x10u | 0x100u)) | 0x80u;
-            main.press4_hansya = 0;
+            main.press4_repel = 0;
             main.enemypcnt = static_cast<int16_t>(g.chance(70) ? 1 : g.range(2, 4));
         }
-        return sideBool(0x002525f0, CheckSenseiNego);
+        return sideBool(0x002525f0, checkAmbushTalk);
     });
     side("CheckInotiNego", [=](Gen& g) {
         talker(g);
@@ -1113,14 +1229,14 @@ void addKoukaTests(std::vector<TestCase>& t)
                     continue;
                 form.stat |= FormationStat::Selected;
                 UnitWork& enemy = at<UnitWork>(at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)));
-                enemy.id = pickFrom(g, talkers.inoti);
+                enemy.id = pickFrom(g, talkers.begForLife);
                 enemy.badstat = 0;
                 enemy.level = static_cast<uint16_t>(g.range(1, 40));
                 a.timelist[f].hp = static_cast<uint16_t>(g.range(1, enemy.maxhp / 3 + 1));
             }
             nocturne::dat::globalWork().units[0].level = static_cast<uint16_t>(g.range(30, 99));
         }
-        return sideBool(0x00252720, CheckInotiNego);
+        return sideBool(0x00252720, checkBegForLife);
     });
     side("CheckBinjoNego", [=](Gen& g) {
         talker(g);
@@ -1132,16 +1248,16 @@ void addKoukaTests(std::vector<TestCase>& t)
             at<MainProcessData>(FW_MAIN).stat &= ~1u;
             for (int f = 4; f < 14; ++f)
                 if (at<Formation>(formAddress(f)).stat & FormationStat::Present) {
-                    at<UnitWork>(at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f))).id = pickFrom(g, talkers.binjo);
+                    at<UnitWork>(at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f))).id = pickFrom(g, talkers.askToJoin);
                     at<UnitWork>(at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f))).badstat = 0;
                 }
         }
-        return sideBool(0x002529d0, CheckBinjoNego);
+        return sideBool(0x002529d0, checkAskToJoin);
     });
-    side("CheckDeadScript", [=](Gen&) { return sideVoid(0x00252c28, CheckDeadScript); });
-    side("CheckKoketaNego", [=](Gen& g) { talker(g); return sideBool(0x00252cd8, CheckKoketaNego); });
-    side("KyouseiPress", [=](Gen&) { return sideVoid(0x00252ea8, KyouseiPress); });
-    side("DokodemoPoa", [=](Gen&) { return sideVoid(0x00252ee8, DokodemoPoa); });
+    side("CheckDeadScript", [=](Gen&) { return sideVoid(0x00252c28, checkDeathScripts); });
+    side("CheckKoketaNego", [=](Gen& g) { talker(g); return sideBool(0x00252cd8, checkFreeActionAfterEscape); });
+    side("KyouseiPress", [=](Gen&) { return sideVoid(0x00252ea8, debugEndPressTurns); });
+    side("DokodemoPoa", [=](Gen&) { return sideVoid(0x00252ee8, debugWinBattle); });
     // CHECK1: the aftermath of an action in the side-event world.
     auto aftermath = [=](Gen& g) {
         ActionProcessData& a = act();
@@ -1152,7 +1268,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         unit.nowindex = static_cast<uint16_t>(g.pick<int32_t>({0, 1, 0x31, 0x32, 0xa4, 0xa6, 0xf7, 0x10, 0x60}));
         unit.nowtarea = static_cast<int16_t>(g.range(0, 2));
         unit.nowtform = static_cast<int16_t>(g.range(0, 13));
-        a.form->unknown_a4 = static_cast<int16_t>(g.pick<int32_t>({0, 2, 3}));
+        a.form->motionend = static_cast<int16_t>(g.pick<int32_t>({0, 2, 3}));
         a.form->stat = (a.form->stat & ~0x4010u) | (g.chance(40) ? 0x10u : 0u);
         a.stat = (a.stat & ~0x518u) | (g.chance(20) ? 0x10u : 0u) | (g.chance(30) ? 0x100u : 0u) |
                  (g.chance(30) ? 0x400u : 0u) | (g.chance(30) ? 8u : 0u);
@@ -1172,11 +1288,11 @@ void addKoukaTests(std::vector<TestCase>& t)
     side("SetAction_CHECK1", [=](Gen& g) {
         aftermath(g);
         return Pair{[=] { origVmVoid(0x00257488, {FW_ACTION}); return uint64_t{0}; },
-                    [=] { SetAction_CHECK1(act()); return uint64_t{0}; }};
+                    [=] { enterAftermath(act()); return uint64_t{0}; }};
     });
     side("CheckAction_CHECK1", [=](Gen& g) {
         aftermath(g);
-        return Pair{[=] { return origVm(0x002577d8, {FW_ACTION}); }, [=] { return norm(CheckAction_CHECK1(act())); }};
+        return Pair{[=] { return origVm(0x002577d8, {FW_ACTION}); }, [=] { return norm(updateAftermath(act())); }};
     });
     side("SetNowActionStat", [=](Gen& g) {
         act().get().partyindex = g.range(0, 5);
@@ -1184,7 +1300,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         const int32_t comm = g.chance(50) ? 1 : g.range(-1, 7);
         const int32_t skill = g.chance(40) ? g.pick<int32_t>({0x50, 0xde, 0xe2, 0xe3, 0xdf, 0xff, 0xfc}) : g.range(0, 0x11f);
         return Pair{[=] { return origVmVoid(0x00252fb8, {FW_ACTION, I(comm), I(skill)}); },
-                    [=] { SetNowActionStat(act(), comm, skill); return uint64_t{0}; }};
+                    [=] { noteActionKind(act(), comm, skill); return uint64_t{0}; }};
     });
 
     // ---- the stock and the enemies' units ----
@@ -1214,17 +1330,384 @@ void addKoukaTests(std::vector<TestCase>& t)
         const uint32_t s = static_cast<uint32_t>(act().get().work.address);
         if (g.chance(50))   // already in the compendium (with other stats)
             nocturne::fcl::record(at<nocturne::UnitWork>(s), false);
-        return Pair{[=] { return origVm(0x00259180, {s}); }, [=] { return norm(nbGetNakama(at<nocturne::UnitWork>(s))); }};
+        return Pair{[=] { return origVm(0x00259180, {s}); }, [=] { return norm(recruitDevil(at<nocturne::UnitWork>(s))); }};
+    });
+    // ---- talks: their start and their result ----
+    // Slots marked as the talks' sides, the actor on one of them; an
+    // enemy talked to (with a unit), the enemies' parties, a result.
+    auto negoWorld = [=](Gen& g) {
+        ailingWorld(g);
+        stockWorld(g);
+        ActionProcessData& a = act();
+        MainProcessData& main = at<MainProcessData>(FW_MAIN);
+        auto* forms = &at<Formation>(FW_FORMS);
+        for (int f = 0; f < 16; ++f) {
+            forms[f].stat &= ~0x318u;
+            if (g.chance(30) && f < 14 && at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(forms[f].partyindex)))
+                forms[f].stat |= FormationStat::Present | FormationStat::Selected | g.pick<uint32_t>({0x100, 0x200, 0});
+            if (g.chance(20))
+                forms[f].stat |= 0x10;
+        }
+        a.form->stat = (a.form->stat & ~0x310u) | g.pick<uint32_t>({0, 0x100, 0x200, 0x10, 0x110});
+        a.talkType = g.range(0, 6);
+        int e = g.range(4, 13);
+        while (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(e)))
+            e = g.range(4, 13);
+        main.talkEnemySlot = static_cast<int16_t>(e);
+        main.talkPlayerSlot = static_cast<int16_t>(g.range(0, 3));
+        main.talkResult = g.range(0, 10);
+        for (int k = 4; k < 14; ++k) {
+            Party& p = at<Party>(FW_PARTY + 128u * static_cast<uint32_t>(k));
+            p.flag = static_cast<int16_t>(g.chance(60) ? (1 | 2 | (g.chance(20) ? 0x20 : 0) | (g.chance(20) ? 8 : 0)) : g.below(0x40));
+            if (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(k)))   // (active parties have units)
+                p.flag = static_cast<int16_t>(p.flag & ~1);
+            p.formindex = static_cast<int16_t>(k);
+        }
+        if (g.chance(40)) {   // others of the talker's kind
+            const uint16_t id = at<nocturne::UnitWork>(at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(e))).id;
+            for (int k = 4; k < 14; ++k)
+                if (at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(k)) && g.chance(50))
+                    at<nocturne::UnitWork>(at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(k))).id = id;
+        }
+        a.press = nocturne::ee::Float::fromInt(g.range(-3, 3));
+    };
+    script("SetAction_NEGO", [=](Gen& g) {
+        negoWorld(g);
+        return Pair{[] { return origVmVoid(0x00256a98, {FW_ACTION}); }, [] { enterTalk(at<ActionProcessData>(FW_ACTION)); return uint64_t{0}; }};
+    });
+    script("SetAction_NEGORESULT", [=](Gen& g) {
+        negoWorld(g);
+        return Pair{[] { return origVmVoid(0x00256c00, {FW_ACTION}); },
+                    [] { enterTalkResult(at<ActionProcessData>(FW_ACTION)); return uint64_t{0}; }};
+    });
+    // ---- READY ----
+    // The command chosen, with targets; the unit's ailment, skills and the
+    // battle's options vary.
+    auto readyWorld = [=](Gen& g) {
+        negoWorld(g);
+        ActionProcessData& a = act();
+        UnitWork& unit = *a.work;
+        unit.nowcommand = static_cast<int16_t>(g.chance(5) ? -1 : g.range(0, 10));
+        if (g.chance(40))   // the commands with the most to set up
+            unit.nowcommand = static_cast<int16_t>(g.pick<int32_t>({0, 1, 1, 1, 5}));
+        unit.nowindex = static_cast<uint16_t>(
+            unit.nowcommand == 5 ? g.range(1, 0x9f)
+            : g.chance(50)       ? g.pick<int32_t>({0x73, 0x74, 0x75, 0xe2, 0xe2, 0xf7, 0x130, 0x24, 0x40, 0x31, 0x10, 0xdf,
+                                                    0x98, 0x9e, 0x33, 0x60, 0x64, 0x6a})
+                                 : g.range(1, 0x17f));
+        if (g.chance(30))
+            unit.id = static_cast<uint16_t>(g.pick<int32_t>({0x159, 0x15a, 0x15b, 0x15c, 0xc0, 0xc0}));
+        unit.badstat = static_cast<uint16_t>(g.chance(60) ? 0 : g.pick<int32_t>({8, 0x20, 0x8000, 0x8008, 1}));
+        unit.hp = static_cast<uint16_t>(g.chance(30) ? g.range(1, 3) : g.range(1, unit.maxhp));
+        // Fields READY clears; a motion that ends by fading the unit out.
+        a.autoskill = g.range(0, 3);
+        a.allhpdamage = g.range(0, 50);
+        a.allmpdamage = g.range(0, 50);
+        a.runerr = g.range(0, 3);
+        a.statusMessage = g.range(0, 5);
+        a.skilltime = g.range(0, 9);
+        if (g.chance(30)) {
+            auto& visual = const_cast<nocturne::UnitVisual&>(nocturne::nb::unitVisual(unit));
+            for (nocturne::UnitMotion& m : visual.motion) {
+                m.endtype = 2;
+                m.enddata = static_cast<int8_t>(g.range(0, 60));
+            }
+        }
+        unit.mp = static_cast<uint16_t>(g.range(0, 200));
+        a.select = g.chance(15) ? 0u : static_cast<uint32_t>(g.rng()) & 0xffffu;
+        a.stat = (a.stat & ~0x1a5u) | (g.chance(50) ? 4u : 0u) | (g.chance(30) ? 0x80u : 0u) | (g.chance(40) ? 0x100u : 0u) |
+                 (g.chance(30) ? 0x20u : 0u) | (g.chance(50) ? 1u : 0u);
+        a.type = g.range(0, 4);
+        a.timer = static_cast<uint32_t>(g.range(0, 40));
+        nocturne::dat::globalWork().config = static_cast<uint32_t>(g.rng());
+        for (uint8_t& count : nocturne::dat::globalWork().item_counts)
+            count = static_cast<uint8_t>(g.range(0, 3));
+        auto* forms = &at<Formation>(FW_FORMS);
+        for (int f = 0; f < 16; ++f) {   // (only slots with a unit are present, as in the game)
+            forms[f].formindex = static_cast<int16_t>(f);
+            const bool hasUnit = f < 14 && at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(forms[f].partyindex)) &&
+                                 at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f));
+            if (!hasUnit)
+                forms[f].stat &= ~1u;
+            else if (g.chance(30))
+                forms[f].stat |= g.pick<uint32_t>({0x41, 0x48, 0x49});
+        }
+        MainProcessData& main = at<MainProcessData>(FW_MAIN);
+        main.stat = g.chance(30) ? (main.stat | 8u) : (main.stat & ~8u);
+    };
+    script("SetAction_READY", [=](Gen& g) {
+        readyWorld(g);
+        return Pair{[] { return origVmVoid(0x00254488, {FW_ACTION}); }, [] { enterReady(at<ActionProcessData>(FW_ACTION)); return uint64_t{0}; }};
+    });
+    script("CheckAction_READY", [=](Gen& g) {
+        readyWorld(g);
+        ActionProcessData& a = act();
+        a.seqcnt = g.range(0, 6);
+        a.motionSound = g.chance(50) ? 0 : 1;
+        a.motion = g.range(-1, 30);
+        a.hBed = g.chance(40) ? 0 : 0x00779000u + g.below(0x100);
+        a.hSkillSe = g.chance(40) ? 0 : 0x00779100u + g.below(0x100);
+        a.hSkillMem = 0x0077a001u + g.below(0x100);
+        a.skillmidi = static_cast<uint32_t>(g.range(0x200, 0x2ff)) << 16;
+        a.seqtime = static_cast<uint16_t>(g.range(0, 60));
+        a.timer = static_cast<uint32_t>(g.chance(30) ? 0 : g.range(0, 60));
+        a.skilltime = g.range(0, 20);
+        at<MainProcessData>(FW_MAIN).stat ^= g.chance(50) ? 0x200u : 0u;
+        return Pair{[] { return origVm(0x00255260, {FW_ACTION}); }, [] { return norm(updateReady(at<ActionProcessData>(FW_ACTION))); }};
+    });
+    script("SetAllPacket", [=](Gen& g) {
+        readyWorld(g);
+        ActionProcessData& a = act();
+        a.runerr = 0;
+        for (TimeList& t : a.timelist)
+            t.hp = static_cast<uint16_t>(g.chance(15) ? 0 : g.range(1, 400));
+        // An attacker and a target with units.
+        auto withUnit = [&](int lo, int hi) {
+            int f = g.range(lo, hi);
+            for (int tries = 0; tries < 20 && !at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)); ++tries)
+                f = g.range(lo, hi);
+            return f;
+        };
+        const int32_t sform = a.form->formindex;
+        const int32_t dform = withUnit(0, 13);
+        if (dform < 14 && !at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(dform)))
+            return Pair{[] { return uint64_t{0}; }, [] { return uint64_t{0}; }};
+        int32_t koukatype = g.chance(80) ? g.range(0, 3) : g.range(4, 6);
+        int32_t nskill = g.chance(50) ? g.pick<int32_t>({0, 0xa4, 0xa6, 0x10, 0x31, 0x24, 0x40, 0x106, 0x107, 0x108, 0x113, 0xd4,
+                                                          0xe0, 0x2b, 0x60, 0x6a, 0xb0, 0x33, 0x44, 0xbe, 0xc0, 0xfa, 0x117})
+                                       : g.range(0, 0x17f);
+        // Focused cases for the rarer paths.
+        switch (g.chance(60) ? g.range(0, 6) : -1) {
+        case 0:   // a drain that delays the hit by skill
+            koukatype = 2;
+            nskill = g.pick<int32_t>({0x106, 0x107, 0x108});
+            break;
+        case 1:   // a repelled ailment the user is immune to by the 0x100000 flag
+            koukatype = 1;
+            nskill = g.pick<int32_t>({0x37, 0x3b, 0x3d, 0x80, 0xd2});   // Mute, Bind, Panic, Mute, Sleep
+            if (nocturne::nb::Party* party = nocturne::nb::GetPartyFromFormindex(sform))   // (affinities by attribute)
+                for (int column = 8; column <= 10; ++column)   // Curse, Nerve, Mind
+                    party->affinities[column] = g.chance(70) ? 0x00100000u | 100u : 100u;
+            break;
+        case 2:   // a repel nulled outright (the unit stays hidden)
+            koukatype = 1;
+            nskill = 0xd4;
+            break;
+        case 3:   // a physical hit, maybe countered
+            koukatype = g.pick<int32_t>({0, 0, 1, 4, 5});
+            nskill = g.pick<int32_t>({0, 0xa4, 0xa5});
+            break;
+        case 4:   // a draining hit that may kill
+            koukatype = 0;
+            nskill = g.pick<int32_t>({0xbe, 0xc0, 0xfa, 0x117});
+            break;
+        case 5:   // the ailments that take a share of HP
+            koukatype = 0;
+            nskill = 0x110;
+            break;
+        case 6:   // a killing blow
+            koukatype = 0;
+            nskill = g.pick<int32_t>({0, 0xa4, 0x24, 0x40});
+            break;
+        default: break;
+        }
+        if (g.chance(40))
+            a.form->motionend = 2;   // hidden by its motion
+        const int32_t cnt = g.range(0, 4);
+        const int32_t frame = g.range(0, 60);
+        const float ritu = g.chance(70) ? 1.0f : static_cast<float>(g.range(1, 30)) / 10.0f;
+        auto* forms = &at<Formation>(FW_FORMS);
+        for (int f = 0; f < 16; ++f)
+            forms[f].stat = g.chance(30) ? (forms[f].stat | 0x10u) : forms[f].stat;
+        MainProcessData& main = at<MainProcessData>(FW_MAIN);
+        main.stat = (main.stat & ~0x20400u) | (g.chance(15) ? 0x400u : 0u) | (g.chance(10) ? 0x20000u : 0u);
+        a.type = g.chance(70) ? 0 : g.range(1, 3);
+        if (dform < 14) {   // its ailments and how close it is to dying
+            nocturne::UnitWork& unit = *nocturne::nb::GetUnitWorkFromFormindex(dform);
+            unit.badstat = static_cast<uint16_t>(g.chance(60) ? 0 : g.pick<int32_t>({4, 0x400, 0x8000, 0x20, 1}));
+            unit.hp = static_cast<uint16_t>(g.range(0, 400));
+            a.timelist[dform].hp = static_cast<uint16_t>(g.chance(30) ? g.range(1, 5) : a.timelist[dform].hp);
+            const bool devil = !unit.isPlayerCharacter();
+            if (devil && g.chance(15)) {   // a devil that can't die, maybe stoned (a physical hit can shatter it)
+                unit.id = static_cast<uint16_t>(g.pick<int32_t>({0x10e, 0x10f, 0x110, 0x123, 0x124, 0x125, 0x154}));
+                if (g.chance(60))
+                    unit.badstat = static_cast<uint16_t>(nocturne::ailment::Stone);
+            }
+            if (g.chance(30)) {   // Counter, Retaliate or Avenge (an enemy's skills are its devil's)
+                if (unit.isEnemy()) {
+                    unit.id = static_cast<uint16_t>(g.pick<int32_t>({0x005, 0x010, 0x04d, 0x051, 0x058, 0x059, 0x064, 0x070, 0x09a}));
+                } else {
+                    unit.skill[0] = static_cast<uint16_t>(g.range(0x131, 0x133));
+                    unit.skillcnt = std::max<uint16_t>(unit.skillcnt, 1);
+                }
+                unit.badstat = 0;
+            }
+            if (g.chance(20))   // dying from this hit
+                a.timelist[dform].hp = 1;
+            if (!unit.isEnemy() && g.chance(25)) {   // Endure, hit for exactly what it has left
+                unit.skill[1] = nocturne::skill::Endure;
+                unit.skillcnt = std::max<uint16_t>(unit.skillcnt, 2);
+                a.timelist[dform].hp = static_cast<uint16_t>(std::max(unit.hp >> 1, 1));
+            }
+            if (g.chance(10))   // its party already gone
+                main.party[forms[dform].partyindex].flag = static_cast<int16_t>(main.party[forms[dform].partyindex].flag | 0x20);
+        }
+        const uint32_t ritubits = static_cast<uint32_t>(floatBits(ritu));
+        return Pair{[=] { return origVmVoid(0x0024ff60, {FW_ACTION, I(koukatype), I(nskill), I(sform), I(dform), I(cnt), I(frame)}, {ritubits}); },
+                    [=] {
+                        queueHitResult(at<ActionProcessData>(FW_ACTION), koukatype, nskill, sform, dform, cnt, frame,
+                                     nocturne::ee::Float::fromBits(ritubits));
+                        return uint64_t{0};
+                    }};
+    });
+    script("SetAction_SKILL", [=](Gen& g) {
+        readyWorld(g);
+        ActionProcessData& a = act();
+        MainProcessData& main = at<MainProcessData>(FW_MAIN);
+        // The skill: the ones with a case of their own, else any.
+        UnitWork& user = *a.work;
+        if (g.chance(60)) {
+            user.nowcommand = 1;
+            user.nowindex = static_cast<uint16_t>(g.pick<int32_t>({0, 0x31, 0x32, 0x34, 0x35, 0x36, 0x39, 0x40, 0x41, 0x42, 0x43, 0x44,
+                                                                   0x45, 0x46, 0x4d, 0xcb, 0xcc, 0xcd, 0xce, 0x103, 0x104, 0x106,
+                                                                   0x107, 0x108, 0x109, 0x110, 0x112, 0x114, 0x11a, 0x11e, 0xd4,
+                                                                   0x10, 0x24, 0xa4, 0x60, 0x1c, 0x20, 0x07, 0x01, 0x11a, 0x107}));
+        }
+        if (g.chance(20)) {   // an attack with Drain Attack
+            user.nowcommand = 0;
+            if (!user.isEnemy()) {
+                user.skill[0] = 0x12e;
+                user.skillcnt = std::max<uint16_t>(user.skillcnt, 1);
+            }
+        }
+        uint32_t occupied = 0;   // (the game only targets slots with a unit)
+        for (int f = 0; f < 14; ++f)
+            if (nocturne::nb::GetUnitWorkFromFormindex(f))
+                occupied |= 1u << f;
+        a.select &= occupied;
+        // Some targets null, drain or repel an element (the skills here: physical, fire, ice, Force, Expel, Death).
+        for (int f = 0; f < 14; ++f)
+            if ((occupied & (1u << f)) && g.chance(30))
+                if (nocturne::nb::Party* party = nocturne::nb::GetPartyFromFormindex(f))
+                    party->affinities[g.pick<int32_t>({0, 1, 2, 4, 6, 7})] =
+                        g.pick<uint32_t>({nocturne::Affinity::Null, nocturne::Affinity::Drain, nocturne::Affinity::Repel});
+        if (g.chance(30))   // Ongyo-Ki's clones among the enemies
+            for (int f = 4; f < 14; ++f)
+                if ((occupied & (1u << f)) && g.chance(50))
+                    at<Formation>(FW_FORMS + 0xf0u * static_cast<uint32_t>(f)).stat |= nocturne::nb::FormationStat::Shadow;
+        if (g.chance(10)) {   // skill 0x11A (Force) into targets that all drain Force
+            user.nowcommand = 1;
+            user.nowindex = 0x11a;
+            for (int f = 0; f < 14; ++f)
+                if (nocturne::nb::Party* party = nocturne::nb::GetPartyFromFormindex(f); party && (occupied & (1u << f)))
+                    party->affinities[4] = g.chance(80) ? nocturne::Affinity::Drain : 100u;
+        }
+        if (!user.isEnemy() && g.chance(25)) {   // Pierce
+            user.skill[1] = nocturne::skill::Pierce;
+            user.skillcnt = std::max<uint16_t>(user.skillcnt, 2);
+        }
+        a.runerr = g.chance(80) ? 0 : g.range(1, 3);
+        a.type = g.chance(60) ? 0 : g.range(1, 4);
+        a.autoskill = g.chance(70) ? 0 : g.range(298, 303);
+        a.allhpdamage = g.range(0, 300);
+        a.allmpdamage = g.range(0, 100);
+        a.statusMessage = g.chance(50) ? 0 : g.range(1, 0x40);
+        a.statusVarType = g.range(-1, 3);
+        a.statusVarValue = g.range(0, 0x17f);
+        a.press = nocturne::ee::Float::fromInt(-g.range(0, 4)) / nocturne::ee::Float::fromInt(g.pick<int32_t>({1, 2}));
+        a.newaddpresstype = g.chance(70) ? 0 : g.range(1, 7);
+        a.hitstopframe = g.chance(50) ? 0 : g.range(1, 40);
+        main.press3 = nocturne::ee::Float::fromInt(g.range(0, 8)) / nocturne::ee::Float::fromInt(4);
+        main.playerpcnt = static_cast<int16_t>(g.range(0, 4));
+        main.enemypcnt = static_cast<int16_t>(g.range(0, 4));
+        main.stat = (main.stat & ~0x21400u) | (g.chance(30) ? 0x400u : 0u) | (g.chance(10) ? 0x20000u : 0u) |
+                    (g.chance(20) ? 0x1000u : 0u);
+        if (g.chance(10))
+            a.party->flag = static_cast<int16_t>(a.party->flag | 0x20);
+        for (TimeList& t : a.timelist) {
+            t.lockframe = static_cast<uint16_t>(g.range(0, 40));
+            t.endframe = static_cast<uint16_t>(g.range(0, 60));
+            t.hp = static_cast<uint16_t>(g.chance(15) ? 0 : g.range(1, 400));
+        }
+        a.form->motionend = static_cast<int16_t>(g.range(0, 2));
+        a.form->motiontype = static_cast<int16_t>(g.range(-1, 26));
+        a.form->motionenddata = static_cast<int16_t>(g.range(-1, 60));
+        // Its effect: the two cuts' frames.
+        if (g.chance(70)) {
+            a.hEffBTL = FW_BTL_EFFECT;
+            at<uint32_t>(FW_BTL_EFFECT + 8) = static_cast<uint32_t>(g.range(0, 80));        // cut 1: end
+            at<uint32_t>(FW_BTL_EFFECT + 0x50) = static_cast<uint32_t>(g.range(0, 40));     // ... the hit
+            at<uint32_t>(FW_BTL_EFFECT + 0x78) = static_cast<uint32_t>(g.range(0, 90));     // ... drawn until
+            at<uint32_t>(FW_BTL_EFFECT + 0x620) = static_cast<uint32_t>(g.range(0, 40));    // cut 2: end
+            at<uint32_t>(FW_BTL_EFFECT + 0x668) = static_cast<uint32_t>(g.range(0, 20));    // ... the hit
+        } else {
+            a.hEffBTL = 0;
+        }
+        return Pair{[] { return origVmVoid(0x00255650, {FW_ACTION}); }, [] { enterSkill(at<ActionProcessData>(FW_ACTION)); return uint64_t{0}; }};
+    });
+    script("CheckAction_SKILL", [=](Gen& g) {
+        readyWorld(g);
+        return Pair{[] { return origVm(0x00256a78, {FW_ACTION}); }, [] { return norm(updateSkill(at<ActionProcessData>(FW_ACTION))); }};
+    });
+    script("GetKoukaList", [=](Gen& g) {
+        readyWorld(g);
+        ActionProcessData& a = act();
+        a.runerr = g.chance(85) ? 0 : 1;
+        for (TimeList& t : a.timelist)
+            t.hp = static_cast<uint16_t>(g.chance(25) ? 0 : g.range(1, 300));
+        for (int f = 0; f < 14; ++f)
+            if (const uint32_t u = at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f))) {
+                at<nocturne::UnitWork>(u).maxhp = static_cast<uint16_t>(g.range(1, 400));
+                at<nocturne::UnitWork>(u).hp = static_cast<uint16_t>(g.chance(40) ? at<nocturne::UnitWork>(u).maxhp
+                                                                   : g.chance(20)  ? 0
+                                                                                   : g.range(0, at<nocturne::UnitWork>(u).maxhp));
+            }
+        // Sometimes only one or two targets (so random hits pile up on them).
+        const uint32_t select = g.chance(35)   ? (1u << g.range(0, 13)) | (g.chance(50) ? 1u << g.range(0, 13) : 0u)
+                                : g.chance(60) ? static_cast<uint32_t>(g.rng()) & 0xffffu
+                                               : static_cast<uint32_t>(g.rng());
+        const int32_t nskill = g.chance(60) ? g.pick<int32_t>({0x62, 0x6c, 0x73, 0xb0, 0xb5, 0xca, 0xde, 0x9e, 0x9f, 0x9e, 0x9f, 0xcc, 0xcc, 0x10, 0x24})
+                                            : g.range(1, 0x17f);
+        return Pair{[=] { return origVmVoid(0x002518c8, {FW_ACTION, FW_SCRATCH, I(static_cast<int32_t>(select)), I(nskill)}); },
+                    [=] {
+                        hitOrder(at<ActionProcessData>(FW_ACTION), &at<HitOrderEntry>(FW_SCRATCH), select, nskill);
+                        return uint64_t{0};
+                    }};
+    });
+    script("nbGetMotionEndType", [=](Gen& g) {
+        const int f = g.range(0, 13);
+        const int32_t motion = g.range(0, 26);
+        const uint32_t form = formAddress(f);
+        at<Formation>(form).formindex = static_cast<int16_t>(f);
+        if (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)))
+            return Pair{[] { return uint64_t{0}; }, [] { return uint64_t{0}; }};
+        return Pair{[=] { return origVm(0x0024d310, {form, I(motion)}); },
+                    [=] { return norm(motionEndType(at<Formation>(form), motion)); }};
+    });
+    script("nbGetMotionEndData", [=](Gen& g) {
+        const int f = g.range(0, 13);
+        const int32_t motion = g.range(0, 26);
+        const uint32_t form = formAddress(f);
+        at<Formation>(form).formindex = static_cast<int16_t>(f);
+        if (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)))
+            return Pair{[] { return uint64_t{0}; }, [] { return uint64_t{0}; }};
+        return Pair{[=] { return origVm(0x0024d358, {form, I(motion)}); },
+                    [=] { return norm(motionEndData(at<Formation>(form), motion)); }};
+    });
+    script("nbCameraSetTaizi", [=](Gen& g) {
+        const uint32_t from = formAddress(g.range(0, 13)), to = formAddress(g.range(0, 15));
+        return Pair{[=] { return origVmVoid(0x001b17e0, {from, to}); },
+                    [=] { cameraOnPair(at<Formation>(from), at<Formation>(to)); return uint64_t{0}; }};
     });
     script("nbAppendEnemyDevilWork", [=](Gen& g) {
         stockWorld(g);
         const int32_t id = g.range(1, 383);
         return Pair{[=] { return origVm(0x002594b0, {FW_MAIN, I(id)}); },
-                    [=] { return norm(nbAppendEnemyDevilWork(at<MainProcessData>(FW_MAIN), id)); }};
+                    [=] { return norm(addEnemyUnit(at<MainProcessData>(FW_MAIN), id)); }};
     });
     script("nbGetRandamStock", [=](Gen& g) {
         stockWorld(g);
-        return Pair{[] { return origVm(0x002595a0, {}); }, [] { return norm(nbGetRandamStock()); }};
+        return Pair{[] { return origVm(0x002595a0, {}); }, [] { return norm(randomSummonableStock()); }};
     });
     script("nbClearCommandMemeoyRenzoku", [=](Gen& g) {
         for (int f = 0; f < 4; ++f) {
@@ -1234,7 +1717,7 @@ void addKoukaTests(std::vector<TestCase>& t)
                 at<nocturne::UnitWork>(unit).prevtform = static_cast<int16_t>(g.range(-1, 13));
             }
         }
-        return Pair{[] { return origVmVoid(0x002596d0, {}); }, [] { nbClearCommandMemeoyRenzoku(); return uint64_t{0}; }};
+        return Pair{[] { return origVmVoid(0x002596d0, {}); }, [] { forgetChainTargets(); return uint64_t{0}; }};
     });
     script("SetPlayerSummonPacket", [=](Gen& g) {
         results(g);
@@ -1246,14 +1729,14 @@ void addKoukaTests(std::vector<TestCase>& t)
         a.work->nowindex = static_cast<uint16_t>(g.chance(40) ? 0xdf : g.range(0, 15));
         const int32_t d = g.range(0, 13), frame = g.range(0, 40);
         return Pair{[=] { return origVm(0x0024f990, {FW_ACTION, I(0), I(0), I(d), I(frame)}); },
-                    [=] { return norm(SetPlayerSummonPacket(act(), 0, 0, d, frame)); }};
+                    [=] { return norm(queuePlayerSummon(act(), 0, 0, d, frame)); }};
     });
     static const State scriptStates[] = {
-        {"SetAction_AISCR", 0x00253c40, [](ActionProcessData& a) { SetAction_AISCR(a); return 0; }, false},
-        {"CheckAction_AISCR", 0x00253c88, CheckAction_AISCR, true},
-        {"SetAction_DEADSCRIPT", 0x00253d00, [](ActionProcessData& a) { SetAction_DEADSCRIPT(a); return 0; }, false},
-        {"CheckAction_DEADSCRIPT", 0x00253d38, CheckAction_DEADSCRIPT, true},
-        {"SetAction_END", 0x00257b08, [](ActionProcessData& a) { SetAction_END(a); return 0; }, false},
+        {"SetAction_AISCR", 0x00253c40, [](ActionProcessData& a) { enterAiScript(a); return 0; }, false},
+        {"CheckAction_AISCR", 0x00253c88, updateAiScript, true},
+        {"SetAction_DEADSCRIPT", 0x00253d00, [](ActionProcessData& a) { enterDeathScript(a); return 0; }, false},
+        {"CheckAction_DEADSCRIPT", 0x00253d38, updateDeathScript, true},
+        {"SetAction_END", 0x00257b08, [](ActionProcessData& a) { enterEnd(a); return 0; }, false},
     };
     for (const State& d : scriptStates) {
         const uint32_t entry = d.entry;
@@ -1285,28 +1768,983 @@ void addKoukaTests(std::vector<TestCase>& t)
     add("nbMakePressPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g);
         const uint32_t press = someFloat(g);
-        return Pair{[=] { return origVm(0x002642e0, {I(s), I(id)}, {press}); }, [=] { return norm(nbMakePressPacket(s, id, Fl(press))); }};
+        return Pair{[=] { return origVm(0x002642e0, {I(s), I(id)}, {press}); }, [=] { return norm(makePressPackets(s, id, Fl(press))); }};
     });
     add("nbMakeNewPressPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g), type = g.range(-1, 19);
-        return Pair{[=] { return origVm(0x00264368, {I(s), I(id), I(type)}); }, [=] { return norm(nbMakeNewPressPacket(s, id, type)); }};
+        return Pair{[=] { return origVm(0x00264368, {I(s), I(id), I(type)}); }, [=] { return norm(makePressResultPackets(s, id, type)); }};
     });
     add("nbMakeFlyBadPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g);
         const uint32_t f = someForm(g);
-        return Pair{[=] { return origVm(0x00264508, {I(s), I(id), f}); }, [=] { return norm(nbMakeFlyBadPacket(s, id, F(f))); }};
+        return Pair{[=] { return origVm(0x00264508, {I(s), I(id), f}); }, [=] { return norm(makeFlyAilmentPackets(s, id, F(f))); }};
     });
     add("nbMakeBadDamagePacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g);
         const uint32_t f = someForm(g), bad = 1u << g.range(0, 12);
-        return Pair{[=] { return origVm(0x00264528, {I(s), I(id), f, bad}); }, [=] { return norm(nbMakeBadDamagePacket(s, id, F(f), bad)); }};
+        return Pair{[=] { return origVm(0x00264528, {I(s), I(id), f, bad}); }, [=] { return norm(makeAilmentPackets(s, id, F(f), bad)); }};
     });
     add("nbMakeBadKaifukuPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g);
         const uint32_t f = formAddress(g.range(0, 13));
         if (g.chance(20))
             at<Formation>(f).formindex = static_cast<int16_t>(g.range(14, 20));
-        return Pair{[=] { return origVm(0x002645a8, {I(s), I(id), f}); }, [=] { return norm(nbMakeBadKaifukuPacket(s, id, at<Formation>(f))); }};
+        return Pair{[=] { return origVm(0x002645a8, {I(s), I(id), f}); }, [=] { return norm(makeAilmentCurePackets(s, id, at<Formation>(f))); }};
+    });
+
+    // ---- talks: the helpers ----
+    // A talk between two units of the battle, its window a message window.
+    static int32_t talkWindow = 0;
+    static std::vector<int32_t> talkMessages;   // the window's table's messages
+    auto talkWorld = [](Gen& g) {
+        TalkState& n = at<TalkState>(FW_TALK);
+        std::memset(&n, 0, sizeof(TalkState));
+        n.stat = static_cast<uint32_t>(g.rng()) & 0xf;
+        n.candidateCount = g.range(0, 9);
+        for (uint32_t& c : n.candidates)
+            c = static_cast<uint32_t>(g.rng());
+        n.historyindex = g.range(0, 13);
+        for (uint32_t& h : n.history)
+            h = static_cast<uint32_t>(g.rng());
+        const iface::HelpWorld help = iface::helpWorld(g);
+        const int32_t window = talkWindow = help.id;
+        talkMessages = help.messages;
+        n.nowmsgid = g.chance(20) ? -1 : window;
+        n.msgwndid = g.chance(20) ? -1 : window;
+        n.nowmes = g.range(0, 40);
+        n.nowselect = g.range(-1, 3);
+        if (n.nowmsgid >= 0) {   // where the message is
+            nocturne::mes::CommandSetPhase(window, static_cast<int8_t>(g.range(-1, 2)));
+            nocturne::mes::CommandSetSelPhase(window, static_cast<int16_t>(g.range(-1, 2)));
+        }
+        for (int f = 0; f < 14; ++f)
+            if (const uint32_t u = at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f))) {
+                UnitWork& unit = at<UnitWork>(u);
+                unit.level = static_cast<uint16_t>(g.chance(10) ? g.pick<int32_t>({0, 99, 100, 120}) : g.range(1, 99));
+                unit.maxhp = static_cast<uint16_t>(g.range(1, 999));
+                unit.maxmp = static_cast<uint16_t>(g.range(0, 999));
+                unit.id = static_cast<uint16_t>(g.range(0, 383));
+            }
+    };
+    auto someUnit = [](Gen& g) {
+        int f = g.range(0, 13);
+        while (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)))
+            f = g.range(0, 13);
+        return at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f));
+    };
+    auto talk = [&, talkWorld](const char* name, std::function<Pair(Gen&)> body) {
+        add(name, [=](Gen& g) { talkWorld(g); return body(g); });
+    };
+    talk("nbAddNegoIdKouho", [](Gen& g) {
+        const uint32_t id = static_cast<uint32_t>(g.rng());
+        return Pair{[=] { return origVmVoid(0x0026a8a0, {FW_TALK, id}); }, [=] { addCandidate(at<TalkState>(FW_TALK), id); return uint64_t{0}; }};
+    });
+    talk("nbGetPrevNegoId", [](Gen&) {
+        return Pair{[] { return origVm(0x0026a8d0, {FW_TALK}); }, [] { return norm(static_cast<int32_t>(previousTalkId(at<TalkState>(FW_TALK)))); }};
+    });
+    talk("nbGetBackNoNegoId", [](Gen& g) {
+        const int32_t back = g.range(-3, 20);
+        return Pair{[=] { return origVm(0x0026a8e8, {FW_TALK, I(back)}); },
+                    [=] { return norm(static_cast<int32_t>(talkIdBack(at<TalkState>(FW_TALK), back))); }};
+    });
+    talk("nbSetMesMakka", [](Gen& g) {
+        const int32_t window = talkWindow, macca = g.range(0, 99999);
+        return Pair{[=] { return origVmVoid(0x0026a918, {I(window), I(macca)}); }, [=] { setMaccaVariable(window, macca); return uint64_t{0}; }};
+    });
+    talk("nbSetMesItem", [](Gen& g) {
+        const int32_t window = talkWindow, item = g.range(0, 0x9f);
+        return Pair{[=] { return origVmVoid(0x0026a938, {I(window), I(item)}); }, [=] { setItemVariable(window, item); return uint64_t{0}; }};
+    });
+    talk("nbClsNegoMessage", [](Gen&) {
+        return Pair{[] { return origVmVoid(0x0026a958, {FW_TALK}); }, [] { closeTalkWindow(at<TalkState>(FW_TALK)); return uint64_t{0}; }};
+    });
+    talk("nbDispNegoMessage", [](Gen& g) {
+        const int32_t msgid = g.range(-1, 4), msgno = g.range(0, 60), select = g.range(0, 2);
+        return Pair{[=] { return origVmVoid(0x0026a998, {FW_TALK, I(msgid), I(msgno), I(select)}); },
+                    [=] { showTalkMessage(at<TalkState>(FW_TALK), msgid, msgno, select != 0); return uint64_t{0}; }};
+    });
+    talk("nbCheckNegoMessage", [](Gen&) {
+        return Pair{[] { return origVm(0x0026a9d0, {FW_TALK}); }, [] { return norm(talkMessageDone(at<TalkState>(FW_TALK)) ? 1 : 0); }};
+    });
+    talk("nbSetNegoMesVar", [=](Gen& g) {
+        const int32_t window = talkWindow;
+        const uint32_t p = someUnit(g), e = someUnit(g);
+        at<UnitWork>(p).flag ^= g.chance(50) ? nocturne::UnitFlag::PlayerCharacter : 0u;
+        return Pair{[=] { return origVmVoid(0x0026aa88, {I(window), p, e}); },
+                    [=] { setTalkVariables(window, at<UnitWork>(p), at<UnitWork>(e)); return uint64_t{0}; }};
+    });
+    struct Amount { const char* name; uint32_t original; int32_t (*rewrite)(TalkState&, const UnitWork&, const UnitWork&); };
+    static const Amount kAmounts[] = {
+        {"nbGetNegoYaruMakkaA", 0x0026ab80, demonGivesMacca}, {"nbGetNegoYaruMakkaB", 0x0026ac00, demonGivesMaccaB},
+        {"nbGetNegoKureMakkaA", 0x0026ac78, demonAsksMacca}, {"nbGetNegoKureMakkaB", 0x0026acf8, demonAsksMaccaB},
+        {"nbGetNegoKureHpA", 0x0026ad70, demonAsksHp}, {"nbGetNegoKureHpB", 0x0026ade8, demonAsksHpB},
+        {"nbGetNegoKureMpA", 0x0026ae38, demonAsksMp}, {"nbGetNegoKureMpB", 0x0026ae88, demonAsksMpB},
+        {"nbGetKureItemA", 0x0026aed8, demonAsksItem}, {"nbGetKureItemB", 0x0026afd8, demonAsksItemB},
+    };
+    for (const Amount& amount : kAmounts) {
+        const Amount* am = &amount;
+        talk(am->name, [=](Gen& g) {
+            const uint32_t a = someUnit(g), b = someUnit(g);
+            const uint32_t original = am->original;
+            auto rewrite = am->rewrite;
+            return Pair{[=] { return origVm(original, {FW_TALK, a, b}); },
+                        [=] { return norm(rewrite(at<TalkState>(FW_TALK), at<UnitWork>(a), at<UnitWork>(b))); }};
+        });
+    }
+    struct Pick { const char* name; uint32_t original; int32_t (*rewrite)(int32_t); int32_t count; };
+    static const Pick kPicks[] = {
+        {"nbSelectKureItemA", 0x0026af58, pickAskedItem, 20}, {"nbSelectKureItemB", 0x0026b058, pickAskedItemB, 20},
+        {"nbGetNegoRequestType", 0x0026b0e0, pickRequestType, 7}, {"nbGetNegoTuikaRequestType", 0x0026b160, pickExtraRequestType, 10},
+    };
+    for (const Pick& pick : kPicks) {
+        const Pick* pk = &pick;
+        talk(pk->name, [=](Gen& g) {
+            const int32_t index = g.range(0, pk->count - 1);
+            const uint32_t original = pk->original;
+            auto rewrite = pk->rewrite;
+            return Pair{[=] { return origVm(original, {I(index)}); }, [=] { return norm(rewrite(index)); }};
+        });
+    }
+
+    for (const char* which : {"nbGetNegoYaruItemA", "nbGetNegoYaruItemB", "nbGetNegoYaruStone"}) {
+        const std::string name = which;
+        talk(which, [=](Gen& g) {
+            const uint32_t w = someUnit(g);
+            const uint32_t original = name == "nbGetNegoYaruItemA" ? 0x0026ba28u : name == "nbGetNegoYaruItemB" ? 0x0026bab8u : 0x0026bb48u;
+            int32_t (*rewrite)(const UnitWork&) = name == "nbGetNegoYaruItemA" ? demonGivesItem : name == "nbGetNegoYaruItemB" ? demonGivesItemB : demonGivesStone;
+            return Pair{[=] { return origVm(original, {w}); }, [=] { return norm(rewrite(at<UnitWork>(w))); }};
+        });
+    }
+    talk("nbGetQuestionType", [=](Gen& g) {
+        const uint32_t w = someUnit(g);
+        if (g.chance(75))   // a demon without its own questions (privatesel 0)
+            for (int tries = 0; tries < 50; ++tries) {
+                at<UnitWork>(w).id = static_cast<uint16_t>(g.range(1, 383));
+                if (nocturne::dat::devilTalkFormat(at<UnitWork>(w).id).privatesel != 1)
+                    break;
+            }
+        uint8_t* answers = nocturne::dat::globalWork().questionAnswers;
+        for (int i = 0; i < 4; ++i)
+            answers[i] = static_cast<uint8_t>(g.chance(30) ? g.range(0, 2) : g.range(0, 20));
+        if (g.chance(30))   // ties between the kinds
+            answers[g.range(1, 3)] = answers[g.range(1, 3)];
+        return Pair{[=] { return origVm(0x0026b7c8, {w}); }, [=] { return norm(questionType(at<UnitWork>(w))); }};
+    });
+    talk("nbGetInfoMsg", [](Gen& g) {
+        const int32_t type = g.range(0, 3);
+        return Pair{[=] { return origVm(0x0026bbd8, {I(type)}); }, [=] { return norm(pickInfoMessage(type)); }};
+    });
+    talk("nbCheckSelectMesJoukenAri", [](Gen& g) {
+        const int32_t message = g.range(0, 59);
+        return Pair{[=] { return origVm(0x0026bd50, {I(message)}); }, [=] { return norm(infoAvailable(message) ? 1 : 0); }};
+    });
+    for (int yes = 0; yes < 2; ++yes) {
+        talk(yes ? "nbSetNegoYesMotion" : "nbSetNegoNoMotion", [=](Gen& g) {
+            at<TalkState>(FW_TALK).actdata.address = FW_ACTION;
+            const uint32_t form = formAddress(g.range(0, 13));
+            const uint32_t original = yes ? 0x0026be40u : 0x0026bde0u;
+            return Pair{[=] { return origVm(original, {FW_TALK, form}); },
+                        [=] { return norm(yes ? agreeMotion(at<TalkState>(FW_TALK), at<Formation>(form))
+                                              : refuseMotion(at<TalkState>(FW_TALK), at<Formation>(form))); }};
+        });
+    }
+    talk("nbGetInnenNegoID", [=](Gen& g) {
+        TalkState& n = at<TalkState>(FW_TALK);
+        n.pwork.address = someUnit(g);
+        n.ework.address = someUnit(g);
+        if (g.chance(60)) {   // a pair from the table
+            const int16_t* pair = nocturne::guest::table<const int16_t>(0x003e3158 + 0x3cu * static_cast<uint32_t>(g.range(0, 63)));
+            n.pwork->id = static_cast<uint16_t>(pair[1]);
+            n.ework->id = static_cast<uint16_t>(pair[2]);
+        }
+        return Pair{[] { return origVm(0x0026bea0, {FW_TALK}); }, [] { return norm(fatedPair(at<TalkState>(FW_TALK))); }};
+    });
+
+    // The helpers' talk skills (kind 7: 0x199..0x19F, 0x1A2..0x1A4) among others.
+    auto buffWorld = [=](Gen& g) {
+        TalkState& n = at<TalkState>(FW_TALK);
+        n.data.address = FW_MAIN;
+        n.ppartyindex = g.range(-1, 4);
+        MainProcessData& main = at<MainProcessData>(FW_MAIN);
+        for (int i = 0; i < 14; ++i) {
+            Party& party = main.party[i];
+            party.flag = static_cast<int16_t>(party.flag ^ (g.chance(30) ? 0x80 : 0) ^ (g.chance(20) ? 1 : 0));
+            for (uint16_t& s : party.buffSkills)
+                s = static_cast<uint16_t>(g.chance(50) ? 0 : g.pick<int32_t>({0x199, 0x1a0, 0x8199, 0x19c, 0x10}));
+            if (UnitWork* unit = nocturne::nb::GetUnitWorkPointer(main, party)) {
+                unit->skillcnt = static_cast<uint16_t>(g.range(0, 10));
+                for (int k = 0; k < 10; ++k)
+                    unit->skill[k] = static_cast<uint16_t>(g.chance(50) ? g.pick<int32_t>({0x199, 0x19a, 0x19b, 0x19f, 0x1a2, 0x1a4, 0x180, 0x18c})
+                                                                        : g.range(0, 0x17f));
+                unit->badstat = static_cast<uint16_t>(g.chance(80) ? 0 : g.pick<int32_t>({4, 8, 0x10, 0x400}));
+            } else {
+                party.flag = static_cast<int16_t>(party.flag & ~1);   // (a present slot has a unit)
+            }
+        }
+    };
+    talk("nbSetAllHojoSkillWork", [=](Gen& g) {
+        buffWorld(g);
+        return Pair{[] { return origVmVoid(0x0026b1e0, {FW_TALK}); }, [] { collectBuffSkills(at<TalkState>(FW_TALK)); return uint64_t{0}; }};
+    });
+    talk("nbSearchHojoSkillWork", [=](Gen& g) {
+        buffWorld(g);
+        TalkState& n = at<TalkState>(FW_TALK);
+        n.ework.address = someUnit(g);
+        MainProcessData& main = at<MainProcessData>(FW_MAIN);
+        for (int i = 0; i < 4; ++i)   // the skills that apply at each moment
+            for (uint16_t& s : main.party[i].buffSkills)
+                if (g.chance(60))
+                    s = static_cast<uint16_t>(g.range(0x199, 0x1a5) | (g.chance(10) ? 0x8000 : 0));
+        const int32_t type = g.range(-1, 4);
+        return Pair{[=] { return origVm(0x0026b3f8, {FW_TALK, I(type)}); }, [=] { return norm(static_cast<int32_t>(useBuffSkill(at<TalkState>(FW_TALK), type))); }};
+    });
+    talk("nbGetHojoSkillWorkCnt", [=](Gen& g) {
+        buffWorld(g);
+        return Pair{[] { return origVm(0x0026b368, {FW_TALK}); }, [] { return norm(countBuffSkills(at<TalkState>(FW_TALK))); }};
+    });
+
+    // ---- talks: the process ----
+    // A running talk: its record a process's data, its steps the tests' stand-in.
+    auto talkProcess = [=](Gen& g) {
+        TalkState& n = at<TalkState>(FW_TALK);
+        n.data.address = FW_MAIN;
+        n.actdata.address = FW_ACTION;
+        n.talkId = static_cast<uint32_t>(g.range(0, 9));   // (group 0, the stand-in's)
+        n.talkPhase = g.range(0, 3);
+        n.nextTalkId = g.chance(80) ? 0 : 0x31u;
+        n.waitframe = g.chance(80) ? 0 : g.range(1, 3);
+        n.endid = g.chance(90) ? 0 : 1;
+        n.endtype = g.range(0, 5);
+        n.stat = static_cast<uint32_t>(g.rng()) & 4u;
+        n.nowmsgid = g.chance(80) ? -1 : talkWindow;
+        n.nowmsgno = talkMessages.empty() ? 0 : talkMessages[g.below(static_cast<uint32_t>(talkMessages.size()))];
+        n.stat &= ~4u;   // (the table has no selections)
+        at<MainProcessData>(FW_MAIN).stat &= ~0x400000u;
+        if (g.chance(15)) {   // the debug menu, maybe choosing a step (only with it on)
+            at<MainProcessData>(FW_MAIN).stat |= 0x400000u;
+            if (g.chance(30))
+                n.stat |= 1;
+        }
+        // Group 0 (the game has none) runs the stand-in; its steps stay in it.
+        at<uint32_t>(0x004ef468) = 0x00777300;
+        return static_cast<uint32_t>(dds3StartProcess(0x00551160, 0x3f9, 0, 0, 0, 0, FW_TALK));
+    };
+    struct TalkStateFunction { const char* name; uint32_t original; uint32_t (*rewrite)(uint32_t); };
+    static const TalkStateFunction kTalkStates[] = {
+        {"nbNegoProcess1", 0x0026c4f0, runTalk},
+        {"nbNegoProcessMessage", 0x0026c400, showTalkStepMessage},
+        {"nbNegoProcessMessageChk", 0x0026c390, waitTalkStepMessage},
+        {"nbNegoProcessEnd", 0x0026c4c0, endTalk},
+    };
+    for (const TalkStateFunction& f : kTalkStates) {
+        const TalkStateFunction* fn = &f;
+        talk(fn->name, [=](Gen& g) {
+            const uint32_t process = talkProcess(g);
+            if (fn->original == 0x0026c400) {   // (shown only with a window to show it in, the last read)
+                at<TalkState>(FW_TALK).nowmsgid = talkWindow;
+                // ... its variables set, as every talk message sets them (the
+                // speaker of some is {var 0}).
+                setTalkVariables(talkWindow, at<UnitWork>(someUnit(g)), at<UnitWork>(someUnit(g)));
+                nocturne::mes::CommandSetPhase(talkWindow, 0);
+                nocturne::mes::CommandSetSelPhase(talkWindow, 0);
+            }
+            const uint32_t original = fn->original;
+            auto rewrite = fn->rewrite;
+            return Pair{[=] { return origVm(original, {process}); }, [=] { return norm(static_cast<int32_t>(rewrite(process))); }};
+        });
+    }
+    talk("nbNegoShutdown", [=](Gen& g) {
+        const uint32_t process = talkProcess(g);
+        TalkState& n = at<TalkState>(FW_TALK);
+        // Some of its tables open, each in its own window.
+        const uint32_t* tables = nocturne::guest::table<const uint32_t>(0x004e3be8);
+        for (int32_t i = 0; i < 31; ++i)
+            n.flowmsg[i] = tables[i * 4] != 0 && g.chance(20) ? nocturne::mes::Initialize(tables[i * 4]) : -1;
+        n.questionmsg = g.chance(50) ? nocturne::mes::Initialize(tables[2]) : -1;
+        n.bossmsg = g.chance(50) ? nocturne::mes::Initialize(0x004eb810) : -1;
+        for (int32_t* w : {n.aisyomsg, n.infomsg})
+            for (int32_t i = 0; i < 31; ++i)
+                w[i] = -1;
+        n.helpmsg = n.helpmsg2 = n.innenmsg = -1;
+        at<MainProcessData>(FW_MAIN).TalkProcessID = g.chance(50) ? process : 0;
+        return Pair{[=] { return origVmVoid(0x0026c780, {process}); }, [=] { shutdownTalk(process); return uint64_t{0}; }};
+    });
+    talk("InitNegoProcessData", [=](Gen& g) {
+        const int32_t p = static_cast<int32_t>(someUnit(g) - someUnit(g)) == 0 ? 0 : g.range(0, 3);
+        int32_t e = g.range(4, 13);
+        while (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(e)))
+            e = g.range(4, 13);
+        const int32_t type = g.range(-1, 7), skill = g.range(0x180, 0x1a4);
+        int32_t pp = p;
+        while (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(pp)))
+            pp = g.range(0, 3);
+        return Pair{[=] { return origVm(0x0026c8f0, {FW_ACTION, I(pp), I(e), I(type), I(skill)}); },
+                    [=] { return norm(static_cast<int32_t>(newTalk(at<ActionProcessData>(FW_ACTION), pp, e, type, skill))); }};
+    });
+
+    // ---- talks: the steps ----
+    // A talk under way between a unit of the party and a demon, the step's
+    // messages in one window; the unit is the skill's invoker.
+    auto talkStepWorld = [=](Gen& g) {
+        buffWorld(g);   // (the helpers' skills)
+        for (int i = 0; i < 4; ++i)   // ... some that apply at each moment
+            for (uint16_t& s : at<MainProcessData>(FW_MAIN).party[i].buffSkills)
+                if (g.chance(40))
+                    s = static_cast<uint16_t>(g.range(0x199, 0x1a5));
+        TalkState& n = at<TalkState>(FW_TALK);
+        n.data.address = FW_MAIN;
+        n.actdata.address = FW_ACTION;
+        n.candidateCount = 0;
+        n.waitframe = 0;
+        int p = g.range(0, 3), e = g.range(4, 13);
+        while (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(p)))
+            p = g.range(0, 3);
+        while (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(e)))
+            e = g.range(4, 13);
+        n.pformindex = p;
+        n.eformindex = e;
+        n.pwork.address = at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(p));
+        n.ework.address = at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(e));
+        n.pform.address = formAddress(p);
+        n.eform.address = formAddress(e);
+        for (const int f : {p, e}) {   // the two talking: their slots, present
+            Formation& form = at<Formation>(formAddress(f));
+            form.formindex = static_cast<int16_t>(f);
+            form.partyindex = static_cast<int16_t>(f);
+            at<MainProcessData>(FW_MAIN).party[f].flag |= 1;
+        }
+        at<uint32_t>(0x005698e0) = g.chance(95) ? formAddress(p) : 0;
+        // (some of the devils the steps single out; sometimes the talker's kind)
+        n.ework->id = static_cast<uint16_t>(g.chance(30) ? g.pick<int32_t>({0x5c, 0x3d, 0x61, 0x5b, 0x99, 0x96, 0x1d, 0x24, 0x27, 0x6e, 0x90, 0x9a, 0x38, 0x59, 0x68, 0x71, 109, 111, 113, 0x3a, 0x3c, 0x5a}) : g.range(1, 383));
+        if (g.chance(20) && !n.pwork->isPlayerCharacter())
+            n.pwork->id = n.ework->id;
+        n.ekucyo = g.range(0, 30);
+        for (int32_t& window : n.flowmsg)   // (every style's table open, as the talk opens them)
+            window = talkWindow;
+        n.infomsg[n.ekucyo] = talkWindow + 100;   // (only noted as the window to show in)
+        n.helpmsg = talkWindow;
+        n.talkPhase = g.chance(70) ? g.range(0, 3) : g.range(0, 10);   // (the fated exchanges run longer)
+        n.talkRequestType = g.chance(30) ? 0 : g.range(-1, 7);
+        n.talkSkill = static_cast<uint32_t>(g.pick<int32_t>({0x180, 0x18b, 0x191, 0x199, 0x1a2}));
+        n.cnt6_36 = g.range(0, 3);
+        n.cnt6_37 = g.chance(50) ? 0 : g.range(0, 2);
+        n.getmakka = g.range(1, 5000);
+        n.getitem = g.range(1, 0x9f);
+        n.getinfotype = g.pick<int32_t>({0, 2});
+        n.requestdata = g.chance(80) ? g.range(1, 0x6f) : g.range(0x9d, 0x9f);   // an item asked for
+        n.questionmsg = talkWindow + 200;
+        n.innenmsg = talkWindow + 300;
+        n.innen_id = g.range(0, 63);
+        if (g.chance(50))   // the step before, one the steps look back on
+            n.history[n.historyindex] = g.pick<uint32_t>({0x40008, 0x40009, 0x4000a, 0xb0005, 0xb0007});
+        n.qtype = g.range(0, 3);
+        n.qindex = g.chance(10) ? g.range(-1, 6) : g.range(0, n.qtype == 0 ? 4 : 1);
+        n.nowselect = g.range(0, n.qtype == 0 ? 1 : 2);   // (two answers to its own questions, three to the others)
+        n.requesttype = g.range(-1, 5);
+        n.affinity = g.range(0, 3);
+        n.buffAffinity = g.range(0, 2);
+        n.buffAffinityMessage = g.range(0, 40);
+        n.aisyomsg[n.ekucyo] = talkWindow + 400;
+        n.helpmsg2 = talkWindow + 500;
+        n.temp_param[0] = g.range(0, 7);
+        n.talkType = g.range(0, 6);
+        // (group 6: the talk skill's rules, helpers, haggles, the Macca window)
+        if (g.chance(50))
+            n.talkSkill = static_cast<uint32_t>(g.range(0x180, 0x1a5));
+        n.buffSkill = g.range(0x198, 0x1a5);
+        n.buffPartyIndex = g.range(0, 3);
+        while (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(n.buffPartyIndex)))
+            n.buffPartyIndex = g.range(0, 3);
+        at<MainProcessData>(FW_MAIN).party[n.buffPartyIndex].formindex = static_cast<int16_t>(n.buffPartyIndex);
+        at<Formation>(formAddress(n.buffPartyIndex)).formindex = static_cast<int16_t>(n.buffPartyIndex);
+        n.cnt6_36 = g.range(0, 5);
+        n.cnt6_58 = g.range(0, 4);
+        n.cnt6_66 = g.range(0, 4);
+        n.mes6_2 = g.range(0x1c, 0x1f);
+        n.mes6_25 = g.range(0x25, 0x28);
+        n.mes6_67 = g.range(0x21, 0x24);
+        n.prevreqtype = g.range(-1, 5);
+        n.requesttype = g.range(-1, 5);
+        n.stat ^= g.chance(30) ? 8u : 0u;
+        n.temp_param[1] = g.range(0, 0x60);
+        n.history[n.historyindex] = g.chance(50) ? g.pick<uint32_t>({0x6000c, 0x6000d, 0x6003b, 0x6003c, 0x6003d, 0x6003e, 0x6003f, 0x60040})
+                                                 : n.history[n.historyindex];
+        {
+            int32_t* window = &at<int32_t>(FW_MAKA);
+            for (int32_t i = 0; i < 16; ++i)
+                window[i] = g.range(-1, 3);
+        }
+        // (group 1: boss talks, other enemies breaking in, the special skills and talkers)
+        n.bossmsg = talkWindow + 600;
+        n.flag1_6 = g.range(0, 1);
+        n.flag1_39 = g.range(0, 1);
+        MainProcessData& battle = at<MainProcessData>(FW_MAIN);
+        battle.press4_repel = static_cast<int16_t>(g.chance(20) ? g.range(0xef, 0xf7) : g.range(0, 8));
+        battle.enemypcnt = static_cast<int16_t>(g.range(1, 6));
+        battle.stat ^= (g.chance(30) ? 1u : 0u) | (g.chance(50) ? 0x800000u : 0u);
+        for (int32_t slot = 4; slot < 14; ++slot)
+            battle.party[slot].flag = static_cast<int16_t>(battle.party[slot].flag ^ (g.chance(30) ? 2 : 0) ^ (g.chance(15) ? 0x10 : 0) ^ (g.chance(15) ? 8 : 0));
+        n.epartyindex = e;
+        for (int32_t slot = 4; slot < 14; ++slot)   // (other enemies, some unable to talk)
+            if (const uint32_t u = at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(slot)); u && g.chance(20))
+                at<UnitWork>(u).badstat = static_cast<uint16_t>(g.pick<int32_t>({1, 4, 8, 0x200}));
+        nocturne::dat::globalWork().macca = g.chance(20) ? g.pick<int32_t>({499, 500, 501}) : g.range(0, 99999);
+        if (g.chance(15) && !n.pwork->isPlayerCharacter()) {   // a fated pair
+            const uint32_t pair = 0x003e3158u + 0x3cu * static_cast<uint32_t>(g.range(0, 44));
+            n.pwork->id = at<uint16_t>(pair + 2);
+            n.ework->id = at<uint16_t>(pair + 4);
+        }
+        n.boupartyindex = g.range(4, 13);
+        while (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(n.boupartyindex)))
+            n.boupartyindex = g.range(4, 13);
+        n.actdata->select = static_cast<uint32_t>(g.rng());
+        if (g.chance(30))
+            n.ework->badstat = static_cast<uint16_t>(g.pick<int32_t>({1, 2, 4, 8, 0x10, 0x200, 0x40}));
+        if (g.chance(30) && !n.pwork->isPlayerCharacter())
+            n.pwork->id = static_cast<uint16_t>(g.pick<int32_t>({0x8f, 0x71, 2}));
+        if (g.chance(30))
+            n.talkSkill = static_cast<uint32_t>(g.pick<int32_t>({0x189, 0x18a, 0x18b, 0x193, 0x1a5}));
+        n.requesthpmp = g.range(0, 1);
+        n.data->stat ^= g.chance(20) ? 0x20000u : 0u;
+        for (int32_t i = 0; i < 8; ++i)
+            n.workid[i] = 0x60000u | static_cast<uint32_t>(g.range(1, 0x50));
+        at<UnitWork>(n.pwork.address).param[1] = static_cast<int8_t>(g.range(0, 3));
+        at<UnitWork>(n.ework.address).param[1] = static_cast<int8_t>(g.range(0, 3));
+        n.nowselect = g.range(0, 1);
+        nocturne::GlobalWork& global = nocturne::dat::globalWork();
+        for (uint8_t& answers : global.questionAnswers)
+            answers = static_cast<uint8_t>(g.chance(20) ? 0xff : g.range(0, 30));
+        for (uint8_t& loans : global.loanCounts)
+            loans = static_cast<uint8_t>(g.chance(30) ? 0xff : g.range(0, 14));
+        // The stock: some demons (maybe one like the demon), as many as it holds or fewer.
+        global.units[0].level = static_cast<uint16_t>(g.chance(20) ? n.ework->level : g.range(1, 99));
+        global.stock_capacity = g.range(4, 12);
+        for (int32_t i = 4; i < 16; ++i) {
+            nocturne::UnitWork& unit = global.units[i];
+            unit.flag = g.chance(60) ? (unit.flag | nocturne::UnitFlag::Valid) & ~nocturne::UnitFlag::PlayerCharacter
+                                     : unit.flag & ~nocturne::UnitFlag::Valid;
+            unit.id = static_cast<uint16_t>(g.chance(10) ? n.ework->id : g.range(1, 383));
+        }
+        if (g.chance(10))   // the talker down
+            n.pwork->hp = 0;
+        else if (g.chance(30))   // ... or low
+            n.pwork->hp = static_cast<uint16_t>(g.range(1, 0x70));
+        if (g.chance(30) && n.pwork->skillcnt > 0)   // it may hold on (Endure, Never Yield)
+            n.pwork->skill[g.below(std::min<uint32_t>(n.pwork->skillcnt, 24))] = static_cast<uint16_t>(g.pick<int32_t>({0x159, 0x168}));
+        if (g.chance(20))
+            n.pwork->mp = 0;
+        if (g.chance(10))
+            n.requestdata = g.chance(50) ? n.pwork->hp : 50;
+        for (uint32_t& h : n.history)   // (some look back for group 6's 0x6002A)
+            if (g.chance(20))
+                h = 0x6002a;
+        if (g.chance(30))   // a full bag
+            for (uint8_t& count : global.item_counts)
+                count = 99;
+        if (g.chance(50))
+            nocturne::dat::globalWork().item_counts[n.requestdata] = static_cast<uint8_t>(g.range(1, 3));
+    };
+    // The bargaining's affinity checks (ChkAisyo): conditions of the kinds
+    // the talk skills use.
+    auto affinityCondition = [](Gen& g) {
+        if (g.chance(40))
+            return g.pick<uint32_t>({0x80000000u, 0x80000001u, 0x80000001u, 0x80000001u, 0x80000002u});
+        uint32_t jo = 0;
+        for (const uint32_t bit : {1u, 2u, 4u, 8u, 0x10u, 0x20u, 0x40u, 0x80u, 0x100u, 0x200u, 0x400u, 0x800u, 0x80000000u})
+            if (g.chance(15))
+                jo |= bit;
+        return jo;
+    };
+    talk("ChkAisyo", [=](Gen& g) {
+        talkStepWorld(g);
+        const uint32_t a = someUnit(g), b = someUnit(g), jo = affinityCondition(g);
+        if (g.chance(40))   // (the gaps the conditions test)
+            at<UnitWork>(a).level = static_cast<uint16_t>(std::clamp(at<UnitWork>(b).level + g.pick<int32_t>({-11, -10, -9, 9, 10, 11}), 1, 99));
+        if (g.chance(20) && !at<UnitWork>(b).isPlayerCharacter())
+            at<UnitWork>(b).id = static_cast<uint16_t>(g.range(109, 113));   // a Tyrant
+        const int32_t sw = g.range(0, 1);
+        return Pair{[=] { return origVm(0x0026eb08, {a, b, I(static_cast<int32_t>(jo)), I(sw)}); },
+                    [=] { return norm(checkAffinity(at<UnitWork>(a), at<UnitWork>(b), jo, sw) ? 1 : 0); }};
+    });
+    talk("nbChkNegoAisyo", [=](Gen& g) {
+        talkStepWorld(g);
+        const uint32_t mine = affinityCondition(g), theirs = affinityCondition(g);
+        const int32_t sw = g.range(0, 1);
+        return Pair{[=] { return origVm(0x0026ee90, {FW_TALK, I(static_cast<int32_t>(mine)), I(static_cast<int32_t>(theirs)), I(sw)}); },
+                    [=] { return norm(pairAffinity(at<TalkState>(FW_TALK), mine, theirs, sw) ? 1 : 0); }};
+    });
+    talk("nbChkNegoAisyo2", [=](Gen& g) {
+        talkStepWorld(g);
+        const uint32_t s = someUnit(g), d = someUnit(g), mine = affinityCondition(g), theirs = affinityCondition(g);
+        const int32_t sw = g.range(0, 1);
+        return Pair{[=] { return origVm(0x0026ef18, {s, d, I(static_cast<int32_t>(mine)), I(static_cast<int32_t>(theirs)), I(sw)}); },
+                    [=] { return norm(pairAffinity(at<UnitWork>(s), at<UnitWork>(d), mine, theirs, sw) ? 1 : 0); }};
+    });
+    talk("GetMakaProcessData", [=](Gen& g) {
+        talkStepWorld(g);
+        return Pair{[] { return origVm(0x0028f218, {}); }, [] { return norm(static_cast<int32_t>(nocturne::guest::addressOf(maccaWindow()))); }};
+    });
+    talk("nbMakaDispOn", [=](Gen& g) {
+        talkStepWorld(g);
+        const int32_t keep = g.range(0, 2);
+        return Pair{[=] { return origVmVoid(0x0028f258, {I(keep)}); }, [=] { showMacca(keep); return uint64_t{0}; }};
+    });
+    talk("nbMakaDispOff", [=](Gen& g) {
+        talkStepWorld(g);
+        return Pair{[] { return origVmVoid(0x0028f2b0, {}); }, [] { hideMacca(); return uint64_t{0}; }};
+    });
+    // The Macca window's process, its record the fake "nb_maka"'s.
+    auto maccaWorld = [=](Gen& g) {
+        talkStepWorld(g);
+        MaccaWindow& w = at<MaccaWindow>(FW_MAKA);
+        w.state = g.range(0, 3);
+        w.open = g.range(0, 1);
+        w.x = g.range(0, 0x200);
+        w.y = g.range(0, 0x1c0);
+        w.keep = g.range(0, 1);
+        w.closeframes = g.range(-1, 3);
+        w.alpha = g.pick<int32_t>({0, 0x14, 0x60, 0x70, 0x80, g.range(-0x20, 0xa0)});
+        nocturne::dat::globalWork().macca = g.chance(20) ? g.pick<int32_t>({0, 5, 10, 9999999}) : g.range(0, 9999999);
+    };
+    talk("maccaDigit", [=](Gen& g) {
+        const int32_t value = g.range(-100, 9999999), place = g.range(-1, 7);
+        return Pair{[=] { return origVm(0x0028f2f8, {I(value), I(place)}); }, [=] { return norm(maccaDigit(value, place)); }};
+    });
+    talk("DispMaka", [=](Gen& g) {
+        maccaWorld(g);
+        const int32_t x = g.range(0, 0x200), y = g.range(0, 0x1c0);
+        const uint32_t color = static_cast<uint32_t>(g.rng()), alpha = static_cast<uint32_t>(g.range(0, 0x80));
+        return Pair{[=] { return origVmVoid(0x0028f348, {FW_MAKA, I(x), I(y), I(static_cast<int32_t>(color)), alpha}); },
+                    [=] { drawMaccaWindow(at<MaccaWindow>(FW_MAKA), x, y, color, alpha); return uint64_t{0}; }};
+    });
+    talk("stepMaccaWindow", [=](Gen& g) {
+        maccaWorld(g);
+        return Pair{[] { return origVmVoid(0x0028f600, {FW_MAKA}); }, [] { stepMaccaWindow(at<MaccaWindow>(FW_MAKA)); return uint64_t{0}; }};
+    });
+    talk("nbMakaProcess1", [=](Gen& g) {
+        maccaWorld(g);
+        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(0x00551560, 0x2b0e, 0, 0, 0, 0, FW_MAKA));
+        return Pair{[=] { return origVm(0x0028f698, {process}); }, [=] { return norm(static_cast<int32_t>(runMaccaWindow(process))); }};
+    });
+    talk("nbMakaShutdown", [=](Gen& g) {
+        maccaWorld(g);
+        const uint32_t data = g.chance(80) ? ps2PoolAllocate(0x2c) : 0;
+        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(0x00777500, 0x2b0e, 0, 0, 0, 0, data));
+        return Pair{[=] { return origVmVoid(0x0028f6f0, {process}); }, [=] { shutdownMaccaWindow(process); return uint64_t{0}; }};
+    });
+    talk("InitMakaProcessData", [=](Gen& g) {
+        maccaWorld(g);
+        return Pair{[] { return origVm(0x0028f728, {}); }, [] { return norm(static_cast<int32_t>(newMaccaWindow())); }};
+    });
+    talk("nbInitMakaProcess", [=](Gen& g) {
+        maccaWorld(g);
+        const uint32_t parent = g.chance(70) ? static_cast<uint32_t>(dds3StartProcess(0x00544350, 1, 0, 0, 0, 0, 0)) : 0;
+        return Pair{[=] { return origVm(0x0028f770, {parent}); }, [=] { return norm(static_cast<int32_t>(startMaccaWindow(parent))); }};
+    });
+    // ---- the battle's events (nbEventProcess) ----
+    // An event of the battle (eventno), maybe of an encounter with events.
+    auto eventWorld = [](Gen& g) {
+        MainProcessData& main = at<MainProcessData>(FW_MAIN);
+        main.eventno = g.chance(80) ? g.range(0, 15) : g.range(0, 99);
+        main.encno = g.chance(60) ? at<int32_t>(0x00527260 + 0x1c * static_cast<uint32_t>(g.range(0, 15)) + 8) : g.chance(25) ? 0 : g.range(0, 0x400);
+        main.MainProcessID = static_cast<uint32_t>(dds3StartProcess(0x00544350, 1, 0, 0, 0, 0, 0));
+        main.stat = static_cast<uint32_t>(g.range(0, 0xffff));
+        main.endtype = static_cast<uint32_t>(g.range(0, 3));
+        for (int i = 0; i < 14; ++i)
+            at<Formation>(formAddress(i)).stat ^= static_cast<uint32_t>(g.range(0, 3)) << 2;   // (bits 4 and 8)
+    };
+    // A running event's process and record.
+    auto eventProcess = [=](Gen& g) {
+        eventWorld(g);
+        const uint32_t data = ps2PoolAllocate(0x28);
+        EventProcessData& ed = at<EventProcessData>(data);
+        ed.data.address = FW_MAIN;
+        ed.eventrid = g.range(0, 5);
+        ed.time = g.range(0, 100);
+        ed.seq = g.range(0, 5);
+        ed.seqtime = g.range(0, 100);
+        ed.userdata = g.chance(50) ? ps2PoolAllocate(0x10) : 0;
+        ed.usershutdown = g.chance(50) ? 0x002c1ca0u : 0;   // (a function the tests log)
+        ed.file = g.chance(50) ? static_cast<uint32_t>(g.range(1, 0x1000)) : 0;
+        ed.pfile = g.chance(50) ? static_cast<uint32_t>(g.range(1, 0x1000)) : 0;
+        ed.mem = g.chance(50) ? static_cast<uint32_t>(g.range(1, 0x1000)) : 0;
+        return static_cast<uint32_t>(dds3StartProcess(0x00545dc8, 0x3f9, 0, 0, 0, 0, data));
+    };
+    add("nbStartBattleEventSound", [=](Gen& g) {
+        eventWorld(g);
+        return Pair{[] { return origVmVoid(0x0028f7e8, {FW_MAIN}); }, [] { startEventSound(at<MainProcessData>(FW_MAIN)); return uint64_t{0}; }};
+    });
+    add("nbStopBattleEventSound", [=](Gen& g) {
+        eventWorld(g);
+        return Pair{[] { return origVmVoid(0x0028f840, {FW_MAIN}); }, [] { stopEventSound(at<MainProcessData>(FW_MAIN)); return uint64_t{0}; }};
+    });
+    add("nbLoadBattleEventPack", [=](Gen& g) {
+        eventWorld(g);
+        return Pair{[] { return origVm(0x0028f890, {FW_MAIN}); }, [] { return norm(eventPacksLoaded(at<MainProcessData>(FW_MAIN)) ? 1 : 0); }};
+    });
+    add("nbLoadBattleEventPackInit", [=](Gen& g) {
+        eventWorld(g);
+        return Pair{[] { return origVmVoid(0x0028f958, {FW_MAIN}); }, [] { loadEventPacks(at<MainProcessData>(FW_MAIN)); return uint64_t{0}; }};
+    });
+    add("nbUpdateEventProcessData", [=](Gen& g) {
+        const uint32_t process = g.chance(90) ? eventProcess(g) : static_cast<uint32_t>(dds3StartProcess(0x00777700, 1, 0, 0, 0, 0, 0));
+        return Pair{[=] { return origVmVoid(0x0028f9f0, {process}); }, [=] { countEventTime(process); return uint64_t{0}; }};
+    });
+    add("nbNextEventSeq", [=](Gen& g) {
+        const uint32_t process = eventProcess(g);
+        const uint32_t ed = g.chance(90) ? static_cast<uint32_t>(dds3GetProcessData(process)) : 0;
+        return Pair{[=] { return origVmVoid(0x0028fa48, {ed}); },
+                    [=] { nextEventStep(ed ? &at<EventProcessData>(ed) : nullptr); return uint64_t{0}; }};
+    });
+    add("nbGetEventForm", [](Gen& g) {
+        for (int i = 4; i < 14; ++i)
+            if (g.chance(40))
+                at<Formation>(formAddress(i)).stat &= ~1u;
+        return Pair{[] { return origVm(0x0028fa80, {}); }, [] { return norm(static_cast<int32_t>(nocturne::guest::addressOf(eventForm()))); }};
+    });
+    add("nbCreateBasicEffect", [](Gen& g) {
+        const uint32_t p = static_cast<uint32_t>(g.range(0, 0x100)), pos = FW_SCRATCH, rot = FW_SCRATCH + 0x10;
+        return Pair{[=] { return origVm(0x0028fad8, {p, pos, rot}); }, [=] { return norm(static_cast<int32_t>(createBasicEffect(p, pos, rot))); }};
+    });
+    for (const char* which : {"ResetWaitMotion", "SetWaitMotion"}) {
+        const std::string name = which;
+        add(which, [=](Gen& g) {
+            const uint32_t ed = static_cast<uint32_t>(dds3GetProcessData(eventProcess(g)));
+            const uint32_t original = name == "ResetWaitMotion" ? 0x0028fb10u : 0x0028fb90u;
+            return Pair{[=] { return origVmVoid(original, {ed}); }, [=] {
+                            if (name == "ResetWaitMotion")
+                                resetWaitMotions(at<EventProcessData>(ed));
+                            else
+                                setWaitMotions(at<EventProcessData>(ed));
+                            return uint64_t{0};
+                        }};
+        });
+    }
+    struct DeadFade { const char* name; uint32_t original; int32_t (*rewrite)(int32_t); };
+    static const DeadFade kDeadFades[] = {
+        {"nbGetDeadEventFadeTime", 0x0028fc38, deadEventFadeTime}, {"nbGetDeadEventFadeOutFrame", 0x0028fc70, deadEventFadeOutFrame},
+        {"nbGetDeadEventFadeInFrame", 0x0028fca8, deadEventFadeInFrame}, {"nbGetDeadEventFadeStopFrame", 0x0028fce0, deadEventFadeStopFrame},
+    };
+    for (const DeadFade& fade : kDeadFades) {
+        const DeadFade* f = &fade;
+        add(f->name, [=](Gen& g) {
+            const int32_t eventno = g.range(0, 399);
+            return Pair{[=] { return origVm(f->original, {I(eventno)}); }, [=] { return norm(f->rewrite(eventno)); }};
+        });
+    }
+    add("nbEventProcess1", [=](Gen& g) {
+        const uint32_t process = eventProcess(g);
+        return Pair{[=] { return origVm(0x0028fe48, {process}); }, [=] { return norm(static_cast<int32_t>(runEventStart(process))); }};
+    });
+    add("nbEventProcess3", [=](Gen& g) {
+        const uint32_t process = eventProcess(g);
+        return Pair{[=] { return origVm(0x0028fd18, {process}); }, [=] { return norm(static_cast<int32_t>(runEventSetup(process))); }};
+    });
+    add("nbEventShutdown", [=](Gen& g) {
+        const uint32_t process = eventProcess(g);
+        at<MainProcessData>(FW_MAIN).EventProcessID = process;
+        return Pair{[=] { return origVmVoid(0x0028fec8, {process}); }, [=] { shutdownEvent(process); return uint64_t{0}; }};
+    });
+    add("nbInitEventProcess", [=](Gen& g) {
+        eventWorld(g);
+        return Pair{[] { return origVmVoid(0x0028ffb0, {FW_MAIN}); }, [] { startEvent(at<MainProcessData>(FW_MAIN)); return uint64_t{0}; }};
+    });
+    add("nbFormDispOff2", [](Gen& g) {
+        const uint32_t f = formAddress(g.range(0, 13));
+        return Pair{[=] { return origVmVoid(0x00289bb8, {f}); }, [=] { hideFormation(at<Formation>(f)); return uint64_t{0}; }};
+    });
+    struct StepGroup { const char* name; uint32_t group, steps; const TalkStep* rewrite; int32_t count; const char* flow;
+                       uint32_t dispatch; int32_t (*flowRewrite)(TalkState&); };
+    static const StepGroup kStepGroups[] = {
+        {"Flow1", 1, 0x004ef4b0, kOpeningSteps, 40, "nbNegoFlowOne", 0x0026ead8, openingFlow},
+        {"Flow2", 2, 0x004ef780, kFullMoonSteps, 17, "nbNegoFlowFullMoon", 0x00274e60, fullMoonFlow},
+        {"Flow3", 3, 0x004ef7c8, kStockSteps, 3, "nbNegoFlowStock", 0x00274f08, stockFlow},
+        {"Flow4", 4, 0x004ef7d8, kKinSteps, 14, "nbNegoFlowDouchara", 0x00275750, kinFlow},
+        {"Flow5", 5, 0x004ef810, kFatedSteps, 22, "nbNegoFlowInnen", 0x00275dc8, fatedFlow},
+        {"Flow6", 6, 0x004ef550, kBargainSteps, 82, "nbNegoFlowTwo", 0x002726e8, bargainFlow},
+        {"Flow7", 7, 0x004ef868, kQuestionSteps, 27, "nbNegoFlowQuestion", 0x00276730, questionFlow},
+        {"Flow8", 8, 0x004ef8d8, kFightSteps, 20, "nbNegoFlowFight", 0x00276cd8, fightFlow},
+        {"Flow9", 9, 0x004ef698, kDealSteps, 23, "nbNegoFlowOk", 0x00273178, dealFlow},
+        {"Flow10", 10, 0x004ef6f8, kNoDealSteps, 34, "nbNegoFlowNg", 0x002741f8, noDealFlow},
+        {"Flow11", 11, 0x004ef928, kDrainSteps, 10, "nbNegoFlowDrain", 0x00277388, drainFlow},
+        {"Flow12", 12, 0x004ef960, kSpeakUpSteps, 50, "nbNegoFlowMukan", 0x00278718, speakUpFlow},
+        {"Flow13", 13, 0x004efa28, kAmbushSteps, 13, "nbNegoFlowSensei", 0x00278c88, ambushFlow},
+        {"Flow14", 14, 0x004ef950, kAskToJoinSteps, 3, "nbNegoFlowBinjo", 0x00277478, askToJoinFlow},
+        {"Flow15", 15, 0x004efa60, kMercySteps, 24, "nbNegoFlowInoti", 0x00279480, mercyFlow},
+        {"Flow16", 16, 0x004efac0, kTauntSteps, 4, "nbNegoFlowKoketa", 0x00279660, tauntFlow},
+    };
+    for (const StepGroup& group : kStepGroups) {
+        const StepGroup* gr = &group;
+        for (int32_t i = 0; i < gr->count; ++i) {
+            if (!gr->rewrite[i])
+                continue;
+            static std::deque<std::string> names;   // (stable: the names are kept by pointer)
+            names.push_back(std::string(gr->name) + "_" + std::to_string(i));
+            const char* name = names.back().c_str();
+            talk(name, [=](Gen& g) {
+                talkStepWorld(g);
+                at<TalkState>(FW_TALK).talkId = gr->group << 16 | static_cast<uint32_t>(i);
+                const uint32_t original = at<uint32_t>(gr->steps + 4u * static_cast<uint32_t>(i));
+                const TalkStep rewrite = gr->rewrite[i];
+                return Pair{[=] { return origVm(original, {FW_TALK}); }, [=] { return norm(rewrite(at<TalkState>(FW_TALK))); }};
+            });
+        }
+        talk(gr->flow, [=](Gen& g) {
+            talkStepWorld(g);
+            int32_t i = g.range(1, gr->count - 1);
+            while (!gr->rewrite[i])
+                i = g.range(1, gr->count - 1);
+            at<TalkState>(FW_TALK).talkId = gr->group << 16 | static_cast<uint32_t>(i);
+            const uint32_t original = gr->dispatch;
+            auto rewrite = gr->flowRewrite;
+            return Pair{[=] { return origVm(original, {FW_TALK}); }, [=] { return norm(rewrite(at<TalkState>(FW_TALK))); }};
+        });
+    }
+    add("nbFormDispOn2", [](Gen& g) {
+        const uint32_t f = formAddress(g.range(0, 13));
+        return Pair{[=] { return origVmVoid(0x00289c60, {f}); }, [=] { showFormation(at<Formation>(f)); return uint64_t{0}; }};
+    });
+    add("nbResetFormPosRot", [](Gen& g) {
+        const uint32_t f = formAddress(g.range(0, 13));
+        at<Formation>(f).stat ^= g.chance(50) ? 1u : 0u;
+        return Pair{[=] { return origVmVoid(0x0028a238, {f}); }, [=] { resetFormationPlace(at<Formation>(f)); return uint64_t{0}; }};
+    });
+    add("nbPanelPartyShow", [](Gen& g) {
+        at<uint8_t>(0x0055123d) = static_cast<uint8_t>(g.range(0, 1));
+        return Pair{[] { return origVmVoid(0x00282258, {}); }, [] { panelPartyShow(); return uint64_t{0}; }};
+    });
+    add("nbPanelPartyHide", [](Gen& g) {
+        at<uint8_t>(0x0055123d) = static_cast<uint8_t>(g.range(0, 1));
+        return Pair{[] { return origVmVoid(0x00282268, {}); }, [] { panelPartyHide(); return uint64_t{0}; }};
+    });
+    for (const char* which : {"nbCameraSetBougai", "nbCameraSetTarget", "nbCameraSetHojo", "nbCameraSetEveTarget", "effBTLSkillGetInvokeFormation"}) {
+        const std::string name = which;
+        add(which, [=](Gen& g) {
+            const uint32_t a = formAddress(g.range(0, 13)), b = formAddress(g.range(0, 13)), c = formAddress(g.range(0, 13));
+            at<uint32_t>(0x005698e0) = g.chance(90) ? formAddress(g.range(0, 13)) : 0;
+            if (name == "nbCameraSetBougai")
+                return Pair{[=] { return origVmVoid(0x001b17a0, {a}); }, [=] { cameraOnObstructor(at<Formation>(a)); return uint64_t{0}; }};
+            if (name == "nbCameraSetTarget")
+                return Pair{[=] { return origVmVoid(0x001b1810, {a}); }, [=] { cameraOnTalkTarget(at<Formation>(a)); return uint64_t{0}; }};
+            if (name == "nbCameraSetHojo")
+                return Pair{[=] { return origVmVoid(0x001b1850, {a, b, c}); }, [=] { cameraOnHelper(at<Formation>(a), at<Formation>(b), at<Formation>(c)); return uint64_t{0}; }};
+            if (name == "nbCameraSetEveTarget")
+                return Pair{[=] { return origVmVoid(0x001b1888, {a}); }, [=] { cameraOnEventTarget(at<Formation>(a)); return uint64_t{0}; }};
+            return Pair{[] { return origVm(0x0016b940, {}); }, [] { return norm(static_cast<int32_t>(nocturne::guest::addressOf(&nocturne::eff::skillInvoker()))); }};
+        });
+    }
+
+    // ---- the kouka process: playing the packets ----
+    // A packet of one of `types`, its fields random within what the
+    // builders put there: a formation (with a model), a party, data words.
+    auto playPacket = [](Gen& g, std::initializer_list<int32_t> types) {
+        const int f = g.range(0, 13);
+        EffectPacket& p = addPacket(queue(), g.range(-1, 2), g.range(-1, 3), uid(g));
+        p.type = static_cast<int8_t>(types.begin()[g.below(static_cast<uint32_t>(types.size()))]);
+        p.flag = static_cast<uint8_t>(g.chance(70) ? 0 : g.below(4));
+        p.time = static_cast<uint16_t>(g.range(0, 3));
+        p.form.address = formAddress(f);
+        p.party.address = FW_PARTY + 128u * static_cast<uint32_t>(f);
+        p.partyno = g.range(0, 13);
+        p.data1.setInt(g.chance(30) ? 0 : g.range(-2, 12));
+        p.data2.raw = g.chance(50) ? someFloat(g) : static_cast<uint32_t>(g.rng());
+        p.v.x = Fl(someFloat(g));
+        p.v.y = Fl(someFloat(g));
+        p.v.z = Fl(someFloat(g));
+        p.v.w = Fl(someFloat(g));
+        Formation& form = at<Formation>(p.form.address);
+        form.formindex = static_cast<int16_t>(f);
+        form.stat = static_cast<uint32_t>(g.rng()) & 0x4fu;
+        form.flag = g.chance(70) ? 0 : static_cast<uint32_t>(g.below(8));
+        form.anime = (g.chance(50) ? 0x100u : 0u) | (g.chance(50) ? 0x80u : 0u);
+        form.ailmentEffect = g.chance(30) ? 0 : 0x00779300u + g.below(0x40);
+        form.motionSpeed = Fl(someFloat(g));
+        form.dodgeDistance = Fl(someFloat(g));
+        form.homeColor = static_cast<uint32_t>(g.rng());
+        form.time = static_cast<uint32_t>(g.range(0, 30));
+        form.type = g.range(0, 3);
+        // A unit model: its flags and the playing motion's speed.
+        const uint32_t model = ps2PoolAllocate(0xb0), motion = ps2PoolAllocate(0x40), playing = ps2PoolAllocate(0x40);
+        form.hunit = model;
+        at<uint32_t>(model + 0x8c) = motion;
+        at<uint32_t>(model + 0xa4) = static_cast<uint32_t>(g.rng());
+        at<uint32_t>(motion + 0x1c) = playing;
+        at<uint32_t>(playing + 0x20) = someFloat(g);
+        MainProcessData& main = at<MainProcessData>(FW_MAIN);
+        main.party[p.partyno].flag = static_cast<int16_t>(g.chance(70) ? 1 : 0);
+        main.actionstackp = g.range(0, 4);
+        return iface::addr(&p);
+    };
+    struct Player {
+        const char* name;
+        uint32_t original;
+        void (*rewrite)(EffectQueue&, EffectPacket&);
+        std::vector<int32_t> types;
+    };
+    static const Player players[] = {
+        {"RunBossEffectKouka", 0x0025efd0, playBossEffect, {kOngyokiClone, kOngyokiClone2, kOngyokiOut, kOngyokiOut2, kHitEff}},
+        {"RunMoveKouka", 0x0025f1a8, playMove, {kTargetMove, kHomeMove, kRot}},
+        {"RunUnitColKouka", 0x0025f370, playUnitColor, {kUnitCol, kUnitHomeCol, kUnitA, kUnitHomeA, kHomeRot}},
+        {"RunPressKouka", 0x00260528, playPress, {kPress, kNewPress, kSe}},
+        {"RunBadMotKaifukuKouka", 0x00260628, playAilmentMotionCure, {kAilmentMotionCure}},
+        {"RunFadeKouka", 0x00260d80, playFade, {kFadeOut, kFadeIn, kSe}},
+        {"RunSummonKouka", 0x0025f9a8, playSummon, {kSummon}},
+        {"RunDamageMotionKouka", 0x0025f620, playDamageMotion, {kDamageMotion, kAilmentDamageMotion, kAilmentMotion, kAilmentMotion, kLightDamageMotion, kSe}},
+        {"RunSkillEffectKouka", 0x0025f100, playSkillEffect, {kSkillEffect, kSkillEffect2, kSkillEffect1, kSkillEffect3, kSe}},
+        {"RunMotionKouka", 0x0025f4f0, playMotion, {kMotion, kSkillMotion, kSe}},
+        {"RunSeKouka", 0x002606d8, playSound, {kSe, kSe2, kSe3, kMotion}},
+        {"RunMotionStopKouka", 0x0025f458, playMotionStop, {kMotionStop, kMotionStopClear, kMotion}},
+        {"RunReturnKouka", 0x0025f950, playReturn, {kReturn}},
+        {"RunSakeKouka", 0x0025fa50, playDodge, {kDodge}},
+        {"RunBadEffKouka", 0x0025fa70, playAilmentEffect, {kAilmentEff}},
+        {"RunBadEffKaifukuKouka", 0x0025faf8, playAilmentCureEffect, {kAilmentCureEff}},
+        {"RunHitEffectKouka", 0x0025fb58, playHitEffect, {kHitEff}},
+        {"RunHpMpKouka", 0x002604e8, playHpMp, {kHpMp}},
+        {"RunBadStatKouka", 0x00260600, playAilment, {kAilment}},
+        {"RunHitStopKouka", 0x00260928, playHitStop, {kHitStop}},
+        {"RunAnalyzeKouka", 0x00260978, playAnalyze, {kAnalyze}},
+        {"RunFormOnOffKouka", 0x00260a00, playFormationShow, {kFormOnOff}},
+        {"RunFormFlagOnOffKouka", 0x00260a58, playFormationFlag, {kFormFlagOnOff}},
+        {"RunDeadEventKouka", 0x00260d68, playDeathEvent, {kDeadEvent}},
+        {"RunHojoKouka", 0x00260e30, playBuff, {kBuff}},
+        {"RunFlareChargeKouka", 0x00260e58, playFlareCharge, {kFlareCharge}},
+        {"RunPadShockKouka", 0x00260e98, playPadShock, {kPadShock}},
+        {"RunSkillColorKouka", 0x00260eb8, playSkillColor, {kSkillColorOff, kSkillColor, kSe}},
+        {"RunStockPanelFadeOutKouka", 0x00260f08, playStockPanelFadeOut, {kPanelStockFadeOut}},
+        {"RunStockPanelEndKouka", 0x00260f20, playStockPanelEnd, {kPanelStockEnd}},
+    };
+    auto pickPacket = [=](Gen& g, const std::vector<int32_t>& types) {
+        const int32_t type = types[g.below(static_cast<uint32_t>(types.size()))];
+        return playPacket(g, {type});
+    };
+    for (const Player& player : players) {
+        const Player* pl = &player;
+        add(pl->name, [=](Gen& g) {
+            const uint32_t p = pickPacket(g, pl->types);
+            EffectPacket& packet = at<EffectPacket>(p);
+            if (pl->original == 0x0025fb58)   // a hit effect's kind
+                packet.data1.setInt(g.range(-1, 11));
+            if (pl->original == 0x00260a58)   // the stat bits to change
+                packet.data2.raw = 1u << g.range(0, 7);
+            if (pl->original == 0x0025f950 && g.chance(30))
+                at<MainProcessData>(FW_MAIN).encno = 0x10f;
+            if (pl->original == 0x00260528) {   // the gauge and icons, on either side's turn
+                MainProcessData& main = at<MainProcessData>(FW_MAIN);
+                main.press3 = Fl(static_cast<uint32_t>(floatBits(static_cast<float>(g.range(-2, 6)) / 4.0f)));
+                main.stat ^= (g.chance(50) ? 8u : 0u) | (g.chance(10) ? 0x10000u : 0u);
+                main.d31_press_total = static_cast<uint32_t>(g.range(0, 20));
+                packet.data1.raw = g.chance(50) ? static_cast<uint32_t>(floatBits(static_cast<float>(g.range(-4, 4)) / 4.0f))
+                                                : static_cast<uint32_t>(static_cast<uint16_t>(g.range(-3, 3))) | static_cast<uint32_t>(static_cast<uint16_t>(g.range(-3, 3))) << 16;
+            }
+            if (pl->original == 0x00260d80)   // black or white
+                packet.data2.raw = static_cast<uint32_t>(g.range(0, 2));
+            if (pl->original == 0x0025f100) {   // a cut already started, or the effect to start one of
+                packet.cuteff = g.chance(50) ? 0 : 0x00700000u + g.below(0x1000);
+                packet.data1.raw = FW_BTL_EFFECT;
+                packet.data2.setHalves(static_cast<int16_t>(g.range(0, 2)), static_cast<int16_t>(g.range(-1, 2)));
+            }
+            if (pl->original == 0x0025f620) {   // how far, and the ailment (or a weak hit)
+                packet.data1.raw = someFloat(g);
+                packet.data2.setInt(g.chance(80) ? g.pick<int32_t>({-1, 0, 1, 2, 4, 8, 0x10, 0x20, 0x40, 0x80, 0x100, 0x200, 0x400})
+                                                 : g.range(-3, 0x800));
+            }
+            if (pl->original == 0x0025f9a8) {   // side and stock index; the slot; whose turn
+                packet.data1.setHalves(static_cast<int16_t>(g.range(-1, 2)), static_cast<int16_t>(g.range(0, 11)));
+                packet.data2.setInt(g.range(0, 13));
+                at<MainProcessData>(FW_MAIN).stat ^= g.chance(50) ? 8u : 0u;
+            }
+            if (pl->original == 0x0025f4f0) {   // a motion (0x17 loops); a skill motion's ending
+                if (packet.type == kMotion)
+                    packet.data1.setInt(g.chance(30) ? 0x17 : g.range(0, 30));
+                else
+                    packet.data1.setHalves(static_cast<int16_t>(g.range(0, 30)), static_cast<int16_t>(g.range(-1, 4)));
+            }
+            if (pl->original == 0x002606d8) {   // sounds, and the event boss's music
+                MainProcessData& main = at<MainProcessData>(FW_MAIN);
+                packet.data1.setInt(g.chance(50) ? g.range(0x10007, 0x1000a) : g.range(0x10000, 0x10020));
+                main.d31_repel107 = g.chance(40) ? 1u : 0u;
+                main.d31_repel113 = g.chance(40) ? 1u : 0u;
+            }
+            const uint32_t original = pl->original;
+            auto rewrite = pl->rewrite;
+            return Pair{[=] { return origVmVoid(original, {kQueue, p}); },
+                        [=] { rewrite(queue(), at<EffectPacket>(p)); return uint64_t{0}; }};
+        });
+    }
+    // The help line's players: a status message or a skill's name.
+    add("RunHelpKouka", [=](Gen& g) {
+        at<MainProcessData>(FW_MAIN).statusMessageTable = iface::helpWorld(g, {0x10, 0x16, 0x4e}).id;
+        const uint32_t p = playPacket(g, {kStatusMessage, kStatusMessage, kSe});
+        at<EffectPacket>(p).data1.setHalves(static_cast<int16_t>(g.pick<int32_t>({0x10, 0x16, 0x4e})), static_cast<int16_t>(g.range(-1, 1)));
+        at<EffectPacket>(p).data2.setInt(g.range(1, 0x17f));
+        return Pair{[=] { return origVmVoid(0x002609c0, {kQueue, p}); },
+                    [=] { playStatusMessage(queue(), at<EffectPacket>(p)); return uint64_t{0}; }};
+    });
+    add("RunSkillNameKouka", [=](Gen& g) {
+        iface::helpWorld(g);
+        const uint32_t p = playPacket(g, {kSkillName});
+        at<EffectPacket>(p).data1.setInt(g.range(1, 0x17f));
+        return Pair{[=] { return origVmVoid(0x00260e18, {kQueue, p}); },
+                    [=] { playSkillName(queue(), at<EffectPacket>(p)); return uint64_t{0}; }};
+    });
+    // A passive that fired: the action's first cuts end 12 frames on.
+    add("RunHatudoEffectEndKouka", [=](Gen& g) {
+        const uint32_t p = playPacket(g, {kPassiveEffectEnd});
+        for (int n = g.range(1, 5); n > 0; --n) {
+            const uint32_t q = playPacket(g, {kSkillEffect1, kSkillEffect1, kSkillEffect, kSe});
+            EffectPacket& packet = at<EffectPacket>(q);
+            packet.uniqueid = g.chance(70) ? at<EffectPacket>(p).uniqueid : uid(g);
+            packet.framelength = static_cast<int16_t>(g.range(0, 30));
+            const uint32_t cut = ps2PoolAllocate(0x20);
+            at<uint32_t>(cut + 8) = static_cast<uint32_t>(g.range(0, 60));
+            at<uint16_t>(cut + 0x14) = static_cast<uint16_t>(g.range(0, 2));
+            packet.cuteff = cut;
+        }
+        return Pair{[=] { return origVmVoid(0x0025f068, {kQueue, p}); },
+                    [=] { playPassiveEffectEnd(queue(), at<EffectPacket>(p)); return uint64_t{0}; }};
+    });
+    // Packets the rewritten players play (the process runs them all).
+    static const std::vector<int32_t> kPlayable = {
+        kTargetMove, kHomeMove, kReturn, kDodge, kSkillColorOff, kSkillColor, kHitEff, kHpMp, kAilment, kAilmentEff,
+        kAilmentCureEff, kHitStop, kMotionStop, kMotionStopClear, kAnalyze, kFormOnOff, kOngyokiClone, kOngyokiOut,
+        kFormFlagOnOff, kDeadEvent, kBuff, kFlareCharge, kPadShock, kPanelStockFadeOut, kPanelStockEnd, kPassiveEffectEnd,
+        kUnitCol, kUnitHomeCol, kUnitA, kUnitHomeA, kPress, kNewPress, kAilmentMotionCure, kFadeOut, kFadeIn,
+        kSummon, kMotion, kSkillMotion, kSe, kSe2, kSe3, kDamageMotion, kAilmentDamageMotion, kAilmentMotion, kLightDamageMotion,
+        kSkillEffect, kSkillEffect2, kSkillEffect1, kSkillEffect3};
+    add("nbKoukaProcess1", [=](Gen& g) {
+        std::memset(&queue(), 0, sizeof(EffectQueue));
+        queue().data.address = FW_MAIN;
+        for (int n = g.range(0, 8); n > 0; --n)
+            pickPacket(g, kPlayable);
+        return Pair{[=] { return origVm(0x00260f38, {1}); }, [=] { return norm(runEffectQueue(1)); }};
+    });
+    add("nbDelUnEventKoukaPacket", [=](Gen& g) {
+        for (int n = g.range(0, 6); n > 0; --n)
+            pickPacket(g, {kReturn, kSkillColorOff, kSe, kSe2, kSe3, kDeadPcm, kFadeOut, kFadeIn, kHpMp, kFormOnOff, kNumberEff});
+        at<MainProcessData>(FW_MAIN).EffectQueueProcessID = g.chance(85) ? 1u : 0u;
+        return Pair{[=] { return origVmVoid(0x0025edc0, {}); }, [=] { deleteNonEventPackets(); return uint64_t{0}; }};
+    });
+    add("nbKoukaShutdown", [=](Gen& g) {
+        for (int n = g.range(0, 6); n > 0; --n)
+            pickPacket(g, {kSe, kHpMp, kFormOnOff, kNumberEff, kMotion});
+        return Pair{[=] { return origVmVoid(0x002613f8, {1}); }, [=] { shutdownEffectQueue(1); return uint64_t{0}; }};
+    });
+    add("InitKoukaProcessData", [](Gen&) {
+        return Pair{[] { return origVm(0x00261450, {FW_MAIN}); },
+                    [] { return norm(static_cast<int32_t>(newEffectQueue(at<MainProcessData>(FW_MAIN)))); }};
+    });
+    add("nbInitKoukaProcess", [](Gen&) {
+        return Pair{[] { return origVmVoid(0x00261490, {FW_MAIN}); }, [] { startEffectQueue(at<MainProcessData>(FW_MAIN)); return uint64_t{0}; }};
+    });
+    add("dds3Stop", [](Gen& g) {
+        const int32_t frames = g.range(-2, 30);
+        return Pair{[=] { return origVmVoid(0x00100448, {I(frames)}); }, [=] { nocturne::dds3::stop(frames); return uint64_t{0}; }};
+    });
+    add("dds3SlowOn", [](Gen& g) {
+        const int32_t period = g.range(1, 4), frames = g.range(0, 40);
+        at<uint32_t>(0x0054e804) = static_cast<uint32_t>(g.rng());
+        return Pair{[=] { return origVmVoid(0x00100460, {I(period), I(frames)}); },
+                    [=] { nocturne::dds3::slowOn(period, frames); return uint64_t{0}; }};
     });
 }
 

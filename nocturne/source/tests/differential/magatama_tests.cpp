@@ -118,7 +118,7 @@ void randomCompendium(Gen& g)
             case 1: r.param[g.below(6)] += 1; break;
             case 2: if (r.skillcnt) r.skill[g.below(r.skillcnt)] ^= 1; break;
             case 3: r.flag ^= 0x40; break;
-            default: r.hensinmaeexp += 1; break;
+            default: r.preEvolutionExp += 1; break;
             }
         }
     }
@@ -348,7 +348,7 @@ void addMagatamaTests(std::vector<TestCase>& t)
             case 6: rec.exp += 1; break;
             case 7: if (rec.skillcnt > 1) std::swap(rec.skill[0], rec.skill[rec.skillcnt - 1]); break;
             case 8: if (rec.skillcnt) rec.skill[g.below(rec.skillcnt)] += 1; break;
-            case 9: rec.hensinmae += 1; break;
+            case 9: rec.preEvolutionId += 1; break;
             case 10: rec.skillcnt += 1; break;
             default: break;
             }

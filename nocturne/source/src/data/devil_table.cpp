@@ -8,2609 +8,2624 @@ const DevilFormat kDevilFormat[384] = {
     // 0x000 (unnamed) (-, Lv 99)
     {
         .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x001 Vishnu (Deity, Lv 93)
     {
         .flag = 0x41, .race = Race::Deity, .level = 93, .hp = 708, .maxhp = 708, .mp = 384, .maxmp = 384,
-        .aisyoid = 1, .param = {27, 0, 35, 25, 20, 26}, .skill = {skill::Bufu, skill::Mabufudyne},
-        .keisyotype = 7, .keisyoform = 0x99B, .dropmakka = 1068, .dropexp = 1000, .hougyokupoint = 1,
-        .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 1, .param = {27, 0, 35, 25, 20, 26}, .skill = {skill::Bufu, skill::Mabufudyne},
+        .inheritType = 7, .inheritMask = 0x99B, .dropmakka = 1068, .dropexp = 1000, .beadDropChance = 1,
+        .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x002 Mithra (Deity, Lv 78)
     {
         .flag = 0x41, .race = Race::Deity, .level = 78, .hp = 630, .maxhp = 630, .mp = 309, .maxmp = 309,
-        .aisyoid = 2, .param = {27, 0, 25, 27, 16, 18}, .keisyotype = 7, .keisyoform = 0x89F,
-        .dropmakka = 782, .dropexp = 5000, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 2, .param = {27, 0, 25, 27, 16, 18}, .inheritType = 7, .inheritMask = 0x89F,
+        .dropmakka = 782, .dropexp = 5000, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x003 Amaterasu (Deity, Lv 56)
     {
         .flag = 0x41, .race = Race::Deity, .level = 56, .hp = 756, .maxhp = 756, .mp = 237, .maxmp = 237,
-        .aisyoid = 3, .param = {19, 0, 23, 17, 16, 16},
+        .affinityId = 3, .param = {19, 0, 23, 17, 16, 16},
         .skill = {skill::Tetrakarn, skill::GodlyLight, skill::Debilitate, skill::Prominence, skill::Prayer},
-        .keisyotype = 7, .keisyoform = 0x881, .dropmakka = 443, .dropexp = 454, .dropitem = {101},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 7, .inheritMask = 0x881, .dropmakka = 443, .dropexp = 454, .dropitem = {101},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x004 Odin (Deity, Lv 65)
     {
         .flag = 0x41, .race = Race::Deity, .level = 65, .hp = 648, .maxhp = 648, .mp = 270, .maxmp = 270,
-        .aisyoid = 4, .param = {24, 0, 25, 18, 17, 16},
+        .affinityId = 4, .param = {24, 0, 25, 18, 17, 16},
         .skill = {skill::Bufudyne, skill::Makajamon, skill::Deathbound, skill::Agidyne, skill::Mabufudyne, skill::Maragidyne},
-        .keisyotype = 7, .keisyoform = 0x99B, .dropmakka = 570, .dropexp = 596, .dropitem = {98},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 7, .inheritMask = 0x99B, .dropmakka = 570, .dropexp = 596, .dropitem = {98},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x005 Atavaka (Deity, Lv 47)
     {
         .flag = 0x41, .race = Race::Deity, .level = 47, .hp = 603, .maxhp = 603, .mp = 183, .maxmp = 183,
-        .aisyoid = 5, .param = {24, 0, 14, 20, 10, 14},
-        .skill = {skill::MightyGust, skill::BindingCry, skill::Retaliate, skill::ChaosBlade}, .keisyotype = 1,
-        .keisyoform = 0x99B, .dropmakka = 332, .dropexp = 328, .dropitem = {102}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 5, .param = {24, 0, 14, 20, 10, 14},
+        .skill = {skill::MightyGust, skill::BindingCry, skill::Retaliate, skill::ChaosBlade},
+        .inheritType = 1, .inheritMask = 0x99B, .dropmakka = 332, .dropexp = 328, .dropitem = {102},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x006 Horus (Deity, Lv 38)
     {
         .flag = 0x41, .race = Race::Deity, .level = 38, .hp = 312, .maxhp = 312, .mp = 162, .maxmp = 162,
-        .aisyoid = 6, .param = {12, 0, 16, 14, 21, 10}, .keisyotype = 8, .keisyoform = 0x8DF,
-        .dropmakka = 238, .dropexp = 65000, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 6, .param = {12, 0, 16, 14, 21, 10}, .inheritType = 8, .inheritMask = 0x8DF,
+        .dropmakka = 238, .dropexp = 65000, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x007 Laksmi (Megami, Lv 54)
     {
         .flag = 0x41, .race = Race::Megami, .level = 54, .hp = 414, .maxhp = 414, .mp = 234, .maxmp = 234,
-        .aisyoid = 7, .param = {14, 0, 24, 15, 13, 16}, .keisyotype = 2, .keisyoform = 0xC89,
-        .dropmakka = 417, .dropexp = 424, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 7, .param = {14, 0, 24, 15, 13, 16}, .inheritType = 2, .inheritMask = 0xC89,
+        .dropmakka = 417, .dropexp = 424, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x008 Scathach (Megami, Lv 64)
     {
         .flag = 0x41, .race = Race::Megami, .level = 64, .hp = 729, .maxhp = 729, .mp = 270, .maxmp = 270,
-        .aisyoid = 8, .param = {21, 0, 26, 17, 18, 15},
-        .skill = {skill::Mazandyne, skill::Thunderclap, skill::WindCutter}, .keisyotype = 6,
-        .keisyoform = 0x889, .dropmakka = 555, .dropexp = 580, .dropitem = {100}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 8, .param = {21, 0, 26, 17, 18, 15},
+        .skill = {skill::Mazandyne, skill::Thunderclap, skill::WindCutter}, .inheritType = 6,
+        .inheritMask = 0x889, .dropmakka = 555, .dropexp = 580, .dropitem = {100}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x009 Sarasvati (Megami, Lv 30)
     {
         .flag = 0x41, .race = Race::Megami, .level = 30, .hp = 246, .maxhp = 246, .mp = 141, .maxmp = 141,
-        .aisyoid = 9, .param = {9, 0, 17, 11, 9, 12}, .keisyotype = 2, .keisyoform = 0xC89, .dropmakka = 168,
-        .dropexp = 146, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 9, .param = {9, 0, 17, 11, 9, 12}, .inheritType = 2, .inheritMask = 0xC89,
+        .dropmakka = 168, .dropexp = 146, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x00A Sati (Megami, Lv 48)
     {
         .flag = 0x41, .race = Race::Megami, .level = 48, .hp = 549, .maxhp = 549, .mp = 204, .maxmp = 204,
-        .aisyoid = 10, .param = {11, 0, 20, 13, 15, 17},
-        .skill = {skill::Agidyne, skill::Maragidyne, skill::Allure}, .keisyotype = 3, .keisyoform = 0xC89,
-        .dropmakka = 344, .dropexp = 341, .dropitem = {102}, .droppoint = {8}, .hougyokupoint = 1,
-        .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 10, .param = {11, 0, 20, 13, 15, 17},
+        .skill = {skill::Agidyne, skill::Maragidyne, skill::Allure}, .inheritType = 3, .inheritMask = 0xC89,
+        .dropmakka = 344, .dropexp = 341, .dropitem = {102}, .droppoint = {8}, .beadDropChance = 1,
+        .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x00B Uzume (Megami, Lv 18)
     {
         .flag = 0x41, .race = Race::Megami, .level = 18, .hp = 156, .maxhp = 156, .mp = 90, .maxmp = 90,
-        .aisyoid = 11, .param = {6, 0, 12, 8, 8, 12}, .keisyotype = 2, .keisyoform = 0x881, .dropmakka = 86,
-        .dropexp = 60, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 11, .param = {6, 0, 12, 8, 8, 12}, .inheritType = 2, .inheritMask = 0x881,
+        .dropmakka = 86, .dropexp = 60, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x00C Shiva (Fury, Lv 95)
     {
         .flag = 0x41, .race = Race::Fury, .level = 95, .hp = 786, .maxhp = 786, .mp = 363, .maxmp = 363,
-        .aisyoid = 12, .param = {32, 0, 26, 36, 26, 15}, .keisyotype = 5, .keisyoform = 0x99B,
-        .dropmakka = 1110, .dropexp = 1076, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 12, .param = {32, 0, 26, 36, 26, 15}, .inheritType = 5, .inheritMask = 0x99B,
+        .dropmakka = 1110, .dropexp = 1076, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x00D Beiji-Weng (Fury, Lv 61)
     {
         .flag = 0x41, .race = Race::Fury, .level = 61, .hp = 756, .maxhp = 756, .mp = 255, .maxmp = 255,
-        .aisyoid = 13, .param = {23, 0, 24, 23, 14, 12},
+        .affinityId = 13, .param = {23, 0, 24, 23, 14, 12},
         .skill = {skill::StasisBlade, skill::Thunderclap, skill::HellGaze, skill::Mamudoon, skill::HolyWrath},
-        .keisyotype = 9, .keisyoform = 0x98B, .dropmakka = 512, .dropexp = 532, .dropitem = {103},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 9, .inheritMask = 0x98B, .dropmakka = 512, .dropexp = 532, .dropitem = {103},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x00E Wu Kong (Fury, Lv 54)
     {
         .flag = 0x43, .race = Race::Fury, .level = 54, .hp = 432, .maxhp = 432, .mp = 201, .maxmp = 201,
-        .aisyoid = 14, .param = {22, 0, 13, 18, 20, 16}, .keisyotype = 1, .keisyoform = 0x99B,
-        .dropmakka = 417, .dropexp = 424, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 14, .param = {22, 0, 13, 18, 20, 16}, .inheritType = 1, .inheritMask = 0x99B,
+        .dropmakka = 417, .dropexp = 424, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x00F Dionysus (Fury, Lv 44)
     {
         .flag = 0x41, .race = Race::Fury, .level = 44, .hp = 354, .maxhp = 354, .mp = 192, .maxmp = 192,
-        .aisyoid = 15, .param = {16, 0, 20, 15, 13, 15}, .keisyotype = 3, .keisyoform = 0x891,
-        .dropmakka = 299, .dropexp = 291, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 15, .param = {16, 0, 20, 15, 13, 15}, .inheritType = 3, .inheritMask = 0x891,
+        .dropmakka = 299, .dropexp = 291, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x010 Kali (Lady, Lv 67)
     {
         .flag = 0x41, .race = Race::Lady, .level = 67, .hp = 810, .maxhp = 810, .mp = 258, .maxmp = 258,
-        .aisyoid = 16, .param = {25, 0, 19, 23, 19, 13},
+        .affinityId = 16, .param = {25, 0, 19, 23, 19, 13},
         .skill = {skill::Tentarafoo, skill::Deathbound, skill::Avenge, skill::FogBreath, skill::DarkSword},
-        .keisyotype = 1, .keisyoform = 0x99B, .dropmakka = 600, .dropexp = 628, .dropitem = {100},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 1, .inheritMask = 0x99B, .dropmakka = 600, .dropexp = 628, .dropitem = {100},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x011 Skadi (Lady, Lv 74)
     {
         .flag = 0x43, .race = Race::Lady, .level = 74, .hp = 570, .maxhp = 570, .mp = 309, .maxmp = 309,
-        .aisyoid = 17, .param = {23, 0, 29, 21, 18, 15}, .keisyotype = 6, .keisyoform = 0x889,
-        .dropmakka = 713, .dropexp = 740, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 17, .param = {23, 0, 29, 21, 18, 15}, .inheritType = 6, .inheritMask = 0x889,
+        .dropmakka = 713, .dropexp = 740, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x012 Parvati (Lady, Lv 57)
     {
         .flag = 0x43, .race = Race::Lady, .level = 57, .hp = 432, .maxhp = 432, .mp = 240, .maxmp = 240,
-        .aisyoid = 18, .param = {15, 0, 23, 15, 16, 20}, .keisyotype = 2, .keisyoform = 0xC89,
-        .dropmakka = 456, .dropexp = 469, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 18, .param = {15, 0, 23, 15, 16, 20}, .inheritType = 2, .inheritMask = 0xC89,
+        .dropmakka = 456, .dropexp = 469, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x013 Kushinada (Lady, Lv 41)
     {
         .flag = 0x41, .race = Race::Lady, .level = 41, .hp = 330, .maxhp = 330, .mp = 180, .maxmp = 180,
-        .aisyoid = 19, .param = {12, 0, 19, 14, 10, 18}, .keisyotype = 2, .keisyoform = 0xC89,
-        .dropmakka = 268, .dropexp = 256, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 19, .param = {12, 0, 19, 14, 10, 18}, .inheritType = 2, .inheritMask = 0xC89,
+        .dropmakka = 268, .dropexp = 256, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x014 Kikuri-Hime (Lady, Lv 24)
     {
         .flag = 0x41, .race = Race::Lady, .level = 24, .hp = 210, .maxhp = 210, .mp = 120, .maxmp = 120,
-        .aisyoid = 20, .param = {10, 0, 16, 11, 8, 11}, .keisyotype = 2, .keisyoform = 0xC89,
-        .dropmakka = 123, .dropexp = 99, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 20, .param = {10, 0, 16, 11, 8, 11}, .inheritType = 2, .inheritMask = 0xC89,
+        .dropmakka = 123, .dropexp = 99, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x015 Bishamon (Kishin, Lv 72)
     {
         .flag = 0x41, .race = Race::Kishin, .level = 72, .hp = 582, .maxhp = 582, .mp = 267, .maxmp = 267,
-        .aisyoid = 21, .param = {25, 0, 17, 25, 17, 15}, .keisyotype = 3, .keisyoform = 0x99B,
-        .dropmakka = 680, .dropexp = 708, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 21, .param = {25, 0, 17, 25, 17, 15}, .inheritType = 3, .inheritMask = 0x99B,
+        .dropmakka = 680, .dropexp = 708, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x016 Thor (Kishin, Lv 76)
     {
         .flag = 0x41, .race = Race::Kishin, .level = 76, .hp = 612, .maxhp = 612, .mp = 288, .maxmp = 288,
-        .aisyoid = 22, .param = {28, 0, 20, 26, 12, 17}, .keisyotype = 5, .keisyoform = 0x999,
-        .dropmakka = 747, .dropexp = 772, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 22, .param = {28, 0, 20, 26, 12, 17}, .inheritType = 5, .inheritMask = 0x999,
+        .dropmakka = 747, .dropexp = 772, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x017 Jikoku (Kishin, Lv 52)
     {
         .flag = 0x41, .race = Race::Kishin, .level = 52, .hp = 426, .maxhp = 426, .mp = 204, .maxmp = 204,
-        .aisyoid = 23, .param = {21, 0, 16, 19, 11, 12}, .keisyotype = 4, .keisyoform = 0x99B,
-        .dropmakka = 392, .dropexp = 396, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 23, .param = {21, 0, 16, 19, 11, 12}, .inheritType = 4, .inheritMask = 0x99B,
+        .dropmakka = 392, .dropexp = 396, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x018 Mikazuchi (Kishin, Lv 45)
     {
         .flag = 0x41, .race = Race::Kishin, .level = 45, .hp = 558, .maxhp = 558, .mp = 177, .maxmp = 177,
-        .aisyoid = 24, .param = {19, 0, 14, 17, 11, 11},
-        .skill = {skill::Ziodyne, skill::Mazionga, skill::DarkSword, skill::BoltStorm}, .keisyotype = 5,
-        .keisyoform = 0x99B, .dropmakka = 310, .dropexp = 303, .dropitem = {101}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 24, .param = {19, 0, 14, 17, 11, 11},
+        .skill = {skill::Ziodyne, skill::Mazionga, skill::DarkSword, skill::BoltStorm}, .inheritType = 5,
+        .inheritMask = 0x99B, .dropmakka = 310, .dropexp = 303, .dropitem = {101}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x019 Okuninushi (Kishin, Lv 39)
     {
         .flag = 0x41, .race = Race::Kishin, .level = 39, .hp = 312, .maxhp = 312, .mp = 165, .maxmp = 165,
-        .aisyoid = 25, .param = {16, 0, 16, 13, 11, 10}, .keisyotype = 8, .keisyoform = 0x99B,
-        .dropmakka = 248, .dropexp = 233, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 25, .param = {16, 0, 16, 13, 11, 10}, .inheritType = 8, .inheritMask = 0x99B,
+        .dropmakka = 248, .dropexp = 233, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x01A Koumoku (Kishin, Lv 33)
     {
         .flag = 0x41, .race = Race::Kishin, .level = 33, .hp = 282, .maxhp = 282, .mp = 135, .maxmp = 135,
-        .aisyoid = 26, .param = {16, 0, 12, 14, 9, 9}, .keisyotype = 6, .keisyoform = 0x99B, .dropmakka = 192,
-        .dropexp = 173, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 26, .param = {16, 0, 12, 14, 9, 9}, .inheritType = 6, .inheritMask = 0x99B,
+        .dropmakka = 192, .dropexp = 173, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x01B Zouchou (Kishin, Lv 27)
     {
         .flag = 0x41, .race = Race::Kishin, .level = 27, .hp = 234, .maxhp = 234, .mp = 111, .maxmp = 111,
-        .aisyoid = 27, .param = {15, 0, 10, 12, 7, 10}, .keisyotype = 1, .keisyoform = 0x99B,
-        .dropmakka = 144, .dropexp = 121, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 27, .param = {15, 0, 10, 12, 7, 10}, .inheritType = 1, .inheritMask = 0x99B,
+        .dropmakka = 144, .dropexp = 121, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x01C Minakata (Kishin, Lv 17)
     {
         .flag = 0x41, .race = Race::Kishin, .level = 17, .hp = 168, .maxhp = 168, .mp = 75, .maxmp = 75,
-        .aisyoid = 28, .param = {11, 0, 8, 11, 9, 5}, .keisyotype = 5, .keisyoform = 0x89B, .dropmakka = 80,
-        .dropexp = 55, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 28, .param = {11, 0, 8, 11, 9, 5}, .inheritType = 5, .inheritMask = 0x89B,
+        .dropmakka = 80, .dropexp = 55, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x01D Chimera (Holy, Lv 55)
     {
         .flag = 0x40, .race = Race::Holy, .level = 55, .hp = 639, .maxhp = 639, .mp = 204, .maxmp = 204,
-        .aisyoid = 29, .param = {23, 0, 13, 16, 17, 10},
-        .skill = {skill::FireBreath, skill::IronClaw, skill::Kamikaze}, .keisyotype = 3, .keisyoform = 0x8FB,
-        .dropmakka = 430, .dropexp = 439, .dropitem = {item::MuscleDrink}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 29, .param = {23, 0, 13, 16, 17, 10},
+        .skill = {skill::FireBreath, skill::IronClaw, skill::Kamikaze}, .inheritType = 3,
+        .inheritMask = 0x8FB, .dropmakka = 430, .dropexp = 439, .dropitem = {item::MuscleDrink},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x01E Baihu (Holy, Lv 43)
     {
         .flag = 0x40, .race = Race::Holy, .level = 43, .hp = 522, .maxhp = 522, .mp = 153, .maxmp = 153,
-        .aisyoid = 30, .param = {19, 0, 8, 15, 17, 8},
-        .skill = {skill::StoneBite, skill::Focus, skill::Bufudyne}, .keisyotype = 4, .keisyoform = 0x8FB,
-        .dropmakka = 288, .dropexp = 279, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 30, .param = {19, 0, 8, 15, 17, 8},
+        .skill = {skill::StoneBite, skill::Focus, skill::Bufudyne}, .inheritType = 4, .inheritMask = 0x8FB,
+        .dropmakka = 288, .dropexp = 279, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x01F Senri (Holy, Lv 27)
     {
         .flag = 0x42, .race = Race::Holy, .level = 27, .hp = 216, .maxhp = 216, .mp = 123, .maxmp = 123,
-        .aisyoid = 31, .param = {10, 0, 14, 9, 12, 9}, .keisyotype = 6, .keisyoform = 0x8D9, .dropmakka = 144,
-        .dropexp = 121, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 31, .param = {10, 0, 14, 9, 12, 9}, .inheritType = 6, .inheritMask = 0x8D9,
+        .dropmakka = 144, .dropexp = 121, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x020 Feng Huang (Holy, Lv 36)
     {
         .flag = 0x40, .race = Race::Holy, .level = 36, .hp = 276, .maxhp = 276, .mp = 138, .maxmp = 138,
-        .aisyoid = 32, .param = {10, 0, 10, 10, 17, 13}, .keisyotype = 5, .keisyoform = 0x8FF,
-        .dropmakka = 219, .dropexp = 202, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 32, .param = {10, 0, 10, 10, 17, 13}, .inheritType = 5, .inheritMask = 0x8FF,
+        .dropmakka = 219, .dropexp = 202, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x021 Shiisaa (Holy, Lv 13)
     {
         .flag = 0x40, .race = Race::Holy, .level = 13, .hp = 120, .maxhp = 120, .mp = 57, .maxmp = 57,
-        .aisyoid = 33, .param = {9, 0, 6, 7, 9, 6}, .keisyotype = 4, .keisyoform = 0x8FB, .dropmakka = 60,
-        .dropexp = 36, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 33, .param = {9, 0, 6, 7, 9, 6}, .inheritType = 4, .inheritMask = 0x8FB,
+        .dropmakka = 60, .dropexp = 36, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x022 Cai-Zhi (Avatar, Lv 26)
     {
         .flag = 0x40, .race = Race::Avatar, .level = 26, .hp = 210, .maxhp = 210, .mp = 114, .maxmp = 114,
-        .aisyoid = 34, .param = {13, 0, 12, 9, 9, 7}, .keisyotype = 4, .keisyoform = 0x8BB, .dropmakka = 137,
-        .dropexp = 113, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 34, .param = {13, 0, 12, 9, 9, 7}, .inheritType = 4, .inheritMask = 0x8BB,
+        .dropmakka = 137, .dropexp = 113, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x023 Unicorn (Holy, Lv 21)
     {
         .flag = 0x40, .race = Race::Holy, .level = 21, .hp = 186, .maxhp = 186, .mp = 99, .maxmp = 99,
-        .aisyoid = 35, .param = {9, 0, 12, 10, 7, 7}, .keisyotype = 2, .keisyoform = 0x8BB, .dropmakka = 104,
-        .dropexp = 79, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 35, .param = {9, 0, 12, 10, 7, 7}, .inheritType = 2, .inheritMask = 0x8BB,
+        .dropmakka = 104, .dropexp = 79, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x024 Flaemis (Element, Lv 20)
     {
         .flag = 0x40, .race = Race::Element, .level = 20, .hp = 188, .maxhp = 188, .mp = 96, .maxmp = 96,
-        .aisyoid = 36, .param = {10, 0, 12, 6, 6, 7}, .skill = {skill::Media, skill::Maragi, skill::Makakaja},
-        .keisyotype = 3, .keisyoform = 0x891, .dropmakka = 98, .dropexp = 100, .dropitem = {98},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 36, .param = {10, 0, 12, 6, 6, 7},
+        .skill = {skill::Media, skill::Maragi, skill::Makakaja}, .inheritType = 3, .inheritMask = 0x891,
+        .dropmakka = 98, .dropexp = 100, .dropitem = {98}, .droppoint = {8}, .beadDropChance = 1,
+        .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x025 Aquans (Element, Lv 15)
     {
         .flag = 0x40, .race = Race::Element, .level = 15, .hp = 152, .maxhp = 152, .mp = 75, .maxmp = 75,
-        .aisyoid = 37, .param = {6, 0, 10, 6, 6, 8}, .skill = {skill::Sukukaja, skill::Bufula, skill::Mabufu},
-        .keisyotype = 4, .keisyoform = 0x891, .dropmakka = 70, .dropexp = 100, .dropitem = {111},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 37, .param = {6, 0, 10, 6, 6, 8},
+        .skill = {skill::Sukukaja, skill::Bufula, skill::Mabufu}, .inheritType = 4, .inheritMask = 0x891,
+        .dropmakka = 70, .dropexp = 100, .dropitem = {111}, .droppoint = {8}, .beadDropChance = 1,
+        .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x026 Aeros (Element, Lv 11)
     {
         .flag = 0x40, .race = Race::Element, .level = 11, .hp = 102, .maxhp = 102, .mp = 57, .maxmp = 57,
-        .aisyoid = 38, .param = {5, 0, 8, 6, 8, 5}, .skill = {skill::MarinKarin, skill::Dia, skill::Zio},
-        .keisyotype = 2, .keisyoform = 0x891, .dropmakka = 100, .dropexp = 28, .dropitem = {106},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 38, .param = {5, 0, 8, 6, 8, 5}, .skill = {skill::MarinKarin, skill::Dia, skill::Zio},
+        .inheritType = 2, .inheritMask = 0x891, .dropmakka = 100, .dropexp = 28, .dropitem = {106},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x027 Erthys (Element, Lv 7)
     {
         .flag = 0x40, .race = Race::Element, .level = 7, .hp = 90, .maxhp = 90, .mp = 36, .maxmp = 36,
-        .aisyoid = 39, .param = {6, 0, 5, 8, 4, 5}, .skill = {skill::Rakukaja, skill::Mazio, skill::Zio},
-        .keisyotype = 5, .keisyoform = 0x891, .dropmakka = 100, .dropexp = 15, .dropitem = {104},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 39, .param = {6, 0, 5, 8, 4, 5}, .skill = {skill::Rakukaja, skill::Mazio, skill::Zio},
+        .inheritType = 5, .inheritMask = 0x891, .dropmakka = 100, .dropexp = 15, .dropitem = {104},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x028 Saki Mitama (Mitama, Lv 35)
     {
         .flag = 0x40, .race = Race::Mitama, .level = 35, .hp = 270, .maxhp = 270, .mp = 138, .maxmp = 138,
-        .aisyoid = 40, .param = {10, 0, 11, 10, 11, 20},
-        .skill = {skill::Mazanma, skill::Mazionga, skill::Tetrakarn, skill::Mediarama}, .keisyotype = 7,
-        .keisyoform = 0x89B, .dropmakka = 210, .dropexp = 300, .dropitem = {98}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 40, .param = {10, 0, 11, 10, 11, 20},
+        .skill = {skill::Mazanma, skill::Mazionga, skill::Tetrakarn, skill::Mediarama}, .inheritType = 7,
+        .inheritMask = 0x89B, .dropmakka = 210, .dropexp = 300, .dropitem = {98}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x029 Kusi Mitama (Mitama, Lv 32)
     {
         .flag = 0x40, .race = Race::Mitama, .level = 32, .hp = 240, .maxhp = 240, .mp = 150, .maxmp = 150,
-        .aisyoid = 41, .param = {9, 0, 18, 8, 12, 12}, .skill = {skill::Sukukaja}, .keisyotype = 7,
-        .keisyoform = 0x89B, .dropmakka = 184, .dropexp = 250, .dropitem = {101}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 41, .param = {9, 0, 18, 8, 12, 12}, .skill = {skill::Sukukaja}, .inheritType = 7,
+        .inheritMask = 0x89B, .dropmakka = 184, .dropexp = 250, .dropitem = {101}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x02A Nigi Mitama (Mitama, Lv 29)
     {
         .flag = 0x40, .race = Race::Mitama, .level = 29, .hp = 234, .maxhp = 234, .mp = 117, .maxmp = 117,
-        .aisyoid = 42, .param = {10, 0, 10, 10, 16, 10}, .skill = {skill::Rakunda}, .keisyotype = 7,
-        .keisyoform = 0x89B, .dropmakka = 160, .dropexp = 200, .dropitem = {100}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 42, .param = {10, 0, 10, 10, 16, 10}, .skill = {skill::Rakunda}, .inheritType = 7,
+        .inheritMask = 0x89B, .dropmakka = 160, .dropexp = 200, .dropitem = {100}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x02B Ara Mitama (Mitama, Lv 25)
     {
         .flag = 0x40, .race = Race::Mitama, .level = 25, .hp = 210, .maxhp = 210, .mp = 105, .maxmp = 105,
-        .aisyoid = 43, .param = {12, 0, 10, 10, 10, 10}, .skill = {skill::Lunge, skill::Tarukaja},
-        .keisyotype = 7, .keisyoform = 0x89B, .dropmakka = 130, .dropexp = 150,
-        .dropitem = {item::RevivalBead}, .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5,
+        .affinityId = 43, .param = {12, 0, 10, 10, 10, 10}, .skill = {skill::Lunge, skill::Tarukaja},
+        .inheritType = 7, .inheritMask = 0x89B, .dropmakka = 130, .dropexp = 150,
+        .dropitem = {item::RevivalBead}, .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5,
         .attackcnt = 1,
     },
     // 0x02C Efreet (Yoma, Lv 52)
     {
         .flag = 2, .race = Race::Yoma, .level = 52, .hp = 402, .maxhp = 402, .mp = 225, .maxmp = 225,
-        .aisyoid = 44, .param = {15, 0, 23, 15, 14, 9},
-        .skill = {skill::Maragidyne, skill::Prominence, skill::Makakaja}, .keisyotype = 3,
-        .keisyoform = 0x89B, .dropmakka = 392, .dropexp = 396, .dropitem = {item::DisStun}, .droppoint = {10},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 44, .param = {15, 0, 23, 15, 14, 9},
+        .skill = {skill::Maragidyne, skill::Prominence, skill::Makakaja}, .inheritType = 3,
+        .inheritMask = 0x89B, .dropmakka = 392, .dropexp = 396, .dropitem = {item::DisStun},
+        .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x02D Purski (Yoma, Lv 48)
     {
-        .race = Race::Yoma, .level = 48, .hp = 390, .maxhp = 390, .mp = 189, .maxmp = 189, .aisyoid = 45,
+        .race = Race::Yoma, .level = 48, .hp = 390, .maxhp = 390, .mp = 189, .maxmp = 189, .affinityId = 45,
         .param = {19, 0, 15, 17, 9, 12},
-        .skill = {skill::BindingCry, skill::PanicVoice, skill::Mazandyne, skill::ChaosBlade}, .keisyotype = 6,
-        .keisyoform = 0x99B, .dropmakka = 344, .dropexp = 341, .dropitem = {item::MuscleDrink},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .skill = {skill::BindingCry, skill::PanicVoice, skill::Mazandyne, skill::ChaosBlade},
+        .inheritType = 6, .inheritMask = 0x99B, .dropmakka = 344, .dropexp = 341,
+        .dropitem = {item::MuscleDrink}, .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5,
+        .attackcnt = 1,
     },
     // 0x02E Onkot (Yoma, Lv 37)
     {
-        .race = Race::Yoma, .level = 37, .hp = 288, .maxhp = 288, .mp = 138, .maxmp = 138, .aisyoid = 46,
+        .race = Race::Yoma, .level = 37, .hp = 288, .maxhp = 288, .mp = 138, .maxmp = 138, .affinityId = 46,
         .param = {14, 0, 9, 11, 15, 12},
-        .skill = {skill::BrutalSlash, skill::Tarukaja, skill::Sukukaja, skill::Tetrakarn}, .keisyotype = 1,
-        .keisyoform = 0x99B, .dropmakka = 228, .dropexp = 212, .dropitem = {item::ChakraDrop},
-        .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .skill = {skill::BrutalSlash, skill::Tarukaja, skill::Sukukaja, skill::Tetrakarn}, .inheritType = 1,
+        .inheritMask = 0x99B, .dropmakka = 228, .dropexp = 212, .dropitem = {item::ChakraDrop},
+        .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x02F Jinn (Yoma, Lv 44)
     {
-        .race = Race::Yoma, .level = 44, .hp = 342, .maxhp = 342, .mp = 189, .maxmp = 189, .aisyoid = 47,
+        .race = Race::Yoma, .level = 44, .hp = 342, .maxhp = 342, .mp = 189, .maxmp = 189, .affinityId = 47,
         .param = {14, 0, 19, 13, 14, 8},
         .skill = {skill::Zandyne, skill::Taunt, skill::Skill0E5, skill::Kamikaze, skill::Diarama},
-        .keisyotype = 6, .keisyoform = 0x89B, .dropmakka = 299, .dropexp = 291,
-        .dropitem = {item::ChakraDrop}, .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5,
+        .inheritType = 6, .inheritMask = 0x89B, .dropmakka = 299, .dropexp = 291,
+        .dropitem = {item::ChakraDrop}, .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5,
         .attackcnt = 1,
     },
     // 0x030 Karasu (Yoma, Lv 28)
     {
         .flag = 2, .race = Race::Yoma, .level = 28, .hp = 234, .maxhp = 234, .mp = 117, .maxmp = 117,
-        .aisyoid = 48, .param = {12, 0, 11, 11, 10, 8}, .keisyotype = 6, .keisyoform = 0x995,
-        .dropmakka = 152, .dropexp = 129, .dropitem = {item::DisStun}, .droppoint = {10}, .hougyokupoint = 1,
-        .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 48, .param = {12, 0, 11, 11, 10, 8}, .inheritType = 6, .inheritMask = 0x995,
+        .dropmakka = 152, .dropexp = 129, .dropitem = {item::DisStun}, .droppoint = {10}, .beadDropChance = 1,
+        .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x031 Dis (Yoma, Lv 23)
     {
-        .race = Race::Yoma, .level = 23, .hp = 198, .maxhp = 198, .mp = 111, .maxmp = 111, .aisyoid = 49,
+        .race = Race::Yoma, .level = 23, .hp = 198, .maxhp = 198, .mp = 111, .maxmp = 111, .affinityId = 49,
         .param = {10, 0, 14, 10, 7, 6}, .skill = {skill::Makajam, skill::Agilao, skill::StoneGaze},
-        .keisyotype = 10, .keisyoform = 0xC89, .dropmakka = 116, .dropexp = 92, .dropitem = {102},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 10, .inheritMask = 0xC89, .dropmakka = 116, .dropexp = 92, .dropitem = {102},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x032 Isora (Yoma, Lv 14)
     {
-        .race = Race::Yoma, .level = 14, .hp = 132, .maxhp = 132, .mp = 66, .maxmp = 66, .aisyoid = 50,
+        .race = Race::Yoma, .level = 14, .hp = 132, .maxhp = 132, .mp = 66, .maxmp = 66, .affinityId = 50,
         .param = {9, 0, 8, 8, 6, 3}, .skill = {skill::IceBreath, skill::Media, skill::VenomBite},
-        .keisyotype = 4, .keisyoform = 0x8BB, .dropmakka = 65, .dropexp = 40, .dropitem = {110},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 4, .inheritMask = 0x8BB, .dropmakka = 65, .dropexp = 40, .dropitem = {110},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x033 Apsaras (Yoma, Lv 8)
     {
-        .race = Race::Yoma, .level = 8, .hp = 84, .maxhp = 84, .mp = 42, .maxmp = 42, .aisyoid = 51,
-        .param = {6, 0, 6, 6, 5, 5}, .skill = {skill::Dormina}, .keisyotype = 5, .keisyoform = 0xC89,
-        .dropmakka = 40, .dropexp = 18, .dropitem = {111}, .droppoint = {8}, .hougyokupoint = 1,
-        .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Yoma, .level = 8, .hp = 84, .maxhp = 84, .mp = 42, .maxmp = 42, .affinityId = 51,
+        .param = {6, 0, 6, 6, 5, 5}, .skill = {skill::Dormina}, .inheritType = 5, .inheritMask = 0xC89,
+        .dropmakka = 40, .dropexp = 18, .dropitem = {111}, .droppoint = {8}, .beadDropChance = 1,
+        .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x034 Koppa (Yoma, Lv 19)
     {
-        .race = Race::Yoma, .level = 19, .hp = 156, .maxhp = 156, .mp = 87, .maxmp = 87, .aisyoid = 52,
+        .race = Race::Yoma, .level = 19, .hp = 156, .maxhp = 156, .mp = 87, .maxmp = 87, .affinityId = 52,
         .param = {7, 0, 10, 5, 13, 8},
         .skill = {skill::Tarukaja, skill::WingBuffet, skill::Shibaboo, skill::Zanma, skill::Skill0E2, skill::Kamikaze},
-        .keisyotype = 6, .keisyoform = 0x895, .dropmakka = 92, .dropexp = 66,
-        .dropitem = {104, item::SacredWater}, .droppoint = {8, 8}, .hougyokupoint = 1, .masekipoint = 5,
-        .attackcnt = 1,
+        .inheritType = 6, .inheritMask = 0x895, .dropmakka = 92, .dropexp = 66,
+        .dropitem = {104, item::SacredWater}, .droppoint = {8, 8}, .beadDropChance = 1,
+        .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x035 Titania (Fairy, Lv 57)
     {
         .flag = 1, .race = Race::Fairy, .level = 57, .hp = 432, .maxhp = 432, .mp = 240, .maxmp = 240,
-        .aisyoid = 53, .param = {14, 0, 23, 15, 12, 13},
-        .skill = {skill::GlacialBlast, skill::Pulinpa, skill::Mediarahan}, .keisyotype = 7,
-        .keisyoform = 0xC89, .dropmakka = 456, .dropexp = 469, .dropitem = {98}, .droppoint = {4},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 53, .param = {14, 0, 23, 15, 12, 13},
+        .skill = {skill::GlacialBlast, skill::Pulinpa, skill::Mediarahan}, .inheritType = 7,
+        .inheritMask = 0xC89, .dropmakka = 456, .dropexp = 469, .dropitem = {98}, .droppoint = {4},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x036 Oberon (Fairy, Lv 46)
     {
-        .race = Race::Fairy, .level = 46, .hp = 354, .maxhp = 354, .mp = 195, .maxmp = 195, .aisyoid = 54,
+        .race = Race::Fairy, .level = 46, .hp = 354, .maxhp = 354, .mp = 195, .maxmp = 195, .affinityId = 54,
         .param = {16, 0, 19, 13, 8, 10}, .skill = {skill::Makarakarn, skill::HeatWave, skill::Mediarama},
-        .keisyotype = 2, .keisyoform = 0x99D, .dropmakka = 321, .dropexp = 315, .dropitem = {111},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 2, .inheritMask = 0x99D, .dropmakka = 321, .dropexp = 315, .dropitem = {111},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x037 Troll (Fairy, Lv 38)
     {
-        .race = Race::Fairy, .level = 38, .hp = 354, .maxhp = 354, .mp = 144, .maxmp = 144, .aisyoid = 55,
+        .race = Race::Fairy, .level = 38, .hp = 354, .maxhp = 354, .mp = 144, .maxmp = 144, .affinityId = 55,
         .param = {14, 0, 10, 21, 4, 9}, .skill = {skill::Mabufula, skill::Diarahan, skill::Berserk},
-        .keisyotype = 4, .keisyoform = 0x89B, .dropmakka = 238, .dropexp = 222, .dropitem = {item::Medicine},
-        .droppoint = {7}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 4, .inheritMask = 0x89B, .dropmakka = 238, .dropexp = 222,
+        .dropitem = {item::Medicine}, .droppoint = {7}, .beadDropChance = 1, .lifeStoneDropChance = 5,
+        .attackcnt = 1,
     },
     // 0x038 Setanta (Fairy, Lv 43)
     {
         .flag = 1, .race = Race::Fairy, .level = 43, .hp = 400, .maxhp = 400, .mp = 165, .maxmp = 165,
-        .aisyoid = 56, .param = {17, 0, 12, 20, 12, 6},
-        .skill = {skill::Tempest, skill::Guillotine, skill::Skill0DC, skill::Skill0DB}, .keisyotype = 1,
-        .keisyoform = 0x999, .dropmakka = 288, .dropexp = 279, .dropitem = {108}, .droppoint = {10},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 56, .param = {17, 0, 12, 20, 12, 6},
+        .skill = {skill::Tempest, skill::Guillotine, skill::Skill0DC, skill::Skill0DB}, .inheritType = 1,
+        .inheritMask = 0x999, .dropmakka = 288, .dropexp = 279, .dropitem = {108}, .droppoint = {10},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x039 Kelpie (Fairy, Lv 26)
     {
-        .race = Race::Fairy, .level = 26, .hp = 210, .maxhp = 210, .mp = 117, .maxmp = 117, .aisyoid = 57,
+        .race = Race::Fairy, .level = 26, .hp = 210, .maxhp = 210, .mp = 117, .maxmp = 117, .affinityId = 57,
         .param = {9, 0, 13, 9, 8, 7},
-        .skill = {skill::Pulinpa, skill::StunBite, skill::Diarama, skill::MarinKarin}, .keisyotype = 2,
-        .keisyoform = 0x8BB, .dropmakka = 137, .dropexp = 113, .dropitem = {101}, .droppoint = {4},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .skill = {skill::Pulinpa, skill::StunBite, skill::Diarama, skill::MarinKarin}, .inheritType = 2,
+        .inheritMask = 0x8BB, .dropmakka = 137, .dropexp = 113, .dropitem = {101}, .droppoint = {4},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x03A Pyro Jack (Fairy, Lv 19)
     {
-        .race = Race::Fairy, .level = 19, .hp = 162, .maxhp = 162, .mp = 87, .maxmp = 87, .aisyoid = 58,
-        .param = {8, 0, 10, 8, 6, 7}, .skill = {skill::Agi, skill::Maragi, skill::Agilao}, .keisyotype = 3,
-        .keisyoform = 0x89B, .dropmakka = 92, .dropexp = 66, .dropitem = {106}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Fairy, .level = 19, .hp = 162, .maxhp = 162, .mp = 87, .maxmp = 87, .affinityId = 58,
+        .param = {8, 0, 10, 8, 6, 7}, .skill = {skill::Agi, skill::Maragi, skill::Agilao}, .inheritType = 3,
+        .inheritMask = 0x89B, .dropmakka = 92, .dropexp = 66, .dropitem = {106}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x03B High Pixie (Fairy, Lv 10)
     {
         .flag = 2, .race = Race::Fairy, .level = 10, .hp = 84, .maxhp = 84, .mp = 48, .maxmp = 48,
-        .aisyoid = 59, .param = {4, 0, 6, 4, 6, 10}, .skill = {skill::WingBuffet}, .keisyotype = 2,
-        .keisyoform = 0xC8D, .dropmakka = 200, .dropexp = 100, .dropitem = {item::RevivalBead},
-        .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 59, .param = {4, 0, 6, 4, 6, 10}, .skill = {skill::WingBuffet}, .inheritType = 2,
+        .inheritMask = 0xC8D, .dropmakka = 200, .dropexp = 100, .dropitem = {item::RevivalBead},
+        .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x03C Jack Frost (Fairy, Lv 7)
     {
-        .race = Race::Fairy, .level = 7, .hp = 78, .maxhp = 78, .mp = 45, .maxmp = 45, .aisyoid = 60,
-        .param = {5, 0, 8, 6, 4, 4}, .skill = {skill::Bufu, skill::Skill0E2, skill::Mabufu}, .keisyotype = 4,
-        .keisyoform = 0x89B, .dropmakka = 36, .dropexp = 15, .dropitem = {item::ChakraDrop},
-        .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Fairy, .level = 7, .hp = 78, .maxhp = 78, .mp = 45, .maxmp = 45, .affinityId = 60,
+        .param = {5, 0, 8, 6, 4, 4}, .skill = {skill::Bufu, skill::Skill0E2, skill::Mabufu}, .inheritType = 4,
+        .inheritMask = 0x89B, .dropmakka = 36, .dropexp = 15, .dropitem = {item::ChakraDrop},
+        .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x03D Pixie (Fairy, Lv 2)
     {
-        .race = Race::Fairy, .level = 2, .hp = 36, .maxhp = 36, .mp = 18, .maxmp = 18, .aisyoid = 61,
-        .param = {3, 0, 6, 4, 2, 7}, .skill = {skill::Zio, skill::Dia}, .keisyotype = 2, .keisyoform = 0xC8D,
-        .dropmakka = 22, .dropexp = 5, .dropitem = {item::ChakraDrop, item::RevivalBead},
-        .droppoint = {10, 10}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Fairy, .level = 2, .hp = 36, .maxhp = 36, .mp = 18, .maxmp = 18, .affinityId = 61,
+        .param = {3, 0, 6, 4, 2, 7}, .skill = {skill::Zio, skill::Dia}, .inheritType = 2,
+        .inheritMask = 0xC8D, .dropmakka = 22, .dropexp = 5,
+        .dropitem = {item::ChakraDrop, item::RevivalBead}, .droppoint = {10, 10}, .beadDropChance = 1,
+        .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x03E Throne (Divine, Lv 64)
     {
-        .race = Race::Divine, .level = 64, .hp = 598, .maxhp = 598, .mp = 258, .maxmp = 258, .aisyoid = 62,
+        .race = Race::Divine, .level = 64, .hp = 598, .maxhp = 598, .mp = 258, .maxmp = 258, .affinityId = 62,
         .param = {18, 0, 22, 18, 15, 15},
         .skill = {skill::HolyWrath, skill::Mahamaon, skill::Prominence, skill::Mediarahan, skill::MuteGaze},
-        .keisyotype = 8, .keisyoform = 0x899, .dropmakka = 555, .dropexp = 580, .dropitem = {102},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 8, .inheritMask = 0x899, .dropmakka = 555, .dropexp = 580, .dropitem = {102},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x03F Dominion (Divine, Lv 50)
     {
-        .race = Race::Divine, .level = 50, .hp = 390, .maxhp = 390, .mp = 204, .maxmp = 204, .aisyoid = 63,
+        .race = Race::Divine, .level = 50, .hp = 390, .maxhp = 390, .mp = 204, .maxmp = 204, .affinityId = 63,
         .param = {15, 0, 18, 15, 11, 11},
-        .skill = {skill::Makajam, skill::Tetrakarn, skill::VioletFlash, skill::Diarahan}, .keisyotype = 8,
-        .keisyoform = 0x88D, .dropmakka = 368, .dropexp = 368, .dropitem = {111}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .skill = {skill::Makajam, skill::Tetrakarn, skill::VioletFlash, skill::Diarahan}, .inheritType = 8,
+        .inheritMask = 0x88D, .dropmakka = 368, .dropexp = 368, .dropitem = {111}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x040 Virtue (Divine, Lv 41)
     {
-        .race = Race::Divine, .level = 41, .hp = 400, .maxhp = 400, .mp = 174, .maxmp = 174, .aisyoid = 64,
+        .race = Race::Divine, .level = 41, .hp = 400, .maxhp = 400, .mp = 174, .maxmp = 174, .affinityId = 64,
         .param = {12, 0, 17, 17, 8, 7},
-        .skill = {skill::Makarakarn, skill::Mahama, skill::Thunderclap, skill::Mediarama}, .keisyotype = 8,
-        .keisyoform = 0x881, .dropmakka = 268, .dropexp = 256, .dropitem = {102}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .skill = {skill::Makarakarn, skill::Mahama, skill::Thunderclap, skill::Mediarama}, .inheritType = 8,
+        .inheritMask = 0x881, .dropmakka = 268, .dropexp = 256, .dropitem = {102}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x041 Power (Divine, Lv 33)
     {
-        .race = Race::Divine, .level = 33, .hp = 320, .maxhp = 320, .mp = 126, .maxmp = 126, .aisyoid = 65,
+        .race = Race::Divine, .level = 33, .hp = 320, .maxhp = 320, .mp = 126, .maxmp = 126, .affinityId = 65,
         .param = {16, 0, 8, 16, 7, 6}, .skill = {skill::Tarukaja, skill::Guillotine, skill::Hamaon},
-        .keisyotype = 8, .keisyoform = 0x99D, .dropmakka = 192, .dropexp = 173, .dropitem = {108},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 8, .inheritMask = 0x99D, .dropmakka = 192, .dropexp = 173, .dropitem = {108},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x042 Principality (Divine, Lv 28)
     {
-        .race = Race::Divine, .level = 28, .hp = 222, .maxhp = 222, .mp = 120, .maxmp = 120, .aisyoid = 66,
+        .race = Race::Divine, .level = 28, .hp = 222, .maxhp = 222, .mp = 120, .maxmp = 120, .affinityId = 66,
         .param = {11, 0, 12, 9, 7, 9}, .skill = {skill::Diarama, skill::Hamaon, skill::HeatWave},
-        .keisyotype = 8, .keisyoform = 0x98D, .dropmakka = 152, .dropexp = 129, .dropitem = {106},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 8, .inheritMask = 0x98D, .dropmakka = 152, .dropexp = 129, .dropitem = {106},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x043 Archangel (Divine, Lv 18)
     {
-        .race = Race::Divine, .level = 18, .hp = 156, .maxhp = 156, .mp = 72, .maxmp = 72, .aisyoid = 67,
+        .race = Race::Divine, .level = 18, .hp = 156, .maxhp = 156, .mp = 72, .maxmp = 72, .affinityId = 67,
         .param = {11, 0, 6, 8, 7, 6},
-        .skill = {skill::Tarukaja, skill::Diarama, skill::MightyGust, skill::Hama}, .keisyotype = 8,
-        .keisyoform = 0x99D, .dropmakka = 86, .dropexp = 60, .dropitem = {item::Medicine}, .droppoint = {7},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .skill = {skill::Tarukaja, skill::Diarama, skill::MightyGust, skill::Hama}, .inheritType = 8,
+        .inheritMask = 0x99D, .dropmakka = 86, .dropexp = 60, .dropitem = {item::Medicine}, .droppoint = {7},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x044 Angel (Divine, Lv 11)
     {
-        .race = Race::Divine, .level = 11, .hp = 108, .maxhp = 108, .mp = 54, .maxmp = 54, .aisyoid = 68,
-        .param = {4, 0, 7, 7, 7, 6}, .skill = {skill::Hama, skill::Dia}, .keisyotype = 8, .keisyoform = 0xC85,
-        .dropmakka = 52, .dropexp = 28, .dropitem = {item::Medicine}, .droppoint = {7}, .hougyokupoint = 1,
-        .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Divine, .level = 11, .hp = 108, .maxhp = 108, .mp = 54, .maxmp = 54, .affinityId = 68,
+        .param = {4, 0, 7, 7, 7, 6}, .skill = {skill::Hama, skill::Dia}, .inheritType = 8,
+        .inheritMask = 0xC85, .dropmakka = 52, .dropexp = 28, .dropitem = {item::Medicine}, .droppoint = {7},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x045 Flauros (Fallen, Lv 68)
     {
-        .race = Race::Fallen, .level = 68, .hp = 574, .maxhp = 574, .mp = 246, .maxmp = 246, .aisyoid = 69,
+        .race = Race::Fallen, .level = 68, .hp = 574, .maxhp = 574, .mp = 246, .maxmp = 246, .affinityId = 69,
         .param = {27, 0, 14, 22, 13, 12}, .skill = {skill::Deathbound, skill::WarCry, skill::IronClaw},
-        .keisyotype = 1, .keisyoform = 0x9DB, .dropmakka = 616, .dropexp = 644,
-        .dropitem = {item::MuscleDrink}, .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5,
+        .inheritType = 1, .inheritMask = 0x9DB, .dropmakka = 616, .dropexp = 644,
+        .dropitem = {item::MuscleDrink}, .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5,
         .attackcnt = 1,
     },
     // 0x046 Decarabia (Fallen, Lv 58)
     {
-        .race = Race::Fallen, .level = 58, .hp = 450, .maxhp = 450, .mp = 240, .maxmp = 240, .aisyoid = 70,
+        .race = Race::Fallen, .level = 58, .hp = 450, .maxhp = 450, .mp = 240, .maxmp = 240, .affinityId = 70,
         .param = {15, 0, 22, 17, 12, 12},
-        .skill = {skill::Megido, skill::Sukukaja, skill::Tetrakarn, skill::EternalRest}, .keisyotype = 7,
-        .keisyoform = 0x899, .dropmakka = 470, .dropexp = 484, .dropitem = {101}, .droppoint = {4},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .skill = {skill::Megido, skill::Sukukaja, skill::Tetrakarn, skill::EternalRest}, .inheritType = 7,
+        .inheritMask = 0x899, .dropmakka = 470, .dropexp = 484, .dropitem = {101}, .droppoint = {4},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x047 Ose (Fallen, Lv 45)
     {
-        .race = Race::Fallen, .level = 45, .hp = 570, .maxhp = 570, .mp = 168, .maxmp = 168, .aisyoid = 71,
+        .race = Race::Fallen, .level = 45, .hp = 570, .maxhp = 570, .mp = 168, .maxmp = 168, .affinityId = 71,
         .param = {17, 0, 11, 14, 12, 11},
-        .skill = {skill::Focus, skill::WarCry, skill::Blight, skill::Skill0DC}, .keisyotype = 1,
-        .keisyoform = 0x99B, .dropmakka = 310, .dropexp = 303, .dropitem = {101}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .skill = {skill::Focus, skill::WarCry, skill::Blight, skill::Skill0DC}, .inheritType = 1,
+        .inheritMask = 0x99B, .dropmakka = 310, .dropexp = 303, .dropitem = {101}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x048 Berith (Fallen, Lv 37)
     {
-        .race = Race::Fallen, .level = 37, .hp = 360, .maxhp = 360, .mp = 141, .maxmp = 141, .aisyoid = 72,
-        .param = {16, 0, 10, 17, 8, 6}, .skill = {skill::HeatWave, skill::Hellfire}, .keisyotype = 3,
-        .keisyoform = 0x99B, .dropmakka = 228, .dropexp = 212, .dropitem = {106}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Fallen, .level = 37, .hp = 360, .maxhp = 360, .mp = 141, .maxmp = 141, .affinityId = 72,
+        .param = {16, 0, 10, 17, 8, 6}, .skill = {skill::HeatWave, skill::Hellfire}, .inheritType = 3,
+        .inheritMask = 0x99B, .dropmakka = 228, .dropexp = 212, .dropitem = {106}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x049 Eligor (Fallen, Lv 29)
     {
-        .race = Race::Fallen, .level = 29, .hp = 288, .maxhp = 288, .mp = 114, .maxmp = 114, .aisyoid = 73,
+        .race = Race::Fallen, .level = 29, .hp = 288, .maxhp = 288, .mp = 114, .maxmp = 114, .affinityId = 73,
         .param = {14, 0, 9, 14, 6, 6},
         .skill = {skill::Rakukaja, skill::Berserk, skill::Mudo, skill::Skill0DC, skill::Skill0DB},
-        .keisyotype = 1, .keisyoform = 0x99B, .dropmakka = 160, .dropexp = 137, .dropitem = {103},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 1, .inheritMask = 0x99B, .dropmakka = 160, .dropexp = 137, .dropitem = {103},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x04A Forneus (Fallen, Lv 20)
     {
-        .race = Race::Fallen, .level = 20, .hp = 220, .maxhp = 220, .mp = 81, .maxmp = 81, .aisyoid = 74,
+        .race = Race::Fallen, .level = 20, .hp = 220, .maxhp = 220, .mp = 81, .maxmp = 81, .affinityId = 74,
         .param = {10, 0, 7, 10, 5, 8}, .skill = {skill::Bufula, skill::Mabufula, skill::StunBite},
-        .keisyotype = 4, .keisyoform = 0x8BB, .dropmakka = 98, .dropexp = 73, .dropitem = {111},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 4, .inheritMask = 0x8BB, .dropmakka = 98, .dropexp = 73, .dropitem = {111},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x04B Yurlungur (Snake, Lv 66)
     {
-        .race = Race::Snake, .level = 66, .hp = 633, .maxhp = 633, .mp = 246, .maxmp = 246, .aisyoid = 75,
+        .race = Race::Snake, .level = 66, .hp = 633, .maxhp = 633, .mp = 246, .maxmp = 246, .affinityId = 75,
         .param = {18, 0, 16, 30, 9, 13},
-        .skill = {skill::BoltStorm, skill::WindCutter, skill::Rakukaja, skill::Mediarahan}, .keisyotype = 2,
-        .keisyoform = 0x899, .dropmakka = 585, .dropexp = 612, .dropitem = {item::MuscleDrink},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .skill = {skill::BoltStorm, skill::WindCutter, skill::Rakukaja, skill::Mediarahan}, .inheritType = 2,
+        .inheritMask = 0x899, .dropmakka = 585, .dropexp = 612, .dropitem = {item::MuscleDrink},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x04C Quetzacoatl (Snake, Lv 55)
     {
-        .race = Race::Snake, .level = 55, .hp = 492, .maxhp = 492, .mp = 201, .maxmp = 201, .aisyoid = 76,
+        .race = Race::Snake, .level = 55, .hp = 492, .maxhp = 492, .mp = 201, .maxmp = 201, .affinityId = 76,
         .param = {16, 0, 12, 27, 9, 11}, .skill = {skill::StoneBite, skill::Berserk, skill::ToxicCloud},
-        .keisyotype = 4, .keisyoform = 0x8BF, .dropmakka = 430, .dropexp = 439, .dropitem = {105},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 4, .inheritMask = 0x8BF, .dropmakka = 430, .dropexp = 439, .dropitem = {105},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x04D Raja Naga (Snake, Lv 37)
     {
         .flag = 2, .race = Race::Snake, .level = 37, .hp = 348, .maxhp = 348, .mp = 138, .maxmp = 138,
-        .aisyoid = 77, .param = {15, 0, 9, 21, 8, 9},
-        .skill = {skill::Counter, skill::Shock, skill::Tempest, skill::Skill0E2}, .keisyotype = 5,
-        .keisyoform = 0x89B, .dropmakka = 228, .dropexp = 212, .dropitem = {item::SacredWater},
-        .droppoint = {15}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 77, .param = {15, 0, 9, 21, 8, 9},
+        .skill = {skill::Counter, skill::Shock, skill::Tempest, skill::Skill0E2}, .inheritType = 5,
+        .inheritMask = 0x89B, .dropmakka = 228, .dropexp = 212, .dropitem = {item::SacredWater},
+        .droppoint = {15}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x04E Mizuchi (Snake, Lv 34)
     {
-        .race = Race::Snake, .level = 34, .hp = 360, .maxhp = 360, .mp = 144, .maxmp = 144, .aisyoid = 78,
+        .race = Race::Snake, .level = 34, .hp = 360, .maxhp = 360, .mp = 144, .maxmp = 144, .affinityId = 78,
         .param = {12, 0, 13, 19, 7, 7},
-        .skill = {skill::Berserk, skill::Bufula, skill::Makarakarn, skill::FogBreath}, .keisyotype = 4,
-        .keisyoform = 0x899, .dropmakka = 201, .dropexp = 182, .dropitem = {111}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .skill = {skill::Berserk, skill::Bufula, skill::Makarakarn, skill::FogBreath}, .inheritType = 4,
+        .inheritMask = 0x899, .dropmakka = 201, .dropexp = 182, .dropitem = {111}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x04F Naga (Snake, Lv 28)
     {
-        .race = Race::Snake, .level = 28, .hp = 264, .maxhp = 264, .mp = 108, .maxmp = 108, .aisyoid = 79,
+        .race = Race::Snake, .level = 28, .hp = 264, .maxhp = 264, .mp = 108, .maxmp = 108, .affinityId = 79,
         .param = {13, 0, 8, 16, 7, 8}, .skill = {skill::Tarukaja, skill::Zionga, skill::HellThrust},
-        .keisyotype = 5, .keisyoform = 0x99B, .dropmakka = 152, .dropexp = 129, .dropitem = {105},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 5, .inheritMask = 0x99B, .dropmakka = 152, .dropexp = 129, .dropitem = {105},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x050 Nozuchi (Snake, Lv 14)
     {
-        .race = Race::Snake, .level = 14, .hp = 162, .maxhp = 162, .mp = 60, .maxmp = 60, .aisyoid = 80,
+        .race = Race::Snake, .level = 14, .hp = 162, .maxhp = 162, .mp = 60, .maxmp = 60, .affinityId = 80,
         .param = {11, 0, 6, 10, 4, 7},
-        .skill = {skill::ToxicCloud, skill::Lunge, skill::Rakukaja, skill::Sacrifice}, .keisyotype = 1,
-        .keisyoform = 0x893, .dropmakka = 65, .dropexp = 40, .dropitem = {106}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .skill = {skill::ToxicCloud, skill::Lunge, skill::Rakukaja, skill::Sacrifice}, .inheritType = 1,
+        .inheritMask = 0x893, .dropmakka = 65, .dropexp = 40, .dropitem = {106}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x051 Cerberus (Beast, Lv 61)
     {
-        .race = Race::Beast, .level = 61, .hp = 592, .maxhp = 592, .mp = 225, .maxmp = 225, .aisyoid = 81,
+        .race = Race::Beast, .level = 61, .hp = 592, .maxhp = 592, .mp = 225, .maxmp = 225, .affinityId = 81,
         .param = {23, 0, 14, 15, 17, 12},
-        .skill = {skill::IronClaw, skill::BindingCry, skill::Hellfire, skill::Retaliate}, .keisyotype = 3,
-        .keisyoform = 0x8FB, .dropmakka = 512, .dropexp = 532, .dropitem = {106}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .skill = {skill::IronClaw, skill::BindingCry, skill::Hellfire, skill::Retaliate}, .inheritType = 3,
+        .inheritMask = 0x8FB, .dropmakka = 512, .dropexp = 532, .dropitem = {106}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x052 Orthrus (Beast, Lv 34)
     {
-        .race = Race::Beast, .level = 34, .hp = 340, .maxhp = 340, .mp = 129, .maxmp = 129, .aisyoid = 82,
+        .race = Race::Beast, .level = 34, .hp = 340, .maxhp = 340, .mp = 129, .maxmp = 129, .affinityId = 82,
         .param = {16, 0, 8, 13, 11, 6},
-        .skill = {skill::StunClaw, skill::FireBreath, skill::WarCry, skill::FireBoost}, .keisyotype = 3,
-        .keisyoform = 0x8FB, .dropmakka = 201, .dropexp = 182, .dropitem = {item::Medicine}, .droppoint = {7},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .skill = {skill::StunClaw, skill::FireBreath, skill::WarCry, skill::FireBoost}, .inheritType = 3,
+        .inheritMask = 0x8FB, .dropmakka = 201, .dropexp = 182, .dropitem = {item::Medicine},
+        .droppoint = {7}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x053 Sparna (Beast, Lv 54)
     {
-        .race = Race::Beast, .level = 54, .hp = 408, .maxhp = 408, .mp = 219, .maxmp = 219, .aisyoid = 83,
+        .race = Race::Beast, .level = 54, .hp = 408, .maxhp = 408, .mp = 219, .maxmp = 219, .affinityId = 83,
         .param = {13, 0, 19, 14, 22, 11}, .skill = {skill::Sukukaja, skill::FogBreath, skill::Zandyne},
-        .keisyotype = 6, .keisyoform = 0x8DF, .dropmakka = 417, .dropexp = 424,
-        .dropitem = {item::WagtailPlume}, .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5,
+        .inheritType = 6, .inheritMask = 0x8DF, .dropmakka = 417, .dropexp = 424,
+        .dropitem = {item::WagtailPlume}, .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5,
         .attackcnt = 1,
     },
     // 0x054 Badb Catha (Beast, Lv 23)
     {
-        .race = Race::Beast, .level = 23, .hp = 186, .maxhp = 186, .mp = 87, .maxmp = 87, .aisyoid = 84,
-        .param = {11, 0, 6, 8, 12, 6}, .skill = {skill::NeedleRush, skill::WingBuffet}, .keisyotype = 1,
-        .keisyoform = 0x8DF, .dropmakka = 116, .dropexp = 92, .dropitem = {104}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Beast, .level = 23, .hp = 186, .maxhp = 186, .mp = 87, .maxmp = 87, .affinityId = 84,
+        .param = {11, 0, 6, 8, 12, 6}, .skill = {skill::NeedleRush, skill::WingBuffet}, .inheritType = 1,
+        .inheritMask = 0x8DF, .dropmakka = 116, .dropexp = 92, .dropitem = {104}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x055 Inugami (Beast, Lv 13)
     {
-        .race = Race::Beast, .level = 13, .hp = 132, .maxhp = 132, .mp = 60, .maxmp = 60, .aisyoid = 85,
+        .race = Race::Beast, .level = 13, .hp = 132, .maxhp = 132, .mp = 60, .maxmp = 60, .affinityId = 85,
         .param = {10, 0, 7, 9, 6, 5}, .skill = {skill::Rakunda, skill::FeralBite, skill::PanicVoice},
-        .keisyotype = 1, .keisyoform = 0x8BB, .dropmakka = 60, .dropexp = 36, .dropitem = {item::ChakraDrop},
-        .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 1, .inheritMask = 0x8BB, .dropmakka = 60, .dropexp = 36,
+        .dropitem = {item::ChakraDrop}, .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5,
+        .attackcnt = 1,
     },
     // 0x056 Nekomata (Beast, Lv 18)
     {
-        .race = Race::Beast, .level = 18, .hp = 156, .maxhp = 156, .mp = 90, .maxmp = 90, .aisyoid = 86,
+        .race = Race::Beast, .level = 18, .hp = 156, .maxhp = 156, .mp = 90, .maxmp = 90, .affinityId = 86,
         .param = {7, 0, 12, 8, 7, 7}, .skill = {skill::MarinKarin, skill::FeralClaw, skill::StunNeedle},
-        .keisyotype = 10, .keisyoform = 0x8C9, .dropmakka = 86, .dropexp = 60, .dropitem = {item::DisCharm},
-        .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 10, .inheritMask = 0x8C9, .dropmakka = 86, .dropexp = 60, .dropitem = {item::DisCharm},
+        .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x057 Gogmagog (Jirae, Lv 55)
     {
-        .race = Race::Jirae, .level = 55, .hp = 456, .maxhp = 456, .mp = 207, .maxmp = 207, .aisyoid = 87,
+        .race = Race::Jirae, .level = 55, .hp = 456, .maxhp = 456, .mp = 207, .maxmp = 207, .affinityId = 87,
         .param = {22, 0, 14, 21, 7, 14},
         .skill = {skill::Sukunda, skill::Tarunda, skill::Rakunda, skill::Tornado, skill::Berserk, skill::Diarama},
-        .keisyotype = 4, .keisyoform = 0x899, .dropmakka = 430, .dropexp = 439, .dropitem = {item::Medicine},
-        .droppoint = {7}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 4, .inheritMask = 0x899, .dropmakka = 430, .dropexp = 439,
+        .dropitem = {item::Medicine}, .droppoint = {7}, .beadDropChance = 1, .lifeStoneDropChance = 5,
+        .attackcnt = 1,
     },
     // 0x058 Titan (Jirae, Lv 49)
     {
-        .race = Race::Jirae, .level = 49, .hp = 416, .maxhp = 416, .mp = 177, .maxmp = 177, .aisyoid = 88,
+        .race = Race::Jirae, .level = 49, .hp = 416, .maxhp = 416, .mp = 177, .maxmp = 177, .affinityId = 88,
         .param = {21, 0, 10, 17, 8, 13},
-        .skill = {skill::Retaliate, skill::Guillotine, skill::FireBreath, skill::StunGaze}, .keisyotype = 1,
-        .keisyoform = 0x99B, .dropmakka = 356, .dropexp = 354, .dropitem = {item::Medicine}, .droppoint = {7},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .skill = {skill::Retaliate, skill::Guillotine, skill::FireBreath, skill::StunGaze}, .inheritType = 1,
+        .inheritMask = 0x99B, .dropmakka = 356, .dropexp = 354, .dropitem = {item::Medicine},
+        .droppoint = {7}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x059 Sarutahiko (Jirae, Lv 35)
     {
         .flag = 1, .race = Race::Jirae, .level = 35, .hp = 392, .maxhp = 392, .mp = 126, .maxmp = 126,
-        .aisyoid = 89, .param = {18, 0, 7, 17, 7, 6},
+        .affinityId = 89, .param = {18, 0, 7, 17, 7, 6},
         .skill = {skill::Counter, skill::Focus, skill::Berserk, skill::HellThrust, skill::Skill0DC, skill::Skill0DB},
-        .keisyotype = 1, .keisyoform = 0x99B, .dropmakka = 210, .dropexp = 192, .dropitem = {105},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 1, .inheritMask = 0x99B, .dropmakka = 210, .dropexp = 192, .dropitem = {105},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x05A Sudama (Jirae, Lv 13)
     {
-        .race = Race::Jirae, .level = 13, .hp = 96, .maxhp = 96, .mp = 60, .maxmp = 60, .aisyoid = 90,
+        .race = Race::Jirae, .level = 13, .hp = 96, .maxhp = 96, .mp = 60, .maxmp = 60, .affinityId = 90,
         .param = {7, 0, 7, 3, 8, 8}, .skill = {skill::Makakaja, skill::Mazan, skill::Kamikaze},
-        .keisyotype = 6, .keisyoform = 0x891, .dropmakka = 60, .dropexp = 36, .dropitem = {105},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 6, .inheritMask = 0x891, .dropmakka = 60, .dropexp = 36, .dropitem = {105},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x05B Hua Po (Jirae, Lv 5)
     {
-        .race = Race::Jirae, .level = 5, .hp = 50, .maxhp = 50, .mp = 30, .maxmp = 30, .aisyoid = 91,
-        .param = {4, 0, 5, 5, 6, 5}, .skill = {skill::Rakukaja, skill::Agi, skill::Maragi}, .keisyotype = 3,
-        .keisyoform = 0xC8D, .dropmakka = 30, .dropexp = 11, .dropitem = {item::Medicine}, .droppoint = {7},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Jirae, .level = 5, .hp = 50, .maxhp = 50, .mp = 30, .maxmp = 30, .affinityId = 91,
+        .param = {4, 0, 5, 5, 6, 5}, .skill = {skill::Rakukaja, skill::Agi, skill::Maragi}, .inheritType = 3,
+        .inheritMask = 0xC8D, .dropmakka = 30, .dropexp = 11, .dropitem = {item::Medicine}, .droppoint = {7},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x05C Kodama (Jirae, Lv 3)
     {
-        .race = Race::Jirae, .level = 3, .hp = 20, .maxhp = 20, .mp = 21, .maxmp = 21, .aisyoid = 92,
-        .param = {4, 0, 4, 4, 6, 5}, .skill = {skill::Zan, skill::Dia}, .keisyotype = 6, .keisyoform = 0x891,
-        .dropmakka = 24, .dropexp = 7, .dropitem = {item::Medicine}, .droppoint = {7}, .hougyokupoint = 1,
-        .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Jirae, .level = 3, .hp = 20, .maxhp = 20, .mp = 21, .maxmp = 21, .affinityId = 92,
+        .param = {4, 0, 4, 4, 6, 5}, .skill = {skill::Zan, skill::Dia}, .inheritType = 6,
+        .inheritMask = 0x891, .dropmakka = 24, .dropexp = 7, .dropitem = {item::Medicine}, .droppoint = {7},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x05D Shiki-Ouji (Brute, Lv 54)
     {
-        .race = Race::Brute, .level = 54, .hp = 420, .maxhp = 420, .mp = 234, .maxmp = 234, .aisyoid = 93,
+        .race = Race::Brute, .level = 54, .hp = 420, .maxhp = 420, .mp = 234, .maxmp = 234, .affinityId = 93,
         .param = {14, 0, 24, 16, 10, 10}, .skill = {skill::Mahamaon, skill::Mamudoon, skill::StunNeedle},
-        .keisyotype = 7, .keisyoform = 0x88B, .dropmakka = 417, .dropexp = 424, .dropitem = {104},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 7, .inheritMask = 0x88B, .dropmakka = 417, .dropexp = 424, .dropitem = {104},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x05E Oni (Brute, Lv 25)
     {
-        .race = Race::Brute, .level = 25, .hp = 264, .maxhp = 264, .mp = 96, .maxmp = 96, .aisyoid = 94,
-        .param = {13, 0, 7, 12, 6, 7}, .skill = {skill::Berserk, skill::WarCry}, .keisyotype = 1,
-        .keisyoform = 0x99B, .dropmakka = 130, .dropexp = 106, .dropitem = {106}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Brute, .level = 25, .hp = 264, .maxhp = 264, .mp = 96, .maxmp = 96, .affinityId = 94,
+        .param = {13, 0, 7, 12, 6, 7}, .skill = {skill::Berserk, skill::WarCry}, .inheritType = 1,
+        .inheritMask = 0x99B, .dropmakka = 130, .dropexp = 106, .dropitem = {106}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x05F Ikusa (Brute, Lv 44)
     {
-        .race = Race::Brute, .level = 44, .hp = 364, .maxhp = 364, .mp = 177, .maxmp = 177, .aisyoid = 95,
+        .race = Race::Brute, .level = 44, .hp = 364, .maxhp = 364, .mp = 177, .maxmp = 177, .affinityId = 95,
         .param = {17, 0, 15, 13, 9, 10}, .skill = {skill::MightyGust, skill::AridNeedle, skill::Mudoon},
-        .keisyotype = 9, .keisyoform = 0x991, .dropmakka = 299, .dropexp = 291, .dropitem = {104},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 9, .inheritMask = 0x991, .dropmakka = 299, .dropexp = 291, .dropitem = {104},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x060 Momunofu (Brute, Lv 20)
     {
-        .race = Race::Brute, .level = 20, .hp = 180, .maxhp = 180, .mp = 78, .maxmp = 78, .aisyoid = 96,
-        .param = {13, 0, 6, 10, 7, 8}, .skill = {skill::Focus, skill::Lunge}, .keisyotype = 1,
-        .keisyoform = 0x999, .dropmakka = 98, .dropexp = 73, .dropitem = {104}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Brute, .level = 20, .hp = 180, .maxhp = 180, .mp = 78, .maxmp = 78, .affinityId = 96,
+        .param = {13, 0, 6, 10, 7, 8}, .skill = {skill::Focus, skill::Lunge}, .inheritType = 1,
+        .inheritMask = 0x999, .dropmakka = 98, .dropexp = 73, .dropitem = {104}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x061 Shikigami (Brute, Lv 4)
     {
-        .race = Race::Brute, .level = 4, .hp = 48, .maxhp = 48, .mp = 27, .maxmp = 27, .aisyoid = 97,
+        .race = Race::Brute, .level = 4, .hp = 48, .maxhp = 48, .mp = 27, .maxmp = 27, .affinityId = 97,
         .param = {5, 0, 5, 4, 5, 5}, .skill = {skill::Zio, skill::Sukunda, skill::Tarukaja, skill::Tarunda},
-        .keisyotype = 5, .keisyoform = 0x89B, .dropmakka = 27, .dropexp = 9, .dropitem = {item::ChakraDrop},
-        .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 5, .inheritMask = 0x89B, .dropmakka = 27, .dropexp = 9, .dropitem = {item::ChakraDrop},
+        .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x062 Rangda (Femme, Lv 72)
     {
-        .race = Race::Femme, .level = 72, .hp = 607, .maxhp = 607, .mp = 288, .maxmp = 288, .aisyoid = 98,
+        .race = Race::Femme, .level = 72, .hp = 607, .maxhp = 607, .mp = 288, .maxmp = 288, .affinityId = 98,
         .param = {19, 0, 24, 20, 14, 15}, .skill = {skill::Debilitate, skill::StunClaw, skill::Hellfire},
-        .keisyotype = 10, .keisyoform = 0x8D9, .dropmakka = 680, .dropexp = 708, .dropitem = {108},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 10, .inheritMask = 0x8D9, .dropmakka = 680, .dropexp = 708, .dropitem = {108},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x063 Dakini (Femme, Lv 52)
     {
-        .race = Race::Femme, .level = 52, .hp = 414, .maxhp = 414, .mp = 189, .maxmp = 189, .aisyoid = 99,
+        .race = Race::Femme, .level = 52, .hp = 414, .maxhp = 414, .mp = 189, .maxmp = 189, .affinityId = 99,
         .param = {21, 0, 11, 17, 13, 10}, .skill = {skill::Agidyne, skill::Mamudo, skill::Blight},
-        .keisyotype = 1, .keisyoform = 0x99B, .dropmakka = 392, .dropexp = 396, .dropitem = {110},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 1, .inheritMask = 0x99B, .dropmakka = 392, .dropexp = 396, .dropitem = {110},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x064 Yaksini (Femme, Lv 43)
     {
-        .race = Race::Femme, .level = 43, .hp = 348, .maxhp = 348, .mp = 162, .maxmp = 162, .aisyoid = 100,
+        .race = Race::Femme, .level = 43, .hp = 348, .maxhp = 348, .mp = 162, .maxmp = 162, .affinityId = 100,
         .param = {17, 0, 11, 15, 11, 9},
         .skill = {skill::Retaliate, skill::Guillotine, skill::BindingCry, skill::Tentarafoo, skill::Skill0DC, skill::Skill0DB},
-        .keisyotype = 1, .keisyoform = 0x99B, .dropmakka = 288, .dropexp = 279, .dropitem = {item::Medicine},
-        .droppoint = {7}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 1, .inheritMask = 0x99B, .dropmakka = 288, .dropexp = 279,
+        .dropitem = {item::Medicine}, .droppoint = {7}, .beadDropChance = 1, .lifeStoneDropChance = 5,
+        .attackcnt = 1,
     },
     // 0x065 Shikome (Femme, Lv 32)
     {
-        .race = Race::Femme, .level = 32, .hp = 246, .maxhp = 246, .mp = 144, .maxmp = 144, .aisyoid = 101,
+        .race = Race::Femme, .level = 32, .hp = 246, .maxhp = 246, .mp = 144, .maxmp = 144, .affinityId = 101,
         .param = {8, 0, 16, 9, 10, 9}, .skill = {skill::StunNeedle, skill::StoneGaze, skill::Skill0E5},
-        .keisyotype = 9, .keisyoform = 0x89B, .dropmakka = 184, .dropexp = 164, .dropitem = {104},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 9, .inheritMask = 0x89B, .dropmakka = 184, .dropexp = 164, .dropitem = {104},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x066 Taraka (Femme, Lv 20)
     {
-        .race = Race::Femme, .level = 20, .hp = 180, .maxhp = 180, .mp = 78, .maxmp = 78, .aisyoid = 102,
+        .race = Race::Femme, .level = 20, .hp = 180, .maxhp = 180, .mp = 78, .maxmp = 78, .affinityId = 102,
         .param = {10, 0, 6, 11, 6, 7}, .skill = {skill::HeatWave, skill::Rakukaja, skill::Shibaboo},
-        .keisyotype = 1, .keisyoform = 0x99B, .dropmakka = 98, .dropexp = 73, .dropitem = {110},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 1, .inheritMask = 0x99B, .dropmakka = 98, .dropexp = 73, .dropitem = {110},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x067 Datsue-Ba (Femme, Lv 7)
     {
-        .race = Race::Femme, .level = 7, .hp = 72, .maxhp = 72, .mp = 45, .maxmp = 45, .aisyoid = 103,
+        .race = Race::Femme, .level = 7, .hp = 72, .maxhp = 72, .mp = 45, .maxmp = 45, .affinityId = 103,
         .param = {4, 0, 8, 5, 4, 6}, .skill = {skill::Shibaboo, skill::NeedleRush, skill::Dormina},
-        .keisyotype = 10, .keisyoform = 0x893, .dropmakka = 36, .dropexp = 15, .dropitem = {110},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 10, .inheritMask = 0x893, .dropmakka = 36, .dropexp = 15, .dropitem = {110},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x068 Mada (Vile, Lv 83)
     {
-        .race = Race::Vile, .level = 83, .hp = 739, .maxhp = 739, .mp = 315, .maxmp = 315, .aisyoid = 104,
+        .race = Race::Vile, .level = 83, .hp = 739, .maxhp = 739, .mp = 315, .maxmp = 315, .affinityId = 104,
         .param = {30, 0, 21, 30, 14, 16},
-        .skill = {skill::Debilitate, skill::HadesBlast, skill::Intoxicate, skill::Diarahan}, .keisyotype = 1,
-        .keisyoform = 0x89B, .dropmakka = 872, .dropexp = 884, .dropitem = {100}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .skill = {skill::Debilitate, skill::HadesBlast, skill::Intoxicate, skill::Diarahan}, .inheritType = 1,
+        .inheritMask = 0x89B, .dropmakka = 872, .dropexp = 884, .dropitem = {100}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x069 Girimehkala (Vile, Lv 58)
     {
         .flag = 3, .race = Race::Vile, .level = 58, .hp = 474, .maxhp = 474, .mp = 225, .maxmp = 225,
-        .aisyoid = 105, .param = {22, 0, 17, 21, 13, 13}, .skill = {skill::BindingCry, skill::Debilitate},
-        .keisyotype = 1, .keisyoform = 0x99B, .dropmakka = 470, .dropexp = 484, .dropitem = {100},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 105, .param = {22, 0, 17, 21, 13, 13}, .skill = {skill::BindingCry, skill::Debilitate},
+        .inheritType = 1, .inheritMask = 0x99B, .dropmakka = 470, .dropexp = 484, .dropitem = {100},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x06A Tao Tie (Vile, Lv 65)
     {
-        .race = Race::Vile, .level = 65, .hp = 567, .maxhp = 567, .mp = 258, .maxmp = 258, .aisyoid = 106,
+        .race = Race::Vile, .level = 65, .hp = 567, .maxhp = 567, .mp = 258, .maxmp = 258, .affinityId = 106,
         .param = {18, 0, 21, 21, 15, 18},
         .skill = {skill::LifeDrain, skill::Tetraja, skill::Makajamon, skill::HellGaze, skill::Megido},
-        .keisyotype = 7, .keisyoform = 0x8BB, .dropmakka = 570, .dropexp = 596, .dropitem = {100},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 7, .inheritMask = 0x8BB, .dropmakka = 570, .dropexp = 596, .dropitem = {100},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x06B Pazuzu (Vile, Lv 45)
     {
-        .race = Race::Vile, .level = 45, .hp = 432, .maxhp = 432, .mp = 192, .maxmp = 192, .aisyoid = 107,
+        .race = Race::Vile, .level = 45, .hp = 432, .maxhp = 432, .mp = 192, .maxmp = 192, .affinityId = 107,
         .param = {16, 0, 19, 20, 10, 8},
         .skill = {skill::HellGaze, skill::Tentarafoo, skill::AridNeedle, skill::WetWind, skill::Mediarama},
-        .keisyotype = 9, .keisyoform = 0x89F, .dropmakka = 310, .dropexp = 303, .dropitem = {100},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 9, .inheritMask = 0x89F, .dropmakka = 310, .dropexp = 303, .dropitem = {100},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x06C Baphomet (Vile, Lv 33)
     {
-        .race = Race::Vile, .level = 33, .hp = 320, .maxhp = 320, .mp = 150, .maxmp = 150, .aisyoid = 108,
+        .race = Race::Vile, .level = 33, .hp = 320, .maxhp = 320, .mp = 150, .maxmp = 150, .affinityId = 108,
         .param = {8, 0, 17, 17, 9, 10}, .skill = {skill::EvilGaze, skill::Maragion, skill::Makakaja},
-        .keisyotype = 7, .keisyoform = 0x89F, .dropmakka = 192, .dropexp = 173, .dropitem = {105},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 7, .inheritMask = 0x89F, .dropmakka = 192, .dropexp = 173, .dropitem = {105},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x06D Mot (Tyrant, Lv 91)
     {
         .flag = 1, .race = Race::Tyrant, .level = 91, .hp = 759, .maxhp = 759, .mp = 369, .maxmp = 369,
-        .aisyoid = 109, .param = {25, 0, 32, 31, 16, 19},
-        .skill = {skill::Maragidyne, skill::Mazandyne, skill::Makakaja, skill::Megidolaon}, .keisyotype = 10,
-        .keisyoform = 0x891, .dropmakka = 1028, .dropexp = 1012, .dropitem = {103}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 109, .param = {25, 0, 32, 31, 16, 19},
+        .skill = {skill::Maragidyne, skill::Mazandyne, skill::Makakaja, skill::Megidolaon}, .inheritType = 10,
+        .inheritMask = 0x891, .dropmakka = 1028, .dropexp = 1012, .dropitem = {103}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x06E Aciel (Tyrant, Lv 77)
     {
         .flag = 3, .race = Race::Tyrant, .level = 77, .hp = 873, .maxhp = 873, .mp = 306, .maxmp = 306,
-        .aisyoid = 110, .param = {29, 0, 25, 27, 14, 16},
-        .skill = {skill::Mabufudyne, skill::Tetrakarn, skill::Skill0DB, skill::Skill0DC}, .keisyotype = 7,
-        .keisyoform = 0x8BB, .dropmakka = 764, .dropexp = 788, .dropitem = {111}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 110, .param = {29, 0, 25, 27, 14, 16},
+        .skill = {skill::Mabufudyne, skill::Tetrakarn, skill::Skill0DB, skill::Skill0DC}, .inheritType = 7,
+        .inheritMask = 0x8BB, .dropmakka = 764, .dropexp = 788, .dropitem = {111}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x06F Surt (Tyrant, Lv 74)
     {
         .flag = 1, .race = Race::Tyrant, .level = 74, .hp = 999, .maxhp = 999, .mp = 282, .maxmp = 282,
-        .aisyoid = 111, .param = {28, 0, 20, 24, 15, 19},
-        .skill = {skill::Hellfire, skill::WarCry, skill::Ragnarok}, .keisyotype = 3, .keisyoform = 0x99B,
-        .dropmakka = 713, .dropexp = 740, .dropitem = {103}, .droppoint = {8}, .hougyokupoint = 1,
-        .masekipoint = 5, .attackattr = 1, .attackcnt = 1,
+        .affinityId = 111, .param = {28, 0, 20, 24, 15, 19},
+        .skill = {skill::Hellfire, skill::WarCry, skill::Ragnarok}, .inheritType = 3, .inheritMask = 0x99B,
+        .dropmakka = 713, .dropexp = 740, .dropitem = {103}, .droppoint = {8}, .beadDropChance = 1,
+        .lifeStoneDropChance = 5, .attackattr = 1, .attackcnt = 1,
     },
     // 0x070 Abaddon (Tyrant, Lv 69)
     {
-        .race = Race::Tyrant, .level = 69, .hp = 817, .maxhp = 817, .mp = 279, .maxmp = 279, .aisyoid = 112,
-        .param = {26, 0, 24, 25, 13, 15},
-        .skill = {skill::Mabufudyne, skill::PanicVoice, skill::HadesBlast, skill::Retaliate}, .keisyotype = 7,
-        .keisyoform = 0x8BB, .dropmakka = 632, .dropexp = 660, .dropitem = {111}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Tyrant, .level = 69, .hp = 817, .maxhp = 817, .mp = 279, .maxmp = 279,
+        .affinityId = 112, .param = {26, 0, 24, 25, 13, 15},
+        .skill = {skill::Mabufudyne, skill::PanicVoice, skill::HadesBlast, skill::Retaliate},
+        .inheritType = 7, .inheritMask = 0x8BB, .dropmakka = 632, .dropexp = 660, .dropitem = {111},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x071 Loki (Tyrant, Lv 52)
     {
         .flag = 1, .race = Race::Tyrant, .level = 52, .hp = 432, .maxhp = 432, .mp = 216, .maxmp = 216,
-        .aisyoid = 113, .param = {16, 0, 20, 20, 12, 16},
-        .skill = {skill::Mabufudyne, skill::Makajamon, skill::Skill0DC, skill::Skill0DB}, .keisyotype = 10,
-        .keisyoform = 0x89B, .dropmakka = 392, .dropexp = 396, .dropitem = {103}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 113, .param = {16, 0, 20, 20, 12, 16},
+        .skill = {skill::Mabufudyne, skill::Makajamon, skill::Skill0DC, skill::Skill0DB}, .inheritType = 10,
+        .inheritMask = 0x89B, .dropmakka = 392, .dropexp = 396, .dropitem = {103}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x072 Lilith (Night, Lv 80)
     {
         .flag = 3, .race = Race::Night, .level = 80, .hp = 720, .maxhp = 720, .mp = 330, .maxmp = 330,
-        .aisyoid = 114, .param = {17, 0, 30, 21, 17, 15},
+        .affinityId = 114, .param = {17, 0, 30, 21, 17, 15},
         .skill = {skill::Allure, skill::HellGaze, skill::ManaDrain, skill::Maziodyne, skill::Megidola},
-        .keisyotype = 7, .keisyoform = 0x8AB, .dropmakka = 818, .dropexp = 836,
-        .dropitem = {item::WagtailPlume}, .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5,
+        .inheritType = 7, .inheritMask = 0x8AB, .dropmakka = 818, .dropexp = 836,
+        .dropitem = {item::WagtailPlume}, .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5,
         .attackcnt = 1,
     },
     // 0x073 Nyx (Night, Lv 70)
     {
-        .race = Race::Night, .level = 70, .hp = 561, .maxhp = 561, .mp = 291, .maxmp = 291, .aisyoid = 115,
+        .race = Race::Night, .level = 70, .hp = 561, .maxhp = 561, .mp = 291, .maxmp = 291, .affinityId = 115,
         .param = {15, 0, 27, 17, 16, 15},
         .skill = {skill::Dormina, skill::GlacialBlast, skill::ManaDrain, skill::Makarakarn, skill::Debilitate, skill::EternalRest},
-        .keisyotype = 7, .keisyoform = 0x889, .dropmakka = 648, .dropexp = 676,
-        .dropitem = {item::ChakraDrop}, .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5,
+        .inheritType = 7, .inheritMask = 0x889, .dropmakka = 648, .dropexp = 676,
+        .dropitem = {item::ChakraDrop}, .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5,
         .attackcnt = 1,
     },
     // 0x074 Queen Mab (Night, Lv 56)
     {
         .flag = 3, .race = Race::Night, .level = 56, .hp = 571, .maxhp = 571, .mp = 231, .maxmp = 231,
-        .aisyoid = 116, .param = {12, 0, 21, 12, 12, 19},
+        .affinityId = 116, .param = {12, 0, 21, 12, 12, 19},
         .skill = {skill::Skill0DC, skill::Maziodyne, skill::Diarahan, skill::Makarakarn, skill::Mediarama, skill::Tarukaja, skill::Dormina, skill::Tetraja},
-        .keisyotype = 10, .keisyoform = 0x889, .dropmakka = 443, .dropexp = 454, .dropitem = {item::DisStone},
-        .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 10, .inheritMask = 0x889, .dropmakka = 443, .dropexp = 454,
+        .dropitem = {item::DisStone}, .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5,
+        .attackcnt = 1,
     },
     // 0x075 Succubus (Night, Lv 37)
     {
-        .race = Race::Night, .level = 37, .hp = 296, .maxhp = 296, .mp = 159, .maxmp = 159, .aisyoid = 117,
+        .race = Race::Night, .level = 37, .hp = 296, .maxhp = 296, .mp = 159, .maxmp = 159, .affinityId = 117,
         .param = {10, 0, 16, 11, 10, 10}, .skill = {skill::Dormina, skill::SexyGaze, skill::EternalRest},
-        .keisyotype = 10, .keisyoform = 0x88D, .dropmakka = 228, .dropexp = 212,
-        .dropitem = {item::WagtailPlume}, .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5,
+        .inheritType = 10, .inheritMask = 0x88D, .dropmakka = 228, .dropexp = 212,
+        .dropitem = {item::WagtailPlume}, .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5,
         .attackcnt = 1,
     },
     // 0x076 Incubus (Night, Lv 25)
     {
-        .race = Race::Night, .level = 25, .hp = 198, .maxhp = 198, .mp = 117, .maxmp = 117, .aisyoid = 118,
+        .race = Race::Night, .level = 25, .hp = 198, .maxhp = 198, .mp = 117, .maxmp = 117, .affinityId = 118,
         .param = {7, 0, 14, 8, 9, 7}, .skill = {skill::SexyGaze, skill::EvilGaze, skill::LifeDrain},
-        .keisyotype = 10, .keisyoform = 0x8DF, .dropmakka = 130, .dropexp = 106, .dropitem = {110},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 3, .attackinterval = 5,
+        .inheritType = 10, .inheritMask = 0x8DF, .dropmakka = 130, .dropexp = 106, .dropitem = {110},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 3, .attackinterval = 5,
     },
     // 0x077 Fomor (Night, Lv 18)
     {
-        .race = Race::Night, .level = 18, .hp = 200, .maxhp = 200, .mp = 75, .maxmp = 75, .aisyoid = 119,
+        .race = Race::Night, .level = 18, .hp = 200, .maxhp = 200, .mp = 75, .maxmp = 75, .affinityId = 119,
         .param = {8, 0, 7, 14, 4, 5}, .skill = {skill::Lunge, skill::Berserk, skill::Mabufu, skill::Lullaby},
-        .keisyotype = 4, .keisyoform = 0x89B, .dropmakka = 86, .dropexp = 60, .dropitem = {item::Medicine},
-        .droppoint = {7}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 4, .inheritMask = 0x89B, .dropmakka = 86, .dropexp = 60, .dropitem = {item::Medicine},
+        .droppoint = {7}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x078 Lilim (Night, Lv 8)
     {
-        .race = Race::Night, .level = 8, .hp = 78, .maxhp = 78, .mp = 48, .maxmp = 48, .aisyoid = 120,
+        .race = Race::Night, .level = 8, .hp = 78, .maxhp = 78, .mp = 48, .maxmp = 48, .affinityId = 120,
         .param = {4, 0, 8, 5, 7, 4}, .skill = {skill::Tarunda, skill::Rakunda, skill::SexyGaze, skill::Mazio},
-        .keisyotype = 5, .keisyoform = 0x88D, .dropmakka = 40, .dropexp = 18, .dropitem = {105},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 5, .inheritMask = 0x88D, .dropmakka = 40, .dropexp = 18, .dropitem = {105},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x079 Hresvelgr (Wilder, Lv 75)
     {
         .flag = 0x80, .race = Race::Wilder, .level = 75, .hp = 600, .maxhp = 600, .mp = 285, .maxmp = 285,
-        .aisyoid = 121, .param = {20, 0, 20, 19, 25, 11},
-        .skill = {skill::Mabufudyne, skill::WingBuffet, skill::IronClaw, skill::AntiPhys}, .keisyotype = 4,
-        .keisyoform = 0xFF, .dropmakka = 730, .dropexp = 756, .dropitem = {item::WagtailPlume},
-        .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 121, .param = {20, 0, 20, 19, 25, 11},
+        .skill = {skill::Mabufudyne, skill::WingBuffet, skill::IronClaw, skill::AntiPhys}, .inheritType = 4,
+        .inheritMask = 0xFF, .dropmakka = 730, .dropexp = 756, .dropitem = {item::WagtailPlume},
+        .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x07A Mothman (Wilder, Lv 43)
     {
         .flag = 0x80, .race = Race::Wilder, .level = 43, .hp = 416, .maxhp = 416, .mp = 183, .maxmp = 183,
-        .aisyoid = 122, .param = {11, 0, 18, 18, 8, 8}, .skill = {skill::PanicVoice, skill::EvilGaze},
-        .keisyotype = 6, .keisyoform = 0xDF, .dropmakka = 288, .dropexp = 279, .dropitem = {102},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 122, .param = {11, 0, 18, 18, 8, 8}, .skill = {skill::PanicVoice, skill::EvilGaze},
+        .inheritType = 6, .inheritMask = 0xDF, .dropmakka = 288, .dropexp = 279, .dropitem = {102},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x07B Raiju (Wilder, Lv 25)
     {
         .flag = 0x80, .race = Race::Wilder, .level = 25, .hp = 204, .maxhp = 204, .mp = 120, .maxmp = 120,
-        .aisyoid = 123, .param = {8, 0, 15, 9, 8, 5},
-        .skill = {skill::FeralClaw, skill::NeedleRush, skill::Shock}, .keisyotype = 5, .keisyoform = 0xFB,
-        .dropmakka = 130, .dropexp = 106, .dropitem = {item::Medicine}, .droppoint = {7}, .hougyokupoint = 1,
-        .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 123, .param = {8, 0, 15, 9, 8, 5},
+        .skill = {skill::FeralClaw, skill::NeedleRush, skill::Shock}, .inheritType = 5, .inheritMask = 0xFB,
+        .dropmakka = 130, .dropexp = 106, .dropitem = {item::Medicine}, .droppoint = {7}, .beadDropChance = 1,
+        .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x07C Nue (Wilder, Lv 31)
     {
         .flag = 0x80, .race = Race::Wilder, .level = 31, .hp = 258, .maxhp = 258, .mp = 120, .maxmp = 120,
-        .aisyoid = 124, .param = {14, 0, 9, 12, 8, 8},
+        .affinityId = 124, .param = {14, 0, 9, 12, 8, 8},
         .skill = {skill::WarCry, skill::StunClaw, skill::IceBreath, skill::Mamudo, skill::Skill0E3},
-        .keisyotype = 4, .keisyoform = 0xFB, .dropmakka = 176, .dropexp = 155, .dropitem = {110},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 4, .inheritMask = 0xFB, .dropmakka = 176, .dropexp = 155, .dropitem = {110},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x07D Bicorn (Wilder, Lv 15)
     {
         .flag = 0x80, .race = Race::Wilder, .level = 15, .hp = 150, .maxhp = 150, .mp = 60, .maxmp = 60,
-        .aisyoid = 125, .param = {10, 0, 6, 10, 5, 4},
-        .skill = {skill::CharmBite, skill::Pulinpa, skill::StunGaze}, .keisyotype = 3, .keisyoform = 0xBB,
-        .dropmakka = 70, .dropexp = 45, .dropitem = {108}, .droppoint = {8}, .hougyokupoint = 1,
-        .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 125, .param = {10, 0, 6, 10, 5, 4},
+        .skill = {skill::CharmBite, skill::Pulinpa, skill::StunGaze}, .inheritType = 3, .inheritMask = 0xBB,
+        .dropmakka = 70, .dropexp = 45, .dropitem = {108}, .droppoint = {8}, .beadDropChance = 1,
+        .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x07E Zhen (Wilder, Lv 6)
     {
         .flag = 0x80, .race = Race::Wilder, .level = 6, .hp = 65, .maxhp = 65, .mp = 50, .maxmp = 50,
-        .aisyoid = 126, .param = {4, 0, 6, 6, 5, 5},
-        .skill = {skill::WingBuffet, skill::ToxicSting, skill::WarCry}, .keisyotype = 6, .keisyoform = 0x9F,
+        .affinityId = 126, .param = {4, 0, 6, 6, 5, 5},
+        .skill = {skill::WingBuffet, skill::ToxicSting, skill::WarCry}, .inheritType = 6, .inheritMask = 0x9F,
         .dropmakka = 33, .dropexp = 12, .dropitem = {108, item::DisPoison}, .droppoint = {8, 8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x07F Rakshasa (Haunt, Lv 63)
     {
         .flag = 0x80, .race = Race::Haunt, .level = 63, .hp = 474, .maxhp = 474, .mp = 249, .maxmp = 249,
-        .aisyoid = 127, .param = {22, 0, 20, 16, 11, 14},
-        .skill = {skill::Berserk, skill::StunClaw, skill::LifeDrain}, .keisyotype = 9, .keisyoform = 0xD9,
+        .affinityId = 127, .param = {22, 0, 20, 16, 11, 14},
+        .skill = {skill::Berserk, skill::StunClaw, skill::LifeDrain}, .inheritType = 9, .inheritMask = 0xD9,
         .dropmakka = 540, .dropexp = 564, .dropitem = {item::ChakraDrop}, .droppoint = {10},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x080 Legion (Haunt, Lv 49)
     {
         .flag = 0x80, .race = Race::Haunt, .level = 49, .hp = 546, .maxhp = 546, .mp = 180, .maxmp = 180,
-        .aisyoid = 128, .param = {19, 0, 11, 21, 9, 9},
+        .affinityId = 128, .param = {19, 0, 11, 21, 9, 9},
         .skill = {skill::AntiPhys, skill::HellGaze, skill::Deathtouch, skill::Mamudoon, skill::Tetrakarn},
-        .keisyotype = 9, .keisyoform = 0x9B, .dropmakka = 356, .dropexp = 354, .dropitem = {108},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 9, .inheritMask = 0x9B, .dropmakka = 356, .dropexp = 354, .dropitem = {108},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x081 Yaka (Haunt, Lv 17)
     {
         .flag = 0x80, .race = Race::Haunt, .level = 17, .hp = 150, .maxhp = 150, .mp = 81, .maxmp = 81,
-        .aisyoid = 129, .param = {8, 0, 10, 8, 5, 6},
+        .affinityId = 129, .param = {8, 0, 10, 8, 5, 6},
         .skill = {skill::Mazio, skill::Deathtouch, skill::Tarunda, skill::Dia, skill::Diarama, skill::VenomClaw},
-        .keisyotype = 9, .keisyoform = 0xD9, .dropmakka = 80, .dropexp = 55, .dropitem = {item::DisPoison},
-        .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 9, .inheritMask = 0xD9, .dropmakka = 80, .dropexp = 55, .dropitem = {item::DisPoison},
+        .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x082 Choronzon (Haunt, Lv 11)
     {
         .flag = 0x80, .race = Race::Haunt, .level = 11, .hp = 156, .maxhp = 156, .mp = 45, .maxmp = 45,
-        .aisyoid = 130, .param = {9, 0, 4, 15, 1, 2}, .skill = {skill::Berserk, skill::StoneGaze},
-        .keisyotype = 1, .keisyoform = 0x9B, .dropmakka = 52, .dropexp = 28, .dropitem = {item::Medicine},
-        .droppoint = {7}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 130, .param = {9, 0, 4, 15, 1, 2}, .skill = {skill::Berserk, skill::StoneGaze},
+        .inheritType = 1, .inheritMask = 0x9B, .dropmakka = 52, .dropexp = 28, .dropitem = {item::Medicine},
+        .droppoint = {7}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x083 Preta (Haunt, Lv 4)
     {
         .flag = 0x80, .race = Race::Haunt, .level = 4, .hp = 30, .maxhp = 30, .mp = 24, .maxmp = 24,
-        .aisyoid = 131, .param = {5, 0, 4, 5, 6, 4}, .skill = {skill::FeralClaw}, .keisyotype = 9,
-        .keisyoform = 0xFB, .dropmakka = 27, .dropexp = 9, .dropitem = {item::Medicine}, .droppoint = {7},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 131, .param = {5, 0, 4, 5, 6, 4}, .skill = {skill::FeralClaw}, .inheritType = 9,
+        .inheritMask = 0xFB, .dropmakka = 27, .dropexp = 9, .dropitem = {item::Medicine}, .droppoint = {7},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x084 Shadow (Foul, Lv 52)
     {
         .flag = 0x80, .race = Race::Foul, .level = 52, .hp = 420, .maxhp = 420, .mp = 216, .maxmp = 216,
-        .aisyoid = 132, .param = {10, 0, 20, 18, 16, 8},
+        .affinityId = 132, .param = {10, 0, 20, 18, 16, 8},
         .skill = {skill::Mazionga, skill::Makakaja, skill::Tarukaja, skill::Rakukaja, skill::Sukukaja, skill::Mudoon, skill::ManaDrain},
-        .keisyotype = 10, .keisyoform = 0x91, .dropmakka = 392, .dropexp = 396,
-        .dropitem = {item::ChakraDrop}, .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5,
+        .inheritType = 10, .inheritMask = 0x91, .dropmakka = 392, .dropexp = 396,
+        .dropitem = {item::ChakraDrop}, .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5,
         .attackcnt = 1,
     },
     // 0x085 Black Ooze (Foul, Lv 28)
     {
         .flag = 0x80, .race = Race::Foul, .level = 28, .hp = 264, .maxhp = 264, .mp = 111, .maxmp = 111,
-        .aisyoid = 133, .param = {11, 0, 9, 16, 6, 6},
-        .skill = {skill::Deathtouch, skill::PanicVoice, skill::MuteGaze, skill::Skill0E2}, .keisyotype = 10,
-        .keisyoform = 0xBB, .dropmakka = 152, .dropexp = 129, .dropitem = {item::Medicine}, .droppoint = {7},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 133, .param = {11, 0, 9, 16, 6, 6},
+        .skill = {skill::Deathtouch, skill::PanicVoice, skill::MuteGaze, skill::Skill0E2}, .inheritType = 10,
+        .inheritMask = 0xBB, .dropmakka = 152, .dropexp = 129, .dropitem = {item::Medicine}, .droppoint = {7},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x086 Blob (Foul, Lv 16)
     {
         .flag = 0x80, .race = Race::Foul, .level = 16, .hp = 156, .maxhp = 156, .mp = 66, .maxmp = 66,
-        .aisyoid = 134, .param = {8, 0, 6, 10, 5, 7}, .skill = {skill::Zanma, skill::ToxicSting},
-        .keisyotype = 6, .keisyoform = 0xBB, .dropmakka = 75, .dropexp = 50, .dropitem = {item::Medicine},
-        .droppoint = {7}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 134, .param = {8, 0, 6, 10, 5, 7}, .skill = {skill::Zanma, skill::ToxicSting},
+        .inheritType = 6, .inheritMask = 0xBB, .dropmakka = 75, .dropexp = 50, .dropitem = {item::Medicine},
+        .droppoint = {7}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x087 Slime (Foul, Lv 6)
     {
         .flag = 0x80, .race = Race::Foul, .level = 6, .hp = 54, .maxhp = 54, .mp = 33, .maxmp = 33,
-        .aisyoid = 135, .param = {6, 0, 5, 3, 5, 7},
-        .skill = {skill::SonicWave, skill::Skill0E2, skill::LastResort}, .keisyotype = 10, .keisyoform = 0xBB,
-        .dropmakka = 33, .dropexp = 13, .dropitem = {item::Medicine}, .droppoint = {7}, .hougyokupoint = 1,
-        .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 135, .param = {6, 0, 5, 3, 5, 7},
+        .skill = {skill::SonicWave, skill::Skill0E2, skill::LastResort}, .inheritType = 10,
+        .inheritMask = 0xBB, .dropmakka = 33, .dropexp = 13, .dropitem = {item::Medicine}, .droppoint = {7},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x088 Mou-Ryo (Foul, Lv 7)
     {
         .flag = 0x80, .race = Race::Foul, .level = 7, .hp = 66, .maxhp = 66, .mp = 42, .maxmp = 42,
-        .aisyoid = 136, .param = {6, 0, 7, 4, 5, 5},
+        .affinityId = 136, .param = {6, 0, 7, 4, 5, 5},
         .skill = {skill::Deathtouch, skill::Pulinpa, skill::ToxicSting, skill::Zan, skill::Mazan},
-        .keisyotype = 6, .keisyoform = 0x91, .dropmakka = 36, .dropexp = 15, .dropitem = {item::Medicine},
-        .droppoint = {7}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 6, .inheritMask = 0x91, .dropmakka = 36, .dropexp = 15, .dropitem = {item::Medicine},
+        .droppoint = {7}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x089 Will o' Wisp (Foul, Lv 1)
     {
         .flag = 0x80, .race = Race::Foul, .level = 1, .hp = 10, .maxhp = 10, .mp = 18, .maxmp = 18,
-        .aisyoid = 137, .param = {4, 0, 5, 4, 5, 3}, .skill = {skill::Deathtouch, skill::Makakaja},
-        .keisyotype = 9, .keisyoform = 0x91, .dropmakka = 20, .dropexp = 5, .dropitem = {item::Medicine},
-        .droppoint = {7}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 137, .param = {4, 0, 5, 4, 5, 3}, .skill = {skill::Deathtouch, skill::Makakaja},
+        .inheritType = 9, .inheritMask = 0x91, .dropmakka = 20, .dropexp = 5, .dropitem = {item::Medicine},
+        .droppoint = {7}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x08A Michael (Seraph, Lv 90)
     {
         .flag = 0x41, .race = Race::Seraph, .level = 90, .hp = 678, .maxhp = 678, .mp = 360, .maxmp = 360,
-        .aisyoid = 138, .param = {29, 0, 30, 23, 25, 18}, .keisyotype = 7, .keisyoform = 0x99D,
-        .dropmakka = 1008, .dropexp = 996, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 138, .param = {29, 0, 30, 23, 25, 18}, .inheritType = 7, .inheritMask = 0x99D,
+        .dropmakka = 1008, .dropexp = 996, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x08B Gabriel (Seraph, Lv 87)
     {
         .flag = 0x41, .race = Race::Seraph, .level = 87, .hp = 654, .maxhp = 654, .mp = 351, .maxmp = 351,
-        .aisyoid = 139, .param = {24, 0, 30, 22, 24, 22}, .keisyotype = 5, .keisyoform = 0xD9D,
-        .dropmakka = 948, .dropexp = 946, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 139, .param = {24, 0, 30, 22, 24, 22}, .inheritType = 5, .inheritMask = 0xD9D,
+        .dropmakka = 948, .dropexp = 946, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x08C Raphael (Seraph, Lv 84)
     {
         .flag = 0x41, .race = Race::Seraph, .level = 84, .hp = 636, .maxhp = 636, .mp = 330, .maxmp = 330,
-        .aisyoid = 140, .param = {26, 0, 26, 22, 28, 17}, .keisyotype = 2, .keisyoform = 0x99D,
-        .dropmakka = 891, .dropexp = 900, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 140, .param = {26, 0, 26, 22, 28, 17}, .inheritType = 2, .inheritMask = 0x99D,
+        .dropmakka = 891, .dropexp = 900, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x08D Uriel (Seraph, Lv 73)
     {
         .flag = 0x43, .race = Race::Seraph, .level = 73, .hp = 558, .maxhp = 558, .mp = 291, .maxmp = 291,
-        .aisyoid = 141, .param = {25, 0, 24, 20, 21, 18}, .keisyotype = 3, .keisyoform = 0x99D,
-        .dropmakka = 696, .dropexp = 724, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 141, .param = {25, 0, 24, 20, 21, 18}, .inheritType = 3, .inheritMask = 0x99D,
+        .dropmakka = 696, .dropexp = 724, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x08E Ganesha (Wargod, Lv 58)
     {
         .flag = 0x43, .race = Race::Wargod, .level = 58, .hp = 474, .maxhp = 474, .mp = 237, .maxmp = 237,
-        .aisyoid = 142, .param = {21, 0, 21, 21, 12, 13}, .keisyotype = 1, .keisyoform = 0x99B,
-        .dropmakka = 470, .dropexp = 484, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 142, .param = {21, 0, 21, 21, 12, 13}, .inheritType = 1, .inheritMask = 0x99B,
+        .dropmakka = 470, .dropexp = 484, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x08F Valkyrie (Wargod, Lv 33)
     {
         .flag = 0x42, .race = Race::Wargod, .level = 33, .hp = 282, .maxhp = 282, .mp = 135, .maxmp = 135,
-        .aisyoid = 143, .param = {15, 0, 12, 14, 12, 10}, .keisyotype = 1, .keisyoform = 0xD9B,
-        .dropmakka = 192, .dropexp = 173, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 143, .param = {15, 0, 12, 14, 12, 10}, .inheritType = 1, .inheritMask = 0xD9B,
+        .dropmakka = 192, .dropexp = 173, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x090 Arahabaki (Vile, Lv 30)
     {
         .flag = 2, .race = Race::Vile, .level = 30, .hp = 294, .maxhp = 294, .mp = 120, .maxmp = 120,
-        .aisyoid = 144, .param = {14, 0, 10, 19, 6, 9},
-        .skill = {skill::Mabufula, skill::StoneGaze, skill::Skill0DC, skill::Skill0DB}, .keisyotype = 1,
-        .keisyoform = 0x89B, .dropmakka = 168, .dropexp = 146, .dropitem = {item::DisStone},
-        .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 144, .param = {14, 0, 10, 19, 6, 9},
+        .skill = {skill::Mabufula, skill::StoneGaze, skill::Skill0DC, skill::Skill0DB}, .inheritType = 1,
+        .inheritMask = 0x89B, .dropmakka = 168, .dropexp = 146, .dropitem = {item::DisStone},
+        .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x091 Kurama (Genma, Lv 38)
     {
         .flag = 0x42, .race = Race::Genma, .level = 38, .hp = 306, .maxhp = 306, .mp = 165, .maxmp = 165,
-        .aisyoid = 145, .param = {13, 0, 17, 13, 17, 8}, .keisyotype = 6, .keisyoform = 0x88F,
-        .dropmakka = 238, .dropexp = 222, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 145, .param = {13, 0, 17, 13, 17, 8}, .inheritType = 6, .inheritMask = 0x88F,
+        .dropmakka = 238, .dropexp = 222, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x092 Hanuman (Genma, Lv 46)
     {
         .flag = 0x43, .race = Race::Genma, .level = 46, .hp = 366, .maxhp = 366, .mp = 174, .maxmp = 174,
-        .aisyoid = 146, .param = {17, 0, 12, 15, 19, 13}, .keisyotype = 1, .keisyoform = 0x99B,
-        .dropmakka = 321, .dropexp = 315, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 146, .param = {17, 0, 12, 15, 19, 13}, .inheritType = 1, .inheritMask = 0x99B,
+        .dropmakka = 321, .dropexp = 315, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x093 Cu Chulainn (Genma, Lv 52)
     {
         .flag = 0x43, .race = Race::Genma, .level = 52, .hp = 414, .maxhp = 414, .mp = 201, .maxmp = 201,
-        .aisyoid = 147, .param = {21, 0, 15, 17, 14, 15}, .keisyotype = 6, .keisyoform = 0x999,
-        .dropmakka = 392, .dropexp = 396, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 147, .param = {21, 0, 15, 17, 14, 15}, .inheritType = 6, .inheritMask = 0x999,
+        .dropmakka = 392, .dropexp = 396, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x094 Long (Dragon, Lv 44)
     {
         .flag = 0x42, .race = Race::Dragon, .level = 44, .hp = 396, .maxhp = 396, .mp = 171, .maxmp = 171,
-        .aisyoid = 148, .param = {15, 0, 13, 22, 9, 11}, .keisyotype = 4, .keisyoform = 0x8BB,
-        .dropmakka = 299, .dropexp = 291, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 148, .param = {15, 0, 13, 22, 9, 11}, .inheritType = 4, .inheritMask = 0x8BB,
+        .dropmakka = 299, .dropexp = 291, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x095 Gui Xian (Dragon, Lv 24)
     {
         .flag = 0x42, .race = Race::Dragon, .level = 24, .hp = 240, .maxhp = 240, .mp = 105, .maxmp = 105,
-        .aisyoid = 149, .param = {9, 0, 11, 16, 4, 10}, .keisyotype = 4, .keisyoform = 0x8BB,
-        .dropmakka = 123, .dropexp = 99, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 149, .param = {9, 0, 11, 16, 4, 10}, .inheritType = 4, .inheritMask = 0x8BB,
+        .dropmakka = 123, .dropexp = 99, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x096 Barong (Avatar, Lv 60)
     {
         .flag = 0x41, .race = Race::Avatar, .level = 60, .hp = 684, .maxhp = 684, .mp = 246, .maxmp = 246,
-        .aisyoid = 150, .param = {22, 0, 22, 16, 16, 14},
+        .affinityId = 150, .param = {22, 0, 22, 16, 16, 14},
         .skill = {skill::GlacialBlast, skill::BindingCry, skill::IronClaw, skill::Mediarahan, skill::BoltStorm},
-        .keisyotype = 2, .keisyoform = 0x8FB, .dropmakka = 498, .dropexp = 516, .dropitem = {103},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 2, .inheritMask = 0x8FB, .dropmakka = 498, .dropexp = 516, .dropitem = {103},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x097 Makami (Avatar, Lv 22)
     {
         .flag = 0x42, .race = Race::Avatar, .level = 22, .hp = 186, .maxhp = 186, .mp = 108, .maxmp = 108,
-        .aisyoid = 151, .param = {11, 0, 14, 9, 7, 11}, .keisyotype = 2, .keisyoform = 0x8BB,
-        .dropmakka = 110, .dropexp = 85, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 151, .param = {11, 0, 14, 9, 7, 11}, .inheritType = 2, .inheritMask = 0x8BB,
+        .dropmakka = 110, .dropexp = 85, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x098 Garuda (Avian, Lv 63)
     {
         .flag = 0x43, .race = Race::Avian, .level = 63, .hp = 492, .maxhp = 492, .mp = 243, .maxmp = 243,
-        .aisyoid = 152, .param = {22, 0, 18, 19, 24, 12}, .keisyotype = 6, .keisyoform = 0x8DF,
-        .dropmakka = 540, .dropexp = 564, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 152, .param = {22, 0, 18, 19, 24, 12}, .inheritType = 6, .inheritMask = 0x8DF,
+        .dropmakka = 540, .dropexp = 564, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x099 Yatagarasu (Avatar, Lv 46)
     {
         .flag = 0x40, .race = Race::Avatar, .level = 46, .hp = 522, .maxhp = 522, .mp = 195, .maxmp = 195,
-        .aisyoid = 153, .param = {13, 0, 19, 12, 16, 10},
-        .skill = {skill::VioletFlash, skill::WindCutter, skill::ForceBoost}, .keisyotype = 2,
-        .keisyoform = 0x8DF, .dropmakka = 321, .dropexp = 315, .dropitem = {item::WagtailPlume},
-        .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 153, .param = {13, 0, 19, 12, 16, 10},
+        .skill = {skill::VioletFlash, skill::WindCutter, skill::ForceBoost}, .inheritType = 2,
+        .inheritMask = 0x8DF, .dropmakka = 321, .dropexp = 315, .dropitem = {item::WagtailPlume},
+        .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x09A Gurr (Raptor, Lv 63)
     {
         .flag = 2, .race = Race::Raptor, .level = 63, .hp = 541, .maxhp = 541, .mp = 255, .maxmp = 255,
-        .aisyoid = 154, .param = {18, 0, 22, 19, 24, 12},
+        .affinityId = 154, .param = {18, 0, 22, 19, 24, 12},
         .skill = {skill::VenomClaw, skill::Zandyne, skill::BoltStorm, skill::Mamudoon, skill::Avenge},
-        .keisyotype = 10, .keisyoform = 0x8DF, .dropmakka = 540, .dropexp = 564, .hougyokupoint = 1,
-        .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 10, .inheritMask = 0x8DF, .dropmakka = 540, .dropexp = 564, .beadDropChance = 1,
+        .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x09B Albion (Entity, Lv 64)
     {
         .flag = 0x43, .race = Race::Entity, .level = 64, .hp = 534, .maxhp = 534, .mp = 252, .maxmp = 252,
-        .aisyoid = 155, .param = {25, 0, 20, 25, 10, 16}, .keisyotype = 1, .keisyoform = 0x999,
-        .dropmakka = 555, .dropexp = 580, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 155, .param = {25, 0, 20, 25, 10, 16}, .inheritType = 1, .inheritMask = 0x999,
+        .dropmakka = 555, .dropexp = 580, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x09C (unnamed) (Corpus, Lv 13)
     {
         .flag = 0x20, .race = Race::Corpus, .level = 13, .hp = 34, .maxhp = 34, .mp = 54, .maxmp = 54,
-        .aisyoid = 156, .param = {7, 0, 5, 1, 7, 7}, .keisyotype = 10, .keisyoform = 0x8B, .dropmakka = 10,
-        .dropexp = 5, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 3, .attackinterval = 8,
+        .affinityId = 156, .param = {7, 0, 5, 1, 7, 7}, .inheritType = 10, .inheritMask = 0x8B,
+        .dropmakka = 10, .dropexp = 5, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 3,
+        .attackinterval = 8,
     },
     // 0x09D (unnamed) (Corpus, Lv 13)
     {
         .flag = 0x20, .race = Race::Corpus, .level = 13, .hp = 34, .maxhp = 34, .mp = 54, .maxmp = 54,
-        .aisyoid = 157, .param = {7, 0, 5, 1, 7, 7}, .keisyotype = 10, .keisyoform = 0x8B, .dropmakka = 10,
-        .dropexp = 5, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 3, .attackinterval = 8,
+        .affinityId = 157, .param = {7, 0, 5, 1, 7, 7}, .inheritType = 10, .inheritMask = 0x8B,
+        .dropmakka = 10, .dropexp = 5, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 3,
+        .attackinterval = 8,
     },
     // 0x09E (unnamed) (Corpus, Lv 13)
     {
         .flag = 0x20, .race = Race::Corpus, .level = 13, .hp = 34, .maxhp = 34, .mp = 54, .maxmp = 54,
-        .aisyoid = 158, .param = {7, 0, 5, 1, 7, 7}, .skill = {skill::PanicVoice}, .keisyotype = 10,
-        .keisyoform = 0x8B, .dropmakka = 10, .dropexp = 5, .hougyokupoint = 1, .masekipoint = 5,
+        .affinityId = 158, .param = {7, 0, 5, 1, 7, 7}, .skill = {skill::PanicVoice}, .inheritType = 10,
+        .inheritMask = 0x8B, .dropmakka = 10, .dropexp = 5, .beadDropChance = 1, .lifeStoneDropChance = 5,
         .attackcnt = 3, .attackinterval = 8,
     },
     // 0x09F (unnamed) (Corpus, Lv 13)
     {
         .flag = 0x20, .race = Race::Corpus, .level = 13, .hp = 34, .maxhp = 34, .mp = 54, .maxmp = 54,
-        .aisyoid = 159, .param = {7, 0, 5, 1, 7, 7}, .skill = {skill::BindingCry}, .keisyotype = 10,
-        .keisyoform = 0x8B, .dropmakka = 10, .dropexp = 5, .hougyokupoint = 1, .masekipoint = 5,
+        .affinityId = 159, .param = {7, 0, 5, 1, 7, 7}, .skill = {skill::BindingCry}, .inheritType = 10,
+        .inheritMask = 0x8B, .dropmakka = 10, .dropexp = 5, .beadDropChance = 1, .lifeStoneDropChance = 5,
         .attackcnt = 3, .attackinterval = 8,
     },
     // 0x0A0 (unnamed) (Corpus, Lv 13)
     {
         .flag = 0x20, .race = Race::Corpus, .level = 13, .hp = 34, .maxhp = 34, .mp = 54, .maxmp = 54,
-        .aisyoid = 160, .param = {7, 0, 5, 1, 7, 7}, .skill = {skill::WarCry}, .keisyotype = 10,
-        .keisyoform = 0x8B, .dropmakka = 10, .dropexp = 5, .hougyokupoint = 1, .masekipoint = 5,
+        .affinityId = 160, .param = {7, 0, 5, 1, 7, 7}, .skill = {skill::WarCry}, .inheritType = 10,
+        .inheritMask = 0x8B, .dropmakka = 10, .dropexp = 5, .beadDropChance = 1, .lifeStoneDropChance = 5,
         .attackcnt = 3, .attackinterval = 8,
     },
     // 0x0A1 Samael (Vile, Lv 73)
     {
         .flag = 2, .race = Race::Vile, .level = 73, .hp = 576, .maxhp = 576, .mp = 297, .maxmp = 297,
-        .aisyoid = 161, .param = {19, 0, 26, 23, 19, 16}, .keisyotype = 9, .keisyoform = 0x8BF,
-        .dropmakka = 696, .dropexp = 724, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 161, .param = {19, 0, 26, 23, 19, 16}, .inheritType = 9, .inheritMask = 0x8BF,
+        .dropmakka = 696, .dropexp = 724, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x0A2 (unnamed) (Corpus, Lv 50)
     {
         .flag = 0x20, .race = Race::Corpus, .level = 50, .hp = 396, .maxhp = 396, .mp = 210, .maxmp = 210,
-        .aisyoid = 162, .param = {16, 0, 20, 16, 14, 14}, .keisyotype = 10, .keisyoform = 0x8B,
-        .dropmakka = 10, .dropexp = 5, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 162, .param = {16, 0, 20, 16, 14, 14}, .inheritType = 10, .inheritMask = 0x8B,
+        .dropmakka = 10, .dropexp = 5, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x0A3 (unnamed) (Corpus, Lv 50)
     {
         .flag = 0x20, .race = Race::Corpus, .level = 50, .hp = 396, .maxhp = 396, .mp = 210, .maxmp = 210,
-        .aisyoid = 163, .param = {16, 0, 20, 16, 14, 14}, .keisyotype = 10, .keisyoform = 0x8B,
-        .dropmakka = 10, .dropexp = 5, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 163, .param = {16, 0, 20, 16, 14, 14}, .inheritType = 10, .inheritMask = 0x8B,
+        .dropmakka = 10, .dropexp = 5, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x0A4 (unnamed) (Corpus, Lv 50)
     {
         .flag = 0x20, .race = Race::Corpus, .level = 50, .hp = 396, .maxhp = 396, .mp = 210, .maxmp = 210,
-        .aisyoid = 164, .param = {16, 0, 20, 16, 14, 14}, .keisyotype = 10, .keisyoform = 0x8B,
-        .dropmakka = 10, .dropexp = 5, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 164, .param = {16, 0, 20, 16, 14, 14}, .inheritType = 10, .inheritMask = 0x8B,
+        .dropmakka = 10, .dropexp = 5, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x0A5 (unnamed) (Corpus, Lv 50)
     {
         .flag = 0x20, .race = Race::Corpus, .level = 50, .hp = 396, .maxhp = 396, .mp = 210, .maxmp = 210,
-        .aisyoid = 165, .param = {16, 0, 20, 16, 14, 14}, .keisyotype = 10, .keisyoform = 0x8B,
-        .dropmakka = 10, .dropexp = 5, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 165, .param = {16, 0, 20, 16, 14, 14}, .inheritType = 10, .inheritMask = 0x8B,
+        .dropmakka = 10, .dropexp = 5, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x0A6 (unnamed) (Corpus, Lv 50)
     {
         .flag = 0x20, .race = Race::Corpus, .level = 50, .hp = 396, .maxhp = 396, .mp = 210, .maxmp = 210,
-        .aisyoid = 166, .param = {16, 0, 20, 16, 14, 14}, .keisyotype = 10, .keisyoform = 0x8B,
-        .dropmakka = 10, .dropexp = 5, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 166, .param = {16, 0, 20, 16, 14, 14}, .inheritType = 10, .inheritMask = 0x8B,
+        .dropmakka = 10, .dropexp = 5, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x0A7 Pisaca (Haunt, Lv 28)
     {
         .flag = 0x80, .race = Race::Haunt, .level = 28, .hp = 270, .maxhp = 270, .mp = 114, .maxmp = 114,
-        .aisyoid = 167, .param = {8, 0, 10, 17, 7, 6},
+        .affinityId = 167, .param = {8, 0, 10, 17, 7, 6},
         .skill = {skill::VenomBite, skill::StunGaze, skill::SonicWave, skill::LifeDrain, skill::Skill0E2},
-        .keisyotype = 10, .keisyoform = 0xF9, .dropmakka = 152, .dropexp = 129,
-        .dropitem = {108, item::DisPoison}, .droppoint = {8, 8}, .hougyokupoint = 1, .masekipoint = 5,
-        .attackcnt = 1,
+        .inheritType = 10, .inheritMask = 0xF9, .dropmakka = 152, .dropexp = 129,
+        .dropitem = {108, item::DisPoison}, .droppoint = {8, 8}, .beadDropChance = 1,
+        .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x0A8 Kaiwan (Night, Lv 47)
     {
-        .race = Race::Night, .level = 47, .hp = 372, .maxhp = 372, .mp = 198, .maxmp = 198, .aisyoid = 168,
+        .race = Race::Night, .level = 47, .hp = 372, .maxhp = 372, .mp = 198, .maxmp = 198, .affinityId = 168,
         .param = {14, 0, 19, 15, 11, 8},
         .skill = {skill::Rakukaja, skill::Sukukaja, skill::CharmBite, skill::SonicWave, skill::EvilGaze, skill::Skill0E2, skill::Mudoon},
-        .keisyotype = 7, .keisyoform = 0x8BB, .dropmakka = 332, .dropexp = 328, .dropitem = {105},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 7, .inheritMask = 0x8BB, .dropmakka = 332, .dropexp = 328, .dropitem = {105},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x0A9 Kin-Ki (Brute, Lv 59)
     {
-        .race = Race::Brute, .level = 59, .hp = 498, .maxhp = 498, .mp = 216, .maxmp = 216, .aisyoid = 169,
-        .param = {23, 0, 13, 24, 7, 15}, .keisyotype = 1, .keisyoform = 0x99B, .dropmakka = 484,
-        .dropexp = 500, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Brute, .level = 59, .hp = 498, .maxhp = 498, .mp = 216, .maxmp = 216, .affinityId = 169,
+        .param = {23, 0, 13, 24, 7, 15}, .inheritType = 1, .inheritMask = 0x99B, .dropmakka = 484,
+        .dropexp = 500, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x0AA Sui-Ki (Brute, Lv 62)
     {
-        .race = Race::Brute, .level = 62, .hp = 492, .maxhp = 492, .mp = 258, .maxmp = 258, .aisyoid = 170,
-        .param = {18, 0, 24, 20, 14, 9}, .keisyotype = 4, .keisyoform = 0x99B, .dropmakka = 526,
-        .dropexp = 548, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Brute, .level = 62, .hp = 492, .maxhp = 492, .mp = 258, .maxmp = 258, .affinityId = 170,
+        .param = {18, 0, 24, 20, 14, 9}, .inheritType = 4, .inheritMask = 0x99B, .dropmakka = 526,
+        .dropexp = 548, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x0AB Fuu-Ki (Brute, Lv 66)
     {
-        .race = Race::Brute, .level = 66, .hp = 516, .maxhp = 516, .mp = 261, .maxmp = 261, .aisyoid = 171,
-        .param = {18, 0, 21, 20, 19, 11}, .keisyotype = 6, .keisyoform = 0x993, .dropmakka = 585,
-        .dropexp = 612, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Brute, .level = 66, .hp = 516, .maxhp = 516, .mp = 261, .maxmp = 261, .affinityId = 171,
+        .param = {18, 0, 21, 20, 19, 11}, .inheritType = 6, .inheritMask = 0x993, .dropmakka = 585,
+        .dropexp = 612, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x0AC Ongyo-Ki (Brute, Lv 81)
     {
-        .race = Race::Brute, .level = 81, .hp = 624, .maxhp = 624, .mp = 324, .maxmp = 324, .aisyoid = 172,
-        .param = {23, 0, 27, 23, 20, 11}, .keisyotype = 9, .keisyoform = 0x99B, .dropmakka = 836,
-        .dropexp = 852, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Brute, .level = 81, .hp = 624, .maxhp = 624, .mp = 324, .maxmp = 324, .affinityId = 172,
+        .param = {23, 0, 27, 23, 20, 11}, .inheritType = 9, .inheritMask = 0x99B, .dropmakka = 836,
+        .dropexp = 852, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x0AD Clotho (Femme, Lv 58)
     {
-        .race = Race::Femme, .level = 58, .hp = 438, .maxhp = 438, .mp = 240, .maxmp = 240, .aisyoid = 173,
-        .param = {16, 0, 22, 15, 16, 12}, .keisyotype = 8, .keisyoform = 0xC89, .dropmakka = 470,
-        .dropexp = 484, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Femme, .level = 58, .hp = 438, .maxhp = 438, .mp = 240, .maxmp = 240, .affinityId = 173,
+        .param = {16, 0, 22, 15, 16, 12}, .inheritType = 8, .inheritMask = 0xC89, .dropmakka = 470,
+        .dropexp = 484, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x0AE Lachesis (Femme, Lv 63)
     {
-        .race = Race::Femme, .level = 63, .hp = 492, .maxhp = 492, .mp = 267, .maxmp = 267, .aisyoid = 174,
-        .param = {16, 0, 26, 19, 10, 15}, .keisyotype = 10, .keisyoform = 0xC89, .dropmakka = 540,
-        .dropexp = 564, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Femme, .level = 63, .hp = 492, .maxhp = 492, .mp = 267, .maxmp = 267, .affinityId = 174,
+        .param = {16, 0, 26, 19, 10, 15}, .inheritType = 10, .inheritMask = 0xC89, .dropmakka = 540,
+        .dropexp = 564, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x0AF Atropos (Femme, Lv 67)
     {
-        .race = Race::Femme, .level = 67, .hp = 504, .maxhp = 504, .mp = 285, .maxmp = 285, .aisyoid = 175,
-        .param = {16, 0, 28, 17, 15, 14}, .keisyotype = 7, .keisyoform = 0xC89, .dropmakka = 600,
-        .dropexp = 628, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .race = Race::Femme, .level = 67, .hp = 504, .maxhp = 504, .mp = 285, .maxmp = 285, .affinityId = 175,
+        .param = {16, 0, 28, 17, 15, 14}, .inheritType = 7, .inheritMask = 0xC89, .dropmakka = 600,
+        .dropexp = 628, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x0B0 Loa (Night, Lv 53)
     {
-        .race = Race::Night, .level = 53, .hp = 414, .maxhp = 414, .mp = 225, .maxmp = 225, .aisyoid = 176,
+        .race = Race::Night, .level = 53, .hp = 414, .maxhp = 414, .mp = 225, .maxmp = 225, .affinityId = 176,
         .param = {16, 0, 22, 16, 12, 7},
         .skill = {skill::Debilitate, skill::Tetraja, skill::Mamudo, skill::VenomBite, skill::StoneGaze, skill::Mamudoon, skill::LastResort},
-        .keisyotype = 9, .keisyoform = 0x8BB, .dropmakka = 404, .dropexp = 410,
-        .dropitem = {item::ChakraDrop}, .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5,
+        .inheritType = 9, .inheritMask = 0x8BB, .dropmakka = 404, .dropexp = 410,
+        .dropitem = {item::ChakraDrop}, .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5,
         .attackcnt = 1,
     },
     // 0x0B1 Chatterskull (Haunt, Lv 20)
     {
         .flag = 0x80, .race = Race::Haunt, .level = 20, .hp = 156, .maxhp = 156, .mp = 96, .maxmp = 96,
-        .aisyoid = 177, .param = {7, 0, 12, 6, 7, 8},
-        .skill = {skill::Sukunda, skill::HellThrust, skill::StunGaze, skill::LastResort}, .keisyotype = 10,
-        .keisyoform = 0xB9, .dropmakka = 98, .dropexp = 73, .dropitem = {item::MuscleDrink}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 177, .param = {7, 0, 12, 6, 7, 8},
+        .skill = {skill::Sukunda, skill::HellThrust, skill::StunGaze, skill::LastResort}, .inheritType = 10,
+        .inheritMask = 0xB9, .dropmakka = 98, .dropexp = 73, .dropitem = {item::MuscleDrink},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x0B2 Phantom (Foul, Lv 42)
     {
         .flag = 0x80, .race = Race::Foul, .level = 42, .hp = 336, .maxhp = 336, .mp = 177, .maxmp = 177,
-        .aisyoid = 178, .param = {9, 0, 17, 14, 15, 7},
+        .affinityId = 178, .param = {9, 0, 17, 14, 15, 7},
         .skill = {skill::LastResort, skill::ManaDrain, skill::Kamikaze, skill::Tarunda, skill::Dekaja, skill::Mazionga, skill::Ziodyne},
-        .keisyotype = 10, .keisyoform = 0x91, .dropmakka = 278, .dropexp = 267, .dropitem = {110},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 10, .inheritMask = 0x91, .dropmakka = 278, .dropexp = 267, .dropitem = {110},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x0B3 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0B4 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0B5 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0B6 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0B7 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0B8 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0B9 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0BA (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0BB (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0BC (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0BD (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0BE (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0BF (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0C0 Dante (Fiend, Lv 80)
     {
         .flag = 2, .race = Race::Fiend, .level = 80, .hp = 612, .maxhp = 612, .mp = 306, .maxmp = 306,
-        .aisyoid = 192, .param = {25, 0, 22, 22, 25, 16},
+        .affinityId = 192, .param = {25, 0, 22, 22, 25, 16},
         .skill = {skill::EAndI, skill::Rebellion, skill::Skill10B, skill::Whirlwind, skill::HolyStar, skill::Provoke},
-        .keisyotype = 1, .keisyoform = 0x919, .dropmakka = 317, .dropexp = 343, .hougyokupoint = 1,
-        .masekipoint = 4, .attackcnt = 1,
+        .inheritType = 1, .inheritMask = 0x919, .dropmakka = 317, .dropexp = 343, .beadDropChance = 1,
+        .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0C1 Metatron (Seraph, Lv 95)
     {
         .flag = 0x41, .race = Race::Seraph, .level = 95, .hp = 744, .maxhp = 744, .mp = 387, .maxmp = 387,
-        .aisyoid = 193, .param = {32, 0, 34, 29, 24, 16},
-        .skill = {skill::Mahamaon, skill::Megidolaon, skill::Tarukaja, skill::Makakaja}, .keisyotype = 8,
-        .keisyoform = 0x9F, .dropmakka = 1008, .dropexp = 996, .hougyokupoint = 1, .masekipoint = 5,
+        .affinityId = 193, .param = {32, 0, 34, 29, 24, 16},
+        .skill = {skill::Mahamaon, skill::Megidolaon, skill::Tarukaja, skill::Makakaja}, .inheritType = 8,
+        .inheritMask = 0x9F, .dropmakka = 1008, .dropexp = 996, .beadDropChance = 1, .lifeStoneDropChance = 5,
         .attackcnt = 1,
     },
     // 0x0C2 Beelzebub (Fly) (Tyrant, Lv 95)
     {
         .flag = 0xA3, .race = Race::Tyrant, .level = 95, .hp = 732, .maxhp = 732, .mp = 369, .maxmp = 369,
-        .aisyoid = 194, .param = {35, 0, 29, 28, 29, 21},
-        .skill = {skill::Skill104, skill::Maziodyne, skill::Megidolaon}, .keisyotype = 12, .keisyoform = 0xDF,
-        .dropmakka = 696, .dropexp = 724, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 194, .param = {35, 0, 29, 28, 29, 21},
+        .skill = {skill::Skill104, skill::Maziodyne, skill::Megidolaon}, .inheritType = 12,
+        .inheritMask = 0xDF, .dropmakka = 696, .dropexp = 724, .beadDropChance = 1, .lifeStoneDropChance = 5,
+        .attackcnt = 1,
     },
     // 0x0C3 Pale Rider (Fiend, Lv 63)
     {
-        .race = Race::Fiend, .level = 63, .hp = 486, .maxhp = 486, .mp = 267, .maxmp = 267, .aisyoid = 195,
-        .param = {24, 0, 26, 18, 17, 13}, .skill = {skill::Skill04F, skill::Mabufudyne}, .keisyotype = 9,
-        .keisyoform = 0x19B, .dropmakka = 317, .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4,
+        .race = Race::Fiend, .level = 63, .hp = 486, .maxhp = 486, .mp = 267, .maxmp = 267, .affinityId = 195,
+        .param = {24, 0, 26, 18, 17, 13}, .skill = {skill::Skill04F, skill::Mabufudyne}, .inheritType = 9,
+        .inheritMask = 0x19B, .dropmakka = 317, .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4,
         .attackcnt = 1,
     },
     // 0x0C4 White Rider (Fiend, Lv 52)
     {
-        .race = Race::Fiend, .level = 52, .hp = 408, .maxhp = 408, .mp = 207, .maxmp = 207, .aisyoid = 196,
-        .param = {23, 0, 17, 16, 18, 13}, .skill = {skill::GodsBow, skill::Prominence}, .keisyotype = 9,
-        .keisyoform = 0x8B, .dropmakka = 317, .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4,
+        .race = Race::Fiend, .level = 52, .hp = 408, .maxhp = 408, .mp = 207, .maxmp = 207, .affinityId = 196,
+        .param = {23, 0, 17, 16, 18, 13}, .skill = {skill::GodsBow, skill::Prominence}, .inheritType = 9,
+        .inheritMask = 0x8B, .dropmakka = 317, .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4,
         .attackcnt = 1,
     },
     // 0x0C5 Red Rider (Fiend, Lv 55)
     {
-        .race = Race::Fiend, .level = 55, .hp = 438, .maxhp = 438, .mp = 228, .maxmp = 228, .aisyoid = 197,
-        .param = {23, 0, 21, 18, 15, 13}, .skill = {skill::TerrorBlade, skill::WindCutter}, .keisyotype = 9,
-        .keisyoform = 0x19B, .dropmakka = 317, .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4,
+        .race = Race::Fiend, .level = 55, .hp = 438, .maxhp = 438, .mp = 228, .maxmp = 228, .affinityId = 197,
+        .param = {23, 0, 21, 18, 15, 13}, .skill = {skill::TerrorBlade, skill::WindCutter}, .inheritType = 9,
+        .inheritMask = 0x19B, .dropmakka = 317, .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4,
         .attackcnt = 1,
     },
     // 0x0C6 Black Rider (Fiend, Lv 61)
     {
-        .race = Race::Fiend, .level = 61, .hp = 450, .maxhp = 450, .mp = 252, .maxmp = 252, .aisyoid = 198,
-        .param = {22, 0, 25, 16, 20, 13}, .skill = {skill::SoulDivide, skill::GlacialBlast}, .keisyotype = 9,
-        .keisyoform = 0x8B, .dropmakka = 317, .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4,
+        .race = Race::Fiend, .level = 61, .hp = 450, .maxhp = 450, .mp = 252, .maxmp = 252, .affinityId = 198,
+        .param = {22, 0, 25, 16, 20, 13}, .skill = {skill::SoulDivide, skill::GlacialBlast}, .inheritType = 9,
+        .inheritMask = 0x8B, .dropmakka = 317, .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4,
         .attackcnt = 1,
     },
     // 0x0C7 Matador (Fiend, Lv 30)
     {
-        .race = Race::Fiend, .level = 30, .hp = 264, .maxhp = 264, .mp = 126, .maxmp = 126, .aisyoid = 199,
-        .param = {12, 0, 9, 11, 19, 9}, .skill = {skill::Mazanma, skill::Andalucia}, .keisyotype = 1,
-        .keisyoform = 0x199, .dropmakka = 317, .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4,
+        .race = Race::Fiend, .level = 30, .hp = 264, .maxhp = 264, .mp = 126, .maxmp = 126, .affinityId = 199,
+        .param = {12, 0, 9, 11, 19, 9}, .skill = {skill::Mazanma, skill::Andalucia}, .inheritType = 1,
+        .inheritMask = 0x199, .dropmakka = 317, .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4,
         .attackcnt = 1,
     },
     // 0x0C8 Hell Biker (Fiend, Lv 42)
     {
-        .race = Race::Fiend, .level = 42, .hp = 330, .maxhp = 330, .mp = 162, .maxmp = 162, .aisyoid = 200,
-        .param = {17, 0, 14, 14, 17, 10}, .skill = {skill::HellSpin, skill::HellBurner}, .keisyotype = 6,
-        .keisyoform = 0x99, .dropmakka = 317, .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4,
+        .race = Race::Fiend, .level = 42, .hp = 330, .maxhp = 330, .mp = 162, .maxmp = 162, .affinityId = 200,
+        .param = {17, 0, 14, 14, 17, 10}, .skill = {skill::HellSpin, skill::HellBurner}, .inheritType = 6,
+        .inheritMask = 0x99, .dropmakka = 317, .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4,
         .attackcnt = 1,
     },
     // 0x0C9 Daisoujou (Fiend, Lv 37)
     {
-        .race = Race::Fiend, .level = 37, .hp = 348, .maxhp = 348, .mp = 204, .maxmp = 204, .aisyoid = 201,
-        .param = {12, 0, 21, 11, 13, 10}, .skill = {skill::Meditation, skill::Mahamaon}, .keisyotype = 7,
-        .keisyoform = 0x8B, .dropmakka = 317, .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4,
+        .race = Race::Fiend, .level = 37, .hp = 348, .maxhp = 348, .mp = 204, .maxmp = 204, .affinityId = 201,
+        .param = {12, 0, 21, 11, 13, 10}, .skill = {skill::Meditation, skill::Mahamaon}, .inheritType = 7,
+        .inheritMask = 0x8B, .dropmakka = 317, .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4,
         .attackcnt = 1,
     },
     // 0x0CA The Harlot (Fiend, Lv 69)
     {
-        .race = Race::Fiend, .level = 69, .hp = 528, .maxhp = 528, .mp = 279, .maxmp = 279, .aisyoid = 202,
-        .param = {23, 0, 24, 19, 19, 19}, .skill = {skill::DeathLust, skill::Maziodyne}, .keisyotype = 10,
-        .keisyoform = 0xBB, .dropmakka = 317, .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4,
+        .race = Race::Fiend, .level = 69, .hp = 528, .maxhp = 528, .mp = 279, .maxmp = 279, .affinityId = 202,
+        .param = {23, 0, 24, 19, 19, 19}, .skill = {skill::DeathLust, skill::Maziodyne}, .inheritType = 10,
+        .inheritMask = 0xBB, .dropmakka = 317, .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4,
         .attackcnt = 7, .attackinterval = 3,
     },
     // 0x0CB Trumpeter (Fiend, Lv 77)
     {
-        .race = Race::Fiend, .level = 77, .hp = 588, .maxhp = 588, .mp = 324, .maxmp = 324, .aisyoid = 203,
+        .race = Race::Fiend, .level = 77, .hp = 588, .maxhp = 588, .mp = 324, .maxmp = 324, .affinityId = 203,
         .param = {21, 0, 31, 21, 24, 15},
         .skill = {skill::HolyMelody, skill::Agidyne, skill::Bufudyne, skill::Ziodyne, skill::Zandyne},
-        .keisyotype = 8, .keisyoform = 0x89, .dropmakka = 317, .dropexp = 343, .hougyokupoint = 1,
-        .masekipoint = 4, .attackcnt = 1,
+        .inheritType = 8, .inheritMask = 0x89, .dropmakka = 317, .dropexp = 343, .beadDropChance = 1,
+        .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0CC Futomimi (Kishin, Lv 63)
     {
         .flag = 1, .race = Race::Kishin, .level = 63, .hp = 498, .maxhp = 498, .mp = 267, .maxmp = 267,
-        .aisyoid = 204, .param = {20, 0, 26, 20, 15, 12},
-        .skill = {skill::Lunge, skill::Focus, skill::WarCry, skill::MuteGaze}, .keisyotype = 7,
-        .keisyoform = 0x9B, .dropmakka = 456, .dropexp = 469, .hougyokupoint = 1, .masekipoint = 5,
+        .affinityId = 204, .param = {20, 0, 26, 20, 15, 12},
+        .skill = {skill::Lunge, skill::Focus, skill::WarCry, skill::MuteGaze}, .inheritType = 7,
+        .inheritMask = 0x9B, .dropmakka = 456, .dropexp = 469, .beadDropChance = 1, .lifeStoneDropChance = 5,
         .attackcnt = 1,
     },
     // 0x0CD Sakahagi (Foul, Lv 45)
     {
         .flag = 1, .race = Race::Foul, .level = 45, .hp = 360, .maxhp = 360, .mp = 186, .maxmp = 186,
-        .aisyoid = 205, .param = {17, 0, 17, 15, 15, 11},
+        .affinityId = 205, .param = {17, 0, 17, 15, 15, 11},
         .skill = {skill::Maragion, skill::Mabufula, skill::Mazionga, skill::Mazanma, skill::PanicVoice, skill::WarCry},
-        .keisyotype = 1, .keisyoform = 0x19B, .dropmakka = 632, .dropexp = 660, .hougyokupoint = 1,
-        .masekipoint = 5, .attackcnt = 3, .attackinterval = 6,
+        .inheritType = 1, .inheritMask = 0x19B, .dropmakka = 632, .dropexp = 660, .beadDropChance = 1,
+        .lifeStoneDropChance = 5, .attackcnt = 3, .attackinterval = 6,
     },
     // 0x0CE Black Frost (Night, Lv 66)
     {
-        .race = Race::Night, .level = 66, .hp = 500, .maxhp = 500, .mp = 250, .maxmp = 250, .aisyoid = 206,
+        .race = Race::Night, .level = 66, .hp = 500, .maxhp = 500, .mp = 250, .maxmp = 250, .affinityId = 206,
         .param = {24, 0, 24, 13, 16, 24},
         .skill = {skill::GlacialBlast, skill::Berserk, skill::Bufudyne, skill::Mabufudyne, skill::Mamudoon, skill::Makarakarn, skill::Diarama, skill::IceBoost},
-        .keisyotype = 4, .keisyoform = 0x9B, .dropmakka = 10000, .dropexp = 5000,
+        .inheritType = 4, .inheritMask = 0x9B, .dropmakka = 10000, .dropexp = 5000,
         .dropitem = {item::ChakraDrop}, .droppoint = {15}, .attackcnt = 1,
     },
     // 0x0CF Beelzebub (Tyrant, Lv 84)
     {
         .flag = 0x81, .race = Race::Tyrant, .level = 84, .hp = 732, .maxhp = 732, .mp = 369, .maxmp = 369,
-        .aisyoid = 194, .param = {32, 0, 27, 27, 19, 19}, .skill = {skill::Maziodyne, skill::Megidolaon},
-        .keisyotype = 12, .keisyoform = 0x9B, .dropmakka = 696, .dropexp = 724, .hougyokupoint = 1,
-        .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 194, .param = {32, 0, 27, 27, 19, 19}, .skill = {skill::Maziodyne, skill::Megidolaon},
+        .inheritType = 12, .inheritMask = 0x9B, .dropmakka = 696, .dropexp = 724, .beadDropChance = 1,
+        .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x0D0 Pisaca (Shady Broker) (-, Lv 28)
     {
-        .level = 28, .hp = 270, .maxhp = 270, .mp = 114, .maxmp = 114, .aisyoid = 167,
-        .param = {8, 0, 10, 17, 7, 6}, .keisyotype = 10, .keisyoform = 0xF9, .dropmakka = 317, .dropexp = 343,
-        .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 28, .hp = 270, .maxhp = 270, .mp = 114, .maxmp = 114, .affinityId = 167,
+        .param = {8, 0, 10, 17, 7, 6}, .inheritType = 10, .inheritMask = 0xF9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0D1 Nue (Shady Broker) (-, Lv 31)
     {
-        .level = 31, .hp = 258, .maxhp = 258, .mp = 120, .maxmp = 120, .aisyoid = 124,
-        .param = {14, 0, 9, 12, 8, 8}, .keisyotype = 4, .keisyoform = 0xFB, .dropmakka = 317, .dropexp = 343,
-        .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 31, .hp = 258, .maxhp = 258, .mp = 120, .maxmp = 120, .affinityId = 124,
+        .param = {14, 0, 9, 12, 8, 8}, .inheritType = 4, .inheritMask = 0xFB, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0D2 Arahabaki (Shady Broker) (-, Lv 50)
     {
-        .level = 50, .hp = 400, .maxhp = 400, .mp = 200, .maxmp = 200, .aisyoid = 144,
-        .param = {18, 0, 14, 23, 10, 13}, .keisyotype = 1, .keisyoform = 0x89B, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 50, .hp = 400, .maxhp = 400, .mp = 200, .maxmp = 200, .affinityId = 144,
+        .param = {18, 0, 14, 23, 10, 13}, .inheritType = 1, .inheritMask = 0x89B, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0D3 Preta (Shady Broker) (-, Lv 4)
     {
-        .level = 4, .hp = 30, .maxhp = 30, .mp = 24, .maxmp = 24, .aisyoid = 131, .param = {5, 0, 4, 5, 6, 4},
-        .keisyotype = 9, .keisyoform = 0xFB, .dropmakka = 317, .dropexp = 343, .hougyokupoint = 1,
-        .masekipoint = 4, .attackcnt = 1,
+        .level = 4, .hp = 30, .maxhp = 30, .mp = 24, .maxmp = 24, .affinityId = 131,
+        .param = {5, 0, 4, 5, 6, 4}, .inheritType = 9, .inheritMask = 0xFB, .dropmakka = 317, .dropexp = 343,
+        .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0D4 Mothman (Shady Broker) (-, Lv 60)
     {
-        .level = 60, .hp = 450, .maxhp = 450, .mp = 250, .maxmp = 250, .aisyoid = 122,
-        .param = {14, 0, 26, 20, 10, 10}, .keisyotype = 6, .keisyoform = 0xDF, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 60, .hp = 450, .maxhp = 450, .mp = 250, .maxmp = 250, .affinityId = 122,
+        .param = {14, 0, 26, 20, 10, 10}, .inheritType = 6, .inheritMask = 0xDF, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0D5 Girimehkala (Shady Broker) (-, Lv 58)
     {
-        .level = 58, .hp = 474, .maxhp = 474, .mp = 225, .maxmp = 225, .aisyoid = 105,
-        .param = {22, 0, 17, 21, 13, 13}, .keisyotype = 1, .keisyoform = 0x99B, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 58, .hp = 474, .maxhp = 474, .mp = 225, .maxmp = 225, .affinityId = 105,
+        .param = {22, 0, 17, 21, 13, 13}, .inheritType = 1, .inheritMask = 0x99B, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0D6 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 214,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 214,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0D7 (unnamed) (-, Lv 80)
     {
-        .level = 80, .hp = 900, .maxhp = 900, .mp = 900, .maxmp = 900, .aisyoid = 215,
-        .param = {30, 0, 30, 30, 30, 30}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 80, .hp = 900, .maxhp = 900, .mp = 900, .maxmp = 900, .affinityId = 215,
+        .param = {30, 0, 30, 30, 30, 30}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0D8 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 216,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 216,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0D9 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 217,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 217,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0DA (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 218,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 218,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0DB (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 219,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 219,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0DC (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 220,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 220,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0DD (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 221,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 221,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0DE (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 222,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 222,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0DF (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 223,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 223,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0E0 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0E1 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0E2 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0E3 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0E4 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0E5 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0E6 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0E7 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0E8 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0E9 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0EA (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0EB (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0EC (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0ED (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0EE (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0EF (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0F0 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0F1 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0F2 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0F3 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0F4 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0F5 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0F6 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0F7 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0F8 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0F9 (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0FA (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0FB (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0FC (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0FD (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0FE (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x0FF (unnamed) (-, Lv 99)
     {
-        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .aisyoid = 168,
-        .param = {15, 0, 19, 14, 11, 12}, .keisyotype = 7, .keisyoform = 0xA9, .dropmakka = 317,
-        .dropexp = 343, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .level = 99, .hp = 390, .maxhp = 390, .mp = 168, .maxmp = 168, .affinityId = 168,
+        .param = {15, 0, 19, 14, 11, 12}, .inheritType = 7, .inheritMask = 0xA9, .dropmakka = 317,
+        .dropexp = 343, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x100 Forneus (Boss) (Fallen, Lv 8)
     {
         .flag = 0x223, .race = Race::Fallen, .level = 8, .hp = 500, .maxhp = 500, .mp = 200, .maxmp = 200,
-        .aisyoid = 256, .param = {9, 0, 9, 6, 2, 2}, .skill = {skill::Bufu, skill::Mabufu}, .keisyotype = 11,
-        .keisyoform = 0xBB, .dropmakka = 2000, .dropexp = 150, .dropitem = {105}, .droppoint = {100},
-        .attackcnt = 1,
+        .affinityId = 256, .param = {9, 0, 9, 6, 2, 2}, .skill = {skill::Bufu, skill::Mabufu},
+        .inheritType = 11, .inheritMask = 0xBB, .dropmakka = 2000, .dropexp = 150, .dropitem = {105},
+        .droppoint = {100}, .attackcnt = 1,
     },
     // 0x101 Specter 1 (Boss) (Foul, Lv 9)
     {
         .flag = 0x223, .race = Race::Foul, .level = 9, .hp = 148, .maxhp = 148, .mp = 100, .maxmp = 100,
-        .aisyoid = 257, .param = {1, 0, 3, 3, 1, 1}, .skill = {skill::Agi, skill::Skill0FC, skill::Skill0E8},
-        .keisyotype = -1, .keisyoform = 1, .dropmakka = 160, .dropexp = 100, .attackcnt = 1,
+        .affinityId = 257, .param = {1, 0, 3, 3, 1, 1},
+        .skill = {skill::Agi, skill::Skill0FC, skill::Skill0E8}, .inheritType = -1, .inheritMask = 1,
+        .dropmakka = 160, .dropexp = 100, .attackcnt = 1,
     },
     // 0x102 Ahriman 2nd Form (Boss) (Tyrant, Lv 99)
     {
         .flag = 0x233, .race = Race::Tyrant, .level = 99, .hp = 18000, .maxhp = 18000, .mp = 6000,
-        .maxmp = 6000, .aisyoid = 258, .param = {40, 0, 40, 20, 20, 20}, .keisyotype = -1, .keisyoform = 1,
-        .dropmakka = 10000, .dropexp = 10000, .attackcnt = 1,
+        .maxmp = 6000, .affinityId = 258, .param = {40, 0, 40, 20, 20, 20}, .inheritType = -1,
+        .inheritMask = 1, .dropmakka = 10000, .dropexp = 10000, .attackcnt = 1,
     },
     // 0x103 Noah 2nd Form (Boss) (Vile, Lv 80)
     {
         .flag = 0x233, .race = Race::Vile, .level = 80, .hp = 15000, .maxhp = 15000, .mp = 5000,
-        .maxmp = 5000, .aisyoid = 259, .param = {30, 0, 25, 30, 5, 4}, .keisyotype = -1, .keisyoform = 1,
+        .maxmp = 5000, .affinityId = 259, .param = {30, 0, 25, 30, 5, 4}, .inheritType = -1, .inheritMask = 1,
         .dropmakka = 10000, .dropexp = 10000, .attackcnt = 1,
     },
     // 0x104 Incubus (Boss) (Night, Lv 25)
     {
         .flag = 0x223, .race = Race::Night, .level = 25, .hp = 300, .maxhp = 300, .mp = 96, .maxmp = 96,
-        .aisyoid = 260, .param = {7, 0, 14, 8, 9, 7},
-        .skill = {skill::SexyGaze, skill::EvilGaze, skill::LifeDrain}, .keisyotype = 10, .keisyoform = 0xDF,
+        .affinityId = 260, .param = {7, 0, 14, 8, 9, 7},
+        .skill = {skill::SexyGaze, skill::EvilGaze, skill::LifeDrain}, .inheritType = 10, .inheritMask = 0xDF,
         .dropmakka = 129, .dropexp = 100, .attackcnt = 3, .attackinterval = 5,
     },
     // 0x105 Koppa (Boss) (Yoma, Lv 23)
     {
         .flag = 0x223, .race = Race::Yoma, .level = 23, .hp = 168, .maxhp = 168, .mp = 74, .maxmp = 74,
-        .aisyoid = 261, .param = {6, 0, 10, 5, 12, 10},
+        .affinityId = 261, .param = {6, 0, 10, 5, 12, 10},
         .skill = {skill::Tarukaja, skill::WingBuffet, skill::Shibaboo, skill::Zanma, skill::Skill0E2},
-        .keisyotype = 6, .keisyoform = 0x85, .dropmakka = 118, .dropexp = 100, .dropitem = {104},
+        .inheritType = 6, .inheritMask = 0x85, .dropmakka = 118, .dropexp = 100, .dropitem = {104},
         .droppoint = {100}, .attackcnt = 1,
     },
     // 0x106 Kaiwan (Boss) (Night, Lv 40)
     {
         .flag = 0x223, .race = Race::Night, .level = 40, .hp = 650, .maxhp = 500, .mp = 288, .maxmp = 288,
-        .aisyoid = 262, .param = {10, 15, 17, 20, 11, 11},
-        .skill = {skill::EvilGaze, skill::Mudo, skill::Mamudo, skill::Deathtouch}, .keisyotype = -1,
-        .keisyoform = 1, .dropmakka = 500, .dropexp = 400, .dropitem = {item::BalmOfRising},
+        .affinityId = 262, .param = {10, 15, 17, 20, 11, 11},
+        .skill = {skill::EvilGaze, skill::Mudo, skill::Mamudo, skill::Deathtouch}, .inheritType = -1,
+        .inheritMask = 1, .dropmakka = 500, .dropexp = 400, .dropitem = {item::BalmOfRising},
         .droppoint = {33}, .attackcnt = 1,
     },
     // 0x107 Ose (Boss) (Fallen, Lv 40)
     {
         .flag = 0x233, .race = Race::Fallen, .level = 40, .hp = 3800, .maxhp = 3800, .mp = 500, .maxmp = 500,
-        .aisyoid = 263, .param = {30, 0, 10, 40, 10, 10},
+        .affinityId = 263, .param = {30, 0, 10, 40, 10, 10},
         .skill = {skill::Focus, skill::Guillotine, skill::Tetrakarn, skill::Makarakarn, skill::HeatWave},
-        .keisyotype = 1, .keisyoform = 0x19B, .dropmakka = 3000, .dropexp = 1200, .attackcnt = 1,
+        .inheritType = 1, .inheritMask = 0x19B, .dropmakka = 3000, .dropexp = 1200, .attackcnt = 1,
     },
     // 0x108 Kagutsuchi 2nd Form (Boss) (Light, Lv 90)
     {
         .flag = 0x233, .race = Race::Light, .level = 90, .hp = 40000, .maxhp = 40000, .mp = 10000,
-        .maxmp = 10000, .aisyoid = 264, .param = {30, 0, 30, 30, 1, 1}, .keisyotype = 5, .keisyoform = 0x19B,
-        .dropmakka = 100, .dropexp = 3000, .attackcnt = 1,
+        .maxmp = 10000, .affinityId = 264, .param = {30, 0, 30, 30, 1, 1}, .inheritType = 5,
+        .inheritMask = 0x19B, .dropmakka = 100, .dropexp = 3000, .attackcnt = 1,
     },
     // 0x109 Tiny Mizuchi (Boss) (Snake, Lv 69)
     {
         .flag = 0x223, .race = Race::Snake, .level = 69, .hp = 516, .maxhp = 516, .mp = 288, .maxmp = 288,
-        .aisyoid = 265, .param = {19, 19, 23, 20, 14, 14}, .keisyotype = -1, .keisyoform = 1,
+        .affinityId = 265, .param = {19, 19, 23, 20, 14, 14}, .inheritType = -1, .inheritMask = 1,
         .dropmakka = 161, .dropexp = 152, .attackcnt = 1,
     },
     // 0x10A Kin-Ki (Boss) (Brute, Lv 50)
     {
         .flag = 0x223, .race = Race::Brute, .level = 50, .hp = 3000, .maxhp = 3000, .mp = 2000, .maxmp = 2000,
-        .aisyoid = 266, .param = {30, 0, 12, 35, 8, 2},
-        .skill = {skill::Rakukaja, skill::Tempest, skill::Lunge, skill::Berserk}, .keisyotype = -1,
-        .keisyoform = 1, .dropmakka = 3000, .dropexp = 1000, .dropitem = {103}, .droppoint = {100},
+        .affinityId = 266, .param = {30, 0, 12, 35, 8, 2},
+        .skill = {skill::Rakukaja, skill::Tempest, skill::Lunge, skill::Berserk}, .inheritType = -1,
+        .inheritMask = 1, .dropmakka = 3000, .dropexp = 1000, .dropitem = {103}, .droppoint = {100},
         .attackcnt = 1,
     },
     // 0x10B Sui-Ki (Boss) (Brute, Lv 50)
     {
         .flag = 0x223, .race = Race::Brute, .level = 50, .hp = 3500, .maxhp = 3500, .mp = 1500, .maxmp = 1500,
-        .aisyoid = 267, .param = {30, 0, 32, 20, 18, 7},
-        .skill = {skill::Mabufula, skill::Mabufudyne, skill::GlacialBlast}, .keisyotype = -1, .keisyoform = 1,
-        .dropmakka = 3000, .dropexp = 1000, .dropitem = {111}, .droppoint = {100}, .attackcnt = 1,
+        .affinityId = 267, .param = {30, 0, 32, 20, 18, 7},
+        .skill = {skill::Mabufula, skill::Mabufudyne, skill::GlacialBlast}, .inheritType = -1,
+        .inheritMask = 1, .dropmakka = 3000, .dropexp = 1000, .dropitem = {111}, .droppoint = {100},
+        .attackcnt = 1,
     },
     // 0x10C Fuu-Ki (Boss) (Brute, Lv 45)
     {
         .flag = 0x223, .race = Race::Brute, .level = 45, .hp = 3500, .maxhp = 3500, .mp = 1000, .maxmp = 1000,
-        .aisyoid = 268, .param = {20, 0, 28, 20, 8, 10},
-        .skill = {skill::Mazanma, skill::Zandyne, skill::Mazandyne, skill::Tornado}, .keisyotype = -1,
-        .keisyoform = 1, .dropmakka = 3000, .dropexp = 1000, .dropitem = {98}, .droppoint = {100},
+        .affinityId = 268, .param = {20, 0, 28, 20, 8, 10},
+        .skill = {skill::Mazanma, skill::Zandyne, skill::Mazandyne, skill::Tornado}, .inheritType = -1,
+        .inheritMask = 1, .dropmakka = 3000, .dropexp = 1000, .dropitem = {98}, .droppoint = {100},
         .attackcnt = 1,
     },
     // 0x10D Ongyo-Ki (Boss) (Brute, Lv 60)
     {
         .flag = 0x223, .race = Race::Brute, .level = 60, .hp = 5500, .maxhp = 5500, .mp = 1500, .maxmp = 1500,
-        .aisyoid = 269, .param = {30, 0, 23, 20, 7, 10},
-        .skill = {skill::Skill0E9, skill::Mudoon, skill::DarkSword}, .keisyotype = -1, .keisyoform = 1,
+        .affinityId = 269, .param = {30, 0, 23, 20, 7, 10},
+        .skill = {skill::Skill0E9, skill::Mudoon, skill::DarkSword}, .inheritType = -1, .inheritMask = 1,
         .dropmakka = 10000, .dropexp = 5000, .dropitem = {97}, .droppoint = {100}, .attackcnt = 1,
     },
     // 0x10E Clotho 1 (Boss) (Femme, Lv 69)
     {
         .flag = 0x333, .race = Race::Femme, .level = 69, .hp = 2200, .maxhp = 2200, .mp = 1200, .maxmp = 1200,
-        .aisyoid = 270, .param = {19, 0, 23, 20, 30, 30},
+        .affinityId = 270, .param = {19, 0, 23, 20, 30, 30},
         .skill = {skill::Patra, skill::Posumudi, skill::Paraladi, skill::Dia, skill::Diarama, skill::MarinKarin, skill::Mahama},
-        .keisyotype = -1, .keisyoform = 1, .dropmakka = 1000, .dropexp = 2000, .attackcnt = 1,
+        .inheritType = -1, .inheritMask = 1, .dropmakka = 1000, .dropexp = 2000, .attackcnt = 1,
     },
     // 0x10F Lachesis 1 (Boss) (Femme, Lv 69)
     {
         .flag = 0x333, .race = Race::Femme, .level = 69, .hp = 2200, .maxhp = 2200, .mp = 1200, .maxmp = 1200,
-        .aisyoid = 271, .param = {19, 0, 23, 20, 30, 30},
+        .affinityId = 271, .param = {19, 0, 23, 20, 30, 30},
         .skill = {skill::Rakunda, skill::Rakukaja, skill::Tarukaja, skill::Tetrakarn, skill::Makarakarn},
-        .keisyotype = -1, .keisyoform = 1, .dropmakka = 1000, .dropexp = 2000, .attackcnt = 1,
+        .inheritType = -1, .inheritMask = 1, .dropmakka = 1000, .dropexp = 2000, .attackcnt = 1,
     },
     // 0x110 Atropos 1 (Boss) (Femme, Lv 50)
     {
         .flag = 0x333, .race = Race::Femme, .level = 50, .hp = 2600, .maxhp = 2600, .mp = 2000, .maxmp = 2000,
-        .aisyoid = 272, .param = {5, 0, 30, 20, 30, 30},
+        .affinityId = 272, .param = {5, 0, 30, 20, 30, 30},
         .skill = {skill::Maragion, skill::Mabufula, skill::Mazanma, skill::Mazionga, skill::Agilao, skill::Bufula, skill::Zanma, skill::Zionga},
-        .keisyotype = -1, .keisyoform = 1, .dropmakka = 1000, .dropexp = 3000, .attackcnt = 1,
+        .inheritType = -1, .inheritMask = 1, .dropmakka = 1000, .dropexp = 3000, .attackcnt = 1,
     },
     // 0x111 Specter 2 (Boss) (Foul, Lv 40)
     {
         .flag = 0x23, .race = Race::Foul, .level = 40, .hp = 980, .maxhp = 980, .mp = 29, .maxmp = 300,
-        .aisyoid = 273, .param = {24, 0, 18, 20, 8, 6},
-        .skill = {skill::ManaDrain, skill::Megido, skill::Skill0FC}, .keisyotype = -1, .keisyoform = 1,
+        .affinityId = 273, .param = {24, 0, 18, 20, 8, 6},
+        .skill = {skill::ManaDrain, skill::Megido, skill::Skill0FC}, .inheritType = -1, .inheritMask = 1,
         .dropmakka = 600, .dropexp = 2000, .attackcnt = 1,
     },
     // 0x112 Girimehkala (Boss) (Vile, Lv 80)
     {
         .flag = 0x233, .race = Race::Vile, .level = 80, .hp = 4000, .maxhp = 4000, .mp = 2000, .maxmp = 2000,
-        .aisyoid = 274, .param = {40, 0, 30, 40, 10, 8},
+        .affinityId = 274, .param = {40, 0, 30, 40, 10, 8},
         .skill = {skill::Blight, skill::Dekaja, skill::StunGaze, skill::ToxicCloud, skill::PanicVoice},
-        .keisyotype = -1, .keisyoform = 1, .dropmakka = 500, .dropexp = 2000, .attackcnt = 1,
+        .inheritType = -1, .inheritMask = 1, .dropmakka = 500, .dropexp = 2000, .attackcnt = 1,
     },
     // 0x113 Specter 3 (Boss) (Foul, Lv 40)
     {
         .flag = 0x223, .race = Race::Foul, .level = 40, .hp = 700, .maxhp = 700, .mp = 500, .maxmp = 500,
-        .aisyoid = 275, .param = {20, 0, 10, 10, 1, 1}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 1000,
-        .dropexp = 1500, .attackcnt = 1,
+        .affinityId = 275, .param = {20, 0, 10, 10, 1, 1}, .inheritType = -1, .inheritMask = 1,
+        .dropmakka = 1000, .dropexp = 1500, .attackcnt = 1,
     },
     // 0x114 Aciel (Boss) (Tyrant, Lv 70)
     {
         .flag = 0x233, .race = Race::Tyrant, .level = 70, .hp = 8000, .maxhp = 8000, .mp = 2000,
-        .maxmp = 2000, .aisyoid = 276, .param = {35, 0, 38, 20, 1, 1},
-        .skill = {skill::Skill0D0, skill::Diarahan}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 10000,
+        .maxmp = 2000, .affinityId = 276, .param = {35, 0, 38, 20, 1, 1},
+        .skill = {skill::Skill0D0, skill::Diarahan}, .inheritType = -1, .inheritMask = 1, .dropmakka = 10000,
         .dropexp = 5000, .attackcnt = 1,
     },
     // 0x115 Skadi (Boss) (Lady, Lv 75)
     {
         .flag = 0x273, .race = Race::Lady, .level = 75, .hp = 4000, .maxhp = 4000, .mp = 3000, .maxmp = 3000,
-        .aisyoid = 277, .param = {40, 0, 20, 25, 20, 15}, .keisyotype = 6, .keisyoform = 0x89,
+        .affinityId = 277, .param = {40, 0, 20, 25, 20, 15}, .inheritType = 6, .inheritMask = 0x89,
         .dropmakka = 10000, .dropexp = 5000, .attackcnt = 1,
     },
     // 0x116 Albion (Boss) (Entity, Lv 40)
     {
         .flag = 0x223, .race = Race::Entity, .level = 40, .hp = 2700, .maxhp = 2700, .mp = 1000,
-        .maxmp = 1000, .aisyoid = 278, .param = {8, 0, 23, 20, 9, 1},
+        .maxmp = 1000, .affinityId = 278, .param = {8, 0, 23, 20, 9, 1},
         .skill = {skill::StasisBlade, skill::Guillotine, skill::HadesBlast, skill::HeatWave, skill::Skill0EC},
-        .keisyotype = -1, .keisyoform = 1, .dropmakka = 1000, .dropexp = 1800, .attackcnt = 1,
+        .inheritType = -1, .inheritMask = 1, .dropmakka = 1000, .dropexp = 1800, .attackcnt = 1,
     },
     // 0x117 Luvah (Boss) (Zoa, Lv 30)
     {
         .flag = 0x223, .race = Race::Zoa, .level = 30, .hp = 1300, .maxhp = 1300, .mp = 300, .maxmp = 300,
-        .aisyoid = 279, .param = {20, 0, 10, 20, 8, 1},
-        .skill = {skill::Ziodyne, skill::Maziodyne, skill::Skill0FB}, .keisyotype = -1, .keisyoform = 1,
+        .affinityId = 279, .param = {20, 0, 10, 20, 8, 1},
+        .skill = {skill::Ziodyne, skill::Maziodyne, skill::Skill0FB}, .inheritType = -1, .inheritMask = 1,
         .dropmakka = 1000, .dropexp = 1800, .attackcnt = 1,
     },
     // 0x118 Urizen (Boss) (Zoa, Lv 30)
     {
         .flag = 0x223, .race = Race::Zoa, .level = 30, .hp = 1300, .maxhp = 1300, .mp = 300, .maxmp = 300,
-        .aisyoid = 280, .param = {20, 0, 10, 20, 8, 1},
-        .skill = {skill::Agidyne, skill::Maragidyne, skill::Skill0FB}, .keisyotype = -1, .keisyoform = 1,
+        .affinityId = 280, .param = {20, 0, 10, 20, 8, 1},
+        .skill = {skill::Agidyne, skill::Maragidyne, skill::Skill0FB}, .inheritType = -1, .inheritMask = 1,
         .dropmakka = 1000, .dropexp = 1800, .attackcnt = 1,
     },
     // 0x119 Tharmas (Boss) (Zoa, Lv 30)
     {
         .flag = 0x223, .race = Race::Zoa, .level = 30, .hp = 1300, .maxhp = 1300, .mp = 300, .maxmp = 300,
-        .aisyoid = 281, .param = {20, 0, 10, 20, 8, 1},
-        .skill = {skill::Zandyne, skill::Mazandyne, skill::Skill0FB}, .keisyotype = -1, .keisyoform = 1,
+        .affinityId = 281, .param = {20, 0, 10, 20, 8, 1},
+        .skill = {skill::Zandyne, skill::Mazandyne, skill::Skill0FB}, .inheritType = -1, .inheritMask = 1,
         .dropmakka = 1000, .dropexp = 1800, .attackcnt = 1,
     },
     // 0x11A Urthona (Boss) (Zoa, Lv 30)
     {
         .flag = 0x223, .race = Race::Zoa, .level = 30, .hp = 1300, .maxhp = 1300, .mp = 300, .maxmp = 300,
-        .aisyoid = 282, .param = {20, 0, 10, 20, 8, 1},
-        .skill = {skill::Bufudyne, skill::Mabufudyne, skill::Skill0FB}, .keisyotype = -1, .keisyoform = 1,
+        .affinityId = 282, .param = {20, 0, 10, 20, 8, 1},
+        .skill = {skill::Bufudyne, skill::Mabufudyne, skill::Skill0FB}, .inheritType = -1, .inheritMask = 1,
         .dropmakka = 1000, .dropexp = 1800, .attackcnt = 1,
     },
     // 0x11B Futomimi (Boss) (Corpus, Lv 57)
     {
         .flag = 0x233, .race = Race::Corpus, .level = 57, .hp = 5500, .maxhp = 5500, .mp = 2000,
-        .maxmp = 2000, .aisyoid = 283, .param = {22, 0, 4, 20, 15, 15}, .keisyotype = -1, .keisyoform = 1,
-        .dropmakka = 10000, .dropexp = 10000, .dropitem = {item::BalmOfRising}, .droppoint = {100},
-        .attackcnt = 1,
+        .maxmp = 2000, .affinityId = 283, .param = {22, 0, 4, 20, 15, 15}, .inheritType = -1,
+        .inheritMask = 1, .dropmakka = 10000, .dropexp = 10000, .dropitem = {item::BalmOfRising},
+        .droppoint = {100}, .attackcnt = 1,
     },
     // 0x11C Gabriel (Boss) (Seraph, Lv 69)
     {
         .flag = 0x223, .race = Race::Seraph, .level = 69, .hp = 3000, .maxhp = 3000, .mp = 1500,
-        .maxmp = 1500, .aisyoid = 284, .param = {19, 19, 23, 20, 15, 14}, .keisyotype = -1, .keisyoform = 1,
-        .dropmakka = 4000, .dropexp = 6000, .attackcnt = 1,
+        .maxmp = 1500, .affinityId = 284, .param = {19, 19, 23, 20, 15, 14}, .inheritType = -1,
+        .inheritMask = 1, .dropmakka = 4000, .dropexp = 6000, .attackcnt = 1,
     },
     // 0x11D Raphael (Boss) (Seraph, Lv 73)
     {
         .flag = 0x263, .race = Race::Seraph, .level = 73, .hp = 3000, .maxhp = 3000, .mp = 1000,
-        .maxmp = 1000, .aisyoid = 285, .param = {24, 0, 25, 20, 18, 21}, .keisyotype = 11,
-        .keisyoform = 0x19D, .dropmakka = 3000, .dropexp = 2000, .attackcnt = 1,
+        .maxmp = 1000, .affinityId = 285, .param = {24, 0, 25, 20, 18, 21}, .inheritType = 11,
+        .inheritMask = 0x19D, .dropmakka = 3000, .dropexp = 2000, .attackcnt = 1,
     },
     // 0x11E Uriel (Boss) (Seraph, Lv 69)
     {
         .flag = 0x263, .race = Race::Seraph, .level = 69, .hp = 3000, .maxhp = 3000, .mp = 1000,
-        .maxmp = 1000, .aisyoid = 286, .param = {24, 0, 24, 20, 16, 18}, .keisyotype = 2, .keisyoform = 0x19D,
-        .dropmakka = 3000, .dropexp = 2000, .attackcnt = 1,
+        .maxmp = 1000, .affinityId = 286, .param = {24, 0, 24, 20, 16, 18}, .inheritType = 2,
+        .inheritMask = 0x19D, .dropmakka = 3000, .dropexp = 2000, .attackcnt = 1,
     },
     // 0x11F Samael (Boss) (Vile, Lv 75)
     {
         .flag = 0x233, .race = Race::Vile, .level = 75, .hp = 8500, .maxhp = 8500, .mp = 4000, .maxmp = 4000,
-        .aisyoid = 287, .param = {20, 0, 25, 20, 10, 10}, .skill = {skill::Retaliate}, .keisyotype = -1,
-        .keisyoform = 1, .dropmakka = 10000, .dropexp = 9000, .dropitem = {96}, .droppoint = {100},
+        .affinityId = 287, .param = {20, 0, 25, 20, 10, 10}, .skill = {skill::Retaliate}, .inheritType = -1,
+        .inheritMask = 1, .dropmakka = 10000, .dropexp = 9000, .dropitem = {96}, .droppoint = {100},
         .attackcnt = 1,
     },
     // 0x120 Baal Avatar (Boss) (Deity, Lv 85)
     {
         .flag = 0x223, .race = Race::Deity, .level = 85, .hp = 13000, .maxhp = 13000, .mp = 5000,
-        .maxmp = 5000, .aisyoid = 288, .param = {35, 0, 30, 20, 20, 20}, .keisyotype = -1, .keisyoform = 1,
-        .dropmakka = 10000, .dropexp = 10000, .attackcnt = 1,
+        .maxmp = 5000, .affinityId = 288, .param = {35, 0, 30, 20, 20, 20}, .inheritType = -1,
+        .inheritMask = 1, .dropmakka = 10000, .dropexp = 10000, .attackcnt = 1,
     },
     // 0x121 Ose Hallel (Boss) (Hallel, Lv 70)
     {
         .flag = 0x223, .race = Race::Hallel, .level = 70, .hp = 6700, .maxhp = 6700, .mp = 3000,
-        .maxmp = 3000, .aisyoid = 289, .param = {25, 0, 15, 20, 22, 20}, .keisyotype = -1, .keisyoform = 1,
-        .attackcnt = 1,
+        .maxmp = 3000, .affinityId = 289, .param = {25, 0, 15, 20, 22, 20}, .inheritType = -1,
+        .inheritMask = 1, .attackcnt = 1,
     },
     // 0x122 Flauros Hallel (Boss) (Hallel, Lv 70)
     {
         .flag = 0x223, .race = Race::Hallel, .level = 70, .hp = 6700, .maxhp = 6700, .mp = 3000,
-        .maxmp = 3000, .aisyoid = 290, .param = {35, 0, 15, 30, 18, 14}, .keisyotype = -1, .keisyoform = 1,
-        .attackcnt = 1,
+        .maxmp = 3000, .affinityId = 290, .param = {35, 0, 15, 30, 18, 14}, .inheritType = -1,
+        .inheritMask = 1, .attackcnt = 1,
     },
     // 0x123 Ahriman 1st Form (Boss) (Tyrant, Lv 80)
     {
         .flag = 0x333, .race = Race::Tyrant, .level = 80, .hp = 6000, .maxhp = 6000, .mp = 3000,
-        .maxmp = 3000, .aisyoid = 291, .param = {40, 0, 30, 20, 20, 20}, .keisyotype = -1, .keisyoform = 1,
-        .dropmakka = 10000, .dropexp = 10000, .attackcnt = 1,
+        .maxmp = 3000, .affinityId = 291, .param = {40, 0, 30, 20, 20, 20}, .inheritType = -1,
+        .inheritMask = 1, .dropmakka = 10000, .dropexp = 10000, .attackcnt = 1,
     },
     // 0x124 Noah 1st Form (Boss) (Vile, Lv 80)
     {
         .flag = 0x333, .race = Race::Vile, .level = 80, .hp = 8000, .maxhp = 8000, .mp = 4000, .maxmp = 4000,
-        .aisyoid = 292, .param = {30, 0, 25, 30, 5, 4}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 10000,
-        .dropexp = 10000, .attackcnt = 1,
+        .affinityId = 292, .param = {30, 0, 25, 30, 5, 4}, .inheritType = -1, .inheritMask = 1,
+        .dropmakka = 10000, .dropexp = 10000, .attackcnt = 1,
     },
     // 0x125 Kagutsuchi 1st Form (Boss) (Light, Lv 85)
     {
         .flag = 0x333, .race = Race::Light, .level = 85, .hp = 20000, .maxhp = 20000, .mp = 7000,
-        .maxmp = 7000, .aisyoid = 293, .param = {30, 0, 34, 29, 18, 15}, .keisyotype = -1, .keisyoform = 1,
-        .dropmakka = 10000, .dropexp = 10000, .attackcnt = 1,
+        .maxmp = 7000, .affinityId = 293, .param = {30, 0, 34, 29, 18, 15}, .inheritType = -1,
+        .inheritMask = 1, .dropmakka = 10000, .dropexp = 10000, .attackcnt = 1,
     },
     // 0x126 Specter 1 6 Fuse (Boss) (Foul, Lv 20)
     {
         .flag = 0x233, .race = Race::Foul, .level = 20, .hp = 550, .maxhp = 550, .mp = 300, .maxmp = 300,
-        .aisyoid = 294, .param = {14, 0, 14, 13, 5, 5}, .skill = {skill::Agi, skill::Skill099},
-        .keisyotype = -1, .keisyoform = 1, .dropmakka = 500, .dropexp = 800, .dropitem = {98},
+        .affinityId = 294, .param = {14, 0, 14, 13, 5, 5}, .skill = {skill::Agi, skill::Skill099},
+        .inheritType = -1, .inheritMask = 1, .dropmakka = 500, .dropexp = 800, .dropitem = {98},
         .droppoint = {100}, .attackcnt = 1,
     },
     // 0x127 Specter 1 4/5 Fuse (Boss) (Foul, Lv 15)
     {
         .flag = 0x233, .race = Race::Foul, .level = 15, .hp = 260, .maxhp = 260, .mp = 250, .maxmp = 250,
-        .aisyoid = 295, .param = {5, 0, 1, 3, 1, 1}, .skill = {skill::Agi, skill::Skill099}, .keisyotype = -1,
-        .keisyoform = 1, .dropmakka = 500, .dropexp = 500, .dropitem = {98}, .droppoint = {100},
-        .attackcnt = 1,
+        .affinityId = 295, .param = {5, 0, 1, 3, 1, 1}, .skill = {skill::Agi, skill::Skill099},
+        .inheritType = -1, .inheritMask = 1, .dropmakka = 500, .dropexp = 500, .dropitem = {98},
+        .droppoint = {100}, .attackcnt = 1,
     },
     // 0x128 Specter 1 2/3 Fuse (Boss) (Foul, Lv 10)
     {
         .flag = 0x233, .race = Race::Foul, .level = 10, .hp = 120, .maxhp = 120, .mp = 150, .maxmp = 150,
-        .aisyoid = 296, .param = {4, 0, 1, 3, 1, 1}, .skill = {skill::Agi, skill::Skill099}, .keisyotype = -1,
-        .keisyoform = 1, .dropmakka = 500, .dropexp = 300, .dropitem = {98}, .droppoint = {100},
-        .attackcnt = 1,
+        .affinityId = 296, .param = {4, 0, 1, 3, 1, 1}, .skill = {skill::Agi, skill::Skill099},
+        .inheritType = -1, .inheritMask = 1, .dropmakka = 500, .dropexp = 300, .dropitem = {98},
+        .droppoint = {100}, .attackcnt = 1,
     },
     // 0x129 Mizuchi (Boss) (Snake, Lv 30)
     {
         .flag = 0x223, .race = Race::Snake, .level = 30, .hp = 4800, .maxhp = 4800, .mp = 500, .maxmp = 500,
-        .aisyoid = 297, .param = {30, 0, 40, 1, 1, 1},
-        .skill = {skill::Berserk, skill::Bufula, skill::Makarakarn, skill::FogBreath}, .keisyotype = -1,
-        .keisyoform = 1, .dropmakka = 1500, .dropexp = 1000, .attackcnt = 1,
+        .affinityId = 297, .param = {30, 0, 40, 1, 1, 1},
+        .skill = {skill::Berserk, skill::Bufula, skill::Makarakarn, skill::FogBreath}, .inheritType = -1,
+        .inheritMask = 1, .dropmakka = 1500, .dropexp = 1000, .attackcnt = 1,
     },
     // 0x12A (unnamed) (Corpus, Lv 50)
     {
         .flag = 0x223, .race = Race::Corpus, .level = 50, .hp = 396, .maxhp = 396, .mp = 168, .maxmp = 168,
-        .aisyoid = 298, .param = {16, 0, 20, 16, 14, 14}, .keisyotype = 5, .keisyoform = 0x19B,
+        .affinityId = 298, .param = {16, 0, 20, 16, 14, 14}, .inheritType = 5, .inheritMask = 0x19B,
         .dropmakka = 1000, .dropexp = 1000, .attackcnt = 1,
     },
     // 0x12B Sakahagi (Boss) (Corpus, Lv 69)
     {
         .flag = 0x233, .race = Race::Corpus, .level = 69, .hp = 1600, .maxhp = 1600, .mp = 46, .maxmp = 300,
-        .aisyoid = 299, .param = {19, 0, 23, 20, 14, 14},
+        .affinityId = 299, .param = {19, 0, 23, 20, 14, 14},
         .skill = {skill::Maragion, skill::Mabufula, skill::Mazionga, skill::Mazanma, skill::PanicVoice, skill::WarCry},
-        .keisyotype = -1, .keisyoform = 1, .dropmakka = 5000, .dropexp = 12000, .attackcnt = 3,
+        .inheritType = -1, .inheritMask = 1, .dropmakka = 5000, .dropexp = 12000, .attackcnt = 3,
         .attackinterval = 6,
     },
     // 0x12C Orthrus (Boss) (Beast, Lv 30)
     {
         .flag = 0x223, .race = Race::Beast, .level = 30, .hp = 1000, .maxhp = 1000, .mp = 200, .maxmp = 200,
-        .aisyoid = 300, .param = {8, 0, 15, 10, 1, 1},
+        .affinityId = 300, .param = {8, 0, 15, 10, 1, 1},
         .skill = {skill::FireBreath, skill::Agidyne, skill::StunClaw, skill::Agilao, skill::Maragion, skill::Maragi},
-        .keisyotype = 3, .keisyoform = 0xFB, .dropmakka = 200, .dropexp = 150, .attackcnt = 1,
+        .inheritType = 3, .inheritMask = 0xFB, .dropmakka = 200, .dropexp = 150, .attackcnt = 1,
     },
     // 0x12D Yaksini (Boss) (Femme, Lv 35)
     {
         .flag = 0x263, .race = Race::Femme, .level = 35, .hp = 1200, .maxhp = 1200, .mp = 200, .maxmp = 200,
-        .aisyoid = 301, .param = {1, 0, 30, 19, 1, 1},
-        .skill = {skill::Mazan, skill::Mazanma, skill::Zandyne, skill::Zanma}, .keisyotype = 1,
-        .keisyoform = 0x9B, .dropmakka = 400, .dropexp = 300, .attackcnt = 1,
+        .affinityId = 301, .param = {1, 0, 30, 19, 1, 1},
+        .skill = {skill::Mazan, skill::Mazanma, skill::Zandyne, skill::Zanma}, .inheritType = 1,
+        .inheritMask = 0x9B, .dropmakka = 400, .dropexp = 300, .attackcnt = 1,
     },
     // 0x12E Thor 1 (Boss) (Kishin, Lv 35)
     {
         .flag = 0x233, .race = Race::Kishin, .level = 35, .hp = 2000, .maxhp = 2000, .mp = 3000,
-        .maxmp = 3000, .aisyoid = 302, .param = {16, 0, 30, 19, 10, 10},
+        .maxmp = 3000, .affinityId = 302, .param = {16, 0, 30, 19, 10, 10},
         .skill = {skill::Diarahan, skill::Mazionga, skill::Ziodyne, skill::Zionga, skill::Mazio},
-        .keisyotype = 5, .keisyoform = 0x19B, .dropmakka = 800, .dropexp = 700, .attackcnt = 1,
+        .inheritType = 5, .inheritMask = 0x19B, .dropmakka = 800, .dropexp = 700, .attackcnt = 1,
     },
     // 0x12F Black Frost (Boss) (Night, Lv 70)
     {
         .flag = 0x233, .race = Race::Night, .level = 70, .hp = 2950, .maxhp = 2950, .mp = 2500, .maxmp = 2500,
-        .aisyoid = 303, .param = {35, 0, 35, 18, 25, 35},
+        .affinityId = 303, .param = {35, 0, 35, 18, 25, 35},
         .skill = {skill::GlacialBlast, skill::Berserk, skill::Bufudyne, skill::Mabufudyne, skill::Mamudoon, skill::Makarakarn, skill::Diarama, skill::IceBoost},
-        .keisyotype = 4, .keisyoform = 0x9B, .dropmakka = 10000, .dropexp = 5000,
+        .inheritType = 4, .inheritMask = 0x9B, .dropmakka = 10000, .dropexp = 5000,
         .dropitem = {item::ChakraDrop}, .droppoint = {15}, .attackcnt = 1,
     },
     // 0x130 (unnamed) (Yoma, Lv 25)
     {
         .flag = 0x222, .race = Race::Yoma, .level = 25, .hp = 500, .maxhp = 500, .mp = 200, .maxmp = 200,
-        .aisyoid = 304, .param = {12, 0, 2, 12, 10, 8}, .skill = {skill::WingBuffet, skill::Shibaboo},
-        .keisyotype = 6, .keisyoform = 0x185, .dropmakka = 167, .dropexp = 157, .attackcnt = 1,
+        .affinityId = 304, .param = {12, 0, 2, 12, 10, 8}, .skill = {skill::WingBuffet, skill::Shibaboo},
+        .inheritType = 6, .inheritMask = 0x185, .dropmakka = 167, .dropexp = 157, .attackcnt = 1,
     },
     // 0x131 (unnamed) (Yoma, Lv 25)
     {
         .flag = 0x222, .race = Race::Yoma, .level = 25, .hp = 500, .maxhp = 500, .mp = 200, .maxmp = 200,
-        .aisyoid = 305, .param = {12, 0, 2, 12, 10, 8}, .skill = {skill::Tornado, skill::StunNeedle},
-        .keisyotype = 6, .keisyoform = 0x185, .dropmakka = 167, .dropexp = 157, .attackcnt = 1,
+        .affinityId = 305, .param = {12, 0, 2, 12, 10, 8}, .skill = {skill::Tornado, skill::StunNeedle},
+        .inheritType = 6, .inheritMask = 0x185, .dropmakka = 167, .dropexp = 157, .attackcnt = 1,
     },
     // 0x132 (unnamed) (Yoma, Lv 25)
     {
         .flag = 0x222, .race = Race::Yoma, .level = 25, .hp = 500, .maxhp = 500, .mp = 200, .maxmp = 200,
-        .aisyoid = 306, .param = {12, 0, 2, 12, 10, 8}, .skill = {skill::HolyWrath, skill::Mazanma},
-        .keisyotype = 6, .keisyoform = 0x185, .dropmakka = 167, .dropexp = 157, .attackcnt = 1,
+        .affinityId = 306, .param = {12, 0, 2, 12, 10, 8}, .skill = {skill::HolyWrath, skill::Mazanma},
+        .inheritType = 6, .inheritMask = 0x185, .dropmakka = 167, .dropexp = 157, .attackcnt = 1,
     },
     // 0x133 (unnamed) (Fallen, Lv 29)
     {
         .flag = 0x223, .race = Race::Fallen, .level = 29, .hp = 700, .maxhp = 700, .mp = 200, .maxmp = 200,
-        .aisyoid = 307, .param = {14, 0, 10, 10, 20, 20},
-        .skill = {skill::Rakukaja, skill::Berserk, skill::Mudo, skill::Skill0E2}, .keisyotype = 1,
-        .keisyoform = 0x199, .dropmakka = 100, .dropexp = 200, .dropitem = {item::RevivalBead},
+        .affinityId = 307, .param = {14, 0, 10, 10, 20, 20},
+        .skill = {skill::Rakukaja, skill::Berserk, skill::Mudo, skill::Skill0E2}, .inheritType = 1,
+        .inheritMask = 0x199, .dropmakka = 100, .dropexp = 200, .dropitem = {item::RevivalBead},
         .droppoint = {7}, .attackcnt = 1,
     },
     // 0x134 (unnamed) (Fallen, Lv 29)
     {
         .flag = 0x223, .race = Race::Fallen, .level = 29, .hp = 700, .maxhp = 700, .mp = 200, .maxmp = 200,
-        .aisyoid = 308, .param = {14, 0, 10, 10, 20, 20}, .skill = {skill::DarkSword, skill::Mudo},
-        .keisyotype = 1, .keisyoform = 0x199, .dropmakka = 100, .dropexp = 200,
+        .affinityId = 308, .param = {14, 0, 10, 10, 20, 20}, .skill = {skill::DarkSword, skill::Mudo},
+        .inheritType = 1, .inheritMask = 0x199, .dropmakka = 100, .dropexp = 200,
         .dropitem = {item::RevivalBead}, .droppoint = {7}, .attackcnt = 1,
     },
     // 0x135 (unnamed) (Fallen, Lv 29)
     {
         .flag = 0x223, .race = Race::Fallen, .level = 29, .hp = 700, .maxhp = 700, .mp = 200, .maxmp = 200,
-        .aisyoid = 309, .param = {14, 0, 10, 10, 20, 20}, .skill = {skill::DarkSword, skill::Mudo},
-        .keisyotype = 1, .keisyoform = 0x199, .dropmakka = 100, .dropexp = 200,
+        .affinityId = 309, .param = {14, 0, 10, 10, 20, 20}, .skill = {skill::DarkSword, skill::Mudo},
+        .inheritType = 1, .inheritMask = 0x199, .dropmakka = 100, .dropexp = 200,
         .dropitem = {item::RevivalBead}, .droppoint = {7}, .attackcnt = 1,
     },
     // 0x136 Kelpie (Boss) (Fairy, Lv 24)
     {
         .flag = 0x223, .race = Race::Fairy, .level = 24, .hp = 540, .maxhp = 540, .mp = 160, .maxmp = 160,
-        .aisyoid = 310, .param = {12, 0, 12, 10, 8, 7}, .skill = {skill::StunBite, skill::Diarama},
-        .keisyotype = 2, .keisyoform = 0xBB, .dropmakka = 100, .dropexp = 200, .dropitem = {item::ChakraDrop},
-        .droppoint = {10}, .attackcnt = 1,
+        .affinityId = 310, .param = {12, 0, 12, 10, 8, 7}, .skill = {skill::StunBite, skill::Diarama},
+        .inheritType = 2, .inheritMask = 0xBB, .dropmakka = 100, .dropexp = 200,
+        .dropitem = {item::ChakraDrop}, .droppoint = {10}, .attackcnt = 1,
     },
     // 0x137 Kelpie (Boss) (Fairy, Lv 24)
     {
         .flag = 0x223, .race = Race::Fairy, .level = 24, .hp = 440, .maxhp = 440, .mp = 160, .maxmp = 160,
-        .aisyoid = 311, .param = {9, 0, 16, 8, 10, 7}, .skill = {skill::StunBite, skill::Diarama},
-        .keisyotype = 2, .keisyoform = 0xBB, .dropmakka = 100, .dropexp = 200, .dropitem = {item::ChakraDrop},
-        .droppoint = {10}, .attackcnt = 1,
+        .affinityId = 311, .param = {9, 0, 16, 8, 10, 7}, .skill = {skill::StunBite, skill::Diarama},
+        .inheritType = 2, .inheritMask = 0xBB, .dropmakka = 100, .dropexp = 200,
+        .dropitem = {item::ChakraDrop}, .droppoint = {10}, .attackcnt = 1,
     },
     // 0x138 Berith (Boss) (Fallen, Lv 30)
     {
         .flag = 0x223, .race = Race::Fallen, .level = 30, .hp = 1000, .maxhp = 1000, .mp = 103, .maxmp = 103,
-        .aisyoid = 312, .param = {10, 0, 10, 16, 5, 1}, .skill = {skill::Agi, skill::Maragi, skill::Skill09A},
-        .keisyotype = 9, .keisyoform = 0x199, .dropmakka = 600, .dropexp = 1000, .attackcnt = 1,
+        .affinityId = 312, .param = {10, 0, 10, 16, 5, 1},
+        .skill = {skill::Agi, skill::Maragi, skill::Skill09A}, .inheritType = 9, .inheritMask = 0x199,
+        .dropmakka = 600, .dropexp = 1000, .attackcnt = 1,
     },
     // 0x139 Succubus (Boss) (Night, Lv 37)
     {
         .flag = 0x223, .race = Race::Night, .level = 37, .hp = 300, .maxhp = 300, .mp = 220, .maxmp = 220,
-        .aisyoid = 313, .param = {10, 0, 10, 11, 2, 1}, .skill = {skill::SexyGaze, skill::Lullaby},
-        .keisyotype = 5, .keisyoform = 0x8D, .dropmakka = 300, .dropexp = 500, .attackcnt = 1,
+        .affinityId = 313, .param = {10, 0, 10, 11, 2, 1}, .skill = {skill::SexyGaze, skill::Lullaby},
+        .inheritType = 5, .inheritMask = 0x8D, .dropmakka = 300, .dropexp = 500, .attackcnt = 1,
     },
     // 0x13A (unnamed) (Fairy, Lv 8)
     {
         .flag = 0x222, .race = Race::Fairy, .level = 8, .hp = 52, .maxhp = 52, .mp = 43, .maxmp = 43,
-        .aisyoid = 314, .param = {4, 0, 1, 5, 40, 40}, .keisyotype = 2, .keisyoform = 0x8D, .dropmakka = 200,
-        .dropexp = 50, .dropitem = {item::RevivalBead}, .droppoint = {20}, .attackcnt = 1,
+        .affinityId = 314, .param = {4, 0, 1, 5, 40, 40}, .inheritType = 2, .inheritMask = 0x8D,
+        .dropmakka = 200, .dropexp = 50, .dropitem = {item::RevivalBead}, .droppoint = {20}, .attackcnt = 1,
     },
     // 0x13B (unnamed) (Night, Lv 40)
     {
         .flag = 0x223, .race = Race::Night, .level = 40, .hp = 520, .maxhp = 520, .mp = 288, .maxmp = 288,
-        .aisyoid = 315, .param = {10, 15, 17, 20, 11, 11},
-        .skill = {skill::EvilGaze, skill::Mudo, skill::Mamudo, skill::Deathtouch}, .keisyotype = -1,
-        .keisyoform = 1, .dropmakka = 500, .dropexp = 300, .dropitem = {item::SomaDroplet}, .droppoint = {50},
-        .attackcnt = 1,
+        .affinityId = 315, .param = {10, 15, 17, 20, 11, 11},
+        .skill = {skill::EvilGaze, skill::Mudo, skill::Mamudo, skill::Deathtouch}, .inheritType = -1,
+        .inheritMask = 1, .dropmakka = 500, .dropexp = 300, .dropitem = {item::SomaDroplet},
+        .droppoint = {50}, .attackcnt = 1,
     },
     // 0x13C (unnamed) (Beast, Lv 15)
     {
         .flag = 0x223, .race = Race::Beast, .level = 15, .hp = 160, .maxhp = 160, .mp = 72, .maxmp = 72,
-        .aisyoid = 316, .param = {7, 0, 11, 7, 1, 1}, .skill = {skill::MarinKarin, skill::FeralClaw},
-        .keisyotype = 10, .keisyoform = 0xC9, .dropmakka = 220, .dropexp = 20, .dropitem = {111},
+        .affinityId = 316, .param = {7, 0, 11, 7, 1, 1}, .skill = {skill::MarinKarin, skill::FeralClaw},
+        .inheritType = 10, .inheritMask = 0xC9, .dropmakka = 220, .dropexp = 20, .dropitem = {111},
         .droppoint = {100}, .attackcnt = 1,
     },
     // 0x13D Troll (Boss) (Fairy, Lv 38)
     {
         .flag = 0x223, .race = Race::Fairy, .level = 38, .hp = 850, .maxhp = 850, .mp = 150, .maxmp = 150,
-        .aisyoid = 317, .param = {18, 0, 15, 21, 8, 5}, .skill = {skill::Berserk, skill::Mabufula},
-        .keisyotype = 11, .keisyoform = 0x9B, .dropmakka = 1000, .dropexp = 100, .attackcnt = 1,
+        .affinityId = 317, .param = {18, 0, 15, 21, 8, 5}, .skill = {skill::Berserk, skill::Mabufula},
+        .inheritType = 11, .inheritMask = 0x9B, .dropmakka = 1000, .dropexp = 100, .attackcnt = 1,
     },
     // 0x13E Will o' Wisp (Tutorial) (Foul, Lv 1)
     {
         .flag = 0x2A3, .race = Race::Foul, .level = 1, .hp = 10, .maxhp = 10, .mp = 30, .maxmp = 30,
-        .aisyoid = 318, .param = {4, 0, 5, 3, 1, 1}, .skill = {skill::Deathtouch, skill::Sukukaja},
-        .keisyotype = 9, .keisyoform = 0x91, .dropmakka = 15, .dropexp = 5, .attackcnt = 1,
+        .affinityId = 318, .param = {4, 0, 5, 3, 1, 1}, .skill = {skill::Deathtouch, skill::Sukukaja},
+        .inheritType = 9, .inheritMask = 0x91, .dropmakka = 15, .dropexp = 5, .attackcnt = 1,
     },
     // 0x13F Preta (Tutorial) (Haunt, Lv 3)
     {
         .flag = 0x2A3, .race = Race::Haunt, .level = 3, .hp = 20, .maxhp = 20, .mp = 19, .maxmp = 19,
-        .aisyoid = 319, .param = {3, 0, 4, 5, 1, 1}, .skill = {skill::FeralClaw, skill::Sukukaja},
-        .keisyotype = 9, .keisyoform = 0xDB, .dropmakka = 20, .dropexp = 9, .attackcnt = 1,
+        .affinityId = 319, .param = {3, 0, 4, 5, 1, 1}, .skill = {skill::FeralClaw, skill::Sukukaja},
+        .inheritType = 9, .inheritMask = 0xDB, .dropmakka = 20, .dropexp = 9, .attackcnt = 1,
     },
     // 0x140 Bishamon 1 (Boss) (Kishin, Lv 66)
     {
         .flag = 0x72, .race = Race::Kishin, .level = 66, .hp = 4568, .maxhp = 4568, .mp = 504, .maxmp = 504,
-        .aisyoid = 320, .param = {38, 0, 26, 20, 25, 20},
+        .affinityId = 320, .param = {38, 0, 26, 20, 25, 20},
         .skill = {skill::Prominence, skill::Hassohappa, skill::HolyWrath, skill::Focus, skill::Diarahan},
-        .keisyotype = 3, .keisyoform = 0x99B, .dropmakka = 10000, .dropexp = 10000,
+        .inheritType = 3, .inheritMask = 0x99B, .dropmakka = 10000, .dropexp = 10000,
         .dropitem = {item::BeadChain}, .droppoint = {100}, .attackcnt = 1,
     },
     // 0x141 Mara (Boss) (Tyrant, Lv 85)
     {
         .flag = 0x32, .race = Race::Tyrant, .level = 85, .hp = 2300, .maxhp = 2300, .mp = 3000, .maxmp = 3000,
-        .aisyoid = 321, .param = {30, 0, 40, 25, 14, 15},
+        .affinityId = 321, .param = {30, 0, 40, 25, 14, 15},
         .skill = {skill::Mazanma, skill::MarinKarin, skill::Makajamon, skill::DismalTune, skill::Diarahan, skill::HadesBlast, skill::HellThrust, skill::Dekaja},
-        .keisyotype = -1, .keisyoform = 1, .dropmakka = 20000, .dropexp = 5000,
+        .inheritType = -1, .inheritMask = 1, .dropmakka = 20000, .dropexp = 5000,
         .dropitem = {item::GreatChakra}, .droppoint = {100}, .attackcnt = 1,
     },
     // 0x142 Bishamon 2 (Boss) (Kishin, Lv 99)
     {
         .flag = 0x72, .race = Race::Kishin, .level = 99, .hp = 20000, .maxhp = 20000, .mp = 10000,
-        .maxmp = 10000, .aisyoid = 322, .param = {40, 0, 40, 40, 40, 40}, .keisyotype = 3,
-        .keisyoform = 0x99B, .dropmakka = 10000, .dropexp = 10000, .dropitem = {item::StIncense},
+        .maxmp = 10000, .affinityId = 322, .param = {40, 0, 40, 40, 40, 40}, .inheritType = 3,
+        .inheritMask = 0x99B, .dropmakka = 10000, .dropexp = 10000, .dropitem = {item::StIncense},
         .droppoint = {100}, .attackcnt = 1,
     },
     // 0x143 Jikoku (Boss) (Kishin, Lv 99)
     {
         .flag = 0x62, .race = Race::Kishin, .level = 99, .hp = 20000, .maxhp = 20000, .mp = 10000,
-        .maxmp = 10000, .aisyoid = 323, .param = {40, 0, 40, 40, 40, 40}, .keisyotype = 6,
-        .keisyoform = 0x99B, .dropmakka = 10000, .dropexp = 5000, .dropitem = {item::MaIncense},
+        .maxmp = 10000, .affinityId = 323, .param = {40, 0, 40, 40, 40, 40}, .inheritType = 6,
+        .inheritMask = 0x99B, .dropmakka = 10000, .dropexp = 5000, .dropitem = {item::MaIncense},
         .droppoint = {100}, .attackcnt = 1,
     },
     // 0x144 Koumoku (Boss) (Kishin, Lv 99)
     {
         .flag = 0x62, .race = Race::Kishin, .level = 99, .hp = 20000, .maxhp = 20000, .mp = 10000,
-        .maxmp = 10000, .aisyoid = 324, .param = {40, 0, 40, 40, 40, 40}, .keisyotype = 4,
-        .keisyoform = 0x99B, .dropmakka = 10000, .dropexp = 5000, .dropitem = {item::AgIncense},
+        .maxmp = 10000, .affinityId = 324, .param = {40, 0, 40, 40, 40, 40}, .inheritType = 4,
+        .inheritMask = 0x99B, .dropmakka = 10000, .dropexp = 5000, .dropitem = {item::AgIncense},
         .droppoint = {100}, .attackcnt = 1,
     },
     // 0x145 Zouchou (Boss) (Kishin, Lv 99)
     {
         .flag = 0x62, .race = Race::Kishin, .level = 99, .hp = 20000, .maxhp = 20000, .mp = 10000,
-        .maxmp = 10000, .aisyoid = 325, .param = {40, 0, 40, 40, 40, 40}, .keisyotype = 1,
-        .keisyoform = 0x99B, .dropmakka = 10000, .dropexp = 5000, .dropitem = {item::ViIncense},
+        .maxmp = 10000, .affinityId = 325, .param = {40, 0, 40, 40, 40, 40}, .inheritType = 1,
+        .inheritMask = 0x99B, .dropmakka = 10000, .dropexp = 5000, .dropitem = {item::ViIncense},
         .droppoint = {100}, .attackcnt = 1,
     },
     // 0x146 Clotho 2 (Boss) (Femme, Lv 45)
     {
         .flag = 0x223, .race = Race::Femme, .level = 45, .hp = 2000, .maxhp = 2000, .mp = 1000, .maxmp = 1000,
-        .aisyoid = 326, .param = {19, 0, 23, 20, 5, 30},
+        .affinityId = 326, .param = {19, 0, 23, 20, 5, 30},
         .skill = {skill::Patra, skill::Posumudi, skill::Paraladi, skill::Media, skill::Mediarama, skill::Diarama, skill::Mahama, skill::MarinKarin},
-        .keisyotype = -1, .keisyoform = 1, .dropmakka = 1000, .dropexp = 1000, .attackcnt = 1,
+        .inheritType = -1, .inheritMask = 1, .dropmakka = 1000, .dropexp = 1000, .attackcnt = 1,
     },
     // 0x147 Lachesis 2 (Boss) (Femme, Lv 50)
     {
         .flag = 0x223, .race = Race::Femme, .level = 50, .hp = 2000, .maxhp = 2000, .mp = 1000, .maxmp = 1000,
-        .aisyoid = 327, .param = {19, 0, 23, 20, 4, 30},
+        .affinityId = 327, .param = {19, 0, 23, 20, 4, 30},
         .skill = {skill::Makakaja, skill::Rakunda, skill::Rakukaja, skill::Tetrakarn, skill::Makarakarn},
-        .keisyotype = -1, .keisyoform = 1, .dropmakka = 1000, .dropexp = 1000, .attackcnt = 1,
+        .inheritType = -1, .inheritMask = 1, .dropmakka = 1000, .dropexp = 1000, .attackcnt = 1,
     },
     // 0x148 Atropos 2 (Boss) (Femme, Lv 55)
     {
         .flag = 0x223, .race = Race::Femme, .level = 55, .hp = 3000, .maxhp = 3000, .mp = 1500, .maxmp = 1500,
-        .aisyoid = 328, .param = {5, 0, 30, 20, 3, 30},
+        .affinityId = 328, .param = {5, 0, 30, 20, 3, 30},
         .skill = {skill::Maragion, skill::Mabufula, skill::Mazanma, skill::Mazionga, skill::Agilao, skill::Bufula, skill::Zanma, skill::Zionga},
-        .keisyotype = -1, .keisyoform = 1, .dropmakka = 1000, .dropexp = 3000, .attackcnt = 1,
+        .inheritType = -1, .inheritMask = 1, .dropmakka = 1000, .dropexp = 3000, .attackcnt = 1,
     },
     // 0x149 Mithra (Boss) (Deity, Lv 65)
     {
         .flag = 0x63, .race = Race::Deity, .level = 65, .hp = 4500, .maxhp = 4500, .mp = 3000, .maxmp = 3000,
-        .aisyoid = 329, .param = {30, 0, 25, 20, 8, 10}, .keisyotype = 7, .keisyoform = 0x89B,
+        .affinityId = 329, .param = {30, 0, 25, 20, 8, 10}, .inheritType = 7, .inheritMask = 0x89B,
         .dropmakka = 5000, .dropexp = 8000, .dropitem = {item::BalmOfRising}, .droppoint = {100},
-        .hougyokupoint = 2, .masekipoint = 6, .attackcnt = 1,
+        .beadDropChance = 2, .lifeStoneDropChance = 6, .attackcnt = 1,
     },
     // 0x14A (unnamed) (Emperor, Lv 99)
     {
         .flag = 0x22, .race = Race::Emperor, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767,
-        .maxmp = 32767, .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1,
+        .maxmp = 32767, .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1,
         .dropmakka = 65535, .dropexp = 65535, .attackcnt = 1,
     },
     // 0x14B (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x14C (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x14D Mada (Boss) (Vile, Lv 82)
     {
         .flag = 0x32, .race = Race::Vile, .level = 82, .hp = 2500, .maxhp = 2500, .mp = 747, .maxmp = 747,
-        .aisyoid = 333, .param = {25, 0, 32, 20, 31, 20},
+        .affinityId = 333, .param = {25, 0, 32, 20, 31, 20},
         .skill = {skill::Debilitate, skill::HadesBlast, skill::Intoxicate, skill::Diarama, skill::Agidyne, skill::Skill0E2},
-        .keisyotype = 1, .keisyoform = 0x89B, .dropmakka = 5000, .dropexp = 8000, .dropitem = {99},
-        .droppoint = {100}, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .inheritType = 1, .inheritMask = 0x89B, .dropmakka = 5000, .dropexp = 8000, .dropitem = {99},
+        .droppoint = {100}, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x14E Mot (Boss) (Tyrant, Lv 89)
     {
         .flag = 0x32, .race = Race::Tyrant, .level = 89, .hp = 3500, .maxhp = 3500, .mp = 3000, .maxmp = 3000,
-        .aisyoid = 334, .param = {30, 0, 40, 15, 32, 35},
+        .affinityId = 334, .param = {30, 0, 40, 15, 32, 35},
         .skill = {skill::Maragidyne, skill::Mazandyne, skill::Makakaja, skill::Megidolaon, skill::Avenge, skill::Skill0DB},
-        .keisyotype = 10, .keisyoform = 0x881, .dropmakka = 5000, .dropexp = 8000, .dropitem = {98},
-        .droppoint = {100}, .hougyokupoint = 1, .masekipoint = 4, .attackcnt = 1,
+        .inheritType = 10, .inheritMask = 0x881, .dropmakka = 5000, .dropexp = 8000, .dropitem = {98},
+        .droppoint = {100}, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackcnt = 1,
     },
     // 0x14F Surt (Boss) (Tyrant, Lv 82)
     {
         .flag = 0x32, .race = Race::Tyrant, .level = 82, .hp = 5000, .maxhp = 5000, .mp = 3000, .maxmp = 3000,
-        .aisyoid = 335, .param = {35, 0, 40, 24, 27, 22},
+        .affinityId = 335, .param = {35, 0, 40, 24, 27, 22},
         .skill = {skill::Hellfire, skill::WarCry, skill::Ragnarok, skill::Skill134, skill::Retaliate},
-        .keisyotype = 3, .keisyoform = 0x99B, .dropmakka = 5000, .dropexp = 8000, .dropitem = {103},
-        .droppoint = {100}, .hougyokupoint = 1, .masekipoint = 4, .attackattr = 1, .attackcnt = 1,
+        .inheritType = 3, .inheritMask = 0x99B, .dropmakka = 5000, .dropexp = 8000, .dropitem = {103},
+        .droppoint = {100}, .beadDropChance = 1, .lifeStoneDropChance = 4, .attackattr = 1, .attackcnt = 1,
     },
     // 0x150 (unnamed) (Fairy, Lv 19)
     {
         .flag = 0x22, .race = Race::Fairy, .level = 19, .hp = 162, .maxhp = 162, .mp = 69, .maxmp = 69,
-        .aisyoid = 336, .param = {8, 0, 10, 8, 6, 7}, .skill = {skill::Agi, skill::Maragi, skill::Agilao},
-        .keisyotype = 3, .keisyoform = 0x89B, .dropmakka = 92, .dropexp = 58, .dropitem = {106},
-        .droppoint = {12}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 336, .param = {8, 0, 10, 8, 6, 7}, .skill = {skill::Agi, skill::Maragi, skill::Agilao},
+        .inheritType = 3, .inheritMask = 0x89B, .dropmakka = 92, .dropexp = 58, .dropitem = {106},
+        .droppoint = {12}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x151 Thor 2 (Boss) (Kishin, Lv 80)
     {
         .flag = 0x233, .race = Race::Kishin, .level = 80, .hp = 8000, .maxhp = 8000, .mp = 3000,
-        .maxmp = 3000, .aisyoid = 337, .param = {38, 0, 30, 24, 15, 10},
+        .maxmp = 3000, .affinityId = 337, .param = {38, 0, 30, 24, 15, 10},
         .skill = {skill::Diarahan, skill::Mazionga, skill::Ziodyne, skill::Zionga, skill::Mazio},
-        .keisyotype = 5, .keisyoform = 0x19B, .dropmakka = 5000, .dropexp = 2000, .attackcnt = 1,
+        .inheritType = 5, .inheritMask = 0x19B, .dropmakka = 5000, .dropexp = 2000, .attackcnt = 1,
     },
     // 0x152 (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x153 Dante 1 (Boss) (Fiend, Lv 36)
     {
         .flag = 0x32, .race = Race::Fiend, .level = 36, .hp = 2400, .maxhp = 2400, .mp = 3000, .maxmp = 3000,
-        .aisyoid = 339, .param = {20, 0, 18, 20, 18, 10}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 800,
-        .dropexp = 900, .attackcnt = 1,
+        .affinityId = 339, .param = {20, 0, 18, 20, 18, 10}, .inheritType = -1, .inheritMask = 1,
+        .dropmakka = 800, .dropexp = 900, .attackcnt = 1,
     },
     // 0x154 Fake Dante 2 (Boss) (Fiend, Lv 60)
     {
         .flag = 0x132, .race = Race::Fiend, .level = 60, .hp = 5000, .maxhp = 5000, .mp = 3000, .maxmp = 3000,
-        .aisyoid = 340, .param = {24, 0, 22, 24, 22, 14}, .keisyotype = -1, .keisyoform = 1, .dropexp = 200,
-        .attackcnt = 1,
+        .affinityId = 340, .param = {24, 0, 22, 24, 22, 14}, .inheritType = -1, .inheritMask = 1,
+        .dropexp = 200, .attackcnt = 1,
     },
     // 0x155 Dante 2 (Boss) (Fiend, Lv 60)
     {
         .flag = 0x32, .race = Race::Fiend, .level = 60, .hp = 5000, .maxhp = 5000, .mp = 3000, .maxmp = 3000,
-        .aisyoid = 341, .param = {24, 0, 22, 24, 22, 14}, .keisyotype = -1, .keisyoform = 1,
+        .affinityId = 341, .param = {24, 0, 22, 24, 22, 14}, .inheritType = -1, .inheritMask = 1,
         .dropmakka = 10000, .dropexp = 10000, .attackcnt = 1,
     },
     // 0x156 Metatron (Boss) (Seraph, Lv 95)
     {
         .flag = 0x72, .race = Race::Seraph, .level = 95, .hp = 16000, .maxhp = 16000, .mp = 10000,
-        .maxmp = 10000, .aisyoid = 342, .param = {32, 0, 34, 29, 24, 16},
+        .maxmp = 10000, .affinityId = 342, .param = {32, 0, 34, 29, 24, 16},
         .skill = {skill::Megidolaon, skill::Mahamaon, skill::Deathbound, skill::HolyWrath, skill::WingBuffet},
-        .keisyotype = 7, .keisyoform = 0x99D, .dropmakka = 10000, .dropexp = 10000, .attackcnt = 1,
+        .inheritType = 7, .inheritMask = 0x99D, .dropmakka = 10000, .dropexp = 10000, .attackcnt = 1,
     },
     // 0x157 Beelzebub Fly (Boss) (Tyrant, Lv 95)
     {
         .flag = 0xB2, .race = Race::Tyrant, .level = 95, .hp = 16000, .maxhp = 16000, .mp = 10000,
-        .maxmp = 10000, .aisyoid = 343, .param = {30, 0, 28, 27, 30, 20},
-        .skill = {skill::Mazionga, skill::Megidolaon, skill::Dekaja, skill::StoneGaze}, .keisyotype = 9,
-        .keisyoform = 0xAF, .dropmakka = 10000, .dropexp = 10000, .attackcnt = 1,
+        .maxmp = 10000, .affinityId = 343, .param = {30, 0, 28, 27, 30, 20},
+        .skill = {skill::Mazionga, skill::Megidolaon, skill::Dekaja, skill::StoneGaze}, .inheritType = 9,
+        .inheritMask = 0xAF, .dropmakka = 10000, .dropexp = 10000, .attackcnt = 1,
     },
     // 0x158 Lucifer (Boss) (Devil, Lv 99)
     {
         .flag = 0xB2, .race = Race::Devil, .level = 99, .hp = 65535, .maxhp = 65535, .mp = 65535,
-        .maxmp = 65535, .aisyoid = 344, .param = {40, 0, 40, 40, 40, 40},
+        .maxmp = 65535, .affinityId = 344, .param = {40, 0, 40, 40, 40, 40},
         .skill = {skill::Maragion, skill::Bufula, skill::Mabufula, skill::Tentarafoo, skill::Diarama, skill::FeralClaw, skill::Allure},
-        .keisyotype = 7, .keisyoform = 0x99D, .dropmakka = 65535, .dropexp = 65535, .attackcnt = 1,
+        .inheritType = 7, .inheritMask = 0x99D, .dropmakka = 65535, .dropexp = 65535, .attackcnt = 1,
     },
     // 0x159 Pale Rider (Boss) (Fiend, Lv 63)
     {
         .flag = 0x32, .race = Race::Fiend, .level = 63, .hp = 5000, .maxhp = 5000, .mp = 2000, .maxmp = 2000,
-        .aisyoid = 345, .param = {24, 0, 26, 18, 17, 13}, .keisyotype = -1, .keisyoform = 1,
+        .affinityId = 345, .param = {24, 0, 26, 18, 17, 13}, .inheritType = -1, .inheritMask = 1,
         .dropmakka = 3000, .dropexp = 5000, .attackcnt = 1,
     },
     // 0x15A White Rider (Boss) (Fiend, Lv 52)
     {
         .flag = 0x32, .race = Race::Fiend, .level = 52, .hp = 4000, .maxhp = 4000, .mp = 1500, .maxmp = 1500,
-        .aisyoid = 346, .param = {23, 0, 17, 16, 18, 13}, .keisyotype = -1, .keisyoform = 1,
+        .affinityId = 346, .param = {23, 0, 17, 16, 18, 13}, .inheritType = -1, .inheritMask = 1,
         .dropmakka = 3000, .dropexp = 5000, .attackcnt = 1,
     },
     // 0x15B Red Rider (Boss) (Fiend, Lv 55)
     {
         .flag = 0x32, .race = Race::Fiend, .level = 55, .hp = 4300, .maxhp = 4300, .mp = 1700, .maxmp = 1700,
-        .aisyoid = 347, .param = {23, 0, 21, 18, 15, 13}, .keisyotype = -1, .keisyoform = 1,
+        .affinityId = 347, .param = {23, 0, 21, 18, 15, 13}, .inheritType = -1, .inheritMask = 1,
         .dropmakka = 3000, .dropexp = 5000, .attackcnt = 1,
     },
     // 0x15C Black Rider (Boss) (Fiend, Lv 61)
     {
         .flag = 0x32, .race = Race::Fiend, .level = 61, .hp = 4600, .maxhp = 4600, .mp = 1800, .maxmp = 1800,
-        .aisyoid = 348, .param = {22, 0, 25, 16, 20, 13}, .keisyotype = -1, .keisyoform = 1,
+        .affinityId = 348, .param = {22, 0, 25, 16, 20, 13}, .inheritType = -1, .inheritMask = 1,
         .dropmakka = 3000, .dropexp = 5000, .attackcnt = 1,
     },
     // 0x15D Matador (Boss) (Fiend, Lv 30)
     {
         .flag = 0x32, .race = Race::Fiend, .level = 30, .hp = 1000, .maxhp = 1000, .mp = 500, .maxmp = 500,
-        .aisyoid = 349, .param = {12, 0, 9, 11, 19, 9}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 700,
-        .dropexp = 1200, .attackcnt = 1,
+        .affinityId = 349, .param = {12, 0, 9, 11, 19, 9}, .inheritType = -1, .inheritMask = 1,
+        .dropmakka = 700, .dropexp = 1200, .attackcnt = 1,
     },
     // 0x15E Hell Biker (Boss) (Fiend, Lv 42)
     {
         .flag = 0x32, .race = Race::Fiend, .level = 42, .hp = 3000, .maxhp = 3000, .mp = 1000, .maxmp = 1000,
-        .aisyoid = 350, .param = {17, 0, 14, 14, 17, 10}, .keisyotype = -1, .keisyoform = 1,
+        .affinityId = 350, .param = {17, 0, 14, 14, 17, 10}, .inheritType = -1, .inheritMask = 1,
         .dropmakka = 2500, .dropexp = 2500, .attackcnt = 1,
     },
     // 0x15F Daisoujou (Boss) (Fiend, Lv 37)
     {
         .flag = 0x32, .race = Race::Fiend, .level = 37, .hp = 2500, .maxhp = 2500, .mp = 800, .maxmp = 800,
-        .aisyoid = 351, .param = {12, 0, 21, 11, 13, 10}, .keisyotype = -1, .keisyoform = 1,
+        .affinityId = 351, .param = {12, 0, 21, 11, 13, 10}, .inheritType = -1, .inheritMask = 1,
         .dropmakka = 2000, .dropexp = 2000, .attackcnt = 1,
     },
     // 0x160 The Harlot (Boss) (Fiend, Lv 69)
     {
         .flag = 0x32, .race = Race::Fiend, .level = 69, .hp = 5000, .maxhp = 5000, .mp = 2000, .maxmp = 2000,
-        .aisyoid = 352, .param = {23, 0, 24, 19, 19, 19}, .keisyotype = -1, .keisyoform = 1,
+        .affinityId = 352, .param = {23, 0, 24, 19, 19, 19}, .inheritType = -1, .inheritMask = 1,
         .dropmakka = 4000, .dropexp = 8000, .attackcnt = 7, .attackinterval = 3,
     },
     // 0x161 Trumpeter (Boss) (Fiend, Lv 77)
     {
         .flag = 0x32, .race = Race::Fiend, .level = 77, .hp = 11000, .maxhp = 11000, .mp = 5000,
-        .maxmp = 5000, .aisyoid = 353, .param = {21, 0, 31, 21, 24, 15}, .keisyotype = -1, .keisyoform = 1,
-        .dropmakka = 4000, .dropexp = 8000, .attackcnt = 1,
+        .maxmp = 5000, .affinityId = 353, .param = {21, 0, 31, 21, 24, 15}, .inheritType = -1,
+        .inheritMask = 1, .dropmakka = 4000, .dropexp = 8000, .attackcnt = 1,
     },
     // 0x162 (unnamed) (-, Lv 99)
     {
-        .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767, .aisyoid = 354,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
-        .dropexp = 65535, .attackcnt = 1,
+        .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
+        .affinityId = 354, .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1,
+        .dropmakka = 65535, .dropexp = 65535, .attackcnt = 1,
     },
     // 0x163 (unnamed) (-, Lv 99)
     {
-        .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767, .aisyoid = 355,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
-        .dropexp = 65535, .attackcnt = 1,
+        .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
+        .affinityId = 355, .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1,
+        .dropmakka = 65535, .dropexp = 65535, .attackcnt = 1,
     },
     // 0x164 (unnamed) (Foul, Lv 99)
     {
         .flag = 0x22, .race = Race::Foul, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767,
-        .maxmp = 32767, .aisyoid = 356, .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1,
-        .dropmakka = 65535, .dropexp = 65535, .attackcnt = 1,
+        .maxmp = 32767, .affinityId = 356, .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1,
+        .inheritMask = 1, .dropmakka = 65535, .dropexp = 65535, .attackcnt = 1,
     },
     // 0x165 (unnamed) (Tyrant, Lv 99)
     {
         .flag = 0xB2, .race = Race::Tyrant, .level = 99, .hp = 16000, .maxhp = 16000, .mp = 10000,
-        .maxmp = 10000, .aisyoid = 343, .param = {40, 0, 40, 40, 40, 40},
-        .skill = {skill::Mazionga, skill::Megidolaon, skill::Dekaja, skill::StoneGaze}, .keisyotype = 9,
-        .keisyoform = 0xAF, .dropmakka = 10000, .dropexp = 10000, .attackcnt = 1,
+        .maxmp = 10000, .affinityId = 343, .param = {40, 0, 40, 40, 40, 40},
+        .skill = {skill::Mazionga, skill::Megidolaon, skill::Dekaja, skill::StoneGaze}, .inheritType = 9,
+        .inheritMask = 0xAF, .dropmakka = 10000, .dropexp = 10000, .attackcnt = 1,
     },
     // 0x166 Loa (Boss) (Night, Lv 53)
     {
         .flag = 0x22, .race = Race::Night, .level = 53, .hp = 414, .maxhp = 414, .mp = 225, .maxmp = 225,
-        .aisyoid = 358, .param = {16, 0, 22, 16, 12, 7},
+        .affinityId = 358, .param = {16, 0, 22, 16, 12, 7},
         .skill = {skill::Debilitate, skill::Tetraja, skill::Mamudo, skill::VenomBite, skill::StoneGaze, skill::Mamudoon, skill::LastResort},
-        .keisyotype = 9, .keisyoform = 0x8BB, .dropmakka = 404, .dropexp = 410,
-        .dropitem = {item::ChakraDrop}, .droppoint = {10}, .hougyokupoint = 1, .masekipoint = 5,
+        .inheritType = 9, .inheritMask = 0x8BB, .dropmakka = 404, .dropexp = 410,
+        .dropitem = {item::ChakraDrop}, .droppoint = {10}, .beadDropChance = 1, .lifeStoneDropChance = 5,
         .attackcnt = 1,
     },
     // 0x167 Virtue (Boss) (Divine, Lv 41)
     {
         .flag = 0x22, .race = Race::Divine, .level = 41, .hp = 400, .maxhp = 400, .mp = 174, .maxmp = 174,
-        .aisyoid = 359, .param = {12, 0, 17, 17, 8, 7},
-        .skill = {skill::Makarakarn, skill::Mahama, skill::Thunderclap, skill::Mediarama}, .keisyotype = 8,
-        .keisyoform = 0x881, .dropmakka = 268, .dropexp = 256, .dropitem = {102}, .droppoint = {8},
-        .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 359, .param = {12, 0, 17, 17, 8, 7},
+        .skill = {skill::Makarakarn, skill::Mahama, skill::Thunderclap, skill::Mediarama}, .inheritType = 8,
+        .inheritMask = 0x881, .dropmakka = 268, .dropexp = 256, .dropitem = {102}, .droppoint = {8},
+        .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x168 Power (Boss) (Divine, Lv 33)
     {
         .flag = 0x22, .race = Race::Divine, .level = 33, .hp = 320, .maxhp = 320, .mp = 126, .maxmp = 126,
-        .aisyoid = 360, .param = {16, 0, 8, 16, 7, 6},
-        .skill = {skill::Tarukaja, skill::Guillotine, skill::Hamaon}, .keisyotype = 8, .keisyoform = 0x99D,
-        .dropmakka = 192, .dropexp = 173, .dropitem = {108}, .droppoint = {8}, .hougyokupoint = 1,
-        .masekipoint = 5, .attackcnt = 1,
+        .affinityId = 360, .param = {16, 0, 8, 16, 7, 6},
+        .skill = {skill::Tarukaja, skill::Guillotine, skill::Hamaon}, .inheritType = 8, .inheritMask = 0x99D,
+        .dropmakka = 192, .dropexp = 173, .dropitem = {108}, .droppoint = {8}, .beadDropChance = 1,
+        .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x169 Legion (Boss) (Haunt, Lv 49)
     {
         .flag = 0xA2, .race = Race::Haunt, .level = 49, .hp = 546, .maxhp = 546, .mp = 180, .maxmp = 180,
-        .aisyoid = 361, .param = {19, 0, 11, 21, 9, 9},
+        .affinityId = 361, .param = {19, 0, 11, 21, 9, 9},
         .skill = {skill::AntiPhys, skill::HellGaze, skill::Deathtouch, skill::Mamudoon, skill::Tetrakarn},
-        .keisyotype = 9, .keisyoform = 0x9B, .dropmakka = 356, .dropexp = 354, .dropitem = {108},
-        .droppoint = {8}, .hougyokupoint = 1, .masekipoint = 5, .attackcnt = 1,
+        .inheritType = 9, .inheritMask = 0x9B, .dropmakka = 356, .dropexp = 354, .dropitem = {108},
+        .droppoint = {8}, .beadDropChance = 1, .lifeStoneDropChance = 5, .attackcnt = 1,
     },
     // 0x16A (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x16B (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x16C (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x16D (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x16E (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x16F (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x170 (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x171 (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x172 (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x173 (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x174 (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x175 (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x176 (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x177 (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x178 (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x179 (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x17A (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x17B (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x17C (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x17D (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x17E (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
     // 0x17F (unnamed) (-, Lv 99)
     {
         .flag = 0x22, .level = 99, .hp = 32767, .maxhp = 32767, .mp = 32767, .maxmp = 32767,
-        .param = {40, 40, 40, 40, 40, 40}, .keisyotype = -1, .keisyoform = 1, .dropmakka = 65535,
+        .param = {40, 40, 40, 40, 40, 40}, .inheritType = -1, .inheritMask = 1, .dropmakka = 65535,
         .dropexp = 65535, .attackcnt = 1,
     },
 };

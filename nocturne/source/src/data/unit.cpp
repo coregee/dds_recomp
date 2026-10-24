@@ -137,7 +137,7 @@ uint32_t affinity(const UnitWork& unit, Attribute attr)
     if (attr == Attribute::None)
         return 0;
     int32_t column = static_cast<int32_t>(attr);
-    int32_t row = unit.isPlayerCharacter() ? 0 : devilFormat(unit.id).aisyoid;
+    int32_t row = unit.isPlayerCharacter() ? 0 : devilFormat(unit.id).affinityId;
     uint32_t value = affinityRow(row)[column];
     if (isAilment(unit, Ailment::Stone))
         value = affinityRow(kStoneAffinityRow)[column];

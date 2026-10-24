@@ -232,6 +232,46 @@ int fw_print_arg_count(uint32_t format)
     case 0x00544030: case 0x00544048: case 0x00544058: return 1;   /* dead formindex, allframe, prev commind */
     case 0x00544020: return 0;                  /* returning */
     case 0x00543fb8: return 1;                  /* nego result */
+    case 0x005439f8: return 1;                  /* item no */
+    case 0x00543fa8: return 2;                  /* NEGO p, e */
+    case 0x005437f8: return 2;                  /* hits, select */
+    case 0x00543780: return 2;                  /* HP damage, healing */
+    case 0x005437a0: return 2;                  /* MP damage, healing */
+    case 0x005437c0: return 0;                  /* MISS!!! */
+    case 0x00532f20: return 1;                  /* effBTL:Set Stat */
+    case 0x00532f90: return 0;                  /* effBTL:InvokeForm == NULL */
+    case 0x00544f10: return 0;                  /* msg end */
+    case 0x005450e0: return 2;                  /* plv, elv */
+    case 0x00544ff0: return 1;                  /* request */
+    case 0x00545db0: return 1;                  /* event start */
+    case 0x00545018: return 1;                  /* select */
+    case 0x00545068: return 2;                  /* helper's skill: p, id */
+    case 0x00545218: return 2;                  /* plv, elv (group 12) */
+    case 0x005451f8: return 1;                  /* drain */
+    case 0x00545208: return 1;                  /* pwork hp */
+    case 0x00544e48: return 2;                  /* select info usemestype, mesno */
+    case 0x00544e70: return 2;                  /* normal_mesno, jouken_mesno */
+    case 0x00544518: return 0;                  /* cutcreate 3 */
+    case 0x00543e10: return 2;                  /* mot, cut */
+    case 0x00543e20: return 1;                  /* the skill's effect type */
+    case 0x00543e38: return 2;                  /* cut3 mottime, endtime */
+    case 0x00543e58: return 2;                  /* total damage HP, MP */
+    case 0x00543e78: return 1;                  /* skill kouka end time */
+    case 0x00543e98: return 1;                  /* skill kouka unlock time */
+    case 0x00543eb8: return 0;                  /* Kereijyou Koukaga nai */
+    case 0x00543ee8: return 1;                  /* press %f */
+    case 0x00543d80: return 0;
+    case 0x00543d70: return 0;
+    case 0x00543d50: return 0;
+    case 0x00543d40: return 1;
+    case 0x00543d18: return 0;
+    case 0x00543cf8: return 1;
+    case 0x00543ce0: return 0;
+    case 0x00543b78: return 2;
+    case 0x00543b68: return 1;
+    case 0x00543b58: return 1;
+    case 0x00543b30: return 2;
+    case 0x00543a08: return 1;                  /* skill no */
     case 0x00543880: case 0x005438c0: case 0x00543908: return 0;   /* counters, a failed escape's hit */
     case 0x005438d8: return 2;                  /* inoti party */
     case 0x005438f0: return 1;                  /* binjo party */
@@ -354,6 +394,7 @@ void ps2ScriptDiagnosticDisabled(uint64_t format, ...) { (void)format; }
 /* ---- per-file address resolvers ----------------------------------------- */
 
 void *nocturneResolveBattleActionStatusAddress(uint32_t a) { return fw_resolve(a); }
+void *nocturneResolveBattleScriptCommandsAddress(uint32_t a) { return fw_resolve(a); }
 void *nocturneResolveBattleAffinityAddress(uint32_t a) { return fw_resolve(a); }
 void *nocturneResolveBattleEffectsAddress(uint32_t a) { return fw_resolve(a); }
 void *nocturneResolveBattlePowerAddress(uint32_t a) { return fw_resolve(a); }
@@ -376,8 +417,17 @@ static _Noreturn void unreachable(const char *name);
 static uint32_t guest_sp_reserve(uint32_t bytes);
 static void guest_sp_release(uint32_t bytes);
 
-/* The process table: only the target-selection process exists. */
-uint64_t dds3SearchProcessName(uint64_t name) { (void)name; return 1; }
+/* The process table: "nb_help", "nb_commsel" and, for any other name, the
+ * target-selection process. */
+uint64_t dds3SearchProcessName(uint64_t name)
+{
+    switch ((uint32_t)name) {
+    case 0x005514f0: return FW_HELP_PROCESS;
+    case 0x005441a8: return FW_COMMSEL_PROCESS;
+    case 0x00551560: return FW_MAKA_PROCESS;
+    default: return 1;
+    }
+}
 
 uint32_t evtGetAgeOfMoon16(void) { return case_moon * 2u + (uint32_t)(fw_hash(13, 0, 0) & 1); }
 
@@ -586,6 +636,12 @@ uint64_t dds3StartProcess(uint64_t name, uint64_t priority, uint64_t startdelay,
 uint64_t dds3GetProcessData(uint64_t process)
 {
     uint32_t p = (uint32_t)process;
+    if (p == FW_HELP_PROCESS)
+        return FW_HELP;
+    if (p == FW_COMMSEL_PROCESS)
+        return FW_COMMSEL;
+    if (p == FW_MAKA_PROCESS)
+        return FW_MAKA;
     return p >= FW_MES_POOL && p <= FW_MES_POOL_END - 0x38 && (rd32(p + 0x34) & ~1u) == PROCESS_ALIVE ? rd32(p + 0x30)
                                                                                                          : FW_TARSEL;
 }
@@ -661,11 +717,7 @@ uint64_t ps2BattleAction_00263C00(uint64_t startframe, uint64_t uniqueid, uint64
     return 0;
 }
 void nbPanelAnalyzeStart(void) { fw_mes_log(36, 0, 0); }
-void nbDispDevilName(uint64_t id) { fw_mes_log(45, (uint32_t)id, 0); }
-void nbDispMsgHelp(uint64_t msgid, uint64_t no, uint64_t msgtype) { fw_mes_log(46, (uint32_t)msgid ^ (uint32_t)no << 16, (uint32_t)msgtype); }
 /* READY's SetAction / CheckAction (not rewritten): logged. */
-void fw_ready_set(uint64_t action) { fw_mes_log(43, (uint32_t)action, 0); }
-uint64_t fw_ready_check(uint64_t action) { fw_mes_log(44, (uint32_t)action, 0); return fw_hash(16, (uint32_t)action, 0) & 1; }
 uint64_t nbPanelStockSelect(uint64_t data, uint64_t sw) { fw_mes_log(41, (uint32_t)data, (uint32_t)sw); return 0; }
 uint64_t ps2MovieCheckAdpcmFlag(void) { return (uint64_t)(int64_t)(int32_t)rd32(0x5519c8); }
 uint64_t ps2MovieStopAdpcm(void) { fw_mes_log(42, 0, 0); return 0; }
@@ -691,15 +743,212 @@ uint64_t ps2BattleAction_00263918(uint64_t startframe, uint64_t uniqueid, uint64
     return 1;
 }
 void ps2BattlePanelSetEnabled_00282200(uint64_t enabled) { fw_mes_log(33, (uint32_t)enabled, 0); }
-void nbDispJyokyoHelp(uint64_t msgid, uint64_t no, uint64_t var_id, uint64_t var_ind)
-{
-    fw_mes_log(30, (uint32_t)msgid ^ (uint32_t)no << 16, (uint32_t)var_id ^ (uint32_t)var_ind << 8);
-}
 uint64_t ps2ProcessGetRunTime(uint64_t process) { return (uint64_t)(int64_t)(int32_t)rd32((uint32_t)process + 0x28); }
 void dds3FadeIn(uint64_t r, uint64_t g, uint64_t b, uint64_t frames) { fw_mes_log(21, (uint32_t)r ^ (uint32_t)g << 8 ^ (uint32_t)b << 16, (uint32_t)frames); }
+void nbSetDamage(uint64_t form, uint64_t week, uint32_t range) { fw_mes_log(110, (uint32_t)form ^ (uint32_t)week << 24, range); }
+void nbSetDamage2(uint64_t form, uint32_t range) { fw_mes_log(111, (uint32_t)form, range); }
+void nbSetBadstatMotion(uint64_t form, uint64_t type, uint32_t range) { fw_mes_log(112, (uint32_t)form ^ (uint32_t)type << 20, range); }
+void nbSetBadstatMotion2(uint64_t form) { fw_mes_log(113, (uint32_t)form, 0); }
+uint64_t ps2NegoActorMotionId_0028D1B8(uint64_t form) { fw_mes_log(118, (uint32_t)form, 0); return (uint64_t)(0x10100u + fw_hash(118, (uint32_t)form, 0) % 0x40u); }
+void NegoDebugDraw(uint64_t talk) { fw_mes_log(119, (uint32_t)talk, 0); }
+void NegoDebugSelectDraw(uint64_t talk) { fw_mes_log(119, (uint32_t)talk, 1); }
+uint64_t NegoDebug(uint64_t talk) { fw_mes_log(119, (uint32_t)talk, 2); return fw_hash(119, (uint32_t)talk, 2) % 2; }
+uint64_t nbMemoryLoadNegoSe(uint64_t form) { fw_mes_log(120, (uint32_t)form, 0); return fw_hash(120, (uint32_t)form, 0) % 2; }
+void ps2SoundVolumeHalfDown_002C20A0(void) { fw_mes_log(121, 0, 0); }
+void ps2SoundVolumeHalfUp_002C20C8(void) { fw_mes_log(121, 1, 0); }
+/* A talk step (the tests' stand-in for the flow functions): by the step's
+ * phase, it ends the talk, chooses its next step or leaves candidates, and
+ * may show a message. */
+uint64_t fw_talk_step(uint64_t talk)
+{
+    uint32_t n = (uint32_t)talk, phase = rd32(n + 0x18), h = (uint32_t)fw_hash(122, rd32(n + 0x14) ^ rd32(n + 0xb0) << 24, phase);
+    fw_mes_log(122, rd32(n + 0x14), phase);
+    switch (h % 6) {
+    case 0: return 1 + h / 6 % 4;                                   /* the talk ends */
+    case 1: wr32(n + 0x1c, 1 + h / 6 % 50); break;                  /* the next step */
+    case 2: wr32(n + 0x20, 1 + h / 6 % 3); wr32(n + 0x24, 0x40u + h / 18 % 60); wr32(n + 0x28, 0x80u + h / 7 % 60); break;
+    case 3: wr32(n + 0x44, rd32(n + 0x50)); wr32(n + 0x48, h / 6 % 20); break;   /* a message */
+    case 4: wr32(n + 0x10, h / 6 % 3); break;                        /* a wait */
+    default: break;
+    }
+    return 0;
+}
+void nbAllFormDispOn(void) { fw_mes_log(114, 0, 0); }
+void nbGroupFormDispOff(uint64_t side) { fw_mes_log(115, (uint32_t)side, 0); }
+void nbGroupFormDispOn(uint64_t side) { fw_mes_log(115, (uint32_t)side, 1); }
+void nbPanelAutoHide(void) { fw_mes_log(116, 0, 0); }
+void ps2BattlePanelHideHookA(void) { fw_mes_log(116, 1, 0); }
+void nbCameraScriptSet1Shot(uint64_t form) { fw_mes_log(117, (uint32_t)form, 0); }
+void nbCameraScriptSetBougai(uint64_t form) { fw_mes_log(117, (uint32_t)form, 1); }
+void effBTLCutDraw(uint64_t cut) { fw_mes_log(109, (uint32_t)cut, 0); }
+void dds3FadeIn2(uint64_t frames) { fw_mes_log(102, (uint32_t)frames, 0); }
+void ps2BattleOutcome_001E3B78(uint64_t unit, uint64_t a, uint64_t b) { fw_mes_log(103, (uint32_t)unit, (uint32_t)a ^ (uint32_t)b << 16); }
+void ps2BattleFormation_0028A340(uint64_t data, uint64_t group) { fw_mes_log(104, (uint32_t)data, (uint32_t)group); }
+void ps2BattleFormation_0028A758(uint64_t data) { fw_mes_log(105, (uint32_t)data, 0); }
+void ps2BattleFormation_0024D8C0(uint64_t side, uint64_t stockno, uint64_t formindex)
+{
+    fw_mes_log(106, (uint32_t)side ^ (uint32_t)stockno << 16, (uint32_t)formindex);
+}
+void ps2BattleOrder_00258048(uint64_t formindex) { fw_mes_log(107, (uint32_t)formindex, 0); }
+void ps2SoundStopEffectMidi_002C1730(uint64_t sound) { fw_mes_log(108, (uint32_t)sound, 0); }
 void dds3FadeOut(uint64_t r, uint64_t g, uint64_t b, uint64_t frames) { fw_mes_log(22, (uint32_t)r ^ (uint32_t)g << 8 ^ (uint32_t)b << 16, (uint32_t)frames); }
 void ps2PoolRelease(uint32_t slot) { fw_mes_log(23, slot, 0); }
 void effBTLDelete(uint64_t handle) { fw_mes_log(26, (uint32_t)handle, 0); }
+void effBTLCutDelete(uint64_t cut) { fw_mes_log(50, (uint32_t)cut, 0); }
+/* effBTLCutCreate: the cut's fields as the real one fills them from the
+   effect's description (cut 2's is 0x618 bytes after cut 1's). */
+uint64_t effBTLCutCreate(uint64_t effect, uint64_t cut, uint64_t form, uint64_t state)
+{
+    const uint32_t description = (uint32_t)effect + ((cut & 0xffff) > 1 ? 0x620u : 8u);
+    const uint32_t c = FW_BTL_CUT;
+    memset(fw_resolve(c), 0, 0x120);
+    wr32(c, (uint32_t)form);
+    wr32(c + 4, (uint32_t)effect);
+    wr32(c + 0xc, rd32(description));
+    wr32(c + 0x10, (cut & 0xffff) == 2 ? rd32(description) : rd32(description + 0x70));
+    wr32(c + 0x14, (uint32_t)cut & 0xffff);
+    wr32(c + 0x18, (uint32_t)state);
+    wr32(c + 0x1c, description);
+    fw_mes_log(90, (uint32_t)effect ^ (uint32_t)cut << 24, (uint32_t)form ^ (uint32_t)state << 24);
+    return c;
+}
+void effBTLSystemCutDelete(uint64_t cut) { fw_mes_log(51, (uint32_t)cut, 0); }
+void effBTLPartDelete(uint64_t part) { fw_mes_log(52, (uint32_t)part, 0); }
+void effPCPBossONGYDelete(uint64_t handle) { fw_mes_log(53, (uint32_t)handle, 0); }
+void effPCPBossONGY2Delete(uint64_t handle) { fw_mes_log(54, (uint32_t)handle, 0); }
+void effPCPBossBUNSINDelete(uint64_t handle) { fw_mes_log(55, (uint32_t)handle, 0); }
+void effPCPBossBUNSIN2Delete(uint64_t handle) { fw_mes_log(56, (uint32_t)handle, 0); }
+/* The kouka process's engine calls: logged; a part handle is handed out. */
+void effPCPBossONGYDraw(uint64_t handle) { fw_mes_log(91, (uint32_t)handle, 1); }
+void effPCPBossONGY2Draw(uint64_t handle) { fw_mes_log(91, (uint32_t)handle, 2); }
+void effPCPBossBUNSINDraw(uint64_t handle) { fw_mes_log(91, (uint32_t)handle, 3); }
+void effPCPBossBUNSIN2Draw(uint64_t handle) { fw_mes_log(91, (uint32_t)handle, 4); }
+uint64_t ps2BattleAction_00173CB0(uint64_t form, uint64_t kind)
+{
+    fw_mes_log(92, (uint32_t)form, (uint32_t)kind);
+    return 0x00779400u + ((uint32_t)kind & 0xff) * 0x10u;
+}
+void effBTLPartEnd(uint64_t part) { fw_mes_log(93, (uint32_t)part, 0); }
+void effBTLPartDraw(uint64_t part) { fw_mes_log(93, (uint32_t)part, 1); }
+void ps2BattlePanelSetAnalyzeUnit_00280538(uint64_t unit) { fw_mes_log(94, (uint32_t)unit, 0); }
+void nbFormDispOff(uint64_t formindex) { fw_mes_log(95, (uint32_t)formindex, 0); }
+void nbFormDispOn(uint64_t formindex) { fw_mes_log(95, (uint32_t)formindex, 1); }
+/* The VU0 packet makers a helper's coming and going uses (0x265130,
+ * 0x265298, 0x2653A0): logged, by which. */
+/* The battle panel's drawing and the font's: logged. */
+void ps2BattlePanelSetOrderingOffset_002797B0(uint64_t offset) { fw_mes_log(126, (uint32_t)offset, 0); }
+void ps2BattlePanelSetPrimitive(uint64_t a, uint64_t b, uint64_t c, uint64_t d, uint64_t e, uint64_t f, uint64_t g, uint64_t h)
+{
+    fw_mes_log(126, 1u ^ (uint32_t)a << 4 ^ (uint32_t)b << 8 ^ (uint32_t)c << 12, (uint32_t)d ^ (uint32_t)e << 8 ^ (uint32_t)f << 16 ^ (uint32_t)g << 20 ^ (uint32_t)h << 24);
+}
+void ps2BattlePanelSetAlpha(uint64_t mode) { fw_mes_log(126, 2, (uint32_t)mode); }
+void ps2BattlePanelDrawTexturedRect(uint64_t x, uint64_t y, uint64_t w, uint64_t h, uint64_t u, uint64_t v, uint64_t tw, uint64_t th,
+                                    uint64_t color, uint64_t texture)
+{
+    fw_mes_log(127, (uint32_t)x ^ (uint32_t)y << 16, (uint32_t)w ^ (uint32_t)h << 16);
+    fw_mes_log(127, (uint32_t)u ^ (uint32_t)v << 16 ^ (uint32_t)tw << 8, (uint32_t)th ^ (uint32_t)color ^ (uint32_t)texture << 3);
+}
+uint64_t frDrawFontEx2(uint64_t font, uint64_t mode, uint64_t ot)
+{
+    fw_mes_log(128, (uint32_t)font, (uint32_t)mode ^ (uint32_t)ot << 8);
+    return 0;
+}
+/* The battle events' surroundings: music, banks, packs, the basic effect. */
+uint64_t ps2SoundPlayMidi_002C1670(uint64_t midi) { fw_mes_log(129, (uint32_t)midi, 0); return 0; }
+uint64_t ps2SoundFadeOut_002C2070(uint64_t midi) { fw_mes_log(129, (uint32_t)midi, 1); return 0; }
+void ps2SoundEnsureBank(uint64_t bank) { fw_mes_log(129, (uint32_t)bank, 2); }
+uint64_t ps2ResourcePacRequestFree(uint64_t request) { fw_mes_log(129, (uint32_t)request, 3); return 0; }
+void ps2BattleActionRequest_00296B88(void) { fw_mes_log(129, 0, 4); }
+uint64_t fw_event_pack_load(uint64_t resource)
+{
+    fw_mes_log(130, (uint32_t)resource, 0);
+    return dds3StartProcess(0x00777600, 0x3ec, 1, 1, 0, 0, (uint32_t)resource);
+}
+uint64_t fw_event_pack_state(uint64_t resource) { return fw_hash(130, (uint32_t)resource, 1) % 4; }
+uint64_t fw_basic_effect(uint64_t p, uint64_t pos, uint64_t rot)
+{
+    uint32_t effect = mes_alloc(0x20), state = mes_alloc(0x10);
+    fw_mes_log(131, (uint32_t)p ^ (uint32_t)pos << 8, (uint32_t)rot);
+    wr32(effect + 0x18, state);
+    wr32(state + 4, (uint32_t)fw_hash(131, (uint32_t)p, 0) & 0xfe);
+    return effect;
+}
+uint64_t fw_move_packets(uint64_t entry, uint64_t startframe, uint64_t uniqueid, uint64_t form, uint64_t target)
+{
+    fw_mes_log(125, (uint32_t)entry ^ (uint32_t)startframe << 24, (uint32_t)uniqueid ^ (uint32_t)form ^ (uint32_t)target << 8);
+    return 1;
+}
+void nbSetFormPos(uint64_t form, uint64_t pos) { fw_mes_log(123, (uint32_t)form, rd32((uint32_t)pos) ^ rd32((uint32_t)pos + 8)); }
+void nbSetFormRot(uint64_t form, uint64_t rot) { fw_mes_log(124, (uint32_t)form, rd32((uint32_t)rot) ^ rd32((uint32_t)rot + 4)); }
+void nbReturnUnit(uint64_t partyindex, uint64_t arg, uint64_t dead)
+{
+    fw_mes_log(96, (uint32_t)partyindex ^ (uint32_t)arg << 16, (uint32_t)dead);
+}
+void nbMoveTarget(uint64_t partyno, uint64_t pos, uint32_t speed)
+{
+    fw_mes_log(97, (uint32_t)partyno, speed);
+    fw_mes_log(98, (uint32_t)pos, rd32((uint32_t)pos) ^ rd32((uint32_t)pos + 4) ^ rd32((uint32_t)pos + 8));
+}
+void nbMoveHome(uint64_t partyno, uint32_t speed) { fw_mes_log(97, (uint32_t)partyno | 0x100u, speed); }
+void evtSetAgeOfMoon(int32_t age) { fw_mes_log(99, (uint32_t)age, 0); }
+void nbUnitSetColor(uint64_t unit, uint64_t frames, uint64_t color) { fw_mes_log(100, (uint32_t)unit ^ (uint32_t)frames << 24, (uint32_t)color); }
+void nbUnitSetAlpha(uint64_t unit, uint64_t frames, uint64_t alpha) { fw_mes_log(101, (uint32_t)unit ^ (uint32_t)frames << 24, (uint32_t)alpha); }
+void nbPanelAllShow(void) { fw_mes_log(57, 0, 0); }
+/* READY's loading and presentation (log ids 66..): values from a hash of the arguments. */
+void effBTLSkillStart(uint64_t skill, uint64_t arg) { fw_mes_log(66, (uint32_t)skill, (uint32_t)arg); }
+void effBTLSkillEnd(void) { fw_mes_log(67, 0, 0); }
+uint64_t effBTLBedName(uint64_t skill) { fw_mes_log(68, (uint32_t)skill, 0); return 0x00777400u + ((uint32_t)skill & 0xff); }
+uint64_t effBTLLoad(uint64_t data) { fw_mes_log(69, (uint32_t)data, 0); return 0x00778000u + (fw_hash(69, (uint32_t)data, 0) & 0xff); }
+uint64_t ps2SoundBankStatus(uint64_t bank) { fw_mes_log(70, (uint32_t)bank, 0); return fw_hash(70, (uint32_t)bank, 0) % 3 != 0; }
+void ps2SoundSetBankSource(uint64_t data, uint64_t size) { fw_mes_log(71, (uint32_t)data, (uint32_t)size); }
+uint64_t fileRequest(uint64_t path) { fw_mes_log(72, (uint32_t)path, 0); return fw_hash(72, (uint32_t)path, 0) % 4 == 0 ? 0 : 0x00779000u + (fw_hash(73, (uint32_t)path, 0) & 0xfff); }
+uint64_t fileCheckEnd(uint64_t request) { fw_mes_log(74, (uint32_t)request, 0); return fw_hash(74, (uint32_t)request, 0) % 3 != 0; }
+uint64_t fileGetMemHandle(uint64_t request) { fw_mes_log(75, (uint32_t)request, 0); return 0x0077a001u + ((uint32_t)request & 0xff0); }
+uint64_t fileGetLoadSize(uint64_t request) { fw_mes_log(76, (uint32_t)request, 0); return fw_hash(76, (uint32_t)request, 0) & 0xffff; }
+void ps2ResourceRequestRelease(uint64_t request) { fw_mes_log(77, (uint32_t)request, 0); }
+uint64_t nbGetMotionActframe(uint64_t form, uint64_t motion, uint32_t speed)
+{
+    fw_mes_log(78, (uint32_t)form ^ (uint32_t)motion << 24, speed);
+    return fw_hash(78, (uint32_t)motion, speed) % 4 == 0 ? 0 : fw_hash(79, (uint32_t)motion, speed) % 60;
+}
+uint32_t nbGetMotionSpeed(uint64_t form, uint64_t motion, uint32_t speed)
+{
+    fw_mes_log(80, (uint32_t)form ^ (uint32_t)motion << 24, speed);
+    return speed;   /* the motion's own speed is 1 here */
+}
+uint64_t nbGetMotionNo(uint64_t form, uint64_t motion) { fw_mes_log(81, (uint32_t)form, (uint32_t)motion); return (uint64_t)(int64_t)(int32_t)(fw_hash(81, (uint32_t)motion, 0) % 40); }
+void nbStopMotionSe(void) { fw_mes_log(82, 0, 0); }
+uint64_t nbGetMotionSeNo(uint64_t form, uint64_t motion) { fw_mes_log(83, (uint32_t)form, (uint32_t)motion); return 0x00300000u + ((uint32_t)motion & 0xff); }
+uint64_t nbMemoryLoadMotionSe(uint64_t form, uint64_t motion) { fw_mes_log(84, (uint32_t)form, (uint32_t)motion); return fw_hash(84, (uint32_t)motion, 0) & 1; }
+void nbMakeSkillEffectPacket(uint64_t start, uint64_t timer, uint64_t act, uint64_t form, uint64_t hiteff, uint64_t motiontype,
+                             uint64_t skill)
+{
+    fw_mes_log(85, (uint32_t)start ^ (uint32_t)timer << 8, (uint32_t)act);
+    fw_mes_log(86, (uint32_t)form ^ (uint32_t)hiteff << 24, (uint32_t)motiontype ^ (uint32_t)skill << 16);
+}
+void nbAddHitEffPacket(uint64_t start, uint64_t act, uint64_t form, uint64_t kind)
+{
+    fw_mes_log(87, (uint32_t)start ^ (uint32_t)kind << 24, (uint32_t)act ^ (uint32_t)form);
+}
+void nbMakeTargetPacket(uint64_t start, uint64_t act, uint64_t form, uint64_t targets, uint64_t kind, uint32_t speed)
+{
+    fw_mes_log(88, (uint32_t)start ^ (uint32_t)kind << 8, (uint32_t)act ^ (uint32_t)form);
+    fw_mes_log(89, (uint32_t)targets, speed);
+}
+void effBTLSkillSetFormationInfo(uint64_t formindex, uint64_t targets) { fw_mes_log(61, (uint32_t)formindex, (uint32_t)targets); }
+void nbInitNegoProcess(uint64_t act, uint64_t pformindex, uint64_t eformindex, uint64_t negotype, uint64_t skill)
+{
+    fw_mes_log(62, (uint32_t)act, (uint32_t)pformindex ^ (uint32_t)eformindex << 8);
+    fw_mes_log(63, (uint32_t)negotype, (uint32_t)skill);
+}
+void nbSetWaitMotion(uint64_t form, uint64_t motion, uint32_t speed) { fw_mes_log(64, (uint32_t)form ^ (uint32_t)motion << 24, speed); }
+void nbSetUnitMotion(uint64_t form, uint64_t motion, uint64_t loop, uint32_t speed)
+{
+    fw_mes_log(65, (uint32_t)form ^ (uint32_t)motion << 24 ^ (uint32_t)loop << 28, speed);
+}
+void nbPanelPressGaugeShow(void) { fw_mes_log(58, 0, 0); }
+void nbPanelStockSelectInit(void) { fw_mes_log(59, 0, 0); }
+void nbPanelStockEnd(void) { fw_mes_log(60, 0, 0); }
 int32_t cmpRemoveDevilEx(uint16_t devil) { fw_mes_log(25, devil, 0); return (int32_t)(fw_hash(14, devil, 0) % 3); }
 void dds3PadAct(uint64_t mode, uint64_t pow, uint64_t frame) { fw_mes_log(24, (uint32_t)mode ^ (uint32_t)pow << 24, (uint32_t)frame); }
 uint64_t nocturneInvokeScriptFunction(uint32_t entry, uint64_t work, unsigned command)

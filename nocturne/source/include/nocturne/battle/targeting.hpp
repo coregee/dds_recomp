@@ -19,7 +19,7 @@ int32_t itemSkillFor(const ActionProcessData& act, int32_t item);
 void targetTypeRuleArea(const ActionProcessData& act, const UnitWork& unit, int32_t* type, int32_t* rule,
                         int32_t* area, bool reverse);
 
-TargetSelectData& targetSelectData();                              // GetTarSelProcessData
+TargetCursor& targetSelectData();                                  // GetTarSelProcessData
 // CheckFormCursor: can the unit in party slot `self` target formation slot `target`.
 bool canTarget(int32_t self, int32_t type, int32_t rule, int32_t area, int32_t target);
 // nbSetSelectOkMark: mark every targetable slot (FormationStat::Selectable),

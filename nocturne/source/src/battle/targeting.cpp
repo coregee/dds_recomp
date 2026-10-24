@@ -72,9 +72,9 @@ void targetTypeRuleArea(const ActionProcessData& act, const UnitWork& unit, int3
 }
 
 // GetTarSelProcessData @ 0x0025D690
-TargetSelectData& targetSelectData()
+TargetCursor& targetSelectData()
 {
-    return *guest::table<TargetSelectData>(dds3::GetProcessData(dds3::SearchProcessName(kTargetSelectName)));
+    return *guest::table<TargetCursor>(dds3::GetProcessData(dds3::SearchProcessName(kTargetSelectName)));
 }
 
 // CheckFormCursor @ 0x0025DA78. Slots 0..3 are the player's side, 4..13 the
@@ -116,7 +116,7 @@ bool canTarget(int32_t self, int32_t type, int32_t rule, int32_t area, int32_t t
 // Formation::orgpos.x with a simple exchange sort (not stable).
 bool markTargetable(int32_t partyIndex, int32_t type, int32_t rule, int32_t area)
 {
-    TargetSelectData& select = targetSelectData();
+    TargetCursor& select = targetSelectData();
     select.friendcnt = 0;
     select.enemycnt = 0;
     for (int32_t candidate = 0; candidate < 16; ++candidate) {

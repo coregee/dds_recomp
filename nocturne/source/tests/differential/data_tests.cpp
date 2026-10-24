@@ -199,7 +199,7 @@ void addDataTests(std::vector<TestCase>& t)
         return Pair{[=] { return origVmVoid(0x00244238, {I(amount)}); }, [=] { addMacca(amount); return uint64_t{0}; }};
     });
     add("datCheckMaka", [](Gen& g) {
-        const int32_t amount = g.chance(50) ? global().maka + g.range(-2, 2) : g.range(-10, 9999999);
+        const int32_t amount = g.chance(50) ? global().macca + g.range(-2, 2) : g.range(-10, 9999999);
         return Pair{[=] { return origVm(0x002442c8, {I(amount)}); }, [=] { return norm(hasMacca(amount)); }};
     });
     add("datInitPlayer", [](Gen&) {

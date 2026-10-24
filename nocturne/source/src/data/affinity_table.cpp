@@ -4,7 +4,7 @@
 namespace nocturne::dat {
 
 // Affinity table, 0x003A7FE0: one row of 16 packed affinities per
-// DevilFormat::aisyoid. Each entry: damage rate in percent, plus flags
+// DevilFormat::affinityId. Each entry: damage rate in percent, plus flags
 // (Null, Repel, Drain, Weak; Flag100000 role unknown). See types.hpp Affinity.
 // Row 246 is used for petrified units, 247 for Fly.
 

@@ -103,7 +103,8 @@ typedef struct datDevilNegoFormat {
     u8 tokuboutype, honboutype, fighttype, reqtype, tuikareqtype, privatesel, privateselindex;
     u8 senseitype, inotitype, binjotype;
     u16 mukantype, mukanindex;
-    datNegoPresent itema[6], itemb[6], stone[1];
+    datNegoPresent itema[4], itemb[4], stone[4];
+    u8 unknown_2e[2];
 } datDevilNegoFormat;
 
 typedef struct datDevilFormat {
@@ -190,7 +191,9 @@ typedef struct datGlobalWork {
     s32 stock_count;
     u8 item_counts[0xa0];
     s16 boss_records[40][2];
-    u8 unknown_1a68[0x284];
+    u8 unknown_1a68[0x240];
+    u8 syakkincnt[64];       /* Loans taken from demons, by race */
+    u8 negoques[4];          /* the talks' questions answered: [0] in all, [1..3] by kind */
     u8 reason_points[4];     /* [1..3]: Reason (Kotowari) points */
     u8 unknown_1cf0[0xa];
     u8 hearts_equipped;      /* Magatama ID */
@@ -297,8 +300,11 @@ typedef struct nbFormation {
     u32 hunit;
     s16 partyindex, formindex;
     u8 unknown_94[0xa4 - 0x94];
-    s16 unknown_a4;
-    u8 unknown_a6[0xf0 - 0xa6];
+    s16 motionend;
+    s16 motionenddata;
+    u8 unknown_a8[6];
+    s16 motiontype;
+    u8 unknown_b0[0xf0 - 0xb0];
 } nbFormation;
 
 typedef struct nbParty {
@@ -354,7 +360,9 @@ typedef struct nbMainProcessData {
     u32 PanelProcessID, HelpProcessID, AutoCommProcessID, EncProcessID, EventProcessID;
     u32 HatudoEff, hPnlTex1, hPnlTex2, hPnlTex3, hPnlTex4;
     s32 jyokyomsgid;
-    u8 unknown_134[0x14c - 0x134];
+    s32 miscmsgid;
+    u32 flyh, flymem;
+    u32 d31_press_total, d31_rebehansya, d31_andahansya;
     s32 piercedResistance;
 } nbMainProcessData;
 
@@ -380,7 +388,7 @@ typedef struct nbActionProcessData {
     s32 autoskill;
     s32 allhpdamage, allmpdamage, massuruid;
     s32 negotype;
-    u8 unknown_6c[0x74 - 0x6c];
+    s32 motion, motse;
     u32 hEffBTL, hBed, hSkillSe, hSkillMem, skillmidi;
     nbTimeList timelist[32];
     u32 packettime;
@@ -407,6 +415,29 @@ typedef struct nbTarSelProcessData {
     s32 jyokyotime, time, alpha_a, alpha_b;
     float scale_a, scale_b;
 } nbTarSelProcessData;
+
+/* nbCommSelProcessData: the command menu (process "nb_commsel"). */
+typedef struct nbCommSelProcessData {
+    u32 mem;
+    PTR32(nbMainProcessData) data;
+    PTR32(nbActionProcessData) act;
+    s8 nowstat;
+    u8 nowtype;
+    u8 pad0e[2];
+    s32 drawtype, drawcursor, drawlisty;
+    s32 nowcursor[6], nowlisty[6];
+    PTR32(nbParty) my;
+    PTR32(nbParty) partytarget;
+    u16 commlist[6][0x120];
+    s32 commcnt[6];
+    s8 commdisable[6][0x120];
+    s32 cnt;
+    float smritu;
+    u32 animeflag;
+    s32 ox, oy, oz;
+    s32 alpha, helpa;
+    float ritu;
+} nbCommSelProcessData;
 
 /* datDevilAI_t: enemy AI per devil ID (0x3989E0). */
 typedef struct datDevilAIChk { u32 check[2]; u32 table; } datDevilAIChk;
@@ -481,6 +512,77 @@ struct frRequest {
     PTR32(frRequest) next;
     PTR32(frRequest) head;
 };
+
+/* nbHelpProcessData: the battle's help line (process "nb_help"). */
+typedef struct nbNegoProcessData {
+    PTR32(nbMainProcessData) data;
+    PTR32(nbActionProcessData) actdata;
+    u32 stat;
+    s32 negotype, waitframe;
+    u32 nownegoid;
+    s32 nownegophase;
+    u32 nextnegoid;
+    s32 nextkouhocnt;
+    u32 nextkouho[8];
+    s32 nowmsgid, nowmsgno, nowmes, msgwndid;
+    u32 unknown_54;
+    s32 nowselect;
+    u32 workid[8];
+    s32 requesttype, requestdata, requesthpmp, prevreqtype;
+    s32 cnt6_36, cnt6_37, cnt6_58, cnt6_66;
+    s32 mes6_2, mes6_25, mes6_67;
+    s32 flag1_6, flag1_39;
+    s32 historyindex;
+    u32 history[14];
+    s32 historymes[14];
+    s32 endid, endtype, negoreqtype;
+    u32 negoskillid;
+    s32 aisyo, aisyomes, hojopartyindex, hojoskillid, hojoseikou, hojoaisyo, hojoaisyomes, qtype, qindex;
+    PTR32(datUnitWork) pwork;
+    PTR32(datUnitWork) ework;
+    s32 pformindex, eformindex;
+    PTR32(nbFormation) pform;
+    PTR32(nbFormation) eform;
+    s32 ppartyindex, epartyindex;
+    PTR32(nbParty) pparty;
+    PTR32(nbParty) eparty;
+    s32 pkucyo, ekucyo, innen_id;
+    s32 temp_param[4];
+    s32 boupartyindex;
+    s32 getmakka, getitem, getinfotype, getinfomsg;
+    s32 flowmsg[31];
+    s32 questionmsg;
+    s32 aisyomsg[31];
+    s32 infomsg[31];
+    s32 helpmsg, helpmsg2, innenmsg, bossmsg;
+    s32 selectcur;
+} nbNegoProcessData;
+
+typedef struct nbMakaProcessData {
+    s32 stat;
+    u32 oldmaka;
+    s32 disp, targetx, targety, basex, basey, type;
+    float ritu;
+    s32 offtime, alpha;
+} nbMakaProcessData;
+
+typedef struct nbEventProcessData {
+    PTR32(nbMainProcessData) data;
+    s32 eventrid, time, seq, seqtime;
+    u32 userdata, usershutdown, file, pfile, mem;
+} nbEventProcessData;
+
+typedef struct nbHelpProcessData {
+    s32 type;
+    PTR32(char) text1;
+    PTR32(char) text2;
+    s32 textframe, textmax;
+    PTR32(frRequest) texthandle;
+    s32 textwidth, nextwidth;
+    u32 textcol;
+    s32 msgid, msgno, reqmsgid, reqmsgno;
+    s32 alpha;
+} nbHelpProcessData;
 
 /* The header of a .fnt file. */
 typedef struct frFontHeader {

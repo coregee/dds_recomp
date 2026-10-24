@@ -38,15 +38,27 @@ struct Formation {
     uint32_t hunit;
     int16_t partyindex;
     int16_t formindex;
-    uint8_t unknown_94[0xa4 - 0x94];
-    int16_t unknown_a4;       // 2: hidden until UnitKyoseiDisp fades the unit in
-    uint8_t unknown_a6[0xf0 - 0xa6];
+    uint32_t unknown_94;
+    uint32_t ailmentEffect;   // the ailment's effect on the unit (effBTLPart; anime bit 0x100) (tentative)
+    uint32_t homeColor;       // the unit's own colour and alpha, which the home colour packets restore (tentative)
+    ee::Float motionSpeed;    // the motion's speed, restored after a hit stop (tentative)
+    int16_t motionend;        // how the skill motion ends (nbGetMotionEndType): 2 fades the unit out,
+                              // which UnitKyoseiDisp fades back in; 3 ...  (tentative name)
+    int16_t motionenddata;    // its data (nbGetMotionEndData): the fade's start
+    uint8_t unknown_a8[6];
+    int16_t motiontype;       // the motion type the action plays (SetAction_READY)
+    uint8_t unknown_b0[0xbc - 0xb0];
+    // A dodge (type 2): how far it steps back and how fast (tentative names).
+    ee::Float dodgeStep, dodgeSpeed, dodgeDistance, dodgeStartSpeed;
+    uint8_t unknown_cc[0xf0 - 0xcc];
 };
 static_assert(sizeof(Formation) == 0xf0);
-static_assert(offsetof(Formation, unknown_a4) == 0xa4);
+static_assert(offsetof(Formation, motionend) == 0xa4 && offsetof(Formation, motiontype) == 0xae);
 static_assert(offsetof(Formation, scl) == 0x5c);
 static_assert(offsetof(Formation, stat) == 0x78);
 static_assert(offsetof(Formation, formindex) == 0x92);
+static_assert(offsetof(Formation, ailmentEffect) == 0x98 && offsetof(Formation, motionSpeed) == 0xa0);
+static_assert(offsetof(Formation, dodgeStep) == 0xbc && offsetof(Formation, dodgeStartSpeed) == 0xc8);
 
 namespace FormationStat {
 inline constexpr uint32_t Present     = 0x0001; // a combatant stands here
@@ -66,11 +78,11 @@ struct Party {
     int16_t statindex;
     uint16_t partyindex;
     int16_t count[20];        // buff/debuff ("hojo") counters by type
-    uint32_t aisyo[16];       // current packed affinity per Attribute
-    uint16_t hojoskill[8];
+    uint32_t affinities[16];  // current packed affinity per Attribute (HD: aisyo)
+    uint16_t buffSkills[8];   // (HD: hojoskill)
 };
 static_assert(sizeof(Party) == 128);
-static_assert(offsetof(Party, aisyo) == 0x30);
+static_assert(offsetof(Party, affinities) == 0x30);
 
 namespace PartyFlag {
 inline constexpr uint16_t Active     = 0x001;
@@ -96,7 +108,7 @@ struct MainProcessData {
     uint16_t unknown_1e;
     uint32_t sound, sound_mem;   // tentative
     // Where this encounter came from: encountPack(encpackno)
-    //   .enctable[packno].ritu[packindex].encountid == encno
+    //   .enctable[packno].entries[packindex].encountid == encno
     int32_t encpackno;
     int32_t packno;
     int32_t packindex;
@@ -120,32 +132,36 @@ struct MainProcessData {
     ee::Float press3;
     int16_t press4_p;         // press turns: full icons left
     int16_t press4_ten;       // ... and blinking (half) ones
-    int16_t press4_hansya, press4_miss;
+    int16_t press4_repel, press4_miss;   // (HD: press4_hansya)
     int16_t StageMajor, StageMinor;
     int32_t summonallowed;    // nonzero: enemies may call allies (tentative; HD order suggests nakamayobi)
-    int32_t aiextra;          // set by AI command 0xExxx with action 9 (meaning unknown)
+    int32_t eventno;          // the event to run when the action ends: a death's (RunDeadEventKouka), a script's (BTL_EVENT), AI command 0xExxx with action 9
     int32_t eventrid;         // tentative (HD order)
-    int16_t negopformindex, negoeformindex;   // tentative (HD order): the talks' two sides
-    int32_t negoresult;       // nonzero: an AI script started talks (CheckAction_AISCR)
+    int16_t talkPlayerSlot, talkEnemySlot;    // tentative (HD order): the talks' two sides (HD: negopformindex, negoeformindex)
+    int32_t talkResult;       // nonzero: an AI script started talks (CheckAction_AISCR) (HD: negoresult)
     uint8_t item[4];          // spoils so far
     uint8_t itemcnt[4];
-    uint32_t maka;            // Macca earned
+    uint32_t macca;           // Macca earned (HD: maka)
     uint32_t exp;             // EXP earned
     uint32_t baselight, niidalight, gamecamera, niidacamera, eventcamera;   // tentative (HD order)
     // The battle's processes.
     uint32_t MainProcessID;   // the battle itself; AI scripts run as its children
-    uint32_t MaeProcessID, AtoProcessID, ResultProcessID, StageProcessID, UnitProcessID;   // tentative (HD order)
+    uint32_t BeforeProcessID, AfterProcessID, ResultProcessID, StageProcessID, UnitProcessID; // tentative (HD order) (HD: MaeProcessID, AtoProcessID)
     uint32_t ActionProcessID[4];   // a ring of action processes (battle/action.hpp)
     int32_t NowActionProcess;
-    uint32_t CommSelProcessID, TarSelProcessID, EffectProcessID;   // tentative (HD order)
-    uint32_t KoukaProcessID;  // the presentation queue's process (battle/kouka.hpp)
-    uint32_t NegoProcessID, CameraProcessID, DebugProcessID;   // tentative (HD order)
+    uint32_t CommandMenuProcessID, TargetCursorProcessID, EffectProcessID; // tentative (HD order) (HD: CommSelProcessID, TarSelProcessID)
+    uint32_t EffectQueueProcessID; // the presentation queue's process (battle/kouka.hpp) (HD: KoukaProcessID)
+    uint32_t TalkProcessID, CameraProcessID, DebugProcessID;   // tentative (HD order) (HD: NegoProcessID)
     uint32_t AiScriptProcessID;   // the AI or death script running, or 0
     uint32_t PanelProcessID, HelpProcessID, AutoCommProcessID, EncProcessID, EventProcessID;   // tentative (HD order)
-    uint32_t HatudoEff;                                      // tentative (HD order)
+    uint32_t PassiveEffect;                                  // tentative (HD order) (HD: HatudoEff)
     uint32_t hPnlTex1, hPnlTex2, hPnlTex3, hPnlTex4;         // tentative (HD order)
-    int32_t jyokyomsgid;      // the status line's message table (nbDispJyokyoHelp)
-    uint8_t unknown_134[0x14c - 0x134];
+    int32_t statusMessageTable; // the status line's message table (nbDispJyokyoHelp) (HD: jyokyomsgid)
+    int32_t miscmsgid;
+    uint32_t flyh, flymem;    // tentative (HD order)
+    // Counted for an event boss (tentative): the press turns, and whether
+    // skills 0x107 / 0x113 were repelled (HD: rebe / anda "hansya", reflect).
+    uint32_t d31_press_total, d31_repel107, d31_repel113;   // (HD: d31_rebehansya, d31_andahansya)
     int32_t piercedResistance;   // set when Pierce ignored Null/Drain (tentative name)
 };
 static_assert(offsetof(MainProcessData, party) == 0x10 && offsetof(MainProcessData, enemyunit) == 8);
@@ -156,10 +172,10 @@ static_assert(offsetof(MainProcessData, orderindex) == 0x54);
 static_assert(offsetof(MainProcessData, stat) == 0x60);
 static_assert(offsetof(MainProcessData, esccnt) == 0x6b);
 static_assert(offsetof(MainProcessData, press4_p) == 0x78 && offsetof(MainProcessData, summonallowed) == 0x84);
-static_assert(offsetof(MainProcessData, KoukaProcessID) == 0xf4);
-static_assert(offsetof(MainProcessData, negoresult) == 0x94 && offsetof(MainProcessData, MainProcessID) == 0xbc);
+static_assert(offsetof(MainProcessData, EffectQueueProcessID) == 0xf4);
+static_assert(offsetof(MainProcessData, talkResult) == 0x94 && offsetof(MainProcessData, MainProcessID) == 0xbc);
 static_assert(offsetof(MainProcessData, AiScriptProcessID) == 0x104);
-static_assert(offsetof(MainProcessData, jyokyomsgid) == 0x130);
+static_assert(offsetof(MainProcessData, statusMessageTable) == 0x130);
 static_assert(offsetof(MainProcessData, item) == 0x98);
 static_assert(offsetof(MainProcessData, exp) == 0xa4);
 static_assert(offsetof(MainProcessData, piercedResistance) == 0x14c);
@@ -207,15 +223,19 @@ struct ActionProcessData {
     uint32_t select;          // chosen targets, one bit per formation slot
     uint32_t timer;
     int32_t runerr;
-    int32_t jyokyomes, jyo_varid, jyo_varind;
+    int32_t statusMessage, statusVarType, statusVarValue;   // (HD: jyokyomes, jyo_varid, jyo_varind)
     int32_t adata;
     int32_t autoskill;        // passive that fired (e.g. Might); tentative name
     int32_t allhpdamage, allmpdamage;
     int32_t massuruid;        // the skill item 1 rolled (nbGetItemSkillNo)
-    int32_t negotype;         // how a talk goes (6: started by an ailment, BadNego)
-    uint8_t unknown_6c[0x74 - 0x6c];   // two of the HD's motion, motse, motionO
+    int32_t talkType;         // how a talk goes (6: started by an ailment, BadNego) (HD: negotype)
+    int32_t motion;           // the motion the action plays (nbGetMotionNo), -1 none
+    int32_t motionSound;      // its sound bank is being loaded (nbMemoryLoadMotionSe) (HD: motse)
     uint32_t hEffBTL;         // the skill's effect (effBTL_t)
-    uint32_t hBed, hSkillSe, hSkillMem, skillmidi;
+    uint32_t hBed;            // the skill's effect file (.BED) being loaded
+    uint32_t hSkillSe;        // its sound file (/sound/MIDIxxxx.SMG) being loaded
+    uint32_t hSkillMem;       // ... and its memory
+    uint32_t skillmidi;       // the sound bank's ID
     TimeList timelist[32];    // by formation index
     uint32_t packettime;
     int32_t hitstopframe;
@@ -231,10 +251,10 @@ static_assert(offsetof(ActionProcessData, autoskill) == 0x58);
 static_assert(offsetof(ActionProcessData, aiselect) == 0x190);
 static_assert(offsetof(ActionProcessData, seq) == 0x08 && offsetof(ActionProcessData, timelist) == 0x88);
 static_assert(offsetof(ActionProcessData, aisummonid) == 0x1a0);
-static_assert(offsetof(ActionProcessData, negotype) == 0x68);
+static_assert(offsetof(ActionProcessData, talkType) == 0x68);
 
 // nbTarSelProcessData: the target-selection process (cursor and lists).
-struct TargetSelectData {
+struct TargetCursor {
     Ptr32<MainProcessData> data;
     Ptr32<ActionProcessData> act;
     uint8_t stat;
@@ -247,13 +267,13 @@ struct TargetSelectData {
     int8_t enemycnt;          // ... and the other side
     int8_t friendno[12];
     int8_t enemyno[12];       // enemies sorted by screen position (Formation::orgpos.x)
-    int32_t jyokyotime;       // frames before the target's name shows
+    int32_t nameDelay;        // frames before the target's name shows (HD: jyokyotime)
     int32_t time;             // the cursor's animation (0..29)
     int32_t alpha_a, alpha_b; // the cursor's two rings
     ee::Float scale_a, scale_b;
 };
-static_assert(offsetof(TargetSelectData, friendcnt) == 0x12);
-static_assert(offsetof(TargetSelectData, jyokyotime) == 0x2c && sizeof(TargetSelectData) == 0x44);
-static_assert(offsetof(TargetSelectData, enemyno) == 0x20);
+static_assert(offsetof(TargetCursor, friendcnt) == 0x12);
+static_assert(offsetof(TargetCursor, nameDelay) == 0x2c && sizeof(TargetCursor) == 0x44);
+static_assert(offsetof(TargetCursor, enemyno) == 0x20);
 
 } // namespace nocturne::nb

@@ -17,16 +17,18 @@ uint32_t devilFormatFlag(int32_t formindex);             // nbGetDevilFormatFlag
 int32_t unitModelId(const UnitWork& unit);               // nbGetUnitID: model to draw (255 = Fly)
 
 // A unit's death in the devil AI table (DevilAI::deadscriptid / deadeventno):
-bool nbCheckEventDead(const Formation& form);           // it runs a script or starts an event
-int32_t nbCheckDeadScript(const Formation& form);        // the script to run, or 0
-int32_t nbCheckDeadEvent(const Formation& form);         // the event to start, or 0
+bool diesByEvent(const Formation& form);                // it runs a script or starts an event
+int32_t hasDeathScript(const Formation& form);           // the script to run, or 0
+int32_t hasDeathEvent(const Formation& form);            // the event to start, or 0
 
 // The stock and the enemies' units (nbMisc).
-bool nbGetNakama(const UnitWork& s);                     // a devil talked into joining enters the stock
-void nbSetDevilNameMes(int32_t hmsg, int32_t no, const UnitWork& work);   // {var no}: its name ({var 0} "nobody" for id 0)
-int32_t nbAppendEnemyDevilWork(MainProcessData& data, int32_t id);   // a called enemy's unit: its index, or -1
-int32_t nbGetRandamStock();                               // a random devil in the stock that can be summoned, or -1
-void nbClearCommandMemeoyRenzoku();                       // forget the party's last targets on the other side
+bool recruitDevil(const UnitWork& s);                    // a devil talked into joining enters the stock
+void setDevilNameVariable(int32_t hmsg, int32_t no, const UnitWork& work);   // {var no}: its name ({var 0} "nobody" for id 0)
+int32_t addEnemyUnit(MainProcessData& data, int32_t id);             // a called enemy's unit: its index, or -1
+int32_t randomSummonableStock();                          // a random devil in the stock that can be summoned, or -1
+void forgetChainTargets();
+int32_t motionEndType(const Formation& form, int32_t motion);        // Formation::motionend
+int32_t motionEndData(const Formation& form, int32_t motion);                            // forget the party's last targets on the other side
 
 // Can the combatant use this skill now?
 enum class SkillCheck : int32_t { Ok = 0, NotEnoughHp = 1, NotEnoughMp = 2, Muted = 3 };

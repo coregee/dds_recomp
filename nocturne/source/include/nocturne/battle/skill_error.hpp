@@ -12,16 +12,16 @@
 
 namespace nocturne::nb {
 
-bool CheckDeadUnit();                                            // anyone in the stock dead
-bool CheckDeadUnit2(UnitWork* const* list, int32_t cnt);         // any of them dead
-bool CheckMaxHp(UnitWork* const* list, int32_t cnt);             // all at full HP
-bool CheckMaxMp(UnitWork* const* list, int32_t cnt);             // all at full MP
-bool CheckBad(UnitWork* const* list, int32_t cnt, uint32_t bad); // any with one of the ailments
-bool CheckHojo(Party* const* list, int32_t cnt, uint32_t hojo);  // any buff counter the skill would move
-void nbDispSkillErrorMessage(int32_t err);
-int32_t nbCheckBattleSkillError1(int32_t nskill);
-int32_t nbCheckBattleSkillError2(int32_t nskill, uint32_t select);   // select: formation slots
-int32_t nbCheckBattleSkillError3(int32_t nskill, uint32_t select);
-int32_t nbCheckCampSkillError(int32_t nskill, uint32_t select);      // select: stock units
+bool anyStockDead();                                             // anyone in the stock dead
+bool anyDead(UnitWork* const* list, int32_t cnt);                // any of them dead
+bool allFullHp(UnitWork* const* list, int32_t cnt);              // all at full HP
+bool allFullMp(UnitWork* const* list, int32_t cnt);              // all at full MP
+bool anyHasAilment(UnitWork* const* list, int32_t cnt, uint32_t bad); // any with one of the ailments
+bool anyBuffMovable(Party* const* list, int32_t cnt, uint32_t hojo); // any buff counter the skill would move
+void showSkillError(int32_t err);
+int32_t reviveError(int32_t nskill);
+int32_t targetSkillError(int32_t nskill, uint32_t select);           // select: formation slots
+int32_t buffSkillError(int32_t nskill, uint32_t select);
+int32_t menuSkillError(int32_t nskill, uint32_t select);             // select: stock units
 
 } // namespace nocturne::nb

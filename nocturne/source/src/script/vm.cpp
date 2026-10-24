@@ -523,7 +523,7 @@ void TwoOperation(ProcessWork& work, int32_t op)
 namespace {
 
 // scrCodeFunc_PushI @ 0x0010A540: the next word.
-int32_t scrCodeFunc_PushI(ProcessWork& w)
+int32_t opPushInt(ProcessWork& w)
 {
     ++w.CP;
     scrPushInt(w, word(w, w.CP).i());
@@ -531,14 +531,14 @@ int32_t scrCodeFunc_PushI(ProcessWork& w)
 }
 
 // scrCodeFunc_PushIS @ 0x0010A590: the operand.
-int32_t scrCodeFunc_PushIS(ProcessWork& w)
+int32_t opPushShort(ProcessWork& w)
 {
     scrPushInt(w, operand(w));
     return advance(w);
 }
 
 // scrCodeFunc_PushF @ 0x0010A5D8
-int32_t scrCodeFunc_PushF(ProcessWork& w)
+int32_t opPushFloat(ProcessWork& w)
 {
     ++w.CP;
     scrPushFloat(w, word(w, w.CP).bits());
@@ -546,42 +546,42 @@ int32_t scrCodeFunc_PushF(ProcessWork& w)
 }
 
 // scrCodeFunc_PushIX @ 0x0010A628: a global variable.
-int32_t scrCodeFunc_PushIX(ProcessWork& w)
+int32_t opPushIntVar(ProcessWork& w)
 {
     scrPushInt(w, globalInt(static_cast<uint32_t>(operand(w))));
     return advance(w);
 }
 
 // scrCodeFunc_PushFX @ 0x0010A680
-int32_t scrCodeFunc_PushFX(ProcessWork& w)
+int32_t opPushFloatVar(ProcessWork& w)
 {
     scrPushFloat(w, globalFloat(static_cast<uint32_t>(operand(w))));
     return advance(w);
 }
 
 // scrCodeFunc_PushLIX @ 0x0010A6D8: a local.
-int32_t scrCodeFunc_PushLIX(ProcessWork& w)
+int32_t opPushLocalIntVar(ProcessWork& w)
 {
     scrPushInt(w, w.LocalInt[operand(w)]);
     return advance(w);
 }
 
 // scrCodeFunc_PushLFX @ 0x0010A730
-int32_t scrCodeFunc_PushLFX(ProcessWork& w)
+int32_t opPushLocalFloatVar(ProcessWork& w)
 {
     scrPushFloat(w, w.LocalFloat[operand(w)]);
     return advance(w);
 }
 
 // scrCodeFunc_PushSTR @ 0x0010A788: an address in the strings.
-int32_t scrCodeFunc_PushSTR(ProcessWork& w)
+int32_t opPushString(ProcessWork& w)
 {
     scrPushStr(w, w.StringData + static_cast<uint32_t>(static_cast<int32_t>(operand(w))));
     return advance(w);
 }
 
 // scrCodeFunc_PushReg @ 0x0010A7D8: the last command's result.
-int32_t scrCodeFunc_PushReg(ProcessWork& w)
+int32_t opPushResult(ProcessWork& w)
 {
     w.StackType[w.SP] = w.StackType[kRegister];
     w.StackData[w.SP] = w.StackData[kRegister];
@@ -590,7 +590,7 @@ int32_t scrCodeFunc_PushReg(ProcessWork& w)
 }
 
 // scrCodeFunc_PopIX @ 0x0010A820
-int32_t scrCodeFunc_PopIX(ProcessWork& w)
+int32_t opPopIntVar(ProcessWork& w)
 {
     const int32_t value = scrPopInt(w);
     globalInt(static_cast<uint32_t>(operand(w))) = value;
@@ -598,7 +598,7 @@ int32_t scrCodeFunc_PopIX(ProcessWork& w)
 }
 
 // scrCodeFunc_PopFX @ 0x0010A878
-int32_t scrCodeFunc_PopFX(ProcessWork& w)
+int32_t opPopFloatVar(ProcessWork& w)
 {
     const uint32_t value = scrPopFloat(w);
     const int16_t index = operand(w);
@@ -608,7 +608,7 @@ int32_t scrCodeFunc_PopFX(ProcessWork& w)
 }
 
 // scrCodeFunc_PopLIX @ 0x0010A8D0
-int32_t scrCodeFunc_PopLIX(ProcessWork& w)
+int32_t opPopLocalIntVar(ProcessWork& w)
 {
     const int32_t value = scrPopInt(w);
     w.LocalInt[operand(w)] = value;
@@ -616,7 +616,7 @@ int32_t scrCodeFunc_PopLIX(ProcessWork& w)
 }
 
 // scrCodeFunc_PopLFX @ 0x0010A928
-int32_t scrCodeFunc_PopLFX(ProcessWork& w)
+int32_t opPopLocalFloatVar(ProcessWork& w)
 {
     const uint32_t value = scrPopFloat(w);
     const int16_t index = operand(w);
@@ -626,12 +626,12 @@ int32_t scrCodeFunc_PopLFX(ProcessWork& w)
 }
 
 // scrCodeFunc_Proc @ 0x0010A980: a procedure's start marker.
-int32_t scrCodeFunc_Proc(ProcessWork& w) { return advance(w); }
+int32_t opProcedure(ProcessWork& w) { return advance(w); }
 
 // scrCodeFunc_Comm @ 0x0010A998: a command, with its arguments on the stack.
 // A command that isn't done returns 0 and runs again next frame; one that
 // set the code pointer (SEL_JMP) isn't moved past.
-int32_t scrCodeFunc_Comm(ProcessWork& w)
+int32_t opCommand(ProcessWork& w)
 {
     const int32_t cp = w.CP;
     const CommandEntry& command = guest::table<CommandEntry>(kCommands)[word(w, cp).s1];
@@ -645,7 +645,7 @@ int32_t scrCodeFunc_Comm(ProcessWork& w)
 }
 
 // scrCodeFunc_End @ 0x0010AA38: back to the caller, or the procedure's end.
-int32_t scrCodeFunc_End(ProcessWork& w)
+int32_t opEnd(ProcessWork& w)
 {
     if (!w.SP)
         return 0;
@@ -654,14 +654,14 @@ int32_t scrCodeFunc_End(ProcessWork& w)
 }
 
 // scrCodeFunc_Jump @ 0x0010AA78
-int32_t scrCodeFunc_Jump(ProcessWork& w)
+int32_t opJump(ProcessWork& w)
 {
     w.CP = procedureAddress(w, operand(w));
     return 1;
 }
 
 // scrCodeFunc_Call @ 0x0010AAA8
-int32_t scrCodeFunc_Call(ProcessWork& w)
+int32_t opCall(ProcessWork& w)
 {
     scrPushRet(w, w.CP);
     w.CP = procedureAddress(w, operand(w));
@@ -669,10 +669,10 @@ int32_t scrCodeFunc_Call(ProcessWork& w)
 }
 
 // scrCodeFunc_Run @ 0x0010AB00 (does nothing)
-int32_t scrCodeFunc_Run(ProcessWork& w) { return advance(w); }
+int32_t opRun(ProcessWork& w) { return advance(w); }
 
 // scrCodeFunc_Goto @ 0x0010AB18
-int32_t scrCodeFunc_Goto(ProcessWork& w)
+int32_t opGoto(ProcessWork& w)
 {
     w.CP = labelAddress(w, operand(w));
     return 1;
@@ -685,32 +685,32 @@ int32_t binary(ProcessWork& w, int32_t op)
 }
 
 // scrCodeFunc_Add @ 0x0010B030
-int32_t scrCodeFunc_Add(ProcessWork& w) { return binary(w, 0); }
+int32_t opAdd(ProcessWork& w) { return binary(w, 0); }
 // scrCodeFunc_Sub @ 0x0010B068
-int32_t scrCodeFunc_Sub(ProcessWork& w) { return binary(w, 1); }
+int32_t opSubtract(ProcessWork& w) { return binary(w, 1); }
 // scrCodeFunc_Mul @ 0x0010B0A0
-int32_t scrCodeFunc_Mul(ProcessWork& w) { return binary(w, 2); }
+int32_t opMultiply(ProcessWork& w) { return binary(w, 2); }
 // scrCodeFunc_Div @ 0x0010B0D8
-int32_t scrCodeFunc_Div(ProcessWork& w) { return binary(w, 3); }
+int32_t opDivide(ProcessWork& w) { return binary(w, 3); }
 // scrCodeFunc_Or @ 0x0010B2A0
-int32_t scrCodeFunc_Or(ProcessWork& w) { return binary(w, 4); }
+int32_t opOr(ProcessWork& w) { return binary(w, 4); }
 // scrCodeFunc_And @ 0x0010B2D8
-int32_t scrCodeFunc_And(ProcessWork& w) { return binary(w, 5); }
+int32_t opAnd(ProcessWork& w) { return binary(w, 5); }
 // scrCodeFunc_EQ @ 0x0010B310
-int32_t scrCodeFunc_EQ(ProcessWork& w) { return binary(w, 6); }
+int32_t opEqual(ProcessWork& w) { return binary(w, 6); }
 // scrCodeFunc_NEQ @ 0x0010B348
-int32_t scrCodeFunc_NEQ(ProcessWork& w) { return binary(w, 7); }
+int32_t opNotEqual(ProcessWork& w) { return binary(w, 7); }
 // scrCodeFunc_S @ 0x0010B380: smaller
-int32_t scrCodeFunc_S(ProcessWork& w) { return binary(w, 8); }
+int32_t opLess(ProcessWork& w) { return binary(w, 8); }
 // scrCodeFunc_L @ 0x0010B3B8: larger
-int32_t scrCodeFunc_L(ProcessWork& w) { return binary(w, 9); }
+int32_t opGreater(ProcessWork& w) { return binary(w, 9); }
 // scrCodeFunc_SE @ 0x0010B3F0
-int32_t scrCodeFunc_SE(ProcessWork& w) { return binary(w, 10); }
+int32_t opLessEqual(ProcessWork& w) { return binary(w, 10); }
 // scrCodeFunc_LE @ 0x0010B428
-int32_t scrCodeFunc_LE(ProcessWork& w) { return binary(w, 11); }
+int32_t opGreaterEqual(ProcessWork& w) { return binary(w, 11); }
 
 // scrCodeFunc_Minus @ 0x0010B110: negates the top entry (a variable in place).
-int32_t scrCodeFunc_Minus(ProcessWork& w)
+int32_t opNegate(ProcessWork& w)
 {
     const uint8_t type = w.StackType[w.SP - 1];
     if (type < kReturn) {
@@ -725,7 +725,7 @@ int32_t scrCodeFunc_Minus(ProcessWork& w)
 }
 
 // scrCodeFunc_Not @ 0x0010B1F8 (nothing popped for a string or return address)
-int32_t scrCodeFunc_Not(ProcessWork& w)
+int32_t opNot(ProcessWork& w)
 {
     const uint8_t type = w.StackType[w.SP - 1];
     if (isInt(type))
@@ -736,7 +736,7 @@ int32_t scrCodeFunc_Not(ProcessWork& w)
 }
 
 // scrCodeFunc_If @ 0x0010B460: on to the label unless true.
-int32_t scrCodeFunc_If(ProcessWork& w)
+int32_t opIf(ProcessWork& w)
 {
     const uint8_t type = w.StackType[w.SP - 1];
     bool taken = false;
@@ -753,13 +753,13 @@ int32_t scrCodeFunc_If(ProcessWork& w)
 
 using Handler = int32_t (*)(ProcessWork&);
 constexpr Handler kOpcodes[] = {
-    scrCodeFunc_PushI, scrCodeFunc_PushF, scrCodeFunc_PushIX, scrCodeFunc_PushFX, scrCodeFunc_PushReg,
-    scrCodeFunc_PopIX, scrCodeFunc_PopFX, scrCodeFunc_Proc, scrCodeFunc_Comm, scrCodeFunc_End,
-    scrCodeFunc_Jump, scrCodeFunc_Call, scrCodeFunc_Run, scrCodeFunc_Goto, scrCodeFunc_Add,
-    scrCodeFunc_Sub, scrCodeFunc_Mul, scrCodeFunc_Div, scrCodeFunc_Minus, scrCodeFunc_Not,
-    scrCodeFunc_Or, scrCodeFunc_And, scrCodeFunc_EQ, scrCodeFunc_NEQ, scrCodeFunc_S,
-    scrCodeFunc_L, scrCodeFunc_SE, scrCodeFunc_LE, scrCodeFunc_If, scrCodeFunc_PushIS,
-    scrCodeFunc_PushLIX, scrCodeFunc_PushLFX, scrCodeFunc_PopLIX, scrCodeFunc_PopLFX, scrCodeFunc_PushSTR,
+    opPushInt, opPushFloat, opPushIntVar, opPushFloatVar, opPushResult,
+    opPopIntVar, opPopFloatVar, opProcedure, opCommand, opEnd,
+    opJump, opCall, opRun, opGoto, opAdd,
+    opSubtract, opMultiply, opDivide, opNegate, opNot,
+    opOr, opAnd, opEqual, opNotEqual, opLess,
+    opGreater, opLessEqual, opGreaterEqual, opIf, opPushShort,
+    opPushLocalIntVar, opPushLocalFloatVar, opPopLocalIntVar, opPopLocalFloatVar, opPushString,
 };
 static_assert(std::size(kOpcodes) == PUSHSTR + 1);
 

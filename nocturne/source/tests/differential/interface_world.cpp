@@ -7,6 +7,7 @@
 #include <string>
 
 #include "ee.hpp"
+#include "nocturne/battle/help.hpp"
 #include "nocturne/interface/message.hpp"
 
 extern "C" {
@@ -14,19 +15,14 @@ uint64_t scrGetIntPara(uint64_t);
 uint64_t ps2SoundPlay(uint64_t, uint64_t, uint64_t);
 void dds3LinkProcess(uint64_t, uint64_t);
 void nbMakeKaifukuPacket(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
-void nbDispJyokyoHelp(uint64_t, uint64_t, uint64_t, uint64_t);
 uint64_t ps2BattleAction_00263C00(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t,
                                   uint64_t, uint64_t, uint64_t, uint64_t);
 void nbPanelAnalyzeStart(void);
 uint64_t nbPanelStockSelect(uint64_t, uint64_t);
-void fw_ready_set(uint64_t);
 void nbPanelAnalyzeEnd(void);   // legacy
-void nbDispDevilName(uint64_t);
-void nbDispMsgHelp(uint64_t, uint64_t, uint64_t);
 uint64_t nbGetHojoCounterMax(uint64_t);   // legacy
 uint64_t nbGetHojoCounterMin(uint64_t);   // legacy
 void nbUpdateOrder(void);       // legacy
-uint64_t fw_ready_check(uint64_t);
 uint64_t ps2MovieStopAdpcm(void);
 uint64_t ps2BattleActionSkill_00198200(uint64_t);
 uint64_t ps2BattleActionSkill_00198868(uint64_t);
@@ -83,8 +79,106 @@ uint64_t nbGetUnitWorkPointer(uint64_t, uint64_t);
 uint64_t nbGetPartyFromFormindex(uint64_t);
 uint64_t nbGetUnitWorkFromFormindex(uint64_t);
 uint64_t dds3SearchProcessName(uint64_t);
+uint64_t nbCheckSkillCost(uint64_t, uint64_t);   // legacy
+uint64_t nbGetEscapeSwitch(uint64_t);           // legacy
 int32_t cmpRemoveDevilEx(uint16_t);
 void effBTLDelete(uint64_t);
+void effBTLCutDelete(uint64_t);
+uint64_t effBTLCutCreate(uint64_t, uint64_t, uint64_t, uint64_t);
+void effBTLSystemCutDelete(uint64_t);
+void effBTLPartDelete(uint64_t);
+void effPCPBossONGYDraw(uint64_t);
+void effPCPBossONGY2Draw(uint64_t);
+void effPCPBossBUNSINDraw(uint64_t);
+void effPCPBossBUNSIN2Draw(uint64_t);
+uint64_t ps2BattleAction_00173CB0(uint64_t, uint64_t);
+void effBTLPartEnd(uint64_t);
+void effBTLPartDraw(uint64_t);
+void ps2BattlePanelSetAnalyzeUnit_00280538(uint64_t);
+void nbFormDispOff(uint64_t);
+void nbFormDispOn(uint64_t);
+uint64_t fw_move_packets(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
+void ps2BattlePanelSetOrderingOffset_002797B0(uint64_t);
+void ps2BattlePanelSetPrimitive(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
+void ps2BattlePanelSetAlpha(uint64_t);
+void ps2BattlePanelDrawTexturedRect(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
+uint64_t frDrawFontEx2(uint64_t, uint64_t, uint64_t);
+uint64_t ps2SoundPlayMidi_002C1670(uint64_t);
+uint64_t ps2SoundFadeOut_002C2070(uint64_t);
+void ps2SoundEnsureBank(uint64_t);
+uint64_t ps2ResourcePacRequestFree(uint64_t);
+void ps2BattleActionRequest_00296B88(void);
+uint64_t fw_event_pack_load(uint64_t);
+uint64_t fw_event_pack_state(uint64_t);
+uint64_t fw_basic_effect(uint64_t, uint64_t, uint64_t);
+void nbSetFormPos(uint64_t, uint64_t);
+void nbSetFormRot(uint64_t, uint64_t);
+void nbReturnUnit(uint64_t, uint64_t, uint64_t);
+void nbMoveTarget(uint64_t, uint64_t, uint32_t);
+void nbMoveHome(uint64_t, uint32_t);
+void evtSetAgeOfMoon(int32_t);
+void nbUnitSetColor(uint64_t, uint64_t, uint64_t);
+void dds3FadeIn2(uint64_t);
+void effBTLCutDraw(uint64_t);
+void nbAllFormDispOn(void);
+void NegoDebugDraw(uint64_t);
+void NegoDebugSelectDraw(uint64_t);
+uint64_t NegoDebug(uint64_t);
+uint64_t nbMemoryLoadNegoSe(uint64_t);
+void ps2SoundVolumeHalfDown_002C20A0(void);
+void ps2SoundVolumeHalfUp_002C20C8(void);
+uint64_t fw_talk_step(uint64_t);
+uint64_t ps2NegoActorMotionId_0028D1B8(uint64_t);
+void nbGroupFormDispOff(uint64_t);
+void nbGroupFormDispOn(uint64_t);
+void nbPanelAutoHide(void);
+void ps2BattlePanelHideHookA(void);
+void nbCameraScriptSet1Shot(uint64_t);
+void nbCameraScriptSetBougai(uint64_t);
+void nbSetDamage(uint64_t, uint64_t, uint32_t);
+void nbSetDamage2(uint64_t, uint32_t);
+void nbSetBadstatMotion(uint64_t, uint64_t, uint32_t);
+void nbSetBadstatMotion2(uint64_t);
+void ps2BattleOutcome_001E3B78(uint64_t, uint64_t, uint64_t);
+void ps2BattleFormation_0028A340(uint64_t, uint64_t);
+void ps2BattleFormation_0028A758(uint64_t);
+void ps2BattleFormation_0024D8C0(uint64_t, uint64_t, uint64_t);
+void ps2BattleOrder_00258048(uint64_t);
+void ps2SoundStopEffectMidi_002C1730(uint64_t);
+void nbUnitSetAlpha(uint64_t, uint64_t, uint64_t);
+uint32_t evtGetAgeOfMoon16(void);
+void effPCPBossONGYDelete(uint64_t);
+void effPCPBossONGY2Delete(uint64_t);
+void effPCPBossBUNSINDelete(uint64_t);
+void effPCPBossBUNSIN2Delete(uint64_t);
+void nbPanelAllShow(void);
+void effBTLSkillStart(uint64_t, uint64_t);
+void effBTLSkillEnd(void);
+uint64_t effBTLBedName(uint64_t);
+uint64_t effBTLLoad(uint64_t);
+uint64_t ps2SoundBankStatus(uint64_t);
+void ps2SoundSetBankSource(uint64_t, uint64_t);
+uint64_t fileRequest(uint64_t);
+uint64_t fileCheckEnd(uint64_t);
+uint64_t fileGetMemHandle(uint64_t);
+uint64_t fileGetLoadSize(uint64_t);
+void ps2ResourceRequestRelease(uint64_t);
+uint64_t nbGetMotionActframe(uint64_t, uint64_t, uint32_t);
+uint32_t nbGetMotionSpeed(uint64_t, uint64_t, uint32_t);
+uint64_t nbGetMotionNo(uint64_t, uint64_t);
+void nbStopMotionSe(void);
+uint64_t nbGetMotionSeNo(uint64_t, uint64_t);
+uint64_t nbMemoryLoadMotionSe(uint64_t, uint64_t);
+void nbMakeSkillEffectPacket(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
+void nbAddHitEffPacket(uint64_t, uint64_t, uint64_t, uint64_t);
+void nbMakeTargetPacket(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint32_t);
+void effBTLSkillSetFormationInfo(uint64_t, uint64_t);
+void nbInitNegoProcess(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
+void nbSetWaitMotion(uint64_t, uint64_t, uint32_t);
+void nbSetUnitMotion(uint64_t, uint64_t, uint64_t, uint32_t);
+void nbPanelPressGaugeShow(void);
+void nbPanelStockSelectInit(void);
+void nbPanelStockEnd(void);
 void dds3FadeOut(uint64_t, uint64_t, uint64_t, uint64_t);
 void ps2PoolRelease(uint32_t);
 }
@@ -123,6 +217,36 @@ ee::Interpreter makeOriginal()
     e.interpret(0x001ad230, 0x001ad5c8);
     e.interpret(0x00242a88, 0x002460b0);   // datCalc
     e.interpret(0x0025e8e0, 0x0025eaf0);   // nbKoukaProcess: the queue
+    e.interpret(0x0025eaf0, 0x0025edc0);   // DelKoukaPacket .. nbDelAllMojiNumEffectKoukaPacket
+    e.interpret(0x0028b448, 0x0028b628);   // nbSetPlayerSummonFormation, nbSetEnemySummonFormation
+    e.interpret(0x00259c48, 0x00259c90);   // nbGetItemSkillNo
+    e.interpret(0x00253830, 0x00253bf8);   // SetAction_COMM, CheckAction_COMM
+    e.interpret(0x00256a98, 0x00256b88);   // SetAction_NEGO
+    e.interpret(0x00254488, 0x00255650);   // SetAction_READY, CheckAction_READY
+    e.interpret(0x00255650, 0x00256a98);   // SetAction_SKILL, CheckAction_SKILL
+    e.interpret(0x0016ab70, 0x0016abcc);   // effBTLGetMotionChangeFrame, effBTLGetCutEndFrame
+    e.interpret(0x0016aec0, 0x0016af20);   // effBTLCut: motion change and end frames, the draw end
+    e.interpret(0x0016b090, 0x0016b0f0);   // effBTLCutSetCameraState
+    e.interpret(0x0016ba40, 0x0016ba68);   // effBTLSkillSetState
+    e.interpret(0x0016aea0, 0x0016aec0);   // effBTLCutGetFrame, effBTLCutSetCutEndFrame
+    e.interpret(0x0025edc0, 0x0025ee78);   // nbDelUnEventKoukaPacket
+    e.interpret(0x0025efd0, 0x00261500);   // the kouka process: its players, nbKoukaProcess1, shutdown, init
+    e.interpret(0x0024df58, 0x0024df80);   // nbSetSakeMotion's step
+    e.interpret(0x0027fa88, 0x0027fa98);   // the stock panel's fade out
+    e.interpret(0x00100448, 0x00100488);   // dds3Stop, dds3SlowOn
+    e.interpret(0x002518c8, 0x00251ef0);   // GetKoukaList
+    e.interpret(0x0024ff60, 0x00251428);   // SetAllPacket
+    e.interpret(0x002654b8, 0x0026a840);   // nbCalc (its hooks still win)
+    e.interpret(0x0024d310, 0x0024d3a0);   // nbGetMotionEndType, nbGetMotionEndData
+    e.interpret(0x00259a60, 0x00259ab0);   // nbGetUnitVisual
+    e.interpret(0x00269280, 0x00269314);   // nbCheckSkillUse
+    e.interpret(0x0026a688, 0x0026a6d8);   // nbCheckBadPanicAction
+    e.interpret(0x00259018, 0x00259180);   // nbSetNormalSkill0
+    e.interpret(0x0026a3d8, 0x0026a448);   // nbHatudoCheckSkill
+    e.interpret(0x00256c00, 0x00257098);   // SetAction_NEGORESULT
+    e.interpret(0x001b17e0, 0x001b1810);   // nbCameraSetTaizi
+    e.interpret(0x00253de0, 0x00253e00);   // SetAction_BAD
+    e.interpret(0x00254190, 0x00254488);   // CheckAction_TARSEL, the STKSEL pair
     e.interpret(0x0025ee78, 0x0025efd0);
     e.interpret(0x00261500, 0x00264710);   // nbMakePacket
     e.interpret(0x00259a30, 0x00259a5c);   // nbGetUnitID
@@ -133,9 +257,30 @@ ee::Interpreter makeOriginal()
     e.interpret(0x00253488, 0x00253490);   // SetAction_NON
     e.interpret(0x00253bf8, 0x00253de0);   // SetAction_AI .. CheckAction_DEADSCRIPT
     e.interpret(0x00288d80, 0x00288e18);   // nbInitAiScript
+    e.interpret(0x00288e18, 0x002894e0);   // nbHelpProcess: nbDispText .. nbHelpOff
+    e.interpret(0x002898c0, 0x002899fc);   // nbHelpShutdown, InitHelpProcessData, nbInitHelpProcess
     e.interpret(0x0028e3c8, 0x0028f218);   // nbBadAi
     e.interpret(0x00253e00, 0x00254178);   // CheckAction_BAD, the BADWAIT pair
     e.interpret(0x001b1740, 0x001b1770);   // nbCameraSetState
+    e.interpret(0x001b17a0, 0x001b17e0);   // nbCameraSetBougai
+    e.interpret(0x001b1810, 0x001b18c4);   // nbCameraSetTarget, nbCameraSetHojo, the event target's
+    e.interpret(0x0016b940, 0x0016b984);   // effBTLSkillGetInvokeFormation
+    e.interpret(0x00272718, 0x002731a8);   // the talks' group 9 (NbNegoFlowOk)
+    e.interpret(0x00274e90, 0x00274f38);   // group 3 (NbNegoFlowStock)
+    e.interpret(0x002773b8, 0x002774a8);   // group 14 (NbNegoFlowBinjo)
+    e.interpret(0x00278748, 0x00278cb8);   // group 13 (NbNegoFlowSensei)
+    e.interpret(0x00275df8, 0x00276760);   // group 7 (NbNegoFlowQuestion)
+    e.interpret(0x00274228, 0x00274e90);   // group 2 (NbNegoFlowFullMoon)
+    e.interpret(0x0026cd80, 0x0026eb08);   // group 1 (NbNegoFlowOne)
+    e.interpret(0x00274f38, 0x00275780);   // group 4 (NbNegoFlowDouchara)
+    e.interpret(0x00278cb8, 0x002794b0);   // group 15 (NbNegoFlowInoti)
+    e.interpret(0x00276760, 0x00276d08);   // group 8 (NbNegoFlowFight)
+    e.interpret(0x00275780, 0x00275df8);   // group 5 (NbNegoFlowInnen)
+    e.interpret(0x002731a8, 0x00274228);   // group 10 (NbNegoFlowNg)
+    e.interpret(0x002774a8, 0x00278748);   // group 12 (NbNegoFlowMukan)
+    e.interpret(0x00276d08, 0x002773b8);   // group 11 (NbNegoFlowDrain)
+    e.interpret(0x00282258, 0x00282270);   // nbPanelPartyShow, nbPanelPartyHide
+    e.interpret(0x002794b0, 0x00279690);   // group 16 (NbNegoFlowKoketa)
     e.interpret(0x002592b0, 0x00259318);   // nbSetJyokyoMes, nbGetJyokyoMes
     e.interpret(0x00257b08, 0x00257bf0);   // SetAction_END
     e.interpret(0x00257098, 0x00257488);   // NEGORESULT's check, WAIT, ESCAPE, RETURN, INVISIBLE
@@ -143,6 +288,10 @@ ee::Interpreter makeOriginal()
     e.interpret(0x0025d690, 0x0025d948);   // nbTarSelProcess: the record, its state, AnimeTargetCursor
     e.interpret(0x0025de40, 0x0025e8e0);   // nbTarSelProcess: SetCursor .. nbInitTarSelProcess
     e.interpret(0x0028d090, 0x0028d0b0);   // nbPlaySe
+    e.interpret(0x00259c90, 0x00259d20);   // nbCommSelProcess: GetCommListCnt, GetCommSelProcessData
+    e.interpret(0x0025b408, 0x0025b598);   // AnimeCommandList
+    e.interpret(0x0025c190, 0x0025c908);   // CheckSelectError .. nbCloseCommSel
+    e.interpret(0x0025cb40, 0x0025d690);   // nbCommSelShutdown .. nbInitCommSelProcess
     e.interpret(0x00290048, 0x00290b20);   // nbSkillError
     e.interpret(0x0029ba80, 0x0029bb08);   // dds3CheckConfigBit
     e.interpret(0x00251428, 0x002514f0);   // SetTarget
@@ -206,7 +355,6 @@ ee::Interpreter makeOriginal()
         nbMakeKaifukuPacket(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5), a(c, 6));
         return uint64_t{0};
     });
-    e.hook(0x002892a8, [=](ee::Cpu& c) { nbDispJyokyoHelp(a(c, 0), a(c, 1), a(c, 2), a(c, 3)); return uint64_t{0}; });
     e.hook(0x00263c00, [=](ee::Cpu& c) {   // nbMakeDamagePacket: arguments 9..12 in 8-byte stack slots
         auto stack = [&](uint32_t slot) { return sx(at<int32_t>(static_cast<uint32_t>(c.r[29]) + 8 * slot)); };
         return ps2BattleAction_00263C00(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5), a(c, 6), a(c, 7),
@@ -214,14 +362,10 @@ ee::Interpreter makeOriginal()
     });
     e.hook(0x00280518, [](ee::Cpu&) { nbPanelAnalyzeStart(); return uint64_t{0}; });
     e.hook(0x0027fd18, [=](ee::Cpu& c) { return nbPanelStockSelect(a(c, 0), a(c, 1)); });
-    e.hook(0x00254488, [=](ee::Cpu& c) { fw_ready_set(a(c, 0)); return uint64_t{0}; });   // SetAction_READY
     e.hook(0x00280528, [](ee::Cpu&) { nbPanelAnalyzeEnd(); return uint64_t{0}; });
-    e.hook(0x002891e0, [=](ee::Cpu& c) { nbDispDevilName(a(c, 0)); return uint64_t{0}; });
-    e.hook(0x00289310, [=](ee::Cpu& c) { nbDispMsgHelp(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
     e.hook(0x00267ec8, [=](ee::Cpu& c) { return nbGetHojoCounterMax(a(c, 0)); });
     e.hook(0x00267f18, [=](ee::Cpu& c) { return nbGetHojoCounterMin(a(c, 0)); });
     e.hook(0x002584c8, [](ee::Cpu&) { nbUpdateOrder(); return uint64_t{0}; });
-    e.hook(0x00255260, [=](ee::Cpu& c) { return fw_ready_check(a(c, 0)); });             // CheckAction_READY
     e.hook(0x002c2180, [](ee::Cpu&) { return ps2MovieStopAdpcm(); });
     e.hook(0x00198200, [=](ee::Cpu& c) { return ps2BattleActionSkill_00198200(a(c, 0)); });
     e.hook(0x00198868, [=](ee::Cpu& c) { return ps2BattleActionSkill_00198868(a(c, 0)); });
@@ -241,6 +385,8 @@ ee::Interpreter makeOriginal()
     e.hook(0x001e9998, [](ee::Cpu&) { return uint64_t{evtGetAgeOfMoon()}; });
     e.hook(0x00282200, [=](ee::Cpu& c) { ps2BattlePanelSetEnabled_00282200(a(c, 0)); return uint64_t{0}; });
     e.hook(0x00269e98, [=](ee::Cpu& c) { return ps2CombatCheckEscape_00269E98(a(c, 0)); });
+    e.hook(0x00269170, [=](ee::Cpu& c) { return nbCheckSkillCost(a(c, 0), a(c, 1)); });
+    e.hook(0x0026a110, [=](ee::Cpu& c) { return nbGetEscapeSwitch(a(c, 0)); });
     e.hook(0x00287cb8, [=](ee::Cpu& c) { return nbRunAi(a(c, 0)); });
     e.hook(0x00258de8, [=](ee::Cpu& c) {
         nbGetTargetTypeRuleArea(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5));
@@ -281,6 +427,135 @@ ee::Interpreter makeOriginal()
     e.hook(0x00105098, [=](ee::Cpu& c) { dds3FadeOut(a(c, 0), a(c, 1), a(c, 2), a(c, 3)); return uint64_t{0}; });
     e.hook(0x002c0c00, [](ee::Cpu& c) { c.f[0] = static_cast<uint32_t>(floatBits(sdfGetRandFloat(nullptr))); return uint64_t{0}; });
     e.hook(0x0016ab10, [=](ee::Cpu& c) { effBTLDelete(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x0016ae08, [=](ee::Cpu& c) { effBTLCutDelete(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x0016ac70, [=](ee::Cpu& c) { return effBTLCutCreate(a(c, 0), a(c, 1), a(c, 2), a(c, 3)); });
+    // The kouka process's engine calls.
+    e.hook(0x001982c8, [=](ee::Cpu& c) { effPCPBossONGYDraw(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00198930, [=](ee::Cpu& c) { effPCPBossONGY2Draw(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00199600, [=](ee::Cpu& c) { effPCPBossBUNSINDraw(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00199c08, [=](ee::Cpu& c) { effPCPBossBUNSIN2Draw(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00173cb0, [=](ee::Cpu& c) { return ps2BattleAction_00173CB0(a(c, 0), a(c, 1)); });
+    e.hook(0x00173d28, [=](ee::Cpu& c) { effBTLPartEnd(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00173dc8, [=](ee::Cpu& c) { effBTLPartDraw(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00280538, [=](ee::Cpu& c) { ps2BattlePanelSetAnalyzeUnit_00280538(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00289b30, [=](ee::Cpu& c) { nbFormDispOff(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00289bd0, [=](ee::Cpu& c) { nbFormDispOn(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x0028a0e8, [=](ee::Cpu& c) { nbSetFormPos(a(c, 0), a(c, 1)); return uint64_t{0}; });
+    e.hook(0x0028a158, [=](ee::Cpu& c) { nbSetFormRot(a(c, 0), a(c, 1)); return uint64_t{0}; });
+    e.interpret(0x00289c60, 0x00289c78);   // nbFormDispOn2
+    e.interpret(0x00289bb8, 0x00289bd0);   // nbFormDispOff2
+    e.interpret(0x0028f218, 0x0028f7e8);   // nbMakaProcess (the Macca window)
+    e.interpret(0x001ca508, 0x001ca5dc);   // the font's short string request
+    e.hook(0x002797b0, [=](ee::Cpu& c) { ps2BattlePanelSetOrderingOffset_002797B0(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00279868, [=](ee::Cpu& c) {
+        ps2BattlePanelSetPrimitive(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5), a(c, 6), a(c, 7));
+        return uint64_t{0};
+    });
+    e.hook(0x00279980, [=](ee::Cpu& c) { ps2BattlePanelSetAlpha(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00279a88, [=](ee::Cpu& c) {   // (arguments 9 and 10 on the stack, 8 bytes each)
+        const uint32_t sp = static_cast<uint32_t>(c.r[29]);
+        uint64_t color, texture;
+        std::memcpy(&color, fw_resolve(sp), 8);
+        std::memcpy(&texture, fw_resolve(sp + 8), 8);
+        ps2BattlePanelDrawTexturedRect(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5), a(c, 6), a(c, 7),
+                                       static_cast<uint32_t>(color), static_cast<uint32_t>(texture));
+        return uint64_t{0};
+    });
+    e.hook(0x001c7e38, [=](ee::Cpu& c) { return frDrawFontEx2(a(c, 0), a(c, 1), a(c, 2)); });
+    e.interpret(0x0028f7e8, 0x00290048);   // nbEventProcess
+    e.interpret(0x00115060, 0x00115074);   // (marks a basic effect)
+    e.hook(0x002c1670, [=](ee::Cpu& c) { return ps2SoundPlayMidi_002C1670(a(c, 0)); });
+    e.hook(0x002c2070, [=](ee::Cpu& c) { return ps2SoundFadeOut_002C2070(a(c, 0)); });
+    e.hook(0x002c1ca0, [=](ee::Cpu& c) { ps2SoundEnsureBank(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x002966a8, [=](ee::Cpu& c) { return ps2ResourcePacRequestFree(a(c, 0)); });
+    e.hook(0x00296b88, [](ee::Cpu&) { ps2BattleActionRequest_00296B88(); return uint64_t{0}; });
+    e.hook(0x001fac78, [=](ee::Cpu& c) { return fw_event_pack_load(a(c, 0)); });
+    e.hook(0x001fa1f0, [=](ee::Cpu& c) { return fw_event_pack_state(a(c, 0)); });
+    e.hook(0x00114770, [=](ee::Cpu& c) { return fw_basic_effect(a(c, 0), a(c, 1), a(c, 2)); });
+    e.interpret(0x0026eb08, 0x00272718);   // group 6 (NbNegoFlowTwo) and its affinity checks
+    for (const uint32_t mover : {0x00265130u, 0x00265298u, 0x002653a0u})
+        e.hook(mover, [=](ee::Cpu& c) { return fw_move_packets(mover, a(c, 0), a(c, 1), a(c, 2), a(c, 3)); });
+    e.interpret(0x0028a238, 0x0028a288);   // nbResetFormPosRot
+    e.hook(0x0024d980, [=](ee::Cpu& c) { nbReturnUnit(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
+    e.hook(0x0024dd10, [=](ee::Cpu& c) { nbMoveTarget(a(c, 0), a(c, 1), static_cast<uint32_t>(c.f[12])); return uint64_t{0}; });
+    e.hook(0x0024de40, [=](ee::Cpu& c) { nbMoveHome(a(c, 0), static_cast<uint32_t>(c.f[12])); return uint64_t{0}; });
+    e.hook(0x001e99c0, [](ee::Cpu&) { return static_cast<uint64_t>(static_cast<int64_t>(static_cast<int32_t>(evtGetAgeOfMoon16()))); });
+    e.hook(0x001e99d0, [=](ee::Cpu& c) { evtSetAgeOfMoon(static_cast<int32_t>(a(c, 0))); return uint64_t{0}; });
+    e.hook(0x001e3b78, [=](ee::Cpu& c) { ps2BattleOutcome_001E3B78(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
+    e.hook(0x0028a340, [=](ee::Cpu& c) { ps2BattleFormation_0028A340(a(c, 0), a(c, 1)); return uint64_t{0}; });
+    e.hook(0x0028a758, [=](ee::Cpu& c) { ps2BattleFormation_0028A758(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x0024d8c0, [=](ee::Cpu& c) { ps2BattleFormation_0024D8C0(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
+    e.hook(0x00258048, [=](ee::Cpu& c) { ps2BattleOrder_00258048(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x002c1730, [=](ee::Cpu& c) { ps2SoundStopEffectMidi_002C1730(a(c, 0)); return uint64_t{0}; });
+    e.interpret(0x0028b0a0, 0x0028b0b8);   // nbSetPlayerFormation
+    e.hook(0x0024df78, [=](ee::Cpu& c) { nbSetDamage(a(c, 0), a(c, 1), static_cast<uint32_t>(c.f[12])); return uint64_t{0}; });
+    e.hook(0x0024e020, [=](ee::Cpu& c) { nbSetDamage2(a(c, 0), static_cast<uint32_t>(c.f[12])); return uint64_t{0}; });
+    e.hook(0x0024e040, [=](ee::Cpu& c) { nbSetBadstatMotion(a(c, 0), a(c, 1), static_cast<uint32_t>(c.f[12])); return uint64_t{0}; });
+    e.hook(0x0024e0e8, [=](ee::Cpu& c) { nbSetBadstatMotion2(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x0028d1b8, [=](ee::Cpu& c) { return ps2NegoActorMotionId_0028D1B8(a(c, 0)); });
+    e.hook(0x0026bf00, [=](ee::Cpu& c) { NegoDebugDraw(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x0026c0d8, [=](ee::Cpu& c) { NegoDebugSelectDraw(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x0026c2d8, [=](ee::Cpu& c) { return NegoDebug(a(c, 0)); });
+    e.hook(0x0028d1d8, [=](ee::Cpu& c) { return nbMemoryLoadNegoSe(a(c, 0)); });
+    e.hook(0x002c20a0, [](ee::Cpu&) { ps2SoundVolumeHalfDown_002C20A0(); return uint64_t{0}; });
+    e.hook(0x002c20c8, [](ee::Cpu&) { ps2SoundVolumeHalfUp_002C20C8(); return uint64_t{0}; });
+    e.hook(0x00777300, [=](ee::Cpu& c) { return fw_talk_step(a(c, 0)); });   // the tests' talk step
+    e.interpret(0x0024cf70, 0x0024cff8);   // the demon's talking pose
+    e.interpret(0x0026c390, 0x0026cd80);   // the talk process
+    e.hook(0x00289e28, [](ee::Cpu&) { nbAllFormDispOn(); return uint64_t{0}; });
+    e.hook(0x00289c78, [=](ee::Cpu& c) { nbGroupFormDispOff(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00289d30, [=](ee::Cpu& c) { nbGroupFormDispOn(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00279c58, [](ee::Cpu&) { nbPanelAutoHide(); return uint64_t{0}; });
+    e.hook(0x00281e28, [](ee::Cpu&) { ps2BattlePanelHideHookA(); return uint64_t{0}; });
+    e.hook(0x001b18c8, [=](ee::Cpu& c) { nbCameraScriptSet1Shot(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x001b1928, [=](ee::Cpu& c) { nbCameraScriptSetBougai(a(c, 0)); return uint64_t{0}; });
+    e.interpret(0x00288a58, 0x00288d80);   // the battle script commands (nbCommand_BTL_*)
+    e.interpret(0x0026a8a0, 0x0026b1e0);   // the talks' helpers (nbNegoProcess)
+    e.interpret(0x0026ba28, 0x0026bf00);
+    e.interpret(0x0026b1e0, 0x0026b3f8);   // nbSetAllHojoSkillWork, nbGetHojoSkillWorkCnt
+    e.interpret(0x0026b3f8, 0x0026ba28);   // nbSearchHojoSkillWork, nbGetQuestionType
+    e.hook(0x0016b0f0, [=](ee::Cpu& c) { effBTLCutDraw(a(c, 0)); return uint64_t{0}; });
+    e.interpret(0x001740a0, 0x001740b4);   // effBTLSystemCut1Draw
+    e.hook(0x00105048, [=](ee::Cpu& c) { dds3FadeIn2(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x001e3700, [=](ee::Cpu& c) { nbUnitSetColor(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
+    e.hook(0x001e37e8, [=](ee::Cpu& c) { nbUnitSetAlpha(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
+    e.hook(0x001740b8, [=](ee::Cpu& c) { effBTLSystemCutDelete(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00173d78, [=](ee::Cpu& c) { effBTLPartDelete(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00198298, [=](ee::Cpu& c) { effPCPBossONGYDelete(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00198900, [=](ee::Cpu& c) { effPCPBossONGY2Delete(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x001990f0, [=](ee::Cpu& c) { effPCPBossBUNSINDelete(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00199bc8, [=](ee::Cpu& c) { effPCPBossBUNSIN2Delete(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x00279c30, [](ee::Cpu&) { nbPanelAllShow(); return uint64_t{0}; });
+    e.hook(0x0016b7a8, [=](ee::Cpu& c) { effBTLSkillStart(a(c, 0), a(c, 1)); return uint64_t{0}; });
+    e.hook(0x0016b850, [](ee::Cpu&) { effBTLSkillEnd(); return uint64_t{0}; });
+    e.hook(0x001748a0, [=](ee::Cpu& c) { return effBTLBedName(a(c, 0)); });
+    e.hook(0x0016a9c0, [=](ee::Cpu& c) { return effBTLLoad(a(c, 0)); });
+    e.hook(0x002c1c20, [=](ee::Cpu& c) { return ps2SoundBankStatus(a(c, 0)); });
+    e.hook(0x002c1db0, [=](ee::Cpu& c) { ps2SoundSetBankSource(a(c, 0), a(c, 1)); return uint64_t{0}; });
+    e.hook(0x00296a68, [=](ee::Cpu& c) { return fileRequest(a(c, 0)); });
+    e.hook(0x00296ac8, [=](ee::Cpu& c) { return fileCheckEnd(a(c, 0)); });
+    e.hook(0x00296aa8, [=](ee::Cpu& c) { return fileGetMemHandle(a(c, 0)); });
+    e.hook(0x00296ab8, [=](ee::Cpu& c) { return fileGetLoadSize(a(c, 0)); });
+    e.hook(0x002966c0, [=](ee::Cpu& c) { ps2ResourceRequestRelease(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x0024d3a0, [=](ee::Cpu& c) { return nbGetMotionActframe(a(c, 0), a(c, 1), c.f[12]); });
+    e.hook(0x0024d428, [=](ee::Cpu& c) { c.f[0] = nbGetMotionSpeed(a(c, 0), a(c, 1), c.f[12]); return uint64_t{0}; });
+    e.hook(0x0024d490, [=](ee::Cpu& c) { return nbGetMotionNo(a(c, 0), a(c, 1)); });
+    e.hook(0x0028dd78, [](ee::Cpu&) { nbStopMotionSe(); return uint64_t{0}; });
+    e.hook(0x0028d178, [=](ee::Cpu& c) { return nbGetMotionSeNo(a(c, 0), a(c, 1)); });
+    e.hook(0x0028d298, [=](ee::Cpu& c) { return nbMemoryLoadMotionSe(a(c, 0), a(c, 1)); });
+    e.hook(0x002617a8, [=](ee::Cpu& c) {
+        nbMakeSkillEffectPacket(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5), a(c, 6));
+        return uint64_t{0};
+    });
+    e.hook(0x00262480, [=](ee::Cpu& c) { nbAddHitEffPacket(a(c, 0), a(c, 1), a(c, 2), a(c, 3)); return uint64_t{0}; });
+    e.hook(0x002648c0, [=](ee::Cpu& c) { nbMakeTargetPacket(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), c.f[12]); return uint64_t{0}; });
+    e.hook(0x0016b8a8, [=](ee::Cpu& c) { effBTLSkillSetFormationInfo(a(c, 0), a(c, 1)); return uint64_t{0}; });
+    e.hook(0x0026ccf0, [=](ee::Cpu& c) { nbInitNegoProcess(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4)); return uint64_t{0}; });
+    e.hook(0x0024d238, [=](ee::Cpu& c) { nbSetWaitMotion(a(c, 0), a(c, 1), static_cast<uint32_t>(c.f[12])); return uint64_t{0}; });
+    e.hook(0x0024cff8, [=](ee::Cpu& c) { nbSetUnitMotion(a(c, 0), a(c, 1), a(c, 2), static_cast<uint32_t>(c.f[12])); return uint64_t{0}; });
+    e.hook(0x0027c2c0, [](ee::Cpu&) { nbPanelPressGaugeShow(); return uint64_t{0}; });
+    e.hook(0x0027fa98, [](ee::Cpu&) { nbPanelStockSelectInit(); return uint64_t{0}; });
+    e.hook(0x0027fa78, [](ee::Cpu&) { nbPanelStockEnd(); return uint64_t{0}; });
     e.hook(0x0022e168, [=](ee::Cpu& c) { return static_cast<uint64_t>(static_cast<int64_t>(cmpRemoveDevilEx(static_cast<uint16_t>(a(c, 0))))); });
     e.hook(0x002469a0, [](ee::Cpu&) { return nbGetMainProcessData(); });
     e.hook(0x002469c0, [=](ee::Cpu& c) { return nbGetUnitWorkPointer(a(c, 0), a(c, 1)); });
@@ -314,10 +589,13 @@ ee::Interpreter makeOriginal()
         std::memset(checked(c, a(c, 0)), static_cast<int>(a(c, 1)), static_cast<uint32_t>(a(c, 2)));
         return a(c, 0);
     });
-    e.hook(0x002d5690, [=](ee::Cpu& c) {   // sprintf, as used here: "%d" only
-        if (std::strcmp(checked(c, a(c, 1)), "%d") != 0)
-            std::abort();
-        return uint64_t(std::snprintf(checked(c, a(c, 0)), 16, "%d", static_cast<int32_t>(a(c, 2))));
+    e.hook(0x002d5690, [=](ee::Cpu& c) {   // sprintf, as used here: "%d" and the skill's sound file
+        const char* format = checked(c, a(c, 1));
+        if (std::strcmp(format, "%d") == 0)
+            return uint64_t(std::snprintf(checked(c, a(c, 0)), 16, "%d", static_cast<int32_t>(a(c, 2))));
+        if (std::strcmp(format, "/sound/MIDI%04X.SMG") == 0)
+            return uint64_t(std::snprintf(checked(c, a(c, 0)), 32, "/sound/MIDI%04X.SMG", static_cast<uint32_t>(a(c, 2))));
+        std::abort();
     });
     e.hook(kKuti, [](ee::Cpu&) { nocturneInvokeMessageKutiCallback(kKuti); return uint64_t{0}; });
     return e;
@@ -406,9 +684,8 @@ void loadData(const char* elfPath)
         std::fprintf(stderr, "no message tables or fonts under %s; interface tests will fail\n", root.c_str());
 }
 
-void loadTable(Gen& g, bool relocate)
+static void putTable(const std::vector<uint8_t>& t, bool relocate)
 {
-    const std::vector<uint8_t>& t = gTables[g.below(static_cast<uint32_t>(gTables.size()))];
     std::memset(fw_ram + FW_MES_TABLE, 0, 0x10000);
     std::memcpy(fw_ram + FW_MES_TABLE, t.data(), t.size());
     if (relocate) {
@@ -417,6 +694,8 @@ void loadTable(Gen& g, bool relocate)
         f.resolveaddress = 1;
     }
 }
+
+void loadTable(Gen& g, bool relocate) { putTable(gTables[g.below(static_cast<uint32_t>(gTables.size()))], relocate); }
 
 void fontWorld(Gen& g)
 {
@@ -530,6 +809,73 @@ fr::Request* chain(Gen& g, int32_t x, int32_t y)
 {
     return fr::MessageRequest(x, y, static_cast<uint8_t>(g.below(4)), static_cast<uint8_t>(g.below(6)),
                               static_cast<uint8_t>(g.below(3)), static_cast<uint8_t>(g.below(140)), someText(g), nullptr);
+}
+
+HelpWorld helpWorld(Gen& g, std::initializer_list<int32_t> needed)
+{
+    // A table with messages at the indexes the caller shows.
+    auto fits = [&](const std::vector<uint8_t>& t) {
+        const uint32_t count = *reinterpret_cast<const uint32_t*>(t.data() + 0x18);   // numtypeheader
+        for (int32_t n : needed)
+            if (static_cast<uint32_t>(n) >= count || *reinterpret_cast<const uint32_t*>(t.data() + 0x20 + 8 * n) != 0)
+                return false;
+        return true;
+    };
+    std::vector<const std::vector<uint8_t>*> tables;
+    for (const std::vector<uint8_t>& t : gTables)
+        if (fits(t))
+            tables.push_back(&t);
+    if (tables.empty()) {
+        std::fprintf(stderr, "no message table has messages at the indexes asked for\n");
+        std::exit(1);
+    }
+    putTable(*tables[g.below(static_cast<uint32_t>(tables.size()))], true);
+    fontWorld(g);
+
+    HelpWorld w{};
+    const mes::FileHeader& f = at<mes::FileHeader>(FW_MES_TABLE);
+    for (uint32_t k = 0; k < f.numtypeheader; ++k)
+        if (at<mes::TypeHeader>(FW_MES_TABLE + 0x20 + 8 * k).type == 0)
+            w.messages.push_back(static_cast<int32_t>(k));
+
+    // One message window on it.
+    mes::Manager& m = mes::manager();
+    std::memset(&m, 0, sizeof m);
+    nocturne::itf::MiscLinkInit(m.list, addr(m.nodes), 0x80, sizeof(nocturne::itf::LinkNode));
+    for (int n = g.range(0, 3); n > 0; --n)   // (not always the first)
+        nocturne::itf::MiscLinkTake(m.list);
+    nocturne::itf::LinkNode& node = *nocturne::itf::MiscLinkTake(m.list);
+    node.instance.address = FW_MES_INSTANCE;
+    node.handle = 0x00777000;
+    m.count = 1;
+    w.id = node.id;
+    mes::Instance& p = at<mes::Instance>(FW_MES_INSTANCE);
+    std::memset(&p, 0, sizeof p);
+    p.pdata.address = FW_MES_TABLE;
+    p.z = g.below(0x1000000);
+    p.otindex = 0x47;
+    if (g.chance(50))
+        p.message.pfont.address = addr(chain(g, 0, 0));
+
+    // What the line shows now.
+    static const char* const names[] = {"Pixie", "Jack Frost", "Fiend", "Agi"};
+    auto someName = [&] { return g.chance(80) ? guestString(names[g.below(4)]) : 0u; };
+    nocturne::nb::HelpLine& h = at<nocturne::nb::HelpLine>(FW_HELP);
+    h.type = g.pick<int32_t>({0, 1, 1, 2, 4});
+    h.text1 = someName();
+    h.text2 = someName();
+    h.textframe = g.range(0, 60);
+    h.textmax = g.range(-1, 45);
+    h.texthandle.address = 0;
+    h.textwidth = g.range(0, 300);
+    h.nextwidth = g.range(0, 300);
+    h.textcol = static_cast<uint32_t>(g.rng());
+    h.msgid = g.chance(60) ? w.id : -1;   // the window, or none
+    h.msgno = w.messages.empty() ? 0 : w.messages[g.below(static_cast<uint32_t>(w.messages.size()))];
+    h.reqmsgid = w.id;
+    h.reqmsgno = h.msgno;
+    h.alpha = g.range(0, 0x80);
+    return w;
 }
 
 } // namespace difftest::iface

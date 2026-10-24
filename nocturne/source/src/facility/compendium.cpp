@@ -74,11 +74,11 @@ void setRecord(EncycRecord& record, const UnitWork& unit)
     record.skillcnt = unit.skillcnt;
     std::memcpy(record.mitamaparam, unit.mitamaparam, sizeof record.mitamaparam);
     std::memcpy(record.levelupparam, unit.levelupparam, sizeof record.levelupparam);
-    std::memcpy(record.keisyoskill, unit.keisyoskill, sizeof record.keisyoskill);
+    std::memcpy(record.inheritedSkills, unit.inheritedSkills, sizeof record.inheritedSkills);
     std::memcpy(record.keiattr, unit.keiattr, sizeof record.keiattr);
-    record.hensinmae = unit.hensinmae;
+    record.preEvolutionId = unit.preEvolutionId;
     record.flag = unit.flag & 0x240;
-    record.hensinmaeexp = unit.hensinmaeexp;
+    record.preEvolutionExp = unit.preEvolutionExp;
 }
 
 // facility_H.fclencyceelem_t.Clear @ 0x00219FC0 (HD lead): clears, then copies.
@@ -104,12 +104,12 @@ void restoreFromRecord(UnitWork& unit, const EncycRecord& record)
     unit.skillcnt = record.skillcnt;
     std::memcpy(unit.mitamaparam, record.mitamaparam, sizeof unit.mitamaparam);
     std::memcpy(unit.levelupparam, record.levelupparam, sizeof unit.levelupparam);
-    std::memcpy(unit.keisyoskill, record.keisyoskill, sizeof unit.keisyoskill);
+    std::memcpy(unit.inheritedSkills, record.inheritedSkills, sizeof unit.inheritedSkills);
     std::memcpy(unit.keiattr, record.keiattr, sizeof unit.keiattr);
     unit.flag &= ~0x240u;
-    unit.hensinmae = record.hensinmae;
+    unit.preEvolutionId = record.preEvolutionId;
     unit.flag |= record.flag;
-    unit.hensinmaeexp = record.hensinmaeexp;
+    unit.preEvolutionExp = record.preEvolutionExp;
 }
 
 // SetRecordToUnit @ 0x0021A0B8
@@ -142,8 +142,8 @@ int32_t compareToRecord(const UnitWork& unit, const EncycRecord& record)
             found = record.skill[i] == unit.skill[j];
         if (!found) return 11;
     }
-    if (record.hensinmae != unit.hensinmae) return 12;
-    if (record.hensinmaeexp != unit.hensinmaeexp) return 13;
+    if (record.preEvolutionId != unit.preEvolutionId) return 12;
+    if (record.preEvolutionExp != unit.preEvolutionExp) return 13;
     return 0;
 }
 

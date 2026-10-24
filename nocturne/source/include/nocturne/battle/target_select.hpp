@@ -11,26 +11,26 @@
 
 namespace nocturne::nb {
 
-int32_t nbGetTarSelStat();                 // 1 choosing, 0 chosen, 2 cancelled
-void nbSetTarSelStat(int32_t stat);
-void nbSetTarSelJyokyoTime(int32_t time);
-void AnimeTargetCursor(TargetSelectData& t);
-void SetCursor(TargetSelectData& t);
-bool nbSetTargetProcess(ActionProcessData& act, int32_t partyindex, int32_t ctype, int32_t crule, int32_t carea);
-bool CheckFriend(const TargetSelectData& t, int32_t formindex);
-bool CheckEnemy(const TargetSelectData& t, int32_t formindex);
-void UpdateSelect(TargetSelectData& t);
-void OnOffTargetCursor(TargetSelectData& t);
-void DispTargetHelp(TargetSelectData& t);
-void MemoryCommand(TargetSelectData& t);
-void CursorSelect(TargetSelectData& t);
-void CursorSelectAuto(TargetSelectData& t);
-int32_t nbTarSelProcess1(uint32_t process);
-void nbTarSelShutdown(uint32_t process);
-uint32_t InitTarSelProcessData(MainProcessData& data);   // the record's address
-void nbInitTarSelProcess(MainProcessData& data);
+int32_t targetCursorState();               // 1 choosing, 0 chosen, 2 cancelled
+void setTargetCursorState(int32_t stat);
+void setTargetNameDelay(int32_t time);
+void animateTargetCursor(TargetCursor& t);
+void placeTargetCursor(TargetCursor& t);
+bool startTargetCursor(ActionProcessData& act, int32_t partyindex, int32_t ctype, int32_t crule, int32_t carea);
+bool onActorSide(const TargetCursor& t, int32_t formindex);
+bool onOtherSide(const TargetCursor& t, int32_t formindex);
+void markTargets(TargetCursor& t);
+void showTargetCursors(TargetCursor& t);
+void showTargetName(TargetCursor& t);
+void rememberTarget(TargetCursor& t);
+void readTargetPad(TargetCursor& t);
+void chooseTargetAutomatically(TargetCursor& t);
+int32_t runTargetCursor(uint32_t process);
+void shutdownTargetCursor(uint32_t process);
+uint32_t newTargetCursor(MainProcessData& data);         // the record's address
+void startTargetCursorProcess(MainProcessData& data);
 
-void nbPlaySe(int32_t se);                  // nbSound: a battle sound
-int32_t dds3CheckConfigBit(int32_t type);   // dds3ConfigMain: an option
+void playBattleSound(int32_t se);           // nbSound: a battle sound
+int32_t configOption(int32_t type);         // dds3ConfigMain: an option
 
 } // namespace nocturne::nb

@@ -153,7 +153,7 @@ void randomParty(Gen& g, nb::Party& p)
         p.count[i] = static_cast<int16_t>(g.chance(15) ? 1 : 0);
     if (g.chance(5))
         p.count[19] = static_cast<int16_t>(g.range(1, 447));
-    for (uint32_t& a : p.aisyo)
+    for (uint32_t& a : p.affinities)
         a = randomAffinity(g);
 }
 
@@ -163,7 +163,7 @@ void randomWorld(Gen& g)
     at<uint32_t>(dat::address::GlobalWorkPointer) = FW_GLOBAL;
 
     GlobalWork& global = at<GlobalWork>(FW_GLOBAL);
-    global.maka = g.range(0, 999999);
+    global.macca = g.range(0, 999999);
     global.fieldskills = g.below(4);
     for (int i = 0; i < 16; ++i)
         randomUnit(g, global.units[i], false);
@@ -222,7 +222,7 @@ void randomWorld(Gen& g)
         data.item[i] = static_cast<uint8_t>(g.chance(40) ? g.range(1, 60) : 0);
         data.itemcnt[i] = static_cast<uint8_t>(data.item[i] ? g.range(1, 255) : 0);
     }
-    data.maka = static_cast<uint32_t>(g.range(0, 30000));
+    data.macca = static_cast<uint32_t>(g.range(0, 30000));
     data.exp = static_cast<uint32_t>(g.range(0, 40000));
     data.previndex = 7;
     data.turn = 3;
@@ -307,10 +307,14 @@ struct Outcome {
 // restored between the two runs and after each case.
 struct StaticRange { uint32_t address, size; };
 const StaticRange kWrittenStatics[] = {
+    {0x0055123c, 4},                                       // the party panel shown (nbPanelPartyShow)
+    {0x00000000, 0x10},                                    // writes through a null request (a speaker with no name)
     {0x003d7998, 60}, {0x003d7998 + 0xa4 * 60, 4 * 60},   // NormalSkill 0, 0xA4..0xA7
     {0x003d6998, 8}, {0x003d6998 + 0xa4 * 8, 4 * 8},      // SkillInfo
     {0x003dbd20, 4}, {0x003dbd20 + 0xa4 * 4, 4 * 4},      // skill hit effects
     {0x005514e8, 4},                                       // AI rotation counter
+    {0x00551120, 4},                                       // the stock demon chosen (STKSEL)
+    {0x00575360, 0x20},                                    // the skill's sound file name (READY)
     {0x0056be60, 0x0056c880 - 0x0056be60},                 // message manager and its nodes
     {0x0056bbc4, 0x90},                                    // font contexts and {var n} strings
     {0x0054f400, 0x48},                                    // font settings (result, spacing, mode, style...)
@@ -343,6 +347,9 @@ const StaticRange kWrittenStatics[] = {
     {0x00575490, 0x80},                                    // the ailment AI's weighted actions
     {0x00551558, 4},                                       // ... and how many
     {0x00320e40, 0x30},                                    // the battle camera (nbCameraCurrent)
+    {0x0054e804, 0x20},                                    // the kernel's stop and slow motion (dds3Stop, dds3SlowOn)
+    {0x00551208, 4},                                       // the stock panel's fade out
+    {0x00551d80, 4},                                       // the skill effect's state (effBTLSkillSetState)
 };
 
 std::vector<uint8_t> captureStatics()
@@ -396,7 +403,18 @@ std::string describe(const Outcome& a, const Outcome& b)
         for (int k = 0; k < fw_print_arg_count(a.trace.print_format[i]); ++k)
             if (a.trace.print_args[i][k] != b.trace.print_args[i][k]) { std::snprintf(buffer, sizeof buffer, "print %u arg %d: %lld vs %lld", i, k, (long long)a.trace.print_args[i][k], (long long)b.trace.print_args[i][k]); return buffer; }
     }
-    if (a.statics != b.statics) return "static data writes differ";
+    if (a.statics != b.statics) {
+        size_t offset = 0;
+        for (const StaticRange& r : kWrittenStatics) {
+            for (uint32_t i = 0; i < r.size; ++i)
+                if (a.statics[offset + i] != b.statics[offset + i]) {
+                    std::snprintf(buffer, sizeof buffer, "static data writes differ at %08x: %02x vs %02x", r.address + i,
+                                  a.statics[offset + i], b.statics[offset + i]);
+                    return buffer;
+                }
+            offset += r.size;
+        }
+    }
     for (size_t i = 0; i < a.ram.size(); ++i)
         if (a.ram[i] != b.ram[i]) { std::snprintf(buffer, sizeof buffer, "RAM %08zx: %02x vs %02x", FW_DYNAMIC_BEGIN + i, a.ram[i], b.ram[i]); return buffer; }
     return {};
@@ -876,10 +894,14 @@ int main(int argc, char** argv)
     const bool verbose = std::getenv("DIFF_VERBOSE") != nullptr;   // name each test as it starts
 
     std::vector<uint8_t> saved(FW_DYNAMIC_END - FW_DYNAMIC_BEGIN);
+    // The executable's image as loaded: each test starts from it, so what
+    // one test's worlds leave in static memory can't reach the next.
+    const std::vector<uint8_t> pristine(fw_ram, fw_ram + FW_DYNAMIC_BEGIN);
     int failedFunctions = 0;
     for (const TestCase& test : tests()) {
         if (!std::strstr(test.name, filter))
             continue;
+        std::memcpy(fw_ram, pristine.data(), pristine.size());
         if (verbose)
             std::fprintf(stderr, "running %s\n", test.name);
         int failures = 0, traps = 0;

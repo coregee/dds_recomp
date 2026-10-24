@@ -11,77 +11,77 @@ const MagatamaData kMagatama[26] = {
     },
     // 0x01 Marogareh
     {
-        .flag = 4, .aisyoid = 384, .masteraisyoid = 385, .growparam = {2, -1, 1, 2, 1, 1},
+        .flag = 4, .affinityId = 384, .masteredAffinityId = 385, .growparam = {2, -1, 1, 2, 1, 1},
         .mastergrowparam = {2, -1, 1, 2, 1, 1}, .autoasignparam = {8, 0, 1, 1, 1, 1},
         .skill = {{3, 0, skill::Lunge}, {4, 0, skill::Analyze}, {6, 0, skill::LifeBonus}, {10, 0, skill::Berserk}, {20, 0, skill::Counter}, {21, 0, skill::Pierce}},
         .event = {32, 32, 32, 32, 32, 32, 255, 0},
     },
     // 0x02 Wadatsumi
     {
-        .aisyoid = 386, .masteraisyoid = 387, .growparam = {0, 0, 3, 2, 2, 1},
+        .affinityId = 386, .masteredAffinityId = 387, .growparam = {0, 0, 3, 2, 2, 1},
         .mastergrowparam = {0, 0, 3, 2, 2, 1}, .autoasignparam = {1, 0, 8, 1, 1, 1},
         .skill = {{7, 0, skill::IceBreath}, {11, 0, skill::ManaBonus}, {15, 0, skill::IceBoost}, {21, 0, skill::FogBreath}, {24, 0, skill::AntiIce}},
         .event = {32, 32, 32, 32, 32, 32, 255, 0},
     },
     // 0x03 Ankh
     {
-        .flag = 1, .aisyoid = 388, .masteraisyoid = 389, .growparam = {1, 1, 1, 4, 0, 2},
+        .flag = 1, .affinityId = 388, .masteredAffinityId = 389, .growparam = {1, 1, 1, 4, 0, 2},
         .mastergrowparam = {1, 1, 1, 4, 0, 2}, .autoasignparam = {2, 0, 2, 4, 0, 4},
         .skill = {{5, 0, skill::Dia}, {12, 0, skill::FastRetreat}, {19, 0, skill::Media}},
         .event = {0, 0, 0, 0, 0, 64, 255, 0},
     },
     // 0x04 Iyomante
     {
-        .flag = 1, .aisyoid = 390, .masteraisyoid = 391, .growparam = {2, -1, 0, 2, 2, 3},
+        .flag = 1, .affinityId = 390, .masteredAffinityId = 391, .growparam = {2, -1, 0, 2, 2, 3},
         .mastergrowparam = {2, -1, 0, 2, 2, 3}, .autoasignparam = {1, 0, 1, 1, 1, 8},
         .skill = {{8, 0, skill::Tarunda}, {13, 0, skill::Sukunda}, {16, 0, skill::Rakunda}, {36, 0, skill::LifeAid}},
         .event = {32, 32, 128, 128, 128, 255, 0, 0},
     },
     // 0x05 Shiranui
     {
-        .flag = 4, .aisyoid = 392, .masteraisyoid = 393, .growparam = {0, 0, 5, 0, 4, 0},
+        .flag = 4, .affinityId = 392, .masteredAffinityId = 393, .growparam = {0, 0, 5, 0, 4, 0},
         .mastergrowparam = {0, 0, 5, 0, 4, 0}, .autoasignparam = {1, 0, 1, 1, 8, 1},
         .skill = {{9, 0, skill::FireBreath}, {14, 0, skill::FireBoost}, {19, 0, skill::Taunt}, {23, 0, skill::AntiFire}},
         .event = {32, 32, 32, 32, 32, 32, 255, 0},
     },
     // 0x06 Hifumi
     {
-        .aisyoid = 394, .masteraisyoid = 395, .growparam = {0, 1, 3, 0, 4, 3},
+        .affinityId = 394, .masteredAffinityId = 395, .growparam = {0, 1, 3, 0, 4, 3},
         .mastergrowparam = {0, 1, 3, 0, 4, 3}, .autoasignparam = {1, 0, 1, 1, 8, 1},
         .skill = {{17, 0, skill::Tornado}, {22, 0, skill::ForceBoost}, {24, 0, skill::WarCry}, {27, 0, skill::AntiForce}, {40, 0, skill::VoidForce}},
         .event = {0, 0, 0, 128, 128, 255, 0, 0},
     },
     // 0x07 Kamudo
     {
-        .aisyoid = 396, .masteraisyoid = 397, .growparam = {5, -1, 0, 2, 3, 0},
+        .affinityId = 396, .masteredAffinityId = 397, .growparam = {5, -1, 0, 2, 3, 0},
         .mastergrowparam = {5, -1, 0, 2, 3, 0}, .autoasignparam = {8, 0, 1, 1, 1, 1},
         .skill = {{18, 0, skill::HeatWave}, {23, 0, skill::Focus}, {25, 0, skill::MindsEye}, {29, 0, skill::Might}},
         .event = {32, 32, 32, 32, 32, 32, 255, 0},
     },
     // 0x08 Narukami
     {
-        .flag = 1, .aisyoid = 398, .masteraisyoid = 399, .growparam = {5, 0, 6, 0, 0, 0},
+        .flag = 1, .affinityId = 398, .masteredAffinityId = 399, .growparam = {5, 0, 6, 0, 0, 0},
         .mastergrowparam = {5, 0, 6, 0, 0, 0}, .autoasignparam = {1, 0, 1, 8, 1, 1},
         .skill = {{21, 0, skill::Shock}, {26, 0, skill::ElecBoost}, {30, 0, skill::AntiElec}, {44, 0, skill::VoidElec}},
         .event = {32, 32, 32, 160, 160, 255, 0, 0},
     },
     // 0x09 Anathema
     {
-        .flag = 4, .aisyoid = 400, .masteraisyoid = 401, .growparam = {0, 1, 8, 2, 1, 1},
+        .flag = 4, .affinityId = 400, .masteredAffinityId = 401, .growparam = {0, 1, 8, 2, 1, 1},
         .mastergrowparam = {0, 1, 8, 2, 1, 1}, .autoasignparam = {2, 0, 5, 2, 1, 2},
         .skill = {{28, 0, skill::ManaDrain}, {32, 0, skill::AntiDeath}, {35, 0, skill::Mamudo}, {38, 0, skill::EvilGaze}, {49, 0, skill::Mamudoon}},
         .event = {0, 0, 0, 0, 128, 255, 0, 0},
     },
     // 0x0A Miasma
     {
-        .flag = 4, .aisyoid = 402, .masteraisyoid = 403, .growparam = {2, -1, 5, 2, 2, 2},
+        .flag = 4, .affinityId = 402, .masteredAffinityId = 403, .growparam = {2, -1, 5, 2, 2, 2},
         .mastergrowparam = {2, -1, 5, 2, 2, 2}, .autoasignparam = {1, 0, 8, 1, 1, 1},
         .skill = {{31, 0, skill::WildDance}, {45, 0, skill::VoidIce}, {52, 0, skill::GlacialBlast}, {60, 0, skill::IceDrain}},
         .event = {32, 32, 128, 128, 128, 128, 255, 0},
     },
     // 0x0B Nirvana
     {
-        .flag = 1, .aisyoid = 404, .masteraisyoid = 405, .growparam = {1, 0, 1, 2, 2, 8},
+        .flag = 1, .affinityId = 404, .masteredAffinityId = 405, .growparam = {1, 0, 1, 2, 2, 8},
         .mastergrowparam = {1, 0, 1, 2, 2, 8}, .autoasignparam = {0, 0, 1, 0, 2, 9}, .splitlevel = 39,
         .splitid = 14,
         .skill = {{32, 0, skill::VioletFlash}, {33, 0, skill::AntiExpel}, {41, 0, skill::DivineShot}, {56, 0, skill::VoidExpel}},
@@ -89,98 +89,98 @@ const MagatamaData kMagatama[26] = {
     },
     // 0x0C Murakumo
     {
-        .aisyoid = 406, .masteraisyoid = 407, .growparam = {4, 1, 4, 1, 4, 1},
+        .affinityId = 406, .masteredAffinityId = 407, .growparam = {4, 1, 4, 1, 4, 1},
         .mastergrowparam = {4, 1, 4, 1, 4, 1}, .autoasignparam = {1, 0, 1, 1, 8, 1},
         .skill = {{34, 0, skill::VoidMind}, {37, 0, skill::VoidNerve}, {40, 0, skill::ChaosBlade}, {42, 0, skill::VoidCurse}},
         .event = {32, 32, 32, 32, 128, 128, 255, 0},
     },
     // 0x0D Geis
     {
-        .flag = 1, .aisyoid = 408, .masteraisyoid = 409, .growparam = {2, -1, 2, 4, 3, 3},
+        .flag = 1, .affinityId = 408, .masteredAffinityId = 409, .growparam = {2, -1, 2, 4, 3, 3},
         .mastergrowparam = {2, -1, 2, 4, 3, 3}, .autoasignparam = {0, 0, 1, 1, 9, 1},
         .skill = {{37, 0, skill::Diarama}, {39, 0, skill::LifeRefill}, {41, 0, skill::Tetraja}, {44, 0, skill::Mediarama}, {47, 0, skill::Diarahan}, {51, 0, skill::ManaRefill}},
         .event = {0, 0, 0, 0, 0, 64, 255, 0},
     },
     // 0x0E Djed
     {
-        .aisyoid = 410, .masteraisyoid = 411, .growparam = {2, 0, 6, 2, 2, 2},
+        .affinityId = 410, .masteredAffinityId = 411, .growparam = {2, 0, 6, 2, 2, 2},
         .mastergrowparam = {2, 0, 6, 2, 2, 2}, .autoasignparam = {5, 0, 0, 1, 1, 5},
         .skill = {{42, 0, skill::Tarukaja}, {43, 0, skill::Sukukaja}, {44, 0, skill::Makakaja}, {45, 0, skill::Rakukaja}, {46, 0, skill::Dekaja}},
         .event = {0, 0, 0, 64, 128, 192, 255, 0},
     },
     // 0x0F Muspell
     {
-        .flag = 4, .aisyoid = 412, .masteraisyoid = 413, .growparam = {0, 1, 8, 7, 0, 0},
+        .flag = 4, .affinityId = 412, .masteredAffinityId = 413, .growparam = {0, 1, 8, 7, 0, 0},
         .mastergrowparam = {0, 1, 8, 7, 0, 0}, .autoasignparam = {1, 0, 10, 1, 0, 0},
         .skill = {{49, 0, skill::Tentarafoo}, {53, 0, skill::Makajamon}, {56, 0, skill::XerosBeat}},
         .event = {32, 32, 32, 32, 128, 128, 255, 0},
     },
     // 0x10 Gehenna
     {
-        .aisyoid = 414, .masteraisyoid = 415, .growparam = {3, -1, 3, 3, 3, 3},
+        .affinityId = 414, .masteredAffinityId = 415, .growparam = {3, -1, 3, 3, 3, 3},
         .mastergrowparam = {3, -1, 3, 3, 3, 3}, .autoasignparam = {1, 0, 1, 8, 1, 1},
         .skill = {{33, 0, skill::Hellfire}, {42, 0, skill::VoidFire}, {45, 0, skill::ManaGain}, {60, 0, skill::FireDrain}, {65, 0, skill::MagmaAxis}},
         .event = {32, 32, 32, 32, 32, 32, 255, 0},
     },
     // 0x11 Kamurogi
     {
-        .flag = 1, .aisyoid = 416, .masteraisyoid = 417, .growparam = {8, 0, 0, 0, 4, 4},
+        .flag = 1, .affinityId = 416, .masteredAffinityId = 417, .growparam = {8, 0, 0, 0, 4, 4},
         .mastergrowparam = {8, 0, 0, 0, 4, 4}, .autoasignparam = {6, 0, 0, 6, 0, 0},
         .skill = {{45, 0, skill::Blight}, {46, 0, skill::LifeGain}, {48, 0, skill::IronClaw}, {54, 0, skill::Retaliate}, {64, 0, skill::OniKagura}},
         .event = {32, 32, 32, 32, 32, 32, 255, 0},
     },
     // 0x12 Satan
     {
-        .flag = 4, .aisyoid = 418, .masteraisyoid = 419, .growparam = {2, 1, 8, 1, 1, 4},
+        .flag = 4, .affinityId = 418, .masteredAffinityId = 419, .growparam = {2, 1, 8, 1, 1, 4},
         .mastergrowparam = {2, 1, 8, 1, 1, 4}, .autoasignparam = {1, 0, 6, 1, 2, 2},
         .skill = {{51, 0, skill::JiveTalk}, {55, 0, skill::VoidDeath}, {58, 0, skill::ManaAid}, {60, 0, skill::Charisma}, {65, 0, skill::DeadlyFury}},
         .event = {0, 0, 64, 128, 192, 255, 0, 0},
     },
     // 0x13 Adama
     {
-        .flag = 1, .aisyoid = 420, .masteraisyoid = 421, .growparam = {3, 0, 2, 8, 2, 2},
+        .flag = 1, .affinityId = 420, .masteredAffinityId = 421, .growparam = {3, 0, 2, 8, 2, 2},
         .mastergrowparam = {3, 0, 2, 8, 2, 2}, .autoasignparam = {0, 0, 1, 1, 0, 10},
         .skill = {{60, 0, skill::BoltStorm}, {62, 0, skill::ManaSurge}, {67, 0, skill::ElecDrain}},
         .event = {32, 32, 32, 32, 32, 32, 255, 0},
     },
     // 0x14 Vimana
     {
-        .aisyoid = 422, .masteraisyoid = 423, .growparam = {7, -1, 1, 3, 2, 5},
+        .affinityId = 422, .masteredAffinityId = 423, .growparam = {7, -1, 1, 3, 2, 5},
         .mastergrowparam = {7, -1, 1, 3, 2, 5}, .autoasignparam = {6, 0, 2, 2, 2, 0},
         .skill = {{50, 0, skill::Endure}, {59, 0, skill::Tempest}, {68, 0, skill::JavelinRain}, {71, 0, skill::LifeSurge}, {73, 0, skill::HadesBlast}},
         .event = {0, 0, 0, 192, 192, 255, 0, 0},
     },
     // 0x15 Gundari
     {
-        .flag = 4, .aisyoid = 424, .masteraisyoid = 425, .growparam = {4, 1, 1, 2, 9, 3},
+        .flag = 4, .affinityId = 424, .masteredAffinityId = 425, .growparam = {4, 1, 1, 2, 9, 3},
         .mastergrowparam = {4, 1, 1, 2, 9, 3}, .autoasignparam = {0, 0, 1, 1, 10, 0},
         .skill = {{64, 0, skill::WindCutter}, {66, 0, skill::ForceDrain}, {72, 0, skill::SpiralViper}},
         .event = {32, 32, 32, 32, 32, 32, 255, 0},
     },
     // 0x16 Sophia
     {
-        .flag = 1, .aisyoid = 426, .masteraisyoid = 427, .growparam = {1, -1, 2, 5, 7, 4},
+        .flag = 1, .affinityId = 426, .masteredAffinityId = 427, .growparam = {1, -1, 2, 5, 7, 4},
         .mastergrowparam = {1, -1, 2, 5, 7, 4}, .autoasignparam = {0, 0, 3, 9, 0, 0},
         .skill = {{45, 0, skill::Thunderclap}, {57, 0, skill::Samrecarm}, {59, 0, skill::DrainAttack}, {63, 0, skill::Mediarahan}, {70, 0, skill::HolyWrath}},
         .event = {0, 0, 0, 0, 0, 128, 192, 255},
     },
     // 0x17 Gaea
     {
-        .flag = 4, .aisyoid = 428, .masteraisyoid = 429, .growparam = {10, 0, 0, 10, 0, 0},
+        .flag = 4, .affinityId = 428, .masteredAffinityId = 429, .growparam = {10, 0, 0, 10, 0, 0},
         .mastergrowparam = {10, 0, 0, 10, 0, 0}, .autoasignparam = {8, 0, 1, 1, 1, 1},
         .skill = {{61, 0, skill::Deathbound}, {69, 0, skill::Avenge}, {74, 0, skill::GaeaRage}, {76, 0, skill::AttackAll}},
         .event = {32, 32, 32, 32, 32, 32, 255, 0},
     },
     // 0x18 Kailash
     {
-        .aisyoid = 430, .masteraisyoid = 431, .growparam = {2, 1, 10, 5, 1, 2},
+        .affinityId = 430, .masteredAffinityId = 431, .growparam = {2, 1, 10, 5, 1, 2},
         .mastergrowparam = {2, 1, 10, 5, 1, 2}, .autoasignparam = {0, 0, 9, 0, 0, 3},
         .skill = {{72, 0, skill::Makarakarn}, {75, 0, skill::Megido}, {78, 0, skill::Tetrakarn}, {80, 0, skill::Freikugel}, {84, 0, skill::Megidola}},
         .event = {0, 0, 0, 0, 192, 255, 0, 0},
     },
     // 0x19 Masakados
     {
-        .aisyoid = 432, .masteraisyoid = 433, .growparam = {10, -1, 10, 10, 10, 0},
+        .affinityId = 432, .masteredAffinityId = 433, .growparam = {10, -1, 10, 10, 10, 0},
         .mastergrowparam = {10, -1, 10, 10, 10, 0}, .autoasignparam = {2, 2, 2, 2, 2, 2},
         .skill = {{1, 0, skill::Megidolaon}, {1, 0, skill::Radiance}, {1, 0, skill::FireRepel}, {1, 0, skill::IceRepel}, {1, 0, skill::ElecRepel}, {1, 0, skill::ForceRepel}, {1, 0, skill::PhysRepel}},
         .event = {0, 0, 0, 0, 0, 255, 0, 0},

@@ -20,16 +20,16 @@ constexpr uint32_t RituList = 0x00575490;     // BadRitu[]
 constexpr uint32_t RituCount = 0x00551558;    // int32 (gp-relative)
 } // namespace address
 
-BadRitu* rituList() { return guest::table<BadRitu>(address::RituList); }
-int32_t& rituCount() { return *guest::table<int32_t>(address::RituCount); }
+AilmentWeight* weightList() { return guest::table<AilmentWeight>(address::RituList); }
+int32_t& weightCount() { return *guest::table<int32_t>(address::RituCount); }
 
 // The status line for a panicked or charmed unit (other ailments show none).
 void ailmentMessage(ActionProcessData& a, int32_t panic, int32_t charm)
 {
     const UnitWork& unit = *a.work;
     switch (unit.ailment()) {
-    case static_cast<uint16_t>(Ailment::Panic): nbSetJyokyoMes(a, panic, 1, unit.id); break;
-    case static_cast<uint16_t>(Ailment::Charm): nbSetJyokyoMes(a, charm, 1, unit.id); break;
+    case static_cast<uint16_t>(Ailment::Panic): setStatusMessage(a, panic, 1, unit.id); break;
+    case static_cast<uint16_t>(Ailment::Charm): setStatusMessage(a, charm, 1, unit.id); break;
     default: break;
     }
 }
@@ -44,7 +44,7 @@ constexpr int32_t kMesCursedAttack = 0x4a, kMesCursedDamage = 0x4c;
 // ---- targets ---------------------------------------------------------------------------------
 
 // SetSingleTarget @ 0x0028E3C8: one of the selectable slots at random.
-void SetSingleTarget(ActionProcessData& a)
+void setSingleTarget(ActionProcessData& a)
 {
     int8_t candidates[16];
     uint32_t count = 0;
@@ -58,7 +58,7 @@ void SetSingleTarget(ActionProcessData& a)
 }
 
 // SetGroupTarget @ 0x0028E470: every selectable slot.
-void SetGroupTarget(ActionProcessData& a)
+void setGroupTarget(ActionProcessData& a)
 {
     for (int f = 0; f < 16; ++f) {
         Formation& form = a.data->form[f];
@@ -70,16 +70,16 @@ void SetGroupTarget(ActionProcessData& a)
 // SetTarget @ 0x0028E4B0: targets for the unit's command (`rev`: from the
 // other side's point of view, as the ailment turns the unit around);
 // false when there are none.
-bool SetTarget(ActionProcessData& a, int32_t rev)
+bool setTarget(ActionProcessData& a, int32_t rev)
 {
     int32_t type = 0, rule = 0, area = 0;
     targetTypeRuleArea(a, *a.work, &type, &rule, &area, rev != 0);
     if (!markTargetable(a.partyindex, type, rule, area))
         return false;
     if (type == 0)
-        SetSingleTarget(a);
+        setSingleTarget(a);
     else if (type >= 0 && type < 3)
-        SetGroupTarget(a);
+        setGroupTarget(a);
     a.select = ai::selectedBits(*a.data);
     return true;
 }
@@ -88,7 +88,7 @@ bool SetTarget(ActionProcessData& a, int32_t rev)
 
 // CheckBadActionSkill @ 0x0028E560: type 2 the healing skills 0x24..0x29,
 // type 3 the buffs 0x40..0x44.
-bool CheckBadActionSkill(int32_t skill, int32_t type)
+bool ailmentSkillUsable(int32_t skill, int32_t type)
 {
     if (type == 2)
         return skill >= 0x24 && skill < 0x2a;
@@ -100,19 +100,19 @@ bool CheckBadActionSkill(int32_t skill, int32_t type)
 // GetBadActionSkill @ 0x0028E5C8: one of the unit's skills of that type at
 // random: from its skill list on the player's side, from its devil's AI
 // tables on the enemy's.
-int32_t GetBadActionSkill(ActionProcessData& a, int32_t type)
+int32_t ailmentSkill(ActionProcessData& a, int32_t type)
 {
     uint16_t candidates[64];
     uint32_t count = 0;
     const UnitWork& unit = *a.work;
     if (isPlayerSide(a.form->formindex)) {
         for (int i = 0; i < unit.skillcnt; ++i)
-            if (CheckBadActionSkill(unit.skill[i], type))
+            if (ailmentSkillUsable(unit.skill[i], type))
                 candidates[count++] = unit.skill[i];
     } else {
         for (const auto& table : dat::devilAI(unit.id).aitable)
             for (const AiAction& action : table)
-                if (action.skill && !(action.skill & 0x8000) && CheckBadActionSkill(action.skill, type))
+                if (action.skill && !(action.skill & 0x8000) && ailmentSkillUsable(action.skill, type))
                     candidates[count++] = action.skill;
     }
     if (count == 0)
@@ -128,13 +128,13 @@ namespace {
 // other side.
 int32_t castSkill(ActionProcessData& a, int32_t type)
 {
-    const int32_t skill = GetBadActionSkill(a, type);
+    const int32_t skill = ailmentSkill(a, type);
     if (skill < 0)
         return 1;
     UnitWork& unit = *a.work;
     unit.nowindex = static_cast<uint16_t>(skill);
     unit.nowcommand = 1;   // a skill
-    if (!SetTarget(a, 1))
+    if (!setTarget(a, 1))
         return 1;
     ailmentMessage(a, kMesPanicAct, kMesCharmAct);
     return 0;
@@ -143,21 +143,21 @@ int32_t castSkill(ActionProcessData& a, int32_t type)
 } // namespace
 
 // BadKaja @ 0x0028E758
-int32_t BadKaja(ActionProcessData& a) { return castSkill(a, 3); }
+int32_t ailmentBuff(ActionProcessData& a) { return castSkill(a, 3); }
 
 // BadKaifuku @ 0x0028E818
-int32_t BadKaifuku(ActionProcessData& a) { return castSkill(a, 2); }
+int32_t ailmentHeal(ActionProcessData& a) { return castSkill(a, 2); }
 
 // BadAttack @ 0x0028E8D8: an attack at targets as if from the other side.
-int32_t BadAttack(ActionProcessData& a)
+int32_t ailmentAttack(ActionProcessData& a)
 {
     UnitWork& unit = *a.work;
     unit.nowindex = 0;
     unit.nowcommand = 0;   // attack
-    if (!SetTarget(a, 1))
+    if (!setTarget(a, 1))
         return 1;
     if (isCursed(a.form->formindex))
-        nbSetJyokyoMes(a, kMesCursedAttack, 1, a.work->id);
+        setStatusMessage(a, kMesCursedAttack, 1, a.work->id);
     else
         ailmentMessage(a, kMesPanicAct, kMesCharmAct);
     a.stat |= 0x200;
@@ -166,9 +166,9 @@ int32_t BadAttack(ActionProcessData& a)
 
 // BadMaka @ 0x0028E9B8: skill 0xF7, throwing Macca away; only with Macca
 // on hand on the player's side, and once a battle for an enemy.
-int32_t BadMaka(ActionProcessData& a)
+int32_t ailmentThrowMacca(ActionProcessData& a)
 {
-    if (isPlayerSide(a.form->formindex) && dat::globalWork().maka == 0)
+    if (isPlayerSide(a.form->formindex) && dat::globalWork().macca == 0)
         return 1;
     UnitWork& unit = *a.work;
     Party& party = *a.party;
@@ -177,22 +177,22 @@ int32_t BadMaka(ActionProcessData& a)
     party.flag = static_cast<int16_t>(party.flag | PartyFlag::ThrewMacca);
     unit.nowindex = 0xf7;
     unit.nowcommand = 1;   // a skill
-    if (!SetTarget(a, 0))
+    if (!setTarget(a, 0))
         return 1;
     ailmentMessage(a, kMesPanicAct, kMesCharmAct);
     return 0;
 }
 
 // BadNego @ 0x0028EAB8: on the player's side, talks to the enemy.
-int32_t BadNego(ActionProcessData& a)
+int32_t ailmentTalk(ActionProcessData& a)
 {
     if (!isPlayerSide(a.form->formindex))
         return 1;
     UnitWork& unit = *a.work;
     unit.nowcommand = 4;   // talk
     unit.nowindex = 0x180;
-    a.negotype = 6;
-    if (!SetTarget(a, 0))
+    a.talkType = 6;
+    if (!setTarget(a, 0))
         return 1;
     ailmentMessage(a, kMesPanicAct, kMesCharmAct);
     return 0;
@@ -200,7 +200,7 @@ int32_t BadNego(ActionProcessData& a)
 
 // BadReturn @ 0x0028EB80: a devil (not the Demi-fiend, not a special unit
 // 0x100 and up) goes back to the stock.
-int32_t BadReturn(ActionProcessData& a)
+int32_t ailmentReturn(ActionProcessData& a)
 {
     UnitWork& unit = *a.work;
     if (unit.isPlayerCharacter() || unit.id >= 0x100)
@@ -212,7 +212,7 @@ int32_t BadReturn(ActionProcessData& a)
 }
 
 // BadBadWait @ 0x0028EC18: loses the turn.
-int32_t BadBadWait(ActionProcessData& a)
+int32_t ailmentLoseTurn(ActionProcessData& a)
 {
     UnitWork& unit = *a.work;
     unit.nowcommand = 8;
@@ -222,46 +222,46 @@ int32_t BadBadWait(ActionProcessData& a)
 }
 
 // BadDamage @ 0x0028EC90: the curse hurts the unit.
-int32_t BadDamage(ActionProcessData& a)
+int32_t ailmentSelfDamage(ActionProcessData& a)
 {
     UnitWork& unit = *a.work;
     unit.nowcommand = 10;
     unit.nowindex = 0;
-    nbSetJyokyoMes(a, kMesCursedDamage, 1, unit.id);
+    setStatusMessage(a, kMesCursedDamage, 1, unit.id);
     return 0;
 }
 
 // ---- choosing ------------------------------------------------------------------------------
 
 // GetBadAiAction @ 0x0028ECC8: an action drawn by weight.
-int32_t GetBadAiAction()
+int32_t chooseAilmentAction()
 {
-    const BadRitu* list = rituList();
-    const int32_t count = rituCount();
+    const AilmentWeight* list = weightList();
+    const int32_t count = weightCount();
     uint32_t total = 0;
     for (int32_t i = 0; i < count; ++i)
-        total += static_cast<uint32_t>(list[i].ritu);
+        total += static_cast<uint32_t>(list[i].weight);
     if (total == 0)
         return -1;
     const int32_t roll = sdf::GetRandInt(static_cast<int32_t>(total));
     int32_t sum = 0;
     for (int32_t i = 0; i < count; ++i) {
-        if (list[i].ritu == 0)
+        if (list[i].weight == 0)
             continue;
-        sum += list[i].ritu;
+        sum += list[i].weight;
         if (roll < sum)
             return list[i].type;
     }
-    return kBadWait2;
+    return kAilmentLoseTurn2;
 }
 
 // AddRituList @ 0x0028ED98
-void AddRituList(int32_t type, int32_t ritu)
+void addAilmentWeight(int32_t type, int32_t ritu)
 {
-    BadRitu& entry = rituList()[rituCount()];
+    AilmentWeight& entry = weightList()[weightCount()];
     entry.type = type;
-    entry.ritu = ritu;
-    ++rituCount();
+    entry.weight = ritu;
+    ++weightCount();
 }
 
 // MakeRituList @ 0x0028EDC8: the actions and their weights.
@@ -275,7 +275,7 @@ void AddRituList(int32_t type, int32_t ritu)
 // for panic (it is set in a branch delay slot that panic's branch doesn't
 // reach), and the curse isn't checked either. The list is printed as a
 // debug message.
-void MakeRituList(ActionProcessData& a)
+void buildAilmentWeights(ActionProcessData& a)
 {
     enum { kOther, kCharmed, kCursed } state = kOther;
     const uint32_t ailment = badStat(a.form->formindex);
@@ -284,80 +284,80 @@ void MakeRituList(ActionProcessData& a)
     else if (ailment != static_cast<uint32_t>(Ailment::Panic) && isCursed(a.form->formindex))
         state = kCursed;
 
-    rituCount() = 0;
+    weightCount() = 0;
     const UnitWork& unit = *a.work;
     const bool boss = (a.data->stat & BattleStat::BossBattle) != 0;
     for (int32_t type = 0; type <= 9; ++type) {
         switch (state) {
         case kCharmed:
-            if (type == kBadAttack)
-                AddRituList(type, 40);
-            else if (type == kBadKaifuku || type == kBadKaja || type == kBadWait2)
-                AddRituList(type, 20);
+            if (type == kAilmentAttack)
+                addAilmentWeight(type, 40);
+            else if (type == kAilmentHeal || type == kAilmentBuff || type == kAilmentLoseTurn2)
+                addAilmentWeight(type, 20);
             break;
         case kCursed:
-            if (type == kBadAttack || type == kBadDamage)
-                AddRituList(type, 50);
+            if (type == kAilmentAttack || type == kAilmentSelfDamage)
+                addAilmentWeight(type, 50);
             break;
         case kOther:
             if (unit.isPlayerCharacter()) {
-                if (type == kBadNego && !boss)
-                    AddRituList(type, 30);
-                else if (type == kBadMaka || type == kBadWait2)
-                    AddRituList(type, 20);
+                if (type == kAilmentTalk && !boss)
+                    addAilmentWeight(type, 30);
+                else if (type == kAilmentThrowMacca || type == kAilmentLoseTurn2)
+                    addAilmentWeight(type, 20);
             } else if (!unit.isEnemy()) {
-                if ((type == kBadNego && !boss) || type == kBadMaka || type == kBadWait2)
-                    AddRituList(type, 20);
-                else if (type == kBadReturn)
-                    AddRituList(type, 10);
+                if ((type == kAilmentTalk && !boss) || type == kAilmentThrowMacca || type == kAilmentLoseTurn2)
+                    addAilmentWeight(type, 20);
+                else if (type == kAilmentReturn)
+                    addAilmentWeight(type, 10);
             } else {
-                if (type == kBadReturn)
-                    AddRituList(type, 20);
-                else if (type == kBadMaka)
-                    AddRituList(type, 30);
-                else if (type == kBadWait2)
-                    AddRituList(type, 40);
+                if (type == kAilmentReturn)
+                    addAilmentWeight(type, 20);
+                else if (type == kAilmentThrowMacca)
+                    addAilmentWeight(type, 30);
+                else if (type == kAilmentLoseTurn2)
+                    addAilmentWeight(type, 40);
             }
             break;
         }
     }
-    for (int32_t i = 0; i < rituCount(); ++i)
-        diag::print(diag::Message::BadRitu, rituList()[i].type, rituList()[i].ritu);
+    for (int32_t i = 0; i < weightCount(); ++i)
+        diag::print(diag::Message::AilmentWeight, weightList()[i].type, weightList()[i].weight);
 }
 
 // nbRunBadAi @ 0x0028F0A0: draws actions until one can be done. An action
 // that can't is struck from the list; after ten tries the unit waits.
-int32_t nbRunBadAi(ActionProcessData& a)
+int32_t runAilmentAi(ActionProcessData& a)
 {
     int32_t failed = 1;
-    MakeRituList(a);
+    buildAilmentWeights(a);
     for (int32_t tries = 1;; ++tries) {
-        const int32_t type = GetBadAiAction();
+        const int32_t type = chooseAilmentAction();
         switch (type) {
-        case kBadWait:
-        case kBadWait2: failed = BadBadWait(a); break;
-        case kBadAttack: failed = BadAttack(a); break;
-        case kBadKaifuku: failed = BadKaifuku(a); break;
-        case kBadKaja: failed = BadKaja(a); break;
-        case kBadMaka: failed = BadMaka(a); break;
-        case kBadNego: failed = BadNego(a); break;
-        case kBadReturn: failed = BadReturn(a); break;
-        case kBadDamage: failed = BadDamage(a); break;
-        case kBadNothing: break;
+        case kAilmentLoseTurn:
+        case kAilmentLoseTurn2: failed = ailmentLoseTurn(a); break;
+        case kAilmentAttack: failed = ailmentAttack(a); break;
+        case kAilmentHeal: failed = ailmentHeal(a); break;
+        case kAilmentBuff: failed = ailmentBuff(a); break;
+        case kAilmentThrowMacca: failed = ailmentThrowMacca(a); break;
+        case kAilmentTalk: failed = ailmentTalk(a); break;
+        case kAilmentReturn: failed = ailmentReturn(a); break;
+        case kAilmentSelfDamage: failed = ailmentSelfDamage(a); break;
+        case kAilmentNothing: break;
         default: failed = 1; break;
         }
         if (type >= 0 && failed) {
-            BadRitu* list = rituList();
-            for (int32_t i = 0; i < rituCount(); ++i) {
+            AilmentWeight* list = weightList();
+            for (int32_t i = 0; i < weightCount(); ++i) {
                 if (list[i].type == type) {
-                    list[i].ritu = 0;
+                    list[i].weight = 0;
                     break;
                 }
             }
         }
         if (tries > 10) {
             failed = 0;
-            BadBadWait(a);
+            ailmentLoseTurn(a);
         }
         if (!failed)
             return 0;
@@ -368,17 +368,17 @@ int32_t nbRunBadAi(ActionProcessData& a)
 
 // nbGetJyokyoMes @ 0x00259300: each message has a second form, used when
 // the sides are swapped (BattleStat 8).
-int32_t nbGetJyokyoMes(const MainProcessData& data, int32_t jyokyomes)
+int32_t statusMessage(const MainProcessData& data, int32_t jyokyomes)
 {
     return (data.stat & BattleStat::InitiativeRolled) ? jyokyomes + 1 : jyokyomes;
 }
 
 // nbSetJyokyoMes @ 0x002592B0
-void nbSetJyokyoMes(ActionProcessData& a, int32_t jyokyomes, int32_t var_id, int32_t var_ind)
+void setStatusMessage(ActionProcessData& a, int32_t jyokyomes, int32_t var_id, int32_t var_ind)
 {
-    a.jyokyomes = nbGetJyokyoMes(*a.data, jyokyomes);
-    a.jyo_varid = var_id;
-    a.jyo_varind = var_ind;
+    a.statusMessage = statusMessage(*a.data, jyokyomes);
+    a.statusVarType = var_id;
+    a.statusVarValue = var_ind;
 }
 
 } // namespace nocturne::nb

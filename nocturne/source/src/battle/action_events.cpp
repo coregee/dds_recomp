@@ -30,7 +30,7 @@ Formation& formAt(ActionProcessData& a, int32_t formindex) { return a.data->form
 // (tentative: special battles), a moon that isn't full, and so on.
 bool talkableBattle(const MainProcessData& main)
 {
-    return static_cast<uint16_t>(static_cast<uint16_t>(main.press4_hansya) - 0xf0) > 6 && !(main.stat & BattleStat::BossBattle);
+    return static_cast<uint16_t>(static_cast<uint16_t>(main.press4_repel) - 0xf0) > 6 && !(main.stat & BattleStat::BossBattle);
 }
 
 bool fullMoon() { return evt::GetAgeOfMoon() == 8; }
@@ -51,7 +51,7 @@ Formation* firstEnemy()
 
 // SetTarget @ 0x00251428: the player chooses the targets for the unit's
 // command. A summon (command 6, or skill 0xDF) sets the stage to 1.
-void SetTarget(ActionProcessData& a)
+void setTarget(ActionProcessData& a)
 {
     const UnitWork& unit = *a.work;
     const bool summon = unit.nowcommand == 6 || (unit.nowcommand == 1 && unit.nowindex == 0xdf);
@@ -60,14 +60,14 @@ void SetTarget(ActionProcessData& a)
     a.select = 0;
     int32_t type = 0, rule = 0, area = 0;
     targetTypeRuleArea(a, unit, &type, &rule, &area, false);
-    nbSetTargetProcess(a, a.partyindex, type, rule, area);
+    startTargetCursor(a, a.partyindex, type, rule, area);
 }
 
 // SetAction_TARSEL @ 0x00254178
-void SetAction_TARSEL(ActionProcessData& a) { SetTarget(a); }
+void enterTargetSelect(ActionProcessData& a) { setTarget(a); }
 
 // SetTargetPlayer @ 0x00251EF0: the Demi-fiend as the only target.
-void SetTargetPlayer(ActionProcessData& a)
+void targetDemiFiend(ActionProcessData& a)
 {
     for (int32_t f = 0; f < 16; ++f)
         formAt(a, f).stat &= ~(FormationStat::Selectable | FormationStat::Selected);
@@ -82,7 +82,7 @@ void SetTargetPlayer(ActionProcessData& a)
 }
 
 // SetTargetParty @ 0x00251FD8: the unit in party slot `partyindex` as the only target.
-void SetTargetParty(ActionProcessData& a, int32_t partyindex)
+void targetPartySlot(ActionProcessData& a, int32_t partyindex)
 {
     for (int32_t f = 0; f < 16; ++f)
         formAt(a, f).stat &= ~(FormationStat::Selectable | FormationStat::Selected);
@@ -99,12 +99,12 @@ void SetTargetParty(ActionProcessData& a, int32_t partyindex)
 // action of the party's once the story has unlocked it: event bits
 // 0x851..0x856 for a physical attack, magic attack, healing, magic, an
 // item and a summon (the action's stat bits 0x10000..0x200000).
-bool CheckArrCounter(ActionProcessData& a)
+bool checkAhrimanCounter(ActionProcessData& a)
 {
     if (a.partyindex >= 4)
         return false;
     Formation& enemy = *firstEnemy();
-    if (CheckTimeListDead(a, enemy.formindex))
+    if (timeListDead(a, enemy.formindex))
         return false;
     if (GetUnitWorkFromFormindex(enemy.formindex)->id != devil::Ahriman1stFormBoss)
         return false;
@@ -123,11 +123,11 @@ bool CheckArrCounter(ActionProcessData& a)
 // with Avenge, Retaliate or Counter (passives 0x133, 0x132, 0x131, tried in
 // that order, each at 100 / its rate percent), unless `to` is down or
 // `from` is shocked, frozen, asleep, bound, stunned, charmed or stoned.
-bool CheckCounter(ActionProcessData& a, int32_t from, int32_t to)
+bool checkCounter(ActionProcessData& a, int32_t from, int32_t to)
 {
     static constexpr uint32_t passives[] = {0x133, 0x132, 0x131};
     static constexpr int32_t counters[] = {0xa6, 0xa5, 0xa4};
-    if (CheckTimeListDead(a, to))
+    if (timeListDead(a, to))
         return false;
     const UnitWork& unit = *GetUnitWorkFromFormindex(from);
     switch (unit.ailment()) {
@@ -156,11 +156,11 @@ bool CheckCounter(ActionProcessData& a, int32_t from, int32_t to)
 // CheckMukanNego @ 0x00252400: the last enemy who can still talk (one that
 // talks, mukantype, and isn't in the stock) speaks up, from the third turn
 // on, 5% of the time, once.
-bool CheckMukanNego(ActionProcessData& a)
+bool checkLastEnemyTalks(ActionProcessData& a)
 {
     MainProcessData& main = *a.data;
     const UnitWork& unit = *a.work;
-    if (!talkableBattle(main) || !(a.party->flag & PartyFlag::EnemySide) || dat::devilNegoFormat(unit.id).mukantype == 0)
+    if (!talkableBattle(main) || !(a.party->flag & PartyFlag::EnemySide) || dat::devilTalkFormat(unit.id).lastEnemyTalk == 0)
         return false;
     if (dat::findDevil(unit.id) >= 0 || fullMoon() || !dat::canTalk(unit) || !dat::canTalk(dat::globalWork().units[0]))
         return false;
@@ -182,13 +182,13 @@ bool CheckMukanNego(ActionProcessData& a)
 
 // CheckSenseiNego @ 0x002525F0: an enemy that ambushed the party (the
 // enemies moved first) opens with talk, 21 / enemies percent of the time.
-bool CheckSenseiNego(ActionProcessData& a)
+bool checkAmbushTalk(ActionProcessData& a)
 {
     MainProcessData& main = *a.data;
     if (!talkableBattle(main) || !(main.stat & BattleStat::EnemiesFirst) || (main.stat & BattleStat::BackAttack) ||
         (main.stat & 0x100))
         return false;
-    if (fullMoon() || dat::devilNegoFormat(a.work->id).senseitype == 0)
+    if (fullMoon() || dat::devilTalkFormat(a.work->id).ambushTalk == 0)
         return false;
     if (!dat::canTalk(*a.work) || !dat::canTalk(dat::globalWork().units[0]))
         return false;
@@ -207,7 +207,7 @@ bool CheckSenseiNego(ActionProcessData& a)
 // CheckInotiNego @ 0x00252720: the last enemy, struck by the party's attack,
 // skill or item and left at 24% HP or less, may beg for its life (6%), if
 // it isn't above the Demi-fiend's level.
-bool CheckInotiNego(ActionProcessData& a)
+bool checkBegForLife(ActionProcessData& a)
 {
     MainProcessData& main = *a.data;
     if (!talkableBattle(main) || (a.party->flag & (PartyFlag::EnemySide | PartyFlag::Inactive)) || a.partyindex >= 4)
@@ -226,8 +226,8 @@ bool CheckInotiNego(ActionProcessData& a)
             continue;
         const UnitWork& enemy = *GetUnitWorkFromFormindex(f);
         const uint16_t flag = static_cast<uint16_t>(main.party[form.partyindex].flag);
-        if (!(flag & PartyFlag::Active) || (flag & 0x20) || CheckTimeListDead(a, f) ||
-            dat::devilNegoFormat(enemy.id).inotitype == 0)
+        if (!(flag & PartyFlag::Active) || (flag & 0x20) || timeListDead(a, f) ||
+            dat::devilTalkFormat(enemy.id).begForLife == 0)
             continue;
         if (!(main.stat & kForceNego)) {
             if (enemy.maxhp == 0)
@@ -241,7 +241,7 @@ bool CheckInotiNego(ActionProcessData& a)
             continue;
         if (sdf::GetRandInt(100) < chance(main, 6)) {
             nb::PushAction(1, form.partyindex, a.partyindex, 0);
-            diag::print(diag::Message::InotiParty, form.partyindex, enemy.id);
+            diag::print(diag::Message::BegForLifeSide, form.partyindex, enemy.id);
             return true;
         }
     }
@@ -251,7 +251,7 @@ bool CheckInotiNego(ActionProcessData& a)
 // CheckBinjoNego @ 0x002529D0: after the party's action (action stat 8),
 // an enemy it didn't target may ask to join (2%), if not already in the
 // stock; once per enemy (party flag 0x40).
-bool CheckBinjoNego(ActionProcessData& a)
+bool checkAskToJoin(ActionProcessData& a)
 {
     MainProcessData& main = *a.data;
     if (!talkableBattle(main) || (a.party->flag & (PartyFlag::EnemySide | PartyFlag::Inactive)) || a.partyindex >= 4 ||
@@ -268,7 +268,7 @@ bool CheckBinjoNego(ActionProcessData& a)
         if (!(party.flag & PartyFlag::Active) || (party.flag & 0x20) || (party.flag & 0x40))
             continue;
         const UnitWork& enemy = *GetUnitWorkFromFormindex(f);
-        if (CheckTimeListDead(a, f) || dat::devilNegoFormat(enemy.id).binjotype == 0)
+        if (timeListDead(a, f) || dat::devilTalkFormat(enemy.id).askToJoin == 0)
             continue;
         if (!a.work->isPlayerCharacter() && a.work->id == enemy.id)
             continue;
@@ -277,7 +277,7 @@ bool CheckBinjoNego(ActionProcessData& a)
         if (sdf::GetRandInt(100) < chance(main, 2)) {
             party.flag = static_cast<int16_t>(party.flag | 0x40);
             nb::PushAction(2, form.partyindex, a.partyindex, 0);
-            diag::print(diag::Message::BinjoParty, form.partyindex);
+            diag::print(diag::Message::AskToJoinSide, form.partyindex);
             return true;
         }
     }
@@ -286,15 +286,15 @@ bool CheckBinjoNego(ActionProcessData& a)
 
 // CheckDeadScript @ 0x00252C28: an enemy the action killed whose death runs
 // a script queues it (not for action type 5).
-void CheckDeadScript(ActionProcessData& a)
+void checkDeathScripts(ActionProcessData& a)
 {
     if (a.type == 5)
         return;
     for (int32_t f = kFirstEnemyFormation; f < kFormationCount; ++f) {
         Formation& form = formAt(a, f);
-        if (!(form.stat & FormationStat::Present) || !CheckTimeListDead(a, f))
+        if (!(form.stat & FormationStat::Present) || !timeListDead(a, f))
             continue;
-        if (const int32_t script = nbCheckDeadScript(form))
+        if (const int32_t script = hasDeathScript(form))
             nb::PushAction(5, form.partyindex, 0, script);
     }
 }
@@ -302,7 +302,7 @@ void CheckDeadScript(ActionProcessData& a)
 // CheckKoketaNego @ 0x00252CD8: after the party's failed escape, a random
 // enemy that can act gets a free action (not one shocked, frozen, asleep,
 // bound, stunned or stoned).
-bool CheckKoketaNego(ActionProcessData& a)
+bool checkFreeActionAfterEscape(ActionProcessData& a)
 {
     if ((a.party->flag & (PartyFlag::EnemySide | PartyFlag::Inactive)) || a.partyindex >= 4)
         return false;
@@ -317,7 +317,7 @@ bool CheckKoketaNego(ActionProcessData& a)
         if (!(flag & PartyFlag::Active) || (flag & 0x20))
             continue;
         const UnitWork& enemy = *GetUnitWorkFromFormindex(f);
-        if (CheckTimeListDead(a, f))
+        if (timeListDead(a, f))
             continue;
         switch (enemy.ailment()) {
         case 1: case 2: case 4: case 0x10: case 0x100: case 0x400: continue;
@@ -335,29 +335,29 @@ bool CheckKoketaNego(ActionProcessData& a)
 
 // KyouseiPress @ 0x00252EA8: the press turns end at once (no icons left);
 // the command menu closes.
-void KyouseiPress(ActionProcessData& a)
+void debugEndPressTurns(ActionProcessData& a)
 {
     MainProcessData& main = *a.data;
     main.press4_p = 0;
     main.press4_ten = 0;
-    if (main.CommSelProcessID)
-        dds3::KillProcess(main.CommSelProcessID, 0);
+    if (main.CommandMenuProcessID)
+        dds3::KillProcess(main.CommandMenuProcessID, 0);
 }
 
 // DokodemoPoa @ 0x00252EE8: every enemy dies at once; the command menu
 // closes.
-void DokodemoPoa(ActionProcessData& a)
+void debugWinBattle(ActionProcessData& a)
 {
     for (int32_t f = kFirstEnemyFormation; f < kFormationCount; ++f) {
         Formation& form = formAt(a, f);
         if ((form.stat & FormationStat::Present) && (form.stat & FormationStat::CheckParty)) {
-            nb::MakeDeadVisualPacket(0, static_cast<int32_t>(guest::addressOf(&a)), &form, 0, 1);
-            SetTimeList(a, f, 0, 30, 30);
-            SetDeadPacket(a, f);
+            nb::MakeDeathVisualPackets(0, static_cast<int32_t>(guest::addressOf(&a)), &form, 0, 1);
+            setTimeList(a, f, 0, 30, 30);
+            queueDeath(a, f);
         }
     }
-    if (a.data->CommSelProcessID)
-        dds3::KillProcess(a.data->CommSelProcessID, 0);
+    if (a.data->CommandMenuProcessID)
+        dds3::KillProcess(a.data->CommandMenuProcessID, 0);
 }
 
 namespace {
@@ -385,24 +385,24 @@ bool heals(uint16_t type)
 // attack (damage or an ailment), 0x40000 healing, 0x80000 magic, 0x100000
 // an item, 0x200000 a summon (programs 2 and 3, or command 6). The skill's
 // healing types are read whatever the command.
-void SetNowActionStat(ActionProcessData& a, int32_t comm, int32_t nskill)
+void noteActionKind(ActionProcessData& a, int32_t comm, int32_t nskill)
 {
     if (a.partyindex >= 4)
         return;
     const NormalSkill& skill = dat::normalSkill(nskill);
     if (comm == 0) {
         a.stat |= 0x10000;
-    } else if (comm == 1 && skill.koukatype == 0) {
+    } else if (comm == 1 && skill.damageClass == 0) {
         if (hurts(skill.hptype) || hurts(skill.mptype))
             a.stat |= 0x10000;
     }
-    if (comm == 1 && skill.koukatype == 1) {
+    if (comm == 1 && skill.damageClass == 1) {
         if (hurts(skill.hptype) || hurts(skill.mptype) || skill.badtype == 1 || skill.badtype == 3)
             a.stat |= 0x20000;
     }
     if (heals(skill.hptype) || heals(skill.mptype))
         a.stat |= 0x40000;
-    if (comm == 1 && skill.koukatype == 1)
+    if (comm == 1 && skill.damageClass == 1)
         a.stat |= 0x80000;
     if (comm == 5)
         a.stat |= 0x100000;

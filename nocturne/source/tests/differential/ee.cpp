@@ -545,6 +545,21 @@ void Interpreter::step()
         case 0x18: case 0x19: case 0x1a: case 0x1b:                             // MULT1, MULTU1, DIV1, DIVU1
             multiplyDivide(op & 63, s, t, d, cpu.hi1, cpu.lo1);
             goto done;
+        case 0x00: case 0x01: case 0x20: case 0x21: {                           // MADD, MADDU, MADD1, MADDU1
+            // HI:LO (32 bits each) plus the 32 x 32-bit product; rd gets the new LO.
+            uint64_t& hi = (op & 0x20) ? cpu.hi1 : cpu.hi;
+            uint64_t& lo = (op & 0x20) ? cpu.lo1 : cpu.lo;
+            const uint64_t acc = static_cast<uint64_t>(static_cast<uint32_t>(hi)) << 32 | static_cast<uint32_t>(lo);
+            const uint64_t product = (op & 1) ? static_cast<uint64_t>(static_cast<uint32_t>(s)) * static_cast<uint32_t>(t)
+                                              : static_cast<uint64_t>(static_cast<int64_t>(static_cast<int32_t>(s)) *
+                                                                      static_cast<int32_t>(t));
+            const uint64_t sum = acc + product;
+            lo = sx32(sum & 0xffffffffu);
+            hi = sx32(sum >> 32);
+            if (d)
+                *d = lo;
+            goto done;
+        }
         default: break;
         }
         if ((op & 63) == 0x08 && (sa == 0x17 || sa == 0x1b)) {

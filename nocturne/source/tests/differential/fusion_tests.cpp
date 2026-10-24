@@ -127,9 +127,9 @@ void randomStockUnit(Gen& g, UnitWork& u)
         u.skill[i] = i < u.skillcnt || g.chance(10) ? randomSkill(g) : 0;
     int inherited = g.range(0, 24);
     for (int i = 0; i < 24; ++i)
-        u.keisyoskill[i] = i < inherited ? randomSkill(g) : (g.chance(5) ? randomSkill(g) : 0);
-    u.hensinmae = g.chance(20) ? randomDevil(g) : 0;
-    u.hensinmaeexp = g.chance(20) ? g.below(100000) : 0;
+        u.inheritedSkills[i] = i < inherited ? randomSkill(g) : (g.chance(5) ? randomSkill(g) : 0);
+    u.preEvolutionId = g.chance(20) ? randomDevil(g) : 0;
+    u.preEvolutionExp = g.chance(20) ? g.below(100000) : 0;
 }
 
 } // namespace
@@ -151,7 +151,7 @@ void randomStock(Gen& g)
     global.stock_capacity = g.chance(5) ? g.range(-1, 0) : g.range(1, 12);
     for (int i = 1; i < 4; ++i)
         global.reason_points[i] = static_cast<uint8_t>(g.chance(30) ? 64 : g.range(0, 128));
-    global.maka = g.chance(5) ? g.range(-5, 0) : g.range(0, 9999999);
+    global.macca = g.chance(5) ? g.range(-5, 0) : g.range(0, 9999999);
     randomStockUnit(g, unitAt(kScratch));
 }
 
@@ -278,7 +278,7 @@ void addFusionTests(std::vector<TestCase>& t)
               [](UnitWork& u) { return norm(int32_t{cmb::countInherited(u)}); });
     add("cmbChkKeisyoSkillOwner", [L](Gen& g) {
         uint32_t u = stockUnit(g.range(0, 15));
-        uint16_t s = g.chance(50) ? unitAt(u).keisyoskill[g.below(24)] : randomSkill(g);
+        uint16_t s = g.chance(50) ? unitAt(u).inheritedSkills[g.below(24)] : randomSkill(g);
         return Pair{[=] { return norm(int32_t{cmbChkKeisyoSkillOwner(s, L(u))}); }, [=] { return norm(int32_t{cmb::findInherited(s, unitAt(u))}); }};
     });
 
@@ -398,7 +398,7 @@ void addFusionTests(std::vector<TestCase>& t)
         uint16_t pool[4];
         for (uint16_t& p : pool) p = randomSkill(g);
         for (int i = 0; i < 24; ++i) {   // few distinct values, so many ties
-            unit.keisyoskill[i] = g.chance(25) ? 0 : pool[g.below(4)];
+            unit.inheritedSkills[i] = g.chance(25) ? 0 : pool[g.below(4)];
             unit.keiattr[i] = static_cast<uint8_t>(g.below(256));
         }
         return Pair{[=] { ps2FusionSortSkills_00213350(u); return uint64_t{0}; },

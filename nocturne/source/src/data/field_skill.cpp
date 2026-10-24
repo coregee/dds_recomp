@@ -142,12 +142,12 @@ int32_t fieldSkillEffect(int32_t skill, int32_t type, UnitWork& source, UnitWork
         return 0;
     case 1: case 12: case 14: {   // damage from power
         int32_t amount = 0;
-        if (s.koukatype == 0) {
+        if (s.damageClass == 0) {
             amount = fieldPhysicalPower(skill, source, target, power);
             const uint16_t ailment = source.badstat & kAilmentMask;
             if (ailment == ailment::Poison || ailment == ailment::Fly)
                 amount /= 2;
-        } else if (s.koukatype == 1) {
+        } else if (s.damageClass == 1) {
             amount = fieldMagicPower(skill, source, target, power);
         }
         damage = add(amount, offset);
@@ -155,9 +155,9 @@ int32_t fieldSkillEffect(int32_t skill, int32_t type, UnitWork& source, UnitWork
     }
     case 2: {                     // healing from power
         int32_t amount = 0;
-        if (s.koukatype == 0)
+        if (s.damageClass == 0)
             amount = fieldPhysicalHealPower(skill, source, target, power);
-        else if (s.koukatype == 1)
+        else if (s.damageClass == 1)
             amount = fieldMagicHealPower(skill, source, target, power);
         healing = add(amount, offset);
         break;

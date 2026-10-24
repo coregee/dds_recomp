@@ -13,101 +13,121 @@ namespace nocturne::nb {
 // The action's states (the table of SetAction_* / CheckAction_* pairs at
 // 0x3FA7C0). Each pair's code follows the HD remaster's order of the
 // states, and what the pairs do confirms it; 16, 17 and 23 are unused.
-enum ActionSeq : int8_t {
-    kActionNon = 0, kActionComm = 1, kActionAi = 2, kActionAiScript = 3, kActionBad = 4, kActionTarSel = 5,
-    kActionStkSel = 6, kActionReady = 7, kActionSkill = 8, kActionNego = 9, kActionNegoResult = 10,
-    kActionBadWait = 11, kActionWait = 12, kActionEscape = 13, kActionReturn = 14, kActionInvisible = 15,
-    kActionCheck1 = 18, kActionDeadScript = 19, kActionCheck3 = 20, kActionAto = 21, kActionEnd = 22,
+enum ActionState : int8_t {
+    kActionNone = 0, kActionCommand = 1, kActionAi = 2, kActionAiScript = 3, kActionAilment = 4, kActionTargetSelect = 5,
+    kActionStockSelect = 6, kActionReady = 7, kActionSkill = 8, kActionTalk = 9, kActionTalkResult = 10,
+    kActionAilmentWait = 11, kActionWait = 12, kActionEscape = 13, kActionReturn = 14, kActionInvisible = 15,
+    kActionAftermath = 18, kActionDeathScript = 19, kActionPlayOut = 20, kActionCleanup = 21, kActionEnd = 22,
 };
 
 // ---- the time list (by formation index) ----
-void ClearTimeList(ActionProcessData& a);
-void SetHpForTimeList(ActionProcessData& a);
-int32_t GetTimeListHp(ActionProcessData& a, int32_t formindex);
-bool CheckTimeListDead(ActionProcessData& a, int32_t formindex);
-bool CheckTimeListDeadEnemyParty(ActionProcessData& a, int32_t formindex);
-bool nbAddTimeListHp(ActionProcessData& a, int32_t formindex, int32_t add);
-bool AddTimeListHp(ActionProcessData& a, int32_t formindex, int32_t add);
-int32_t GetUnlockTime(ActionProcessData& a, int32_t formindex);
-int32_t GetEndTime(ActionProcessData& a, int32_t formindex);
-void OverwriteTimeList(ActionProcessData& a, int32_t formindex, int32_t start, int32_t locktime, int32_t endtime);
-void SetTimeList(ActionProcessData& a, int32_t formindex, int32_t start, int32_t locktime, int32_t endtime);
-int32_t GetAllEndTime(ActionProcessData& a);
-int32_t GetAllUnlockTime(ActionProcessData& a);
+void clearTimeList(ActionProcessData& a);
+void initTimeListHp(ActionProcessData& a);
+int32_t timeListHp(ActionProcessData& a, int32_t formindex);
+bool timeListDead(ActionProcessData& a, int32_t formindex);
+bool otherSideAllDead(ActionProcessData& a, int32_t formindex);
+bool addTimeListHp(ActionProcessData& a, int32_t formindex, int32_t add);
+bool addTimeListHpAt(ActionProcessData& a, int32_t formindex, int32_t add);
+int32_t freeFrame(ActionProcessData& a, int32_t formindex);
+int32_t doneFrame(ActionProcessData& a, int32_t formindex);
+void overwriteTimeList(ActionProcessData& a, int32_t formindex, int32_t start, int32_t locktime, int32_t endtime);
+void setTimeList(ActionProcessData& a, int32_t formindex, int32_t start, int32_t locktime, int32_t endtime);
+int32_t lastDoneFrame(ActionProcessData& a);
+int32_t lastFreeFrame(ActionProcessData& a);
 
 // ---- an action's results: packets, press turns, messages ----
-void UnitKyoseiDisp(ActionProcessData& a, int32_t start);
-void SetDeadPacket(ActionProcessData& a, int32_t formindex);
-void SetPress(ActionProcessData& a, ee::Float press);
-void SetNewPress(ActionProcessData& a, int32_t presstype);
-void SetHitStopFrame(ActionProcessData& a, int32_t frame);
-void SetEnemyEscapePacket(ActionProcessData& a, int32_t dformindex, int32_t sframe);
-void SetAuroraPacket(ActionProcessData& a, int32_t dformindex, int32_t sframe);
-void SetAddPressPacket(ActionProcessData& a, int32_t nskill);
-void SetAddFlareChargePacket(ActionProcessData& a, int32_t start);
-void SetMakaPacket(ActionProcessData& a, int32_t dformindex, int32_t sframe);
-void SetTorafuPacket(ActionProcessData& a, int32_t dformindex, int32_t sframe);
-void SetAnalyzePacket(ActionProcessData& a, int32_t dformindex, int32_t sframe);
-int32_t SetPlayerSummonPacket(ActionProcessData& a, int32_t nskill, int32_t sformindex, int32_t dformindex,
+void fadeInHiddenUnit(ActionProcessData& a, int32_t start);
+void queueDeath(ActionProcessData& a, int32_t formindex);
+void setPressCost(ActionProcessData& a, ee::Float press);
+void setPressResult(ActionProcessData& a, int32_t presstype);
+void setHitStopFrame(ActionProcessData& a, int32_t frame);
+// The hit order (koukalist): a formation index (-1 ends) and its hits.
+struct HitOrderEntry {
+    int8_t formindex;
+    int8_t count;
+};
+void hitOrder(ActionProcessData& a, HitOrderEntry* list, uint32_t select, int32_t nskill);        // 32 entries
+void queueHitResult(ActionProcessData& a, int32_t koukatype, int32_t nskill, int32_t sformindex, int32_t dformindex, int32_t cnt,
+                  int32_t frame, ee::Float koukaritu);
+void queueEnemyEscape(ActionProcessData& a, int32_t dformindex, int32_t sframe);
+void queueAurora(ActionProcessData& a, int32_t dformindex, int32_t sframe);
+void queueExtraPress(ActionProcessData& a, int32_t nskill);
+void queueFlareCharge(ActionProcessData& a, int32_t start);
+void queueMaccaThrow(ActionProcessData& a, int32_t dformindex, int32_t sframe);
+void queueTrafuri(ActionProcessData& a, int32_t dformindex, int32_t sframe);
+void queueAnalyze(ActionProcessData& a, int32_t dformindex, int32_t sframe);
+int32_t queuePlayerSummon(ActionProcessData& a, int32_t nskill, int32_t sformindex, int32_t dformindex,
                               int32_t sframe);
-void SetSakePacket(ActionProcessData& a, int32_t nskill, int32_t sformindex, int32_t dformindex, int32_t cnt, int32_t frame);
-void SetOngShadowPacket(ActionProcessData& a, int32_t nskill, int32_t sformindex, int32_t dformindex, int32_t cnt,
+void queueDodge(ActionProcessData& a, int32_t nskill, int32_t sformindex, int32_t dformindex, int32_t cnt, int32_t frame);
+void queueOngyokiFound(ActionProcessData& a, int32_t nskill, int32_t sformindex, int32_t dformindex, int32_t cnt,
                         int32_t frame);
-void SetOngShadowPacket2(ActionProcessData& a, int32_t dformindex, int32_t frame);
-void SetMissPacket(ActionProcessData& a, int32_t nskill, int32_t sformindex, int32_t dformindex, int32_t cnt, int32_t frame);
-void SetDamagePacket(ActionProcessData& a, int32_t hp);
+void queueOngyokiClonesVanish(ActionProcessData& a, int32_t dformindex, int32_t frame);
+void queueMiss(ActionProcessData& a, int32_t nskill, int32_t sformindex, int32_t dformindex, int32_t cnt, int32_t frame);
+void queueDamage(ActionProcessData& a, int32_t hp);
 
 // ---- side events: counters, talks, death scripts (action_events.cpp) ----
-void SetTarget(ActionProcessData& a);
-void SetAction_TARSEL(ActionProcessData& a);
-void SetTargetPlayer(ActionProcessData& a);
-void SetTargetParty(ActionProcessData& a, int32_t partyindex);
-bool CheckArrCounter(ActionProcessData& a);
-bool CheckCounter(ActionProcessData& a, int32_t from, int32_t to);
-bool CheckMukanNego(ActionProcessData& a);
-bool CheckSenseiNego(ActionProcessData& a);
-bool CheckInotiNego(ActionProcessData& a);
-bool CheckBinjoNego(ActionProcessData& a);
-void CheckDeadScript(ActionProcessData& a);
-bool CheckKoketaNego(ActionProcessData& a);
-void KyouseiPress(ActionProcessData& a);
-void DokodemoPoa(ActionProcessData& a);
-void SetNowActionStat(ActionProcessData& a, int32_t comm, int32_t nskill);
+void setTarget(ActionProcessData& a);
+void enterTargetSelect(ActionProcessData& a);
+void targetDemiFiend(ActionProcessData& a);
+void targetPartySlot(ActionProcessData& a, int32_t partyindex);
+bool checkAhrimanCounter(ActionProcessData& a);
+bool checkCounter(ActionProcessData& a, int32_t from, int32_t to);
+bool checkLastEnemyTalks(ActionProcessData& a);
+bool checkAmbushTalk(ActionProcessData& a);
+bool checkBegForLife(ActionProcessData& a);
+bool checkAskToJoin(ActionProcessData& a);
+void checkDeathScripts(ActionProcessData& a);
+bool checkFreeActionAfterEscape(ActionProcessData& a);
+void debugEndPressTurns(ActionProcessData& a);
+void debugWinBattle(ActionProcessData& a);
+void noteActionKind(ActionProcessData& a, int32_t comm, int32_t nskill);
 
 // ---- the state ----
-int32_t nbGetActionSeq(uint32_t process);   // of an action process, 0 for none
-int32_t nbGetPrevActionSeq();               // of the action before the current one, -1 for none
-void SetNextActionSeq(ActionProcessData& a, int32_t nextseq);
-void SetActionSeq(ActionProcessData& a, int32_t seq);   // enters a state
-int32_t nbActionProcess1(uint32_t process);               // the action process, each frame
+int32_t actionState(uint32_t process);      // of an action process, 0 for none
+int32_t previousActionState();              // of the action before the current one, -1 for none
+void setNextState(ActionProcessData& a, int32_t nextseq);
+void enterState(ActionProcessData& a, int32_t seq);     // enters a state
+int32_t runActionProcess(uint32_t process);               // the action process, each frame
 
-void SetAction_NON(ActionProcessData& a);
-void SetAction_AI(ActionProcessData& a);
-int32_t CheckAction_AI(ActionProcessData& a);
-void SetAction_AISCR(ActionProcessData& a);
-int32_t CheckAction_AISCR(ActionProcessData& a);
-int32_t CheckAction_BAD(ActionProcessData& a);
-void SetAction_BADWAIT(ActionProcessData& a);
-int32_t CheckAction_BADWAIT(ActionProcessData& a);
-void SetAction_CHECK1(ActionProcessData& a);
-int32_t CheckAction_CHECK1(ActionProcessData& a);
-void SetAction_DEADSCRIPT(ActionProcessData& a);
-int32_t CheckAction_DEADSCRIPT(ActionProcessData& a);
-void SetAction_WAIT(ActionProcessData& a);
-int32_t CheckAction_WAIT(ActionProcessData& a);
-void SetAction_ESCAPE(ActionProcessData& a);
-int32_t CheckAction_ESCAPE(ActionProcessData& a);
-void SetAction_RETURN(ActionProcessData& a);
-int32_t CheckAction_RETURN(ActionProcessData& a);
-void SetAction_INVISIBLE(ActionProcessData& a);
-int32_t CheckAction_INVISIBLE(ActionProcessData& a);
-int32_t CheckAction_NEGO(ActionProcessData& a);
-int32_t CheckAction_NEGORESULT(ActionProcessData& a);
-void SetAction_CHECK3(ActionProcessData& a);
-int32_t CheckAction_CHECK3(ActionProcessData& a);
-void SetAction_ATO(ActionProcessData& a);
-int32_t CheckAction_ATO(ActionProcessData& a);
-void SetAction_END(ActionProcessData& a);
-int32_t CheckAction_END(ActionProcessData& a);
+void enterNone(ActionProcessData& a);
+void enterCommand(ActionProcessData& a);
+int32_t updateCommand(ActionProcessData& a);
+void enterAilment(ActionProcessData& a);
+int32_t updateTargetSelect(ActionProcessData& a);
+void enterStockSelect(ActionProcessData& a);
+void enterReady(ActionProcessData& a);
+int32_t updateReady(ActionProcessData& a);
+void enterSkill(ActionProcessData& a);
+int32_t updateSkill(ActionProcessData& a);
+int32_t updateStockSelect(ActionProcessData& a);
+void enterAi(ActionProcessData& a);
+int32_t updateAi(ActionProcessData& a);
+void enterAiScript(ActionProcessData& a);
+int32_t updateAiScript(ActionProcessData& a);
+int32_t updateAilment(ActionProcessData& a);
+void enterAilmentWait(ActionProcessData& a);
+int32_t updateAilmentWait(ActionProcessData& a);
+void enterAftermath(ActionProcessData& a);
+int32_t updateAftermath(ActionProcessData& a);
+void enterDeathScript(ActionProcessData& a);
+int32_t updateDeathScript(ActionProcessData& a);
+void enterWait(ActionProcessData& a);
+int32_t updateWait(ActionProcessData& a);
+void enterEscape(ActionProcessData& a);
+int32_t updateEscape(ActionProcessData& a);
+void enterReturn(ActionProcessData& a);
+int32_t updateReturn(ActionProcessData& a);
+void enterInvisible(ActionProcessData& a);
+int32_t updateInvisible(ActionProcessData& a);
+void enterTalk(ActionProcessData& a);
+int32_t updateTalk(ActionProcessData& a);
+void enterTalkResult(ActionProcessData& a);
+int32_t updateTalkResult(ActionProcessData& a);
+void enterPlayOut(ActionProcessData& a);
+int32_t updatePlayOut(ActionProcessData& a);
+void enterCleanup(ActionProcessData& a);
+int32_t updateCleanup(ActionProcessData& a);
+void enterEnd(ActionProcessData& a);
+int32_t updateEnd(ActionProcessData& a);
 
 } // namespace nocturne::nb

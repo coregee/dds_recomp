@@ -45,12 +45,16 @@ include/nocturne/
   script/commands.hpp    the commands every script uses (scrCommonCommand, scrParameterCommand)
   data/field_skill.hpp   skills used outside battle, field damage to the party
   battle/kouka.hpp       the battle's presentation queue (kouka packets)
+  battle/kouka_process.hpp  the kouka process: plays the queue every frame
+  battle/talk.hpp        talks with demons: the record and its helpers
   battle/action.hpp      an action's state machine and time list
   battle/bad_ai.hpp      what an ailing (charmed, panicked, cursed) unit does
   battle/camera.hpp      the battle camera: its named states
   kernel/draw.hpp        the kernel's screen state: quake, blur, effect fades, lights, fog
+  kernel/main_loop.hpp   the kernel's main loop: stop and slow motion
   effect/event.hpp       the event screen effects' switches and settings (effEvent)
   effect/boss.hpp        boss effects (effPCPBoss): Ongyo-Ki's effects' lengths
+  effect/cut.hpp         a skill effect's cuts (effBTL): their frames, draw end, camera, the skill state
   external.hpp           engine functions not rewritten yet (bridged to legacy C)
 src/
   data/unit.cpp, progression.cpp   datCalc
@@ -66,15 +70,40 @@ src/
   script/parameter_commands.cpp     scrParameterCommand: the prm_* commands
   data/field_skill.cpp              datCalc: skills from the menu, the field's damage to the party
   battle/kouka.cpp                  nbKoukaProcess, nbMakePacket: queueing an action's presentation
+  battle/kouka_process.cpp          nbKoukaProcess: the process and its packet players
+  battle/talk.cpp                   nbNegoProcess: the talks' process and helpers (docs/talks.md)
+  battle/talk_flow.cpp              the talks' steps: each group's flow
+  battle/talk_opening.cpp           NbNegoFlowOne: a talk's opening (group 1)
+  battle/talk_fullmoon.cpp          NbNegoFlowFullMoon: talks under a full Kagutsuchi (group 2)
+  battle/talk_kin.cpp               NbNegoFlowDouchara: the demon meets its own kind (group 4)
+  battle/talk_fated.cpp             NbNegoFlowInnen: a fated pair meets (group 5)
+  battle/talk_bargain.cpp           NbNegoFlowTwo: the bargaining (group 6)
+  battle/talk_question.cpp          NbNegoFlowQuestion: the demon's questions (group 7)
+  battle/talk_fight.cpp             NbNegoFlowFight: a refusal, and the debug menu's fights (group 8)
+  battle/talk_deal.cpp              NbNegoFlowOk: the deal struck (group 9)
+  battle/talk_nodeal.cpp            NbNegoFlowNg: no deal, partings and the Death Pact (group 10)
+  battle/talk_drain.cpp             NbNegoFlowDrain: the demon drains the talker (group 11)
+  battle/talk_speaksup.cpp          NbNegoFlowMukan: the last enemy speaks up (group 12)
+  battle/talk_ambush.cpp            NbNegoFlowSensei: a demon that ambushed the party (group 13)
+  battle/talk_mercy.cpp             NbNegoFlowInoti: the last enemy begs for its life (group 15)
+  battle/talk_minor.cpp             the short groups 3, 14 (asking to join) and 16 (a taunt)
   battle/action.cpp                 nbActionProcess: states, the time list, result helpers
   battle/action_events.cpp          nbActionProcess: counters, talks, death scripts
   battle/bad_ai.cpp                 nbBadAi: ailments that take the turn
+  battle/battle_panel.cpp           nbPanelProcess: the party panel shown or hidden
+  battle/formation.cpp              nbFormation: formations shown, hidden, put back in place
+  battle/event_process.cpp          nbEventProcess: the battle's events (deaths', scripts')
+  battle/macca_window.cpp           nbMakaProcess: the Macca window (its process, fade and drawing)
   battle/camera.cpp                 nbCameraProcess: camera states
   battle/target_select.cpp          nbTarSelProcess: choosing a target
   battle/skill_error.cpp            nbSkillError: skills that would do nothing
+  battle/help.cpp                   nbHelpProcess: the help line's text
+  battle/comm_select.cpp            nbCommSelProcess: the command menu's lists and cursor
   kernel/draw.cpp                   dds3KernelDraw: screen state set by the scripts
+  kernel/main_loop.cpp              dds3KernelMain: stop, slow motion
   effect/event.cpp                  effEvent
   effect/boss.cpp                   effPCPBoss: effect lengths
+  effect/cut.cpp                    effBTL: cut frames and state
   libc/*.cpp                        C library functions whose exact behaviour matters
   platform/legacy_bridge.cpp        external.hpp -> legacy C ABI
 scripts/                 FlowScript: .flow (readable) and .flowasm (exact) per script,
@@ -96,15 +125,19 @@ menus, `sdf` system. See `../docs/glossary.md`.
 - **PS2 layout.** Structures keep their exact PS2 size and offsets
   (`static_assert`ed), so they work with the legacy code, save data and the
   executable's tables. Pointers inside game structures are `Ptr32<T>`.
-- **Names.** Struct fields use the original developers' names from the HD
-  remaster (`reference/hd/il2cpp/dump.cs`): `badstat`, `hitlevel`,
-  `dropmakka`. Functions get an English name; the original name and address
-  go in a comment directly above the definition, which
-  `tools/function_map.py` reads:
+- **Names.** Everything gets a plain English name: functions, types, enum
+  constants and fields (no romanized Japanese like `nbGetJyokyoMes`; that
+  one is `statusMessage`). The original name stays findable for the HD
+  remaster and Ghidra. A function's original name and address go in a
+  comment directly above the definition, which `tools/function_map.py` reads:
   ```cpp
   // nbCheckEscape @ 0x00269E98
   bool rollEscape(MainProcessData& data)
   ```
+  A field whose original name (from `reference/hd/il2cpp/dump.cs`) differs
+  notes it in its comment, `int32_t macca;   // Macca on hand (HD: maka)`,
+  and a type in its leading comment. Names that are already English, like
+  `badstat` or `hitlevel`, keep the original spelling.
   Unnamed originals use `// 0x00259658 (unnamed): ...`.
 - **IDs by name.** Use `skill::Pierce`, `devil::Pixie`, `item::Bead`
   (generated into `data/ids.hpp`), never bare numbers.

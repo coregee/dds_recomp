@@ -5,7 +5,12 @@ shown by a queue of "kouka" (effect) packets. Each packet starts at a frame
 of the action's timeline and lasts a number of frames: a motion, a move or
 turn, a colour or fade on a unit, a damage number, a word ("Weak", "Miss"),
 a sound, the press turn icons, a death. The kouka process plays the queue
-every frame (not rewritten yet); the builders here only queue packets.
+every frame (below); the builders here only queue packets.
+
+Function and field names here are the original (HD remaster) ones, for
+looking them up in Ghidra. The rewrite uses English names (the queue is
+`nb::EffectQueue` in `battle/kouka.cpp`, `SetAllPacket` is `queueHitResult`);
+`reference/function-map.tsv` maps each original to its rewrite.
 
 Source: `source/src/battle/kouka.cpp` (original units `nbKoukaProcess` and
 `nbMakePacket`). Tested against the original instructions
@@ -36,6 +41,70 @@ a hit reaction). Some details:
 - Death: a unit whose death runs a script or starts an event (the devil
   AI table's `deadscriptid` / `deadeventno`) stays on the field, as does
   the Demi-fiend, unless the caller insists.
+
+Packets leave the queue through `DelKoukaPacket`, which also frees what
+they started: a skill's cut (types 0x00, 0x15, 0x2B; 0x2B also its battle
+effect, 0x1A through the effect system's reference count), a hit effect's
+part (type 0x0F, kinds 0..10 but 3) and Ongyo-Ki's clones (0x27..0x2A).
+`nbDelAllKoukaPacketType`, `nbDelAllMojiNumEffectKoukaPacket` (numbers and
+words over one slot) and 0x25EC58 (an action's packets) remove several.
+
+## Playing the queue (`nbKoukaProcess`)
+
+The kouka process (`nb_kouka`, priority 0x2B08, a child of the battle's
+process) runs `nbKoukaProcess1` every frame. Each packet first counts its
+`startframe` down to 0; then its player runs once a frame and its
+`framelength` counts down (flag 1 holds the length, flag 2 pauses the
+packet), and once the length is below 0 the packet is deleted, so a packet
+of length 0 plays once. Packets on a unit (skill effects, colours, motions,
+damage motions, summons, dodges, flights, buffs, model shows) wait while the
+unit's formation is busy (its `flag` bits 0..2). Each type has its player
+(`Run*Kouka`, in the HD remaster's order at 0x25EFD0..0x260F20); the
+simple ones:
+
+- the HP or MP change (`nbAddHpMp`, not while stat 0x20000 holds the
+  units' state), the ailment set or cleared, the buffs applied, the status
+  line and the skill's name on the help line, the Analyze page;
+- a hit stop: the game stops 12 frames (`dds3Stop`), then runs at a third
+  of its speed for 24 (`dds3SlowOn(3, 24)`);
+- a dodge: the formation steps back (movement type 2) by `r` x 0.9 at 0.3;
+- an ailment's effect on the unit replaced or ended (`effBTLPart`, the
+  formation's anime bit 0x100), a hit effect's frame;
+- a unit returning to the stock (`0x24D980`; in encounter 0x10F this marks
+  the battle, stat 0x2000), a move or turn toward a target or home;
+- a death's event: the queued actions are dropped and the event noted for
+  the battle (`eventno`);
+- Flare's charge: Kagutsuchi moves two sixteenths on;
+- a passive that fired cuts its action's first cut short: 12 more frames;
+- the pad's vibration, the skill's field colour, the stock panel's fade;
+- a unit's colour or alpha moving to a value over some frames, or back to
+  its own (`Formation` +0x9c);
+- the press gauge (kept within 0..1) and the press turn icons (never below
+  0; on the player's turn the blinking icons lost are counted for an
+  event boss, `d31_press_total`), not while stat 0x10000 holds;
+- an ailment's motion ending: the unit stands again at its saved speed;
+- the screen fading out to black or white, or back in;
+- a skill effect's cut: created on the packet's first frame
+  (`effBTLCutCreate`), then drawn each frame (`effBTLCutDraw`; type 0x1A's
+  is a system cut);
+- a damage motion: a stagger (`nbSetDamage`, weak hits harder), a light
+  one (`nbSetDamage2`), or an ailment's motion (`nbSetBadstatMotion`;
+  ailments 4, 8, 0x20..0x200 stagger and hold, 0x100 at half speed; -1
+  stands the unit up again);
+- a motion (motion 0x17 loops back and forth) or a skill's motion with its
+  ending (once, hold, or hold and clear the model's motion words);
+- a summon: the devil appears (`nbSummonUnit`), its side is laid out again
+  (`nbSetPlayerFormation` / `nbSetEnemyFormation`) and on its side's turn
+  it joins the turn order;
+- a sound effect: played, played once its bank is in (0x1C), or waited for
+  a frame at a time (0x1D); sounds 0x10008/0x10009 stop the event boss's
+  music for a repelled skill 0x107 or 0x113.
+
+`nbDelUnEventKoukaPacket` empties the queue between scenes but for sounds,
+voices and fades: units on their way back arrive, and a skill's colour
+ends. Not rewritten yet (run as original code): turns, damage numbers
+and words (they need the VU0's vector math), a devil's voice, and flight
+(it reloads the unit's model).
 
 ## Press turns
 
@@ -74,6 +143,99 @@ next state) pairs. Fixed transitions: AI → READY (7), INVISIBLE → CHECK1 (18
 CHECK3 → ATO (21, once the action's packets are all played), ATO → END
 (22, freeing the skill's effect).
 
+- **COMM** (1) opens the command menu (`nbCommSelProcess`, below) with
+  the battle panel and press gauge, and in a manual battle first removes
+  the queued FORMONOFF packets; in an auto battle (BattleStat 0x40) the
+  unit chooses by itself. Its check waits for the menu: attack and talk go
+  to TARSEL (5); a skill or item too, or to **STKSEL** (6) when it aims at
+  the stock (target area bit 1 without 4 or 8, the party not flagged 2 or
+  4); summoning skills and the summon command first prepare the summon
+  slots (`nbSetPlayerSummonFormation`, `nbSetEnemySummonFormation`).
+  Escape, pass, return and command 8 go straight to READY and close the
+  menu. A skill that can't do anything (`nbCheckBattleSkillError1`) shows
+  why and keeps the menu open. With the debug pad shortcuts (0x54E824),
+  two button pairs win the battle (`DokodemoPoa`) or force a press
+  (`KyouseiPress`) at once.
+- **TARSEL** (5) waits for the target cursor. A target chosen for a skill
+  or item that would do nothing there (`nbCheckBattleSkillError2`) shows
+  why and keeps the cursor; otherwise the targets go in `select` and the
+  action to READY. Cancelling returns to COMM by setting the state
+  directly (not through `nbActionSetSeq`), so the menu stays as it was.
+  **STKSEL** (6) does the same with the battle panel's stock list: the
+  chosen demon is target bit 16 + its stock index (static 0x551120 holds
+  the answer: -1 none yet, -2 cancelled).
+- **READY** (7) sets up the chosen command. Once per turn a panicked unit
+  may act by its ailment instead, and a cursed one, one time in four, goes
+  to BAD. A skill that can't be used (`nbCheckSkillUse`: muted, not enough
+  HP or MP) or a command with no target sets `runerr` and a status line;
+  an item used up leaves the stock. Skills, items and summons start loading
+  their effect file (`.BED`, if the skill's hit-effect byte 3 is set) and
+  sound bank (`/sound/MIDIxxxx.SMG`, bank ID `(skill + 0x200) << 16`). The
+  unit's motion starts (attack: motion type 3; skill: the skill's
+  hit-effect byte 0; item 0x19; summon 0x18), at triple speed for an auto
+  battle's attacks (option 2 off), a motion that ends by fading the unit
+  out queuing the fade. `timer` is the motion's frames to the hit (talks:
+  35). HP and MP costs are paid by packets at frame 1, except a skill with
+  flag 8, which takes all HP 60 frames after the hit (83 for skills 0x73
+  and 0x74); then the
+  effect, target and hit-effect packets, the other side's guard (buff
+  0x10) ending, the battle panel, and the help line's name for the action
+  (four bosses' skill 0xE2 has its own name; skill 0xF7 shows none).
+  Its check waits for the loads in turn (`seqcnt` 0..3: the motion's sound
+  bank, the skill's sound file and bank, the effect file) and for the hit's
+  frame, then goes on by command: SKILL (8), ESCAPE (13), WAIT (12), NEGO
+  (9) or RETURN (14), showing a pending status line.
+- **SKILL** (8) builds the action's result packets, hit by hit, in the order
+  `GetKoukaList` gives: a formation index and a hit count per target, the
+  targets already down or leaving left out. A random-target skill
+  (`targetrandom` 1) spreads its `targetcntmin..max` hits at random, never
+  on the same target twice in a row and at most one or two more than there
+  are targets on any one; skills 0x9E and 0x9F hit once the target with the
+  lowest share of its HP; the others hit each target the full count, in
+  slot order, in reverse or shuffled by their hit-effect kind (byte 1:
+  0..7, 8..11, 12..15; skill 0xCC hits in reverse on the enemies' turn).
+  `SetAllPacket` builds one target's result from the skill's resolution
+  (`nbGetKoukaType`): a hit (0) deals its HP and MP effect `cnt` times,
+  each hit's ratio shrinking by the skill's reduction rate; a repel (1)
+  turns the hit on the user, who may null its ailment; a drain (2) heals the
+  target by what it would have lost; a null (3) shows "Null". Ailments
+  0x1000, 0x2000 and 0x4000 (skill 0x110 only) instead leave the target
+  a half, a quarter or a tenth of its HP. Never Yield, then Endure, leave a killed unit 1 HP
+  (once each per battle, `nbSetKuisibariStop`); a stoned unit shatters. A hit
+  that does nothing shows "Miss" and ends the hits. After the hits: healing
+  and cures as one packet, the buff shown, HP and MP drained back to the
+  user, a counter for a physical hit landed, and the press cost: a normal
+  hit one icon, a critical or weak hit half (types 3 and 2); an enemy's
+  repel or drain all four, a null two (types 6, 7, 5).
+
+  The state itself (`SetAction_SKILL`): the skill's effect plays its first
+  cut on the user (`effBTLCutCreate`, cut 1), who is busy until the cut
+  ends (10 frames with no effect, a third of that when fast); a motion that
+  ends by fading (end type 2) keeps the user busy to the fade. Then per
+  target, from the later of its own free frame and the running start:
+  `nbGetKoukaType`'s result (an action of type 4 can't be repelled or
+  drained, only nulled), the effect's second cut on the target (the result
+  waits for the cut's hit, `effBTLGetMotionChangeFrame`; first 16 targets
+  only, and not for repels or drains), the result packets by kind (0..3
+  `SetAllPacket`, 4 dodge, 5 miss, 6 summon, 7 Analyze, 8 Trafuri, 9 thrown
+  Macca, 10 an enemy escapes, 11 Ongyo-Ki found, 12 Aurora, 13 an extra
+  press icon, 14 Flare's charge), and the next target's start a little
+  later by the skill's hit spacing (hit-effect byte 1: +5, +8, +10 or +1
+  frames). A physical skill ends the user's guard counter 0xF; a null
+  spends the target's Ice, Fire, Expel or Death guard (counters 9, 10, 12,
+  11). After the targets: Drain Attack (0x12E) heals an attack's user a
+  quarter of the HP and MP it took (`datSpecialSkill` 6: n, m); skills
+  0x11E and 0x109 heal the user a share of its maximum HP or MP; the effect
+  learns what happened (`effBTLSkillSetState`: repelled 4, drained 8,
+  nulled 0x10, dodged 0x20, missed 0x40); the user's own time ends at 0.8
+  of the action's; a user the skill killed dies; Ahriman may counter; the
+  passive that fired (299..302) is named and the skill's status line
+  queued (twenty skills have their own; Pierce's is 100; a buff with
+  nothing left to change, 0x44; on the other side's turn, the paired
+  message). The first cut is drawn until the end, with its sound, unless
+  every result hid it (then the camera takes the cut's state); then the
+  press turns, and a hit stop when the turn's last icon goes (event bit
+  0xC09).
 - **AI** (2) clears the unit's command and runs the table AI
   (enemy-ai.md); **AISCR** (3) runs the devil's AI script instead
   (`DevilAI::scriptid`). The script runs as a child process of the battle
@@ -81,7 +243,8 @@ CHECK3 → ATO (21, once the action's packets are all played), ATO → END
   once it ends, the action goes to READY, or to the talks' result (10,
   NEGORESULT) when the script started talks (`negoresult`). That this
   matches state 10 supports the tentative numbering.
-- **BAD** (4) checks the unit's ailment at the start of its turn. Shock,
+- **BAD** (4) shows the battle panel and press gauge, then checks the
+  unit's ailment at the start of its turn. Shock,
   freeze, sleep, bind and stone cost the turn (the press turn icons change
   as for a pass); shock and freeze then wear off, and sleep restores an
   eighth of HP and MP. The unit is busy for 30 frames and the action goes
@@ -121,8 +284,30 @@ CHECK3 → ATO (21, once the action's packets are all played), ATO → END
   death scripts, and remembers the unit's command for next turn (an attack,
   a skill or a pass; skills 0x31 and 0x32 and other commands forget it), then
   goes to CHECK3.
-- **NEGO** (9) waits for the talks' process; a dead Demi-fiend's talks end
-  with result 8.
+- **NEGO** (9) starts the talks (`nbInitNegoProcess`) between two slots:
+  the first marked target slot flagged as the talks' player side
+  (formation stat 0x100) or enemy side (0x200), with the actor's own slot
+  taking its side; the battle panel stops taking input. Its check waits
+  for the talks' process; a dead Demi-fiend's talks end with result 8.
+- **NEGORESULT** (10) carries out the talks' result (`negoresult`):
+
+  | Result | Effect | Press |
+  |---|---|---|
+  | 1 | the enemy's motions reset | -1, new press 0xC |
+  | 2 | the enemy leaves | -1, 0xC |
+  | 3 | it joins (`nbGetNakama`) and leaves the field | -1, 0xB |
+  | 4 | motions reset | -10, 0xD |
+  | 5 | it and every enemy of its kind leave | -1, 0xC |
+  | 6, 9 | every enemy leaves (9: it joins first) | none |
+  | 7 | motions reset | none |
+  | 8 | nothing, and no camera | none |
+
+  Enemies that leave walk off at a random frame within 20. The press
+  packets come for talks the Demi-fiend started; for talks an ailment
+  started (`negotype` 1, 2) only with results 2..4, for types 3 and 4 only
+  with 4. The camera turns to the pair (`nbCameraSetTaizi`, state
+  NEGO_TAIZI) after the Demi-fiend's own talks when his slot has flag
+  0x10. With no enemy left the battle ends (endtype 9).
 
 The pairs' code is in the HD remaster's order of the states, and what each
 pair does confirms its number (WAIT, ESCAPE, RETURN and INVISIBLE were first
@@ -191,7 +376,6 @@ packets (`source/src/battle/action.cpp`; their code runs from 0x24F420 to
   the PS2 also has a one-clone packet (`nbAddOngBunshinPacket`) the HD
   remaster dropped.
 
-Not rewritten yet: `SetAllPacket`, which builds a skill's whole result.
 
 ## Side events: counters, talks, death scripts
 
@@ -240,3 +424,110 @@ cursor's two rings pulse on a 30-frame loop (`AnimeTargetCursor`), and the
 target's name shows on the help line (`DispTargetHelp`). Event battles
 (stat 0x200000) don't take the pad; auto battles take the cursor's target at
 once.
+
+## Choosing a command (`nbCommSelProcess`)
+
+The battle menu is the process "nb_commsel"
+(`source/src/battle/comm_select.cpp`) and its record
+`nbCommSelProcessData` (0x14D0 bytes, HD field names). `SetCommList` fills
+six lists of up to 0x120 entries; each entry is a skill, item or stock
+index or one of the fixed commands 0x8000 Attack, 0x8001 Escape, 0x8002
+Pass, 0x8003 command 7 (a demon's; "Dismiss" in the battle strings,
+tentative) and 0x8004 Talk:
+
+| Tab | Holds |
+|---|---|
+| 0 | Attack, the unit's active skills usable in battle (`use` bit 2), Pass |
+| 1 | the Demi-fiend's Talk and talk skills (0x180.., kinds 0..6) |
+| 2 | the Demi-fiend's items usable in battle |
+| 3 | the stock demons not in the party (the Demi-fiend's) |
+| 4 | a demon's command 7 |
+| 5 | Escape |
+
+Each entry also gets a reason it can't be chosen (`commdisable`), the
+last found winning: 1 for skill or item flag 1 in a boss battle
+(BattleStat 1) and for Escape (skill 0x48, item 0x38, the Escape entry)
+when `nbGetEscapeSwitch` says no; 2 for skill flag 2 / item flag 8 with
+BattleStat 4; 3 when `nbCheckSkillCost` refuses; 4 for a dead stock demon;
+5 for magic while Mute and Talk while Fly; 6 for skill 0xDF with four in
+the party or no one to summon. The game's own debug bit 0x4000000 lists
+every skill.
+
+The pad (`SelectCommandList`, bytes at 0x2F5830): up / down move the
+cursor and scroll (four rows; the summon list shows two and grows to three
+when the cursor reaches its edge), left / right change tabs, confirm takes
+an entry that can be chosen (`MemoryCommand` sets `nowcommand`: 0 attack,
+1 skill, 2 escape, 3 pass, 4 talk, 5 item, 6 summon, 7 command 7), cancel
+returns to the first entry, button 0 picks Pass at once and button 13
+toggles the help panel (event bit 0xC0E). The cursor starts on the unit's
+previous command when the options say so (`SetCommCursor2`: option 1, or
+option 2 in an auto battle). Drawing the menu (`nbCommSelProcess1` and the
+`Disp*` functions) is still the original's.
+
+## The help line (`nbHelpProcess`)
+
+The line of text at the top of the screen is the process "nb_help"
+(`source/src/battle/help.cpp`) and its record `nbHelpProcessData` (0x38
+bytes; field names from the HD remaster). `nbDispText` replaces what it
+shows: two strings 10 pixels apart (type 0), a message (type 1: the table
+and number `nbDispMsgHelp` stored in reqmsgid / reqmsgno), or a string and
+the name the player entered (type 2, the Demi-fiend: his race by Magatama
+from `cmbGetPlayerRaceID`, then his name). Each string is laid out one
+character per font request in style 1, 3 units apart (0x1CA0D0 / 0x1CA258,
+`fr::LinkLetters`); only the width is kept, and the text is laid out again
+each frame to draw. Replacing the text releases a message shown before
+(`nbHelpOff`).
+
+| Function | Shows | Frames | Color |
+|---|---|---|---|
+| `nbDispSkillName`, `nbDispItemName` | the name | 30 | 0x89FEFF80 |
+| `nbDispMiscActionNameComm` | "Attack" (command 0), "Retreated" (2), "Pass" (3), "Summon" (6), "Dismiss" (7); nothing for others | 30 | 0x89FEFF80 |
+| `nbDispDevilName` | race and name (a target) | 2, so each frame of the cursor shows it again | 0xA09DC380 |
+| `nbDispMsgHelp` type 0, 1 / 2 / 3 | a message | 45 / 20 / 30 | white / name color / white |
+| `nbDispJyokyoHelp` | a status message (type 1); a devil's name with index 0 becomes the Demi-fiend's entered name (`{var}` type 10) | 45 | white |
+
+Two more wrappers are never called and aren't in the HD remaster: 0x289078
+(a table of two leftover Japanese strings at 0x5263F8, with the type as an
+argument) and 0x2891A8 (the battle strings at 0x3E8BF0 by index); their
+names in the rewrite are descriptive. The frame driver (`nbHelpProcess1`)
+and the panel behind the text (`DrawPanel`) are still the original's: the
+panel is three pieces of the battle panel texture, as wide as the text.
+
+## Battle events (`nbEventProcess`)
+
+A death's or a script's event (`MainProcessData::eventno`) runs as a process
+named "nb_event", a child of the battle. The event table at 0x527260 is read
+by `eventno % 100`, but only its first 16 rows are real (row 0 is empty).
+Each row gives:
+
+- the event's pack;
+- its process function;
+- the encounter it belongs to;
+- its music, as a sound bank plus a piece;
+- four fade frame counts that a death event's fade uses.
+
+When an encounter starts, `nbLoadBattleEventPackInit` starts loading the
+packs and banks of every row for that encounter, and `nbLoadBattleEventPack`
+reports when they are all in memory.
+
+The process's first step (`nbEventProcess1`) records the pack. The second
+(`nbEventProcess3`) does the setup:
+
+- cures any ailments of the enemies present;
+- puts every unit present into its wait motion;
+- clears formation stat bit 8;
+- hands over to the event's own function and starts its music. With no
+  function, the event ends there.
+
+On shutdown the music fades out, the battle's event and stat bit 0x1000 are
+cleared, and the units restart their wait motions. The event's memory
+handle, file and pack requests are released, then its own shutdown function
+is called and its user block is freed.
+
+## The Macca window (`nbMakaProcess`)
+
+The window showing the party's Macca fades in by 0x20 a frame. It stays open
+while `keep` is set; otherwise it closes 20 frames after `nbMakaDispOff`.
+`DispMaka` draws a three-piece panel from the battle panel texture, then
+seven digits, most significant first, with leading zeros left blank (a
+zero amount shows "0").

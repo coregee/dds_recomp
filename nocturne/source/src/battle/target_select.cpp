@@ -8,6 +8,8 @@
 
 #include "nocturne/battle/action.hpp"
 #include "nocturne/battle/combatant.hpp"
+#include "nocturne/battle/help.hpp"
+#include "nocturne/battle/pad.hpp"
 #include "nocturne/battle/targeting.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/external.hpp"
@@ -17,7 +19,6 @@ namespace nocturne::nb {
 
 namespace {
 
-constexpr uint32_t kPad = 0x002f5830;          // int8 per button: bit 7 pressed now, bit 1 repeating
 constexpr uint32_t kTarSelName = 0x005442b8;   // "nb_tarsel"
 
 // The cursor's animation keyframes (5 frames apart, 30 frames a loop).
@@ -26,11 +27,11 @@ constexpr uint32_t kScaleA = 0x005442e8;       // float[7]
 constexpr uint32_t kAlphaB = 0x00544308;       // int32[7]
 constexpr uint32_t kScaleB = 0x00544328;       // float[7]
 
-// The pad, a byte per button (which bit is the fresh press and which the
-// repeat is tentative: bit 7 wraps the cursor around, bit 1 doesn't).
-enum Button { kConfirm = 1, kCancel = 3, kPrevious = 4, kNext = 5, kSidePrevious = 6, kSideNext = 7 };
-bool pressed(Button b) { return guest::table<const int8_t>(kPad)[b] < 0; }
-bool repeating(Button b) { return (guest::table<const uint8_t>(kPad)[b] & 2) != 0; }
+// Left / right step through a side's targets, up / down switch sides.
+using pad::pressed;
+using pad::repeating;
+constexpr pad::Button kConfirm = pad::kConfirm, kCancel = pad::kCancel;
+constexpr pad::Button kPrevious = pad::kLeft, kNext = pad::kRight, kSidePrevious = pad::kUp, kSideNext = pad::kDown;
 
 constexpr uint32_t kCursorShown = 8;   // Formation::anime: the target cursor is on the slot (tentative)
 
@@ -39,17 +40,17 @@ constexpr uint32_t kCursorShown = 8;   // Formation::anime: the target cursor is
 // ---- the state ------------------------------------------------------------------------------
 
 // nbGetTarSelStat @ 0x0025D6B8: 1 choosing, 0 chosen, 2 cancelled.
-int32_t nbGetTarSelStat() { return targetSelectData().stat; }
+int32_t targetCursorState() { return targetSelectData().stat; }
 
 // nbSetTarSelStat @ 0x0025D6D8
-void nbSetTarSelStat(int32_t stat) { targetSelectData().stat = static_cast<uint8_t>(stat); }
+void setTargetCursorState(int32_t stat) { targetSelectData().stat = static_cast<uint8_t>(stat); }
 
 // nbSetTarSelJyokyoTime @ 0x0025D700: frames before the target's name shows.
-void nbSetTarSelJyokyoTime(int32_t time) { targetSelectData().jyokyotime = time; }
+void setTargetNameDelay(int32_t time) { targetSelectData().nameDelay = time; }
 
 // AnimeTargetCursor @ 0x0025D728: the cursor's two rings pulse, their alpha
 // and scale moving between keyframes 5 frames apart over a 30-frame loop.
-void AnimeTargetCursor(TargetSelectData& t)
+void animateTargetCursor(TargetCursor& t)
 {
     if (++t.time >= 30)
         t.time = 0;
@@ -70,7 +71,7 @@ void AnimeTargetCursor(TargetSelectData& t)
 // SetCursor @ 0x0025DE40: on the actor's side if it has targets, else the
 // other; on the unit's last target when the cursor-memory option is on (or
 // in an auto battle).
-void SetCursor(TargetSelectData& t)
+void placeTargetCursor(TargetCursor& t)
 {
     t.nowcarea = t.friendcnt >= 1 ? 1 : 2;
     t.nowno = 0;
@@ -78,7 +79,7 @@ void SetCursor(TargetSelectData& t)
     const UnitWork& unit = *GetUnitWorkPointer(main, main.party[t.partyindex]);
     int32_t form = unit.prevtform;
     int16_t area = unit.prevtarea;
-    if (t.act && !dds3CheckConfigBit(1) && !(t.act->stat & 0x80)) {
+    if (t.act && !configOption(1) && !(t.act->stat & 0x80)) {
         area = -1;
         form = -1;
     }
@@ -109,9 +110,9 @@ void SetCursor(TargetSelectData& t)
 
 // nbSetTargetProcess @ 0x0025DFA0: starts choosing among the targets the
 // command allows; false when there are none.
-bool nbSetTargetProcess(ActionProcessData& act, int32_t partyindex, int32_t ctype, int32_t crule, int32_t carea)
+bool startTargetCursor(ActionProcessData& act, int32_t partyindex, int32_t ctype, int32_t crule, int32_t carea)
 {
-    TargetSelectData& t = targetSelectData();
+    TargetCursor& t = targetSelectData();
     if (!markTargetable(partyindex, ctype, crule, carea))
         return false;
     t.alpha_b = 0x80;
@@ -123,17 +124,17 @@ bool nbSetTargetProcess(ActionProcessData& act, int32_t partyindex, int32_t ctyp
     t.ctype = static_cast<int8_t>(ctype);
     t.crule = static_cast<uint8_t>(crule);
     t.carea = static_cast<uint8_t>(carea);
-    t.jyokyotime = 0;
+    t.nameDelay = 0;
     t.time = 0;
-    SetCursor(t);
-    UpdateSelect(t);
+    placeTargetCursor(t);
+    markTargets(t);
     t.stat = 1;
     return true;
 }
 
 // CheckFriend @ 0x0025E070 / CheckEnemy @ 0x0025E0B8: whether a slot is on
 // the actor's side (0..3, or 4..13 when the sides are swapped) or the other.
-bool CheckFriend(const TargetSelectData& t, int32_t formindex)
+bool onActorSide(const TargetCursor& t, int32_t formindex)
 {
     if (!(t.data->stat & BattleStat::InitiativeRolled))
         return formindex <= 3;
@@ -141,7 +142,7 @@ bool CheckFriend(const TargetSelectData& t, int32_t formindex)
 }
 
 // CheckEnemy @ 0x0025E0B8
-bool CheckEnemy(const TargetSelectData& t, int32_t formindex)
+bool onOtherSide(const TargetCursor& t, int32_t formindex)
 {
     if (!(t.data->stat & BattleStat::InitiativeRolled))
         return static_cast<uint32_t>(formindex - 4) < 10;
@@ -150,7 +151,7 @@ bool CheckEnemy(const TargetSelectData& t, int32_t formindex)
 
 // UpdateSelect @ 0x0025E100: marks the targets: the slot under the cursor
 // (single targets), the cursor's side (groups), or everyone.
-void UpdateSelect(TargetSelectData& t)
+void markTargets(TargetCursor& t)
 {
     for (int32_t f = 0; f < 16; ++f) {
         Formation& form = t.data->form[f];
@@ -170,9 +171,9 @@ void UpdateSelect(TargetSelectData& t)
         }
         case 1:
             if (t.nowcarea == 1)
-                selected = CheckFriend(t, f);
+                selected = onActorSide(t, f);
             else if (t.nowcarea == 2)
-                selected = CheckEnemy(t, f);
+                selected = onOtherSide(t, f);
             break;
         case 2:
             selected = true;
@@ -186,7 +187,7 @@ void UpdateSelect(TargetSelectData& t)
 }
 
 // OnOffTargetCursor @ 0x0025E278: the cursor shows on the marked slots while choosing.
-void OnOffTargetCursor(TargetSelectData& t)
+void showTargetCursors(TargetCursor& t)
 {
     for (int32_t f = 0; f < 16; ++f) {
         Formation& form = t.data->form[f];
@@ -200,7 +201,7 @@ void OnOffTargetCursor(TargetSelectData& t)
 
 // DispTargetHelp @ 0x0025E300: the single target's name once the delay
 // (jyokyotime) has run out.
-void DispTargetHelp(TargetSelectData& t)
+void showTargetName(TargetCursor& t)
 {
     int32_t f = 0;
     bool found = false;
@@ -212,16 +213,16 @@ void DispTargetHelp(TargetSelectData& t)
             }
         }
     }
-    if (found && t.jyokyotime == 0) {
+    if (found && t.nameDelay == 0) {
         if (const UnitWork* unit = GetUnitWorkFromFormindex(f))
-            nb::DispDevilName(unit->id);
+            showDevilName(unit->id);
     }
-    if (t.jyokyotime > 0)
-        --t.jyokyotime;
+    if (t.nameDelay > 0)
+        --t.nameDelay;
 }
 
 // MemoryCommand @ 0x0025E3F8: the unit's chosen target, remembered.
-void MemoryCommand(TargetSelectData& t)
+void rememberTarget(TargetCursor& t)
 {
     MainProcessData& main = *t.data;
     UnitWork& unit = *GetUnitWorkPointer(main, main.party[t.partyindex]);
@@ -234,18 +235,18 @@ void MemoryCommand(TargetSelectData& t)
 // at the ends); side next / previous switch sides, and step like next /
 // previous when only one side has targets. Confirm chooses, cancel backs
 // out (sound 10). Not during an event battle's script (BattleStat 0x200000).
-void CursorSelect(TargetSelectData& t)
+void readTargetPad(TargetCursor& t)
 {
     if ((t.data->stat & 0x200000) || t.stat != 1)
         return;
     if (repeating(kConfirm)) {
-        MemoryCommand(t);
+        rememberTarget(t);
         t.stat = 0;
         return;
     }
     if (pressed(kCancel)) {
         t.stat = 2;
-        nbPlaySe(10);
+        playBattleSound(10);
     }
     if (t.ctype == 2)
         return;
@@ -283,58 +284,58 @@ void CursorSelect(TargetSelectData& t)
         }
     }
     if (moved) {
-        UpdateSelect(t);
-        nbPlaySe(3);
-        t.jyokyotime = 0;
+        markTargets(t);
+        playBattleSound(3);
+        t.nameDelay = 0;
     }
 }
 
 // CursorSelectAuto @ 0x0025E6E0: an auto battle takes the cursor's target.
-void CursorSelectAuto(TargetSelectData& t)
+void chooseTargetAutomatically(TargetCursor& t)
 {
     if (t.stat == 1) {
-        MemoryCommand(t);
+        rememberTarget(t);
         t.stat = 0;
     }
 }
 
 // nbTarSelProcess1 @ 0x0025E720: each frame. A target just chosen still
 // shows its cursor this frame.
-int32_t nbTarSelProcess1(uint32_t process)
+int32_t runTargetCursor(uint32_t process)
 {
-    TargetSelectData& t = *guest::table<TargetSelectData>(dds3::GetProcessData(process));
+    TargetCursor& t = *guest::table<TargetCursor>(dds3::GetProcessData(process));
     bool chosenNow = false;
     if (t.act && (t.act->stat & 0x80)) {
-        CursorSelectAuto(t);
+        chooseTargetAutomatically(t);
     } else if (t.stat == 1) {
-        CursorSelect(t);
+        readTargetPad(t);
         if (t.stat == 0) {
             t.stat = 1;
             chosenNow = true;
         }
     }
-    AnimeTargetCursor(t);
-    OnOffTargetCursor(t);
-    DispTargetHelp(t);
+    animateTargetCursor(t);
+    showTargetCursors(t);
+    showTargetName(t);
     if (chosenNow)
         t.stat = 0;
     return 0;
 }
 
 // nbTarSelShutdown @ 0x0025E7D8
-void nbTarSelShutdown(uint32_t process)
+void shutdownTargetCursor(uint32_t process)
 {
     const uint32_t data = dds3::GetProcessData(process);
-    guest::table<TargetSelectData>(data)->data->TarSelProcessID = 0;
+    guest::table<TargetCursor>(data)->data->TargetCursorProcessID = 0;
     mem::PoolRelease(data);
 }
 
 // InitTarSelProcessData @ 0x0025E800
-uint32_t InitTarSelProcessData(MainProcessData& data)
+uint32_t newTargetCursor(MainProcessData& data)
 {
-    const uint32_t address = mem::PoolAllocate(sizeof(TargetSelectData));
-    std::memset(guest::table<uint8_t>(address), 0, sizeof(TargetSelectData));
-    TargetSelectData& t = *guest::table<TargetSelectData>(address);
+    const uint32_t address = mem::PoolAllocate(sizeof(TargetCursor));
+    std::memset(guest::table<uint8_t>(address), 0, sizeof(TargetCursor));
+    TargetCursor& t = *guest::table<TargetCursor>(address);
     t.act.address = 0;
     t.data.address = guest::addressOf(&data);
     t.alpha_b = 0x80;
@@ -346,18 +347,18 @@ uint32_t InitTarSelProcessData(MainProcessData& data)
 }
 
 // nbInitTarSelProcess @ 0x0025E870: the process ("nb_tarsel"), a child of the battle.
-void nbInitTarSelProcess(MainProcessData& data)
+void startTargetCursorProcess(MainProcessData& data)
 {
-    const uint32_t t = InitTarSelProcessData(data);
+    const uint32_t t = newTargetCursor(data);
     const uint32_t process = dds3::StartProcess(kTarSelName, 0x3f9, 1, 1, 0x0025e720, 0x0025e7d8, t);
     dds3::LinkProcess(data.MainProcessID, process);
-    data.TarSelProcessID = process;
+    data.TargetCursorProcessID = process;
 }
 
 // ---- around it ----------------------------------------------------------------------------
 
 // nbPlaySe @ 0x0028D090 (nbSound): a battle sound at full volume, centred.
-void nbPlaySe(int32_t se) { snd::Play(se, 0x7f, 0x3f); }
+void playBattleSound(int32_t se) { snd::Play(se, 0x7f, 0x3f); }
 
 namespace {
 
@@ -378,6 +379,6 @@ int32_t configBit(int32_t type, uint32_t config)
 
 // dds3CheckConfigBit @ 0x0029BAE0: the game's options (type 1: the target
 // cursor remembers the last target, tentative).
-int32_t dds3CheckConfigBit(int32_t type) { return configBit(type, dat::globalWork().config); }
+int32_t configOption(int32_t type) { return configBit(type, dat::globalWork().config); }
 
 } // namespace nocturne::nb

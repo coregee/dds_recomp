@@ -89,6 +89,7 @@ int32_t selectGroupTarget(ActionProcessData& act, int32_t selector, int32_t para
 // nbSetAiTarget: 0 on success; otherwise the unit passes (command 3).
 int32_t selectTargets(ActionProcessData& act, int32_t selector, int32_t parameter);
 bool prepareSummonSlots(MainProcessData& main, int32_t devil);      // nbSetEnemySummonFormation
+void prepareAllySummonSlot(MainProcessData& main);                  // nbSetPlayerSummonFormation
 uint32_t selectedBits(const MainProcessData& main);                 // nbGetSelectBit
 
 // nbSetNormalSkill0: rewrite the normal attack's data (skill 0) for this

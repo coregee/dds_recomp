@@ -159,10 +159,25 @@ code. 120 procedures are in use:
 `AI_CHK_*` evaluate a condition (parameter from the script) and return the
 result; `AI_GET_*` return the turn, the "press" counter (buff counter 18),
 own level, own affinity row, or the Kagutsuchi phase; `AI_ACT_*` set
-attack / escape / skill / summon; `AI_TAR_AI` chooses targets;
-`AI_SET_CRITICAL` makes the next hit critical; `AI` runs the table AI; and
-`BTL_AI_ROT_*` keep a counter for rotating through actions. `BTL_PNL_ON`
-and `BTL_CAM_ORG` do nothing on the PS2.
+attack / escape / skill / summon, and `AI_ACT_WAIT` passes; `AI_TAR_AI`
+chooses targets the AI's way, and `AI_TAR_*` by one of its selectors
+(`LIFEMIN` 1 lowest HP, `BAD` 2 with an ailment, `ID` 3 a devil, `LIGHT`
+4, `DARK` 5, `PLAYER` 6 the Demi-fiend, `JOKEN` 7 those the last condition
+matched, `RND` 8, `BAARLV` 9 the lowest level not flying, `LVMIN` 10 the
+lowest level). A selector that finds no one makes the unit pass, and the
+targets already marked stand. `AI_SET_CRITICAL` makes the next hit
+critical; `AI` runs the table AI; and `BTL_AI_ROT_*` keep a counter for
+rotating through actions.
+
+The `BTL_*` commands act on the battle: `BTL_EVENT` sets the event to run
+when the action ends (`eventno`); `BTL_NAKAMA`, `BTL_PRESS`, `BTL_TAIKYO`
+and `BTL_ALLTAIKYO` start talks with the unit (talk results 3, 4, 2 and
+6: join, press for more, leave, all leave); `BTL_AI_CHANGE_OFF` / `ON`
+lock and unlock AI changes (stat 0x40000); `BTL_FORM_*_ON` show every
+side's, the player's or the enemies' models; `BTL_PNL_OFF` hides the
+panel; `BTL_CAM_1SHOT` and `BTL_CAM_BOUGAI` aim the camera at the unit.
+`BTL_PNL_ON`, `BTL_CAM_ORG` and `BTL_CAM_2SHOT` do nothing on the PS2;
+`BTL_CAM_SET` (a camera from seven floats) is not rewritten yet.
 
 ## Normal attacks
 

@@ -27,6 +27,30 @@ int32_t check(uint32_t type)
     return 1;
 }
 
+// AI_TAR_*: a selector that picks someone is tried again as the AI's
+// default (0), and if that picks nobody the battle's current marks stand.
+int32_t target(int32_t selector, int32_t parameter)
+{
+    ActionProcessData& a = act();
+    int32_t result = selectTargets(a, selector, parameter);
+    if (result != 0)
+        result = selectTargets(a, 0, 0);
+    if (result == 0)
+        a.select = selectedBits(*a.data);
+    return 1;
+}
+
+// BTL_PRESS / BTL_NAKAMA: the unit starts talks of one kind.
+int32_t talk(int32_t result)
+{
+    ActionProcessData& a = act();
+    MainProcessData& main = *a.data;
+    main.talkResult = result;
+    main.talkEnemySlot = a.form->formindex;
+    a.talkType = 0;
+    return 1;
+}
+
 int32_t checkFixed(uint32_t type)
 {
     checkCondition(type << 16);
@@ -191,6 +215,36 @@ int32_t targetByAi()
     return 1;
 }
 
+// nbCommand_AI_ACT_WAIT @ 0x00287DD8
+int32_t actWait()
+{
+    UnitWork& unit = *act().work;
+    unit.nowcommand = 3;
+    unit.nowindex = 0;
+    return 1;
+}
+
+// nbCommand_AI_TAR_LIFEMIN @ 0x00287F30
+int32_t targetLowestHp() { return target(1, 0); }
+// nbCommand_AI_TAR_BAARLV @ 0x00287F98
+int32_t targetLowestLevelNotFlying() { return target(9, 0); }
+// nbCommand_AI_TAR_LVMIN @ 0x00288000
+int32_t targetLowestLevel() { return target(10, 0); }
+// nbCommand_AI_TAR_BAD @ 0x00288068
+int32_t targetAilment() { return target(2, scr::scrGetIntPara(0)); }
+// nbCommand_AI_TAR_ID @ 0x002880D8
+int32_t targetDevil() { return target(3, scr::scrGetIntPara(0)); }
+// nbCommand_AI_TAR_LIGHT @ 0x00288148
+int32_t targetLight() { return target(4, 0); }
+// nbCommand_AI_TAR_DARK @ 0x002881B0
+int32_t targetDark() { return target(5, 0); }
+// nbCommand_AI_TAR_PLAYER @ 0x00288218
+int32_t targetDemiFiend() { return target(6, 0); }
+// nbCommand_AI_TAR_RND @ 0x00288280
+int32_t targetAll() { return target(8, 0); }
+// nbCommand_AI_TAR_JOKEN @ 0x002882E8
+int32_t targetByCondition() { return target(7, 0); }
+
 // nbCommand_AI @ 0x00288958
 int32_t runTableAi()
 {
@@ -245,5 +299,87 @@ int32_t panelOn() { return 1; }
 
 // nbCommand_BTL_CAM_ORG @ 0x00288A50: does nothing on the PS2.
 int32_t cameraOrigin() { return 1; }
+
+// nbCommand_BTL_CAM_1SHOT @ 0x00288A58
+int32_t cameraOneShot()
+{
+    CameraScriptSet1Shot(act().form.get());
+    return 1;
+}
+
+// nbCommand_BTL_CAM_2SHOT @ 0x00288A80: does nothing on the PS2.
+int32_t cameraTwoShot() { return 1; }
+
+// nbCommand_BTL_CAM_BOUGAI @ 0x00288A88
+int32_t cameraObstruct()
+{
+    CameraScriptSetBougai(act().form.get());
+    return 1;
+}
+
+// nbCommand_BTL_PNL_OFF @ 0x00288AB0
+int32_t panelOff()
+{
+    PanelAutoHide();
+    PanelHide();
+    return 1;
+}
+
+// nbCommand_BTL_EVENT @ 0x00288AE0: the event runs when the action ends.
+int32_t startEvent()
+{
+    ActionProcessData& a = act();
+    a.data->eventno = scr::scrGetIntPara(0);
+    return 1;
+}
+
+// nbCommand_BTL_TAIKYO @ 0x00288B20 ("taikyo" = 退去, leaving)
+int32_t leaveTalk() { return talk(2); }
+
+// nbCommand_BTL_ALLTAIKYO @ 0x00288B60
+int32_t allLeaveTalk() { return talk(6); }
+
+// nbCommand_BTL_PRESS @ 0x00288BA0
+int32_t pressTalk() { return talk(4); }
+
+// nbCommand_BTL_NAKAMA @ 0x00288BE0
+int32_t joinTalk() { return talk(3); }
+
+// nbCommand_BTL_FORM_ALL_ON @ 0x00288C20
+int32_t showAllFormations()
+{
+    AllFormDispOn();
+    return 1;
+}
+
+// nbCommand_BTL_FORM_PLY_ON @ 0x00288C40
+int32_t showPlayerFormations()
+{
+    GroupFormDispOn(0);
+    GroupFormDispOff(1);
+    return 1;
+}
+
+// nbCommand_BTL_FORM_ENE_ON @ 0x00288C68
+int32_t showEnemyFormations()
+{
+    GroupFormDispOff(0);
+    GroupFormDispOn(1);
+    return 1;
+}
+
+// nbCommand_BTL_AI_CHANGE_OFF @ 0x00288D10
+int32_t lockAi()
+{
+    GetMainProcessData()->stat |= 0x40000;
+    return 1;
+}
+
+// nbCommand_BTL_AI_CHANGE_ON @ 0x00288D48
+int32_t unlockAi()
+{
+    GetMainProcessData()->stat &= ~0x40000u;
+    return 1;
+}
 
 } // namespace nocturne::nb::ai::script

@@ -16,6 +16,7 @@ namespace nocturne::fr {
 namespace {
 
 constexpr uint32_t kEmptyString = 0x0054f430;
+constexpr uint32_t kEmptyString2 = 0x0054f448;   // (another "")
 constexpr uint32_t kVariables = 0x0056bbd0;      // uint32[32]: the {var n} strings
 constexpr uint32_t kNameGlyphs = 0x0056bc50;     // Glyph*[4][16]
 constexpr uint32_t kNameRefs = 0x0056bd50;       // int32[4]
@@ -167,6 +168,47 @@ Request* AppendNameText(int8_t bank, int8_t styleIndex, Request* pFRQ, int8_t co
     frDisableMode(kModeMetrics);
     frSetFontSpace(*result, 4);
     return result;
+}
+
+// 0x001CA0D0 (no original name)
+// A string as one request per character (1 or 2 bytes), each at depth z
+// in `color` with 3 units of spacing, chained after `chain`; the first
+// starts at x and all sit at y. Laid out with the font's own advances
+// unless `keepMode` (the mode is then left as the caller set it).
+Request* LinkLetters(int32_t x, int32_t y, uint32_t z, uint32_t color, const uint8_t* pStr, int8_t styleIndex,
+                     int8_t keepMode, Request* chain)
+{
+    const int32_t length = static_cast<int32_t>(std::strlen(reinterpret_cast<const char*>(pStr)));
+    if (keepMode == 0)
+        frEnableMode(kModeMetrics);
+    frDisableMode(kModeParsing);
+    for (int32_t i = 0; i < length;) {
+        uint8_t letter[3] = {pStr[i], 0, 0};
+        const int32_t size = static_cast<int8_t>(pStr[i]) < 0 ? 2 : 1;
+        if (size == 2)
+            letter[1] = pStr[i + 1];
+        Request* font = frLinkFontString(letter, styleIndex, 0, 0, nullptr);
+        frSetPriority(*font, z << 4);
+        frSetFontColor(font, color);
+        frSetFontSpace(*font, 3);
+        chain = frCombineFontRequest(chain, font);
+        if (i == 0)
+            font->x = x;
+        i += size;
+        font->y = y;
+    }
+    frEnableMode(kModeParsing);
+    if (keepMode == 0)
+        frDisableMode(kModeMetrics);
+    return chain;
+}
+
+// 0x001CA258 (no original name): LinkLetters in style 1, spaced 3 apart.
+Request* LinkSpacedLetters(int32_t x, int32_t y, uint32_t z, uint32_t color, const uint8_t* pStr, Request* chain)
+{
+    Request* font = LinkLetters(x, y, z, color, pStr, 1, 0, chain);
+    frSetFontSpace(*font, 3);
+    return font;
 }
 
 // ---- laying out a page -----------------------------------------------------------------------
@@ -436,6 +478,20 @@ Request* MessageRequest(int32_t x, int32_t y, uint8_t styleIndex, uint8_t colno,
                         Request* pFRQ)
 {
     return MessageRequestEx(x, y, 0, styleIndex, colno, tp, speed, text, pFRQ);
+}
+
+// 0x001CA508 (no original name): a short string (laid out without parsing
+// its codes) in style 3.
+Request* StringRequest(int32_t x, int32_t y, uint32_t z, uint32_t color, uint32_t text, Request* pFRQ)
+{
+    Request* font = frLinkFontString(guest::table<uint8_t>(kEmptyString2), 0, 0, 0, pFRQ);
+    frDisableMode(kModeParsing);
+    font = frSetFontString(guest::table<uint8_t>(text), 3, 0, 0, font, false);
+    frEnableMode(kModeParsing);
+    frSetDrawPosition(*font, x, y);
+    frSetPriority(*font, z << 4);
+    frSetFontColor(font, color);
+    return font;
 }
 
 // 0x001C9108 (no original name): plain text, drawn at once.

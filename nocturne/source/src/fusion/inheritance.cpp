@@ -56,8 +56,8 @@ uint8_t inheritRate(const UnitWork& unit, uint16_t skill)
 {
     const SkillInfo& info = dat::skillInfo(skill);
     const DevilFormat& devil = dat::devilFormat(unit.id);
-    uint8_t score = inheritScore(info.skillattr, devil.keisyotype);
-    if (!inheritFormMatch(info.keisyoform, devil.keisyoform))
+    uint8_t score = inheritScore(info.skillattr, devil.inheritType);
+    if (!inheritFormMatch(info.inheritMask, devil.inheritMask))
         return 0;
     uint8_t divisor = inheritLevel(skill);
     if (divisor == 0)
@@ -72,7 +72,7 @@ uint8_t inheritRate(const UnitWork& unit, uint16_t skill)
 int32_t totalInheritRate(const UnitWork& unit)
 {
     int32_t total = 0;
-    for (uint16_t skill : unit.keisyoskill)
+    for (uint16_t skill : unit.inheritedSkills)
         if (skill)
             total += inheritRate(unit, skill);
     return total;
@@ -82,7 +82,7 @@ int32_t totalInheritRate(const UnitWork& unit)
 int8_t inheritedEnd(const UnitWork& unit)
 {
     for (int i = 0; i < 24; ++i)
-        if (unit.keisyoskill[i] == 0)
+        if (unit.inheritedSkills[i] == 0)
             return static_cast<int8_t>(i);
     return -1;
 }
@@ -90,14 +90,14 @@ int8_t inheritedEnd(const UnitWork& unit)
 // cmbClearKeisyoSkill @ 0x001FF0A8 (the keiattr bytes after the list stay)
 void clearInherited(UnitWork& unit)
 {
-    std::memset(unit.keisyoskill, 0, sizeof unit.keisyoskill);
+    std::memset(unit.inheritedSkills, 0, sizeof unit.inheritedSkills);
 }
 
 // cmbChkKeisyoSkillOwner @ 0x001FEDF0
 int8_t findInherited(uint16_t skill, const UnitWork& unit)
 {
     for (int i = 0; i < 24; ++i)
-        if (unit.keisyoskill[i] == skill)
+        if (unit.inheritedSkills[i] == skill)
             return static_cast<int8_t>(i);
     return -1;
 }
@@ -106,7 +106,7 @@ int8_t findInherited(uint16_t skill, const UnitWork& unit)
 int8_t countInherited(const UnitWork& unit)
 {
     int8_t count = 0;
-    for (uint16_t skill : unit.keisyoskill)
+    for (uint16_t skill : unit.inheritedSkills)
         if (skill)
             ++count;
     return count;

@@ -19,9 +19,9 @@ hand-scheduled VU code), it is isolated, documented and still tested.
   bytes;
 - the mechanics are documented in `docs/` in plain language.
 
-Progress is the function map (`tools/ghidra/export-annotations.ps1`): 1,039 of
-9,067 functions rewritten (11.5%) on 2026-10-23, 2,256 still only in legacy
-C, 5,508 not yet identified.
+Progress is the function map (`tools/ghidra/export-annotations.ps1`): 1,593 of
+9,068 functions rewritten (17.6%) on 2026-10-24, 2,110 still only in legacy
+C, 5,064 not yet identified.
 
 ## Principles
 
@@ -73,13 +73,15 @@ rewritten or simple to fake, and grow the tools when they block progress.
    effects' drawing, with the GS platform layer.
 4. **Battle** (`nb*`, the largest area): the presentation queue's builders
    are done, and of the turn engine (`nbAction*`) the time list, the result
-   helpers but `SetAllPacket`, the side events (counters, talks) and the
-   simple, AI, ailment, death-script, wait, escape, return, CHECK1 and
-   TARSEL entry states (docs/battle-presentation.md), with the ailment AI
-   (docs/enemy-ai.md) and target selection.
-   Next: the rest of the action states (choosing, skills, negotiation,
-   results, which build those packets), the kouka process that plays them,
-   the remaining calculations, rewards, the battle UI.
+   helpers, the side events (counters, talks) and every action state
+   (docs/battle-presentation.md), with the ailment AI (docs/enemy-ai.md),
+   target selection, the help line's text, the command menu's lists and
+   cursor, the skill effect's cut frames (`effBTLCut*`), and the kouka
+   process that plays the packets, with all but six of its players, and
+   the talks: their process and every step (docs/talks.md). Next: those six
+   players (turns, damage numbers and words need the VU0's vector math in
+   the rewrite; a devil's voice; flight, with the model loader), the
+   remaining calculations, rewards, the battle UI's drawing.
 5. **Game systems:** negotiation, shops and facilities, field movement and
    events, the menus (`cmp*`), Magatama and party screens.
 6. **Engine layers:** files, CD and PAC archives, resources; models,

@@ -24,13 +24,13 @@ namespace {
 uint16_t readInheritedSlot(const UnitWork& unit, int32_t index)
 {
     uint16_t value;
-    std::memcpy(&value, reinterpret_cast<const uint8_t*>(&unit) + offsetof(UnitWork, keisyoskill) + 2 * index, 2);
+    std::memcpy(&value, reinterpret_cast<const uint8_t*>(&unit) + offsetof(UnitWork, inheritedSkills) + 2 * index, 2);
     return value;
 }
 
 void writeInheritedSlot(UnitWork& unit, int32_t index, uint16_t skill)
 {
-    std::memcpy(reinterpret_cast<uint8_t*>(&unit) + offsetof(UnitWork, keisyoskill) + 2 * index, &skill, 2);
+    std::memcpy(reinterpret_cast<uint8_t*>(&unit) + offsetof(UnitWork, inheritedSkills) + 2 * index, &skill, 2);
 }
 
 } // namespace
@@ -114,7 +114,7 @@ void removeInherited(UnitWork& unit, uint8_t index)
 int8_t learnInherited(uint16_t skill, UnitWork& unit)
 {
     int32_t index = 0;
-    while (index < 24 && unit.keisyoskill[index] != skill)
+    while (index < 24 && unit.inheritedSkills[index] != skill)
         ++index;
     uint16_t found = readInheritedSlot(unit, index);
     removeInherited(unit, static_cast<uint8_t>(index));
@@ -130,9 +130,9 @@ uint16_t randomInheritedSkill(const UnitWork& unit)
     int32_t roll = static_cast<int32_t>(sdf::GetRand() % total);
     int32_t cumulative = 0;
     for (int i = 0; i < 24; ++i) {
-        cumulative += inheritRate(unit, unit.keisyoskill[i]);
+        cumulative += inheritRate(unit, unit.inheritedSkills[i]);
         if (roll < cumulative)
-            return unit.keisyoskill[i];
+            return unit.inheritedSkills[i];
     }
     return 0;
 }

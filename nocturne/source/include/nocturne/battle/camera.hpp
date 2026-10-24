@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "nocturne/battle/process.hpp"
 #include "nocturne/ee/float.hpp"
 
 namespace nocturne::nb {
@@ -35,11 +36,17 @@ enum CameraState : uint16_t {
     kCameraWait, kCameraStart, kCameraCommandRoot, kCameraCommandBad, kCameraCommandTargetSelect,
     kCameraSkillAttack, kCameraSkillStart, kCameraSkillCut1, kCameraSkillCut2, kCameraSkillCut3,
     kCameraSkillEnd, kCameraPressTurn, kCameraSummon, kCameraNegoBougai, kCameraNegoTaizi,
-    kCameraNegoTarget, kCameraNegoHojo, kCameraNegoEnd, kCameraGameOver, kCameraResult,
+    kCameraTalkTarget, kCameraTalkBuff, kCameraTalkEnd, kCameraGameOver, kCameraResult,
     kCameraPlayerSide, kCameraEnemySide, kCameraEnd, kCameraEvent, kCameraEveTarget,
     kCameraEnemyBad, kCameraScript1Shot, kCameraScriptBougai, kCameraScriptFix, kCameraDebugAllShot,
 };
 
-void nbCameraSetState(uint16_t state);
+void setCameraState(uint16_t state);
+void cameraOnPair(const Formation& from, const Formation& to);
+// The talks' camera, from the unit acting (the skill's invoker) toward:
+void cameraOnObstructor(const Formation& target);    // nbCameraSetBougai: one who breaks in (NEGO_BOUGAI)
+void cameraOnTalkTarget(const Formation& target);    // nbCameraSetTarget: the demon talked to (NEGO_TARGET)
+void cameraOnHelper(const Formation& helper, const Formation& a, const Formation& b);   // nbCameraSetHojo: a helper, on two others
+void cameraOnEventTarget(const Formation& target);   // (0x1B1888) an event's (EVE_TARGET)
 
 } // namespace nocturne::nb

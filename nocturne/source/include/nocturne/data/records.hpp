@@ -39,11 +39,11 @@ struct UnitWork {
     int16_t prevtarea, prevtform;
     int8_t mitamaparam[6];    // stat bonuses from Mitama fusion
     int8_t levelupparam[6];
-    uint16_t keisyoskill[24]; // inherited skills ("keisyo" = inheritance)
+    uint16_t inheritedSkills[24]; // inherited skills ("keisyo" = inheritance) (HD: keisyoskill)
     uint8_t keiattr[24];
-    uint16_t hensinmae;       // ID before transformation (evolution)
+    uint16_t preEvolutionId;  // ID before transformation (evolution) (HD: hensinmae)
     uint16_t getdevilhearts[4];
-    uint32_t hensinmaeexp;
+    uint32_t preEvolutionExp;   // (HD: hensinmaeexp)
     uint8_t fullnamecode[16];
 
     uint16_t ailment() const { return badstat & 0x0fff; }
@@ -57,15 +57,15 @@ static_assert(offsetof(UnitWork, param) == 0x16);
 static_assert(offsetof(UnitWork, skillcnt) == 0x38);
 static_assert(offsetof(UnitWork, nowcommand) == 0x6a);
 static_assert(offsetof(UnitWork, mitamaparam) == 0x7a);
-static_assert(offsetof(UnitWork, keisyoskill) == 0x86);
-static_assert(offsetof(UnitWork, hensinmae) == 0xce);
-static_assert(offsetof(UnitWork, hensinmaeexp) == 0xd8);
+static_assert(offsetof(UnitWork, inheritedSkills) == 0x86);
+static_assert(offsetof(UnitWork, preEvolutionId) == 0xce);
+static_assert(offsetof(UnitWork, preEvolutionExp) == 0xd8);
 
 // datNormalSkill: how an active skill hits. Table at 0x3D7998, 60 bytes/entry.
 struct NormalSkill {
     uint8_t flag;
     uint8_t use;
-    uint8_t koukatype;        // 0 = physical, 1 = magic, other = neither (no hit roll)
+    uint8_t damageClass;      // 0 = physical, 1 = magic, other = neither (no hit roll) (HD: koukatype)
     uint8_t costtype;
     uint16_t cost, costbase;
     uint8_t targettype;       // 0 = single target
@@ -83,8 +83,8 @@ struct NormalSkill {
     uint16_t minus;           // percentage reduction ("gensyo")
     uint8_t badtype, badlevel;
     uint16_t badstatus;       // ailment inflicted (e.g. Mudo: Dead, Lullaby: Sleep)
-    uint32_t hojotype;        // buff/debuff ("hojo") kinds applied
-    int8_t hojopoint;
+    uint32_t buffKinds;        // buff/debuff ("hojo") kinds applied (HD: hojotype)
+    int8_t buffAmount;   // (HD: hojopoint)
     uint8_t deadtype;
     uint8_t unknown_2e[2];
     uint32_t program;         // special-behaviour selector, see nbGetKoukaType
@@ -96,7 +96,7 @@ static_assert(sizeof(NormalSkill) == 60);
 static_assert(offsetof(NormalSkill, hittype) == 0x10);
 static_assert(offsetof(NormalSkill, hptype) == 0x16);
 static_assert(offsetof(NormalSkill, minus) == 0x22);
-static_assert(offsetof(NormalSkill, hojotype) == 0x28);
+static_assert(offsetof(NormalSkill, buffKinds) == 0x28);
 static_assert(offsetof(NormalSkill, program) == 0x30);
 static_assert(offsetof(NormalSkill, criticalpoint) == 0x34);
 
@@ -105,7 +105,7 @@ struct SkillInfo {
     int8_t skillattr;         // element (Attribute); -1 none
     int8_t type;              // 0 active (has a NormalSkill), 1 passive, -1 unused
     int16_t index;
-    uint16_t keisyoform;      // which demons can inherit it (mask)
+    uint16_t inheritMask;     // which demons can inherit it (mask) (HD: keisyoform)
     int8_t capacity;
     uint8_t flag;
 };
@@ -121,21 +121,22 @@ static_assert(sizeof(SpecialSkill) == 8);
 
 // datDevilNegoFormat_s: how a devil talks (table at 0x3DCB38, 48 bytes per
 // devil). Only the talk-starting types are used by the rewrite so far.
-struct NegoPresent {           // datNegoPresent_s
-    uint8_t ritu, item;
+struct TalkGift {              // datNegoPresent_s
+    uint8_t weight, item;   // (HD: ritu)
 };
-struct DevilNegoFormat {
-    uint32_t kucyo, tokucyo;
+struct DevilTalkFormat {
+    uint32_t speechStyle, speechTrait;   // (HD: kucyo, tokucyo)
     uint8_t tokuboutype, honboutype, fighttype, reqtype, tuikareqtype;
     uint8_t privatesel, privateselindex;
-    uint8_t senseitype;        // nonzero: it may open an ambush with talk (CheckSenseiNego)
-    uint8_t inotitype;         // ... beg for its life (CheckInotiNego)
-    uint8_t binjotype;         // ... ask to join (CheckBinjoNego)
-    uint16_t mukantype;        // ... speak up as the last one able to (CheckMukanNego)
-    uint16_t mukanindex;
-    NegoPresent itema[6], itemb[6], stone[1];   // tentative split of the last 26 bytes
+    uint8_t ambushTalk;        // nonzero: it may open an ambush with talk (CheckSenseiNego) (HD: senseitype)
+    uint8_t begForLife;        // ... beg for its life (CheckInotiNego) (HD: inotitype)
+    uint8_t askToJoin;         // ... ask to join (CheckBinjoNego) (HD: binjotype)
+    uint16_t lastEnemyTalk;    // ... speak up as the last one able to (CheckMukanNego) (HD: mukantype)
+    uint16_t lastEnemyTalkIndex;   // (HD: mukanindex)
+    TalkGift itemA[4], itemB[4], stones[4];   // what it gives in talks (nbGetNegoYaruItemA, B, Stone)
+    uint8_t unknown_2e[2];
 };
-static_assert(sizeof(DevilNegoFormat) == 0x30 && offsetof(DevilNegoFormat, mukantype) == 0x12);
+static_assert(sizeof(DevilTalkFormat) == 0x30 && offsetof(DevilTalkFormat, lastEnemyTalk) == 0x12);
 
 // datDevilFormat: species data for each devil ID. Table at 0x3497C0, 60 bytes.
 struct DevilFormat {
@@ -143,19 +144,19 @@ struct DevilFormat {
     Race race;
     uint8_t level;
     uint16_t hp, maxhp, mp, maxmp;
-    int16_t aisyoid;          // row in the affinity table; doubles as a model/species ID
+    int16_t affinityId;       // row in the affinity table; doubles as a model/species ID (HD: aisyoid)
     int8_t param[6];
     uint16_t skill[8];
-    int16_t keisyotype;
-    uint16_t keisyoform;
+    int16_t inheritType;   // (HD: keisyotype)
+    uint16_t inheritMask;   // (HD: keisyoform)
     uint16_t dropmakka;       // Macca reward
     uint16_t dropexp;         // EXP reward
     uint8_t dropitem[2];      // ordinary drops ...
     uint8_t droppoint[2];     // ... and their chances in percent
     uint16_t specialbit;      // event bit gating specialitem (0 = always)
     uint8_t specialitem, specialpoint;
-    uint8_t hougyokupoint;    // chance to drop a Bead
-    uint8_t masekipoint;      // chance to drop a Life Stone
+    uint8_t beadDropChance;   // chance to drop a Bead (HD: hougyokupoint)
+    uint8_t lifeStoneDropChance; // chance to drop a Life Stone (HD: masekipoint)
     int8_t attackattr;
     uint8_t attackcnt, attackinterval, reserve1;
 };
@@ -198,18 +199,18 @@ inline constexpr uint16_t AlwaysEscapable   = 0x20;
 } // namespace EncountFlag
 
 // datEncountRitu: one weighted entry of an area's random-encounter table.
-struct EncountRitu {
+struct EncounterEntry {
     uint16_t encountid;
-    uint16_t ritu;            // selection weight
-    uint8_t sensei;           // first-strike coefficient index, see nbCheckSensei
-    uint8_t renzokuritu;      // chance (%) of a consecutive encounter
-    uint16_t renzokuindex;    // which entry follows
+    uint16_t weight;          // selection weight (HD: ritu)
+    uint8_t firstStrike;      // first-strike coefficient index, see nbCheckSensei (HD: sensei)
+    uint8_t chainChance;      // chance (%) of a consecutive encounter (HD: renzokuritu)
+    uint16_t chainEntry;      // which entry follows (HD: renzokuindex)
 };
-static_assert(sizeof(EncountRitu) == 8);
+static_assert(sizeof(EncounterEntry) == 8);
 
 struct EncountTbl {
-    int32_t normalritu;
-    EncountRitu ritu[12];
+    int32_t normalWeight;   // (HD: normalritu)
+    EncounterEntry entries[12];   // (HD: ritu)
 };
 static_assert(sizeof(EncountTbl) == 100);
 
@@ -258,8 +259,8 @@ struct MagatamaSkill {        // fclHeartsSkill_t
 struct MagatamaData {         // fclHearts_t
     uint8_t flag;             // low 3 bits: the Magatama's stat class
     uint8_t unknown_01;
-    int16_t aisyoid;          // affinity row while equipped
-    int16_t masteraisyoid;    // ... once mastered
+    int16_t affinityId;       // affinity row while equipped (HD: aisyoid)
+    int16_t masteredAffinityId; // ... once mastered (HD: masteraisyoid)
     int8_t growparam[6];      // stat bonuses while equipped (by Param)
     int8_t mastergrowparam[6];
     int8_t autoasignparam[6]; // Demi-fiend level-up stat weights
@@ -284,7 +285,7 @@ struct InheritanceLevel {         // fclKeisyoSkillLevel_t: skill "level" diviso
     uint8_t unknown_03;
 };
 struct InheritanceScoreRow {
-    int16_t keisyotype;           // DevilFormat::keisyotype
+    int16_t inheritType;          // DevilFormat::keisyotype (HD: keisyotype)
     uint16_t score[16];           // low byte: base rate for each element column
 };
 struct InheritanceScores {        // how well each kind of devil inherits each element
@@ -346,12 +347,23 @@ static_assert(sizeof(EventDevil) == 8);
 
 // Per-devil model record (0x310 bytes; table at 0x34F1E0, fallback record at
 // 0x3494B0). Only the battle model scale is identified so far.
+// A motion of a unit's model (0x1C bytes; the field names are tentative).
+struct UnitMotion {
+    uint8_t unknown_00[0x10];
+    int16_t targeting;        // the target packet's kind for this motion (nbMakeTargetPacket)
+    uint8_t unknown_12[4];
+    uint8_t endtype;          // how it ends (Formation::motionend)
+    int8_t enddata;
+    ee::Float speed;
+};
+static_assert(sizeof(UnitMotion) == 0x1c);
+
 struct UnitVisual {
     uint8_t unknown_00[0x10];
     ee::Float size;           // with scale: a called ally's slot radius (tentative)
     uint8_t unknown_14[4];
     ee::Float scale;
-    uint8_t unknown_1c[0x310 - 0x1c];
+    UnitMotion motion[27];
 };
 static_assert(sizeof(UnitVisual) == 0x310);
 
@@ -361,7 +373,7 @@ struct AiCheck {               // datDevilAIChk_s
     uint32_t table;            // the action table to use when both hold
 };
 struct AiAction {              // datDevilAITbl_s
-    uint16_t ritu;             // weight
+    uint16_t weight;           // weight (HD: ritu)
     uint16_t skill;            // a skill, or a 0x8xxx command (attack, escape ...)
     uint32_t target;           // (selector << 16) | parameter
 };
@@ -390,13 +402,13 @@ struct EncycRecord {
     uint16_t skill[24];
     int8_t mitamaparam[6];
     int8_t levelupparam[6];
-    uint16_t keisyoskill[24];
+    uint16_t inheritedSkills[24];   // (HD: keisyoskill)
     uint8_t keiattr[24];
-    uint16_t hensinmae;
+    uint16_t preEvolutionId;   // (HD: hensinmae)
     uint16_t reserved1;
     uint32_t flag;            // the unit's flags 0x40 | 0x200 only
     uint32_t reserved2;
-    uint32_t hensinmaeexp;
+    uint32_t preEvolutionExp;   // (HD: hensinmaeexp)
 };
 static_assert(sizeof(EncycRecord) == 0xb0);
 static_assert(offsetof(EncycRecord, flag) == 0xa4);
@@ -417,7 +429,7 @@ struct GlobalWork {
     uint8_t moon_flags, moon_phase;
     uint8_t unknown_0a42[2];
     uint32_t moon_move_bits;
-    int32_t maka;             // Macca on hand
+    int32_t macca;            // Macca on hand (HD: maka)
     uint32_t fieldskills;     // field skills in effect: Estoma 1, Riberama 2 (quintuples consecutive-encounter odds), Liftoma 4, Lightoma 8
     int32_t stock_capacity;   // how many demons the stock can hold
     UnitWork units[16];       // units[0] the Demi-fiend, 1..3 reserved, 4.. demons
@@ -425,7 +437,9 @@ struct GlobalWork {
     int32_t stock_count;
     uint8_t item_counts[0xa0];
     int16_t boss_records[40][2];
-    uint8_t unknown_1a68[0x284];
+    uint8_t unknown_1a68[0x240];
+    uint8_t loanCounts[64];   // Loans taken from demons, by race (HD: syakkincnt)
+    uint8_t questionAnswers[4];   // the talks' questions answered: [0] in all, [1..3] by kind (HD: negoques)
     uint8_t reason_points[4]; // [1..3]: points toward each Reason (Kotowari)
     uint8_t unknown_1cf0[0xa];
     uint8_t hearts_equipped;  // Magatama ID, 0 = none
@@ -443,11 +457,11 @@ struct GlobalWork {
     uint8_t unknown_11e84[0xc];
     EncycRecord encyc_records[184];
 };
-static_assert(offsetof(GlobalWork, maka) == 0xa48);
+static_assert(offsetof(GlobalWork, macca) == 0xa48);
 static_assert(offsetof(GlobalWork, units) == 0xa54);
 static_assert(offsetof(GlobalWork, stock_list) == 0x1914);
 static_assert(offsetof(GlobalWork, item_counts) == 0x1928);
-static_assert(offsetof(GlobalWork, reason_points) == 0x1cec);
+static_assert(offsetof(GlobalWork, reason_points) == 0x1cec && offsetof(GlobalWork, loanCounts) == 0x1ca8);
 static_assert(offsetof(GlobalWork, config) == 0x11ab8 && offsetof(GlobalWork, hearts_learned_skills) == 0x11ac0);
 static_assert(offsetof(GlobalWork, hearts_equipped) == 0x1cfa);
 static_assert(offsetof(GlobalWork, hearts_owned_count) == 0x1d7b);

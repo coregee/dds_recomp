@@ -11,7 +11,7 @@
 namespace nocturne::nb {
 
 // Party::count indexes.
-enum class Hojo : int32_t {
+enum class BuffKind : int32_t {
     Attack        = 4,   // Tarukaja / Tarunda
     Magic         = 5,   // Makakaja / Makanda
     Evasion       = 6,   // Sukukaja / Sukunda (with Accuracy)
@@ -43,6 +43,6 @@ int32_t applyBuffs(int32_t formindex, uint32_t mask, int32_t amount, bool previe
 
 // nbGetHojoRitu: the damage/accuracy multiplier from one counter.
 ee::Float buffMultiplier(int32_t formindex, int32_t type);
-inline ee::Float buffMultiplier(int32_t formindex, Hojo type) { return buffMultiplier(formindex, static_cast<int32_t>(type)); }
+inline ee::Float buffMultiplier(int32_t formindex, BuffKind type) { return buffMultiplier(formindex, static_cast<int32_t>(type)); }
 
 } // namespace nocturne::nb

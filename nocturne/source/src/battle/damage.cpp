@@ -76,8 +76,8 @@ Float magicBase(const UnitWork& unit, const NormalSkill& skill, int32_t power)
 int32_t physicalPower(int32_t skill, int32_t source, int32_t target, int32_t power)
 {
     UnitWork& attacker = *GetUnitWorkFromFormindex(source);
-    Float attackBuff = buffMultiplier(source, Hojo::Attack);
-    Float defenseBuff = buffMultiplier(target, Hojo::Defense);
+    Float attackBuff = buffMultiplier(source, BuffKind::Attack);
+    Float defenseBuff = buffMultiplier(target, BuffKind::Defense);
     // The original also computes datGetNormalAtkPow(attacker) and
     // datGetDefPow(defender) here, and discards both.
 
@@ -114,8 +114,8 @@ int32_t physicalHealPower(int32_t skill, int32_t source, int32_t target, int32_t
 int32_t magicPower(int32_t skill, int32_t source, int32_t target, int32_t power)
 {
     UnitWork& attacker = *GetUnitWorkFromFormindex(source);
-    Float magicBuff = buffMultiplier(source, Hojo::Magic);
-    Float defenseBuff = buffMultiplier(target, Hojo::Defense);
+    Float magicBuff = buffMultiplier(source, BuffKind::Magic);
+    Float defenseBuff = buffMultiplier(target, BuffKind::Defense);
     const NormalSkill& s = dat::normalSkill(skill);
 
     Float value = magicBase(attacker, s, power);
@@ -140,7 +140,7 @@ int32_t magicPower(int32_t skill, int32_t source, int32_t target, int32_t power)
 int32_t magicHealPower(int32_t /*skill*/, int32_t source, int32_t /*target*/, int32_t power)
 {
     UnitWork& caster = *GetUnitWorkFromFormindex(source);
-    Float magicBuff = buffMultiplier(source, Hojo::Magic);
+    Float magicBuff = buffMultiplier(source, BuffKind::Magic);
     int32_t magic = dat::param(caster, Param::Magic);
     int32_t roll = sdf::GetRandInt(8);
     int32_t points = magic * 4 + caster.level + roll;
@@ -155,8 +155,8 @@ int32_t magicHealPower(int32_t /*skill*/, int32_t source, int32_t /*target*/, in
 int32_t maxHpPower(int32_t /*skill*/, int32_t source, int32_t target, int32_t power)
 {
     UnitWork& attacker = *GetUnitWorkFromFormindex(source);
-    Float attackBuff = buffMultiplier(source, Hojo::Attack);
-    Float defenseBuff = buffMultiplier(target, Hojo::Defense);
+    Float attackBuff = buffMultiplier(source, BuffKind::Attack);
+    Float defenseBuff = buffMultiplier(target, BuffKind::Defense);
     Float value;
     if (attacker.isEnemy()) {
         value = Float::fromInt(dat::baseMaxHp(attacker)) / literal(69.6) * Float::fromInt(power);
@@ -206,8 +206,8 @@ int32_t effectAmount(bool mp, Float ratio, bool damage, int32_t skill, int32_t s
         break;
     case 2:
         heal = offset;
-        if (s.koukatype == 0)      heal = physicalHealPower(skill, source, target, power) + offset;
-        else if (s.koukatype == 1) heal = magicHealPower(skill, source, target, power) + offset;
+        if (s.damageClass == 0)      heal = physicalHealPower(skill, source, target, power) + offset;
+        else if (s.damageClass == 1) heal = magicHealPower(skill, source, target, power) + offset;
         break;
     case 3:
         if (power + offset < current)
@@ -245,11 +245,11 @@ int32_t effectAmount(bool mp, Float ratio, bool damage, int32_t skill, int32_t s
         if (type >= 16)
             break;
         int32_t amount = 0;
-        if (s.koukatype == 0) {
+        if (s.damageClass == 0) {
             amount = physicalPower(skill, source, target, power);
             if (!mp)
                 amount = weakenPhysical(attacker, amount);
-        } else if (s.koukatype == 1) {
+        } else if (s.damageClass == 1) {
             amount = magicPower(skill, source, target, power);
         }
         harm = amount + offset;
@@ -262,9 +262,9 @@ int32_t effectAmount(bool mp, Float ratio, bool damage, int32_t skill, int32_t s
     // Damage from power: random spread, affinity, and Normal-mode mercy.
     bool fromPower = type == 1 || type == 2 || type == 6 || type == 7 || type == 12 || type == 14;
     if (fromPower && harm > 0) {
-        if (s.koukatype == 0 || s.koukatype == 1) {
+        if (s.damageClass == 0 || s.damageClass == 1) {
             // +-5% (physical, MP) or +-10% (magic) spread.
-            Float spread = mp ? literal(0.05) : (s.koukatype ? literal(0.1) : literal(0.05));
+            Float spread = mp ? literal(0.05) : (s.damageClass ? literal(0.1) : literal(0.05));
             Float jitter = sdf::GetRandFloat() - 0.5f;
             jitter = (jitter + jitter) * spread;
             Float value = Float::fromInt(harm);
@@ -325,7 +325,7 @@ int32_t estimateEffect(int32_t skill, int32_t source, int32_t target)
     }
 
     const NormalSkill& s = dat::normalSkill(skill);
-    int32_t buffChange = s.hojotype ? applyBuffs(target, s.hojotype, s.hojopoint, true) : 0;
+    int32_t buffChange = s.buffKinds ? applyBuffs(target, s.buffKinds, s.buffAmount, true) : 0;
 
     // Amounts of 0 or 1 don't count: 1 is the minimum "chip" damage.
     int32_t score = (inflicts != 0) + (cures != 0);

@@ -117,7 +117,7 @@ void removeParams(uint8_t id, UnitWork& unit)
 // cmbGetHeartsAisyo @ 0x00222290
 int16_t affinityRow(uint8_t id)
 {
-    return id == 0 ? 0 : dat::magatama(id).aisyoid;
+    return id == 0 ? 0 : dat::magatama(id).affinityId;
 }
 
 // cmbGetParamBase @ 0x00221D00
@@ -217,7 +217,7 @@ void upcomingSkills(int8_t id, const UnitWork* unit, int8_t levelOffset, Upcomin
                 appendUpcoming(list, static_cast<int8_t>(skill.targetlevel), skill.id);
         }
     } else {
-        uint8_t type = unit->hensinmae == 0 ? 1 : 6;
+        uint8_t type = unit->preEvolutionId == 0 ? 1 : 6;
         for (const GrowthEvent& event : dat::devilGrowth(unit->id).event) {
             if (event.type == type && unit->level + levelOffset < event.targetlevel
                 && cmb::findSkill(event.param, *unit) < 0)

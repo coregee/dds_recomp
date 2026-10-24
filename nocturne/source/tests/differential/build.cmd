@@ -23,7 +23,7 @@ for %%U in (combat_calculation battle_power battle_effects battle_affinity battl
             unit_neighbors rst_stats stat_neighbors unit_batch inheritance_queries hearts_parameters exp rst_rng_frontier
             ps2_qsort fusion_sort fusion_accident fusion_core
             hearts_menu hearts_inventory fcl_encyc compendium_records compendium_restore
-            battle_ai_actions battle_ai_filters battle_ai_selection) do (
+            battle_ai_actions battle_ai_filters battle_ai_selection battle_script_commands) do (
     cl %CFLAGS% "%LEGACY%\src\%%U.c" /Fo"%OUT%\legacy_%%U.obj" || goto :failed
 )
 cl %CFLAGS% /WX "%SOURCE%\tests\differential\fake_world.c" /Fo"%OUT%\fake_world.obj" || goto :failed

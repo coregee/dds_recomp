@@ -176,7 +176,7 @@ struct Instance {
     Window window;
     Variable variable;
     CurCtr curctr;
-    uint32_t func_kuti;         // mouth-movement callback ({lipsync})
+    uint32_t mouthCallback;     // mouth-movement callback ({lipsync}) (HD: func_kuti)
 };
 static_assert(offsetof(Instance, speaker) == 0x14 && offsetof(Instance, message) == 0x24);
 static_assert(offsetof(Instance, select) == 0x40 && offsetof(Instance, window) == 0x9c);
@@ -285,7 +285,7 @@ bool SetSelectDefKey(int32_t id, uint16_t key, uint16_t index);
 void SetMaskSelect(int32_t id, uint32_t mask);
 void SetSelect(int32_t id, int32_t selno);
 void SetDefaultSpeed(int32_t id, uint8_t speed);
-void SetKutiCallback(int32_t id, uint32_t function);
+void setMouthCallback(int32_t id, uint32_t function);
 uint16_t GetConfig();
 int32_t GetMessageWidth(int32_t id, int32_t message, int32_t page);
 

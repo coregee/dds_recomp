@@ -54,9 +54,9 @@ Float physicalAccuracy(const NormalSkill& skill, const UnitWork& attacker, const
 }
 
 // The entry of the area encounter table this battle was rolled from.
-const EncountRitu& encounterSlot(const MainProcessData& data, int32_t index)
+const EncounterEntry& encounterSlot(const MainProcessData& data, int32_t index)
 {
-    return dat::encountPack(data.encpackno).enctable[data.packno].ritu[index];
+    return dat::encountPack(data.encpackno).enctable[data.packno].entries[index];
 }
 
 // Level + Luck/2 + Agility of the Demi-fiend, compared against the enemy
@@ -135,7 +135,7 @@ HitType rollCritical(ActionProcessData& action, int32_t skill, int32_t source, i
     }
 
     const NormalSkill& s = dat::normalSkill(skill);
-    if (s.koukatype != 0)
+    if (s.damageClass != 0)
         return HitType::Normal;
 
     // Crit chance = criticalpoint, scaled by how far agility pushed accuracy
@@ -218,12 +218,12 @@ EffectResult resolveEffect(int32_t skill, int32_t source, int32_t target)
     if (attr != Attribute::None && (attr < Attribute(12) || attr > Attribute(14))) {
         Affinity targetAffinity = affinity(skill, target, attr);
         // A frozen target loses physical Null/Repel/Drain.
-        if (hasAilment(defender, Ailment::Freeze) && s.koukatype == 0)
+        if (hasAilment(defender, Ailment::Freeze) && s.damageClass == 0)
             targetAffinity.raw &= ~(Affinity::Null | Affinity::Repel | Affinity::Drain);
         if (targetAffinity.has(Affinity::Repel))
             return EffectResult::Repel;
         // Pierce lets physical skills through Null and Drain (not Repel).
-        if (dat::hasSkill(attacker, skill::Pierce) && s.koukatype == 0) {
+        if (dat::hasSkill(attacker, skill::Pierce) && s.damageClass == 0) {
             if (targetAffinity.raw & (Affinity::Null | Affinity::Drain))
                 data.piercedResistance = 1;
         } else {
@@ -274,9 +274,9 @@ EffectResult resolveEffect(int32_t skill, int32_t source, int32_t target)
     Float defenderEvasionBuff = buffMultiplier(target, 6);
 
     Float accuracy;
-    if (s.koukatype == 0) {
+    if (s.damageClass == 0) {
         accuracy = physicalAccuracy(s, attacker, defender);
-    } else if (s.koukatype == 1) {
+    } else if (s.damageClass == 1) {
         // Magic: evasion as a percentage of the caster's magic accuracy,
         // halved, on top of 100 (95 for enemy casters).
         Float base = attacker.isEnemy() ? 95.0f : 100.0f;
@@ -299,7 +299,7 @@ EffectResult resolveEffect(int32_t skill, int32_t source, int32_t target)
         accuracy = accuracy * 0.25f;
 
     int32_t threshold = accuracy.toInt();
-    diag::print(s.koukatype == 0 ? diag::Message::PhysicalHitRate : diag::Message::MagicHitRate, threshold);
+    diag::print(s.damageClass == 0 ? diag::Message::PhysicalHitRate : diag::Message::MagicHitRate, threshold);
     if (percentRoll(threshold))
         return EffectResult::Hit;
     return (formatFlag & DevilFlag::MissIsFail) ? EffectResult::Fail : EffectResult::Miss;
@@ -644,7 +644,7 @@ bool rollEnemiesFirst(MainProcessData& data)
     if (chance < 70) chance = 70;
     if (chance > 85) chance = 85;
 
-    uint8_t table = encounterSlot(data, data.packindex).sensei;
+    uint8_t table = encounterSlot(data, data.packindex).firstStrike;
     if (s.playerLevel < s.enemyLevel + 15) {
         // The original reads past the six-entry table for larger indexes.
         if (table >= 6)
@@ -759,9 +759,9 @@ bool rollConsecutiveEncounter(MainProcessData& data)
     if (data.encpackno <= 0)
         return false;
 
-    const EncountRitu& slot = encounterSlot(data, data.packindex);
-    int32_t chance = slot.renzokuritu;
-    int32_t next = slot.renzokuindex;
+    const EncounterEntry& slot = encounterSlot(data, data.packindex);
+    int32_t chance = slot.chainChance;
+    int32_t next = slot.chainEntry;
     if (dat::globalWork().fieldskills & 2)
         chance *= 5;
     diag::print(diag::Message::ConsecutiveRate, chance, next);
@@ -856,7 +856,7 @@ void addDefeatRewards(const UnitWork& defeated)
         macca /= 10;
     }
     data.exp += exp;
-    data.maka += macca;
+    data.macca += macca;
     if (bossRefight)
         return;
 
@@ -874,9 +874,9 @@ void addDefeatRewards(const UnitWork& defeated)
         }
     }
     // The Bead and Life Stone rolls happen even when an item already dropped.
-    bool bead = percentRoll(devil.hougyokupoint);
+    bool bead = percentRoll(devil.beadDropChance);
     if (bead && !drop) drop = item::Bead;
-    bool lifeStone = percentRoll(devil.masekipoint);
+    bool lifeStone = percentRoll(devil.lifeStoneDropChance);
     if (lifeStone && !drop) drop = item::LifeStone;
 
     if (drop)
@@ -892,7 +892,7 @@ void addDefeatRewards(const UnitWork& defeated)
 int32_t scatteredMacca(const UnitWork& unit)
 {
     GlobalWork& global = dat::globalWork();
-    Float cashShare = Float::fromInt(global.maka) / 20.0f;
+    Float cashShare = Float::fromInt(global.macca) / 20.0f;
 
     int32_t base;
     if (unit.isEnemy()) {
@@ -933,7 +933,7 @@ int32_t earnedExp(const MainProcessData& data)
 // nbGetKakutokuMaka @ 0x0026A870
 int32_t earnedMacca(const MainProcessData& data)
 {
-    int32_t macca = static_cast<int32_t>(data.maka);
+    int32_t macca = static_cast<int32_t>(data.macca);
     if ((data.encno == 0x10b || data.encno == 0x11c) && macca > 10000)
         macca = 10000;
     return macca;

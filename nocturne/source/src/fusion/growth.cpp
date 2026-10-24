@@ -127,7 +127,7 @@ uint32_t expForLevel(const UnitWork& unit, int32_t level)
     int32_t scaled = (Float::fromInt(static_cast<int32_t>(base)) * factor).toInt();
     uint32_t speciesBase = baseExpForLevel(speciesLevel);
     int32_t exp = (Float::fromInt(scaled) - Float::fromInt(static_cast<int32_t>(speciesBase)) * factor).toInt();
-    return static_cast<uint32_t>(exp) + unit.hensinmaeexp;
+    return static_cast<uint32_t>(exp) + unit.preEvolutionExp;
 }
 
 // cmbChkLevelUpExp @ 0x00223728
@@ -300,12 +300,12 @@ void copyEvolvedDevil(UnitWork& unit, const UnitWork& evolved)
     clearSkills(next);
     if (next.flag & 0x200)
         unit.flag |= 0x200;
-    next.hensinmae = unit.hensinmae ? unit.hensinmae : unit.id;
+    next.preEvolutionId = unit.preEvolutionId ? unit.preEvolutionId : unit.id;
     int32_t oldExp = unit.exp;
     next.flag = unit.flag;
     next.uniqueid = unit.uniqueid;
     next.exp = static_cast<int32_t>(static_cast<uint32_t>(next.exp) + static_cast<uint32_t>(oldExp));
-    next.hensinmaeexp = static_cast<uint32_t>(oldExp);
+    next.preEvolutionExp = static_cast<uint32_t>(oldExp);
     for (int i = 0; i < unit.skillcnt; ++i)
         if (inheritRate(next, unit.skill[i]) != 0)
             appendSkill(next, unit.skill[i]);

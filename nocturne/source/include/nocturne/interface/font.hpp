@@ -248,6 +248,11 @@ Request* AppendFamilyName(int8_t bank, Request* pFRQ, int8_t colno);
 Request* AppendGivenName(int8_t bank, Request* pFRQ, int8_t colno);
 Request* AppendFullName(int8_t bank, Request* pFRQ, int8_t colno);
 Request* AppendNameText(int8_t bank, int8_t style, Request* pFRQ, int8_t colno);
+// A string one character per request, at (x, y) and depth z (the battle's
+// help line and level-up rows).
+Request* LinkLetters(int32_t x, int32_t y, uint32_t z, uint32_t color, const uint8_t* pStr, int8_t styleIndex,
+                     int8_t keepMode, Request* chain);
+Request* LinkSpacedLetters(int32_t x, int32_t y, uint32_t z, uint32_t color, const uint8_t* pStr, Request* chain);
 
 // Laying out a page (font_message.cpp)
 void frCreateNewHandle(MessageInfo& m);
@@ -261,6 +266,8 @@ Request* MessageRequestEx(int32_t x, int32_t y, uint32_t z, uint8_t style, uint8
 Request* MessageRequest(int32_t x, int32_t y, uint8_t style, uint8_t colno, uint8_t tp, uint8_t speed, uint32_t text,
                         Request* pFRQ);
 Request* MessageRequestPlain(int32_t x, int32_t y, uint32_t text, Request* pFRQ);
+// (0x1CA508) a short string in style 3, placed at x, y (1/16 units), depth z, in a color.
+Request* StringRequest(int32_t x, int32_t y, uint32_t z, uint32_t color, uint32_t text, Request* pFRQ);
 Request* MessageRequestKeepSpace(int32_t x, int32_t y, uint32_t z, uint8_t style, uint8_t colno, uint8_t tp,
                                  uint8_t speed, uint32_t text);
 int64_t frGetMessageResult(int64_t mask);

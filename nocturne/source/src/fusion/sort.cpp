@@ -46,12 +46,12 @@ void sortInheritedSkills(UnitWork& unit)
 {
     InheritedSkill skills[24];
     for (int i = 0; i < 24; ++i) {
-        skills[i].skill = unit.keisyoskill[i];
+        skills[i].skill = unit.inheritedSkills[i];
         skills[i].attr = unit.keiattr[i];
     }
     libc::qsort(skills, 24, sizeof skills[0], compareInherited);
     for (int i = 0; i < 24; ++i) {
-        unit.keisyoskill[i] = skills[i].skill;
+        unit.inheritedSkills[i] = skills[i].skill;
         unit.keiattr[i] = skills[i].attr;
     }
 }

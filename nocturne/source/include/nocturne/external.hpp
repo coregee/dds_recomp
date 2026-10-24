@@ -19,11 +19,35 @@ namespace nocturne {
 
 namespace eff {
 void BTLDelete(uint32_t handle);                             // effBTLDelete: frees a battle effect
+void BTLCutDelete(uint32_t cut);                             // effBTLCutDelete
+void BTLCutDraw(uint32_t cut);                               // effBTLCutDraw (0x16B0F0): a frame of the cut
+uint32_t BTLCutCreate(uint32_t effect, uint16_t cutNo, nb::Formation* form, uint32_t stat);   // effBTLCutCreate: a cut of the effect plays (eff::BattleCut)
+void BTLSkillSetFormationInfo(int32_t formindex, uint32_t targets);   // effBTLSkillSetFormationInfo
+void BTLSkillStart(int32_t skill, int32_t arg);              // (0x16B7A8) "effBTL:Skill Start" (tentative name)
+void BTLSkillEnd();                                          // (0x16B850) "effBTL:Skill End" (tentative name)
+uint32_t BTLBedName(int32_t skill);                          // (0x1748A0) the skill's .BED file name (a static string)
+uint32_t BTLLoad(uint32_t data);                             // (0x16A9C0) a loaded .BED: the effect's handle
+void BTLSystemCutDelete(uint32_t cut);                       // (0x1740B8) a cut, and its effect once unused
+void BTLPartDelete(uint32_t part);                           // (0x173D78) effBTLPartDelete (tentative)
+void OngyokiEffectDelete(uint32_t handle);                   // (0x198298)
+void OngyokiEffect2Delete(uint32_t handle);                  // (0x198900)
+void OngyokiCloneEffectDelete(uint32_t handle);              // (0x1990F0)
+void OngyokiCloneEffect2Delete(uint32_t handle);             // (0x199BC8)
 // Ongyo-Ki's effects (effPCPBoss*Create): the effect's handle.
-uint32_t PCPBossONGYCreate(const PCPBossONGYParam& param);       // (0x198200)
-uint32_t PCPBossONGY2Create(const PCPBossONGY2Param& param);     // (0x198868)
-uint32_t PCPBossBUNSINCreate(const PCPBossBUNSINParam& param);   // (0x199000)
-uint32_t PCPBossBUNSIN2Create(const PCPBossBUNSIN2Param& param); // (0x199B10)
+uint32_t OngyokiEffectCreate(const OngyokiEffectParam& param);   // (0x198200)
+uint32_t OngyokiEffect2Create(const OngyokiEffect2Param& param); // (0x198868)
+uint32_t OngyokiCloneEffectCreate(const OngyokiCloneEffectParam& param); // (0x199000)
+uint32_t OngyokiCloneEffect2Create(const OngyokiCloneEffect2Param& param); // (0x199B10)
+// ... and their frames' drawing (effPCPBoss*Draw).
+void OngyokiEffectDraw(uint32_t handle);                     // (0x1982C8)
+void OngyokiEffect2Draw(uint32_t handle);                    // (0x198930)
+void OngyokiCloneEffectDraw(uint32_t handle);                // (0x199600)
+void OngyokiCloneEffect2Draw(uint32_t handle);               // (0x199C08)
+// A hit or ailment effect on a formation (effBTLPart*; tentative names): its
+// kind's create, end and draw functions, from the table at 0x31BF00.
+uint32_t BTLPartCreate(nb::Formation* form, int32_t kind);  // (0x173CB0) effBTLPartCreate
+void BTLPartEnd(uint32_t part);                              // (0x173D28)
+void BTLPartDraw(uint32_t part);                             // (0x173DC8)
 } // namespace eff
 
 namespace cmp {
@@ -36,21 +60,39 @@ UnitWork* GetUnitWorkFromFormindex(int32_t formindex);   // null for an empty sl
 Party* GetPartyFromFormindex(int32_t formindex);
 UnitWork* GetUnitWorkPointer(MainProcessData& data, Party& party);
 // (0x264010) healing's numbers and effects, through the effect library
-void MakeKaifukuPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t type, int32_t hp, int32_t mp,
+void MakeHealPackets(int32_t startframe, int32_t uniqueid, Formation* form, int32_t type, int32_t hp, int32_t mp,
                        uint32_t badstat);
-// (0x2892A8) shows a status line message; var_id >= 0 fills {var 0} first
-void DispJyokyoHelp(int32_t msgid, int32_t no, int32_t var_id, int32_t var_ind);
 // (0x263C00) damage's numbers and effects, through the effect library
-void MakeDamagePacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t type, int32_t hp, int32_t mp,
+void MakeDamagePackets(int32_t startframe, int32_t uniqueid, Formation* form, int32_t type, int32_t hp, int32_t mp,
                       int32_t badstat, int32_t hiteff, int32_t dead, int32_t deadtype, int32_t moji, int32_t animeoff);
 // (0x280518) the battle panel shows the analysed unit
 void PanelAnalyzeStart();
-// (0x289310) the help line shows message `no` of table `msgid`
-void DispMsgHelp(int32_t msgid, int32_t no, int32_t msgtype);
-// (0x2891E0) the help line shows a devil's name (0: the Demi-fiend's race)
-void DispDevilName(int32_t id);
 // (0x280528) the battle panel stops showing the analysed unit
 void PanelAnalyzeEnd();
+// (0x26CCF0) nbInitNegoProcess: the talks' process between the two slots
+void StartTalkProcess(ActionProcessData& a, int32_t pformindex, int32_t eformindex, int32_t negotype, int32_t skill);
+// A unit's motions (nbUnitProcess; names by the HD remaster's order, tentative).
+int32_t GetMotionActframe(ee::Float speed, Formation& form, int32_t motion);   // (0x24D3A0) frames to the hit
+ee::Float GetMotionSpeed(ee::Float speed, Formation& form, int32_t motion);    // (0x24D428)
+int32_t GetMotionNo(Formation& form, int32_t motion);                           // (0x24D490)
+// The motions' sounds (nbSound; tentative names).
+void StopMotionSe();                                        // (0x28DD78)
+uint32_t GetMotionSeNo(Formation& form, int32_t motion);    // (0x28D178) its sound bank
+int32_t MemoryLoadMotionSe(Formation& form, int32_t motion);   // (0x28D298) 1 when the bank is being sent
+// Packets READY builds (nbMakePacket; tentative names).
+void MakeSkillEffectPacket(int32_t startframe, int32_t timer, ActionProcessData& a, Formation& form, int32_t hiteff,
+                           int32_t motiontype, int32_t skill);                          // (0x2617A8)
+void AddHitEffPacket(int32_t startframe, ActionProcessData& a, Formation& form, int32_t kind);   // (0x262480)
+void AddHitEffPacket(int32_t startframe, int32_t uniqueid, Formation& form, int32_t kind);       // ... by the packets' owner
+void MakeTargetPacket(ee::Float speed, int32_t start, ActionProcessData& a, Formation& form, uint32_t targets,
+                      int32_t kind);                                                    // (0x2648C0)
+void SetWaitMotion(Formation& form, int32_t motion, ee::Float speed);               // (0x24D238)
+void SetUnitMotion(Formation& form, int32_t motion, int32_t loop, ee::Float speed); // (0x24CFF8)
+// The battle panel (nbPanelProcess); names by the HD remaster's order, tentative.
+void PanelAllShow();            // (0x279C30) the panel, its press gauge and auto marker
+void PanelPressGaugeShow();     // (0x27C2C0)
+void PanelStockSelectInit();    // (0x27FA98) the stock list for choosing a demon
+void PanelStockEnd();           // (0x27FA78)
 // (0x2584C8) the turn order after an action
 void UpdateOrder();
 // (0x27FD18) the stock panel's selection (sw 0: keep it as it is)
@@ -67,9 +109,61 @@ namespace nb {
 // (0x247ED8) queues an action to run next (counters, talks, death scripts)
 void PushAction(int32_t type, int32_t from, int32_t to, int32_t data);
 // (0x263918) a death's visuals, through the effect library
-void MakeDeadVisualPacket(int32_t startframe, int32_t uniqueid, Formation* form, int32_t deadtype, int32_t deadpcm);
+void MakeDeathVisualPackets(int32_t startframe, int32_t uniqueid, Formation* form, int32_t deadtype, int32_t deadpcm);
 // (0x282200) the battle panel's input on or off
 void PanelSetEnabled(bool enabled);
+// The panel's drawing (nbPanelProcess; tentative names): where in the
+// display list, the primitive's settings, alpha blending, and a textured
+// rectangle (screen x, y, w, h from texture u, v, tw, th; RGBA).
+void PanelSetOrderingOffset(int32_t offset);   // (0x2797B0)
+void PanelSetPrimitive(int32_t a, int32_t b, int32_t c, int32_t d, int32_t e, int32_t f, int32_t g, int32_t h);   // (0x279868)
+void PanelSetAlpha(int32_t mode);              // (0x279980)
+void PanelDrawTexturedRect(int32_t x, int32_t y, int32_t w, int32_t h, int32_t u, int32_t v, int32_t tw, int32_t th,
+                           uint32_t color, uint32_t texture);   // (0x279A88)
+// (0x280538) the panel's Analyze page shows this unit
+void PanelSetAnalyzeUnit(UnitWork* unit);
+void FormDispOff(int32_t formindex);   // nbFormDispOff: the formation's model hidden
+void FormDispOn(int32_t formindex);    // nbFormDispOn
+void SetFormPos(Formation& form, const Vec4& pos);   // nbSetFormPos: the model placed
+void SetFormRot(Formation& form, const Vec4& rot);   // nbSetFormRot
+void AllFormDispOn();                  // nbAllFormDispOn
+void GroupFormDispOff(int32_t side);   // nbGroupFormDispOff: one side's models hidden
+void GroupFormDispOn(int32_t side);    // nbGroupFormDispOn
+void PanelAutoHide();                  // nbPanelAutoHide (0x279C58)
+void PanelHide();                      // (0x281E28) tentative name
+void CameraScriptSet1Shot(Formation* form);    // nbCameraScriptSet1Shot
+// The talks' debug menu (NegoDebugDraw, NegoDebugSelectDraw, NegoDebug), shown
+// while battle stat 0x400000 is set; NegoDebug is nonzero when it closes.
+void TalkDebugDraw(uint32_t talk);
+void TalkDebugSelectDraw(uint32_t talk);
+int32_t TalkDebug(uint32_t talk);
+bool LoadTalkSound(Formation& form);   // nbMemoryLoadNegoSe (0x28D1D8): the demon's voice bank
+void CameraScriptSetBougai(Formation* form);   // nbCameraScriptSetBougai
+// nbReturnUnit (0x24D980): a unit leaves the field for the stock (dead: it died)
+void ReturnUnit(int32_t partyno, int32_t lost, int32_t dead);
+// nbSetUnitMove (0x24DD10): a party member walks toward `pos`; nbSetUnitHomeMove (0x24DE40) back home
+void MoveToTarget(ee::Float speed, int32_t partyno, const Vec4* pos);
+void MoveHome(ee::Float speed, int32_t partyno);
+// (0x28D1B8) the unit's voice sound (tentative name)
+int32_t ActorSoundId(Formation& form);
+// (0x1E3700, 0x1E37E8) a unit model's colour / alpha moves to `value` over
+// `frames` (0: at once); tentative names
+void UnitSetColor(uint32_t unit, int32_t frames, uint32_t color);
+void UnitSetAlpha(uint32_t unit, int32_t frames, uint32_t alpha);
+// (0x1E3B78) a unit model's two motion words at +0xBA, +0xBC (meaning unknown)
+void UnitSetMotionWords(uint32_t unit, int16_t a, int16_t b);
+void SetPartyFormation(MainProcessData& data, uint32_t group);   // nbSetPartyFormation (0x28A340)
+void SetEnemyFormation(MainProcessData& data);                   // nbSetEnemyFormation (0x28A758)
+// The damage motions: nbSetDamage (0x24DF78; week: the hit was on a
+// weakness), nbSetDamage2 (0x24E020, a light one), nbSetBadstatMotion
+// (0x24E040, an ailment's), nbSetBadstatMotion2 (0x24E0E8).
+void SetDamage(Formation& form, ee::Float range, int32_t week);
+void SetDamage2(Formation& form, ee::Float range);
+void SetBadstatMotion(Formation& form, int32_t type, ee::Float range);
+void SetBadstatMotion2(Formation& form);
+// nbSummonUnit (0x24D8C0): a summoned devil appears: side 0 the player's, from stock `stockno`
+void SummonUnit(int32_t side, int32_t stockno, int32_t formindex);
+void AddToOrder(int32_t formindex);   // (0x258048) the turn order takes in a new unit
 } // namespace nb
 
 // The script VM (flowscript), as seen by script commands.
@@ -94,6 +188,14 @@ void QueueUpload(const UploadRecord& record);
 
 namespace snd {
 void Play(int32_t sound, int32_t volume, int32_t pan);   // ps2SoundPlay
+bool BankReady(uint32_t bank);                            // ps2SoundBankStatus: the bank is in sound memory
+void VolumeHalfDown();   // (0x2C20A0) the music at half volume
+void VolumeHalfUp();     // (0x2C20C8) ... back up
+void StopEffectMidi(uint32_t sound);                      // (0x2C1730) a playing effect's music stops
+void SetBankSource(uint32_t data, int32_t size);          // (0x2C1DB0) send a bank to sound memory
+void PlayMidi(int32_t midi);                              // (0x2C1670) a piece of music
+void FadeOutMidi(int32_t midi);                           // (0x2C2070) ... fading out
+void EnsureBank(uint32_t bank);                           // ps2SoundEnsureBank: a bank on its way to sound memory
 } // namespace snd
 
 // Movable memory blocks (sdfMemHandle).
@@ -108,6 +210,13 @@ void HandleFree(uint32_t handle);
 namespace file {
 uint32_t Load(uint32_t path);   // sdfDevLoadFile: a whole file in a new memory handle
 uint32_t Load(uint32_t path, uint32_t* data);   // ... and where it is
+uint32_t Request(uint32_t path);        // (0x296A68) start loading a file: its request
+bool CheckEnd(uint32_t request);        // fileCheckEnd: loaded
+uint32_t GetMemHandle(uint32_t request);   // fileGetMemHandle
+int32_t GetLoadSize(uint32_t request);     // fileGetLoadSize
+void RequestRelease(uint32_t request);     // ps2ResourceRequestRelease
+void PacRequestFree(uint32_t request);     // ps2ResourcePacRequestFree
+void WaitIdle();                           // (0x296B88) the loader pumped until no request is pending
 } // namespace file
 
 namespace pac {
@@ -115,11 +224,26 @@ namespace pac {
 void RelocatePointers(uint32_t destination, uint32_t base, uint32_t table, uint32_t bytes);
 } // namespace pac
 
+namespace fr {
+struct Request;
+uint32_t DrawFontEx2(Request& font, int32_t mode, int32_t ot);   // frDrawFontEx2 (0x1C7E38): a request drawn
+} // namespace fr
+
 namespace guest {
 void callFunction(uint32_t entry);   // call original code through a function pointer
 // An action state not rewritten yet: its SetAction_* / CheckAction_* by address.
 void callActionSet(uint32_t entry, uint32_t action);
 int32_t callActionCheck(uint32_t entry, uint32_t action);
+// A presentation packet's player not rewritten yet (nbKoukaProcess), by address.
+void callEffectPlayer(uint32_t entry, uint32_t queue, uint32_t packet);
+// A talk step's flow function not rewritten yet, by address: its result.
+int32_t callTalkStep(uint32_t entry, uint32_t talk);
+// Original code not rewritten yet, by address, with up to four arguments:
+// its result.
+uint32_t callOriginal(uint32_t entry, uint32_t a0 = 0, uint32_t a1 = 0, uint32_t a2 = 0, uint32_t a3 = 0);
+// A packet maker not rewritten yet (it moves a unit with VU0 vector math),
+// by address: (startframe, uniqueid, the formation, the one it faces).
+int32_t callMovePackets(uint32_t entry, int32_t startframe, int32_t uniqueid, uint32_t form, uint32_t target);
 int32_t callCommand(uint32_t entry); // a script command not rewritten yet
 } // namespace guest
 
@@ -144,6 +268,7 @@ void LinkProcess(uint32_t parent, uint32_t process);   // makes `process` the la
 int32_t GetRunTime(uint32_t process);
 void FadeIn(int32_t r, int32_t g, int32_t b, int32_t frames);    // from the color
 void FadeOut(int32_t r, int32_t g, int32_t b, int32_t frames);   // to the color
+void FadeIn2(int32_t frames);    // dds3FadeIn2: back from the last fade's color
 void PadAct(uint32_t mode, uint8_t pow, uint32_t frame);         // dds3PadAct: the pad's vibration
 } // namespace dds3
 
@@ -153,6 +278,7 @@ void BitOn(int32_t bit);
 void BitOff(int32_t bit);
 uint32_t GetAgeOfMoon();      // 0..15, 0 = new, 8 = full Kagutsuchi
 int32_t GetAgeOfMoon16();     // the phase in sixteenths (tentative)
+void SetAgeOfMoon(int32_t age);
 } // namespace evt
 
 namespace sdf {
@@ -194,7 +320,7 @@ enum class Message : uint32_t {
     DidMagic         = 0x005440b0, // 魔法を使用した (used magic)
     DidItem          = 0x005440c0, // アイテムを使用した (used an item)
     DidSummon        = 0x005440d8, // 召喚を行った (summoned)
-    BadRitu          = 0x00545d40, // BAD行動確率 type:%d ritu:%d (an ailment action's weight)
+    AilmentWeight          = 0x00545d40, // BAD行動確率 type:%d ritu:%d (an ailment action's weight)
     AdpcmPlaying     = 0x005440e8, // AD-PCM再生中! (a streamed voice is playing)
     SkillSkill       = 0x00546138, // すきるすきる＝%d ("skill skill = %d", a menu skill checked)
     DeadFormindex    = 0x00544030, // "dead formindex = %d!!"
@@ -203,10 +329,28 @@ enum class Message : uint32_t {
     Returning        = 0x00544020, // 帰還します (a devil returns to the stock)
     AhrimanCounter   = 0x00543880, // アーリマンカウンター発生!!! (Ahriman counters)
     Counter          = 0x005438c0, // カウンター発生!!! (a counter)
-    InotiParty       = 0x005438d8, // "inoti party = %d (%X)" (an enemy begs for its life)
-    BinjoParty       = 0x005438f0, // "binjo party = %d" (an enemy asks to join)
+    BegForLifeSide       = 0x005438d8, // "inoti party = %d (%X)" (an enemy begs for its life)
+    AskToJoinSide       = 0x005438f0, // "binjo party = %d" (an enemy asks to join)
     EscapeErrParty   = 0x00543908, // "escape err party" (a free hit after a failed escape)
-    NegoResult       = 0x00543fb8, // "nego result = %d"
+    TalkResult       = 0x00543fb8, // "nego result = %d"
+    HitHp            = 0x00543780, // "HP damage = %d, kaifuku = %d" (a hit's damage and healing)
+    HitMp            = 0x005437a0, // "MP damage = %d, kaifuku = %d"
+    HitMiss          = 0x005437c0, // "MISS!!!" (a hit that did nothing)
+    HitCount         = 0x005437f8, // 攻撃回数=%d, select = 0x%08X (hits; EUC-JP)
+    BedName          = 0x00543b30, // "name [%d]:%s" (a skill's effect file)
+    MidiName         = 0x00543b58, // "MIDI :%s" (its sound file)
+    ActTime          = 0x00543b68, // "acttime = %d" (frames to the hit)
+    SelectBits       = 0x00543b78, // "select %d -> %08X"
+    MotionSoundWait        = 0x00543ce0, // "mot se wait(1).."
+    SeSize           = 0x00543cf8, // "se size = %d"
+    LoadSeOrBed      = 0x00543d18, // "load se or bed"
+    SeOk             = 0x00543d40, // "se ok!! [%08X]"
+    SeWait2          = 0x00543d50, // "se wait(2).."
+    BedOk            = 0x00543d70, // "bed ok!!"
+    LoadBed          = 0x00543d80, // "load bed"
+    TalkSides        = 0x00543fa8, // "NEGO p:%d e:%d" (the talks' two slots)
+    ItemNo           = 0x005439f8, // "item no = %d" (an item chosen in the menu)
+    SkillNo          = 0x00543a08, // "skill no = %d" (the skill it uses)
     AiTable          = 0x00545840, // "AItbl = %d"
     AiNoSkill        = 0x005457d8, // "no skill"
     AiNoTarget       = 0x005457e8, // "taisyo nashi!!!" (no target)
@@ -225,6 +369,28 @@ enum class Message : uint32_t {
     ScriptRunWithoutProcess = 0x0052f5e8, // SCR_RUN from a script without a process (EUC-JP)
     ScriptPut        = 0x0052f588, // "put -> %d"
     ScriptPuts       = 0x0052f5a8, // "puts -> %s"
+    CutCreate        = 0x00544518, // "cutcreate 3" (a skill effect packet's cut starts)
+    NoInvoker        = 0x00532f90, // "effBTL:InvokeForm == NULL ****** !!"
+    SkillState       = 0x00532f20, // "effBTL:Set Stat[%X]" (what a skill did, for its effect)
+    SkillMotionCut   = 0x00543e10, // "mot %d, cut %d" (the first cut's hit and end frames)
+    SkillEffectResult = 0x00543e20, // スキル効果タイプ = %d (how the skill lands on a target)
+    SkillCut3Frames  = 0x00543e38, // "cut3 mottime:%d  endtime:%d" (the second cut's)
+    SkillTotalDamage = 0x00543e58, // トータルダメージ HP=%d, MP=%d
+    SkillEndFrame    = 0x00543e78, // "skill kouka end time = %d"
+    SkillFreeFrame   = 0x00543e98, // "skill kouka unlock time = %d"
+    NoBuffEffect     = 0x00543eb8, // "Kereijyou Koukaga nai ---" (a buff with nothing left to do)
+    SpeakUpLevels    = 0x00545218, // "plv = %d, elv = %d" (the same, for a demon speaking up)
+    TalkDrain        = 0x005451f8, // "drain = %d" (what a demon drains)
+    TalkDrainedHp    = 0x00545208, // "pwork hp = %d" (the talker's HP after)
+    BattleEvent      = 0x00545db0, // イベント起動 -> %d (an event starts)
+    TalkRequest      = 0x00544ff0, // "request = %d" (what a demon asks for)
+    TalkSelect       = 0x00545018, // "select = %d" (the answer to its demand)
+    TalkHelper       = 0x00545068, // 味方スキル発動! p[%d] id[%04X] (a helper's talk skill)
+    TalkLevels       = 0x005450e0, // "plv = %d, elv = %d" (the Demi-fiend's and the demon's levels)
+    TalkMessageEnd   = 0x00544f10, // "msg end" (a talk step's message read)
+    InfoChosen       = 0x00544e48, // "select info usemestype = %d mesno =%d" (nbGetInfoMsg)
+    InfoCounts       = 0x00544e70, // "normal_mesno = %d jouken_mesno = %d"
+    SkillPress       = 0x00543ee8, // "press %f" (the press turns the action used)
 };
 // Integer arguments are passed sign-extended; %f arguments are ee::Double bits.
 void print(Message message, int64_t a = 0, int64_t b = 0, int64_t c = 0, int64_t d = 0, int64_t e = 0);
