@@ -19,9 +19,9 @@ hand-scheduled VU code), it is isolated, documented and still tested.
   bytes;
 - the mechanics are documented in `docs/` in plain language.
 
-Progress is the function map (`tools/ghidra/export-annotations.ps1`): 1,632 of
-9,068 functions rewritten (18.0%) on 2026-10-24, 2,094 still only in legacy
-C, 5,048 not yet identified.
+Progress is the function map (`tools/ghidra/export-annotations.ps1`): 1,640 of
+9,068 functions rewritten (18.1%) on 2026-10-24, 2,094 still only in legacy
+C, 5,040 not yet identified.
 
 ## Principles
 

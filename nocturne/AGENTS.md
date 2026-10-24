@@ -40,8 +40,11 @@ of work.
    `reference/ps2/whole-program/functions/<addr>.asm`, check debug strings
    (EUC-JP). Record evidence in `docs/glossary.md`.
 4. **Rewrite** into `source/`. Unrewritten callees go into
-   `source/include/nocturne/external.hpp` and are bridged in
-   `source/src/platform/legacy_bridge.cpp`.
+   `source/shared/include/nocturne/external.hpp` and are bridged in
+   `source/shared/src/platform/legacy_bridge.cpp`. Code that differs by
+   version goes in the version's folder (`source/maniax/`,
+   `source/hardtype/`), behind a `[version]` function the shared code calls
+   ([docs/versions.md](docs/versions.md)).
 5. **Prove it.** Add every function to the differential test
    (`source/tests/differential/`: `main.cpp` for battle/unit code,
    `fusion_tests.cpp`, `fusion_core_tests.cpp`, `progression_tests.cpp`,

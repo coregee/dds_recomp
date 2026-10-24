@@ -263,6 +263,7 @@ int fw_print_arg_count(uint32_t format)
     case 0x00545bd0: return 1;                  /* MIDI=0x%08X */
     case 0x00545ce0: return 2;                  /* nbBgmStop(%d,%d) */
     case 0x00545ba0: return 2;                  /* encounter rate %d/%d */
+    case 0x00545cf8: return 1;                  /* UNIT LOAD TIME = %d frame */
     case 0x00543d80: return 0;
     case 0x00543d70: return 0;
     case 0x00543d50: return 0;
@@ -776,9 +777,6 @@ uint64_t fw_talk_step(uint64_t talk)
     }
     return 0;
 }
-void nbAllFormDispOn(void) { fw_mes_log(114, 0, 0); }
-void nbGroupFormDispOff(uint64_t side) { fw_mes_log(115, (uint32_t)side, 0); }
-void nbGroupFormDispOn(uint64_t side) { fw_mes_log(115, (uint32_t)side, 1); }
 void nbPanelAutoHide(void) { fw_mes_log(116, 0, 0); }
 void ps2BattlePanelHideHookA(void) { fw_mes_log(116, 1, 0); }
 void nbCameraScriptSet1Shot(uint64_t form) { fw_mes_log(117, (uint32_t)form, 0); }
@@ -834,8 +832,6 @@ uint64_t ps2BattleAction_00173CB0(uint64_t form, uint64_t kind)
 void effBTLPartEnd(uint64_t part) { fw_mes_log(93, (uint32_t)part, 0); }
 void effBTLPartDraw(uint64_t part) { fw_mes_log(93, (uint32_t)part, 1); }
 void ps2BattlePanelSetAnalyzeUnit_00280538(uint64_t unit) { fw_mes_log(94, (uint32_t)unit, 0); }
-void nbFormDispOff(uint64_t formindex) { fw_mes_log(95, (uint32_t)formindex, 0); }
-void nbFormDispOn(uint64_t formindex) { fw_mes_log(95, (uint32_t)formindex, 1); }
 /* The VU0 packet makers a helper's coming and going uses (0x265130,
  * 0x265298, 0x2653A0): logged, by which. */
 /* The battle panel's drawing and the font's: logged. */
@@ -861,6 +857,17 @@ uint64_t ps2SoundPlayMidi_002C1670(uint64_t midi) { fw_mes_log(129, (uint32_t)mi
 uint64_t ps2SoundFadeOut_002C2070(uint64_t midi) { fw_mes_log(129, (uint32_t)midi, 1); return 0; }
 uint64_t ps2SoundSelectOutput_002C20F0(uint64_t value) { fw_mes_log(132, (uint32_t)value, 0); return 0; }
 uint64_t ps2SoundSelectChannel_002C1E70(uint64_t value) { fw_mes_log(133, (uint32_t)value, 0); return 0; }
+/* The encounter's opening (nbEncProcess): its effect, camera and model loads. */
+uint64_t fw_enc_effect(uint64_t end) { fw_mes_log(135, (uint32_t)end, 0); return 0; }
+uint64_t fw_enc_camera_done(void) { fw_mes_log(136, 0, 0); return fw_hash(136, rd32(FW_SCRATCH + 0xbf0), 0) % 3 != 0; }
+uint64_t fw_load_unit_group(uint64_t group, uint64_t a, uint64_t b) { fw_mes_log(137, (uint32_t)group, (uint32_t)a << 8 | (uint32_t)b); return 0; }
+uint64_t fw_unit_group_loading(uint64_t group) { fw_mes_log(138, (uint32_t)group, 0); return fw_hash(138, (uint32_t)group, rd32(FW_SCRATCH + 0xbf0)) % 3 == 0; }
+/* An object's control flags and pose (dds3ObjectBase*, dds3SetPosPoseSet). */
+void dds3ObjectBaseOnFlag(uint64_t basic, uint64_t flag) { fw_mes_log(139, (uint32_t)basic, (uint32_t)flag); }
+void dds3ObjectBaseOffFlag(uint64_t basic, uint64_t flag) { fw_mes_log(142, (uint32_t)basic, (uint32_t)flag); }
+void dds3SetPosPoseSet(uint64_t basic, uint64_t pos) { fw_mes_log(143, (uint32_t)basic, rd32((uint32_t)pos) ^ rd32((uint32_t)pos + 4) ^ rd32((uint32_t)pos + 8)); }
+uint64_t fw_fade_query(void) { fw_mes_log(140, 0, 0); return fw_hash(140, rd32(FW_SCRATCH + 0xbf0), 0) & 1; }
+uint64_t fw_fade_set(uint64_t value) { fw_mes_log(141, (uint32_t)value, 0); return 0; }
 /* A memory handle's size (0x2A8FE8). */
 uint64_t fw_handle_size(uint64_t handle) { fw_mes_log(134, (uint32_t)handle, 0); return fw_hash(134, (uint32_t)handle, 0) & 0xfff0; }
 void ps2SoundEnsureBank(uint64_t bank) { fw_mes_log(129, (uint32_t)bank, 2); }
@@ -885,7 +892,6 @@ uint64_t fw_move_packets(uint64_t entry, uint64_t startframe, uint64_t uniqueid,
     fw_mes_log(125, (uint32_t)entry ^ (uint32_t)startframe << 24, (uint32_t)uniqueid ^ (uint32_t)form ^ (uint32_t)target << 8);
     return 1;
 }
-void nbSetFormPos(uint64_t form, uint64_t pos) { fw_mes_log(123, (uint32_t)form, rd32((uint32_t)pos) ^ rd32((uint32_t)pos + 8)); }
 void nbSetFormRot(uint64_t form, uint64_t rot) { fw_mes_log(124, (uint32_t)form, rd32((uint32_t)rot) ^ rd32((uint32_t)rot + 4)); }
 void nbReturnUnit(uint64_t partyindex, uint64_t arg, uint64_t dead)
 {

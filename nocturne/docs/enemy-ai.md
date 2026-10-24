@@ -1,8 +1,8 @@
 # Enemy AI
 
-As established by `source/src/battle/ai.cpp`, `ai_script.cpp` and
+As established by `source/shared/src/battle/ai.cpp`, `ai_script.cpp` and
 `targeting.cpp` (original names in parentheses). The data is
-`source/src/data/devil_ai_table.cpp` (`datDevilAI`, 0x3989E0).
+`source/maniax/src/data/devil_ai_table.cpp` (`datDevilAI`, 0x3989E0).
 
 ## The AI record
 
@@ -192,7 +192,7 @@ A charmed, panicked or cursed unit, on either side, doesn't act as told.
 Its turn draws an action by weight (`MakeRituList`, `GetBadAiAction`) and
 tries it; an action that can't be done is struck off and another drawn, and
 after ten tries the unit just loses its turn (`nbRunBadAi`). Source:
-`source/src/battle/bad_ai.cpp`, tested against the original instructions.
+`source/shared/src/battle/bad_ai.cpp`, tested against the original instructions.
 
 | Who | Attack | Heal | Buff | Throw Macca | Talk | Return | Hurt itself | Lose the turn |
 |---|---|---|---|---|---|---|---|---|

@@ -1,9 +1,9 @@
 # Fusion and demon growth
 
 How the Cathedral of Shadows and demon progression work, as established by
-the rewritten code (`source/src/fusion/`, `source/src/data/progression.cpp`).
+the rewritten code (`source/shared/src/fusion/`, `source/shared/src/data/progression.cpp`).
 Original function names are in parentheses; all tables are in
-`source/src/data/fusion_table.cpp`, `growth_table.cpp`, `inheritance_table.cpp`.
+`source/maniax/src/data/fusion_table.cpp`, `growth_table.cpp`, `inheritance_table.cpp`.
 
 ## A fusion, step by step (`cmbGetBirthDevil`, `cmb::fuse`)
 

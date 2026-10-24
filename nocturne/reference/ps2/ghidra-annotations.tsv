@@ -3056,6 +3056,14 @@ symbol	0028dd78	Function	nbStopMotionSe	Global
 symbol	0028dda8	Function	nbBgmFadeOut	Global
 symbol	0028ddd0	Function	nbBgmStop	Global
 symbol	0028de28	Function	nbBgmChannelReset	Global
+symbol	0028de40	Function	nbEncProcess3	Global
+symbol	0028def0	Function	nbEncProcess2_6	Global
+symbol	0028dfc8	Function	nbEncProcess2_55	Global
+symbol	0028e0e8	Function	nbEncProcess2_5	Global
+symbol	0028e250	Function	nbEncProcess2	Global
+symbol	0028e2c8	Function	nbEncProcess1	Global
+symbol	0028e340	Function	nbEncShutdown	Global
+symbol	0028e360	Function	nbInitEncProcess	Global
 symbol	0028e3c8	Function	SetSingleTarget	Global
 symbol	0028e470	Function	SetGroupTarget	Global
 symbol	0028e4b0	Function	SetTarget	Global
@@ -14074,6 +14082,22 @@ signature	0028dd78		nbStopMotionSe	void nbStopMotionSe(void)
 signature	0028dda8		nbBgmFadeOut	void nbBgmFadeOut(void)
 signature	0028ddd0		nbBgmStop	void nbBgmStop(void)
 signature	0028de28		nbBgmChannelReset	void nbBgmChannelReset(void)
+signature	0028de40		nbEncProcess3	u32 nbEncProcess3(u32 id)
+variable	0028de40	a0_lo:4	id	u32
+signature	0028def0		nbEncProcess2_6	u32 nbEncProcess2_6(u32 id)
+variable	0028def0	a0_lo:4	id	u32
+signature	0028dfc8		nbEncProcess2_55	u32 nbEncProcess2_55(u32 id)
+variable	0028dfc8	a0_lo:4	id	u32
+signature	0028e0e8		nbEncProcess2_5	u32 nbEncProcess2_5(u32 id)
+variable	0028e0e8	a0_lo:4	id	u32
+signature	0028e250		nbEncProcess2	u32 nbEncProcess2(u32 id)
+variable	0028e250	a0_lo:4	id	u32
+signature	0028e2c8		nbEncProcess1	u32 nbEncProcess1(u32 id)
+variable	0028e2c8	a0_lo:4	id	u32
+signature	0028e340		nbEncShutdown	void nbEncShutdown(u32 id)
+variable	0028e340	a0_lo:4	id	u32
+signature	0028e360		nbInitEncProcess	void nbInitEncProcess(nbMainProcessData * data)
+variable	0028e360	a0_lo:4	data	nbMainProcessData *
 signature	0028e3c8		SetSingleTarget	void SetSingleTarget(nbActionProcessData * a)
 function_repeatable_comment	0028e3c8		SetSingleTarget	[Nocturne StatusPairs private bank contract]\nSource-derived candidate; no behavioral admission or public prototype claim.\nInteger entry slots (raw low64): ["a0"]; resident FP inputs: none identified.\nAll actual CPU/FPR/VU/HI-LO/Status/FCSR/RAM effects and native RA/SP continuation remain part of the private bank contract. GP, saved registers and native frame contents remain context inputs.\nRole: Action context A0; native list over16 actors, real RNG, actor+78 bit8 update.\nNo semantic scalar result is promoted; incidental V0 effects remain intact.\nExternal services may stop execution; no kernel/IOP completion is supplied.\nEvidence: analysis/battle-status-pairs-helper-contracts.json; ELF member words SHA256=f05ba17fcaded7f27949688af949177a6b9c4afb8a7c8dbe8694f1e8e1ae5dd1.\n[/Nocturne StatusPairs private bank contract]
 variable	0028e3c8	a0_lo:4	a	nbActionProcessData *

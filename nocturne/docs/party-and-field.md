@@ -5,8 +5,8 @@ menu, damage from the field (dungeon traps, Amala pipes), the stock, Macca,
 items, boss refights, and the FlowScript commands that drive them
 (`scrParameterCommand`, the `prm_*` commands).
 
-Source: `source/src/data/field_skill.cpp`, `source/src/data/progression.cpp`
-(original unit `datCalc`), `source/src/script/parameter_commands.cpp`.
+Source: `source/shared/src/data/field_skill.cpp`, `source/shared/src/data/progression.cpp`
+(original unit `datCalc`), `source/shared/src/script/parameter_commands.cpp`.
 Tested against the original instructions (`data_tests.cpp`,
 `script_tests.cpp`).
 
@@ -73,7 +73,7 @@ records.
 ## Skills that would do nothing (`nbSkillError`)
 
 Before a skill is used, in battle or from the menu, the game refuses one
-that can't change its targets (`source/src/battle/skill_error.cpp`):
+that can't change its targets (`source/shared/src/battle/skill_error.cpp`):
 
 - HP healing with every target at full HP, MP healing at full MP, and the
   full restores with both full: "no effect" (error 1).

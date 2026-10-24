@@ -47,6 +47,9 @@ public:
     // Runs the function at `entry`; arguments after the eighth go on the stack,
     // float arguments in f12, f13... Returns v0 (a float result is in cpu.f[0]).
     uint64_t call(uint32_t entry, std::initializer_list<uint64_t> args = {}, std::initializer_list<uint32_t> floatArgs = {});
+    // Calls run so far, by any interpreter (a test's original side either runs
+    // the executable's instructions or the legacy C).
+    static uint64_t calls() { return calls_; }
 
     Cpu cpu;
 
@@ -58,6 +61,7 @@ private:
     uint32_t vf(uint32_t reg, int lane) const;
     void setVf(uint32_t reg, int lane, uint32_t value);
 
+    static inline uint64_t calls_ = 0;
     std::unordered_map<uint32_t, Hook> hooks_;
     std::vector<std::pair<uint32_t, uint32_t>> ranges_;
     uint32_t pc_ = 0, npc_ = 0;

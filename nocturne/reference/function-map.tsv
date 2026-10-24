@@ -7230,14 +7230,14 @@ address	size	name	name_source	status	rewrite	legacy
 0028dda8	36	nbBgmFadeOut	USER_DEFINED	rewritten	src/battle/sound.cpp:fadeOutMusic	battle_reward_lifecycle_native.c:body_0028dda8;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_0028DDA8
 0028ddd0	60	nbBgmStop	USER_DEFINED	rewritten	src/battle/sound.cpp:stopMusic	
 0028de28	24	nbBgmChannelReset	USER_DEFINED	rewritten	src/battle/sound.cpp:resetMusicChannel	
-0028de40	172	FUN_0028de40	DEFAULT	unknown		
-0028def0	212	FUN_0028def0	DEFAULT	unknown		
-0028dfc8	288	FUN_0028dfc8	DEFAULT	unknown		
-0028e0e8	352	FUN_0028e0e8	DEFAULT	unknown		
-0028e250	112	FUN_0028e250	DEFAULT	unknown		
-0028e2c8	116	FUN_0028e2c8	DEFAULT	unknown		
-0028e340	32	FUN_0028e340	DEFAULT	unknown		
-0028e360	104	FUN_0028e360	DEFAULT	unknown		
+0028de40	172	nbEncProcess3	USER_DEFINED	rewritten	src/battle/enc_process.cpp:finishEncounter	
+0028def0	212	nbEncProcess2_6	USER_DEFINED	rewritten	src/battle/enc_process.cpp:showPlayers	
+0028dfc8	288	nbEncProcess2_55	USER_DEFINED	rewritten	src/battle/enc_process.cpp:setUpEncounterScene	
+0028e0e8	352	nbEncProcess2_5	USER_DEFINED	rewritten	src/battle/enc_process.cpp:showEnemies	
+0028e250	112	nbEncProcess2	USER_DEFINED	rewritten	src/battle/enc_process.cpp:loadEnemyModels	
+0028e2c8	116	nbEncProcess1	USER_DEFINED	rewritten	src/battle/enc_process.cpp:startEncounterLoad	
+0028e340	32	nbEncShutdown	USER_DEFINED	rewritten	src/battle/enc_process.cpp:shutdownEncounter	
+0028e360	104	nbInitEncProcess	USER_DEFINED	rewritten	src/battle/enc_process.cpp:startEncounter	
 0028e3c8	164	SetSingleTarget	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:setSingleTarget	battle_status_pairs.c:body_0028e3c8;battle_status_pairs_native.c:body_0028e3c8
 0028e470	60	SetGroupTarget	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:setGroupTarget	battle_status_pairs.c:body_0028e470;battle_status_pairs_native.c:body_0028e470
 0028e4b0	172	SetTarget	USER_DEFINED	rewritten	src/battle/bad_ai.cpp:setTarget	battle_status_pairs.c:body_0028e4b0;battle_status_pairs_native.c:body_0028e4b0

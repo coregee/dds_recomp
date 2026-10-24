@@ -14,6 +14,8 @@
 #include "nocturne/battle/comm_select.hpp"
 #include "nocturne/battle/pad.hpp"
 #include "nocturne/battle/help.hpp"
+#include "nocturne/data/devil_ai.hpp"
+#include "nocturne/variant.hpp"
 #include "nocturne/battle/kouka.hpp"
 #include "nocturne/battle/skill_error.hpp"
 #include "nocturne/battle/target_select.hpp"
@@ -75,6 +77,11 @@ uint16_t aiSkill(Gen& g)
 }
 
 // Turns the random battle into an enemy's turn with AI state.
+// Hardtype's AI records (source/hardtype/include/nocturne/data/devil_ai.hpp):
+// a table of their addresses by devil.
+constexpr bool kPackedAi = nocturne::kVariant == nocturne::Variant::Hardtype;
+uint32_t packedRecord(int32_t devil) { return at<uint32_t>(dat::address::DevilAI + 4u * static_cast<uint32_t>(devil)); }
+
 void prepareAi(Gen& g)
 {
     MainProcessData& main = mainData();
@@ -98,6 +105,11 @@ void prepareAi(Gen& g)
         for (int c = 0; c < 4; ++c) p.count[c] = static_cast<int16_t>(g.range(0, 6));
         p.count[18] = static_cast<int16_t>(g.range(0, 5));
     }
+    // The press turn gauge's counts and Hardtype's byte at 0x1248F41, which
+    // Hardtype's AI conditions read.
+    at<uint32_t>(0x00551fe0) = static_cast<uint32_t>(g.range(0, 8));
+    at<uint32_t>(0x00551fe4) = static_cast<uint32_t>(g.range(0, 8));
+    at<uint8_t>(0x01248f41) = static_cast<uint8_t>(g.range(0, 15));   // (Hardtype reads the moon phase here)
     main.summonallowed = g.chance(70) ? 1 : 0;
     main.turn = static_cast<uint8_t>(g.range(0, 10));
     main.playerpcnt = static_cast<int16_t>(g.range(0, 4));
@@ -118,15 +130,27 @@ void prepareAi(Gen& g)
     a.massuruid = g.range(0, 0x11f);
     a.select = 0;
     UnitWork& unit = *a.work;
+    // (Hardtype: a devil whose table AI runs: with a record, action tables
+    // and no script. Script devils' checks point at nothing real.)
+    if constexpr (kPackedAi)
+        while (packedRecord(unit.id) < dat::address::DevilAI || packedRecord(unit.id) >= 0x003a7fe0 ||
+               dat::aiRecord(unit.id).tables() <= 0 || dat::aiRecord(unit.id).script() != 0)
+            unit.id = static_cast<uint16_t>(g.range(1, 383));
     // Every devil has AI level 0 in the shipped data; patch the actor's
     // record so the dormant levels 1..3 are exercised too.
-    const_cast<DevilAI&>(dat::devilAI(unit.id)).ailevel = static_cast<uint16_t>(g.chance(50) ? g.range(1, 3) : 0);
+    // Hardtype's records are all level 0, and the effect estimates higher
+    // levels reach aren't ported for it yet.
+    const uint16_t level = static_cast<uint16_t>(!kPackedAi && g.chance(50) ? g.range(1, 3) : 0);
+    if constexpr (kPackedAi)
+        at<uint16_t>(packedRecord(unit.id) + 0xa) = level;
+    else
+        const_cast<DevilAI&>(dat::devilAI(unit.id)).ailevel = level;
     unit.nowcommand = static_cast<int16_t>(g.pick({0, 1, 1, 1, 3, 5, 7, 4, 6}));
     unit.nowindex = unit.nowcommand == 5 ? static_cast<uint16_t>(g.range(0, 60)) : aiSkill(g);
     // Summon skills may target empty summon slots (0x800); with a (patched)
     // AI level the effect estimate would then read an absent unit, which the
     // original does through guest address 0. Levels are all 0 in the game.
-    if (dat::devilAI(unit.id).ailevel != 0)
+    if (dat::aiRecord(unit.id).level() != 0)
         for (int k = 0; k < 16; ++k)
             if (!(form(k).stat & 1))
                 form(k).stat &= ~0x800u;
@@ -161,6 +185,7 @@ uint32_t conditionWord(Gen& g)
 
 void addAiTests(std::vector<TestCase>& t)
 {
+    const size_t first = t.size();
     auto add = [&t](const char* name, std::function<Pair(Gen&)> make) {
         t.push_back({name, [make](Gen& g) { prepareAi(g); return make(g); }});
     };
@@ -212,7 +237,7 @@ void addAiTests(std::vector<TestCase>& t)
         });
     };
     buffQuery("nbAiChkHojo", nbAiChkHojo, nb::ai::hasBuff);
-    buffQuery("nbAiChkHojoMax", nbAiChkHojoMax, nb::ai::buffAtLimit);
+    buffQuery("nbAiChkHojoMax", nbAiChkHojoMax, [](int32_t f, int32_t code) { return nb::ai::buffAtLimit(f, code, 0); });
     add("nbAiChkJoken", [](Gen& g) {
         uint32_t word = conditionWord(g);
         return Pair{[=] { return norm(nbAiChkJoken(kAct, word)); }, [=] { return norm(nb::ai::condition(act(), word)); }};
@@ -243,6 +268,52 @@ void addAiTests(std::vector<TestCase>& t)
     });
     add("nbRunAi", [](Gen&) {
         return Pair{[] { return norm(nbRunAi(kAct)); }, [] { return norm(nb::ai::run(act())); }};
+    });
+    for (size_t k = first; k < t.size(); ++k)   // (the tests so far are against the legacy C)
+        t[k].legacyC = true;
+
+    // ---- choosing an action, against the original instructions ----
+    // (Hardtype's AI records differ: these follow whichever executable runs.)
+    auto someCheck = [](Gen& g) { return g.range(0, std::max(0, dat::aiRecord(act().work->id).checks() - 1)); };
+    // A table of the actor's record (Hardtype: one of its own, walked from the
+    // first; the checks may point at shared or unreachable ones).
+    auto someTable = [](Gen& g) {
+        const dat::AiRecord record = dat::aiRecord(act().work->id);
+        if constexpr (!kPackedAi) {
+            return static_cast<uint32_t>(g.range(0, 2));
+        } else {
+            uint32_t table = record.firstTable();
+            for (int32_t pick = g.range(0, record.tables() - 1); pick > 0; --pick)
+                table += 2 + 8u * static_cast<uint32_t>(std::max(record.actions(table), 1));
+            return table;
+        }
+    };
+    add("nbAiAiChk (instructions)", [=](Gen& g) {
+        const int32_t index = someCheck(g);
+        return Pair{[=] { return iface::origVm(0x002867a8, {kAct, sx(index)}); }, [=] { return norm(nb::ai::check(act(), index)); }};
+    });
+    add("nbAiGetKoudou (instructions)", [=](Gen& g) {
+        const uint32_t table = someTable(g);
+        return Pair{[=] { return iface::origVm(0x00286888, {kAct, table}); }, [=] { return norm(nb::ai::drawAction(act(), table)); }};
+    });
+    add("nbAiSetKoudou (instructions)", [=](Gen& g) {
+        const uint32_t table = someTable(g);
+        const int32_t action = g.range(0, 4);
+        return Pair{[=] { return iface::origVmVoid(0x002869a0, {kAct, table, sx(action)}); },
+                    [=] { nb::ai::setAction(act(), table, action); return uint64_t{0}; }};
+    });
+    add("nbAiChkCost (instructions)", [](Gen&) {
+        return Pair{[] { return iface::origVm(0x00287860, {kAct}); }, [] { return norm(nb::ai::costBlocks(act())); }};
+    });
+    add("nbAiChkClose (instructions)", [](Gen&) {
+        return Pair{[] { return iface::origVm(0x00287928, {kAct}); }, [] { return norm(nb::ai::canProceed(act())); }};
+    });
+    add("nbRunAiSub (instructions)", [=](Gen& g) {
+        const uint32_t table = someTable(g);
+        return Pair{[=] { return iface::origVm(0x00287b40, {kAct, table}); }, [=] { return norm(nb::ai::runTable(act(), table)); }};
+    });
+    add("nbRunAi (instructions)", [](Gen&) {
+        return Pair{[] { return iface::origVm(0x00287cb8, {kAct}); }, [] { return norm(nb::ai::run(act())); }};
     });
     // ---- the ailment AI (against the original instructions) ----
     // An ailing unit: panicked, charmed, cursed or neither; sometimes a
@@ -500,8 +571,8 @@ void addAiTests(std::vector<TestCase>& t)
         const int limits = g.below(3);
         for (int k = 0; k < 14; ++k)
             for (int c = 4; c < 16; ++c)
-                party(k).count[c] = static_cast<int16_t>(limits == 1   ? nb::buffMax(c)
-                                                         : limits == 2 ? nb::buffMin(c)
+                party(k).count[c] = static_cast<int16_t>(limits == 1   ? nb::buffMax(c, 0)
+                                                         : limits == 2 ? nb::buffMin(c, 0)
                                                          : g.chance(50) ? g.pick<int32_t>({4, -4, 1, -1}) : g.range(-4, 4));
         GlobalWork& global = dat::globalWork();
         for (int i = 0; i < 16; ++i) {
@@ -544,6 +615,19 @@ void addAiTests(std::vector<TestCase>& t)
         for (uint16_t& s : unit.skill)
             s = static_cast<uint16_t>(g.chance(10) ? 0 : g.chance(15) ? g.pick<int32_t>({0x48, 0xdf, 0x33, 0x10})
                                                        : g.chance(30) ? g.range(0x180, 0x1ff) : g.range(1, 0x17f));
+        // Hardtype reads a register the skill list leaves: the summoning
+        // skill last leaves the RNG's second state word, so make that an
+        // address in RAM.
+        if constexpr (nocturne::kVariant == nocturne::Variant::Hardtype) {
+            for (uint32_t address : {4u, 6u, 0x14u})   // ... or a small number: 0, 2 or 16
+                at<uint16_t>(address) = static_cast<uint16_t>(g.chance(50) ? 0 : g.range(1, 0xffff));
+            if (g.chance(40)) {
+                if (unit.skillcnt > 0)
+                    unit.skill[unit.skillcnt - 1] = 0xdf;
+                at<uint32_t>(0x00529bdc) = g.pick<uint32_t>({FW_MAIN, kAct, act().party.address, 0x10, 0});
+                mainData().playerpcnt = static_cast<int16_t>(g.range(0, 4));
+            }
+        }
         unit.prevcommand = static_cast<int16_t>(g.range(-1, 8));
         unit.previndex = static_cast<uint16_t>(g.chance(50) ? unit.skill[g.below(24)] : g.range(0, 0x9f));
         a.stat = g.chance(30) ? (a.stat | 0x80u) : (a.stat & ~0x80u);
@@ -784,7 +868,7 @@ void addAiTests(std::vector<TestCase>& t)
             if (g.chance(60))
                 for (int k = 0; k < 14; ++k)
                     for (int c = 4; c < 16; ++c)
-                        party(k).count[c] = static_cast<int16_t>(nb::buffMax(c));
+                        party(k).count[c] = static_cast<int16_t>(nb::buffMax(c, 0));
         }
         return state(0x00254190, nb::updateTargetSelect);
     });
@@ -914,7 +998,8 @@ void addAiTests(std::vector<TestCase>& t)
     });
     add("nbCheckBattleSkillError3", [=](Gen& g) {
         skillWorld(g);
-        const int32_t s = pickSkill(g);
+        // (and Hardtype's own buffs)
+        const int32_t s = g.chance(20) ? g.pick<int32_t>({0x3a, 0x80, 0x85, 0x9c, 0xe4, 0xf4, 0x106, 0x11d}) : pickSkill(g);
         const uint32_t sel = select(g);
         return Pair{[=] { return iface::origVm(0x00290780, {sx(s), sel}); }, [=] { return norm(nb::buffSkillError(s, sel)); }};
     });
@@ -1063,6 +1148,7 @@ void addAiTests(std::vector<TestCase>& t)
         {"nbCommand_BTL_PNL_ON", nbCommand_BTL_PNL_ON, nb::ai::script::panelOn},
         {"nbCommand_BTL_CAM_ORG", nbCommand_BTL_CAM_ORG, nb::ai::script::cameraOrigin},
     };
+    const size_t firstCommand = t.size();
     for (const Command& c : kCommands)
         add(c.name, [c](Gen& g) {
             if (std::strncmp(c.name, "nbCommand_AI_TAR_", 17) == 0 || std::strcmp(c.name, "nbCommand_AI_ACT_WAIT") == 0) {
@@ -1074,6 +1160,8 @@ void addAiTests(std::vector<TestCase>& t)
             }
             return Pair{[c] { return norm(c.legacy()); }, [c] { return norm(c.rewrite()); }};
         });
+    for (size_t k = firstCommand; k < t.size(); ++k)   // (against the legacy C)
+        t[k].legacyC = true;
 }
 
 } // namespace difftest

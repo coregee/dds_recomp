@@ -1,4 +1,7 @@
-"""Extract the Nocturne ISO to game/ and check the local disc manifest."""
+"""Extract a Nocturne ISO and check its local disc manifest.
+
+US Maniax (the base) goes to game/; the other versions to game/<variant>/,
+each with its own manifest (tools/disc-sha256[-<variant>].json)."""
 
 import argparse
 import hashlib
@@ -11,6 +14,12 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+VARIANTS = {   # name: (ISO in the repository's nocturne/ folder, extraction folder under game/)
+    "maniax": ("Nocturne US Maniax.iso", ""),
+    "hardtype": ("Nocturne US Hardtype.iso", "hardtype"),
+    "chronicle": ("Nocturne JP Chronicle.iso", "chronicle"),
+    "vanilla": ("Nocturne JP.iso", "vanilla"),
+}
 GAME = ROOT / "game"
 MANIFEST = ROOT / "tools" / "disc-sha256.json"
 SECTOR = 2048
@@ -125,13 +134,16 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--overwrite", action="store_true", help="Replace existing extracted files")
     parser.add_argument("--write-manifest", action="store_true", help="Create a new manifest from this ISO; refuses to replace an existing manifest")
+    parser.add_argument("--variant", choices=sorted(VARIANTS), default="maniax", help="Which version to extract (default: maniax)")
     args = parser.parse_args()
-    images = sorted(
-        (path for path in ROOT.iterdir() if path.is_file() and path.suffix.lower() == ".iso"),
-        key=lambda path: path.name.casefold(),
-    )
-    if not images:
-        raise ValueError(f"No ISO found in {ROOT}")
+    global GAME, MANIFEST
+    iso, folder = VARIANTS[args.variant]
+    if folder:
+        GAME = ROOT / "game" / folder
+        MANIFEST = ROOT / "tools" / f"disc-sha256-{args.variant}.json"
+    images = [ROOT / iso]
+    if not images[0].is_file():
+        raise ValueError(f"No {iso} in {ROOT}")
     print(f"ISO: {images[0].name}")
     if args.write_manifest:
         if MANIFEST.exists():
@@ -187,6 +199,8 @@ def main():
     if GAME.exists():
         for path in sorted(path for path in GAME.rglob("*") if path.is_file()):
             relative = path.relative_to(GAME).as_posix()
+            if GAME == ROOT / "game" and relative.split("/")[0] in {f for _, f in VARIANTS.values() if f}:
+                continue   # (the other versions' folders)
             if relative not in actual_paths:
                 print(f"WARNING: extra file in game/: {relative}")
                 warnings += 1

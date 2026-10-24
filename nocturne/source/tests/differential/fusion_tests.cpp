@@ -106,7 +106,7 @@ namespace {
 uint16_t randomSkill(Gen& g)
 {
     switch (g.below(4)) {
-    case 0: return dat::kInheritanceLevel[g.below(227)].skill;
+    case 0: return dat::kInheritanceLevel[g.below(227)].skillId();
     case 1: return dat::kSkillPowerUp[g.below(55)].skill;
     case 2: return 0;
     default: return static_cast<uint16_t>(g.below(0x200));

@@ -1,19 +1,21 @@
 @echo off
 rem Builds and runs the differential test: rewritten source vs. legacy C.
-rem usage: build.cmd [cases per function] [seed]
-setlocal
+rem usage: build.cmd [cases per function] [seed] [filter]
+rem Another version (docs/versions.md): set NOCTURNE_VARIANT=hardtype first.
+setlocal EnableDelayedExpansion
 call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat" >nul
 if errorlevel 1 exit /b %errorlevel%
 
 set "ROOT=%~dp0..\..\.."
 set "SOURCE=%ROOT%\source"
 set "LEGACY=%ROOT%\legacy"
-set "OUT=%ROOT%\build\differential"
+call "%ROOT%\tools\variant.cmd" || exit /b 1
+set "OUT=%ROOT%\build\differential%VARIANT_SUFFIX%"
 if not exist "%OUT%" mkdir "%OUT%"
 del /q "%OUT%\*.obj" 2>nul
 
 set "CFLAGS=/nologo /std:c11 /O2 /Zi /Fd"%OUT%\\" /W4 /c /I"%LEGACY%\src""
-set "CXXFLAGS=/nologo /utf-8 /std:c++20 /O2 /Zi /Fd"%OUT%\\" /W4 /WX /EHsc /c /I"%SOURCE%\include" /I"%SOURCE%\tests\differential" /I"%LEGACY%\src""
+set "CXXFLAGS=/nologo /utf-8 /std:c++20 /O2 /Zi /Fd"%OUT%\\" /W4 /WX /EHsc /c %VARIANT_DEFINE% %VARIANT_INCLUDES% /I"%SOURCE%\tests\differential" /I"%LEGACY%\src""
 
 rem Legacy code under comparison (real implementations on the legacy side),
 rem the shared engine-boundary fakes and the EE FPU model.
@@ -30,14 +32,17 @@ cl %CFLAGS% /WX "%SOURCE%\tests\differential\fake_world.c" /Fo"%OUT%\fake_world.
 cl %CFLAGS% "%LEGACY%\tests\ee_fpu_values.c" /Fo"%OUT%\ee_fpu_values.obj" || goto :failed
 cl %CFLAGS% "%ROOT%\third_party\ps2float\ps2float.c" /Fo"%OUT%\ps2float.obj" || goto :failed
 
-rem The rewrite: every module plus the generated data tables.
-for %%F in ("%SOURCE%\src\battle\*.cpp" "%SOURCE%\src\data\*.cpp" "%SOURCE%\src\ee\*.cpp" "%SOURCE%\src\effect\*.cpp" "%SOURCE%\src\facility\*.cpp" "%SOURCE%\src\fusion\*.cpp" "%SOURCE%\src\interface\*.cpp" "%SOURCE%\src\kernel\*.cpp" "%SOURCE%\src\libc\*.cpp" "%SOURCE%\src\platform\*.cpp" "%SOURCE%\src\script\*.cpp" "%SOURCE%\tests\differential\*.cpp") do (
-    cl %CXXFLAGS% "%%~F" /Fo"%OUT%\%%~nF.obj" || goto :failed
+rem The rewrite as this version builds it (tools/sources.py), and the tests.
+for /f "usebackq tokens=1,2 delims=|" %%A in (`python "%ROOT%\tools\sources.py" %NOCTURNE_VARIANT% sources`) do (
+    cl %CXXFLAGS% "%%A" /Fo"%OUT%\%%B.obj" || goto :failed
+)
+for %%F in ("%SOURCE%\tests\differential\*.cpp") do (
+    cl %CXXFLAGS% "%%~F" /Fo"%OUT%\test_%%~nF.obj" || goto :failed
 )
 
 link /nologo /DEBUG /out:"%OUT%\differential.exe" "%OUT%\*.obj" || goto :failed
 
-"%OUT%\differential.exe" "%ROOT%\game\SLUS_209.11" %*
+"%OUT%\differential.exe" "%VARIANT_GAME%" %*
 exit /b %errorlevel%
 
 :failed

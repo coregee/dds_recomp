@@ -77,7 +77,7 @@ are ignored by the game.
 
 ## In the game: the message manager
 
-`source/src/interface/message.cpp` (original unit `itfMesManager`,
+`source/shared/src/interface/message.cpp` (original unit `itfMesManager`,
 0x1CD2E0..0x1D10A8) shows the tables; every function there is checked
 against the original instructions (see *Testing against the original code*
 in `AGENTS.md`).
@@ -122,7 +122,7 @@ shown, fading out); the flags above 0xFFFF are set by script commands
 
 ## Panels
 
-A window's background is a panel (`itfPanel`, `source/src/interface/panel.cpp`):
+A window's background is a panel (`itfPanel`, `source/shared/src/interface/panel.cpp`):
 a rectangle (in 1/16 pixels), a depth and a colour, and a work block of its
 type with the vertices and vertex colours it is drawn with. Placing or
 moving a panel rebuilds the vertices, colouring it the colours.

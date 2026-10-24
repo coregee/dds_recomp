@@ -54,7 +54,9 @@ def rewrites():
     found = {}
     tag = re.compile(r"^//\s*(?:\w+\s*@\s*)?0x([0-9A-Fa-f]{8})\b")
     definition = re.compile(r"^[A-Za-z_][\w:<>&\* ]*?\b(\w+)\(")
-    for path in sorted((ROOT / "source" / "src").rglob("*.cpp")):
+    # (US Maniax's: the shared code and its own; tools/sources.py)
+    paths = [path for tree in ("shared", "maniax") for path in (ROOT / "source" / tree / "src").rglob("*.cpp")]
+    for path in sorted(paths):
         lines = path.read_text(encoding="utf-8").splitlines()
         for i, line in enumerate(lines):
             m = tag.match(line)

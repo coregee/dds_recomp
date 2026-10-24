@@ -89,7 +89,7 @@ they are recorded here and fixed in Ghidra and `source/` instead:
 
 ## Damage
 
-Source: `source/src/battle/damage.cpp`, `affinity.cpp`, `buffs.cpp`.
+Source: `source/shared/src/battle/damage.cpp`, `affinity.cpp`, `buffs.cpp`.
 
 - **Physical power** (nbGetButuriAttack): `2 Lv + 2 St`, then for the normal
   attack `x 1.33 x k`, for skills `x power / 23.2 x k`, with `k = 0.8` on the

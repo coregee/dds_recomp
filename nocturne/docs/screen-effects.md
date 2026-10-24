@@ -6,8 +6,8 @@ fog colours, the screen quake and the camera's field of view. The commands
 only set state; the kernel (`dds3KernelDraw`) fades it in over frames and the
 effect library (`effEvent`) draws it.
 
-Source: `source/src/script/commands.cpp` (the commands),
-`source/src/kernel/draw.cpp` (the kernel's state), `source/src/effect/event.cpp`
+Source: `source/shared/src/script/commands.cpp` (the commands),
+`source/shared/src/kernel/draw.cpp` (the kernel's state), `source/shared/src/effect/event.cpp`
 (the effects' switches and settings). Records and names follow the HD
 remaster (`dds3Effect_*_t`, `dds3KernelDraw`, `effEvent`).
 

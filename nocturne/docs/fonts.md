@@ -1,6 +1,6 @@
 # The font engine
 
-As established by `source/src/interface/font.cpp` and `font_message.cpp`
+As established by `source/shared/src/interface/font.cpp` and `font_message.cpp`
 (original unit `frFont`, 0x1C6018..0x1CAC30); every function there is
 checked against the original instructions with the game's own fonts.
 

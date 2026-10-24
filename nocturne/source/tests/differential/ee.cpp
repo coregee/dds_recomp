@@ -63,6 +63,7 @@ bool Interpreter::interpreted(uint32_t address) const
 
 uint64_t Interpreter::call(uint32_t entry, std::initializer_list<uint64_t> args, std::initializer_list<uint32_t> floatArgs)
 {
+    ++calls_;
     cpu = Cpu{};
     int f = 12;
     for (uint32_t bits : floatArgs)

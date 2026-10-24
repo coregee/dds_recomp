@@ -1,7 +1,7 @@
 # Magatama and the compendium
 
-As established by `source/src/data/magatama.cpp` and
-`source/src/facility/compendium.cpp` (original names in parentheses).
+As established by `source/shared/src/data/magatama.cpp` and
+`source/shared/src/facility/compendium.cpp` (original names in parentheses).
 
 ## Magatama
 

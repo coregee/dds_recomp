@@ -52,6 +52,7 @@ struct Pair {
 struct TestCase {
     const char* name;
     std::function<Pair(Gen&)> make;
+    bool legacyC = false;   // its original side is US Maniax's legacy C (main.cpp marks them)
 };
 
 int32_t interestingSkill(Gen& g);
@@ -73,5 +74,6 @@ void addPanelTests(std::vector<TestCase>& t);         // panel_tests.cpp
 void addScriptTests(std::vector<TestCase>& t);        // script_tests.cpp
 void addDataTests(std::vector<TestCase>& t);          // data_tests.cpp
 void addKoukaTests(std::vector<TestCase>& t);         // kouka_tests.cpp
+void addVariantTests(std::vector<TestCase>& t);       // variant_tests.cpp
 
 } // namespace difftest

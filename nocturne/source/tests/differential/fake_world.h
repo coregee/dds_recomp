@@ -46,7 +46,8 @@ enum {
     FW_TALK       = 0x011b2420,   /* nbNegoProcessData (talks; 0x33C bytes) */
     FW_MAKA       = 0x011b2780,   /* nbMakaProcessData (the Macca window; 0x40 bytes) */
     FW_MAKA_PROCESS = 0x00777400, /* the "nb_maka" process (only its data is real) */
-    FW_DYNAMIC_END   = 0x011b27c0,
+    FW_MODELS     = 0x011b27c0,   /* the formations' model objects and unit handles (0x540 bytes) */
+    FW_DYNAMIC_END   = 0x011b2d00,
     /* Guest stack for legacy code that allocates on it (not compared). */
     FW_STACK_TOP     = 0x01300000,
 };

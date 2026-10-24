@@ -1,7 +1,7 @@
 # Talks with demons (`nbNegoProcess`)
 
 A talk runs as its own process (`nbInitNegoProcess`, 0x26CCF0) with a record
-of its state (`nbNegoProcessData`, `source/include/nocturne/battle/talk.hpp`).
+of its state (`nbNegoProcessData`, `source/shared/include/nocturne/battle/talk.hpp`).
 It walks a flow of steps (talk IDs): each step shows a message, maybe a
 selection, and chooses the next step among up to eight candidates
 (`nbAddNegoIdKouho`). The steps taken are kept in a ring of 14

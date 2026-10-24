@@ -26,10 +26,15 @@
 #include "nocturne/battle/affinity.hpp"
 #include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/calc.hpp"
+#include "nocturne/battle/encount.hpp"
 #include "nocturne/battle/combatant.hpp"
 #include "nocturne/battle/damage.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/unit.hpp"
+#include "nocturne/variant.hpp"
+#if __has_include("nocturne/hardtype.hpp")
+#include "nocturne/hardtype.hpp"
+#endif
 
 extern "C" {
 #include "battle_affinity.h"
@@ -114,7 +119,10 @@ void randomUnit(Gen& g, UnitWork& u, bool enemy)
     static const uint32_t kPlayerFlags[] = {1, 3, 3, 3, 7, 5, 0, 0x23};
     static const uint32_t kEnemyFlags[] = {0x21, 0x21, 0x23, 0x25, 0x01};
     u.flag = enemy ? g.pick(kEnemyFlags) : g.pick(kPlayerFlags);
-    u.id = static_cast<uint16_t>(g.chance(5) ? 0x125 : g.range(1, 0x17f));
+    // (Hardtype's AI table has no record after devils 0x17E and 0x17F, so the
+    // game's death checks would read through a null pointer for them.)
+    const int32_t lastDevil = nocturne::kVariant == nocturne::Variant::Hardtype ? 0x17d : 0x17f;
+    u.id = static_cast<uint16_t>(g.chance(5) ? 0x125 : g.range(1, lastDevil));
     u.maxhp = static_cast<uint16_t>(g.chance(3) ? 0 : g.range(1, 999));
     u.hp = static_cast<uint16_t>(g.chance(10) ? 0 : g.range(0, u.maxhp));
     u.maxmp = static_cast<uint16_t>(g.range(0, 500));
@@ -198,6 +206,17 @@ void randomWorld(Gen& g)
         party[f].flag = flag;
         party[f].formindex = static_cast<int16_t>(f);
         randomParty(g, party[f]);
+    }
+    // Each formation's model object (+0x1C its control block) and unit handle
+    // (+0x8C its draw flags' address, +0xA4 bit 0x10000 while it loads).
+    for (int f = 0; f < 16; ++f) {
+        const uint32_t object = FW_MODELS + 0x20u * f, handle = FW_MODELS + 0x200u + 0x20u * f - 0x8c;
+        forms[f].basic = g.chance(85) ? object : 0;
+        at<uint32_t>(object + 0x1c) = FW_MODELS + 0x440u + 0x10u * f - 0xc4;
+        forms[f].hunit = handle;
+        at<uint32_t>(handle + 0x8c) = FW_MODELS + 0x400u + 4u * f;
+        at<uint32_t>(FW_MODELS + 0x400u + 4u * f) = static_cast<uint32_t>(g.rng());
+        at<uint32_t>(handle + 0xa4) = g.chance(10) ? 0x10000u : 0;
     }
 
     nb::MainProcessData& data = at<nb::MainProcessData>(FW_MAIN);
@@ -350,7 +369,12 @@ const StaticRange kWrittenStatics[] = {
     {0x0054e804, 0x20},                                    // the kernel's stop and slow motion (dds3Stop, dds3SlowOn)
     {0x00551208, 4},                                       // the stock panel's fade out
     {0x00551d80, 4},                                       // the skill effect's state (effBTLSkillSetState)
-    {0x00551520, 0x24},                                    // the encounter threshold (nbGetEncountMax), the battle music (nbBgmLoad)
+    {0x00551520, 0x30},                                    // the encounter threshold (nbGetEncountMax), the battle music (nbBgmLoad)
+    {0x01280000, 0x100},                                   // a unit placed above 0x1200000 (variant_tests.cpp)
+    {0x00000190, 0x1000},                                  // Hardtype's AI writes through stale registers here (nbAiAiChk, conditions 60/61)
+    // Hardtype keeps its own state among its code, and an option byte after
+    // it (none in US Maniax).
+    {0x002fdc20, nocturne::kVariant == nocturne::Variant::Hardtype ? 0x176cu : 0u},
     {0x00575450, 0x20},                                    // a unit's sound file name
 };
 
@@ -417,13 +441,148 @@ std::string describe(const Outcome& a, const Outcome& b)
             offset += r.size;
         }
     }
-    for (size_t i = 0; i < a.ram.size(); ++i)
-        if (a.ram[i] != b.ram[i]) { std::snprintf(buffer, sizeof buffer, "RAM %08zx: %02x vs %02x", FW_DYNAMIC_BEGIN + i, a.ram[i], b.ram[i]); return buffer; }
-    return {};
+    // DIFF_DUMP=address,bytes: print that RAM from both sides.
+#pragma warning(suppress : 4996)
+    if (const char* dump = std::getenv("DIFF_DUMP")) {
+        const uint32_t at = static_cast<uint32_t>(std::strtoul(dump, nullptr, 16));
+        const char* comma = std::strchr(dump, ',');
+        const uint32_t count = comma ? static_cast<uint32_t>(std::strtoul(comma + 1, nullptr, 16)) : 0x40;
+        for (int side = 0; side < 2; ++side) {
+            const auto& ram = side == 0 ? a.ram : b.ram;
+            std::fprintf(stderr, "%s %08x:", side == 0 ? "orig" : "new ", at);
+            for (uint32_t k = 0; k < count && at + k - FW_DYNAMIC_BEGIN < ram.size(); ++k)
+                std::fprintf(stderr, "%s%02x", k % 16 ? " " : "\n  ", ram[at + k - FW_DYNAMIC_BEGIN]);
+            std::fprintf(stderr, "\n");
+        }
+    }
+    // DIFF_ALL: list the first 24 differing bytes, not just the first.
+#pragma warning(suppress : 4996)
+    const bool all = std::getenv("DIFF_ALL") != nullptr;
+    std::string listed;
+    int shown = 0;
+    for (size_t i = 0; i < a.ram.size(); ++i) {
+        if (a.ram[i] == b.ram[i])
+            continue;
+        std::snprintf(buffer, sizeof buffer, "RAM %08zx: %02x vs %02x", FW_DYNAMIC_BEGIN + i, a.ram[i], b.ram[i]);
+        if (!all)
+            return buffer;
+        listed += (listed.empty() ? "" : "; ") + std::string(buffer);
+        if (++shown == 24)
+            break;
+    }
+    return listed;
 }
 
 nb::MainProcessData& mainData() { return at<nb::MainProcessData>(FW_MAIN); }
 uint32_t formUnit(int f) { return at<uint32_t>(FW_FORM_UNITS + 4 * static_cast<uint32_t>(f)); }
+
+// What a version models of registers its code leaves (hardtype.hpp): as the
+// interpreter's, 0 when a case's call starts.
+void resetLeftRegisters()
+{
+#if __has_include("nocturne/hardtype.hpp")
+    nocturne::hardtype::affinityRegister() = 0;
+#endif
+}
+
+// nbCalc's functions that versions patch, against the executable's own
+// instructions (the tests above compare with US Maniax's legacy C).
+void addCalcInstructionTests(std::vector<TestCase>& t)
+{
+    using iface::origVm;
+    auto add = [&t](const char* name, std::function<Pair(Gen&)> body) {
+        t.push_back({name, [body](Gen& g) {
+                         if constexpr (nocturne::kVariant == nocturne::Variant::Hardtype)   // what Hardtype reads at fixed addresses
+                             for (uint32_t address : {0x01248f41u, 0x01248f44u, 0x0124a213u, 0x002ff388u})
+                                 at<uint8_t>(address) = static_cast<uint8_t>(g.below(256));
+                         return body(g);
+                     }});
+    };
+    add("nbGetHitType (instructions)", [](Gen& g) {
+        int32_t skill = randomSkill(g), s = occupiedForm(g), d = occupiedForm(g);
+        return Pair{[=] { return origVm(0x002654b8, {FW_ACTION, sx(skill), sx(s), sx(d)}); },
+                    [=] { return norm(static_cast<int32_t>(nb::rollCritical(at<nb::ActionProcessData>(FW_ACTION), skill, s, d))); }};
+    });
+    add("nbGetKoukaType (instructions)", [](Gen& g) {
+        int32_t skill = randomSkill(g), s = occupiedForm(g), d = occupiedForm(g);
+        return Pair{[=] { return origVm(0x00265948, {sx(skill), sx(s), sx(d)}); },
+                    [=] { return norm(static_cast<int32_t>(nb::resolveEffect(skill, s, d))); }};
+    });
+    add("nbGetAisyo (instructions)", [](Gen& g) {
+        int32_t skill = g.chance(15) ? -1 : activeSkill(g), f = occupiedForm(g), attr = g.range(-1, 15);
+        if constexpr (nocturne::kVariant == nocturne::Variant::Hardtype) {   // its own passives, and its families'
+            UnitWork& unit = at<UnitWork>(formUnit(f));
+            if (g.chance(50))
+                attr = g.range(1, 10);
+            for (int k = 0; k < 3; ++k)
+                if (g.chance(60))
+                    unit.skill[g.below(8)] = static_cast<uint16_t>(g.pick<int32_t>({0x16b, 0x16d, 0x16f, 0x171, 0x13a, 0x13e, 0x140, 0x14a, 0x14c}));
+            unit.skillcnt = static_cast<uint16_t>(std::max<int32_t>(unit.skillcnt, 8));
+        }
+        return Pair{[=] { return origVm(0x00267890, {sx(skill), sx(f), sx(attr)}); },
+                    [=] { return norm(static_cast<int32_t>(nb::affinity(skill, f, static_cast<Attribute>(attr)).raw)); }};
+    });
+    add("nbGetAisyoRitu (instructions)", [](Gen& g) {
+        int32_t skill = activeSkill(g), s = occupiedForm(g), d = occupiedForm(g);
+        if constexpr (nocturne::kVariant == nocturne::Variant::Hardtype) {   // its boosts and Pierce
+            UnitWork& unit = at<UnitWork>(formUnit(s));
+            for (int k = 0; k < 3; ++k)
+                if (g.chance(60))
+                    unit.skill[g.below(8)] = static_cast<uint16_t>(g.pick<int32_t>({0x173, 0x174, 0x177, 0x135, 0x136, 0x137, 0x138, 0x165, 0x169}));
+            unit.skillcnt = static_cast<uint16_t>(std::max<int32_t>(unit.skillcnt, 8));
+            if (g.chance(30))
+                skill = 0;
+            for (int tries = 0; tries < 40 && g.chance(50); ++tries) {   // a Fire..Force skill
+                skill = g.range(1, 0x11f);
+                const int8_t element = dat::skillInfo(skill).skillattr;
+                if (element >= 1 && element <= 4 && dat::skillInfo(skill).type == 0)
+                    break;
+            }
+        }
+        return Pair{[=] { origVm(0x00266130, {sx(skill), sx(s), sx(d)}); return uint64_t{iface::origVmFloat()}; },
+                    [=] { return uint64_t{nb::damageRatio(skill, s, d).bits()}; }};
+    });
+    auto power = [&add](const char* name, uint32_t entry, int32_t (*rewrite)(int32_t, int32_t, int32_t, int32_t)) {
+        add(name, [=](Gen& g) {
+            int32_t skill = activeSkill(g), s = occupiedForm(g), d = occupiedForm(g), base = g.range(0, 300);
+            return Pair{[=] { return origVm(entry, {sx(skill), sx(s), sx(d), sx(base)}); }, [=] { return norm(rewrite(skill, s, d, base)); }};
+        });
+    };
+    power("nbGetMagicAttack (instructions)", 0x002688d0, nb::magicPower);
+    power("nbGetMagicKaifuku (instructions)", 0x00268c60, nb::magicHealPower);
+    power("nbGetMaxHpWazaPoint (instructions)", 0x00268d60, nb::maxHpPower);
+    add("nbGetKoukaHp (instructions)", [](Gen& g) {
+        int32_t skill = activeSkill(g), s = occupiedForm(g), d = occupiedForm(g), count = g.range(0, 4), damage = g.range(0, 1);
+        const float ratio = g.pick(kRatios);
+        return Pair{[=] { return origVm(0x00266350, {sx(damage), sx(skill), sx(s), sx(d), sx(count)}, {static_cast<uint32_t>(floatBits(ratio))}); },
+                    [=] { return norm(nb::hpEffect(ratio, damage != 0, skill, s, d, count)); }};
+    });
+    add("nbCheckSensei (instructions)", [](Gen& g) {
+        // An area entry with one of the six coefficients (the original reads
+        // past them; Hardtype's wider tables reach other packs' bytes).
+        nb::MainProcessData& data = mainData();
+        for (int tries = 0; tries < 64 && nb::encounterEntry(data.encpackno, data.packno, data.packindex).firstStrike >= 6; ++tries) {
+            data.packno = g.range(0, 3);
+            data.packindex = g.range(0, 11);
+        }
+        return Pair{[] { return origVm(0x00269ad8, {FW_MAIN}); }, [] { return norm(nb::rollEnemiesFirst(mainData())); }};
+    });
+    add("nbCheckBackAttack (instructions)", [](Gen&) {
+        return Pair{[] { return origVm(0x00269d20, {FW_MAIN}); }, [] { return norm(nb::rollBackAttack(mainData())); }};
+    });
+    add("nbCheckEscape (instructions)", [](Gen&) {
+        return Pair{[] { return origVm(0x00269e98, {FW_MAIN}); }, [] { return norm(nb::rollEscape(mainData())); }};
+    });
+    add("nbCheckRenzokuEncount (instructions)", [](Gen&) {
+        return Pair{[] { return origVm(0x0026a158, {FW_MAIN}); }, [] { return norm(nb::rollConsecutiveEncounter(mainData())); }};
+    });
+    add("nbGetKoukaBadDamage (instructions)", [](Gen& g) {
+        int32_t skill = activeSkill(g), s = occupiedForm(g), d = occupiedForm(g), preview = g.chance(20) ? 1 : 0;
+        const float ratio = g.pick(kRatios);
+        return Pair{[=] { return origVm(0x00266d60, {sx(skill), sx(s), sx(d), sx(preview)}, {static_cast<uint32_t>(floatBits(ratio))}); },
+                    [=] { return norm(static_cast<int32_t>(nb::rollAilmentInflict(ratio, skill, s, d, preview != 0))); }};
+    });
+}
 
 std::vector<TestCase> tests()
 {
@@ -729,11 +888,11 @@ std::vector<TestCase> tests()
     }});
     t.push_back({"nbGetHojoCounterMax", [](Gen& g) {
         int32_t type = g.range(-2, 22);
-        return Pair{[=] { return norm(nbGetHojoCounterMax(sx(type))); }, [=] { return norm(nb::buffMax(type)); }};
+        return Pair{[=] { return norm(nbGetHojoCounterMax(sx(type))); }, [=] { return norm(nb::buffMax(type, 0)); }};
     }});
     t.push_back({"nbGetHojoCounterMin", [](Gen& g) {
         int32_t type = g.range(-2, 22);
-        return Pair{[=] { return norm(nbGetHojoCounterMin(sx(type))); }, [=] { return norm(nb::buffMin(type)); }};
+        return Pair{[=] { return norm(nbGetHojoCounterMin(sx(type))); }, [=] { return norm(nb::buffMin(type, 0)); }};
     }});
     t.push_back({"nbSetHojoAddCounter", [](Gen& g) {
         int32_t f = g.range(0, 15), type = g.range(0, 19), delta = g.range(-6, 6), preview = g.range(0, 1);
@@ -866,6 +1025,11 @@ std::vector<TestCase> tests()
     addProgressionTests(t);
     addFusionCoreTests(t);
     addMagatamaTests(t);
+    // The tests so far compare against the legacy C (US Maniax only); most
+    // after run the executable's own instructions (ai_tests.cpp marks its own).
+    for (TestCase& c : t)
+        c.legacyC = true;
+    addCalcInstructionTests(t);
     addAiTests(t);
     addMessageTests(t);
     addFontTests(t);
@@ -873,6 +1037,7 @@ std::vector<TestCase> tests()
     addScriptTests(t);
     addDataTests(t);
     addKoukaTests(t);
+    addVariantTests(t);
     return t;
 }
 
@@ -894,22 +1059,56 @@ int main(int argc, char** argv)
     const char* filter = argc > 4 ? argv[4] : "";
 #pragma warning(suppress : 4996)
     const bool verbose = std::getenv("DIFF_VERBOSE") != nullptr;   // name each test as it starts
+#pragma warning(suppress : 4996)
+    const bool verboseCases = verbose && std::strcmp(std::getenv("DIFF_VERBOSE"), "2") == 0;   // ... and each case
+    // DIFF_SKIP: test names to leave out, comma-separated (a version's tests
+    // that still compare against US Maniax's legacy C).
+#pragma warning(suppress : 4996)
+    const std::string skip = std::string(",") + (std::getenv("DIFF_SKIP") ? std::getenv("DIFF_SKIP") : "") + ",";
+    // Tests of functions Hardtype patches that the port doesn't follow yet
+    // (or whose generators write US Maniax's record layouts): they differ
+    // or crash against Hardtype's instructions. source/hardtype/README.md.
+    static const std::vector<const char*> kHardtypePending = {};
+    // DIFF_PENDING: run them anyway.
+#pragma warning(suppress : 4996)
+    volatile bool hardtype = nocturne::kVariant == nocturne::Variant::Hardtype && !std::getenv("DIFF_PENDING");
+    auto pending = [&hardtype](const char* name) {
+        if (!hardtype)
+            return false;
+        for (const char* p : kHardtypePending)
+            if (std::strcmp(p, name) == 0)
+                return true;
+        return false;
+    };
 
     std::vector<uint8_t> saved(FW_DYNAMIC_END - FW_DYNAMIC_BEGIN);
     // The executable's image as loaded: each test starts from it, so what
     // one test's worlds leave in static memory can't reach the next.
     const std::vector<uint8_t> pristine(fw_ram, fw_ram + FW_DYNAMIC_BEGIN);
-    int failedFunctions = 0;
+    int failedFunctions = 0, skippedTests = 0, pendingTests = 0;
+    // Another version than US Maniax (a variable, so the checks below aren't constant).
+    volatile bool otherVersion = nocturne::kVariant != nocturne::Variant::Maniax;
     for (const TestCase& test : tests()) {
-        if (!std::strstr(test.name, filter))
+        if (!std::strstr(test.name, filter) || skip.find("," + std::string(test.name) + ",") != std::string::npos)
             continue;
+        if (otherVersion && test.legacyC) {
+            ++skippedTests;
+            continue;
+        }
+        if (pending(test.name)) {
+            ++pendingTests;
+            continue;
+        }
         std::memcpy(fw_ram, pristine.data(), pristine.size());
         if (verbose)
             std::fprintf(stderr, "running %s\n", test.name);
         int failures = 0, traps = 0;
         uint64_t draws = 0;
+        bool skippedLegacy = false;
         for (int i = 0; i < cases; ++i) {
             uint64_t caseSeed = seed * 1000003u + static_cast<uint64_t>(i);
+            if (verboseCases)
+                std::fprintf(stderr, "  case %d (seed %llu)\n", i, (unsigned long long)caseSeed);
             Gen g{std::mt19937_64(caseSeed)};
             randomWorld(g);
             Pair pair = test.make(g);
@@ -918,9 +1117,17 @@ int main(int argc, char** argv)
             std::memcpy(saved.data(), fw_ram + FW_DYNAMIC_BEGIN, saved.size());
             std::vector<uint8_t> statics = captureStatics();
 
+            const uint64_t interpreted = iface::interpretedCalls();
             Outcome legacy = run(pair.legacy, caseSeed, normal, moon);
+            // Another version's build: a test against US Maniax's legacy C
+            // (its first case runs no instructions) says nothing about it.
+            if (otherVersion && i == 0 && iface::interpretedCalls() == interpreted) {
+                skippedLegacy = true;
+                break;
+            }
             std::memcpy(fw_ram + FW_DYNAMIC_BEGIN, saved.data(), saved.size());
             restoreStatics(statics);
+            resetLeftRegisters();
             Outcome rewrite = run(pair.rewrite, caseSeed, normal, moon);
             restoreStatics(statics);
 
@@ -930,10 +1137,18 @@ int main(int argc, char** argv)
             if (!diff.empty() && failures++ < 3)
                 std::printf("  FAIL %s case %d (seed %llu): %s\n", test.name, i, (unsigned long long)caseSeed, diff.c_str());
         }
+        if (skippedLegacy) {
+            ++skippedTests;
+            continue;
+        }
         std::printf("%-26s %s  %d cases, %llu RNG draws, %d traps\n", test.name,
                     failures ? "FAIL" : "ok  ", cases, (unsigned long long)draws, traps);
         failedFunctions += failures != 0;
     }
+    if (skippedTests)
+        std::printf("(%d test(s) against US Maniax's legacy C skipped for this version)\n", skippedTests);
+    if (pendingTests)
+        std::printf("(%d test(s) of functions this version patches still to port, skipped)\n", pendingTests);
     std::printf("%s: %d function(s) differ\n", failedFunctions ? "FAILED" : "PASSED", failedFunctions);
     return failedFunctions ? 1 : 0;
 }

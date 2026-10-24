@@ -58,7 +58,7 @@ PUSHSTR`.
 
 ## The interpreter
 
-`source/src/script/vm.cpp` is the VM, rewritten and tested against the
+`source/shared/src/script/vm.cpp` is the VM, rewritten and tested against the
 original instructions (`script_tests.cpp`).
 
 - **A running script** is a *process work* (`scrProcessWork_s`, 0xF4 bytes
@@ -94,7 +94,7 @@ Quirks kept as they are:
   pass procedures that exist.
 
 The commands every script has (`scrCommonCommand`,
-`source/src/script/commands.cpp`) are rewritten with it: `BIT_CHK` /
+`source/shared/src/script/commands.cpp`) are rewritten with it: `BIT_CHK` /
 `BIT_ON` / `BIT_OFF`, `RND` (1..n), `SYNC`, `WAIT`, `PUT` / `PUTS` (debug
 prints), `FADE_IN` / `FADE_OUT` (mode 0 black, 1 white), `SEL_JMP`, the pad,
 `SCR_RUN` / `SCR_KILL` / `SCR_WAIT` / `SCR_STAT` / `SCR_TIME` (other

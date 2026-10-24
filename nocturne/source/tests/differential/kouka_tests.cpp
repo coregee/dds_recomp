@@ -21,6 +21,7 @@
 #include "nocturne/battle/kouka_process.hpp"
 #include "nocturne/battle/macca_window.hpp"
 #include "nocturne/battle/battle_panel.hpp"
+#include "nocturne/battle/enc_process.hpp"
 #include "nocturne/battle/encount.hpp"
 #include "nocturne/battle/sound.hpp"
 #include "nocturne/battle/talk.hpp"
@@ -31,6 +32,7 @@
 #include "nocturne/facility/compendium.hpp"
 #include "nocturne/interface/message.hpp"
 #include "nocturne/kernel/main_loop.hpp"
+#include "nocturne/variant.hpp"
 
 extern "C" {
 uint32_t ps2PoolAllocate(int32_t);
@@ -890,6 +892,11 @@ void addKoukaTests(std::vector<TestCase>& t)
         Formation& dying = at<Formation>(formAddress(f));   // a dying unit is there
         dying.stat |= FormationStat::Present | FormationStat::CheckParty;
         dying.formindex = static_cast<int16_t>(f);
+        // (Hardtype: no devil past 0x17D, as in randomUnit.)
+        UnitWork& unit = at<UnitWork>(at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)));
+        if constexpr (nocturne::kVariant == nocturne::Variant::Hardtype)
+            if (unit.id > 0x17d && unit.id < 0x180)
+                unit.id = static_cast<uint16_t>(g.range(1, 0x17d));
         Party& party = at<Party>(FW_PARTY + 128u * static_cast<uint32_t>(dying.partyindex));
         party.flag = static_cast<int16_t>(party.flag | PartyFlag::Active);
         return voidPair(0x0024f478, {FW_ACTION, I(f)}, [=] { queueDeath(act(), f); });
@@ -1205,6 +1212,8 @@ void addKoukaTests(std::vector<TestCase>& t)
             if (g.chance(30))
                 main.stat |= 0x2000000;
         }
+        if constexpr (nocturne::kVariant == nocturne::Variant::Hardtype)   // its option byte
+            at<uint8_t>(0x002ff388) = static_cast<uint8_t>(g.chance(30) ? 1 : 0);
         return sideBool(0x00252400, checkLastEnemyTalks);
     });
     side("CheckSenseiNego", [=](Gen& g) {
@@ -1218,6 +1227,8 @@ void addKoukaTests(std::vector<TestCase>& t)
             main.press4_repel = 0;
             main.enemypcnt = static_cast<int16_t>(g.chance(70) ? 1 : g.range(2, 4));
         }
+        if constexpr (nocturne::kVariant == nocturne::Variant::Hardtype)   // its option byte
+            at<uint8_t>(0x002ff388) = static_cast<uint8_t>(g.chance(30) ? 1 : 0);
         return sideBool(0x002525f0, checkAmbushTalk);
     });
     side("CheckInotiNego", [=](Gen& g) {
@@ -1404,6 +1415,16 @@ void addKoukaTests(std::vector<TestCase>& t)
                                  : g.range(1, 0x17f));
         if (g.chance(30))
             unit.id = static_cast<uint16_t>(g.pick<int32_t>({0x159, 0x15a, 0x15b, 0x15c, 0xc0, 0xc0}));
+        if constexpr (nocturne::kVariant == nocturne::Variant::Hardtype) {
+            // Hardtype's stand-ins, motion exceptions (and their devils) and
+            // the pair an earlier action noted.
+            if (unit.nowcommand == 1 && g.chance(50))
+                unit.nowindex = static_cast<uint16_t>(g.pick<int32_t>({0x11b, 0x115, 0x9b, 0x113, 0x5a, 0xa4, 0xa5, 0xa6, 0xa7, 0x91, 0x9c, 0xde}));
+            if (g.chance(40))
+                unit.id = static_cast<uint16_t>(g.pick<int32_t>({0x15e, 0xc8, 0x15f, 0xc9, 0x115, 0x11, 0x15d, 0xc7}));
+            const uint32_t pair = g.pick<uint32_t>({0u, 0x005a005au, 0x00330091u, 0x00dc0089u, static_cast<uint32_t>(g.rng()) & 0x00ff00ffu});
+            at<uint32_t>(0x002fe91c) = pair;
+        }
         unit.badstat = static_cast<uint16_t>(g.chance(60) ? 0 : g.pick<int32_t>({8, 0x20, 0x8000, 0x8008, 1}));
         unit.hp = static_cast<uint16_t>(g.chance(30) ? g.range(1, 3) : g.range(1, unit.maxhp));
         // Fields READY clears; a motion that ends by fading the unit out.
@@ -2637,13 +2658,19 @@ void addKoukaTests(std::vector<TestCase>& t)
         for (uint32_t& bits : work.event_bits)
             bits = static_cast<uint32_t>(g.rng());
         at<int32_t>(0x00551520) = g.chance(40) ? 0 : g.chance(10) ? -g.range(1, 10) : g.chance(50) ? g.range(16, 40) : g.range(16, 700);
+        if constexpr (nocturne::kVariant == nocturne::Variant::Hardtype) {   // the moon phase and 25th Magatama it reads
+            at<uint8_t>(0x01248f41) = static_cast<uint8_t>(g.chance(40) ? 8 : g.range(0, 15));
+            at<uint8_t>(0x0124a213) = static_cast<uint8_t>(g.chance(50) ? 0 : g.range(1, 25));
+        }
     };
     // (Pack 169 is the only one with a second event bit.)
     auto somePack = [](Gen& g) { return g.chance(5) ? 0 : g.chance(10) ? 169 : g.range(1, 255); };
     add("nbGetEncountJoken", [=](Gen& g) {
         encounterWorld(g);
         const int32_t pack = somePack(g);
-        return Pair{[=] { return origVm(0x0028c9f0, {I(pack)}); }, [=] { return norm(encounterTable(pack)); }};
+        // (Hardtype's callers go through 0x2FEB00; its nbGetEncountJoken takes a flag in v0)
+        const uint32_t entry = nocturne::kVariant == nocturne::Variant::Hardtype ? 0x002feb00u : 0x0028c9f0u;
+        return Pair{[=] { return origVm(entry, {I(pack)}); }, [=] { return norm(encounterTable(pack)); }};
     });
     add("nbGetEncountMax", [=](Gen& g) {
         encounterWorld(g);
@@ -2707,6 +2734,69 @@ void addKoukaTests(std::vector<TestCase>& t)
             return Pair{[=] { return origVmVoid(m->original, {}); }, [=] { m->rewrite(); return uint64_t{0}; }};
         });
     }
+    // ---- the encounter's opening (nbEncProcess) ----
+    // Units present or not, hidden until they appear, their models loading;
+    // the fade, back attack and moon glow bits; the load timing.
+    auto encProcessWorld = [](Gen& g) {
+        koukaWorld(g);
+        MainProcessData& main = at<MainProcessData>(FW_MAIN);
+        main.stat = (main.stat & ~0xc10u) | (g.chance(40) ? 0x10u : 0u) | (g.chance(40) ? 0x400u : 0u) | (g.chance(40) ? 0x800u : 0u);
+        // Each formation's object (a control block whose +0xC4 the glow sets)
+        // and unit handle (+0xA4 bit 0x10000 while its model loads), in
+        // scratch. (nbEncProcess3's slots past the fourteen read the parties'
+        // memory as it is.)
+        for (int f = 0; f < 14; ++f) {
+            Formation& form = at<Formation>(formAddress(f));
+            form.formindex = static_cast<int16_t>(f);
+            form.stat = (form.stat & ~3u) | static_cast<uint32_t>(g.chance(60) ? 1 : 0) | static_cast<uint32_t>(g.chance(85) ? 2 : 0);
+            form.flag = (form.flag & ~8u) | (g.chance(50) ? 8u : 0u);
+            form.anime = static_cast<uint32_t>(g.rng()) & ~0x200u;
+            const uint32_t block = FW_SCRATCH + 0x20u * static_cast<uint32_t>(f);
+            form.basic = block;
+            at<uint32_t>(block + 0x1c) = FW_SCRATCH + 0x200u + 0x10u * static_cast<uint32_t>(f) - 0xc4u;
+            form.hunit = g.chance(5) ? 0 : FW_SCRATCH + 0x400u + 0x10u * static_cast<uint32_t>(f) - 0xa4u;
+            if (form.hunit)
+                at<uint32_t>(form.hunit + 0xa4) = g.chance(90) ? 0 : 0x10000u;
+            Party& party = *nocturne::guest::table<Party>(FW_PARTY + 128u * static_cast<uint32_t>(f));
+            party.flag = static_cast<int16_t>((party.flag & ~9) | (g.chance(60) ? g.pick<int16_t>({1, 8, 9}) : 0));
+            party.formindex = static_cast<int16_t>(f);
+        }
+        at<int32_t>(0x0054e800) = g.range(0, 100000);                                  // the frame counter
+        at<int32_t>(0x00551548) = at<int32_t>(0x0054e800) - g.range(0, 300);           // the loading's start
+        at<int32_t>(0x0055154c) = g.chance(50) ? 0 : g.range(1, 300);                  // ... and time
+        at<uint32_t>(FW_SCRATCH + 0xbf0) = static_cast<uint32_t>(g.rng());             // (varies the fakes' answers)
+        nocturne::dat::globalWork().moon_phase = static_cast<uint8_t>(g.chance(50) ? 8 : g.range(0, 15));
+        main.statusMessageTable = iface::helpWorld(g, {6, 7}).id;   // (a back attack's status message, either form)
+    };
+    auto encProcess = [=](Gen& g) {
+        encProcessWorld(g);
+        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(0x00551550, 0x3f9, 0, 0, 0, 0, 0));
+        at<int32_t>(process + 0x28) = g.range(0, 64);   // its run time
+        return process;
+    };
+    struct EncStep { const char* name; uint32_t original; uint32_t (*rewrite)(uint32_t); };
+    static const EncStep kEncSteps[] = {
+        {"nbEncProcess1", 0x0028e2c8, startEncounterLoad}, {"nbEncProcess2", 0x0028e250, loadEnemyModels},
+        {"nbEncProcess2_5", 0x0028e0e8, showEnemies}, {"nbEncProcess2_55", 0x0028dfc8, setUpEncounterScene},
+        {"nbEncProcess2_6", 0x0028def0, showPlayers}, {"nbEncProcess3", 0x0028de40, finishEncounter},
+    };
+    for (const EncStep& step : kEncSteps) {
+        const EncStep* s = &step;
+        add(s->name, [=](Gen& g) {
+            const uint32_t process = encProcess(g);
+            return Pair{[=] { return origVm(s->original, {process}); }, [=] { return norm(static_cast<int32_t>(s->rewrite(process))); }};
+        });
+    }
+    add("nbEncShutdown", [=](Gen& g) {
+        const uint32_t process = encProcess(g);
+        at<MainProcessData>(FW_MAIN).EncProcessID = process;
+        return Pair{[=] { return origVmVoid(0x0028e340, {process}); }, [=] { shutdownEncounter(process); return uint64_t{0}; }};
+    });
+    add("nbInitEncProcess", [=](Gen& g) {
+        encProcessWorld(g);
+        at<MainProcessData>(FW_MAIN).MainProcessID = static_cast<uint32_t>(dds3StartProcess(0x00544350, 1, 0, 0, 0, 0, 0));
+        return Pair{[] { return origVmVoid(0x0028e360, {FW_MAIN}); }, [] { startEncounter(at<MainProcessData>(FW_MAIN)); return uint64_t{0}; }};
+    });
     add("nbFormDispOff2", [](Gen& g) {
         const uint32_t f = formAddress(g.range(0, 13));
         return Pair{[=] { return origVmVoid(0x00289bb8, {f}); }, [=] { hideFormation(at<Formation>(f)); return uint64_t{0}; }};
@@ -2767,6 +2857,74 @@ void addKoukaTests(std::vector<TestCase>& t)
         at<Formation>(f).stat ^= g.chance(50) ? 1u : 0u;
         return Pair{[=] { return origVmVoid(0x0028a238, {f}); }, [=] { resetFormationPlace(at<Formation>(f)); return uint64_t{0}; }};
     });
+    // A formation's model shown or not (stat bits 1 and 2), any slot.
+    auto modelStat = [](Gen& g) {
+        for (int f = 0; f < 16; ++f)
+            at<Formation>(formAddress(f)).stat = (at<Formation>(formAddress(f)).stat & ~3u) | static_cast<uint32_t>(g.range(0, 3));
+    };
+    for (int on = 0; on < 2; ++on) {
+        add(on ? "nbFormDispOn" : "nbFormDispOff", [=](Gen& g) {
+            modelStat(g);
+            const int32_t f = g.range(0, 15);
+            const uint32_t original = on ? 0x00289bd0u : 0x00289b30u;
+            return Pair{[=] { return origVmVoid(original, {I(f)}); },
+                        [=] { on ? showFormationModel(f) : hideFormationModel(f); return uint64_t{0}; }};
+        });
+        add(on ? "nbGroupFormDispOn" : "nbGroupFormDispOff", [=](Gen& g) {
+            modelStat(g);
+            const int32_t side = g.range(-1, 3);
+            const uint32_t original = on ? 0x00289d30u : 0x00289c78u;
+            return Pair{[=] { return origVmVoid(original, {I(side)}); }, [=] { on ? showSide(side) : hideSide(side); return uint64_t{0}; }};
+        });
+        add(on ? "nbAllFormDispOn" : "nbAllFormDispOff", [=](Gen& g) {
+            modelStat(g);
+            const uint32_t original = on ? 0x00289e28u : 0x00289de8u;
+            return Pair{[=] { return origVmVoid(original, {}); }, [=] { on ? showAllFormations() : hideAllFormations(); return uint64_t{0}; }};
+        });
+    }
+    add("nbSingleFormExceptedDispOff", [=](Gen& g) {
+        modelStat(g);
+        const uint32_t f = formAddress(g.range(0, 15));
+        return Pair{[=] { return origVmVoid(0x00289e68, {f}); }, [=] { showOnly(at<Formation>(f)); return uint64_t{0}; }};
+    });
+    add("nbDoubleFormExceptedDispOff", [=](Gen& g) {   // (0x289ED0)
+        modelStat(g);
+        const uint32_t f = formAddress(g.range(0, 15)), other = formAddress(g.range(0, 15));
+        return Pair{[=] { return origVmVoid(0x00289ed0, {f, other}); }, [=] { showOnly(at<Formation>(f), at<Formation>(other)); return uint64_t{0}; }};
+    });
+    add("nbSetFormPos", [=](Gen& g) {
+        modelStat(g);
+        const uint32_t f = formAddress(g.range(0, 15)), pos = FW_SCRATCH + 0x800;
+        for (int k = 0; k < 4; ++k)
+            at<uint32_t>(pos + 4u * k) = static_cast<uint32_t>(g.rng());
+        return Pair{[=] { return origVmVoid(0x0028a0e8, {f, pos}); },
+                    [=] { setFormationPosition(at<Formation>(f), at<Vec4>(pos)); return uint64_t{0}; }};
+    });
+    add("nbSetFormPosRot", [=](Gen& g) {
+        modelStat(g);
+        const uint32_t f = formAddress(g.range(0, 15)), pos = FW_SCRATCH + 0x800, rot = FW_SCRATCH + 0x810;
+        for (int k = 0; k < 8; ++k)
+            at<uint32_t>(pos + 4u * k) = static_cast<uint32_t>(g.rng());
+        return Pair{[=] { return origVmVoid(0x0028a200, {f, pos, rot}); },
+                    [=] { setFormationPlace(at<Formation>(f), at<Vec4>(pos), at<Vec4>(rot)); return uint64_t{0}; }};
+    });
+    add("nbResetAllFormPosRot", [=](Gen& g) {
+        modelStat(g);
+        return Pair{[] { return origVmVoid(0x0028a288, {}); }, [] { resetAllFormationPlaces(); return uint64_t{0}; }};
+    });
+    struct FormConstant { const char* name; uint32_t original; nocturne::ee::Float (*rewrite)(); };
+    static const FormConstant kFormConstants[] = {
+        {"nbGetPartyDistance", 0x0028a300, partyDistance}, {"nbGetSummonInterval", 0x0028a310, summonInterval},
+        {"nbFormationGetRadiusDef", 0x0028a320, defaultRadius}, {"nbGetEnemyInterval", 0x0028a338, enemyInterval},
+    };
+    for (const FormConstant& constant : kFormConstants) {
+        const FormConstant* c = &constant;
+        add(c->name, [=](Gen& g) {
+            at<uint32_t>(0x005514fc) = static_cast<uint32_t>(g.rng());
+            return Pair{[=] { origVm(c->original, {}); return uint64_t{difftest::iface::origVmFloat()}; },
+                        [=] { return uint64_t{c->rewrite().bits()}; }};
+        });
+    }
     add("nbPanelPartyShow", [](Gen& g) {
         at<uint8_t>(0x0055123d) = static_cast<uint8_t>(g.range(0, 1));
         return Pair{[] { return origVmVoid(0x00282258, {}); }, [] { panelPartyShow(); return uint64_t{0}; }};

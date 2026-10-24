@@ -12,7 +12,7 @@ looking them up in Ghidra. The rewrite uses English names (the queue is
 `nb::EffectQueue` in `battle/kouka.cpp`, `SetAllPacket` is `queueHitResult`);
 `reference/function-map.tsv` maps each original to its rewrite.
 
-Source: `source/src/battle/kouka.cpp` (original units `nbKoukaProcess` and
+Source: `source/shared/src/battle/kouka.cpp` (original units `nbKoukaProcess` and
 `nbMakePacket`). Tested against the original instructions
 (`kouka_tests.cpp`).
 
@@ -136,7 +136,7 @@ packets (which frees those effects) and the kouka process itself.
 
 ## The action process and its time list
 
-Each action runs as a process (`nbActionProcess`, `source/src/battle/action.cpp`)
+Each action runs as a process (`nbActionProcess`, `source/shared/src/battle/action.cpp`)
 through a state machine: a table at 0x3FA7C0 of `SetAction_*` (entering a
 state) and `CheckAction_*` (each frame; true when done, after choosing the
 next state) pairs. Fixed transitions: AI → READY (7), INVISIBLE → CHECK1 (18),
@@ -336,7 +336,7 @@ action's own address identifies its kouka packets.
 ## An action's results (`Set*Packet`)
 
 Helpers of the action process record what an action did and queue its
-packets (`source/src/battle/action.cpp`; their code runs from 0x24F420 to
+packets (`source/shared/src/battle/action.cpp`; their code runs from 0x24F420 to
 `SetTarget` at 0x251428, in the HD remaster's order):
 
 - **Press turns:** `SetPress` keeps the worst cost. Below -1 (more than a
@@ -380,7 +380,7 @@ packets (`source/src/battle/action.cpp`; their code runs from 0x24F420 to
 ## Side events: counters, talks, death scripts
 
 After an action, its process checks for events that push another action
-onto the battle's queue (`nbPushAction`; `source/src/battle/action_events.cpp`):
+onto the battle's queue (`nbPushAction`; `source/shared/src/battle/action_events.cpp`):
 
 | Check | Push | When |
 |---|---|---|
@@ -406,7 +406,7 @@ bits, which Ahriman's counter and `SetAction_END`'s debug messages read.
 ## Choosing a target (`nbTarSelProcess`)
 
 The target cursor is its own process ("nb_tarsel",
-`source/src/battle/target_select.cpp`). `SetTarget` (the TARSEL state)
+`source/shared/src/battle/target_select.cpp`). `SetTarget` (the TARSEL state)
 marks the slots the command can reach (`nbSetSelectOkMark`) and starts it
 (`nbSetTargetProcess`). The cursor starts on the actor's side if it has
 targets, else the other, and on the unit's last target when the
@@ -428,7 +428,7 @@ once.
 ## Choosing a command (`nbCommSelProcess`)
 
 The battle menu is the process "nb_commsel"
-(`source/src/battle/comm_select.cpp`) and its record
+(`source/shared/src/battle/comm_select.cpp`) and its record
 `nbCommSelProcessData` (0x14D0 bytes, HD field names). `SetCommList` fills
 six lists of up to 0x120 entries; each entry is a skill, item or stock
 index or one of the fixed commands 0x8000 Attack, 0x8001 Escape, 0x8002
@@ -467,7 +467,7 @@ option 2 in an auto battle). Drawing the menu (`nbCommSelProcess1` and the
 ## The help line (`nbHelpProcess`)
 
 The line of text at the top of the screen is the process "nb_help"
-(`source/src/battle/help.cpp`) and its record `nbHelpProcessData` (0x38
+(`source/shared/src/battle/help.cpp`) and its record `nbHelpProcessData` (0x38
 bytes; field names from the HD remaster). `nbDispText` replaces what it
 shows: two strings 10 pixels apart (type 0), a message (type 1: the table
 and number `nbDispMsgHelp` stored in reqmsgid / reqmsgno), or a string and
@@ -570,3 +570,25 @@ pieces out, plus piece 0x2B0000.
 The names `nbBgmTrans` and `nbBgmFadeOut` are tentative: they follow the HD
 remaster's order. Ghidra's old name for the switch, `nbStopMotionSe`, was
 wrong.
+
+## The encounter's opening (`nbEncProcess`)
+
+The "nb_enc" process runs while a battle starts:
+
+1. It starts the encounter effect and requests the enemies' models (unit
+   group 1).
+2. When those are in, it requests the party's models (group 0).
+3. The enemies appear one at a time, one every eighth frame of the process,
+   each with hit effect 4. When the battle opens from a fade (`stat`
+   0x800), they are all simply shown.
+4. Under a full Kagutsuchi with `stat` 0x400, every enemy present gets
+   object flag 0x400 and a 200.0 in its control block (a glow, tentative).
+   A fade-in battle shows the enemies and fades in. A back attack shows
+   status message 6 (7 with the sides swapped).
+5. When the party's models are in, each member appears without an effect
+   (anime bit 0x200). The load time is printed: ">>> UNIT LOAD TIME = %d
+   frame <<<".
+6. The process ends when every unit present is ready and the opening camera
+   is done. "Ready" means stat bit 2 is set and the unit's handle no longer
+   has bit 0x10000. This check reads 32 slots, past the fourteen
+   formations, into the parties' memory.

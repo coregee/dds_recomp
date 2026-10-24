@@ -20,8 +20,8 @@ out of scope.
 0x3D7998), devils (`datDevilFormat`, 0x3497C0), encounters (`datEncount`,
 0x3AEFE0), area encounter tables (`datEncountPack`, 0x3BADE0), affinities
 (0x3A7FE0), passive-skill numbers (`datSpecialSkill`, 0x3DC1E0) and more.
-Their record types are in `source/include/nocturne/data/`; their contents
-are generated as source by `tools/gen_tables.py` into `source/src/data/`
+Their record types are in `source/shared/include/nocturne/data/`; their contents
+are generated as source by `tools/gen_tables.py` into `source/maniax/src/data/`
 (skills `datSkill` and `datNormalSkill`, passives `datSpecialSkill`, devils,
 encounters, encounter tables, affinities) and checked byte-for-byte against
 the executable by `source/tests/tables`. Also generated: items, level-up / growth
