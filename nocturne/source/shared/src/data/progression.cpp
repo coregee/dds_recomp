@@ -540,9 +540,10 @@ int32_t reasonRank(int32_t rank)
 }
 
 // ===========================================================================
-// Boss refights
+// Boss refights (Maniax's: the first release has none)
 // ===========================================================================
 
+#if !NOCTURNE_VANILLA
 namespace {
 
 const BossPress* bossPresses() { return guest::table<const BossPress>(addr(0x003fa430)); }
@@ -612,6 +613,10 @@ bool isBossRefight(int32_t encounter)
             return true;
     return false;
 }
+#else
+// (no refights: the rewards and drops never ask)
+bool isBossRefight(int32_t) { return false; }
+#endif
 
 } // namespace nocturne::dat
 

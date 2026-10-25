@@ -340,12 +340,15 @@ int32_t frGetChainWidth(const Request& pFRQ)
     return sum;
 }
 
-// 0x001C6270 (no original name): lays out a request's texts again.
+#if !NOCTURNE_JAPANESE
+// 0x001C6270 (no original name): lays out a request's texts again. Nothing
+// calls it; the JP builds don't have it.
 void RelayoutRequest(Request& pFRQ)
 {
     for (Text* t = pFRQ.str.get(); t; t = t->next.get())
         frGetXShiftLev(*t, glyphIndex(t->code), false);
 }
+#endif
 
 // newRequest: a request from the pool, counted (in frSetFontString and
 // ps2FontCreateControlGlyph).

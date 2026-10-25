@@ -460,7 +460,7 @@ void addMessageTests(std::vector<TestCase>& t)
                     [=] { return norm(RequestMessage(w.id, message, page)); }};
     }});
     // ... in a window marked 0x200000, as the talks do.
-    t.push_back({"itfMesMngRequestMessageMarked", [](Gen& g) {
+    t.push_back({"itfMesMngRequestMessage (marked)", [](Gen& g) {
         World w = world(g);
         int32_t message = pickMessage(g, w);
         int32_t page = g.range(0, std::max<int32_t>(at<MesHeader>(dialogAddress(message)).page - 1, 0));
@@ -469,7 +469,7 @@ void addMessageTests(std::vector<TestCase>& t)
                     [=] { return norm(RequestMessage(w.id, message, page)); }};
     }});
     // ... over a message already shown.
-    t.push_back({"itfMesMngRequestMessageAgain", [](Gen& g) {
+    t.push_back({"itfMesMngRequestMessage (again)", [](Gen& g) {
         World w = world(g);
         RequestMessage(w.id, pickMessage(g, w), 0);
         int32_t message = pickMessage(g, w);
@@ -477,7 +477,7 @@ void addMessageTests(std::vector<TestCase>& t)
     }});
     // ... with some of the first variables unset (not {var 0}, which names
     // the speaker of some messages: the game always sets it).
-    t.push_back({"itfMesMngRequestMessageUnset", [](Gen& g) {
+    t.push_back({"itfMesMngRequestMessage (unset)", [](Gen& g) {
         World w = world(g);
         for (int i = 1; i < 8; ++i)
             if (g.chance(50))

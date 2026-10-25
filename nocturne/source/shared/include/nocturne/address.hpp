@@ -70,10 +70,19 @@ consteval uint32_t addr(uint32_t maniax)
     return address;
 }
 
-consteval uint32_t jpAddr(uint32_t jp)
+// A JP Maniax address another JP build may lack (a debug print's format): 0 there.
+consteval uint32_t optionalJpAddr(uint32_t jp)
 {
     const uint32_t address = lookupJpAddress(jp);
-    if (address == ~0u || address == 0)
+    if (address == ~0u)
+        throw "no counterpart for the JP Maniax address: run tools/version_addresses.py";
+    return address;
+}
+
+consteval uint32_t jpAddr(uint32_t jp)
+{
+    const uint32_t address = optionalJpAddr(jp);
+    if (address == 0)
         throw "no counterpart for the JP Maniax address: run tools/version_addresses.py";
     return address;
 }

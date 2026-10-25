@@ -16,11 +16,15 @@ namespace nocturne::nb::ai::script {
 
 namespace {
 
+#if !NOCTURNE_VANILLA   // (the rotation commands are Maniax's)
 constexpr uint32_t kRotation = addr(0x005514e8);   // int32: the rotation counter
+#endif
 constexpr uint32_t kScripts = addr(0x004f0800);    // the AI scripts (a FlowScript in the executable)
 
 ActionProcessData& act() { return *guest::table<ActionProcessData>(scr::scrGetData()); }
+#if !NOCTURNE_VANILLA
 int32_t& rotation() { return *guest::table<int32_t>(kRotation); }
+#endif
 
 // AI_CHK_* pass the condition type with the script's first argument.
 int32_t check(uint32_t type)
@@ -254,6 +258,7 @@ int32_t runTableAi()
     return 1;
 }
 
+#if !NOCTURNE_VANILLA   // (Maniax added the rotation commands)
 // nbCommand_BTL_AI_ROT_CLR @ 0x00288C90
 int32_t rotationClear()
 {
@@ -280,6 +285,7 @@ int32_t rotationGet()
     scr::scrSetIntReturnValue(rotation());
     return 1;
 }
+#endif
 
 // nbInitAiScript @ 0x00288D80: runs the procedure as a child of the battle
 // process, one step ahead of it, with the action as its data. If the

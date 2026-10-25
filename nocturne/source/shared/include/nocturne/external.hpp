@@ -394,23 +394,23 @@ enum class Message : uint32_t {
 #if NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE
     // JP Maniax's own, which the US release and the Chronicle Edition removed
     // (by JP Maniax's address):
-    MaccaScattered   = jpAddr(0x005418d0),       // ばらまき = %d (Macca thrown: SetMakaPacket)
-    OngyoKiShadowOne = jpAddr(0x005418e0),       // オンギョウジ影消滅(1) (Ongyo-Ki's clone vanishes)
-    OngyoKiShadowAll = jpAddr(0x005418f8),       // オンギョウジ影消滅(ALL) (all of them)
-    NormalHit        = jpAddr(0x00541968),       // "normal hit!" (SetAllPacket's press turns)
-    CriticalHit      = jpAddr(0x00541978),       // "critical hit!"
-    WeakHit          = jpAddr(0x00541988),       // "weak hit!"
-    RepelHit         = jpAddr(0x00541998),       // "hansya hit!" (repelled)
-    DrainHit         = jpAddr(0x005419a8),       // "kyusyu hit!" (drained)
-    NullHit          = jpAddr(0x005419b8),       // "mukou hit!" (nulled)
-    SummonKind       = jpAddr(0x00542058),       // "summon!!" (SetAction_SKILL: what a target's result was)
-    AnalyzeKind      = jpAddr(0x00542068),       // "analyze!!"
-    EscapeKind       = jpAddr(0x00542078),       // "escape!!" (a Trafuri-like escape)
-    MaccaKind        = jpAddr(0x0054f068),       // "maka!!" (Macca thrown)
-    EnemyEscapeKind  = jpAddr(0x00542088),       // "enemy escape!!"
-    AuroraKind       = jpAddr(0x00542098),       // "aurora !!"
-    ExtraPressKind   = jpAddr(0x005420a8),       // "press kaifuku !!" (press turns given back)
-    FlareChargeKind  = jpAddr(0x005420c0),       // "flare charge !!"
+    MaccaScattered   = optionalJpAddr(0x005418d0),       // ばらまき = %d (Macca thrown: SetMakaPacket)
+    OngyoKiShadowOne = optionalJpAddr(0x005418e0),       // オンギョウジ影消滅(1) (Ongyo-Ki's clone vanishes)
+    OngyoKiShadowAll = optionalJpAddr(0x005418f8),       // オンギョウジ影消滅(ALL) (all of them)
+    NormalHit        = optionalJpAddr(0x00541968),       // "normal hit!" (SetAllPacket's press turns)
+    CriticalHit      = optionalJpAddr(0x00541978),       // "critical hit!"
+    WeakHit          = optionalJpAddr(0x00541988),       // "weak hit!"
+    RepelHit         = optionalJpAddr(0x00541998),       // "hansya hit!" (repelled)
+    DrainHit         = optionalJpAddr(0x005419a8),       // "kyusyu hit!" (drained)
+    NullHit          = optionalJpAddr(0x005419b8),       // "mukou hit!" (nulled)
+    SummonKind       = optionalJpAddr(0x00542058),       // "summon!!" (SetAction_SKILL: what a target's result was)
+    AnalyzeKind      = optionalJpAddr(0x00542068),       // "analyze!!"
+    EscapeKind       = optionalJpAddr(0x00542078),       // "escape!!" (a Trafuri-like escape)
+    MaccaKind        = optionalJpAddr(0x0054f068),       // "maka!!" (Macca thrown)
+    EnemyEscapeKind  = optionalJpAddr(0x00542088),       // "enemy escape!!"
+    AuroraKind       = optionalJpAddr(0x00542098),       // "aurora !!"
+    ExtraPressKind   = optionalJpAddr(0x005420a8),       // "press kaifuku !!" (press turns given back)
+    FlareChargeKind  = optionalJpAddr(0x005420c0),       // "flare charge !!"
 #endif
 };
 // Whether this build has the print (a version without it calls nothing for

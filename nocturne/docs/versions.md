@@ -114,7 +114,14 @@ other versions, and their count printed. `variant_tests.cpp` and the
   spared Dante are Chronicle's changes); it keeps battle debug prints the
   US release and Chronicle removed (`SetAllPacket`'s hit names, Macca
   thrown, Ongyo-Ki's clones), under `NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE`.
-- **vanilla:** extracted and surveyed (below); no build yet.
+- **vanilla:** extracted, mapped and started (`NOCTURNE_VANILLA`: what
+  Maniax added is left out: eleven script commands, the AI's rotation
+  commands, the boss refights). It doesn't build yet: its data tables
+  differ in size and content from the US release's, which the rewrite
+  compiles in (`gen_tables.py` needs Vanilla's table addresses), and its
+  fusion has no Fiends or sacrifice extensions (`cmbCalcCombineManin`,
+  `cmbChkIkenieExtPatternDevRace`), so the fusion rules need their first
+  release's side.
 
 ## Chronicle and Vanilla: what the survey shows
 

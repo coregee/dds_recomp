@@ -9,6 +9,7 @@
 #include <cstdint>
 
 #include "nocturne/battle/process.hpp"
+#include "nocturne/build.hpp"
 
 namespace nocturne::nb::ai::script {
 
@@ -73,9 +74,11 @@ int32_t targetByCondition();   // nbCommand_AI_TAR_JOKEN: those the last AI_CHK_
 int32_t runTableAi();          // nbCommand_AI: the table AI
 
 // BTL_*: a counter for rotating through actions, and two no-ops.
+#if !NOCTURNE_VANILLA   // (Maniax's)
 int32_t rotationClear();       // nbCommand_BTL_AI_ROT_CLR
 int32_t rotationNext();        // nbCommand_BTL_AI_ROT_NEXT: (counter + 1) mod n
 int32_t rotationGet();         // nbCommand_BTL_AI_ROT_GET
+#endif
 int32_t panelOn();             // nbCommand_BTL_PNL_ON
 int32_t panelOff();            // nbCommand_BTL_PNL_OFF
 int32_t startEvent();          // nbCommand_BTL_EVENT (argument: the event)

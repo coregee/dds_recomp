@@ -3637,8 +3637,8 @@ maniax	maniax	size	match	name
 001c9eb8	001c9268	268	masked	FUN_001c9eb8
 001c9fc8	001c9378	48	masked	FUN_001c9fc8
 001c9ff8	001c93a8	32	masked	FUN_001c9ff8
-001ca018		184	none	FUN_001ca018
-001ca0d0		388	none	ps2FontLinkLetters
+001ca018	001c93c8	184	gap	FUN_001ca018
+001ca0d0	001c95b0	388	hand	ps2FontLinkLetters
 001ca258	001c9798	64	called	ps2FontLinkSpacedLetters
 001ca298	001c97b8	364	called	ps2FontBuildDrawString
 001ca410	001c9948	32	masked	FUN_001ca410

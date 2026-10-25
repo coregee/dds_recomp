@@ -682,17 +682,20 @@ constexpr Command kCommands[] = {
     {addr(0x0010cf38), addItem},            {addr(0x0010cf78), addMagatama},
     {addr(0x0010cfa0), equipMagatama},             {addr(0x0010cfe0), addMacca},
     {addr(0x0010d008), addMaccaPercent},        {addr(0x0010d030), hasMacca},
-    {addr(0x0010d078), damageParty},         {addr(0x0010d0a0), healStock},
-    {addr(0x0010d0d0), healStockSilently},       {addr(0x0010d0f0), addDevil},
+    {addr(0x0010d078), damageParty},         {addr(0x0010d0f0), addDevil},
     {addr(0x0010d1a0), hasDevil},             {addr(0x0010d1f0), storyDevilLeaves},
     {addr(0x0010d248), hasStoryDevil},            {addr(0x0010d298), storyDevilId},
     {addr(0x0010d2c8), storyDevilMayLeave},        {addr(0x0010d330), storyDevilMayNotLeave},
     {addr(0x0010d390), growStock},           {addr(0x0010d3d0), stockFull},
-    {addr(0x0010d410), playerStat},     {addr(0x0010d440), addPlayerStat},
+    {addr(0x0010d410), playerStat},
+#if !NOCTURNE_VANILLA   // (what Maniax added)
+    {addr(0x0010d0a0), healStock},             {addr(0x0010d0d0), healStockSilently},
+    {addr(0x0010d440), addPlayerStat},
     {addr(0x0010d480), devilStat},     {addr(0x0010d4c8), playerAlignment},
     {addr(0x0010d4f0), playerLevel},     {addr(0x0010d518), devilDies},
     {addr(0x0010d540), isFirstPixie},    {addr(0x0010d5e8), firstPixieId},
     {addr(0x0010d658), recordBossPress},       {addr(0x0010d6a0), copyDevilStats},
+#endif
 };
 
 } // namespace

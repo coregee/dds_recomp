@@ -21,11 +21,14 @@
 // NOCTURNE_JAPANESE   the JP releases: Japanese text and their font engine,
 //                     their global work and window layout, their own addresses
 //                     (vanilla's are assumed, not yet checked)
+// NOCTURNE_VANILLA    the first release (2003): none of what Maniax added
+//                     (Dante, Amala, the Fiends; their script commands)
 // NOCTURNE_CHRONICLE  the Chronicle Edition's own changes (Raidou, balance)
 // NOCTURNE_HARDTYPE   the Hardtype rebalance patch (on the US release)
 #define NOCTURNE_JAPANESE_Vanilla 1
 #define NOCTURNE_JAPANESE_Maniax 1
 #define NOCTURNE_JAPANESE_Chronicle 1
+#define NOCTURNE_VANILLA_Vanilla 1
 #define NOCTURNE_CHRONICLE_Chronicle 1
 #define NOCTURNE_HARDTYPE_Hardtype 1
 
@@ -33,6 +36,7 @@
 #define NOCTURNE_PASTE(a, b) NOCTURNE_PASTE2(a, b)
 // Each is 1 for the builds above, 0 (undefined in #if) for the others.
 #define NOCTURNE_JAPANESE NOCTURNE_PASTE(NOCTURNE_JAPANESE_, NOCTURNE_VARIANT)
+#define NOCTURNE_VANILLA NOCTURNE_PASTE(NOCTURNE_VANILLA_, NOCTURNE_VARIANT)
 #define NOCTURNE_CHRONICLE NOCTURNE_PASTE(NOCTURNE_CHRONICLE_, NOCTURNE_VARIANT)
 #define NOCTURNE_HARDTYPE NOCTURNE_PASTE(NOCTURNE_HARDTYPE_, NOCTURNE_VARIANT)
 
@@ -41,6 +45,7 @@ namespace nocturne {
 struct Build {
     Variant variant;
     bool japanese;    // NOCTURNE_JAPANESE
+    bool vanilla;     // NOCTURNE_VANILLA
     bool chronicle;   // NOCTURNE_CHRONICLE
     bool hardtype;    // NOCTURNE_HARDTYPE
 };
@@ -48,6 +53,11 @@ struct Build {
 inline constexpr Build kBuild = {
     kVariant,
 #if NOCTURNE_JAPANESE
+    true,
+#else
+    false,
+#endif
+#if NOCTURNE_VANILLA
     true,
 #else
     false,

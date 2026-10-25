@@ -236,8 +236,8 @@ void frSetBaseWidth(int64_t width);                              // [version]
 void frGetXShiftLev(Text& pText, int32_t index, bool first);     // [version]
 int32_t frGetStrWidth(const Request& pFRQ);
 int32_t frGetChainWidth(const Request& pFRQ);
-void RelayoutRequest(Request& pFRQ);
 #if !NOCTURNE_JAPANESE
+void RelayoutRequest(Request& pFRQ);   // (the US release's only)
 int32_t frGetFontWidth(uint8_t style);
 int32_t frGetFontHeight(uint8_t style);
 int64_t FindCode416(uint16_t code);

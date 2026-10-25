@@ -3637,8 +3637,8 @@ maniax	chronicle	size	match	name
 001c9eb8	001c9318	268	masked	FUN_001c9eb8
 001c9fc8	001c9428	48	masked	FUN_001c9fc8
 001c9ff8	001c9458	32	masked	FUN_001c9ff8
-001ca018		184	none	FUN_001ca018
-001ca0d0		388	none	ps2FontLinkLetters
+001ca018	001c9478	184	gap	FUN_001ca018
+001ca0d0	001c9660	388	hand	ps2FontLinkLetters
 001ca258	001c9848	64	called	ps2FontLinkSpacedLetters
 001ca298	001c9868	364	called	ps2FontBuildDrawString
 001ca410	001c99f8	32	masked	FUN_001ca410
@@ -6183,7 +6183,7 @@ maniax	chronicle	size	match	name
 00252720	00251b80	684	gap	ps2BattleActionChoice_00252720
 002529d0	00251e18	596	gap	ps2BattleActionChoice_002529D0
 00252c28	00252060	176	masked	nbActionQueueDeadScripts
-00252cd8		456	none	ps2BattleOutcome_00252CD8
+00252cd8	00252110	456	hand	ps2BattleOutcome_00252CD8
 00252ea8	002522d0	60	exact	KyouseiPress
 00252ee8	00252310	200	masked	DokodemoPoa
 00252fb8	002523e0	728	masked	SetNowActionStat

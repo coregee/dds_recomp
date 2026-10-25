@@ -35,7 +35,7 @@ import struct
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-USE = re.compile(r'\b(addr|optionalAddr|jpAddr)\(0x([0-9a-fA-F]{8})\)')
+USE = re.compile(r'\b(addr|optionalAddr|jpAddr|optionalJpAddr)\(0x([0-9a-fA-F]{8})\)')
 FIRST_DATA = 0x002f5000   # US Maniax's data segment
 EXECUTABLES = {'maniax-us': 'game/SLUS_209.11', 'maniax': 'game/jpmaniax/SLPM_654.62',
                'chronicle': 'game/chronicle/SLPM_666.81', 'vanilla': 'game/vanilla/SLPM_652.42'}
@@ -102,7 +102,7 @@ def used_addresses(name):
     for path in files:
         for line in open(path, encoding='utf-8'):
             for m in USE.finditer(line.split('//')[0]):
-                key = ('jp' if m.group(1) == 'jpAddr' else 'us', int(m.group(2), 16))
+                key = ('jp' if m.group(1) in ('jpAddr', 'optionalJpAddr') else 'us', int(m.group(2), 16))
                 old = found.get(key)
                 if old is None or (old[0] == 'optionalAddr' and m.group(1) == 'addr'):
                     found[key] = (m.group(1), os.path.relpath(path, ROOT))

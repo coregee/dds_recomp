@@ -292,11 +292,13 @@ void addFontTests(std::vector<TestCase>& t)
         uint32_t r = addr(iface::chain(g, 0, 0));
         return Pair{[=] { return orig(0x001c8268, {r}); }, [=] { return norm(frGetChainWidth(at<Request>(r))); }};
     });
+#if !NOCTURNE_JAPANESE   // (the JP builds have no RelayoutRequest)
     add("RelayoutRequest", [](Gen& g) {
         uint32_t r = addr(iface::chain(g, 0, 0));
         settings().mode = static_cast<uint8_t>(g.below(32));
         return Pair{[=] { return origVoid(0x001c6270, {r}); }, [=] { RelayoutRequest(at<Request>(r)); return uint64_t{0}; }};
     });
+#endif
 
     // ---- building requests ----
     add("frSetFont", [](Gen& g) {

@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <cstdint>
 #include <cstring>
+#include <memory>
+#include <vector>
 
 #include "harness.hpp"
 #include "version_map.hpp"
@@ -707,7 +709,7 @@ void addAiTests(std::vector<TestCase>& t)
         return Pair{[] { return iface::origVm(0x0025c190, {FW_COMMSEL}); },
                     [] { return norm(nb::entryUnavailable(at<nb::CommandMenu>(FW_COMMSEL)) ? 1 : 0); }};
     });
-    comm("MemoryCommandComm", [=](Gen&) { return commVoid(0x0025c1d8, nb::commitCommand); });
+    comm("MemoryCommandComm (0x25C1D8)", [=](Gen&) { return commVoid(0x0025c1d8, nb::commitCommand); });
     comm("GetNextCommType", [](Gen& g) {
         const bool right = g.chance(50);
         if (g.chance(30))   // tabs left empty
@@ -981,6 +983,59 @@ void addAiTests(std::vector<TestCase>& t)
         skillWorld(g);
         return Pair{[] { return iface::origVm(0x00290048, {}); }, [] { return norm(nb::anyStockDead() ? 1 : 0); }};
     });
+    // The checks over a target list: units (by formation) or parties, the
+    // guest list for the original, the same pointers for the rewrite.
+    struct UnitCheck { const char* name; uint32_t original; bool (*rewrite)(UnitWork* const*, int32_t); };
+    static const UnitCheck kUnitChecks[] = {
+        {"CheckDeadUnit2", 0x002900a0, nb::anyDead},
+        {"CheckMaxHp", 0x002900e8, nb::allFullHp},
+        {"CheckMaxMp", 0x00290138, nb::allFullMp},
+    };
+    auto unitList = [](Gen& g, std::vector<UnitWork*>& units) {
+        // (the game lists only formations with a unit)
+        std::vector<uint32_t> present;
+        for (uint32_t f = 0; f < 14; ++f)
+            if (const uint32_t unit = at<uint32_t>(FW_FORM_UNITS + 4u * f))
+                present.push_back(unit);
+        const int32_t cnt = present.empty() ? 0 : g.range(0, 6);
+        for (int32_t i = 0; i < cnt; ++i) {
+            const uint32_t unit = present[g.below(static_cast<uint32_t>(present.size()))];
+            at<uint32_t>(FW_SCRATCH + 4u * static_cast<uint32_t>(i)) = unit;
+            units.push_back(&at<UnitWork>(unit));
+        }
+        return cnt;
+    };
+    for (const UnitCheck& check : kUnitChecks) {
+        const UnitCheck* c = &check;
+        add(c->name, [=](Gen& g) {
+            skillWorld(g);
+            auto units = std::make_shared<std::vector<UnitWork*>>();
+            const int32_t cnt = unitList(g, *units);
+            return Pair{[=] { return iface::origVm(c->original, {FW_SCRATCH, sx(cnt)}); },
+                        [=] { return norm(c->rewrite(units->data(), cnt) ? 1 : 0); }};
+        });
+    }
+    add("CheckBad", [=](Gen& g) {
+        skillWorld(g);
+        auto units = std::make_shared<std::vector<UnitWork*>>();
+        const int32_t cnt = unitList(g, *units);
+        const uint32_t bad = g.chance(50) ? 1u << g.below(16) : static_cast<uint32_t>(g.rng());
+        return Pair{[=] { return iface::origVm(0x00290188, {FW_SCRATCH, sx(cnt), bad}); },
+                    [=] { return norm(nb::anyHasAilment(units->data(), cnt, bad) ? 1 : 0); }};
+    });
+    add("CheckHojo", [=](Gen& g) {
+        skillWorld(g);
+        auto parties = std::make_shared<std::vector<Party*>>();
+        const int32_t cnt = g.range(0, 6);
+        for (int32_t i = 0; i < cnt; ++i) {
+            const uint32_t party = FW_PARTY + static_cast<uint32_t>(sizeof(Party)) * static_cast<uint32_t>(g.range(0, 13));
+            at<uint32_t>(FW_SCRATCH + 4u * static_cast<uint32_t>(i)) = party;
+            parties->push_back(&at<Party>(party));
+        }
+        const uint32_t hojo = g.chance(60) ? 1u << g.below(25) : static_cast<uint32_t>(g.rng());
+        return Pair{[=] { return iface::origVm(0x002901d0, {FW_SCRATCH, sx(cnt), hojo}); },
+                    [=] { return norm(nb::anyBuffMovable(parties->data(), cnt, hojo) ? 1 : 0); }};
+    });
     add("nbDispSkillErrorMessage", [=](Gen& g) {
         const int32_t err = g.range(-1, 5);
         mainData().statusMessageTable = iface::helpWorld(g, {0x42, 0x46}).id;
@@ -1143,9 +1198,11 @@ void addAiTests(std::vector<TestCase>& t)
         {"nbCommand_AI_TAR_RND", nbCommand_AI_TAR_RND, nb::ai::script::targetAll},
         {"nbCommand_AI_TAR_JOKEN", nbCommand_AI_TAR_JOKEN, nb::ai::script::targetByCondition},
         {"nbCommand_AI", nbCommand_AI, nb::ai::script::runTableAi},
+#if !NOCTURNE_VANILLA
         {"nbCommand_BTL_AI_ROT_CLR", nbCommand_BTL_AI_ROT_CLR, nb::ai::script::rotationClear},
         {"nbCommand_BTL_AI_ROT_NEXT", nbCommand_BTL_AI_ROT_NEXT, nb::ai::script::rotationNext},
         {"nbCommand_BTL_AI_ROT_GET", nbCommand_BTL_AI_ROT_GET, nb::ai::script::rotationGet},
+#endif
         {"nbCommand_BTL_PNL_ON", nbCommand_BTL_PNL_ON, nb::ai::script::panelOn},
         {"nbCommand_BTL_CAM_ORG", nbCommand_BTL_CAM_ORG, nb::ai::script::cameraOrigin},
     };

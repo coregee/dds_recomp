@@ -27,6 +27,7 @@
 #include "nocturne/battle/sound.hpp"
 #include "nocturne/battle/talk.hpp"
 #include "nocturne/battle/talk_flow.hpp"
+#include "nocturne/effect/boss.hpp"
 #include "nocturne/effect/cut.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/external.hpp"
@@ -2587,15 +2588,15 @@ void addKoukaTests(std::vector<TestCase>& t)
         const int32_t motion = g.chance(5) ? -1 : g.range(0, 25);
         return Pair{[=] { return origVm(0x0028d298, {form, I(motion)}); }, [=] { return norm(loadMotionSound(at<Formation>(form), motion)); }};
     });
-    add("nbReleaseUnitSounds", [=](Gen& g) {   // (0x28D3A8)
+    add("nbReleaseUnitSounds (0x28D3A8)", [=](Gen& g) {
         const uint32_t id = someUnitId(g, soundWorld(g));
         return Pair{[=] { return origVmVoid(0x0028d3a8, {id}); }, [=] { releaseUnitSounds(id); return uint64_t{0}; }};
     });
-    add("nbRetainUnitSounds", [=](Gen& g) {   // (0x28D418)
+    add("nbRetainUnitSounds (0x28D418)", [=](Gen& g) {
         const uint32_t id = someUnitId(g, soundWorld(g));
         return Pair{[=] { return origVm(0x0028d418, {id}); }, [=] { return norm(static_cast<int32_t>(nocturne::guest::addressOf(retainUnitSounds(id)))); }};
     });
-    add("nbRequestUnitSounds", [=](Gen& g) {   // (0x28D4B8)
+    add("nbRequestUnitSounds (0x28D4B8)", [=](Gen& g) {
         const uint32_t id = someUnitId(g, soundWorld(g));
         return Pair{[=] { return origVm(0x0028d4b8, {id}); }, [=] { return norm(requestUnitSounds(id)); }};
     });
@@ -2607,7 +2608,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         soundWorld(g);
         return Pair{[] { return origVm(0x0028d6c0, {}); }, [] { return norm(emptySoundEntry()); }};
     });
-    add("nbFindUnitSounds", [=](Gen& g) {   // (0x28D718)
+    add("nbFindUnitSounds (0x28D718)", [=](Gen& g) {
         const uint32_t id = someUnitId(g, soundWorld(g));
         return Pair{[=] { return origVm(0x0028d718, {id}); }, [=] { return norm(findUnitSounds(id)); }};
     });
@@ -2890,7 +2891,7 @@ void addKoukaTests(std::vector<TestCase>& t)
             const uint32_t original = on ? 0x00289d30u : 0x00289c78u;
             return Pair{[=] { return origVmVoid(original, {I(side)}); }, [=] { on ? showSide(side) : hideSide(side); return uint64_t{0}; }};
         });
-        add(on ? "nbAllFormDispOn" : "nbAllFormDispOff", [=](Gen& g) {
+        add(on ? "nbAllFormDispOn" : "nbAllFormDispOff (0x289DE8)", [=](Gen& g) {
             modelStat(g);
             const uint32_t original = on ? 0x00289e28u : 0x00289de8u;
             return Pair{[=] { return origVmVoid(original, {}); }, [=] { on ? showAllFormations() : hideAllFormations(); return uint64_t{0}; }};
@@ -2901,7 +2902,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         const uint32_t f = formAddress(g.range(0, 15));
         return Pair{[=] { return origVmVoid(0x00289e68, {f}); }, [=] { showOnly(at<Formation>(f)); return uint64_t{0}; }};
     });
-    add("nbDoubleFormExceptedDispOff", [=](Gen& g) {   // (0x289ED0)
+    add("nbDoubleFormExceptedDispOff (0x289ED0)", [=](Gen& g) {
         modelStat(g);
         const uint32_t f = formAddress(g.range(0, 15)), other = formAddress(g.range(0, 15));
         return Pair{[=] { return origVmVoid(0x00289ed0, {f, other}); }, [=] { showOnly(at<Formation>(f), at<Formation>(other)); return uint64_t{0}; }};
@@ -2947,6 +2948,80 @@ void addKoukaTests(std::vector<TestCase>& t)
         at<uint8_t>(difftest::version::dataOrDie(0x0055123d)) = static_cast<uint8_t>(g.range(0, 1));
         return Pair{[] { return origVmVoid(0x00282268, {}); }, [] { panelPartyHide(); return uint64_t{0}; }};
     });
+    // ---- a skill effect's cuts (effBTL) and the boss effects' lengths ----
+    // An effect of noise at FW_BTL_EFFECT, and a cut playing one of its
+    // descriptions at FW_BTL_CUT.
+    auto effectWorld = [](Gen& g) {
+        for (uint32_t i = 0; i < 0xc48; i += 4)
+            at<uint32_t>(FW_BTL_EFFECT + i) = g.chance(70) ? static_cast<uint32_t>(g.range(0, 200)) : static_cast<uint32_t>(g.rng());
+        for (uint32_t i = 0; i < 0x120; i += 4)
+            at<uint32_t>(FW_BTL_CUT + i) = static_cast<uint32_t>(g.rng());
+        eff::BattleCut& cut = at<eff::BattleCut>(FW_BTL_CUT);
+        cut.effect = FW_BTL_EFFECT;
+        cut.cutNo = static_cast<uint16_t>(g.chance(90) ? g.range(0, 3) : g.range(4, 0xffff));
+        cut.description = FW_BTL_EFFECT + (g.chance(50) ? 0 : 0x618u);
+        cut.frame = static_cast<uint32_t>(g.range(0, 120));
+        cut.cutEndFrame = static_cast<uint32_t>(g.range(0, 120));
+        cut.drawEndFrame = static_cast<uint32_t>(g.range(0, 120));
+    };
+    add("effBTLGetMotionChangeFrame", [=](Gen& g) {
+        effectWorld(g);
+        const uint32_t cutNo = static_cast<uint32_t>(g.range(0, 4));
+        return Pair{[=] { return origVm(0x0016ab70, {FW_BTL_EFFECT, cutNo}); },
+                    [=] { return norm(static_cast<int32_t>(eff::motionChangeFrame(FW_BTL_EFFECT, static_cast<uint16_t>(cutNo)))); }};
+    });
+    add("effBTLGetCutEndFrame", [=](Gen& g) {
+        effectWorld(g);
+        const uint32_t cutNo = static_cast<uint32_t>(g.range(0, 4));
+        return Pair{[=] { return origVm(0x0016aba0, {FW_BTL_EFFECT, cutNo}); },
+                    [=] { return norm(static_cast<int32_t>(eff::cutEndFrame(FW_BTL_EFFECT, static_cast<uint16_t>(cutNo)))); }};
+    });
+    add("effBTLCutGetMotionChangeFrame", [=](Gen& g) {
+        effectWorld(g);
+        return Pair{[] { return origVm(0x0016aec0, {FW_BTL_CUT}); },
+                    [] { return norm(static_cast<int32_t>(eff::motionChangeFrame(at<eff::BattleCut>(FW_BTL_CUT)))); }};
+    });
+    add("effBTLCutGetCutEndFrame", [=](Gen& g) {
+        effectWorld(g);
+        return Pair{[] { return origVm(0x0016aee8, {FW_BTL_CUT}); }, [] { return norm(static_cast<int32_t>(eff::cutEndFrame(at<eff::BattleCut>(FW_BTL_CUT)))); }};
+    });
+    add("effBTLCutGetFrame", [=](Gen& g) {
+        effectWorld(g);
+        return Pair{[] { return origVm(0x0016aea0, {FW_BTL_CUT}); }, [] { return norm(static_cast<int32_t>(eff::frame(at<eff::BattleCut>(FW_BTL_CUT)))); }};
+    });
+    add("effBTLCutSetCutEndFrame", [=](Gen& g) {
+        effectWorld(g);
+        const uint32_t f = static_cast<uint32_t>(g.range(0, 150));
+        return Pair{[=] { return origVmVoid(0x0016aed0, {FW_BTL_CUT, f}); },
+                    [=] { eff::setCutEndFrame(at<eff::BattleCut>(FW_BTL_CUT), f); return uint64_t{0}; }};
+    });
+    add("effBTLCutSetDrawEndFrame", [=](Gen& g) {
+        effectWorld(g);
+        const uint32_t f = static_cast<uint32_t>(g.range(0, 150));
+        return Pair{[=] { return origVmVoid(0x0016aef0, {FW_BTL_CUT, f}); },
+                    [=] { eff::setDrawEndFrame(at<eff::BattleCut>(FW_BTL_CUT), f); return uint64_t{0}; }};
+    });
+    add("effBTLCutSetCameraState", [=](Gen& g) {
+        effectWorld(g);
+        at<MainProcessData>(FW_MAIN).stat ^= g.chance(30) ? 0x1000u : 0u;
+        return Pair{[] { return origVmVoid(0x0016b090, {FW_BTL_CUT}); },
+                    [] { eff::setCutCameraState(at<eff::BattleCut>(FW_BTL_CUT)); return uint64_t{0}; }};
+    });
+    add("effBTLSkillSetState", [=](Gen& g) {
+        const uint32_t state = g.chance(50) ? static_cast<uint32_t>(g.range(0, 16)) : static_cast<uint32_t>(g.rng());
+        return Pair{[=] { return origVmVoid(0x0016ba40, {state}); }, [=] { eff::setSkillState(state); return uint64_t{0}; }};
+    });
+    struct BossLength { const char* name; uint32_t original; int32_t (*rewrite)(); };
+    static const BossLength kBossLengths[] = {
+        {"effPCPBossONGYGetLength", 0x00198860, eff::ongyokiEffectLength},
+        {"effPCPBossONGY2GetLength", 0x00198ff8, eff::ongyokiEffect2Length},
+        {"effPCPBossBUNSINGetLength", 0x00199b08, eff::ongyokiCloneEffectLength},
+        {"effPCPBossBUNSIN2GetLength", 0x00199cb0, eff::ongyokiCloneEffect2Length},
+    };
+    for (const BossLength& length : kBossLengths) {
+        const BossLength* l = &length;
+        add(l->name, [l](Gen&) { return Pair{[l] { return origVm(l->original, {}); }, [l] { return norm(l->rewrite()); }}; });
+    }
     for (const char* which : {"nbCameraSetBougai", "nbCameraSetTarget", "nbCameraSetHojo", "nbCameraSetEveTarget", "effBTLSkillGetInvokeFormation"}) {
         const std::string name = which;
         add(which, [=](Gen& g) {

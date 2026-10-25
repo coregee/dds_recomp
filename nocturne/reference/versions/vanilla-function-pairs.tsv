@@ -1,0 +1,5 @@
+# Functions paired by reading the instructions (tools/match_functions.py):
+# US Maniax address, Vanilla address, name, how it was seen.
+0010d030	0010db48	prm_MAKA_CHECK	the command table's entry 28
+0010d078	0010db90	prm_PARTY_DAMAGE	the command table's entry 314
+0010d0f0	0010dbb8	prm_DV_PLUS	the command table's entry 225

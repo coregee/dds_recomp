@@ -9,3 +9,5 @@
 00255650	00254978	SetAction_SKILL	after CheckAction_READY (its prologue)
 00255260	00254600	CheckAction_READY	after SetAction_READY (its prologue)
 002538a0	00252cc8	CheckAction_COMM	after SetAction_COMM; a smaller stack frame
+001ca0d0	001c9660	ps2FontLinkLetters	what ps2FontLinkSpacedLetters (0x1C9848) tail-calls
+00252cd8	00252110	CheckKoketaNego	JP Maniax's (0x251D68) without its debug print

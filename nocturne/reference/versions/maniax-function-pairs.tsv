@@ -7,3 +7,4 @@
 00221558	00220808	ps2UnitMagatamaUnequipHook_00221558	the empty stub the Magatama's removal calls
 00254488	00253518	SetAction_READY	between CheckAction_STKSEL and CheckAction_READY; debug prints US Maniax removed
 00255650	002546e0	SetAction_SKILL	after CheckAction_READY; debug prints US Maniax removed (the results' kinds)
+001ca0d0	001c95b0	ps2FontLinkLetters	what ps2FontLinkSpacedLetters (0x1C9798) tail-calls

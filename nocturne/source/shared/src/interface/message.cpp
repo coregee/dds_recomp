@@ -26,7 +26,7 @@ namespace {
 
 // itfMiscLinkTake with no free node: a debug print, the JP builds' only.
 #if NOCTURNE_JAPANESE
-constexpr uint32_t kLinkStackFullMessage = jpAddr(0x005333d8);   // "未使用がもうない" (no unused node left)
+constexpr uint32_t kLinkStackFullMessage = optionalJpAddr(0x005333d8);   // "未使用がもうない" (no unused node left)
 #else
 constexpr uint32_t kLinkStackFullMessage = 0;
 #endif

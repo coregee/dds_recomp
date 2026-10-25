@@ -55,15 +55,54 @@ def read_map():
     return functions
 
 
-def verification(functions, tagged):
+# The script VM's opcodes, in order (the tests "Execute <opcode>" run the
+# handler opcode table 0x2FA528 holds for each).
+OPCODES = ("PUSHI", "PUSHF", "PUSHIX", "PUSHFX", "PUSHREG", "POPIX", "POPFX", "PROC", "COMM", "END", "JUMP", "CALL",
+           "RUN", "GOTO", "ADD", "SUB", "MUL", "DIV", "MINUS", "NOT", "OR", "AND", "EQ", "NEQ", "S", "L", "SE", "LE",
+           "IF", "PUSHIS", "PUSHLIX", "PUSHLFX", "POPLIX", "POPLFX", "PUSHSTR")
+
+
+def table_word(address):
+    """A word of US Maniax's executable (its tables)."""
+    import match_functions as mf
+    if not hasattr(table_word, "image"):
+        table_word.image = mf.load(mf.EXECUTABLES["maniax-us"])
+    data, segments = table_word.image
+    for vaddr, offset, size, _ in segments:
+        if vaddr <= address < vaddr + size:
+            return int.from_bytes(data[offset + address - vaddr:offset + address - vaddr + 4], "little")
+    return 0
+
+
+def test_address(test, by_name):
+    """The function a test proves: by its name (the original's, or the
+    rewrite's), an address in its parentheses, a script command's index
+    ("command 32") or an opcode ("Execute MINUS")."""
+    m = re.search(r"\(0x([0-9A-Fa-f]+)\)$", test)
+    if m:
+        return "%08x" % int(m.group(1), 16)
+    m = re.fullmatch(r"command (\d+)", test)
+    if m:
+        return "%08x" % table_word(0x0052E350 + 8 * int(m.group(1)))
+    m = re.fullmatch(r"Execute (\w+)", test)
+    if m and m.group(1) in OPCODES:
+        return "%08x" % table_word(0x002FA528 + 4 * OPCODES.index(m.group(1)))
+    return by_name.get(re.sub(r" \(.*\)$", "", test))
+
+
+def verification(functions, tagged, rewritten):
     """{build: {address: outcome}} from each build's recorded test outcomes.
-    A test is named after the original function it proves; a suffix in
-    parentheses names the kind of test ("nbGetHitType (instructions)")."""
+    A test is named after the function it proves (test_address); a suffix
+    in parentheses names the kind of test ("nbGetHitType (instructions)")."""
     by_name = {}
     for address, (_, name, _) in functions.items():
         by_name.setdefault(name, address)
     for name, address in tagged.items():   # the original names the source's tags give
         by_name.setdefault(name, address)
+    for address, (_, name, _) in functions.items():   # Ghidra's without their address
+        by_name.setdefault(re.sub(r"_[0-9A-Fa-f]{8}$", "", name), address)
+    for address, where in rewritten.items():   # and the rewrite's own
+        by_name.setdefault(where.rsplit(":", 1)[1], address)
     out = {}
     for build in BUILDS:
         path = ROOT / "reference" / "verification" / f"{build}.tsv"
@@ -71,11 +110,11 @@ def verification(functions, tagged):
             continue
         outcomes = out[build] = {}
         for line in path.read_text(encoding="utf-8").splitlines():
-            test, _, outcome = line.partition("\t")
+            test, _, outcome = line.partition("	")
             if outcome not in RANK:   # (a run cut short)
                 continue
-            address = by_name.get(re.sub(r" \(.*\)$", "", test))
-            if address and RANK[outcome] >= RANK.get(outcomes.get(address), -1):
+            address = test_address(test, by_name)
+            if address in functions and RANK[outcome] >= RANK.get(outcomes.get(address), -1):
                 outcomes[address] = outcome
     return out
 
@@ -140,7 +179,7 @@ def main():
     functions = read_functions(sys.argv[1]) if len(sys.argv) > 1 else read_map()
     legacy = legacy_definitions(functions)
     rewritten = rewrites()
-    verified = verification(functions, TAGGED)
+    verified = verification(functions, TAGGED, rewritten)
     counts = {}
     out = ROOT / "reference" / "function-map.tsv"
     with open(out, "w", encoding="utf-8", newline="\n") as f:
