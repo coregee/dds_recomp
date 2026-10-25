@@ -335,7 +335,7 @@ SetCursor	ok
 UpdateSelect	ok
 OnOffTargetCursor	ok
 DispTargetHelp	ok
-MemoryCommand	ok
+MemoryCommand (0x25E3F8)	ok
 CursorSelect	ok
 CursorSelectAuto	ok
 CheckFriend	ok
@@ -347,6 +347,7 @@ InitTarSelProcessData	ok
 nbInitTarSelProcess	ok
 nbPlaySe	ok
 dds3CheckConfigBit	ok
+GetTarSelProcessData	ok
 SetTarget	ok
 SetAction_TARSEL	ok
 GetCommSelProcessData	ok
@@ -906,6 +907,19 @@ command 372	ok
 command 373	ok
 command 368	ok
 command 375	ok
+evtBitAllOff	ok
+evtBitOn	ok
+evtBitOff	ok
+evtBitCheck	ok
+evtGetAgeOfMoon	ok
+evtGetAgeOfMoon16	ok
+evtSetAgeOfMoon	ok
+evtEnableMoonCalc	ok
+evtDisableMoonCalc (0x1E9A00)	ok
+evtEnableMoonDraw	ok
+evtDisableMoonDraw	ok
+evtEnableMoonDraw2	ok
+evtDisableMoonDraw2	ok
 GetButuriAttack	ok
 GetButuriKaifuku	ok
 GetMagicAttack	ok
@@ -931,6 +945,7 @@ datSearchDevilStock	ok
 datCheckStockFull	ok
 datDelDevil	ok
 datCheckItemFull	ok
+datCheckItem	ok
 datInitBossPress	ok
 datBossRashGetRec	ok
 datBossRashUpdRec	ok
@@ -939,6 +954,8 @@ nbGetKoukaProcessData	ok
 nbGetUniqueIdKoukaPacketCnt	ok
 nbGetKoukaPacketTypeCnt	ok
 UnlinkKoukaPacket	ok
+nbLinkKoukaPacket	ok
+nbPanelStockFadeOut (0x27FA88)	ok
 nbAddKoukaPacket	ok
 DelKoukaPacket	ok
 nbDelKoukaPacket	ok
