@@ -1,0 +1,1651 @@
+nbGetHitType	ok
+nbGet3Zokusei	ok
+nbCheckKoukaJyoken	ok
+nbGetKoukaType	ok
+nbAddHpMp	ok
+nbGetHpDrainRitu	ok
+nbGetMpDrainRitu	ok
+nbGetGensyoRitu	ok
+nbCheckHitEffect	ok
+nbGetDeadType	ok
+nbCheckStoneDead	ok
+nbSetBadStat	ok
+nbCheckBadKaifuku	ok
+nbCheckBadCurse	ok
+nbGetEncountTableItem	ok
+nbGetExpMakaItem	ok
+nbGetLvAvg2	ok
+nbGetParamAvg	ok
+nbGetParamAvg2	ok
+nbCheckSensei	ok
+nbCheckBackAttack	ok
+nbCheckEscape	ok
+nbCheckRenzokuEncount	ok
+nbCheckSingleTargetSkill	ok
+nbCheckFormationFriend	ok
+nbGetMakaBaramaki	ok
+nbCheckBadPanicAction	ok
+nbCheckBadStatusGameOver	ok
+nbSetHpScale	ok
+nbGetCriticalPow	ok
+nbGetKakutokuExp	ok
+nbGetKakutokuMaka	ok
+setEncounter (0x259658)	ok
+unitVisual (0x259A60)	ok
+datGetBaseParam	ok
+datGetParam	ok
+datGetNormalAtkPow	ok
+datGetDefPow	ok
+datGetMagicHitPow	ok
+datGetSakePow	ok
+datGetBaseMaxHp	ok
+datGetBaseMaxMp	ok
+datGetMaxHp	ok
+datGetMaxMp	ok
+datGetRace	ok
+datGet3Zokusei	ok
+datCheckDying	ok
+datGetPlayerLevel	ok
+datGetAisyo	ok
+datCheckSyojiSkill	ok
+datCheckSkillInParty	ok
+datSetBadStat	ok
+datResetBadStat	ok
+datOverwriteBadStat	ok
+datGetBadStatusAttr	ok
+datAddHp	ok
+datAddMp	ok
+nbGetBadStat	ok
+nbGetNormalSkillAttr	ok
+nbCheckFormationPlayerSide	ok
+nbHatudoCheckSkill	ok
+nbGetDevilFormatFlag	ok
+nbGetUnitID	ok
+nbCheckKuisibariSkill	ok
+nbCheckKuisibari2Skill	ok
+nbSetKuisibariStop	ok
+nbGetHojoCounter	ok
+nbSetHojoCounter	ok
+nbGetHojoCounterMax	ok
+nbGetHojoCounterMin	ok
+nbSetHojoAddCounter	ok
+nbSetHojoKouka	ok
+nbGetHojoRitu	ok
+nbGetAisyo	ok
+nbGetVirtualAisyo	ok
+nbGetAisyoRitu	ok
+nbGetButuriAttack	ok
+nbGetButuriKaifuku	ok
+nbGetMagicAttack	ok
+nbGetMagicKaifuku	ok
+nbGetMaxHpWazaPoint	ok
+nbGetKoukaHp	ok
+nbGetKoukaMp	ok
+nbGetKoukaBadDamage	ok
+nbGetKoukaBadKaifuku	ok
+datGetSkillCost	ok
+nbCheckSkillCost	ok
+nbCheckSkillUse	ok
+nbGetLvAvg	ok
+nbGetAisyoTable	ok
+nbGetEscapeSwitch	ok
+nbGetVirtualKoukaPoint	ok
+nbGetKoukaBadKaifuku (patched chance)	ok
+ps2ClearUnitWork	ok
+cmbCopyDefaultDevilToStock	ok
+cmbCopyCustomDevilToStock	ok
+cmbChkStockDevil	ok
+cmbGetStockDevilIndex	ok
+cmbChkStockDevilNums	ok
+cmbGetEmptyStockIndex	ok
+cmbChkStockDarkDevilNums	ok
+cmbDeleteUnitFromStockList	ok
+cmbAddUnitToStockList	ok
+cmbDeleteDevilFromStock	ok
+cmbAddDefaultDevilToStock	ok
+cmbAddCustomDevilToStock	ok
+cmbChkDarkDevil	ok
+cmbChkIkenieIllegalDevil	ok
+cmbChkEvoNeedFlag	ok
+cmbGetKeisyoSkillScore	ok
+cmbGetKeisyoSkillMotion	ok
+cmbGetKeisyoSkillLevel	ok
+cmbCalcKeisyoSkillRate	ok
+cmbCalcTotalKeisyoSkillRate	ok
+cmbGetKeisyoSkillEndIndex	ok
+cmbClearKeisyoSkill	ok
+cmbChkKeisyoSkillNums	ok
+cmbChkKeisyoSkillOwner	ok
+cmbClearSkill	ok
+cmbCreateDefaultSkill	ok
+ps2CreateLevelSkill	ok
+cmbChkSkillOwner	ok
+cmbAddSkill	ok
+cmbChkLevelUpEvent	ok
+cmpCalcLevelUpBaseExp	ok
+cmbCalcLevelUpExp	ok
+cmbChkLevelUpExp	ok
+cmbGetLevelUpCount	ok
+cmbGetParam	ok
+cmbAddLevelUpParamEx	ok
+ps2AddLevelUpParam	ok
+cmbChkEvoAttention	ok
+cmbChkCancelEvo	ok
+cmbChkDevilEvo	ok
+cmbGetDevilEvoLevel	ok
+cmbChkEvoDevilLev	ok
+cmbCopyEvoDevilToStock	ok
+cmbGetPowerUpSkill	ok
+rstRndGetPowerUpSkill	ok
+cmbGetMutationSkill	ok
+cmbSortKeisyoSkill	ok
+sortDevilsByRace (0x2133A0)	ok
+cmbChkEventDevil	ok
+cmbChkMetaOnlyDevil	ok
+cmbChkAccident	ok
+cmbChkAccidentType	ok
+cmbGetAccidentFailDevil	ok
+cmbRndGetAccidentBirthDevil	ok
+cmbAddParamAccidentBirthDevil	ok
+cmpSetMaxHPMP	ok
+datGetAisyoFlag	ok
+datAddMakaPar	ok
+datGetPlayerParam	ok
+datAddPlayerParam	ok
+datGetNakamaParam	ok
+datGetPlayerLND	ok
+datDeadNakama	ok
+datSetDevilWork	ok
+datAddDevil	ok
+datAddUniqueDevil	ok
+datSearchUniqueDevilStock	ok
+datAddExp	ok
+datRemoveHearts	ok
+datEquipHearts	ok
+datSetAutoKaifukuSkill	ok
+datFieldSkillKaifuku	ok
+datCheckSkillTakaraSagasi	ok
+datClearCommMemory	ok
+datAllClearCommMemory	ok
+datAddKotowariPoint	ok
+datGetKotowariLank	ok
+datCopyDevilWork	ok
+cmbGetPowerUpTableIndex	ok
+cmbCalcParamUpVal	ok
+cmbCalcParamPowerUp	ok
+cmbChkIkenieExtPattern	ok
+cmbChkMetato	ok
+cmbChkIkenieExtPatternDevRace	ok
+cmbChkExtPattern	ok
+cmbGetBirthSpirit	ok
+cmbGetBirthDevilRace	ok
+cmbChkExtPatternBirthDevil	ok
+cmbChkIkenieExtPatternBirthDevil	ok
+cmbCalcCombineManin	ok
+cmbGetRankUpDown	ok
+cmbGetAverageLevel	ok
+cmbGetStockDevilInfo	ok
+cmbGetTargetDevil	ok
+cmbGetRankUpDownDevil	ok
+cmbCalcNormal2	ok
+cmbCalcDevil2	ok
+cmbChkIkenieExtPatternDev	ok
+cmbCalcIkenie	ok
+cmbCalcIkenieExp	ok
+cmbChkDante	ok
+cmbAddKeisyoSkillFromSkill	ok
+cmbDeleteKeisyoSkill	ok
+cmbMoveKeisyoSkillToSkill	ok
+cmbRndGetKeisyoSkill	ok
+cmbRndAddKeisyoSkillToSkill	ok
+cmbGetBirthDevil	ok
+cmbChkGetHearts	ok
+cmpChkHaveHearts	ok
+cmpChkHaveNormalHeartsAll	ok
+datAddHearts	ok
+fclChkItemHearts	ok
+cmbGetHeartsDefaultParam	ok
+cmbGetHeartsParamEx	ok
+cmbGetHeartsParam	ok
+ps2HeartsAddParam	ok
+cmbSubHeartsParam	ok
+cmbGetHeartsAisyo	ok
+cmbGetParamBase	ok
+cmbGetHeartsSkillNums	ok
+cmbGetHeartsSkillAt (0x222210)	ok
+cmbGetHeartsAfterSkillNums	ok
+cmbAddHeartsSkill	ok
+cmbCreateDefaultHeartsSkill	ok
+cmbChkGetHeartsSkill	ok
+rstCreateBeforeSkillList	ok
+cmbChkHeartsMaster	ok
+cmbGetMasterHeartsNums	ok
+cmbSetHeartsMaster	ok
+cmbChkHeartsStat	ok
+cmbChkMasterHeartsStatNums	ok
+cmbGetPlayerRaceID	ok
+datAddItem	ok
+fclAddItem	ok
+fclEncyc_SetElem	ok
+fclencyceelem_t.Clear (0x219FC0)	ok
+fclEncycSearch	ok
+fclEncycGetNum	ok
+fclEncycGetRatio2	ok
+fclEncycRegist	ok
+fclEncycRegist2	ok
+CompareUnitToRecord	ok
+GetValidUnitIndex	ok
+fclEncycCheckRegistable	ok
+RegistAll	ok
+fclEncycDebugRegist	ok
+SetRecordToUnit	ok
+SetRecordToUnitCore	ok
+FillIndex	ok
+cmbRaceSortCallback	ok
+cmbLevelSortCallback	ok
+CreateSortIndexByRace	ok
+CreateSortIndexByLevel	ok
+nbGetHitType (instructions)	ok
+nbGetKoukaType (instructions)	ok
+nbGetAisyo (instructions)	ok
+nbGetAisyoRitu (instructions)	ok
+nbGetMagicAttack (instructions)	ok
+nbGetMagicKaifuku (instructions)	ok
+nbGetMaxHpWazaPoint (instructions)	ok
+nbGetKoukaHp (instructions)	ok
+GetAddExp	ok
+nbResultAddExp	ok
+ps2ShopItemId	ok
+ps2ShopPackId	ok
+ps2ShopItemCount	ok
+ps2ShopItemPrice	ok
+nbCheckSensei (instructions)	ok
+nbCheckBackAttack (instructions)	ok
+nbCheckEscape (instructions)	ok
+nbCheckRenzokuEncount (instructions)	ok
+nbGetKoukaBadDamage (instructions)	ok
+nbAiChkMyHp	ok
+nbAiChkMyMp	ok
+nbAiChkFrHp	ok
+nbAiChkDmgCnt	ok
+nbAiChkChkCnt	ok
+nbAiChkFrCnt	ok
+nbAiChkEnCnt	ok
+nbAiChkMyBad	ok
+nbAiChkFrBad	ok
+nbAiChkEnBad	ok
+nbAiChkEnAllBad	ok
+nbAiChkEnId	ok
+nbAiChkFrId	ok
+nbAiChkEnHojo	ok
+nbAiChkFrHojo	ok
+nbAiChkBa	ok
+nbAiChkEnLight	ok
+nbAiChkEnDark	ok
+nbAiChkPow	ok
+nbAiChkPlv	ok
+nbAiChkPPartyLv	ok
+nbAiChkTurn	ok
+nbAiChkSensei	ok
+nbAiChkEnHojoMax	ok
+nbAiChkFrHojoMax	ok
+nbAiChkEnHamamHk	ok
+nbAiChkSkillNoMp	ok
+nbAiChkHojo	ok
+nbAiChkHojoMax	ok
+nbAiChkJoken	ok
+nbAiAiChk	ok
+nbAiGetKoudou	ok
+nbAiSetKoudou	ok
+nbAiChkCost	ok
+nbAiChkClose	ok
+nbRunAiSub	ok
+nbRunAi	ok
+nbAiAiChk (instructions)	ok
+nbAiGetKoudou (instructions)	ok
+nbAiSetKoudou (instructions)	ok
+nbAiChkCost (instructions)	ok
+nbAiChkClose (instructions)	ok
+nbRunAiSub (instructions)	ok
+nbRunAi (instructions)	ok
+SetSingleTarget	ok
+SetGroupTarget	ok
+SetTarget	ok
+CheckBadActionSkill	ok
+GetBadActionSkill	ok
+BadKaja	ok
+BadKaifuku	ok
+BadAttack	ok
+BadMaka	ok
+BadNego	ok
+BadReturn	ok
+BadBadWait	ok
+BadDamage	ok
+MakeRituList	ok
+GetBadAiAction	ok
+AddRituList	ok
+nbRunBadAi	ok
+nbSetJyokyoMes	ok
+nbGetJyokyoMes	ok
+nbGetTarSelStat	ok
+nbSetTarSelStat	ok
+nbSetTarSelJyokyoTime	ok
+AnimeTargetCursor	ok
+SetCursor	ok
+UpdateSelect	ok
+OnOffTargetCursor	ok
+DispTargetHelp	ok
+MemoryCommand	ok
+CursorSelect	ok
+CursorSelectAuto	ok
+CheckFriend	ok
+CheckEnemy	ok
+nbSetTargetProcess	ok
+nbTarSelProcess1	ok
+nbTarSelShutdown	ok
+InitTarSelProcessData	ok
+nbInitTarSelProcess	ok
+nbPlaySe	ok
+dds3CheckConfigBit	ok
+SetTarget	ok
+SetAction_TARSEL	ok
+GetCommSelProcessData	ok
+GetCommListCnt	ok
+AnimeCommandList	ok
+CheckSelectError	ok
+MemoryCommandComm	ok
+GetNextCommType	ok
+SelectCommandList	ok
+SelectCommandListAuto	ok
+nbGetCommSelStat	ok
+nbSetCommSelStat	ok
+nbCloseCommSel	ok
+nbCommSelShutdown	ok
+SetCommList	ok
+SetPrevCursor	ok
+SetCommCursor2	ok
+nbSetAutoCommSel	ok
+InitCommSelProcessData	ok
+nbInitCommSelProcess	ok
+SetAction_COMM	ok
+CheckAction_COMM	ok
+SetAction_BAD	ok
+CheckAction_TARSEL	ok
+SetAction_STKSEL	ok
+CheckAction_STKSEL	ok
+nbSetPlayerSummonFormation	ok
+nbDispText	ok
+nbDispSkillName	ok
+nbDispItemName	ok
+nbDispMiscActionNameComm	ok
+nbDispBattleText	ok
+nbDispDevilName	ok
+nbDispJyokyoHelp	ok
+nbDispMsgHelp	ok
+nbHelpOff	ok
+nbHelpShutdown	ok
+InitHelpProcessData	ok
+nbInitHelpProcess	ok
+CheckDeadUnit	ok
+nbDispSkillErrorMessage	ok
+nbCheckBattleSkillError1	ok
+nbCheckBattleSkillError2	ok
+nbCheckBattleSkillError3	ok
+nbCheckCampSkillError	ok
+SetAction_AI	ok
+nbAiSelLifeMin	ok
+nbAiSelBaarLv	ok
+nbAiSelLvMin	ok
+nbAiSelLight	ok
+nbAiSelDark	ok
+nbAiSelPlayer	ok
+nbAiSelJoken	ok
+nbAiSelRnd	ok
+nbAiSelBad	ok
+nbAiSelId	ok
+nbAiSelAi	ok
+nbSetSingleTarget2	ok
+nbSetGroupTarget2	ok
+nbSetAiTarget	ok
+nbSetEnemySummonFormation	ok
+nbGetSelectBit	ok
+nbSetNormalSkill0	ok
+datGetItemSkillNo	ok
+nbGetItemSkillNo	ok
+nbGetTargetTypeRuleArea	ok
+CheckFormCursor	ok
+nbSetSelectOkMark	ok
+nbCommand_AI_CHK_MYHP	ok
+nbCommand_AI_CHK_MYMP	ok
+nbCommand_AI_CHK_FRHP	ok
+nbCommand_AI_CHK_DMGCNT	ok
+nbCommand_AI_CHK_FRCNT	ok
+nbCommand_AI_CHK_ENCNT	ok
+nbCommand_AI_CHK_MYBAD	ok
+nbCommand_AI_CHK_FRBAD	ok
+nbCommand_AI_CHK_ENBAD	ok
+nbCommand_AI_CHK_ENALLBAD	ok
+nbCommand_AI_CHK_ENID	ok
+nbCommand_AI_CHK_FRID	ok
+nbCommand_AI_CHK_ENHOJO	ok
+nbCommand_AI_CHK_FRHOJO	ok
+nbCommand_AI_CHK_ENHOJOMAX	ok
+nbCommand_AI_CHK_FRHOJOMAX	ok
+nbCommand_AI_CHK_BA	ok
+nbCommand_AI_CHK_ENLIGHT	ok
+nbCommand_AI_CHK_ENDARK	ok
+nbCommand_AI_CHK_POW	ok
+nbCommand_AI_CHK_PLV	ok
+nbCommand_AI_CHK_PPARTYLV	ok
+nbCommand_AI_CHK_ENHAMAMHK	ok
+nbCommand_AI_CHK_SKILLNOMP	ok
+nbCommand_AI_CHK_ESCAPE	ok
+nbCommand_AI_GET_TURN	ok
+nbCommand_AI_GET_PRESSKOUDO	ok
+nbCommand_AI_GET_MYLV	ok
+nbCommand_AI_GET_MYAISYO	ok
+nbCommand_AI_GET_FUREA	ok
+nbCommand_AI_ACT_ATTACK	ok
+nbCommand_AI_ACT_ESCAPE	ok
+nbCommand_AI_ACT_SKILL	ok
+nbCommand_AI_ACT_SUMMON	ok
+nbCommand_AI_SET_CRITICAL	ok
+nbCommand_AI_TAR_AI	ok
+nbCommand_AI_ACT_WAIT	ok
+nbCommand_AI_TAR_LIFEMIN	ok
+nbCommand_AI_TAR_BAARLV	ok
+nbCommand_AI_TAR_LVMIN	ok
+nbCommand_AI_TAR_BAD	ok
+nbCommand_AI_TAR_ID	ok
+nbCommand_AI_TAR_LIGHT	ok
+nbCommand_AI_TAR_DARK	ok
+nbCommand_AI_TAR_PLAYER	ok
+nbCommand_AI_TAR_RND	ok
+nbCommand_AI_TAR_JOKEN	ok
+nbCommand_AI	ok
+nbCommand_BTL_AI_ROT_CLR	ok
+nbCommand_BTL_AI_ROT_NEXT	ok
+nbCommand_BTL_AI_ROT_GET	ok
+nbCommand_BTL_PNL_ON	ok
+nbCommand_BTL_CAM_ORG	ok
+itfMiscLinkInit	ok
+itfMiscLinkTake	ok
+itfMiscLinkGive	ok
+itfMesInitializeSpeaker	ok
+itfMesInitializeMessage	ok
+itfMesInitializeSelect	ok
+itfMesInitializeWindow	ok
+itfMesResetWindowPara	ok
+itfMesInitializeVariable	ok
+itfMesInitializeCurCtr	ok
+itfMesResolveResourceAddress	ok
+GetTypeHeader	ok
+GetTypeHeader2	ok
+itfMesMngSetResourcePtr	ok
+itfMesMngInitialize	ok
+itfMesMngRequestMessageRelease	ok
+itfMesMngRequestSelectRelease	ok
+itfMesReleaseAllWindow	ok
+itfMesReleaseAllVariable	ok
+ps2MessageManagerReleaseInner	ok
+itfMesMngRelease	ok
+CommitVarTable	ok
+itfMesMngGetVarLocalize	ok
+GetMessagePagePtr	ok
+GetSpeakerName	ok
+GetLastLinkFontHandle	ok
+GetLastMessagePara	ok
+CountLineMessage	ok
+ChangeZBuffer	ok
+ChangeFontPosition	ok
+ChangeFontColorAll	ok
+ChangeFontAlpha	ok
+RaiseMessageSpeedMax	ok
+RaiseMessageSpeedMaxAll	ok
+UnchainFontHandleUnit	ok
+MarkSelectionText	ok
+GetMaxLineWidth	ok
+GetFontHandleUnit	ok
+GetNumSelectItem	ok
+GetMaskedIndex	ok
+ReadytoMessage	ok
+ps2MessageOpenPanel	ok
+ps2MessageOpenSpeakerPanel	ok
+itfMesMngRequestMessage	ok
+itfMesMngRequestMessageMarked	ok
+itfMesMngRequestMessageAgain	ok
+itfMesMngRequestMessageUnset	ok
+itfMesMngRequestSelect	ok
+itfMesMngMarkBitStat	ok
+itfMesMngClearBitStat	ok
+itfMesMngMsgWndCls	ok
+itfMesMngSetMesPosition	ok
+MoveMessagePanel	ok
+itfMesMngChangeWindowType	ok
+itfMesMngSetSelectDefKey	ok
+itfMesMngSetMaskSelect	ok
+itfMesMngSetSelect	ok
+itfMesMngSetDefaultSpeed	ok
+itfMesMngSetKutiCallback	ok
+itfMesMngGetConfig	ok
+itfMesMngGetMessageWidth	ok
+ForceSetCurCtr	ok
+CalcWindow	ok
+CalcMessage	ok
+SelectItemMove	ok
+SelectItemDefKey	ok
+SelectItem	ok
+SlideUpDownMessage	ok
+CalcSelect	ok
+CalcCurCtr	ok
+CalcMesFlow	ok
+CalcManagerProc	ok
+itfMesMngMessage	ok
+itfMesMngSelect	ok
+itfMesMngMaskSelect	ok
+itfMesMng_SEL_SELNO	ok
+itfMesMngOpenWindow	ok
+itfMesMngCloseWindow	ok
+itfMesMngOpenSelectWindow	ok
+itfMesMngCloseSelectWindow	ok
+itfMesMngIgnoreConfig	ok
+itfMesMngSetMesPositionScript	ok
+itfMesMngSetMesPosDefault	ok
+itfMesMngValidateNext	ok
+itfMesMngWindowType	ok
+itfMesMngWindowTypeAlpha	ok
+itfMesMngSelectDefKey	ok
+itfMesMngGetPhase	ok
+itfMesMngSetPhase	ok
+itfMesMngGetSelPhase	ok
+itfMesMngSetSelPhase	ok
+itfMesMngGetSelectNo	ok
+SetVar	ok
+itfMesMngSetVarImmediate	ok
+itfMesMngSetVarImmediate2	ok
+ConvertZenkakuNumber	ok
+BuildCharacterName	ok
+itfMesMngSetVar	ok
+itfMesMngSetVarScr	ok
+nbSetDevilNameMes	ok
+itfMesMngInitializeManager	ok
+ExitALL	ok
+ps2PoolCreate	ok
+PoolTake	ok
+PoolGive	ok
+frInitTextHandle	ok
+frInitFontHandle	ok
+ps2FontBindContext	ok
+frLoadStyle	ok
+frLoadStyleAll	ok
+frDelFontStyle	ok
+frDelStyleAll	ok
+frSetExtDic	ok
+frDelExtDic	ok
+SetSpaceMetric	ok
+frConvertVal2N	ok
+ps2FontResourceIdentity	ok
+ps2FontResolveCompressedSections	ok
+ps2FontDecodeGlyph	ok
+ps2FontAllocateDecodedGlyph	ok
+ps2FontTakeTextureSlot	ok
+ps2FontGiveTextureSlot	ok
+ps2FontCreateTextureGlyph	ok
+ps2FontAcquireCachedGlyph	ok
+ps2FontReleaseGlyph	ok
+ps2FontFindCode416	ok
+ps2FontFindCode264	ok
+ps2FontRecordLastCode	ok
+frGetFontWidth	ok
+frGetFontHeight	ok
+frGetDefaultFontWidth	ok
+frGetDefaultFontHeight	ok
+ps2FontSetSize	ok
+frGetXShiftLev	ok
+frGetStrWidth	ok
+frGetChainWidth	ok
+RelayoutRequest	ok
+frSetFont	ok
+frSetFontString	ok
+frLinkFontString	ok
+ps2FontCreateControlGlyph	ok
+LinkControlText	ok
+frCombineFontRequest	ok
+frCombineFontRequestEx	ok
+frDestroyFontRequestNow	ok
+frDestroyFontRequestAfter	ok
+frFadeOutText	ok
+frDestroyFontRequestFade	ok
+frSetDrawSpeed	ok
+frSetFontSpace	ok
+frSetDrawPosition	ok
+frSetPriority	ok
+frSetFontSize	ok
+frSetFontColNo	ok
+frSetFontColor	ok
+frEnableMode	ok
+frDisableMode	ok
+frSetFontDrawOT	ok
+frSetStepY	ok
+frResetStepY	ok
+ps2FontLoadNameBitmapBank	ok
+ps2FontReferenceNameBitmapBank	ok
+ps2FontReleaseNameBank	ok
+ps2FontAppendNameFirst	ok
+ps2FontAppendNameSecond	ok
+ps2FontAppendNameBoth	ok
+ps2FontAppendNameBitmapGlyph	ok
+ps2FontAppendResourceName	ok
+ps2FontLinkLetters	ok
+ps2FontLinkSpacedLetters	ok
+frCreateNewHandle	ok
+ps2FontAdvanceMessageLine	ok
+ps2FontAppendSpecialCode	ok
+ps2FontAppendVariable	ok
+frAnalyzeTag	ok
+frAnalyzeMessage	ok
+MessageRequestEx	ok
+ps2FontMessageRequest	ok
+MessageRequestPlain	ok
+MessageRequestKeepSpace	ok
+frGetMessageResult	ok
+frSetVariableRequest	ok
+ControlCodeLength	ok
+CountMessageLines	ok
+CopyMessageLine	ok
+itfPnlRegist2	ok
+itfPnlRelease	ok
+itfPnlSetPosition	ok
+itfPnlSetPositionOffset	ok
+itfPnlSetColor	ok
+itfMiscSetRatioRGB	ok
+scrLinkScriptHandleList	ok
+scrUnlinkScriptHandleList	ok
+scrAddScript	ok
+scrAddScriptFirst	ok
+scrAddScript2	ok
+scrAddScript3	ok
+scrStartScriptProcess	ok
+scrStartScript1a	ok
+scrStartScript2	ok
+scrStartScript3	ok
+scrInitGlobalWork	ok
+scrReleaseScript	ok
+scrAllReleaseScript	ok
+scrSearchScriptName	ok
+scrSearchProcedureName	ok
+scrSetUserData	ok
+scrGetUserData	ok
+scrScriptShutdown	ok
+scrScriptProcess	ok
+scrTraceCode	ok
+Execute PUSHI	ok
+Execute PUSHF	ok
+Execute PUSHIX	ok
+Execute PUSHFX	ok
+Execute PUSHREG	ok
+Execute POPIX	ok
+Execute POPFX	ok
+Execute PROC	ok
+Execute COMM	ok
+Execute END	ok
+Execute JUMP	ok
+Execute CALL	ok
+Execute RUN	ok
+Execute GOTO	ok
+Execute ADD	ok
+Execute SUB	ok
+Execute MUL	ok
+Execute DIV	ok
+Execute MINUS	ok
+Execute NOT	ok
+Execute OR	ok
+Execute AND	ok
+Execute EQ	ok
+Execute NEQ	ok
+Execute S	ok
+Execute L	ok
+Execute SE	ok
+Execute LE	ok
+Execute IF	ok
+Execute PUSHIS	ok
+Execute PUSHLIX	ok
+Execute PUSHLFX	ok
+Execute POPLIX	ok
+Execute POPLFX	ok
+Execute PUSHSTR	ok
+scrPushInt	ok
+scrPushFloat	ok
+scrPushStr	ok
+scrPushRet	ok
+scrPopInt	ok
+scrPopFloat	ok
+TwoOperation	ok
+scrGetIntPara	ok
+scrGetFloatPara	ok
+scrGetStrPara	ok
+scrSetIntReturnValue	ok
+scrSetCodePointer	ok
+scrGetLabelCodeAddress	ok
+scrGetCommandTimer	ok
+scrGetMessageHandle	ok
+scrGetScriptHandle	ok
+scrGetData	ok
+SDF_ABORT1	ok
+Eve_BlurON	ok
+Eve_BlurOFF	ok
+Eve_PartialMultiBlurON	ok
+Eve_PartialMultiBlurOFF	ok
+Eve_DistortionBlurON	ok
+Eve_DistortionBlurOFF	ok
+Eve_RippleBlurON	ok
+Eve_RippleBlurOFF	ok
+Eve_FilterON	ok
+Eve_FilterOFF	ok
+Eve_PartialMultiFilterON	ok
+Eve_PartialMultiFilterOFF	ok
+dds3StopQuake	ok
+Eve_BlurGetParam	ok
+Eve_PartialMultiBlurEditorGetParams	ok
+Eve_DistortionBlurEditorGetParams	ok
+Eve_RippleBlurEditorGetParams	ok
+Eve_FilterEditorGetParams	ok
+Eve_PartialMultiFilterEditorGetParams	ok
+Eve_BlurSetParam	ok
+Eve_PartialMultiBlurSetParam	ok
+Eve_DistortionBlurSetParam	ok
+Eve_RippleBlurSetParam	ok
+Eve_FilterSetParam	ok
+Eve_PartialMultiFilterSetParam	ok
+Eve_DistortionBlurSetTex	ok
+dds3Filter2Swap	ok
+dds3Filter2On	ok
+dds3Filter2Off	ok
+dds3MFilterSwap	ok
+dds3MFilterOn	ok
+dds3MFilterOff	ok
+dds3Blur2Swap	ok
+dds3Blur2On	ok
+dds3Blur2Off	ok
+dds3MultiBlurSwap	ok
+dds3MultiBlurOn	ok
+dds3MultiBlurOff	ok
+dds3DistBlurSwap	ok
+dds3DistBlurOn	ok
+dds3DistBlurOff	ok
+dds3RipBlurSwap	ok
+dds3RipBlurOn	ok
+dds3RipBlurOff	ok
+dds3SetFilter2Para	ok
+dds3SetFilter2RGBA	ok
+dds3SetMFilterPara	ok
+dds3SetMFilterRGBA	ok
+dds3SetBlur2RGBA	ok
+dds3SetMultiBlurRGBA	ok
+dds3SetDistBlurRGBA	ok
+dds3SetRipBlurRGBA	ok
+dds3SetMFilterArea	ok
+dds3SetMultiBlurArea	ok
+dds3SetDistBlurArea	ok
+dds3SetRipBlurArea	ok
+dds3SetBlur2Area	ok
+dds3SetBlur2Para	ok
+dds3SetMultiBlurPara	ok
+dds3SetDistBlurPara	ok
+dds3SetRipBlurPara	ok
+dds3SetBlur	ok
+dds3SetScreenFovy	ok
+dds3SetAmbient	ok
+dds3SetFog	ok
+dds3SetLight	ok
+setdraw_xy	ok
+dds3SetLightColor	ok
+dds3SetLightDir	ok
+dds3SetAmbientColor	ok
+dds3SetFogColor	ok
+dds3SetFogPara	ok
+dds3SetSoftenBias	ok
+dds3SetQuake	ok
+command 7	ok
+command 8	ok
+command 9	ok
+command 10	ok
+command 13	ok
+command 14	ok
+command 15	ok
+command 16	ok
+command 17	ok
+command 26	ok
+command 36	ok
+command 65	ok
+command 66	ok
+command 67	ok
+command 83	ok
+command 84	ok
+command 109	ok
+command 114	ok
+command 153	ok
+command 165	ok
+command 166	ok
+command 167	ok
+command 168	ok
+command 169	ok
+command 171	ok
+command 172	ok
+command 189	ok
+command 234	ok
+command 235	ok
+command 236	ok
+command 237	ok
+command 238	ok
+command 239	ok
+command 240	ok
+command 241	ok
+command 242	ok
+command 243	ok
+command 295	ok
+command 296	ok
+command 297	ok
+command 298	ok
+command 299	ok
+command 300	ok
+command 301	ok
+command 302	ok
+command 303	ok
+command 304	ok
+command 305	ok
+command 306	ok
+command 307	ok
+command 308	ok
+command 309	ok
+command 310	ok
+command 311	ok
+command 322	ok
+command 323	ok
+command 324	ok
+command 325	ok
+command 326	ok
+command 327	ok
+command 180	ok
+command 181	ok
+command 182	ok
+command 187	ok
+command 188	ok
+command 71	ok
+command 112	ok
+command 290	ok
+command 32	ok
+command 313	ok
+command 387	ok
+command 28	ok
+command 314	ok
+command 374	ok
+command 390	ok
+command 225	ok
+command 388	ok
+command 335	ok
+command 336	ok
+command 346	ok
+command 337	ok
+command 338	ok
+command 344	ok
+command 29	ok
+command 348	ok
+command 30	ok
+command 369	ok
+command 370	ok
+command 386	ok
+command 371	ok
+command 372	ok
+command 373	ok
+command 368	ok
+command 375	ok
+GetButuriAttack	ok
+GetButuriKaifuku	ok
+GetMagicAttack	ok
+GetMagicKaifuku	ok
+GetMaxHpWazaPoint	ok
+GetAisyoRitu	ok
+datGetSkillKouka	ok
+datGetSkillBadKouka	ok
+datExecSkill	ok
+datPartyDamage	ok
+datPartyDamageFld	ok
+datPartyDamagePipe	ok
+datPartyKaifuku	ok
+affinityRate	ok
+datCheckTalk	ok
+datGetLevelForDraw	ok
+datCheckPlayerDead	ok
+datAddMaka	ok
+datCheckMaka	ok
+datInitPlayer	ok
+datGetUniqueDevilId	ok
+datSearchDevilStock	ok
+datCheckStockFull	ok
+datDelDevil	ok
+datCheckItemFull	ok
+datInitBossPress	ok
+datBossRashGetRec	ok
+datBossRashUpdRec	ok
+datBossRashChk	ok
+nbGetKoukaProcessData	ok
+nbGetUniqueIdKoukaPacketCnt	ok
+nbGetKoukaPacketTypeCnt	ok
+UnlinkKoukaPacket	ok
+nbAddKoukaPacket	ok
+DelKoukaPacket	ok
+nbDelKoukaPacket	ok
+nbDelUniqueIdKoukaPacket	ok
+nbDelAllKoukaPacketType	ok
+nbDelAllMojiNumEffectKoukaPacket	ok
+nbOnOffKoukaPacketFlag	ok
+nbCheckSePacket	ok
+nbAddHatudoEffectEndPacket	ok
+nbAddSkillColorOffPacket	ok
+nbAddHitStopPacket	ok
+nbAddPanelStockFadeOutPacket	ok
+nbAddPanelStockEndPacket	ok
+nbAddMotionStopPacket	ok
+nbAddMotionStopClearPacket	ok
+nbAddBadEffKaifukuPacket	ok
+nbAddBadMotKaifukuPacket	ok
+nbAddAnalyzePacket	ok
+nbAddFlyKoukaPacket	ok
+nbAddUnitHomeColKoukaPacket	ok
+nbAddUnitHomeAKoukaPacket	ok
+nbAddMotionKoukaPacket	ok
+nbAddFormOnOffPacket	ok
+nbAddDeadEventKoukaPacket	ok
+nbAddBadMotKoukaPacket	ok
+nbAddBadEffKoukaPacket	ok
+nbAddUnitColKoukaPacket	ok
+nbAddUnitAKoukaPacket	ok
+nbAddHpMpKoukaPacket	ok
+nbAddBadStatKoukaPacket	ok
+nbAddHojoKoukaPacket	ok
+nbAddFormFlagOnOffPacket	ok
+nbAddSkillNamePacket	ok
+nbAddFlareChargePacket	ok
+nbAddFadeOutKoukaPacket	ok
+nbAddFadeInKoukaPacket	ok
+nbAddSkillColorPacket	ok
+nbAddHomeRotKoukaPacket	ok
+nbAddNewPressPacket	ok
+nbAddSummonKoukaPacket	ok
+nbAddPadShockPacket	ok
+nbAddJyokyoHelpPacket	ok
+nbAddSkillEffectKoukaPacket	ok
+nbAddSkillEffectKoukaPacket1	ok
+nbAddSkillEffectKoukaPacket2	ok
+nbAddNumEffKoukaPacket	ok
+nbAddMojiEffKoukaPacket	ok
+nbAddTargetMoveKoukaPacket	ok
+nbAddHomeMoveKoukaPacket	ok
+nbAddRotKoukaPacket	ok
+nbAddSkillMotionKoukaPacket	ok
+nbAddDmgMotKoukaPacket	ok
+nbAddEasyDmgMotKoukaPacket	ok
+nbAddBadDmgMotKoukaPacket	ok
+nbAddPressPacket	ok
+nbAddSePacket	ok
+nbAddSePacket2	ok
+nbAddSePacket3	ok
+nbAddSakeKoukaPacket	ok
+nbAddDeadPcmPacket	ok
+nbAddReturnKoukaPacket	ok
+nbMakeSummonPacket	ok
+nbMakeReturnPacket	ok
+nbMakeUnitFadeInPacket	ok
+nbMakeUnitFadeOutPacket	ok
+nbMakeDeadPacket	ok
+nbCheckEventDead	ok
+nbCheckDeadScript	ok
+nbCheckDeadEvent	ok
+ClearTimeList	ok
+CheckAction_NON	ok
+SetHpForTimeList	ok
+GetTimeListHp	ok
+GetUnlockTime	ok
+GetEndTime	ok
+CheckTimeListDead	ok
+CheckTimeListDeadEnemyParty	ok
+nbAddTimeListHp	ok
+AddTimeListHp	ok
+OverwriteTimeList	ok
+SetTimeList	ok
+GetAllEndTime	ok
+GetAllUnlockTime	ok
+nbGetActionSeq	ok
+nbGetPrevActionSeq	ok
+SetNextActionSeq	ok
+nbCommand_BTL_CAM_1SHOT	ok
+nbCommand_BTL_CAM_BOUGAI	ok
+nbCommand_BTL_PNL_OFF	ok
+nbCommand_BTL_EVENT	ok
+nbCommand_BTL_PRESS	ok
+nbCommand_BTL_TAIKYO	ok
+nbCommand_BTL_ALLTAIKYO	ok
+nbCommand_BTL_FORM_PLY_ON	ok
+nbCommand_BTL_CAM_2SHOT	ok
+nbCommand_BTL_NAKAMA	ok
+nbCommand_BTL_FORM_ALL_ON	ok
+nbCommand_BTL_FORM_ENE_ON	ok
+nbCommand_BTL_AI_CHANGE_OFF	ok
+nbCommand_BTL_AI_CHANGE_ON	ok
+nbInitAiScript	ok
+nbCameraSetState	ok
+SetActionSeq	ok
+nbActionProcess1	ok
+CheckAction_BAD	ok
+SetAction_BADWAIT	ok
+CheckAction_BADWAIT	ok
+SetAction_WAIT	ok
+CheckAction_WAIT	ok
+SetAction_ESCAPE	ok
+CheckAction_ESCAPE	ok
+SetAction_RETURN	ok
+CheckAction_RETURN	ok
+CheckAction_NEGO	ok
+CheckAction_NEGORESULT	ok
+UnitKyoseiDisp	ok
+SetDeadPacket	ok
+SetPress	ok
+SetNewPress	ok
+SetHitStopFrame	ok
+SetEnemyEscapePacket	ok
+SetAuroraPacket	ok
+SetAddPressPacket	ok
+SetAddFlareChargePacket	ok
+SetMakaPacket	ok
+SetTorafuPacket	ok
+SetAnalyzePacket	ok
+SetSakePacket	ok
+SetMissPacket	ok
+SetDamagePacket	ok
+nbAddOngBunshinPacket	ok
+nbAddOngBunshin2Packet	ok
+nbAddOngOutPacket	ok
+nbAddOngOut2Packet	ok
+SetOngShadowPacket	ok
+SetOngShadowPacket2	ok
+SetTargetPlayer	ok
+SetTargetParty	ok
+CheckArrCounter	ok
+CheckCounter	ok
+CheckMukanNego	ok
+CheckSenseiNego	ok
+CheckInotiNego	ok
+CheckBinjoNego	ok
+CheckDeadScript	ok
+CheckKoketaNego	ok
+KyouseiPress	ok
+DokodemoPoa	ok
+SetAction_CHECK1	ok
+CheckAction_CHECK1	ok
+SetNowActionStat	ok
+nbGetNakama	ok
+SetAction_NEGO	ok
+SetAction_NEGORESULT	ok
+SetAction_READY	ok
+CheckAction_READY	ok
+SetAllPacket	ok
+SetAction_SKILL	ok
+CheckAction_SKILL	ok
+GetKoukaList	ok
+nbGetMotionEndType	ok
+nbGetMotionEndData	ok
+nbCameraSetTaizi	ok
+nbAppendEnemyDevilWork	ok
+nbGetRandamStock	ok
+nbClearCommandMemeoyRenzoku	ok
+SetPlayerSummonPacket	ok
+SetAction_AISCR	ok
+CheckAction_AISCR	ok
+SetAction_DEADSCRIPT	ok
+CheckAction_DEADSCRIPT	ok
+SetAction_END	ok
+SetAction_NON	ok
+CheckAction_AI	ok
+SetAction_INVISIBLE	ok
+CheckAction_INVISIBLE	ok
+SetAction_CHECK3	ok
+CheckAction_CHECK3	ok
+SetAction_ATO	ok
+CheckAction_ATO	ok
+CheckAction_END	ok
+nbMakePressPacket	ok
+nbMakeNewPressPacket	ok
+nbMakeFlyBadPacket	ok
+nbMakeBadDamagePacket	ok
+nbMakeBadKaifukuPacket	ok
+nbAddNegoIdKouho	ok
+nbGetPrevNegoId	ok
+nbGetBackNoNegoId	ok
+nbSetMesMakka	ok
+nbSetMesItem	ok
+nbClsNegoMessage	ok
+nbDispNegoMessage	ok
+nbCheckNegoMessage	ok
+nbSetNegoMesVar	ok
+nbGetNegoYaruMakkaA	ok
+nbGetNegoYaruMakkaB	ok
+nbGetNegoKureMakkaA	ok
+nbGetNegoKureMakkaB	ok
+nbGetNegoKureHpA	ok
+nbGetNegoKureHpB	ok
+nbGetNegoKureMpA	ok
+nbGetNegoKureMpB	ok
+nbGetKureItemA	ok
+nbGetKureItemB	ok
+nbSelectKureItemA	ok
+nbSelectKureItemB	ok
+nbGetNegoRequestType	ok
+nbGetNegoTuikaRequestType	ok
+nbGetNegoYaruItemA	ok
+nbGetNegoYaruItemB	ok
+nbGetNegoYaruStone	ok
+nbGetQuestionType	ok
+nbGetInfoMsg	ok
+nbCheckSelectMesJoukenAri	ok
+nbSetNegoNoMotion	ok
+nbSetNegoYesMotion	ok
+nbGetInnenNegoID	ok
+nbSetAllHojoSkillWork	ok
+nbSearchHojoSkillWork	ok
+nbGetHojoSkillWorkCnt	ok
+nbNegoProcess1	ok
+nbNegoProcessMessage	ok
+nbNegoProcessMessageChk	ok
+nbNegoProcessEnd	ok
+nbNegoShutdown	ok
+InitNegoProcessData	ok
+ChkAisyo	ok
+nbChkNegoAisyo	ok
+nbChkNegoAisyo2	ok
+GetMakaProcessData	ok
+nbMakaDispOn	ok
+nbMakaDispOff	ok
+maccaDigit	ok
+DispMaka	ok
+stepMaccaWindow	ok
+nbMakaProcess1	ok
+nbMakaShutdown	ok
+InitMakaProcessData	ok
+nbInitMakaProcess	ok
+nbStartBattleEventSound	ok
+nbStopBattleEventSound	ok
+nbLoadBattleEventPack	ok
+nbLoadBattleEventPackInit	ok
+nbUpdateEventProcessData	ok
+nbNextEventSeq	ok
+nbGetEventForm	ok
+nbCreateBasicEffect	ok
+ResetWaitMotion	ok
+SetWaitMotion	ok
+nbGetDeadEventFadeTime	ok
+nbGetDeadEventFadeOutFrame	ok
+nbGetDeadEventFadeInFrame	ok
+nbGetDeadEventFadeStopFrame	ok
+nbEventProcess1	ok
+nbEventProcess3	ok
+nbEventShutdown	ok
+nbInitEventProcess	ok
+GetUnitID	ok
+nbGetMotionSeNo	ok
+GetMotionMIDI	ok
+nbGetMotionMIDI	ok
+GetNegoMIDI	ok
+nbGetNegoMIDI	ok
+nbMemoryLoadNegoSe	ok
+nbMemoryLoadMotionSe	ok
+nbReleaseUnitSounds	ok
+nbRetainUnitSounds	ok
+nbRequestUnitSounds	ok
+nbUpdateSoundTable	ok
+nbEmptySoundEntry	ok
+nbFindUnitSounds	ok
+nbFreeSound1	ok
+nbFreeSound	ok
+nbInitSound	ok
+GetBgmCategory	ok
+nbGetBgmCategoryInBattle	ok
+nbGetBgmCategoryInField	ok
+nbGetEncountJoken	ok
+nbGetEncountMax	ok
+nbGetEncountCnt	ok
+nbEncountCalc	ok
+nbCheckEncountLevel	ok
+nbResetEncountCount	ok
+nbBgmLoadChk	ok
+nbBgmLoad	ok
+nbBgmNext	ok
+nbBgmPlay	ok
+nbBgmTrans	ok
+nbBgmFadeOut	ok
+nbBgmStop	ok
+nbBgmChannelReset	ok
+nbEncProcess1	ok
+nbEncProcess2	ok
+nbEncProcess2_5	ok
+nbEncProcess2_55	ok
+nbEncProcess2_6	ok
+nbEncProcess3	ok
+nbEncShutdown	ok
+nbInitEncProcess	ok
+nbFormDispOff2	ok
+Flow1_3	ok
+Flow1_4	ok
+Flow1_5	ok
+Flow1_6	ok
+Flow1_7	ok
+Flow1_8	ok
+Flow1_9	ok
+Flow1_10	ok
+Flow1_11	ok
+Flow1_12	ok
+Flow1_13	ok
+Flow1_14	ok
+Flow1_15	ok
+Flow1_16	ok
+Flow1_17	ok
+Flow1_18	ok
+Flow1_19	ok
+Flow1_20	ok
+Flow1_21	ok
+Flow1_22	ok
+Flow1_23	ok
+Flow1_24	ok
+Flow1_25	ok
+Flow1_26	ok
+Flow1_27	ok
+Flow1_28	ok
+Flow1_29	ok
+Flow1_30	ok
+Flow1_31	ok
+Flow1_32	ok
+Flow1_33	ok
+Flow1_34	ok
+Flow1_35	ok
+Flow1_36	ok
+Flow1_37	ok
+Flow1_38	ok
+Flow1_39	ok
+nbNegoFlowOne	ok
+Flow2_1	ok
+Flow2_2	ok
+Flow2_3	ok
+Flow2_4	ok
+Flow2_5	ok
+Flow2_6	ok
+Flow2_7	ok
+Flow2_8	ok
+Flow2_9	ok
+Flow2_10	ok
+Flow2_11	ok
+Flow2_12	ok
+Flow2_13	ok
+Flow2_14	ok
+Flow2_15	ok
+Flow2_16	ok
+nbNegoFlowFullMoon	ok
+Flow3_1	ok
+Flow3_2	ok
+nbNegoFlowStock	ok
+Flow4_1	ok
+Flow4_2	ok
+Flow4_3	ok
+Flow4_4	ok
+Flow4_5	ok
+Flow4_6	ok
+Flow4_7	ok
+Flow4_8	ok
+Flow4_9	ok
+Flow4_10	ok
+Flow4_11	ok
+Flow4_12	ok
+Flow4_13	ok
+nbNegoFlowDouchara	ok
+Flow5_1	ok
+Flow5_2	ok
+Flow5_3	ok
+Flow5_4	ok
+Flow5_5	ok
+Flow5_6	ok
+Flow5_7	ok
+Flow5_8	ok
+Flow5_9	ok
+Flow5_10	ok
+Flow5_11	ok
+Flow5_12	ok
+Flow5_13	ok
+Flow5_14	ok
+Flow5_15	ok
+Flow5_16	ok
+Flow5_17	ok
+Flow5_18	ok
+Flow5_19	ok
+Flow5_20	ok
+Flow5_21	ok
+nbNegoFlowInnen	ok
+Flow6_1	ok
+Flow6_2	ok
+Flow6_3	ok
+Flow6_4	ok
+Flow6_5	ok
+Flow6_6	ok
+Flow6_7	ok
+Flow6_8	ok
+Flow6_9	ok
+Flow6_10	ok
+Flow6_11	ok
+Flow6_12	ok
+Flow6_13	ok
+Flow6_14	ok
+Flow6_15	ok
+Flow6_16	ok
+Flow6_17	ok
+Flow6_18	ok
+Flow6_19	ok
+Flow6_20	ok
+Flow6_21	ok
+Flow6_22	ok
+Flow6_23	ok
+Flow6_24	ok
+Flow6_25	ok
+Flow6_26	ok
+Flow6_27	ok
+Flow6_28	ok
+Flow6_29	ok
+Flow6_30	ok
+Flow6_31	ok
+Flow6_32	ok
+Flow6_33	ok
+Flow6_34	ok
+Flow6_35	ok
+Flow6_36	ok
+Flow6_37	ok
+Flow6_38	ok
+Flow6_39	ok
+Flow6_40	ok
+Flow6_41	ok
+Flow6_42	ok
+Flow6_43	ok
+Flow6_44	ok
+Flow6_45	ok
+Flow6_46	ok
+Flow6_47	ok
+Flow6_48	ok
+Flow6_49	ok
+Flow6_50	ok
+Flow6_51	ok
+Flow6_52	ok
+Flow6_53	ok
+Flow6_54	ok
+Flow6_55	ok
+Flow6_56	ok
+Flow6_57	ok
+Flow6_58	ok
+Flow6_59	ok
+Flow6_60	ok
+Flow6_61	ok
+Flow6_62	ok
+Flow6_63	ok
+Flow6_64	ok
+Flow6_65	ok
+Flow6_66	ok
+Flow6_67	ok
+Flow6_69	ok
+Flow6_70	ok
+Flow6_71	ok
+Flow6_72	ok
+Flow6_73	ok
+Flow6_74	ok
+Flow6_80	ok
+Flow6_81	ok
+nbNegoFlowTwo	ok
+Flow7_1	ok
+Flow7_3	ok
+Flow7_11	ok
+Flow7_15	ok
+Flow7_20	ok
+Flow7_22	ok
+Flow7_23	ok
+Flow7_24	ok
+Flow7_25	ok
+Flow7_26	ok
+nbNegoFlowQuestion	ok
+Flow8_1	ok
+Flow8_2	ok
+Flow8_3	ok
+Flow8_4	ok
+Flow8_5	ok
+Flow8_6	ok
+Flow8_7	ok
+Flow8_8	ok
+Flow8_9	ok
+Flow8_10	ok
+Flow8_11	ok
+Flow8_12	ok
+Flow8_13	ok
+Flow8_14	ok
+Flow8_15	ok
+Flow8_16	ok
+Flow8_17	ok
+Flow8_18	ok
+Flow8_19	ok
+nbNegoFlowFight	ok
+Flow9_1	ok
+Flow9_2	ok
+Flow9_3	ok
+Flow9_4	ok
+Flow9_5	ok
+Flow9_6	ok
+Flow9_7	ok
+Flow9_9	ok
+Flow9_10	ok
+Flow9_11	ok
+Flow9_13	ok
+Flow9_14	ok
+Flow9_15	ok
+Flow9_16	ok
+Flow9_17	ok
+Flow9_18	ok
+Flow9_19	ok
+Flow9_20	ok
+Flow9_21	ok
+Flow9_22	ok
+nbNegoFlowOk	ok
+Flow10_1	ok
+Flow10_2	ok
+Flow10_3	ok
+Flow10_4	ok
+Flow10_5	ok
+Flow10_6	ok
+Flow10_7	ok
+Flow10_8	ok
+Flow10_9	ok
+Flow10_10	ok
+Flow10_11	ok
+Flow10_12	ok
+Flow10_13	ok
+Flow10_15	ok
+Flow10_16	ok
+Flow10_17	ok
+Flow10_18	ok
+Flow10_19	ok
+Flow10_20	ok
+Flow10_21	ok
+Flow10_22	ok
+Flow10_23	ok
+Flow10_24	ok
+Flow10_25	ok
+Flow10_26	ok
+Flow10_27	ok
+Flow10_28	ok
+Flow10_29	ok
+Flow10_30	ok
+Flow10_31	ok
+Flow10_32	ok
+Flow10_33	ok
+nbNegoFlowNg	ok
+Flow11_1	ok
+Flow11_2	ok
+Flow11_3	ok
+Flow11_4	ok
+Flow11_5	ok
+Flow11_6	ok
+Flow11_7	ok
+Flow11_8	ok
+Flow11_9	ok
+nbNegoFlowDrain	ok
+Flow12_1	ok
+Flow12_2	ok
+Flow12_3	ok
+Flow12_4	ok
+Flow12_16	ok
+Flow12_17	ok
+Flow12_18	ok
+Flow12_19	ok
+Flow12_20	ok
+Flow12_21	ok
+Flow12_22	ok
+Flow12_23	ok
+Flow12_24	ok
+Flow12_25	ok
+Flow12_26	ok
+Flow12_27	ok
+Flow12_28	ok
+Flow12_29	ok
+Flow12_30	ok
+Flow12_31	ok
+Flow12_35	ok
+Flow12_36	ok
+Flow12_37	ok
+Flow12_38	ok
+Flow12_39	ok
+Flow12_40	ok
+Flow12_41	ok
+Flow12_42	ok
+Flow12_43	ok
+Flow12_44	ok
+Flow12_45	ok
+Flow12_46	ok
+Flow12_47	ok
+Flow12_48	ok
+Flow12_49	ok
+nbNegoFlowMukan	ok
+Flow13_1	ok
+Flow13_2	ok
+Flow13_3	ok
+Flow13_4	ok
+Flow13_5	ok
+Flow13_6	ok
+Flow13_7	ok
+Flow13_8	ok
+Flow13_9	ok
+Flow13_10	ok
+Flow13_11	ok
+Flow13_12	ok
+nbNegoFlowSensei	ok
+Flow14_1	ok
+Flow14_2	ok
+nbNegoFlowBinjo	ok
+Flow15_1	ok
+Flow15_5	ok
+Flow15_6	ok
+Flow15_7	ok
+Flow15_8	ok
+Flow15_10	ok
+Flow15_11	ok
+Flow15_12	ok
+Flow15_13	ok
+Flow15_14	ok
+Flow15_17	ok
+Flow15_18	ok
+Flow15_19	ok
+Flow15_20	ok
+Flow15_22	ok
+Flow15_23	ok
+nbNegoFlowInoti	ok
+Flow16_1	ok
+Flow16_2	ok
+Flow16_3	ok
+nbNegoFlowKoketa	ok
+nbFormDispOn2	ok
+nbResetFormPosRot	ok
+nbFormDispOff	ok
+nbGroupFormDispOff	ok
+nbAllFormDispOff	ok
+nbFormDispOn	ok
+nbGroupFormDispOn	ok
+nbAllFormDispOn	ok
+nbSingleFormExceptedDispOff	ok
+nbDoubleFormExceptedDispOff	ok
+nbSetFormPos	ok
+nbSetFormPosRot	ok
+nbResetAllFormPosRot	ok
+nbGetPartyDistance	ok
+nbGetSummonInterval	ok
+nbFormationGetRadiusDef	ok
+nbGetEnemyInterval	ok
+nbPanelPartyShow	ok
+nbPanelPartyHide	ok
+nbCameraSetBougai	ok
+nbCameraSetTarget	ok
+nbCameraSetHojo	ok
+nbCameraSetEveTarget	ok
+effBTLSkillGetInvokeFormation	ok
+RunBossEffectKouka	ok
+RunMoveKouka	ok
+RunUnitColKouka	ok
+RunPressKouka	ok
+RunBadMotKaifukuKouka	ok
+RunFadeKouka	ok
+RunSummonKouka	ok
+RunDamageMotionKouka	ok
+RunSkillEffectKouka	ok
+RunMotionKouka	ok
+RunSeKouka	ok
+RunMotionStopKouka	ok
+RunReturnKouka	ok
+RunSakeKouka	ok
+RunBadEffKouka	ok
+RunBadEffKaifukuKouka	ok
+RunHitEffectKouka	ok
+RunHpMpKouka	ok
+RunBadStatKouka	ok
+RunHitStopKouka	ok
+RunAnalyzeKouka	ok
+RunFormOnOffKouka	ok
+RunFormFlagOnOffKouka	ok
+RunDeadEventKouka	ok
+RunHojoKouka	ok
+RunFlareChargeKouka	ok
+RunPadShockKouka	ok
+RunSkillColorKouka	ok
+RunStockPanelFadeOutKouka	ok
+RunStockPanelEndKouka	ok
+RunHelpKouka	ok
+RunSkillNameKouka	ok
+RunHatudoEffectEndKouka	ok
+nbKoukaProcess1	ok
+nbDelUnEventKoukaPacket	ok
+nbKoukaShutdown	ok
+InitKoukaProcessData	ok
+nbInitKoukaProcess	ok
+dds3Stop	ok
+dds3SlowOn	ok
+datGetBaseParam (instructions)	ok
+datGetMagicHitPow (instructions)	ok
+datGetSakePow (instructions)	ok
+datGetBaseMaxMp (instructions)	ok
+datAddHp (instructions)	ok
+datGetSkillCost (instructions)	ok
+nbGetTargetTypeRuleArea (instructions)	ok
+cmbChkEventDevil (instructions)	ok
+cmbCalcIkenieExp (instructions)	ok
+cmbGetKeisyoSkillLevel (instructions)	ok
+cmbCalcKeisyoSkillRate (instructions)	ok
+cmbGetMutationSkill (instructions)	ok
+datGetItemSkillNo (instructions)	ok

@@ -30,6 +30,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BUILDS = ("maniax-us", "hardtype", "chronicle", "maniax", "vanilla")
 # When a function has several tests, the worst outcome stands.
 RANK = {"differ": 3, "ok": 2, "pending": 1, "legacy": 0}
+TAGGED = {}   # original name -> address, from the rewrites' tags (rewrites())
 
 
 def read_functions(path):
@@ -54,12 +55,14 @@ def read_map():
     return functions
 
 
-def verification(functions):
+def verification(functions, tagged):
     """{build: {address: outcome}} from each build's recorded test outcomes.
     A test is named after the original function it proves; a suffix in
     parentheses names the kind of test ("nbGetHitType (instructions)")."""
     by_name = {}
     for address, (_, name, _) in functions.items():
+        by_name.setdefault(name, address)
+    for name, address in tagged.items():   # the original names the source's tags give
         by_name.setdefault(name, address)
     out = {}
     for build in BUILDS:
@@ -103,7 +106,7 @@ def rewrites():
     of a function defined above it, tagged with the function's address, so a
     definition outside the section is the rewrite when there is one."""
     found, in_section = {}, set()
-    tag = re.compile(r"^//\s*(?:\w+\s*@\s*)?0x([0-9A-Fa-f]{8})\b")
+    tag = re.compile(r"^//\s*(?:(\w+)\s*@\s*)?0x([0-9A-Fa-f]{8})\b")
     definition = re.compile(r"^[A-Za-z_][\w:<>&\* ]*?\b(\w+)\(")
     # (US Maniax's build: tools/sources.py)
     import sources
@@ -116,7 +119,9 @@ def rewrites():
             m = tag.match(line)
             if not m:
                 continue
-            address = m.group(1).lower()
+            address = m.group(2).lower()
+            if m.group(1):
+                TAGGED.setdefault(m.group(1), address)
             if section and address in found and address not in in_section:
                 continue
             for following in lines[i + 1:i + 40]:
@@ -135,7 +140,7 @@ def main():
     functions = read_functions(sys.argv[1]) if len(sys.argv) > 1 else read_map()
     legacy = legacy_definitions(functions)
     rewritten = rewrites()
-    verified = verification(functions)
+    verified = verification(functions, TAGGED)
     counts = {}
     out = ROOT / "reference" / "function-map.tsv"
     with open(out, "w", encoding="utf-8", newline="\n") as f:
