@@ -755,10 +755,13 @@ uint64_t origVmVoidAt(uint32_t entry, std::initializer_list<uint64_t> args)
     call(entry, args, true);
     return 0;
 }
-uint64_t origOwn(uint32_t entry, std::initializer_list<uint64_t> args)
+uint64_t origOwn(uint32_t entry, std::initializer_list<uint64_t> args, std::initializer_list<uint32_t> callees)
 {
     std::memset(fw_ram + FW_STACK_TOP - 0x2000, 0, 0x2000 + 0x40);
-    return norm(original().call(version::codeOrDie(entry), args, {}, true));
+    std::vector<uint32_t> own{version::codeOrDie(entry)};
+    for (uint32_t callee : callees)
+        own.push_back(version::codeOrDie(callee));
+    return norm(original().call(own[0], args, {}, own));
 }
 uint32_t origVmFloat() { return original().cpu.f[0]; }
 uint64_t interpretedCalls() { return ee::Interpreter::calls(); }

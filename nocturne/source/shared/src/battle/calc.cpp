@@ -12,6 +12,7 @@
 #include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/combatant.hpp"
 #include "nocturne/battle/encount.hpp"
+#include "nocturne/data/difficulty.hpp"
 #include "nocturne/data/progression.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/unit.hpp"
@@ -38,7 +39,7 @@ bool hasAilment(const UnitWork& unit, Ailment ailment)
     return unit.ailment() == static_cast<uint16_t>(ailment);
 }
 
-bool isNormalDifficulty() { return evt::BitCheck(EventBit::NormalDifficulty); }
+bool isNormalDifficulty() { return dat::isNormalDifficulty(); }
 
 bool percentRoll(int32_t chance) { return sdf::GetRandInt(100) < chance; }
 
@@ -941,7 +942,7 @@ HitType rollCritical(ActionProcessData& action, int32_t skill, int32_t source, i
     case Ailment::Sleep: case Ailment::Bind:   multiplier = 8.0f;   break;
     default: break;
     }
-    if ((action.data->form[target].stat & FormationStat::Unknown2000) && !evt::BitCheck(EventBit::NormalDifficulty))
+    if ((action.data->form[target].stat & FormationStat::Unknown2000) && !dat::isNormalDifficulty())
         multiplier = 100.0f;
 
     bool mightFired = false;
@@ -1021,7 +1022,7 @@ HitType rollCritical(ActionProcessData& action, int32_t skill, int32_t source, i
     case Ailment::Sleep: case Ailment::Bind:   multiplier = 8.0f;   break;
     default: break;
     }
-    if ((action.data->form[target].stat & FormationStat::Unknown2000) && !evt::BitCheck(EventBit::NormalDifficulty))
+    if ((action.data->form[target].stat & FormationStat::Unknown2000) && !dat::isNormalDifficulty())
         multiplier = 100.0f;
 
     // Might: normal attacks crit n/100 times as often (n = 300).

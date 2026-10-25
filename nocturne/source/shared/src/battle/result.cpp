@@ -55,23 +55,23 @@ namespace nocturne::nb {
 
 #if NOCTURNE_HARDTYPE
 // nbResultAddExp @ 0x0024C060 (in place): every stock demon shares, in full
-// with skill 0x162 and three quarters without.
+// with Watchful (skill 0x162) and three quarters without.
 bool stockExpShare(const UnitWork& unit, int32_t& exp)
 {
-    const bool skill = dat::hasSkill(unit, 0x162);
-    if (exp > 0 && !skill)
+    const bool watchful = dat::hasSkill(unit, skill::Watchful);
+    if (exp > 0 && !watchful)
         exp = static_cast<int32_t>(static_cast<uint32_t>(exp) * 3u) >> 2;
     return true;
 }
 #else
-// nbResultAddExp @ 0x0024C060: only a stock demon with skill 0x162 shares,
+// nbResultAddExp @ 0x0024C060: only a stock demon with Watchful (skill 0x162) shares,
 // 1/n of the experience (n: that skill's).
 bool stockExpShare(const UnitWork& unit, int32_t& exp)
 {
-    if (!dat::hasSkill(unit, 0x162))
+    if (!dat::hasSkill(unit, skill::Watchful))
         return false;
     if (exp > 0) {
-        const int32_t n = dat::specialSkill(0x162).n;
+        const int32_t n = dat::specialSkill(skill::Watchful).n;
         if (n == 0)
             divideByZeroTrap();
         exp /= n;

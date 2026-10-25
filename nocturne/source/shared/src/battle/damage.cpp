@@ -8,6 +8,7 @@
 #include "nocturne/battle/affinity.hpp"
 #include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/combatant.hpp"
+#include "nocturne/data/difficulty.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/unit.hpp"
 #include "nocturne/ee/double.hpp"
@@ -26,7 +27,7 @@ using ee::literal;
 
 namespace {
 
-bool isNormalDifficulty() { return evt::BitCheck(EventBit::NormalDifficulty); }
+bool isNormalDifficulty() { return dat::isNormalDifficulty(); }
 
 bool hasAilment(const UnitWork& unit, uint16_t ailment) { return unit.ailment() == ailment; }
 
@@ -367,7 +368,7 @@ int32_t maxHpPower(int32_t skill, int32_t source, int32_t target, int32_t power)
         value = Float::fromInt(dat::baseMaxHp(attacker)) / literal(69.6) * Float::fromInt(power);
         value = value * literal(0.6) * Float::fromBits(0x3f690000);
         value = value - 50.0f / Float::fromInt(attacker.level + 10);
-        if (!evt::BitCheck(EventBit::NormalDifficulty))
+        if (!dat::isNormalDifficulty())
             value = value * literal(1.34);
     } else {
         const Float maxHp = Float::fromInt(attacker.maxhp);
@@ -392,7 +393,7 @@ int32_t maxHpPower(int32_t /*skill*/, int32_t source, int32_t target, int32_t po
         value = Float::fromInt(dat::baseMaxHp(attacker)) / literal(69.6) * Float::fromInt(power);
         value = value * literal(0.6);
         value = value - 50.0f / Float::fromInt(attacker.level + 10);
-        if (!evt::BitCheck(EventBit::NormalDifficulty))
+        if (!dat::isNormalDifficulty())
             value = value * literal(1.34);
     } else {
         value = Float::fromInt(attacker.maxhp) / literal(69.6) * Float::fromInt(power) * literal(0.8);
@@ -585,7 +586,7 @@ uint32_t rollAilmentInflict(Float ratio, int32_t skill, int32_t source, int32_t 
         const int32_t a = dat::param(attacker, Param::Luck), d = dat::param(defender, Param::Luck);
         Float threshold = Float::fromInt(a - d) * base * 5.0f / Float::fromInt(4 * d + 4 * a + 100) + base + 0.5f;
         threshold = threshold * rate;
-        bool normal = evt::BitCheck(EventBit::NormalDifficulty);
+        bool normal = dat::isNormalDifficulty();
         if (!defender.isEnemy()) {
             if (normal) {
                 if (bad == ailment::Dead)
@@ -660,7 +661,7 @@ uint32_t rollAilmentInflict(Float ratio, int32_t skill, [[maybe_unused]] int32_t
     if (s.badlevel != 255 && !preview) {
         Float chance = Float::fromInt(s.badlevel);
         Float threshold = chance / 100.0f * rate * 100.0f;
-        bool normal = evt::BitCheck(EventBit::NormalDifficulty);
+        bool normal = dat::isNormalDifficulty();
         if (!defender.isEnemy()) {
             if (normal) {
                 if (bad == ailment::Dead)

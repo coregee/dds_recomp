@@ -24,9 +24,10 @@ import struct
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-# Versions laid out like US Maniax (its addresses); the JP builds need their
-# own table addresses first.
-VARIANT_EXECUTABLES = {"hardtype": "SLUS_209.11"}
+# Versions laid out like US Maniax (its addresses), and Vanilla, whose fusion
+# tables (the compiled ones its code reads that differ) sit at its own
+# addresses (VANILLA_FUSION); its other tables are read from guest memory.
+VARIANT_EXECUTABLES = {"hardtype": "SLUS_209.11", "vanilla": "SLPM_652.42"}
 _arguments = argparse.ArgumentParser(description="Generate the data tables' sources.")
 _arguments.add_argument("--variant", choices=sorted(VARIANT_EXECUTABLES))
 VARIANT = _arguments.parse_args().variant
@@ -167,6 +168,8 @@ def value_text(v, kind):
     if kind == "devil":
         return f"devil::{DEVIL_ID[v]}" if v in DEVIL_ID else f"0x{v:03X}"
     if kind == "skill":
+        if VARIANT == "vanilla" and 0x100 <= v < 0x160:   # its passives: US Maniax's, 0x20 higher (ids.hpp maniaxId)
+            return f"skill::{SKILL_ID[v + 0x20]}" if v + 0x20 in SKILL_ID else f"0x{v:03X}"
         return f"skill::{SKILL_ID[v]}" if v in SKILL_ID else f"0x{v:03X}"
     if kind == "item":
         return f"item::{ITEM_ID[v]}" if v in ITEM_ID else str(v)
@@ -229,7 +232,7 @@ def write(path, text):
 def generate_ids():
     out = [GENERATED, "// IDs of devils, skills and items, and devil races.\n",
            "// Names: reference/names/*.tsv (game text, via the Nocturne Randomizer lists).\n",
-           "#pragma once\n\n#include <cstdint>\n\nnamespace nocturne {\n\n"]
+           "#pragma once\n\n#include <cstdint>\n\n#include \"nocturne/build.hpp\"\n\nnamespace nocturne {\n\n"]
     out.append("enum class Race : uint8_t {\n    None = 0,\n")
     out += [f"    {RACE_ID[i]} = 0x{i:02X},\n" for i in sorted(RACE_ID)]
     out.append("};\n\n")
@@ -237,7 +240,14 @@ def generate_ids():
                                 ("skill", SKILL_ID, 3, "Skill IDs. 0x000-0x11F have a NormalSkill record; 0x128-0x17F are passives with a SpecialSkill record."),
                                 ("item", ITEM_ID, 2, "Item IDs.")):
         out.append(f"// {doc}\nnamespace {ns} {{\n")
-        out += [f"inline constexpr uint16_t {ids[i]} = 0x{i:0{width}X};\n" for i in sorted(ids)]
+        if ns == "skill":   # Vanilla numbers the passives lower (maniaxId)
+            out.append("// Maniax added skills 0x100..0x11F (Dante's and others'), so the first\n"
+                       "// release numbers the skills from 0x120 to 0x17F (the passives) 0x20 lower.\n"
+                       "constexpr uint16_t maniaxId(uint16_t id)\n{\n"
+                       "    return kBuild.vanilla && id >= 0x120 && id < 0x180 ? static_cast<uint16_t>(id - 0x20) : id;\n}\n")
+        out += [f"inline constexpr uint16_t {ids[i]} = " +
+                (f"maniaxId(0x{i:0{width}X});\n" if ns == "skill" and 0x120 <= i < 0x180 else f"0x{i:0{width}X};\n")
+                for i in sorted(ids)]
         out.append(f"}} // namespace {ns}\n\n")
     out.append("} // namespace nocturne\n")
     write(ROOT / "source/shared/include/nocturne/data/ids.hpp", "".join(out))
@@ -406,25 +416,31 @@ def generate_growth():
     write(ROOT / "source/generated/us/src/data/growth_table.cpp", "".join(out))
 
 
+def inheritance_table(us):
+    """An inheritance table's address in this version (Vanilla's block sits
+    0x7BB8 lower; its tables are the same size)."""
+    return us - 0x7BB8 if VARIANT == "vanilla" else us
+
+
 def generate_inheritance():
     out = [HEADER, "// Evolution and skill-inheritance tables, 0x00339640-0x00339CFC.\n\n"]
     out.append("// Evolution needs the event bit set, 0x00339640.\n")
     out.append("const EvolutionRequirement kEvolutionRequirement[6] = {\n")
     for i in range(6):
-        dv, bit = read(0x339640 + i * 4, "HH")
+        dv, bit = read(inheritance_table(0x339640) + i * 4, "HH")
         out.append(f"    {{{value_text(dv, 'devil')}, 0x{bit:X}}},\n")
     out.append("};\n\n// fclKeisyoSkillLevel, 0x00339658: divisor for each skill's inheritance rate.\n")
     out.append("const InheritanceLevelRow kInheritanceLevel[kInheritanceLevelCount] = {\n")
     if VARIANT == "hardtype":   # 3-byte rows (InheritanceLevelPacked)
         for i in range(302):
-            lo, hi, lv = read(0x339658 + i * 3, "BBB")
+            lo, hi, lv = read(inheritance_table(0x339658) + i * 3, "BBB")
             out.append(f"    {{{{0x{lo:02X}, 0x{hi:02X}}}, {lv}}}, // {value_text(lo | hi << 8, 'skill')}\n")
     else:
         for i in range(227):
-            sk, lv, pad = read(0x339658 + i * 4, "HBB")
+            sk, lv, pad = read(inheritance_table(0x339658) + i * 4, "HBB")
             out.append(f"    {{{value_text(sk, 'skill')}, {lv}" + (f", {pad}" if pad else "") + "},\n")
     out.append("};\n\n")
-    base = 0x3399E8
+    base = inheritance_table(0x3399E8)
     unk, *attrs = read(base, "h16h")
     out.append("// Inheritance scores, 0x003399E8: base rate by devil inheritance type (rows)\n")
     out.append("// and skill element (columns).\n")
@@ -435,11 +451,11 @@ def generate_inheritance():
         out.append(f"        {{{key}, {{{', '.join(map(str, scores))}}}}},\n")
     out.append("    },\n};\n\n")
     out.append("// Dark devils, 0x00339BA8.\nconst uint16_t kDarkDevil[37] = {\n")
-    out.append("".join(f"    {value_text(v, 'devil')},\n" for v in read(0x339BA8, "37H")) + "};\n\n")
+    out.append("".join(f"    {value_text(v, 'devil')},\n" for v in read(inheritance_table(0x339BA8), "37H")) + "};\n\n")
     out.append("// Skill power-ups, 0x00339C20: skill -> stronger version.\n")
     out.append("const SkillPowerUp kSkillPowerUp[55] = {\n")
     for i in range(55):
-        a, b = read(0x339C20 + i * 4, "HH")
+        a, b = read(inheritance_table(0x339C20) + i * 4, "HH")
         out.append(f"    {{{value_text(a, 'skill')}, {value_text(b, 'skill')}}},\n")
     out.append("};\n\n} // namespace nocturne::dat\n")
     write(ROOT / "source/generated/us/src/data/inheritance_table.cpp", "".join(out))
@@ -490,6 +506,25 @@ def generate_items():
     write(ROOT / "source/generated/us/src/data/item_table.cpp", "".join(out))
 
 
+# Vanilla's fusion tables: US Maniax's address -> (Vanilla's, record count;
+# None: absent). Two sacrifice results and fourteen event devils came with
+# Maniax, as did the race sacrifices and the Fiends.
+VANILLA_FUSION = {
+    0x32D270: (0x326970, None), 0x32D670: (0x326D70, None), 0x32DA70: (0x327170, None),
+    0x32DB78: (0x327278, None), 0x32DB90: (0x327290, None), 0x32DBB8: (0x3272B8, None),
+    0x32DBD8: (0x3272D8, None), 0x32DBE0: (0x3272E0, None), 0x32DC18: (0x327318, 17),
+    0x32DC90: None, 0x32DCA0: (0x327380, None), 0x32DCC0: (0x3273A0, 20), 0x32DDD0: None,
+}
+
+
+def fusion_table(us, count):
+    """(address, count) of a fusion table in this version, or None."""
+    if VARIANT != "vanilla":
+        return us, count
+    entry = VANILLA_FUSION[us]
+    return None if entry is None else (entry[0], entry[1] or count)
+
+
 def generate_fusion():
     def devil(v):
         return value_text(v, "devil") if v else "0"
@@ -500,7 +535,8 @@ def generate_fusion():
     race_label = lambda r: race_names.get(r, f"race {r}")
     out = [HEADER, "// Fusion tables (fclCombineTable), 0x0032D270-0x0032DE10.\n\n"]
 
-    for name, base, doc in (("kCombineTbl", 0x32D270, "normal fusion"), ("kCombineCurseTbl", 0x32D670, "cursed fusion")):
+    for name, us, doc in (("kCombineTbl", 0x32D270, "normal fusion"), ("kCombineCurseTbl", 0x32D670, "cursed fusion")):
+        base = fusion_table(us, 32)[0]
         out.append(f"// {name[1:]}, 0x{base:08X}: {doc}. [lower race - 1][higher race - 1] -> result race\n")
         out.append(f"// (Fiend is treated as Tyrant). Columns: races 1..32.\n")
         out.append(f"const uint8_t {name}[32][32] = {{\n")
@@ -512,7 +548,7 @@ def generate_fusion():
     out.append("// fclRankUpDownTbl, 0x0032DA70: a Spirit fused with a devil moves it within its race.\n")
     out.append("const SpiritRankTable kRankUpDownTbl[4] = {\n")
     for i in range(4):
-        p = 0x32DA70 + i * 66
+        p = fusion_table(0x32DA70, 4)[0] + i * 66
         spirit = read(p, "H")[0]
         pairs = [read(p + 2 + 2 * k, "BB") for k in range(32)]
         while pairs and pairs[-1] == (0, 0):
@@ -521,7 +557,8 @@ def generate_fusion():
         out.append(f"    {{{devil(spirit)}, {{{body}}}}},\n")
     out.append("};\n\n")
 
-    def pair_table(name, base, count, doc):
+    def pair_table(name, us, count, doc):
+        base, count = fusion_table(us, count)
         out.append(f"// {name[1:]}, 0x{base:08X}: {doc}\n")
         out.append(f"const FusionPair {name}[{count}] = {{\n")
         for i in range(count):
@@ -535,36 +572,33 @@ def generate_fusion():
     out.append("// fclSpiritParamUpTbl, 0x0032DBB8: a Mitama raises two stats (Param) by uprate.\n")
     out.append("const SpiritParamUp kSpiritParamUpTbl[4] = {\n")
     for i in range(4):
-        dv, p1, p2, rate, pad = read(0x32DBB8 + i * 8, "HHHBB")
+        dv, p1, p2, rate, pad = read(fusion_table(0x32DBB8, 4)[0] + i * 8, "HHHBB")
         out.append(f"    {{{devil(dv)}, {{{p1}, {p2}}}, {rate}" + (f", {pad}" if pad else "") + "},\n")
     out.append("};\n\n")
 
     out.append("// fclIkenieExtPatternTbl, 0x0032DBD8: sacrifice by races (empty in the US data).\n")
     out.append("const SacrificeRacePattern kIkenieExtPatternTbl[1] = {\n")
-    out.append("    {" + ", ".join(map(str, read(0x32DBD8, "4B"))) + "},\n};\n\n")
+    out.append("    {" + ", ".join(map(str, read(fusion_table(0x32DBD8, 1)[0], "4B"))) + "},\n};\n\n")
 
     out.append("// fclIkenieExtPatternDevTbl, 0x0032DBE0: devil1 + devil2 + sacrifice -> birth.\n")
     out.append("const SacrificeDevilPattern kIkenieExtPatternDevTbl[7] = {\n")
     for i in range(7):
-        out.append("    {" + ", ".join(devil(v) for v in read(0x32DBE0 + i * 8, "4H")) + "},\n")
+        out.append("    {" + ", ".join(devil(v) for v in read(fusion_table(0x32DBE0, 7)[0] + i * 8, "4H")) + "},\n")
     out.append("};\n\n")
 
     out.append("// fclIkenieExtPatternDev2Tbl, 0x0032DC18: normal result + sacrifice -> birth.\n")
-    out.append("const SacrificeResultPattern kIkenieExtPatternDev2Tbl[19] = {\n")
-    for i in range(19):
-        out.append("    {" + ", ".join(devil(v) for v in read(0x32DC18 + i * 6, "3H")) + "},\n")
+    base, count = fusion_table(0x32DC18, 19)
+    out.append("const SacrificeResultPattern kIkenieExtPatternDev2Tbl[kSacrificeResultPatterns] = {\n")
+    for i in range(count):
+        out.append("    {" + ", ".join(devil(v) for v in read(base + i * 6, "3H")) + "},\n")
     out.append("};\n\n")
 
-    out.append("// fclIkenieExtPatternDevRaceTbl, 0x0032DC90: sacrifice + two races -> birth.\n")
-    out.append("const SacrificeDevilRacePattern kIkenieExtPatternDevRaceTbl[2] = {\n")
-    for i in range(2):
-        dv, r1, r2, b = read(0x32DC90 + i * 6, "HBBH")
-        out.append(f"    {{{devil(dv)}, {r1}, {r2}, {devil(b)}}}, // {race_label(r1)} + {race_label(r2)}\n")
-    out.append("};\n\n")
+    if fusion_table(0x32DC90, 2):
+        race_sacrifices(out, devil, race_label)
 
     out.append("// fclAccidentFailTbl, 0x0032DCA0: fallback results of a fusion accident.\n")
     out.append("const uint16_t kAccidentFailTbl[14] = {\n")
-    out.append("".join(f"    {devil(v)},\n" for v in read(0x32DCA0, "14H")) + "};\n\n")
+    out.append("".join(f"    {devil(v)},\n" for v in read(fusion_table(0x32DCA0, 14)[0], "14H")) + "};\n\n")
 
     out.append("// fclEventDevilTbl, 0x0032DCC0: devils that can't be fused until an event bit is set.\n")
     out.append("const EventDevilRow kEventDevilTbl[kEventDevilCount] = {\n")
@@ -573,11 +607,28 @@ def generate_fusion():
             dv, flag = read(0x32DCC0 + i * 4, "HH")
             out.append(f"    {{{devil(dv)}, 0x{flag:X}}},\n")
     else:
-        for i in range(34):
-            dv, pad, flag = read(0x32DCC0 + i * 8, "HHI")
+        base, count = fusion_table(0x32DCC0, 34)
+        for i in range(count):
+            dv, pad, flag = read(base + i * 8, "HHI")
             out.append(f"    {{{devil(dv)}" + (f", {pad}" if pad else ", 0") + f", 0x{flag:X}}},\n")
     out.append("};\n\n")
 
+    if fusion_table(0x32DDD0, 5):
+        fiend_tables(out, devil, race_label)
+    out.append("} // namespace nocturne::dat\n")
+    write(ROOT / "source/generated/us/src/data/fusion_table.cpp", "".join(out))
+
+
+def race_sacrifices(out, devil, race_label):
+    out.append("// fclIkenieExtPatternDevRaceTbl, 0x0032DC90: sacrifice + two races -> birth.\n")
+    out.append("const SacrificeDevilRacePattern kIkenieExtPatternDevRaceTbl[2] = {\n")
+    for i in range(2):
+        dv, r1, r2, b = read(0x32DC90 + i * 6, "HBBH")
+        out.append(f"    {{{devil(dv)}, {r1}, {r2}, {devil(b)}}}, // {race_label(r1)} + {race_label(r2)}\n")
+    out.append("};\n\n")
+
+
+def fiend_tables(out, devil, race_label):
     out.append("// Fiend fusion (fclCombineManin*), 0x0032DDD0: Kagutsuchi phase ranges, the\n")
     out.append("// races that can produce a Fiend, and the Fiend for each [race][phase range].\n")
     out.append("const MoonRange kCombineManinKagTbl[5] = {\n")
@@ -587,8 +638,8 @@ def generate_fusion():
     out.append("const uint16_t kCombineManinTbl[4][5] = {\n")
     for r in range(4):
         out.append("    {" + ", ".join(devil(v) for v in read(0x32DDE8 + r * 10, "5H")) + "},\n")
-    out.append("};\n\n} // namespace nocturne::dat\n")
-    write(ROOT / "source/generated/us/src/data/fusion_table.cpp", "".join(out))
+    out.append("};\n\n")
+
 
 def generate_devil_ai():
     base, count = 0x3989E0, 384
@@ -643,7 +694,10 @@ def generate_devil_ai():
     write(ROOT / "source/generated/us/src/data/devil_ai_table.cpp", "".join(out))
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and VARIANT == "vanilla":
+    generate_fusion()
+    generate_inheritance()
+elif __name__ == "__main__":
     generate_ids()
     generate_devils()
     generate_skills()

@@ -43,13 +43,18 @@ extern const FusionPair kBirthSpiritTbl[6];    // Spirit pairs that make a Mitam
 extern const SpiritParamUp kSpiritParamUpTbl[4];
 extern const SacrificeRacePattern kIkenieExtPatternTbl[1];
 extern const SacrificeDevilPattern kIkenieExtPatternDevTbl[7];
-extern const SacrificeResultPattern kIkenieExtPatternDev2Tbl[19];
+inline constexpr int kSacrificeResultPatterns = kBuild.vanilla ? 17 : 19;   // (Maniax added two)
+extern const SacrificeResultPattern kIkenieExtPatternDev2Tbl[kSacrificeResultPatterns];
+#if !NOCTURNE_VANILLA   // (Maniax's: the race sacrifices)
 extern const SacrificeDevilRacePattern kIkenieExtPatternDevRaceTbl[2];
+#endif
 extern const uint16_t kAccidentFailTbl[14];
 extern const EventDevilRow kEventDevilTbl[kEventDevilCount];
+#if !NOCTURNE_VANILLA   // (Maniax's: the Fiends)
 extern const MoonRange kCombineManinKagTbl[5];
 extern const uint8_t kCombineManinRaceTbl[4];
 extern const uint16_t kCombineManinTbl[4][5]; // [race][moon range] -> Fiend
+#endif
 
 extern const DevilAI kDevilAI[384];
 
@@ -83,12 +88,16 @@ inline constexpr uint32_t SpiritParamUpTbl  = addr(0x0032dbb8);
 inline constexpr uint32_t IkenieExtPatternTbl        = addr(0x0032dbd8);
 inline constexpr uint32_t IkenieExtPatternDevTbl     = addr(0x0032dbe0);
 inline constexpr uint32_t IkenieExtPatternDev2Tbl    = addr(0x0032dc18);
+#if !NOCTURNE_VANILLA
 inline constexpr uint32_t IkenieExtPatternDevRaceTbl = addr(0x0032dc90);
+#endif
 inline constexpr uint32_t AccidentFailTbl   = addr(0x0032dca0);
 inline constexpr uint32_t EventDevilTbl     = addr(0x0032dcc0);
+#if !NOCTURNE_VANILLA
 inline constexpr uint32_t CombineManinKagTbl  = addr(0x0032ddd0);
 inline constexpr uint32_t CombineManinRaceTbl = addr(0x0032dde0);
 inline constexpr uint32_t CombineManinTbl     = addr(0x0032dde8);
+#endif
 inline constexpr uint32_t GlobalWorkPointer = addr(0x0054ea20);
 inline constexpr uint32_t DevilCount        = addr(0x0054ff18); // int32 (gp-relative), 384
 inline constexpr uint32_t DevilAI           = addr(0x003989e0);
@@ -107,10 +116,10 @@ inline const DevilFormat& devilFormat(int32_t id) { return guest::table<const De
 inline const Encount& encount(int32_t id) { return guest::table<const Encount>(address::Encount)[id]; }
 inline const EncountPack& encountPack(int32_t id) { return guest::table<const EncountPack>(address::EncountPack)[id]; }
 
-// datSpecialSkill covers passive skills from 0x128 upward.
+// datSpecialSkill covers passive skills from 0x128 upward (0x108 in Vanilla).
 inline const SpecialSkill& specialSkill(int32_t skill)
 {
-    return guest::table<const SpecialSkill>(address::SpecialSkill)[skill - 0x128];
+    return guest::table<const SpecialSkill>(address::SpecialSkill)[skill - skill::maniaxId(0x128)];
 }
 
 inline const DevilGrowth& devilGrowth(int32_t devil) { return guest::table<const DevilGrowth>(address::DevilGrowth)[devil]; }

@@ -1315,6 +1315,8 @@ void addScriptTests(std::vector<TestCase>& t)
         add(labels.back().c_str(), [command](Gen& g) {
             commandWorld(g, command);
             const uint32_t entry = commandEntry(command), own = ownCommandEntry(command);
+            if (own == 0)   // (a command this version doesn't have: Vanilla lacks Maniax's)
+                throw difftest::version::NoCounterpart{0x0052e350u + 8u * static_cast<uint32_t>(command), false};
             if (entry < 0x0010b888 || entry >= 0x0010d728)   // not one of the VM's commands
                 std::abort();
             return Pair{[=] { return origVm(entry, {}); }, [=] { return norm(CallCommand(own)); }};

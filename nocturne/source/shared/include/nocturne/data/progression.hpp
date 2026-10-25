@@ -85,12 +85,14 @@ struct BossPress {
     int32_t encid;               // the encounter
     int32_t dbest;               // the record to beat (press turns)
 };
+#if !NOCTURNE_VANILLA   // (Maniax's refights)
 void initBossPress();                                      // datInitBossPress: no records yet
 // datBossRashGetRec: type 0 the best press turns (999 if none), 1 the last
 // fight's (1 if none), 2 the record to beat; 0 if not a refight.
 int32_t bossPressRecord(int32_t encounter, int32_t type);
 void updateBossPressRecord(int32_t encounter, int32_t press);   // datBossRashUpdRec
-bool isBossRefight(int32_t encounter);                     // datBossRashChk
+#endif
+bool isBossRefight(int32_t encounter);                     // datBossRashChk (Vanilla: none, false)
 
 // ---- Reason (Kotowari) ----------------------------------------------------------
 

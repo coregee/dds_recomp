@@ -66,7 +66,9 @@ uint16_t twoDevilFusion(const UnitWork& devil1, const UnitWork& devil2, bool cur
 
 uint8_t sacrificeRacePattern(uint16_t devil1, uint16_t devil2, uint16_t sacrifice);    // cmbChkIkenieExtPattern
 bool isMetatronPair(uint16_t devil1, uint16_t devil2, uint16_t birth);                  // cmbChkMetato
+#if !NOCTURNE_VANILLA   // (Maniax's)
 uint16_t sacrificeDevilRacePattern(uint16_t devil1, uint16_t devil2, uint16_t sacrifice); // cmbChkIkenieExtPatternDevRace
+#endif
 uint16_t sacrificeDevilPattern(const UnitWork& devil1, const UnitWork& devil2, const UnitWork& sacrifice,
                                bool cursed, bool unitLevels);                            // cmbChkIkenieExtPatternDev
 uint16_t sacrificeFusion(const UnitWork& devil1, const UnitWork& devil2, const UnitWork& sacrifice, bool cursed,
@@ -74,7 +76,11 @@ uint16_t sacrificeFusion(const UnitWork& devil1, const UnitWork& devil2, const U
 
 // ---- Others -------------------------------------------------------------------------
 
+#if !NOCTURNE_VANILLA   // (Maniax's)
 uint16_t fiendFusion(uint16_t devil);                                    // cmbCalcCombineManin
+#endif
+#if !NOCTURNE_VANILLA   // (Maniax's)
 bool involvesDante(const UnitWork& devil1, const UnitWork& devil2, const UnitWork* sacrifice);  // cmbChkDante
+#endif
 
 } // namespace nocturne::cmb

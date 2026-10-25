@@ -69,8 +69,10 @@ bool isSacrificePatternResult(uint16_t devil)
         if (p.birth == devil) return true;
     for (const SacrificeResultPattern& p : dat::kIkenieExtPatternDev2Tbl)
         if (p.birth == devil) return true;
+#if !NOCTURNE_VANILLA   // (Maniax added the race sacrifices)
     for (const SacrificeDevilRacePattern& p : dat::kIkenieExtPatternDevRaceTbl)
         if (p.birth == devil) return true;
+#endif
     return false;
 }
 
@@ -249,6 +251,7 @@ bool isMetatronPair(uint16_t devil1, uint16_t devil2, uint16_t birth)
     return birth == devil::Metatron && (devil1 == devil::Metatron || devil2 == devil::Metatron);
 }
 
+#if !NOCTURNE_VANILLA   // (Maniax's)
 // cmbChkIkenieExtPatternDevRace @ 0x001FD730: a devil, a race and a
 // sacrifice race. The second pass swaps the devils but keeps only the low
 // byte of the first ID.
@@ -269,6 +272,7 @@ uint16_t sacrificeDevilRacePattern(uint16_t devil1, uint16_t devil2, uint16_t sa
     }
     return 0;
 }
+#endif
 
 // cmbChkIkenieExtPatternDev @ 0x001FD878: fixed trios, then the normal result
 // with this sacrifice.
@@ -310,6 +314,7 @@ uint16_t sacrificeFusion(const UnitWork& devil1, const UnitWork& devil2, const U
 // Others
 // ===========================================================================
 
+#if !NOCTURNE_VANILLA   // (Maniax's: the Fiends, and Dante)
 // cmbCalcCombineManin @ 0x001FF648: with a Deathstone, the Fiend for this
 // race and Kagutsuchi phase.
 uint16_t fiendFusion(uint16_t devil)
@@ -335,5 +340,6 @@ bool involvesDante(const UnitWork& devil1, const UnitWork& devil2, const UnitWor
 {
     return devil1.id == devil::Dante || devil2.id == devil::Dante || (sacrifice && sacrifice->id == devil::Dante);
 }
+#endif
 
 } // namespace nocturne::cmb

@@ -293,6 +293,7 @@ void addDataTests(std::vector<TestCase>& t)
         const int32_t item = g.range(0, 0x9f), count = g.range(-1, 12);
         return Pair{[=] { return origVm(0x002443f8, {I(item), I(count)}); }, [=] { return norm(hasItem(item, count)); }};
     });
+#if !NOCTURNE_VANILLA   // (Maniax's refights)
     add("datInitBossPress", [](Gen&) {
         return Pair{[=] { return origVmVoid(0x00245c40, {}); }, [=] { initBossPress(); return uint64_t{0}; }};
     });
@@ -309,6 +310,7 @@ void addDataTests(std::vector<TestCase>& t)
         const int32_t encounter = someEncounter(g);
         return Pair{[=] { return origVm(0x00246038, {I(encounter)}); }, [=] { return norm(isBossRefight(encounter)); }};
     });
+#endif
 }
 
 } // namespace difftest

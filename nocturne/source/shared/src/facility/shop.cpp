@@ -2,6 +2,7 @@
 // instructions.
 #include "nocturne/facility/shop.hpp"
 
+#include "nocturne/data/difficulty.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/types.hpp"
 #include "nocturne/external.hpp"
@@ -52,7 +53,8 @@ uint32_t itemPrice(int32_t index, bool selling)
     const ShopPack& p = pack(openPlace());
     const uint16_t rate = p.entries[index].rate != 0 ? p.entries[index].rate : p.rate;
     const uint32_t buy = price * rate / 100;
-    return evt::BitCheck(EventBit::NormalDifficulty) ? buy : hardBuyPrice(buy);
+    // (the first release has no harder prices)
+    return kBuild.vanilla || dat::isNormalDifficulty() ? buy : hardBuyPrice(buy);
 }
 
 } // namespace nocturne::fcl

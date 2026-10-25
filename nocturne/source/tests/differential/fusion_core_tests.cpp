@@ -93,7 +93,9 @@ uint16_t fusionDevil(Gen& g)
         case 1: d = devilOfRace(g, static_cast<uint8_t>(Race::Mitama)); break;
         case 2: { const FusionPair& p = dat::kExtPatternTbl[g.below(3)]; d = g.chance(50) ? p.devil1 : p.devil2; break; }
         case 3: { const SacrificeDevilPattern& p = dat::kIkenieExtPatternDevTbl[g.below(7)]; d = g.pick({p.devil1, p.devil2, p.devil3}); break; }
+#if !NOCTURNE_VANILLA   // (Maniax's)
         case 4: d = dat::kIkenieExtPatternDevRaceTbl[g.below(2)].devil; break;
+#endif
         default: d = static_cast<uint16_t>(g.range(1, 383)); break;
         }
         if (ownable(d)) return d;
@@ -114,8 +116,10 @@ Inputs fusionInputs(Gen& g)
     switch (g.below(6)) {
     case 0: { const FusionPair& p = dat::kExtPatternTbl[g.below(3)]; a.id = p.devil1; b.id = p.devil2; break; }
     case 1: { const SacrificeDevilPattern& p = dat::kIkenieExtPatternDevTbl[g.below(7)]; a.id = p.devil1; b.id = p.devil2; c.id = p.devil3; break; }
+#if !NOCTURNE_VANILLA   // (Maniax's)
     case 2: { const SacrificeDevilRacePattern& p = dat::kIkenieExtPatternDevRaceTbl[g.below(2)];
               a.id = p.devil; b.id = devilOfRace(g, p.race1); c.id = devilOfRace(g, p.race2); break; }
+#endif
     case 3: { const SacrificeRacePattern& p = dat::kIkenieExtPatternTbl[0];
               a.id = devilOfRace(g, p.race1); b.id = devilOfRace(g, p.race2); c.id = devilOfRace(g, p.race3); break; }
     default: break;
@@ -183,8 +187,10 @@ void addFusionCoreTests(std::vector<TestCase>& t)
               [](uint16_t a, uint16_t b, uint16_t c) { return int32_t{cmb::sacrificeRacePattern(a, b, c)}; });
     devilPair("cmbChkMetato", [](uint16_t a, uint16_t b, uint16_t c) { return ps2FusionCore_001FD708(a, b, c); },
               [](uint16_t a, uint16_t b, uint16_t c) { return cmb::isMetatronPair(a, b, c); });
+#if !NOCTURNE_VANILLA   // (Maniax's)
     devilPair("cmbChkIkenieExtPatternDevRace", [](uint16_t a, uint16_t b, uint16_t c) { return ps2FusionCore_001FD730(a, b, c); },
               [](uint16_t a, uint16_t b, uint16_t c) { return int32_t{cmb::sacrificeDevilRacePattern(a, b, c)}; });
+#endif
     devilPair("cmbChkExtPattern", [](uint16_t a, uint16_t b, uint16_t) { return ps2FusionCore_001FE1A0(a, b); },
               [](uint16_t a, uint16_t b, uint16_t) { return int32_t{cmb::specialPairResult(a, b)}; });
     devilPair("cmbGetBirthSpirit", [](uint16_t a, uint16_t b, uint16_t) { return ps2FusionCore_001FDD18(a, b); },
@@ -195,13 +201,21 @@ void addFusionCoreTests(std::vector<TestCase>& t)
         add(name, [=](Gen& g) {
             uint16_t d = g.chance(50) ? fusionDevil(g) : static_cast<uint16_t>(g.below(384));
             if (g.chance(30)) d = g.pick({dat::kExtPatternTbl[g.below(3)].birth, dat::kIkenieExtPatternDevTbl[g.below(7)].birth,
-                                         dat::kIkenieExtPatternDev2Tbl[g.below(19)].birth, dat::kIkenieExtPatternDevRaceTbl[g.below(2)].birth});
+                                         dat::kIkenieExtPatternDev2Tbl[g.below(dat::kSacrificeResultPatterns)].birth,
+#if !NOCTURNE_VANILLA   // (Maniax's)
+                                         dat::kIkenieExtPatternDevRaceTbl[g.below(2)].birth
+#else
+                                         dat::kExtPatternTbl[0].birth
+#endif
+                                        });
             return Pair{[=] { return norm(legacy(d)); }, [=] { return norm(rewrite(d)); }};
         });
     };
     devilQuery("cmbChkExtPatternBirthDevil", [](uint16_t d) { return ps2FusionCore_001FE280(d); }, [](uint16_t d) { return cmb::isSpecialPairResult(d); });
     devilQuery("cmbChkIkenieExtPatternBirthDevil", [](uint16_t d) { return ps2FusionCore_001FDA08(d); }, [](uint16_t d) { return cmb::isSacrificePatternResult(d); });
+#if !NOCTURNE_VANILLA   // (Maniax's)
     devilQuery("cmbCalcCombineManin", [](uint16_t d) { return ps2FusionCore_001FF648(d); }, [](uint16_t d) { return int32_t{cmb::fiendFusion(d)}; });
+#endif
     add("cmbGetRankUpDown", [](Gen& g) {
         uint16_t soul = g.chance(80) ? dat::kRankUpDownTbl[g.below(4)].devil : fusionDevil(g);
         int8_t race = static_cast<int8_t>(g.chance(90) ? g.range(0, 40) : g.range(-128, 127));
@@ -273,6 +287,7 @@ void addFusionCoreTests(std::vector<TestCase>& t)
         return Pair{none([=] { ps2FusionCore_001FE880(in.a, in.b, in.c, in.c); }),
                     none([=] { cmb::addSacrificeExp(unitAt(in.a), unitAt(in.b), unitAt(in.c), unitAt(in.c)); })};
     });
+#if !NOCTURNE_VANILLA   // (Maniax's)
     add("cmbChkDante", [](Gen& g) {
         Inputs in = fusionInputs(g);
         for (uint32_t u : {in.a, in.b, in.c}) if (g.chance(20)) unitAt(u).id = devil::Dante;
@@ -280,6 +295,7 @@ void addFusionCoreTests(std::vector<TestCase>& t)
         return Pair{[=] { return norm(ps2FusionCore_001FF758(in.a, in.b, third ? in.c : 0)); },
                     [=] { return norm(cmb::involvesDante(unitAt(in.a), unitAt(in.b), third ? &unitAt(in.c) : nullptr)); }};
     });
+#endif
 
     // ---- inherited skills ------------------------------------------------------------
     add("cmbAddKeisyoSkillFromSkill", [none](Gen& g) {

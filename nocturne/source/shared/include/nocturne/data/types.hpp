@@ -107,6 +107,8 @@ namespace EventBit {
 // Set when "Normal" is chosen on the US difficulty menu (code at 0x229880),
 // clear on Hard.
 inline constexpr int32_t NormalDifficulty = 0xaf2;
+// The first release's formulas play harder while this is set (data/difficulty.hpp).
+inline constexpr int32_t VanillaHarder = 0x8a0;
 } // namespace EventBit
 
 // evtGetAgeOfMoon: 0 = new Kagutsuchi, 8 = full.

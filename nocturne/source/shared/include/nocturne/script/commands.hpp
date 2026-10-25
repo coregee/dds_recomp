@@ -108,7 +108,9 @@ int32_t playerLevel();
 int32_t devilDies();
 int32_t isFirstPixie();
 int32_t firstPixieId();
+#if !NOCTURNE_VANILLA   // (Maniax's)
 int32_t recordBossPress();
+#endif
 int32_t copyDevilStats();
 
 } // namespace nocturne::scr

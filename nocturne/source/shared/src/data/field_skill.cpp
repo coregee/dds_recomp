@@ -3,6 +3,7 @@
 // original instructions.
 #include "nocturne/data/field_skill.hpp"
 
+#include "nocturne/data/difficulty.hpp"
 #include "nocturne/data/ids.hpp"
 #include "nocturne/data/progression.hpp"
 #include "nocturne/data/tables.hpp"
@@ -285,7 +286,7 @@ bool hurtable(const UnitWork& unit) { return (unit.flag & UnitFlag::InParty) && 
 void hurt(UnitWork& unit, uint32_t damage)
 {
     const uint32_t hp = unit.hp;
-    if (!evt::BitCheck(EventBit::NormalDifficulty))
+    if (!dat::isNormalDifficulty())
         damage *= 3;
     if (!damage)
         damage = 1;

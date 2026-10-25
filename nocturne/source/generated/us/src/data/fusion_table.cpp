@@ -129,7 +129,7 @@ const SacrificeDevilPattern kIkenieExtPatternDevTbl[7] = {
 };
 
 // fclIkenieExtPatternDev2Tbl, 0x0032DC18: normal result + sacrifice -> birth.
-const SacrificeResultPattern kIkenieExtPatternDev2Tbl[19] = {
+const SacrificeResultPattern kIkenieExtPatternDev2Tbl[kSacrificeResultPatterns] = {
     {devil::Sparna, devil::Mot, devil::Gurr},
     {devil::Sparna, devil::Aciel, devil::Gurr},
     {devil::Sparna, devil::Surt, devil::Gurr},

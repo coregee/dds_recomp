@@ -219,7 +219,12 @@ void stockDevilInfo(const UnitWork& unit, uint16_t* id, uint8_t* race)
 FusionType fuse(const UnitWork& devil1, const UnitWork& devil2, const UnitWork* sacrifice, UnitWork* result,
                 bool cursed, bool unitLevels, bool accidents, InheritedSkillList* learned)
 {
+    // (the first release passes no curse on, and has no Dante to refuse)
+#if NOCTURNE_VANILLA
+    const bool cursedResult = false;
+#else
     bool cursedResult = (devil2.flag & 0x1000) || (devil1.flag & 0x1000) || (sacrifice && (sacrifice->flag & 0x1000));
+#endif
     UnitWork birth{};   // the original leaves all but the ID uninitialised
     birth.id = 0;
 
@@ -228,8 +233,13 @@ FusionType fuse(const UnitWork& devil1, const UnitWork& devil2, const UnitWork* 
             result->id = 0;
         return FusionType::None;
     };
+#if NOCTURNE_VANILLA
+    if (devil1.id == devil2.id)
+        return fail();
+#else
     if (involvesDante(devil1, devil2, sacrifice) || devil1.id == devil2.id)
         return fail();
+#endif
     if (sacrifice && (devil1.id == sacrifice->id || devil2.id == sacrifice->id))
         return fail();
 
@@ -255,8 +265,10 @@ FusionType fuse(const UnitWork& devil1, const UnitWork& devil2, const UnitWork* 
     } else {
         type = FusionType::SacrificeSpecial;
         devil = sacrificeDevilPattern(devil1, devil2, *sacrifice, cursed, unitLevels);
+#if !NOCTURNE_VANILLA   // (Maniax added the race sacrifices)
         if (devil == 0)
             devil = sacrificeDevilRacePattern(ids[0], ids[1], ids[2]);
+#endif
         if (devil == 0) {
             uint8_t race = sacrificeRacePattern(ids[0], ids[1], ids[2]);
             if (race == 0) {
@@ -269,6 +281,7 @@ FusionType fuse(const UnitWork& devil1, const UnitWork& devil2, const UnitWork* 
         }
     }
 
+#if !NOCTURNE_VANILLA   // (Maniax added the Fiends)
     // With a Deathstone, normal fusions of the right races make a Fiend
     // instead (but a Fiend can't be fused into one).
     if (type == FusionType::Normal || type == FusionType::Sacrifice) {
@@ -283,6 +296,7 @@ FusionType fuse(const UnitWork& devil1, const UnitWork& devil2, const UnitWork* 
             }
         }
     }
+#endif
 
     // Accidents: not for special pairs, patterns, Mitama boosts or Fiends.
     int8_t accident = 0;

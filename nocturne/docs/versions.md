@@ -119,14 +119,23 @@ other versions, and their count printed. `variant_tests.cpp` and the
   spared Dante are Chronicle's changes); it keeps battle debug prints the
   US release and Chronicle removed (`SetAllPacket`'s hit names, Macca
   thrown, Ongyo-Ki's clones), outside `NOCTURNE_US` and `NOCTURNE_CHRONICLE`.
-- **vanilla:** extracted, mapped and started (`NOCTURNE_VANILLA`: what
-  Maniax added is left out: eleven script commands, the AI's rotation
-  commands, the boss refights). It doesn't build yet: its data tables
-  differ in size and content from the US release's, which the rewrite
-  compiles in (`gen_tables.py` needs Vanilla's table addresses), and its
-  fusion has no Fiends or sacrifice extensions (`cmbCalcCombineManin`,
-  `cmbChkIkenieExtPatternDevRace`), so the fusion rules need their first
-  release's side.
+- **vanilla:** builds and runs its suite (876 tests pass, 84 differ, 384
+  pending at 20 cases). `NOCTURNE_VANILLA` leaves out what Maniax added:
+  eleven script commands, the AI's rotation commands, the boss refights,
+  the race sacrifices and the Fiends (and Dante, and curse passing, in
+  fusion). Its own tables, from `gen_tables.py --variant vanilla`, are the
+  fusion tables (17 sacrifice results, 20 event-locked devils); the tables
+  test proves them, and the inheritance tables, byte for byte.
+  - **Skill IDs.** Maniax inserted skills 0x100..0x11F, so Vanilla
+    numbers the passives (US 0x120..0x17F) 0x20 lower: `skill::` constants
+    there go through `skill::maniaxId`, as does the passives' record index
+    (0x108, not 0x128). Normal skills and devils keep their IDs (some
+    rebalanced). A skill number written as a bare constant in the rewrite
+    is a place to check.
+  - **Still to port:** most of what differs is the talks' steps (Vanilla's
+    negotiation differs widely), then battle formulas (magic attack, max
+    HP, the effect's HP, escape, the player's chance to flee an ambush),
+    rewards, the shop price and a few action and kouka steps.
 
 ## Chronicle and Vanilla: what the survey shows
 

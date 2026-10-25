@@ -1,5 +1,6 @@
 #include "ee.hpp"
 
+#include <algorithm>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -61,7 +62,7 @@ bool Interpreter::interpreted(uint32_t address) const
 }
 
 uint64_t Interpreter::call(uint32_t entry, std::initializer_list<uint64_t> args, std::initializer_list<uint32_t> floatArgs,
-                          bool ownEntry)
+                          const std::vector<uint32_t>& own)
 {
     ++calls_;
     cpu = Cpu{};
@@ -86,7 +87,7 @@ uint64_t Interpreter::call(uint32_t entry, std::initializer_list<uint64_t> args,
         if (++steps > 100000000)
             fail("more than 100 million instructions", pc_, 0);
         auto hooked = hooks_.find(pc_);
-        if (hooked != hooks_.end() && !(ownEntry && steps == 1)) {
+        if (hooked != hooks_.end() && std::find(own.begin(), own.end(), pc_) == own.end()) {
             cpu.r[2] = hooked->second(cpu);
             pc_ = static_cast<uint32_t>(cpu.r[31]);
             npc_ = pc_ + 4;

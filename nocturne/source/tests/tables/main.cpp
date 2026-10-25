@@ -40,6 +40,7 @@ int main(int argc, char** argv)
     }
 
     const Table tables[] = {
+#if NOCTURNE_US   // (the JP builds' code compiles in only the fusion and inheritance tables; they read the rest from memory)
         {"datSkill", dat::address::SkillInfo, dat::kSkillInfo, sizeof dat::kSkillInfo},
         {"datDevilFormat", dat::address::DevilFormat, dat::kDevilFormat, sizeof dat::kDevilFormat},
         {"datNormalSkill", dat::address::NormalSkill, dat::kNormalSkill, sizeof dat::kNormalSkill},
@@ -51,6 +52,7 @@ int main(int argc, char** argv)
         {"datItem", dat::address::Item, dat::kItem, sizeof dat::kItem},
         {"fclHeartsTbl", dat::address::Magatama, dat::kMagatama, sizeof dat::kMagatama},
         {"datDevilAI", dat::address::DevilAI, dat::kDevilAI, sizeof dat::kDevilAI},
+#endif
         {"fclCombineTbl", dat::address::CombineTbl, dat::kCombineTbl, sizeof dat::kCombineTbl},
         {"fclCombineCurseTbl", dat::address::CombineCurseTbl, dat::kCombineCurseTbl, sizeof dat::kCombineCurseTbl},
         {"fclRankUpDownTbl", dat::address::RankUpDownTbl, dat::kRankUpDownTbl, sizeof dat::kRankUpDownTbl},
@@ -60,12 +62,16 @@ int main(int argc, char** argv)
         {"fclIkenieExtPattern", dat::address::IkenieExtPatternTbl, dat::kIkenieExtPatternTbl, sizeof dat::kIkenieExtPatternTbl},
         {"fclIkenieExtPatDev", dat::address::IkenieExtPatternDevTbl, dat::kIkenieExtPatternDevTbl, sizeof dat::kIkenieExtPatternDevTbl},
         {"fclIkenieExtPatDev2", dat::address::IkenieExtPatternDev2Tbl, dat::kIkenieExtPatternDev2Tbl, sizeof dat::kIkenieExtPatternDev2Tbl},
+#if !NOCTURNE_VANILLA   // (Maniax's)
         {"fclIkenieExtPatRace", dat::address::IkenieExtPatternDevRaceTbl, dat::kIkenieExtPatternDevRaceTbl, sizeof dat::kIkenieExtPatternDevRaceTbl},
+#endif
         {"fclAccidentFailTbl", dat::address::AccidentFailTbl, dat::kAccidentFailTbl, sizeof dat::kAccidentFailTbl},
         {"fclEventDevilTbl", dat::address::EventDevilTbl, dat::kEventDevilTbl, sizeof dat::kEventDevilTbl},
+#if !NOCTURNE_VANILLA   // (Maniax's)
         {"fclManinKagTbl", dat::address::CombineManinKagTbl, dat::kCombineManinKagTbl, sizeof dat::kCombineManinKagTbl},
         {"fclManinRaceTbl", dat::address::CombineManinRaceTbl, dat::kCombineManinRaceTbl, sizeof dat::kCombineManinRaceTbl},
         {"fclManinTbl", dat::address::CombineManinTbl, dat::kCombineManinTbl, sizeof dat::kCombineManinTbl},
+#endif
         {"evolutionReq", dat::address::EvolutionRequirement, dat::kEvolutionRequirement, sizeof dat::kEvolutionRequirement},
         {"inheritLevel", dat::address::InheritanceLevel, dat::kInheritanceLevel, sizeof dat::kInheritanceLevel},
         {"inheritScores", dat::address::InheritanceScores, &dat::kInheritanceScores, sizeof dat::kInheritanceScores},

@@ -51,7 +51,7 @@ namespace nocturne::dat {
 using InheritanceLevelRow = InheritanceLevel;   // fclKeisyoSkillLevel
 inline constexpr int kInheritanceLevelCount = 227;
 using EventDevilRow = EventDevil;               // fclEventDevilTbl
-inline constexpr int kEventDevilCount = 34;
+inline constexpr int kEventDevilCount = kBuild.vanilla ? 20 : 34;   // (Vanilla lacks Maniax's)
 // datEncountPack: four tables of 12 entries each.
 inline constexpr int32_t kEncounterEntries = 12;
 inline constexpr uint32_t kEncounterTableSize = sizeof(EncountTbl);

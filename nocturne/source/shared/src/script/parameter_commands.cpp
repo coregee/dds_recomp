@@ -226,12 +226,14 @@ int32_t firstPixieId()
     return answerInt(pixie ? pixie->id : 0);
 }
 
+#if !NOCTURNE_VANILLA   // (Maniax's)
 // prm_BOSS_PRESS_REC @ 0x0010D658: BOSS_PRESS_REC(encounter, type), see dat::bossPressRecord.
 int32_t recordBossPress()
 {
     const int32_t encounter = para(0);
     return answerInt(dat::bossPressRecord(encounter, para(1)));
 }
+#endif
 
 // prm_DV_COPY_PARAM @ 0x0010D6A0: DV_COPY_PARAM(devil, as), the stock's first
 // demon of that species reset to another's level, stats and skills.

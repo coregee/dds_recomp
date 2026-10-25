@@ -180,7 +180,7 @@ void scriptActor(Gen& g)
     a.party.address = FW_PARTY + 128u * static_cast<uint32_t>(f);
     a.work.address = at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f));
     a.work->id = static_cast<uint16_t>(g.range(0, lastDevilWithAi()));
-    a.adata = g.range(0, 140);
+    a.adata = g.range(0, at<int32_t>(difftest::version::dataOrDie(0x004f0800) + 0x28) - 1);   // a procedure of the AI script
     a.stat = static_cast<uint32_t>(g.rng());
     auto* forms = &at<Formation>(FW_FORMS);
     for (int s = 0; s < 14; ++s)   // present party slots have units, as in the game
@@ -763,7 +763,9 @@ void addKoukaTests(std::vector<TestCase>& t)
         });
     }
     script("nbInitAiScript", [=](Gen& g) {
-        const int32_t procedure = g.range(0, 140);
+        // (any procedure the version's AI script has: its section 0's count)
+        const int32_t procedures = at<int32_t>(difftest::version::dataOrDie(0x004f0800) + 0x28);
+        const int32_t procedure = g.range(0, procedures - 1);
         return Pair{[=] { return origVmVoid(0x00288d80, {FW_ACTION, I(procedure)}); },
                     [=] { ai::script::start(act(), procedure); return uint64_t{0}; }};
     });

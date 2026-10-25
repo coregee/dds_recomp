@@ -1,5 +1,9 @@
 // Compile-time check that tools/ghidra/nocturne_types.h (the types imported
 // into Ghidra) matches the C++ records.
+// The header describes the US release (the Ghidra project's program), so
+// the check holds on the US builds only.
+#include "nocturne/build.hpp"
+#if NOCTURNE_US
 #include <cstddef>
 #include <cstdint>
 
@@ -198,3 +202,5 @@ SAME_OFFSET(dds3SceneFades, dds3::SceneFades, fogrgbbase, fogrgbbase);
 SAME_OFFSET(dds3SceneFades, dds3::SceneFades, biastarget, biastarget);
 
 } // namespace
+
+#endif // NOCTURNE_US
