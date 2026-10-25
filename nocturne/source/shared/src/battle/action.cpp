@@ -287,6 +287,9 @@ void queueMaccaThrow(ActionProcessData& a, int32_t, int32_t sframe)
     if (isPlayerSide(a.form->formindex) && dat::globalWork().macca < amount)
         amount = dat::globalWork().macca;
     setTimeList(a, a.form->formindex, sframe, 30, 30);
+#if NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE   // (JP Maniax's debug print)
+    diag::print(diag::Message::MaccaScattered, amount);
+#endif
     setStatusMessage(a, 0x2c, 0, amount);
     dat::addMacca(isPlayerSide(a.form->formindex) ? -amount : amount);
 }
@@ -369,6 +372,9 @@ void queueMiss(ActionProcessData& a, int32_t, int32_t, int32_t dformindex, int32
 // clones stagger (motion 14). Two icons lost (result type 14).
 void queueOngyokiFound(ActionProcessData& a, int32_t, int32_t, int32_t dformindex, int32_t, int32_t frame)
 {
+#if NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE   // (JP Maniax's debug print)
+    diag::print(diag::Message::OngyoKiShadowOne);
+#endif
     Formation& form = formAt(a, dformindex);
     addWordPacket(frame, 0x2d, uniqueOf(a), &form, 4);
     addOngyokiOutPacket(frame, uniqueOf(a), &form);
@@ -393,6 +399,9 @@ void queueOngyokiFound(ActionProcessData& a, int32_t, int32_t, int32_t dforminde
 // notes it (stat bit 0x4000) when there were any.
 void queueOngyokiClonesVanish(ActionProcessData& a, int32_t dformindex, int32_t frame)
 {
+#if NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE   // (JP Maniax's debug print)
+    diag::print(diag::Message::OngyoKiShadowAll);
+#endif
     int32_t gone = 0;
     for (int32_t f = kFirstEnemyFormation; f < kFormationCount; ++f) {
         if (f == dformindex)
@@ -1106,6 +1115,27 @@ void hitOrder(ActionProcessData& a, HitOrderEntry* list, uint32_t select, int32_
     }
 }
 
+namespace {
+
+// SetAllPacket's press result, named in a debug print (JP Maniax's only;
+// a result against the unit's own side isn't named).
+void printPressResult([[maybe_unused]] int32_t type)
+{
+#if NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE
+    switch (type) {
+    case 0: diag::print(diag::Message::NormalHit); break;
+    case 3: diag::print(diag::Message::CriticalHit); break;
+    case 2: diag::print(diag::Message::WeakHit); break;
+    case 6: diag::print(diag::Message::RepelHit); break;
+    case 7: diag::print(diag::Message::DrainHit); break;
+    case 5: diag::print(diag::Message::NullHit); break;
+    default: break;
+    }
+#endif
+}
+
+} // namespace
+
 // SetAllPacket @ 0x0024FF60: one target's result of a skill (koukatype:
 // how nbGetKoukaType resolved it) as packets from `frame`: `cnt` hits of
 // damage or healing, the ailment inflicted or cured, deaths (Endure and
@@ -1412,7 +1442,9 @@ void queueHitResult(ActionProcessData& a, int32_t koukatype, int32_t nskill, int
     // all of them, a null two)
     const ee::Float half = ee::Float::fromBits(0xbf000000), one = ee::Float::fromInt(-1);
     const ee::Float two = ee::Float::fromInt(-2), four = ee::Float::fromInt(-4);
-    const auto press = [&](ee::Float cost, int32_t type) {
+    const auto press = [&](ee::Float cost, int32_t type, bool named = true) {
+        if (named)
+            printPressResult(type);
         setPressCost(a, cost);
         setPressResult(a, type);
     };
@@ -1427,19 +1459,19 @@ void queueHitResult(ActionProcessData& a, int32_t koukatype, int32_t nskill, int
         break;
     case 1:
         if (sameSide(sformindex, dformindex))
-            press(one, 0);
+            press(one, 0, false);
         else
             press(four, 6);
         break;
     case 2:
         if (sameSide(sformindex, dformindex))
-            press(one, 0);
+            press(one, 0, false);
         else
             press(four, 7);
         break;
     case 3:
         if (sameSide(sformindex, dformindex))
-            press(one, 0);
+            press(one, 0, false);
         else
             press(two, 5);
         break;

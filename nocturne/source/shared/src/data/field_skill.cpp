@@ -392,8 +392,6 @@ namespace nocturne::dat {
 // datPartyDamage @ 0x002447C0 (Chronicle 0x243C98): mode 3 spares no one;
 // the check for devil 0xC0 (Dante in US Maniax) is gone.
 bool sparedFromLastHp(const UnitWork&) { return false; }
-#elif NOCTURNE_JAPANESE
-// (not ported for this version yet)
 #else
 // datPartyDamage @ 0x002447C0: mode 3 leaves Dante's HP.
 bool sparedFromLastHp(const UnitWork& unit) { return unit.id == devil::Dante; }

@@ -161,7 +161,10 @@ inline constexpr AddressPair kVersionAddresses[] = {
     {0x00320258, 0x0031f878},
     {0x00320c50, 0x00320270},
     {0x00320e40, 0x00320460},
+    {0x00325b10, 0x00000000},
+    {0x00325e50, 0x00000000},
     {0x00326060, 0x00325130},
+    {0x003261e8, 0x00000000},
     {0x00326518, 0x00326720},
     {0x00326578, 0x00326780},
     {0x003265b8, 0x003267c0},
@@ -397,6 +400,7 @@ inline constexpr AddressPair kVersionAddresses[] = {
     {0x0054e97c, 0x0054cc7c},
     {0x0054e980, 0x0054cc80},
     {0x0054e994, 0x0054cc94},
+    {0x0054ea00, 0x00000000},
     {0x0054ea20, 0x0054cd20},
     {0x0054f278, 0x0054d578},
     {0x0054f404, 0x0054d704},
@@ -444,6 +448,7 @@ inline constexpr AddressPair kVersionAddresses[] = {
     {0x0056bc50, 0x00569b88},
     {0x0056bd50, 0x00569c08},
     {0x0056be60, 0x00569c20},
+    {0x0056c880, 0x00000000},
     {0x00575360, 0x005730e0},
     {0x00575450, 0x005731d0},
     {0x00575490, 0x00573210},
@@ -453,6 +458,15 @@ inline constexpr AddressPair kVersionAddresses[] = {
 inline constexpr AddressPair kJpAddresses[] = {
     {0x003252b8, 0x003252b8},
     {0x005333d8, 0x005333d8},
+    {0x005418d0, 0x005418d0},
+    {0x005418e0, 0x005418e0},
+    {0x005418f8, 0x005418f8},
+    {0x00541968, 0x00541968},
+    {0x00541978, 0x00541978},
+    {0x00541988, 0x00541988},
+    {0x00541998, 0x00541998},
+    {0x005419a8, 0x005419a8},
+    {0x005419b8, 0x005419b8},
 };
 
 } // namespace nocturne

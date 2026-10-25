@@ -107,10 +107,13 @@ other versions, and their count printed. `variant_tests.cpp` and the
 - **chronicle:** builds and runs its differential suite against its own
   instructions (below); the font and message engine and a few changed
   functions are still to port.
-- **maniax (JP):** extracted and mapped (its function and data maps, its
-  address table); its font and message engine is Chronicle's. Not built yet: it still needs its own side of the
-  hooks only the US release has been checked for (affinity, field skills)
-  and its harness data.
+- **maniax (JP):** builds and runs its differential suite against its own
+  instructions (fonts and message files from `game/jpmaniax/dds3/`, made
+  as Chronicle's are). Its font and message engine is Chronicle's; its
+  affinity and party damage are the US release's (Son's Oath and the
+  spared Dante are Chronicle's changes); it keeps battle debug prints the
+  US release and Chronicle removed (`SetAllPacket`'s hit names, Macca
+  thrown, Ongyo-Ki's clones), under `NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE`.
 - **vanilla:** extracted and surveyed (below); no build yet.
 
 ## Chronicle and Vanilla: what the survey shows
@@ -181,8 +184,8 @@ Maniax shares instruction for instruction):
   taller message windows (their default positions, option lines and speaker
   panel); a default line step of 25.
 - **Hooks.** Son's Oath pierces resistance like Pierce, and the party
-  damage that leaves 1 HP spares no one (Chronicle's; JP Maniax's own
-  differ again and are still to port).
+  damage that leaves 1 HP spares no one (Chronicle's own; JP Maniax keeps
+  the US release's).
 - **Constants.** RunSeKouka stops music 0x1C04xxxx for the event boss's
   repelled skill 0x107 (Maniax 0x1C07xxxx: Dante's fight).
 
@@ -195,6 +198,7 @@ the executable, and the fonts and message files from `game/chronicle/dds3/`
 US Maniax's legacy C run Chronicle's own instructions instead (`hookUs`).
 A test that reaches a function Chronicle has no counterpart for counts as
 pending, as do the script tests (their world writes US addresses) and
-those listed in `kChroniclePending` (`main.cpp`), with what each still
-differs by. Still to port: the action states READY, COMM and SKILL
-(rewritten in Chronicle) and the AI script's start.
+those listed in `kJapanesePending` and `kChroniclePending` (`main.cpp`),
+with what each still differs by. Still to port: the action states READY
+and SKILL (rewritten in both JP builds), the talks' steps (their harness)
+and the AI script's start.

@@ -1656,9 +1656,7 @@ void FloorText(int32_t num, char* out)
 }
 #endif
 
-#if NOCTURNE_JAPANESE
-// (not ported for this version yet)
-#else
+#if !NOCTURNE_JAPANESE   // (the JP builds have none: SetCharacterName writes the names)
 // BuildCharacterName @ 0x001CE538 (no original name)
 // Copies entered name `index` (0 the hero, 1 Yuko, 2 and 3 the classmates:
 // up to ten 2-byte characters; ASCII ones keep only their second byte) to

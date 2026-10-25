@@ -210,8 +210,6 @@ uint32_t passiveAffinity(const UnitWork& unit, int32_t element, uint32_t packed)
     rate = static_cast<uint32_t>(static_cast<int32_t>(rate * static_cast<uint32_t>(n)) / 100);
     return (packed & 0xffff0000u) | rate;
 }
-#elif NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE
-// (not ported for JP Maniax or vanilla yet; the Chronicle Edition runs the US release's)
 #else
 // nbGetAisyo @ 0x00267890: the Void / Anti families cover all elements but
 // Almighty, so from Expel on their IDs are one lower; Drain / Repel cover
@@ -252,8 +250,6 @@ bool piercesResistance(const UnitWork& attacker, int32_t skill)
     return (dat::hasSkill(attacker, skill::Pierce) || dat::hasSkill(attacker, skill::SonsOath)) &&
            dat::normalSkill(skill).damageClass == 0;
 }
-#elif NOCTURNE_JAPANESE
-// (not ported for this version yet)
 #else
 // nbGetAisyoRitu @ 0x00266130: Pierce, for physical skills.
 bool piercesResistance(const UnitWork& attacker, int32_t skill)
@@ -289,8 +285,6 @@ ee::Float boostedRatio(const UnitWork& attacker, int32_t skill, Attribute attr, 
         return ratio;
     }
 }
-#elif NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE
-// (not ported for JP Maniax or vanilla yet; the Chronicle Edition runs the US release's)
 #else
 // ... Son's Oath boosts everything x1.5; Fire/Ice/Elec/Force Boost their element.
 ee::Float boostedRatio(const UnitWork& attacker, int32_t, Attribute attr, ee::Float ratio)
@@ -309,8 +303,6 @@ Affinity noteAffinity(Affinity result)
     hardtype::affinityRegister() = result.raw;
     return result;
 }
-#elif NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE
-// (not ported for JP Maniax or vanilla yet; the Chronicle Edition runs the US release's)
 #else
 // nbGetAisyo @ 0x00267890: nothing kept.
 Affinity noteAffinity(Affinity result) { return result; }

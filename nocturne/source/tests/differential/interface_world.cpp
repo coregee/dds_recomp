@@ -894,7 +894,7 @@ void fontWorld(Gen& g)
     static const char* const strings[] = {"\x82\xa0\x82\xa2", "\x83\x73\x83\x4e\x83\x56\x81\x5b", "\x82\x50\x82\x51\x82\x52",
                                           "\x88\xa0", "\x82\xa0x", ""};
     for (uint32_t i = 0; i < 32; ++i)
-        at<uint32_t>(0x00569d88 + 4 * i) = g.chance(50) ? poolString(strings[g.below(6)]) : 0;
+        at<uint32_t>(version::dataOrDie(0x0056bbd0) + 4 * i) = g.chance(50) ? poolString(strings[g.below(6)]) : 0;
 
     // Entered names: lengths, letter codes (8 to a name), bitmaps; one name as text.
     for (uint32_t bank = 0; bank < 4; ++bank) {
@@ -908,7 +908,7 @@ void fontWorld(Gen& g)
         }
         for (uint32_t k = 0; k < 0x900; k += 4)
             at<uint32_t>(FW_GLOBAL + 0x1d78 + bank * 0x900 + k) = static_cast<uint32_t>(g.rng());
-        at<int32_t>(0x00569e88 + 4 * bank) = 0;
+        at<int32_t>(version::dataOrDie(0x0056bd50) + 4 * bank) = 0;
     }
     const uint32_t letters = g.range(0, 8);
     fw_ram[FW_GLOBAL + 0x4200] = static_cast<uint8_t>(letters);
@@ -916,7 +916,7 @@ void fontWorld(Gen& g)
         fw_ram[FW_GLOBAL + 0x41c0 + 2 * k] = 0x82;
         fw_ram[FW_GLOBAL + 0x41c1 + 2 * k] = static_cast<uint8_t>(0xa0 + g.below(0x50));
     }
-    std::memset(fw_ram + 0x00569e08, 0, 0x80);
+    std::memset(fw_ram + version::dataOrDie(0x0056bc50), 0, 0x80);
 #endif
 }
 

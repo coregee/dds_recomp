@@ -391,6 +391,19 @@ enum class Message : uint32_t {
     BgmStop          = optionalAddr(0x00545ce0), // "nbBgmStop(%d,%d)"
     EncounterRate    = optionalAddr(0x00545ba0), // エンカウント率 %d/%d (the encounter threshold rolled, and its base)
     UnitLoadTime     = optionalAddr(0x00545cf8), // ">>> UNIT LOAD TIME = %d frame <<<"
+#if NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE
+    // JP Maniax's own, which the US release and the Chronicle Edition removed
+    // (by JP Maniax's address):
+    MaccaScattered   = jpAddr(0x005418d0),       // ばらまき = %d (Macca thrown: SetMakaPacket)
+    OngyoKiShadowOne = jpAddr(0x005418e0),       // オンギョウジ影消滅(1) (Ongyo-Ki's clone vanishes)
+    OngyoKiShadowAll = jpAddr(0x005418f8),       // オンギョウジ影消滅(ALL) (all of them)
+    NormalHit        = jpAddr(0x00541968),       // "normal hit!" (SetAllPacket's press turns)
+    CriticalHit      = jpAddr(0x00541978),       // "critical hit!"
+    WeakHit          = jpAddr(0x00541988),       // "weak hit!"
+    RepelHit         = jpAddr(0x00541998),       // "hansya hit!" (repelled)
+    DrainHit         = jpAddr(0x005419a8),       // "kyusyu hit!" (drained)
+    NullHit          = jpAddr(0x005419b8),       // "mukou hit!" (nulled)
+#endif
 };
 // Integer arguments are passed sign-extended; %f arguments are ee::Double bits.
 void print(Message message, int64_t a = 0, int64_t b = 0, int64_t c = 0, int64_t d = 0, int64_t e = 0);

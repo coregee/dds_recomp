@@ -1153,31 +1153,34 @@ int main(int argc, char** argv)
     const bool runPending = std::getenv("DIFF_PENDING") != nullptr;
     volatile bool japanese =
         nocturne::kBuild.japanese && !runPending;
-    // Tests of what the Chronicle Edition changes that the port doesn't
-    // follow yet (docs/versions.md).
-    static const std::vector<const char*> kChroniclePending = {
-        "nbInitAiScript",         // the AI script's start opens a message window (the US engine) ...
+    // Tests of what the JP builds change that the port doesn't follow yet
+    // (docs/versions.md).
+    static const std::vector<const char*> kJapanesePending = {
+        "nbInitAiScript",         // the AI script's start opens a message window ...
         "SetAction_AISCR",        // ... as do these two
         "SetAction_DEADSCRIPT",
-        "nbActionProcess1",       // reaches READY and COMM, rewritten in Chronicle (0x253880, 0x254600)
-        "SetAllPacket",           // its [version] wake step differs in Chronicle's RAM writes
-        // The talks' steps call Chronicle functions (0x26B018 ...) the test
-        // neither hooks nor interprets yet, and keep their state at 0x575370.
+        "nbActionProcess1",       // reaches READY and SKILL, rewritten in the JP builds
+        // The talks' steps call JP functions (Chronicle 0x26B018 ...) the test
+        // neither hooks nor interprets yet.
         "Flow*",
     };
+    // ... and of what the Chronicle Edition changes on top.
+    static const std::vector<const char*> kChroniclePending = {
+        "SetAllPacket",           // its [version] wake step differs in Chronicle's RAM writes
+    };
     volatile bool chronicle = nocturne::kVariant == nocturne::Variant::Chronicle && !runPending;
-    auto pending = [&](const TestCase& test) {
-        if (japanese && test.usWorld)
-            return true;
-        const std::vector<const char*>* list = hardtype ? &kHardtypePending : chronicle ? &kChroniclePending : nullptr;
-        if (!list)
-            return false;
-        for (const char* p : *list) {   // a trailing * matches the prefix
+    auto listed = [](const std::vector<const char*>& list, const char* name) {
+        for (const char* p : list) {   // a trailing * matches the prefix
             const size_t n = std::strlen(p);
-            if (p[n - 1] == '*' ? std::strncmp(p, test.name, n - 1) == 0 : std::strcmp(p, test.name) == 0)
+            if (p[n - 1] == '*' ? std::strncmp(p, name, n - 1) == 0 : std::strcmp(p, name) == 0)
                 return true;
         }
         return false;
+    };
+    auto pending = [&](const TestCase& test) {
+        if (japanese && (test.usWorld || listed(kJapanesePending, test.name)))
+            return true;
+        return (hardtype && listed(kHardtypePending, test.name)) || (chronicle && listed(kChroniclePending, test.name));
     };
 
     std::vector<uint8_t> saved(dynamicEnd() - FW_DYNAMIC_BEGIN);
