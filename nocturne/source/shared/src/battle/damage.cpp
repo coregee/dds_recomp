@@ -242,8 +242,8 @@ int32_t effectAmount(bool mp, Float ratio, bool damage, int32_t skill, int32_t s
         if (harm < 0)
             harm = 0;
         harm = (Float::fromInt(harm) * ratio).toInt();
-        if (isNormalDifficulty() && !isPlayerSide(source))
-            harm = (Float::fromInt(harm) * literal(0.7)).toInt();   // Normal: enemies do 70%
+        if (!kBuild.vanilla && isNormalDifficulty() && !isPlayerSide(source))
+            harm = (Float::fromInt(harm) * literal(0.7)).toInt();   // Normal: enemies do 70% (not in the first release)
     }
 
     if (!mp && harm == 0)
@@ -587,7 +587,7 @@ uint32_t rollAilmentInflict(Float ratio, int32_t skill, int32_t source, int32_t 
         Float threshold = Float::fromInt(a - d) * base * 5.0f / Float::fromInt(4 * d + 4 * a + 100) + base + 0.5f;
         threshold = threshold * rate;
         bool normal = dat::isNormalDifficulty();
-        if (!defender.isEnemy()) {
+        if (!kBuild.vanilla && !defender.isEnemy()) {   // (the first release adjusts neither way)
             if (normal) {
                 if (bad == ailment::Dead)
                     threshold = threshold * (defender.isPlayerCharacter() ? Float(0.5f) : literal(0.7));
@@ -662,7 +662,7 @@ uint32_t rollAilmentInflict(Float ratio, int32_t skill, [[maybe_unused]] int32_t
         Float chance = Float::fromInt(s.badlevel);
         Float threshold = chance / 100.0f * rate * 100.0f;
         bool normal = dat::isNormalDifficulty();
-        if (!defender.isEnemy()) {
+        if (!kBuild.vanilla && !defender.isEnemy()) {   // (the first release adjusts neither way)
             if (normal) {
                 if (bad == ailment::Dead)
                     threshold = threshold * (defender.isPlayerCharacter() ? Float(0.5f) : literal(0.7));

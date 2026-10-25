@@ -215,6 +215,9 @@ void MiscLinkGive(LinkNode& node, LinkStack& stack);
 
 namespace mes {
 
+// The window slots: 128 (the first release's 64).
+inline constexpr int32_t kWindowSlots = kBuild.vanilla ? 0x40 : 0x80;
+
 // Manager globals at 0x56BE60.
 struct Manager {
     int32_t count;              // instances
@@ -223,7 +226,7 @@ struct Manager {
     uint16_t config;            // bit 0: hurry the text (the player's message speed)
     uint16_t pad;
     itf::LinkStack list;
-    itf::LinkNode nodes[0x80];
+    itf::LinkNode nodes[kWindowSlots];
 };
 static_assert(offsetof(Manager, list) == 0x10 && offsetof(Manager, nodes) == 0x20);
 

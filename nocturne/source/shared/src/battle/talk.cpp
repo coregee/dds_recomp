@@ -494,7 +494,7 @@ int32_t fatedPair(const TalkState& n)
 namespace {
 
 constexpr uint32_t kTalkName = addr(0x00551160);      // "nb_nego"
-constexpr uint32_t kTalkMessages = addr(0x004e3be8);  // [31] {flow, affinity, question, info} message tables
+constexpr uint32_t kTalkMessages = addr(0x004e3be8);  // [kSpeechStyles] {flow, affinity, question, info} message tables
 constexpr uint32_t kBossMessages = addr(0x004eb810);
 constexpr uint32_t kHelpMessages = addr(0x004ee8b0);
 constexpr uint32_t kHelpMessages2 = addr(0x004ef0c8);
@@ -591,18 +591,18 @@ uint32_t newTalk(ActionProcessData& act, int32_t pformindex, int32_t eformindex,
     n.eform.address = guest::addressOf(&main.form[eformindex]);
     n.ekucyo = static_cast<int32_t>(dat::devilTalkFormat(n.ework->id).speechStyle);
     const uint32_t* tables = guest::table<const uint32_t>(kTalkMessages);
-    for (int32_t i = 0; i < 31; ++i) {
+    for (int32_t i = 0; i < kSpeechStyles; ++i) {
         n.flowmsg[i] = -1;
         if (tables[i * 4] != 0)
             n.flowmsg[i] = openTable(n, tables[i * 4]);
     }
     n.questionmsg = openTable(n, tables[n.ekucyo * 4 + 2]);
-    for (int32_t i = 0; i < 31; ++i) {
+    for (int32_t i = 0; i < kSpeechStyles; ++i) {
         n.infomsg[i] = -1;
         if (tables[i * 4 + 3] != 0)
             n.infomsg[i] = openTable(n, tables[i * 4 + 3]);
     }
-    for (int32_t i = 0; i < 31; ++i) {
+    for (int32_t i = 0; i < kSpeechStyles; ++i) {
         n.aisyomsg[i] = -1;
         if (tables[i * 4 + 1] != 0)
             n.aisyomsg[i] = openTable(n, tables[i * 4 + 1]);

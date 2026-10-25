@@ -69,6 +69,7 @@ inline constexpr uint32_t kQuestionReasons = addr(0x003e28a0);
 // The demons a full Kagutsuchi doesn't stir (the steps of groups 1, 2 and
 // 16 single them out; a list in each, the same).
 bool moonproof(uint16_t devil);
+bool deathPact(const TalkState& n);   // CheckSkillShinoKeiyaku: a Death Pact, the talker standing
 
 // Runs the talk's current step: its group's flow (the original's table at
 // 0x4EF468 for any other group: none in the game, the tests' stand-in).

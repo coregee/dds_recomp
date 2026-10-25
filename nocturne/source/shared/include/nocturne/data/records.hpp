@@ -242,7 +242,10 @@ struct DevilGrowth {
 };
 static_assert(sizeof(DevilGrowth) == 102);
 
-// datItem: table at 0x3DC4A0, 8 bytes, 160 entries (item ID).
+// The items: 160 (the first release's 128).
+inline constexpr int32_t kItemCount = kBuild.vanilla ? 0x80 : 0xa0;
+
+// datItem: table at 0x3DC4A0, 8 bytes, one per item (item ID).
 struct ItemData {
     uint8_t use;
     uint8_t flag;
@@ -447,7 +450,7 @@ struct GlobalWork {
     UnitWork units[16];       // units[0] the Demi-fiend, 1..3 reserved, 4.. demons
     uint8_t stock_list[16];   // display order of the stock (unit indexes)
     int32_t stock_count;
-    uint8_t item_counts[0xa0];
+    uint8_t item_counts[0xa0];   // (the first release counts its 0x80 items here; the rest is other data)
     int16_t boss_records[40][2];
     uint8_t unknown_1a68[0x240];
     uint8_t loanCounts[64];   // Loans taken from demons, by race (HD: syakkincnt)

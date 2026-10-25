@@ -849,7 +849,10 @@ int32_t makePressResultPackets(int32_t startframe, int32_t uniqueid, int32_t pty
         break;
     case 15: dHalf = 2; break;
     case 16: dHalf = 4; break;
-    case 17: dHalf = 3; break;
+    case 17:                                              // (not in the first release)
+        if (!kBuild.vanilla)
+            dHalf = 3;
+        break;
     default: break;
     }
     if (full + dFull >= 9)

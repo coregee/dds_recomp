@@ -10,6 +10,7 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "nocturne/build.hpp"
 #include "nocturne/battle/process.hpp"
 #include "nocturne/ee/float.hpp"
 #include "nocturne/guest.hpp"
@@ -26,7 +27,7 @@ enum CommandTab : uint8_t {
     kTabEscape = 5,
 };
 inline constexpr int32_t kCommandTabs = 6;
-inline constexpr int32_t kCommandListMax = 0x120;
+inline constexpr int32_t kCommandListMax = kBuild.vanilla ? 0x100 : 0x120;   // (the normal skills' count)
 
 // Entries that aren't skill, item or stock indexes.
 enum CommandEntry : uint16_t {
@@ -48,7 +49,8 @@ enum CommandUnavailable : int8_t {
     kDisableNoSummon = 6,   // a summoning skill with the party full or no one to call
 };
 
-// nbCommSelProcessData (HD: nbCommSelProcessData_t), 0x14D0 bytes.
+// nbCommSelProcessData (HD: nbCommSelProcessData_t), 0x14D0 bytes (the first
+// release's 0x1290: its lists are shorter).
 struct CommandMenu {
     uint32_t mem;                            // its memory handle
     Ptr32<MainProcessData> data;
@@ -70,10 +72,12 @@ struct CommandMenu {
     int32_t alpha, helpAlpha;   // (HD: helpa)
     ee::Float scale;   // (HD: ritu)
 };
-static_assert(sizeof(CommandMenu) == 0x14d0);
-static_assert(offsetof(CommandMenu, entries) == 0x54 && offsetof(CommandMenu, counts) == 0xdd4);
-static_assert(offsetof(CommandMenu, unavailable) == 0xdec && offsetof(CommandMenu, cnt) == 0x14ac);
-static_assert(offsetof(CommandMenu, animation) == 0x14b4 && offsetof(CommandMenu, scale) == 0x14cc);
+inline constexpr std::size_t kCommandMenuShift = kBuild.vanilla ? 0x240 : 0;
+static_assert(sizeof(CommandMenu) + kCommandMenuShift == 0x14d0);
+static_assert(offsetof(CommandMenu, entries) == 0x54 && offsetof(CommandMenu, counts) + kCommandMenuShift * 2 / 3 == 0xdd4);
+static_assert(offsetof(CommandMenu, unavailable) + kCommandMenuShift * 2 / 3 == 0xdec &&
+              offsetof(CommandMenu, cnt) + kCommandMenuShift == 0x14ac);
+static_assert(offsetof(CommandMenu, animation) + kCommandMenuShift == 0x14b4 && offsetof(CommandMenu, scale) + kCommandMenuShift == 0x14cc);
 
 // animeflag
 namespace CommandMenuAnimation {

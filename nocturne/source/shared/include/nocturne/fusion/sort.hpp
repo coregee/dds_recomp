@@ -20,6 +20,9 @@ struct DevilSortEntry {
 };
 static_assert(sizeof(DevilSortEntry) == 8);
 
+// (0x213230) sortDevilsByRace's comparison of two entries.
+int compareDevils(const void* left, const void* right);
+
 // (0x2133A0) devils 0..count-1 sorted by race, then by level, highest first.
 void sortDevilsByRace(DevilSortEntry* entries, uint16_t count);
 

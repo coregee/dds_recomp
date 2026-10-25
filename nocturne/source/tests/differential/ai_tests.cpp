@@ -165,7 +165,8 @@ void prepareAi(Gen& g)
 
     scriptWork();
     for (int i = 0; i < 8; ++i) scriptParam(i, g.chance(80) ? g.range(0, 100) : g.range(0, 0x17f));   // negative ones make invalid conditions
-    at<int32_t>(difftest::version::dataOrDie(0x005514e8)) = g.range(-3, 20);   // the rotation counter (static, restored by the harness)
+    if constexpr (!nocturne::kBuild.vanilla)   // (the first release has no rotation)
+        at<int32_t>(difftest::version::dataOrDie(0x005514e8)) = g.range(-3, 20);   // the rotation counter (static, restored by the harness)
 }
 
 // A condition word that tends to hold: valid types with fitting parameters.
@@ -244,6 +245,11 @@ void addAiTests(std::vector<TestCase>& t)
     add("nbAiChkJoken", [](Gen& g) {
         uint32_t word = conditionWord(g);
         return Pair{[=] { return norm(nbAiChkJoken(kAct, word)); }, [=] { return norm(nb::ai::condition(act(), word)); }};
+    });
+    add("nbAiScriptChkJoken", [](Gen& g) {   // (the condition's answer for the running script)
+        uint32_t word = conditionWord(g);
+        return Pair{[=] { nbAiScriptChkJoken(word); return uint64_t{0}; },
+                    [=] { nb::ai::script::checkCondition(word); return uint64_t{0}; }};
     });
 
     // ---- choosing an action -----------------------------------------------------------
@@ -372,7 +378,7 @@ void addAiTests(std::vector<TestCase>& t)
         return badVoid(0x0028e3c8, nb::setSingleTarget);
     });
     bad("SetGroupTarget", [=](Gen&) { return badVoid(0x0028e470, nb::setGroupTarget); });
-    bad("SetTarget", [](Gen& g) {
+    bad("SetTarget (0x28E4B0)", [](Gen& g) {
         const int32_t rev = g.range(0, 1);
         if (g.chance(50)) {   // any skill, for every target type
             act().work->nowcommand = 1;
@@ -526,6 +532,12 @@ void addAiTests(std::vector<TestCase>& t)
         const int32_t se = g.range(0, 40);
         return Pair{[=] { return iface::origVmVoid(0x0028d090, {sx(se)}); }, [=] { nb::playBattleSound(se); return uint64_t{0}; }};
     });
+    tarsel("FUN_0029ba80", [](Gen& g) {
+        const int32_t type = g.range(-1, 6);
+        at<uint32_t>(FW_SCRATCH) = static_cast<uint32_t>(g.rng());   // (the original takes the word's address)
+        return Pair{[=] { return iface::origVm(0x0029ba80, {sx(type), FW_SCRATCH}); },
+                    [=] { return norm(nb::configBit(type, at<uint32_t>(FW_SCRATCH))); }};
+    });
     tarsel("dds3CheckConfigBit", [](Gen& g) {
         const int32_t type = g.range(-1, 6);
         return Pair{[=] { return iface::origVm(0x0029bae0, {sx(type)}); }, [=] { return norm(nb::configOption(type)); }};
@@ -534,7 +546,7 @@ void addAiTests(std::vector<TestCase>& t)
         return Pair{[] { return iface::origVm(0x0025d690, {}); },
                     [] { return norm(static_cast<int32_t>(nocturne::guest::addressOf(&nb::targetSelectData()))); }};
     });
-    tarsel("SetTarget", [](Gen& g) {
+    tarsel("SetTarget (0x251428)", [](Gen& g) {
         act().work->nowcommand = static_cast<int16_t>(g.pick<int32_t>({0, 1, 1, 6, 5, 3}));
         if (g.chance(30))
             act().work->nowindex = 0xdf;
@@ -934,6 +946,14 @@ void addAiTests(std::vector<TestCase>& t)
         iface::helpWorld(g);
         const int32_t comm = g.range(-1, 9);
         return Pair{[=] { return iface::origVmVoid(0x002890b0, {sx(comm)}); }, [=] { nb::showCommandName(comm); return uint64_t{0}; }};
+    });
+    add("nbDispMiscActionName", [=](Gen& g) {
+        iface::helpWorld(g);
+        // Its two names are leftover Japanese, which the US font can't draw: there
+        // only the message type, which doesn't measure them.
+        const int32_t id = g.range(0, 1), type = nocturne::kBuild.us ? 1 : g.range(0, 3);
+        return Pair{[=] { return iface::origVmVoid(0x00289078, {sx(id), sx(type)}); },
+                    [=] { nb::showMiscActionName(id, type); return uint64_t{0}; }};
     });
     add("nbDispBattleText", [=](Gen& g) {
         iface::helpWorld(g);

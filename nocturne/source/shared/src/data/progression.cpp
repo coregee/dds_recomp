@@ -210,8 +210,8 @@ void initPlayer()
     global.stock_list[0] = 0;
     global.stock_count = 1;
     global.macca = 0;
-    for (uint8_t& count : global.item_counts)
-        count = 0;
+    for (int32_t i = 0; i < kItemCount; ++i)
+        global.item_counts[i] = 0;
     evt::BitOn(0xc04);
 }
 
@@ -284,10 +284,11 @@ void killCompanion(uint16_t devil)
     }
 }
 
-// datAddDevil @ 0x00245020
+// datAddDevil @ 0x00245020: the demon joins the stock, and the compendium
+// unless the ID's top bit says not (the first release always records it).
 int32_t addDevil(int32_t devil, bool joinParty)
 {
-    bool registerInCompendium = devil >= 0;
+    bool registerInCompendium = kBuild.vanilla || devil >= 0;
     devil &= 0x7fffffff;
     GlobalWork& global = globalWork();
 
@@ -315,7 +316,7 @@ int32_t addDevil(int32_t devil, bool joinParty)
 }
 
 // datAddUniqueDevil @ 0x00245180: a story demon with a unique ID (1 is
-// also flagged 0x1000). There is no check for a full stock: the result -1
+// also flagged 0x1000, but not in the first release). There is no check for a full stock: the result -1
 // then writes into the 0xEC bytes before units[0].
 void addUniqueDevil(int32_t devil, bool joinParty, int32_t uniqueId)
 {
@@ -325,7 +326,7 @@ void addUniqueDevil(int32_t devil, bool joinParty, int32_t uniqueId)
     uint32_t flag = unit.flag;
     unit.uniqueid = static_cast<uint16_t>(uniqueId);
     unit.flag = flag | 0x400;
-    if (uniqueId == 1)
+    if (!kBuild.vanilla && uniqueId == 1)
         unit.flag = flag | 0x1400;
 }
 
@@ -409,7 +410,8 @@ void addItem(int32_t item, int32_t count)
         return;
     }
     evt::BitOn(item + 0x360);
-    if (item != item::Deathstone || count == 0)
+    // (The first release keeps no count of Deathstones.)
+    if (kBuild.vanilla || item != item::Deathstone || count == 0)
         return;
     int32_t sum = static_cast<int32_t>(static_cast<uint32_t>(*held) + static_cast<uint32_t>(count));
     if (count > 0) {

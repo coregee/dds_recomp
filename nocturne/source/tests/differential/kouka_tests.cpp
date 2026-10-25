@@ -214,6 +214,16 @@ void addKoukaTests(std::vector<TestCase>& t)
                      }});
     };
 
+    // ---- callees of the packets' runs ----
+    add("effBTLSystemCut1Draw", [](Gen&) {
+        return Pair{[] { return origVmVoid(0x001740a0, {FW_BTL_CUT}); }, [] { nocturne::eff::drawSystemCut(FW_BTL_CUT); return uint64_t{0}; }};
+    });
+    add("nbSetPlayerFormation", [](Gen& g) {
+        const int32_t empty = g.range(0, 1);
+        return Pair{[=] { return origVmVoid(0x0028b0a0, {FW_MAIN, I(empty)}); },
+                    [=] { setPlayerFormation(at<MainProcessData>(FW_MAIN), empty); return uint64_t{0}; }};
+    });
+
     // ---- the queue ----
     add("nbGetKoukaProcessData", [](Gen&) {
         return Pair{[] { return origVm(0x0025e8e0, {}); }, [] { return R(&effectQueue()); }};
@@ -2123,12 +2133,12 @@ void addKoukaTests(std::vector<TestCase>& t)
         TalkState& n = at<TalkState>(FW_TALK);
         // Some of its tables open, each in its own window.
         const uint32_t* tables = nocturne::guest::table<const uint32_t>(difftest::version::dataOrDie(0x004e3be8));
-        for (int32_t i = 0; i < 31; ++i)
+        for (int32_t i = 0; i < nocturne::nb::kSpeechStyles; ++i)
             n.flowmsg[i] = tables[i * 4] != 0 && g.chance(20) ? nocturne::mes::Initialize(tables[i * 4]) : -1;
         n.questionmsg = g.chance(50) ? nocturne::mes::Initialize(tables[2]) : -1;
         n.bossmsg = g.chance(50) ? nocturne::mes::Initialize(difftest::version::dataOrDie(0x004eb810)) : -1;
         for (int32_t* w : {n.aisyomsg, n.infomsg})
-            for (int32_t i = 0; i < 31; ++i)
+            for (int32_t i = 0; i < nocturne::nb::kSpeechStyles; ++i)
                 w[i] = -1;
         n.helpmsg = n.helpmsg2 = n.innenmsg = -1;
         at<MainProcessData>(FW_MAIN).TalkProcessID = g.chance(50) ? process : 0;
@@ -2145,6 +2155,33 @@ void addKoukaTests(std::vector<TestCase>& t)
             pp = g.range(0, 3);
         return Pair{[=] { return origVm(0x0026c8f0, {FW_ACTION, I(pp), I(e), I(type), I(skill)}); },
                     [=] { return norm(static_cast<int32_t>(newTalk(at<ActionProcessData>(FW_ACTION), pp, e, type, skill))); }};
+    });
+    talk("nbInitNegoProcess", [=](Gen& g) {
+        int32_t e = g.range(4, 13);
+        while (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(e)))
+            e = g.range(4, 13);
+        int32_t p = g.range(0, 3);
+        while (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(p)))
+            p = g.range(0, 3);
+        const int32_t type = g.range(-1, 7), skill = g.range(0x180, 0x1a4);
+        // (its own instructions: the harness hooks it to the legacy C for other tests)
+        return Pair{[=] { iface::origOwn(0x0026ccf0, {FW_ACTION, I(p), I(e), I(type), I(skill)}); return uint64_t{0}; },
+                    [=] { startTalk(at<ActionProcessData>(FW_ACTION), p, e, type, skill); return uint64_t{0}; }};
+    });
+    talk("nbSetNegoPose", [=](Gen& g) {
+        const int32_t f = g.range(0, 13);
+        if (const uint32_t unit = at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)))   // asleep, stoned, ...
+            at<UnitWork>(unit).badstat = static_cast<uint16_t>(g.chance(60) ? g.pick<int32_t>({0, 4, 8, 0x200, 0x10}) : g.below(0x10000));
+        const uint32_t form = formAddress(f);
+        return Pair{[=] { return origVmVoid(0x0024cf70, {form}); }, [=] { takeTalkPose(at<Formation>(form)); return uint64_t{0}; }};
+    });
+    talk("CheckSkillShinoKeiyaku", [=](Gen& g) {
+        TalkState& n = at<TalkState>(FW_TALK);
+        n.talkSkill = static_cast<uint32_t>(g.chance(50) ? nocturne::skill::DeathPact : g.range(0x180, 0x1a4));
+        n.pwork.address = someUnit(g);
+        if (g.chance(30))
+            at<UnitWork>(n.pwork.address).hp = 0;
+        return Pair{[=] { return origVm(0x002731a8, {FW_TALK}); }, [=] { return norm(deathPact(at<TalkState>(FW_TALK)) ? 1 : 0); }};
     });
 
     // ---- talks: the steps ----
@@ -2183,7 +2220,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         n.ework->id = static_cast<uint16_t>(g.chance(30) ? g.pick<int32_t>({0x5c, 0x3d, 0x61, 0x5b, 0x99, 0x96, 0x1d, 0x24, 0x27, 0x6e, 0x90, 0x9a, 0x38, 0x59, 0x68, 0x71, 109, 111, 113, 0x3a, 0x3c, 0x5a}) : g.range(1, lastDevilWithAi()));
         if (g.chance(20) && !n.pwork->isPlayerCharacter())
             n.pwork->id = n.ework->id;
-        n.ekucyo = g.range(0, 30);
+        n.ekucyo = g.range(0, nocturne::nb::kSpeechStyles - 1);
         for (int32_t& window : n.flowmsg)   // (every style's table open, as the talk opens them)
             window = talkWindow;
         n.infomsg[n.ekucyo] = talkWindow + 100;   // (only noted as the window to show in)

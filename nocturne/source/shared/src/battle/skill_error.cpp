@@ -175,7 +175,8 @@ int32_t targetSkillError(int32_t nskill, uint32_t select)
 }
 
 // nbCheckBattleSkillError3 @ 0x00290780: buffs (0x34..0x36, 0x40..0x43,
-// 0xCB..0xCE, 0x109, 0x114) with nothing left to move: error 3.
+// 0xCB..0xCE, and 0x109 and 0x114 but not in the first release) with
+// nothing left to move: error 3.
 int32_t buffSkillError(int32_t nskill, uint32_t select)
 {
     GetMainProcessData();
@@ -183,7 +184,7 @@ int32_t buffSkillError(int32_t nskill, uint32_t select)
     if (t.unitCount == 0)
         return 0;
     const bool buff = versionBuffSkill(nskill) || (nskill >= 0x34 && nskill <= 0x36) || (nskill >= 0x40 && nskill <= 0x43) ||
-                      (nskill >= 0xcb && nskill <= 0xce) || nskill == 0x109 || nskill == 0x114;
+                      (nskill >= 0xcb && nskill <= 0xce) || (!kBuild.vanilla && (nskill == 0x109 || nskill == 0x114));
     if (!buff)
         return 0;
     return anyBuffMovable(t.parties, t.partyCount, dat::normalSkill(nskill).buffKinds) ? 0 : 3;

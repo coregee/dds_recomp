@@ -430,7 +430,7 @@ void queueDamage(ActionProcessData& a, int32_t hp)
     if (endure || checkNeverYield(self)) {
         if (hp > 0 && timeListHp(a, self) <= hp) {
             hp = timeListHp(a, self) - 1;
-            addSkillNamePacket(start, uniqueOf(a), endure ? 0x159 : 0x168);
+            addSkillNamePacket(start, uniqueOf(a), endure ? skill::Endure : skill::NeverYield);
             markEndureUsed(self);
         }
     }
@@ -846,7 +846,11 @@ int32_t updateCommand(ActionProcessData& a)
     case 5: { // an item
         if (unit.nowcommand == 1) {
             switch (unit.nowindex) {
-            case 0xde: case 0xdf: case 0xe2: case 0xe3: case 0xe4: case 0xe5: case 0xe6: case 0xfc:   // summons
+            case 0xde:   // (not a summon in the first release)
+                if (!kBuild.vanilla)
+                    prepareSummon(*a.data);
+                break;
+            case 0xdf: case 0xe2: case 0xe3: case 0xe4: case 0xe5: case 0xe6: case 0xfc:   // summons
                 prepareSummon(*a.data);
                 break;
             default: break;
@@ -1002,7 +1006,7 @@ uint8_t hitEffectByte(int32_t skill, int32_t n)
 // (targetcntmin..max) at random, never the same target twice in a row and
 // at most one or two more hits than there are targets on any one; skills
 // 0x9E and 0x9F hit the target with the lowest share of its HP once (a
-// random one of those tied); others hit each target once with the count, in
+// random one of those tied; not in the first release); others hit each target once with the count, in
 // slot order, reverse order or shuffled, by the skill's hit-effect kind
 // (0..7, 8..11, 12..15). On the enemies' turn skill 0xCC's kinds 4..11 hit
 // in reverse.
@@ -1064,7 +1068,7 @@ void hitOrder(ActionProcessData& a, HitOrderEntry* list, uint32_t select, int32_
         return;
     }
 
-    if (nskill == 0x9e || nskill == 0x9f) {
+    if (!kBuild.vanilla && (nskill == 0x9e || nskill == 0x9f)) {
         int8_t lowest[32] = {};
         int32_t n = 0;
         uint32_t best = 101;
@@ -1161,7 +1165,8 @@ void printPressResult([[maybe_unused]] int32_t type)
 // Never Yield leave 1 HP), HP and MP drained, the buff shown, a counter,
 // and the press turns it costs.
 //  - The event boss's skills 0x106..0x108 (Dante's; Raidou's in the
-//    Chronicle Edition, with their own lengths) start the result later.
+//    Chronicle Edition, with their own lengths; none in the first release)
+//    start the result later.
 //  - Repel (1): the result hits the user instead, who may null or resist
 //    the ailment; Drain (2): the target heals what it would have lost;
 //    Null (3): nothing happens. Each is one hit.
@@ -1193,12 +1198,14 @@ void queueHitResult(ActionProcessData& a, int32_t koukatype, int32_t nskill, int
     int32_t target = dformindex;
     switch (koukatype) {
     case 2: {   // drained
-        if (nskill == 0x106)
-            frame += kBuild.chronicle ? 0x35 : 8;
-        if (nskill == 0x107)
-            frame += kBuild.chronicle ? 0x7d : 0x3c;
-        if (nskill == 0x108)
-            frame += kBuild.chronicle ? 0x2d : 0x5a;
+        if (!kBuild.vanilla) {
+            if (nskill == 0x106)
+                frame += kBuild.chronicle ? 0x35 : 8;
+            if (nskill == 0x107)
+                frame += kBuild.chronicle ? 0x7d : 0x3c;
+            if (nskill == 0x108)
+                frame += kBuild.chronicle ? 0x2d : 0x5a;
+        }
         if (target < 16)
             nb::AddHitEffPacket(frame, a, formAt(a, target), 2);
         setHitStopFrame(a, frame);
@@ -1211,14 +1218,16 @@ void queueHitResult(ActionProcessData& a, int32_t koukatype, int32_t nskill, int
         break;
     }
     case 1: {   // repelled: the user takes it
-        if (nskill == 0x107) {
-            frame += 8;
-            main.d31_repel107 = 1;
+        if (!kBuild.vanilla) {
+            if (nskill == 0x107) {
+                frame += 8;
+                main.d31_repel107 = 1;
+            }
+            if (nskill == 0x108)
+                frame += kBuild.chronicle ? 0x2d : 0x5a;
+            if (nskill == 0x113)
+                main.d31_repel113 = 1;
         }
-        if (nskill == 0x108)
-            frame += kBuild.chronicle ? 0x2d : 0x5a;
-        if (nskill == 0x113)
-            main.d31_repel113 = 1;
         if (dformindex < 16)
             nb::AddHitEffPacket(frame, a, formAt(a, dformindex), 1);
         setHitStopFrame(a, frame);
@@ -1232,8 +1241,12 @@ void queueHitResult(ActionProcessData& a, int32_t koukatype, int32_t nskill, int
             nulled = true;
         }
         switch (bad) {
+        case 0x1000: case 0x2000: case 0x4000:   // (the first release has no such effects)
+            if (kBuild.vanilla)
+                break;
+            [[fallthrough]];
         case 0x1: case 0x2: case 0x4: case 0x8: case 0x10: case 0x20: case 0x40: case 0x80:
-        case 0x100: case 0x200: case 0x400: case 0x800: case 0x1000: case 0x2000: case 0x4000:
+        case 0x100: case 0x200: case 0x400: case 0x800:
             if (affinity(nskill, sformindex, dat::ailmentElement(bad)).raw &
                 (Affinity::Null | Affinity::Repel | Affinity::Drain | Affinity::Unknown100000))
                 bad = 0;
@@ -1276,8 +1289,8 @@ void queueHitResult(ActionProcessData& a, int32_t koukatype, int32_t nskill, int
         }
         int32_t hp = hpEffect(ritu, true, nskill, sformindex, target, cnt);
         int32_t heal = hpEffect(ritu, false, nskill, sformindex, target, cnt);
-        // Ailments that take a share of HP.
-        if (bad == 0x4000 || bad == 0x2000 || bad == 0x1000) {
+        // Ailments that take a share of HP (not in the first release).
+        if (!kBuild.vanilla && (bad == 0x4000 || bad == 0x2000 || bad == 0x1000)) {
             const int32_t now = GetUnitWorkFromFormindex(target)->hp;
             if (bad == 0x1000) {
                 hp = now >> 1;
@@ -1333,9 +1346,9 @@ void queueHitResult(ActionProcessData& a, int32_t koukatype, int32_t nskill, int
             if (dead) {
                 int32_t saved = 0;
                 if (checkNeverYield(target))
-                    saved = 0x168;
+                    saved = skill::NeverYield;
                 else if (checkEndure(target))
-                    saved = 0x159;
+                    saved = skill::Endure;
                 if (saved) {
                     dead = false;
                     if (outbad == static_cast<uint32_t>(Ailment::Dead))
@@ -1346,10 +1359,10 @@ void queueHitResult(ActionProcessData& a, int32_t koukatype, int32_t nskill, int
             } else if (hp > 0 && hp >= timeListHp(a, target)) {
                 if (checkEndure(target)) {
                     hp = timeListHp(a, target) - 1;
-                    addSkillNamePacket(frame, uniqueOf(a), 0x159);
+                    addSkillNamePacket(frame, uniqueOf(a), skill::Endure);
                 } else if (checkNeverYield(target)) {
                     hp = timeListHp(a, target) - 1;
-                    addSkillNamePacket(frame, uniqueOf(a), 0x168);
+                    addSkillNamePacket(frame, uniqueOf(a), skill::NeverYield);
                 }
             }
             if (hp > 0) {
@@ -1540,8 +1553,8 @@ void enterReady(ActionProcessData& a)
     if (a.stat & 0x100) {
         targetSpeed = ee::Float::fromBits(0x3fc00000);   // 1.5
         // (Dante, devil 0xC0, keeps his own speed; the Chronicle Edition's
-        // Raidou in his place doesn't)
-        if (kBuild.chronicle || a.work->id != 0xc0)
+        // Raidou in his place doesn't, nor the first release's devil 0xC0)
+        if (kBuild.chronicle || kBuild.vanilla || a.work->id != 0xc0)
             speed = ee::Float::fromInt(3);
     }
 
@@ -1752,18 +1765,20 @@ void enterReady(ActionProcessData& a)
         setCameraState(kCameraEnemyBad);
 
     // The help line.
-    fr::frSetBaseWidth(0x14);
+    if (!kBuild.vanilla)
+        fr::frSetBaseWidth(0x14);
     switch (a.work->nowcommand) {
     case 0:
-        if (passiveActive(*a.work, 0x130))
-            showSkillName(0x130);
+        if (passiveActive(*a.work, skill::AttackAll))
+            showSkillName(skill::AttackAll);
         else
             showCommandName(a.work->nowcommand);
         break;
     case 1: {
-        // Four bosses' skill 0xE2 has a name of its own.
+        // Four bosses' skill 0xE2 has a name of its own (not in the first
+        // release).
         const uint16_t id = a.work->id;
-        if (id >= 0x159 && id <= 0x15c && a.work->nowindex == 0xe2) {
+        if (!kBuild.vanilla && id >= 0x159 && id <= 0x15c && a.work->nowindex == 0xe2) {
             static constexpr int32_t kNames[] = {0x1f3, 0x1f0, 0x1f1, 0x1f2};
             showSkillName(kNames[id - 0x159]);
         } else if (a.work->nowindex != 0xf7) {
@@ -1902,7 +1917,8 @@ void enterSkill(ActionProcessData& a)
     const ee::Float speed = ee::Float::fromInt((a.stat & 0x100) ? 3 : 1);
     const int32_t wait10 = (ee::Float::fromInt(10) / speed).toInt();
     a.newpresstype = 0;
-    main.piercedResistance = 0;
+    if (!kBuild.vanilla)
+        main.piercedResistance = 0;
 
     // The first cut, on the user.
     uint32_t cut = 0;
@@ -1998,7 +2014,7 @@ void enterSkill(ActionProcessData& a)
             queueOngyokiClonesVanish(a, target, start + 5);
 
         if (a.hEffBTL != 0 && i < 16 && summoned && (kind == 0 || (kind > 0 && kind < 15 && !deflected)) &&
-            !(kind == 3 && skill == 0x107)) {
+            !(!kBuild.vanilla && kind == 3 && skill == 0x107)) {
             int16_t look = 1;   // the cut's look on the target: hit, dodged or missed (0x20), dead (3)
             const bool dead = timeListDead(a, target);
             if (kind == 4 || kind == 5)
@@ -2020,7 +2036,7 @@ void enterSkill(ActionProcessData& a)
             default: break;
             }
         }
-        if (skill == 0x103 || skill == 0x104)
+        if (!kBuild.vanilla && (skill == 0x103 || skill == 0x104))
             setBuffCounter(target, 0xb, 0);
         if (kind == 1)
             addPassiveEffectEndPacket(start, uid);
@@ -2045,17 +2061,17 @@ void enterSkill(ActionProcessData& a)
             showEffect = true;
         ++targets;
     }
-    if (allRepelled && skill == 0x108)
+    if (!kBuild.vanilla && allRepelled && skill == 0x108)
         showEffect = true;
-    if (allDrained && (skill == 0x106 || skill == 0x107))
+    if (!kBuild.vanilla && allDrained && (skill == 0x106 || skill == 0x107))
         showEffect = true;
 
     // Drain Attack: an attack heals the user a share of the damage it did.
     const int32_t drainMark = skill == 0 ? drainAttackMark(a.autoskill) : -1;
-    if (drainMark >= 0 && passiveActive(*a.work, 0x12e) && !timeListDead(a, self)) {
+    if (drainMark >= 0 && passiveActive(*a.work, skill::DrainAttack) && !timeListDead(a, self)) {
         a.autoskill = drainMark;
         const int32_t at = lastDoneFrame(a);
-        const SpecialSkill& drain = dat::specialSkill(0x12e);
+        const SpecialSkill& drain = dat::specialSkill(skill::DrainAttack);
         if (drain.n == 0)
             divideByZeroTrap();
         const int32_t hpShare = a.allhpdamage / drain.n, mpShare = a.allmpdamage / drain.m;
@@ -2068,9 +2084,10 @@ void enterSkill(ActionProcessData& a)
             setTimeList(a, self, at, wait, wait);
         }
     }
-    // Skills that heal the user a share of its maximum HP (0x11E) or MP (0x109).
-    if (skill == 0x11e && a.autoskill == 0 && !timeListDead(a, self) && a.runerr == 0) {
-        a.autoskill = 0x12e;   // (only for lastDoneFrame)
+    // Skills that heal the user a share of its maximum HP (0x11E) or MP (0x109;
+    // neither in the first release).
+    if (!kBuild.vanilla && skill == 0x11e && a.autoskill == 0 && !timeListDead(a, self) && a.runerr == 0) {
+        a.autoskill = skill::DrainAttack;   // (only for lastDoneFrame)
         const int32_t at = lastDoneFrame(a);
         a.autoskill = 0;
         const int32_t share = static_cast<int32_t>(a.work->maxhp * static_cast<uint32_t>(selfHealPercent(*a.work, dat::normalSkill(0x11e).buffAmount))) / 100;
@@ -2082,8 +2099,8 @@ void enterSkill(ActionProcessData& a)
             setTimeList(a, self, at, wait, wait);
         }
     }
-    if (skill == 0x109 && a.autoskill == 0 && !timeListDead(a, self) && a.runerr == 0) {
-        a.autoskill = 0x12e;
+    if (!kBuild.vanilla && skill == 0x109 && a.autoskill == 0 && !timeListDead(a, self) && a.runerr == 0) {
+        a.autoskill = skill::DrainAttack;
         const int32_t at = lastDoneFrame(a);
         a.autoskill = 0;
         const int32_t share = static_cast<int32_t>(a.work->maxmp * static_cast<uint32_t>(dat::normalSkill(0x109).mpn)) / 100;
@@ -2112,7 +2129,7 @@ void enterSkill(ActionProcessData& a)
     // The status line.
     bool holdLine = false;
     if (a.runerr == 0) {
-        if (a.autoskill >= 299 && a.autoskill <= 0x12e)
+        if (a.autoskill >= skill::Might && a.autoskill <= skill::DrainAttack)
             showSkillName(a.autoskill);   // the passive that fired
         const int32_t lineSkill = statusSkill(skill);
         int32_t message = versionStatusMessage(lineSkill, lastKind);
@@ -2133,13 +2150,14 @@ void enterSkill(ActionProcessData& a)
         case 0xcc: message = 0x52; break;
         case 0xcd: message = 0x54; break;
         case 0xce: message = 0x56; break;
-        case 0x109: message = 0x54; break;
-        case 0x110: message = 0x60; break;
-        case 0x112: message = 0x5c; break;
-        case 0x114: message = 0x62; break;
-        case 0x11a: message = anyLanded ? 0x16 : 0; break;
+        // (the first release has none of these, nor Pierce)
+        case 0x109: message = kBuild.vanilla ? 0 : 0x54; break;
+        case 0x110: message = kBuild.vanilla ? 0 : 0x60; break;
+        case 0x112: message = kBuild.vanilla ? 0 : 0x5c; break;
+        case 0x114: message = kBuild.vanilla ? 0 : 0x62; break;
+        case 0x11a: message = !kBuild.vanilla && anyLanded ? 0x16 : 0; break;
         default:
-            if ((anyHit || !pierceNeedsHit()) && main.piercedResistance != 0)
+            if (!kBuild.vanilla && (anyHit || !pierceNeedsHit()) && main.piercedResistance != 0)
                 message = 100;   // Pierce
             break;
         }
@@ -2173,7 +2191,7 @@ void enterSkill(ActionProcessData& a)
             eff::setCutCameraState(c);
         } else {
             addSkillEffectPacket(0, end, uid, cut);
-            addSoundPacket(0, uid, allDrained && skill == 0x106 ? 0x3060001u : static_cast<uint32_t>(skill + 0x200) << 16);
+            addSoundPacket(0, uid, !kBuild.vanilla && allDrained && skill == 0x106 ? 0x3060001u : static_cast<uint32_t>(skill + 0x200) << 16);
         }
     } else {
         addSkillColorOffPacket(end, uid);
@@ -2853,9 +2871,9 @@ bool clearsFocus(int32_t skill) { return dat::normalSkill(skill).damageClass == 
 #if NOCTURNE_HARDTYPE
 // ... (and 0x2FE1E0) Drain Attack fires whatever passive fired before, and
 // keeps that one's mark.
-int32_t drainAttackMark(int32_t autoskill) { return autoskill != 0 ? autoskill : 0x12e; }
+int32_t drainAttackMark(int32_t autoskill) { return autoskill != 0 ? autoskill : skill::DrainAttack; }
 #else
-int32_t drainAttackMark(int32_t autoskill) { return autoskill == 0 ? 0x12e : -1; }
+int32_t drainAttackMark(int32_t autoskill) { return autoskill == 0 ? skill::DrainAttack : -1; }
 #endif
 
 #if NOCTURNE_HARDTYPE

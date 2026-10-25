@@ -361,8 +361,6 @@ void startTargetCursorProcess(MainProcessData& data)
 // nbPlaySe @ 0x0028D090 (nbSound): a battle sound at full volume, centred.
 void playBattleSound(int32_t se) { snd::Play(se, 0x7f, 0x3f); }
 
-namespace {
-
 // 0x0029BA80 (no HD name): one bit of a config word; type 0 is inverted,
 // 5 always on, others unknown (-1).
 int32_t configBit(int32_t type, uint32_t config)
@@ -375,8 +373,6 @@ int32_t configBit(int32_t type, uint32_t config)
     default: return -1;
     }
 }
-
-} // namespace
 
 // dds3CheckConfigBit @ 0x0029BAE0: the game's options (type 1: the target
 // cursor remembers the last target, tentative).

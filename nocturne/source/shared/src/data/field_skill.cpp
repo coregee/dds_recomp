@@ -282,11 +282,12 @@ namespace {
 
 bool hurtable(const UnitWork& unit) { return (unit.flag & UnitFlag::InParty) && unit.hp; }
 
-// Damage that leaves at least 1 HP; triple on Hard.
+// Damage that leaves at least 1 HP; triple on Hard (the first release has
+// no difficulty here).
 void hurt(UnitWork& unit, uint32_t damage)
 {
     const uint32_t hp = unit.hp;
-    if (!dat::isNormalDifficulty())
+    if (!kBuild.vanilla && !dat::isNormalDifficulty())
         damage *= 3;
     if (!damage)
         damage = 1;
@@ -331,9 +332,12 @@ void partyDamage(int32_t mode)
     }
 }
 
-// datPartyDamageFld @ 0x00244A38
+// datPartyDamageFld @ 0x00244A38: 3% to the poisoned (1) or everyone (2);
+// 1 or 2% (3) or half (4), with no difficulty (not in the first release).
 void partyFieldDamage(int32_t mode)
 {
+    if (kBuild.vanilla && mode > 2)
+        return;
     UnitWork* units = globalWork().units;
     for (int i = 0; i < 16; ++i) {
         UnitWork& unit = units[i];
@@ -389,9 +393,10 @@ void partyRecover()
 
 namespace nocturne::dat {
 
-#if NOCTURNE_CHRONICLE
+#if NOCTURNE_CHRONICLE || NOCTURNE_VANILLA
 // datPartyDamage @ 0x002447C0 (Chronicle 0x243C98): mode 3 spares no one;
-// the check for devil 0xC0 (Dante in US Maniax) is gone.
+// the check for devil 0xC0 (Dante in US Maniax) is gone (in the first
+// release, not yet there).
 bool sparedFromLastHp(const UnitWork&) { return false; }
 #else
 // datPartyDamage @ 0x002447C0: mode 3 leaves Dante's HP.

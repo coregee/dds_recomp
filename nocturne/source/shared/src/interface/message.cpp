@@ -415,7 +415,7 @@ void Release(int32_t id)
 }
 
 // itfMesMngInitializeManager @ 0x001CEB58
-// At start-up: loads the window texture, prepares the 128 window slots and
+// At start-up: loads the window texture, prepares the window slots and
 // starts the processes that update and draw the windows.
 void InitializeManager()
 {
@@ -424,7 +424,7 @@ void InitializeManager()
     m.frame = 0;
     m.config = 0;
     m.texture = tex::Load(addr(0x00535b10));                    // "/itf/MESWIN.TMX"
-    itf::MiscLinkInit(m.list, addressOf(m.nodes), 0x80, sizeof(itf::LinkNode));
+    itf::MiscLinkInit(m.list, addressOf(m.nodes), kWindowSlots, sizeof(itf::LinkNode));
     for (itf::LinkNode* node = m.list.freehead.get(); node; node = node->pnext.get())
         node->instance.address = 0;
     dds3::StartProcess(addr(0x00535b20), 0x409, 0, 0, addr(0x001d0ff8), addr(0x001d10a8), 0);    // "CalcMsgMng": CalcManagerProc

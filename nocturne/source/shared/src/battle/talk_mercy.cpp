@@ -9,6 +9,7 @@
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/unit.hpp"
 #include "nocturne/external.hpp"
+#include "nocturne/build.hpp"
 
 namespace nocturne::nb {
 
@@ -169,11 +170,11 @@ int32_t addsMacca(TalkState& n)
     return 0;
 }
 
-// Flow15_18 @ 0x00279338: the item (1..0x9F) is added; it leaves.
+// Flow15_18 @ 0x00279338: the item (any but 0) is added; it leaves.
 int32_t addsItem(TalkState& n)
 {
     addCandidate(n, 0xa001d);
-    if (static_cast<uint32_t>(n.requestdata) - 1 < 0x9f)
+    if (static_cast<uint32_t>(n.requestdata) - 1 < static_cast<uint32_t>(kItemCount - 1))
         dat::addItem(n.requestdata, 1);
     return 0;
 }

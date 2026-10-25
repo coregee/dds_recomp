@@ -780,6 +780,11 @@ void loadData(const char* elfPath)
         if (!table.empty() && table.size() <= 0x10000)
             gTables.push_back(std::move(table));
     }
+    // The first release has no f041.bf; f001.bf's table also has messages at
+    // the help line's indexes (0x42, 0x46).
+    if (readFile(root + "fld/f/f041/f041.bf").empty())
+        if (std::vector<uint8_t> table = scriptMessages(readFile(root + "fld/f/f001/f001.bf")); !table.empty())
+            gTables.push_back(std::move(table));
     for (int i = 0; i < 4; ++i)   // US Maniax's in EngFont/, the JP builds' in font/
         gFonts[i] = readFile(root + "font/EngFont/font" + std::to_string(i) + ".fnt");
     if (gFonts[0].empty())

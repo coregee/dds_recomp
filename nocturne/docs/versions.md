@@ -119,8 +119,11 @@ other versions, and their count printed. `variant_tests.cpp` and the
   spared Dante are Chronicle's changes); it keeps battle debug prints the
   US release and Chronicle removed (`SetAllPacket`'s hit names, Macca
   thrown, Ongyo-Ki's clones), outside `NOCTURNE_US` and `NOCTURNE_CHRONICLE`.
-- **vanilla:** builds and runs its suite (876 tests pass, 84 differ, 384
-  pending at 20 cases). `NOCTURNE_VANILLA` leaves out what Maniax added:
+- **vanilla:** builds and runs its suite: every test passes (1,300
+  rewritten functions proven at 100 cases, and the suite clean at 1,000).
+  The 18 left pending are Maniax's additions, which Vanilla doesn't have
+  (commands its table leaves empty, the pipe damage and the stock heal, the
+  AI changes, a music channel reset). `NOCTURNE_VANILLA` leaves out what Maniax added:
   eleven script commands, the AI's rotation commands, the boss refights,
   the race sacrifices and the Fiends (and Dante, and curse passing, in
   fusion). Its own tables, from `gen_tables.py --variant vanilla`, are the
@@ -132,10 +135,20 @@ other versions, and their count printed. `variant_tests.cpp` and the
     (0x108, not 0x128). Normal skills and devils keep their IDs (some
     rebalanced). A skill number written as a bare constant in the rewrite
     is a place to check.
-  - **Still to port:** most of what differs is the talks' steps (Vanilla's
-    negotiation differs widely), then battle formulas (magic attack, max
-    HP, the effect's HP, escape, the player's chance to flee an ambush),
-    rewards, the shop price and a few action and kouka steps.
+  - **Battle features Maniax added**, absent here: Never Yield and Pierce
+    (their checks report false), the event boss's (Dante's) timings and
+    music, the 0x1000..0x4000 HP-share effects, skills 0x9E/0x9F's
+    lowest-HP targeting and boss checks, poison-only program 15, the
+    self-healing skills 0x109 and 0x11E and the status lines of
+    0x109..0x11A, skill 0x103/0x104's guard reset, press result 17, the
+    press-icon count (`d31_press_total`), the boss's talk (0xF0..0xF6) and
+    the four bosses' named skill 0xE2. The talk's added item may be
+    1..0x7F, there are 14 battle-event packs (not 16) and 64 message
+    windows (not 128), and a pack file is freed as any file.
+  - **Hand pairs** (`reference/versions/vanilla-function-pairs.tsv`) name
+    functions the matcher can't pair (the action state table's READY and
+    SKILL) and, with 0, a function Vanilla doesn't have (Never Yield's
+    check).
 
 ## Chronicle and Vanilla: what the survey shows
 

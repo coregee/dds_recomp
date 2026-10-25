@@ -512,7 +512,18 @@ void placeArguments(Gen& g, ProcessWork& w, int16_t command, const std::vector<i
     }
 }
 
-int16_t someCommand(Gen& g) { return g.pick(kVmCommands); }
+// (Of those, the ones the version has: Maniax added some.)
+int16_t someCommand(Gen& g)
+{
+    static const std::vector<int16_t> present = [] {
+        std::vector<int16_t> out;
+        for (int16_t command : kVmCommands)
+            if (commandEntry(command) != 0)
+                out.push_back(command);
+        return out;
+    }();
+    return present[g.below(static_cast<uint32_t>(present.size()))];
+}
 
 // The code word at CP made `op`, with an operand and a stack it can work on.
 void prepare(Gen& g, ProcessWork& w, Opcode op)
@@ -847,6 +858,11 @@ void addScriptTests(std::vector<TestCase>& t)
         Loaded l = loadScript(g);
         running(g, l, g.range(0, 4));
         return Pair{[=] { return origVmVoid(0x00109f08, {}); }, [=] { scrAllReleaseScript(); return uint64_t{0}; }};
+    });
+    add("ps2ScriptDiagnosticDisabled", [](Gen& g) {   // scrPrintf: its arguments spilled, nothing printed
+        baseWorld(g);
+        const uint32_t format = iface::guestString("%d"), value = static_cast<uint32_t>(g.rng());
+        return Pair{[=] { return origVmVoid(0x001097e8, {format, value}); }, [=] { scrPrintf(format, value); return uint64_t{0}; }};
     });
     add("scrSearchScriptName", [](Gen& g) {
         baseWorld(g);

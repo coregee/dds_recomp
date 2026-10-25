@@ -26,6 +26,8 @@ int compareInherited(const void* left, const void* right)
     return a > b ? 1 : a < b ? -1 : 0;
 }
 
+} // namespace
+
 // 0x00213230: by race, then highest level first.
 int compareDevils(const void* left, const void* right)
 {
@@ -37,8 +39,6 @@ int compareDevils(const void* left, const void* right)
         return a->level > b->level ? -1 : 1;
     return 0;
 }
-
-} // namespace
 
 // cmbSortKeisyoSkill @ 0x00213350 (with cmbKeisyoSkillSortCopy 0x213280 and
 // cmbKeisyoSkillSortReturn 0x2132C0)

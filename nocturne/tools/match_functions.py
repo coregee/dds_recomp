@@ -188,14 +188,18 @@ def main():
             by_call.add(callee)
 
     # Pairs read off the instructions by hand
-    # (reference/versions/<name>-function-pairs.tsv: US Maniax, the version's).
-    by_hand = set()
+    # (reference/versions/<name>-function-pairs.tsv: US Maniax, the version's;
+    # 0 for a function the version doesn't have).
+    by_hand, absent = set(), set()
     pairs = os.path.join(ROOT, 'reference/versions/%s-function-pairs.tsv' % name)
     if os.path.exists(pairs):
         for line in open(pairs, encoding='utf-8').read().splitlines():
             if line and not line.startswith('#'):
                 a, b = (int(x, 16) for x in line.split()[:2])
-                if a in size_of:
+                if a in size_of and b == 0:
+                    matched.pop(a, None)
+                    absent.add(a)
+                elif a in size_of:
                     matched[a] = (b - other_start) // 4
                     by_hand.add(a)
 
@@ -209,7 +213,7 @@ def main():
     order = sorted(matched)
     gaps = defaultdict(list)
     for address, size, fname, index in functions:
-        if address not in matched:
+        if address not in matched and address not in absent:
             k = bisect.bisect_left(order, address)
             gaps[k].append(address)
     gapped = set()
@@ -237,7 +241,7 @@ def main():
                        else 'masked' if len(found) == 1 else 'ordered')
                 out.write('%08x\t%08x\t%d\t%s\t%s\n' % (address, other_start + 4 * i, size, how, fname))
             else:
-                how = 'none' if not found else 'ambiguous'
+                how = 'absent' if address in absent else 'none' if not found else 'ambiguous'
                 out.write('%08x\t\t%d\t%s\t%s\n' % (address, size, how, fname))
             counts[how] += 1
     total = len(functions)

@@ -139,6 +139,7 @@ cmbGetPowerUpSkill	legacy
 rstRndGetPowerUpSkill	legacy
 cmbGetMutationSkill	legacy
 cmbSortKeisyoSkill	legacy
+cmbDevilSortCallback	legacy
 sortDevilsByRace (0x2133A0)	legacy
 cmbChkEventDevil	legacy
 cmbChkMetaOnlyDevil	legacy
@@ -294,6 +295,7 @@ nbAiChkSkillNoMp	legacy
 nbAiChkHojo	legacy
 nbAiChkHojoMax	legacy
 nbAiChkJoken	legacy
+nbAiScriptChkJoken	legacy
 nbAiAiChk	legacy
 nbAiGetKoudou	legacy
 nbAiSetKoudou	legacy
@@ -310,7 +312,7 @@ nbRunAiSub (instructions)	ok
 nbRunAi (instructions)	ok
 SetSingleTarget	ok
 SetGroupTarget	ok
-SetTarget	ok
+SetTarget (0x28E4B0)	ok
 CheckBadActionSkill	ok
 GetBadActionSkill	ok
 BadKaja	ok
@@ -346,9 +348,10 @@ nbTarSelShutdown	ok
 InitTarSelProcessData	ok
 nbInitTarSelProcess	ok
 nbPlaySe	ok
+FUN_0029ba80	ok
 dds3CheckConfigBit	ok
 GetTarSelProcessData	ok
-SetTarget	ok
+SetTarget (0x251428)	ok
 SetAction_TARSEL	ok
 GetCommSelProcessData	ok
 GetCommListCnt	ok
@@ -379,6 +382,7 @@ nbDispText	ok
 nbDispSkillName	ok
 nbDispItemName	ok
 nbDispMiscActionNameComm	ok
+nbDispMiscActionName	ok
 nbDispBattleText	ok
 nbDispDevilName	ok
 nbDispJyokyoHelp	ok
@@ -962,6 +966,8 @@ datInitBossPress	ok
 datBossRashGetRec	ok
 datBossRashUpdRec	ok
 datBossRashChk	ok
+effBTLSystemCut1Draw	ok
+nbSetPlayerFormation	ok
 nbGetKoukaProcessData	ok
 nbGetUniqueIdKoukaPacketCnt	ok
 nbGetKoukaPacketTypeCnt	ok
@@ -1195,6 +1201,9 @@ nbNegoProcessMessageChk	ok
 nbNegoProcessEnd	ok
 nbNegoShutdown	ok
 InitNegoProcessData	ok
+nbInitNegoProcess	ok
+nbSetNegoPose	ok
+CheckSkillShinoKeiyaku	ok
 ChkAisyo	ok
 nbChkNegoAisyo	ok
 nbChkNegoAisyo2	ok

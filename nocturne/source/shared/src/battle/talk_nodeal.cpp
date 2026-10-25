@@ -29,9 +29,13 @@ void showFlowMessage(TalkState& n, int32_t message) { showTalkMessage(n, flowWin
 // The early demons that are kinder before event 8.
 bool youngDemon(uint16_t id) { return id == devil::Kodama || id == devil::Pixie || id == devil::Shikigami; }
 
+} // namespace
+
 // CheckSkillShinoKeiyaku @ 0x002731A8 (the HD remaster's name): a Death
 // Pact ("shi no keiyaku") with the talker still standing.
 bool deathPact(const TalkState& n) { return n.talkSkill == skill::DeathPact && n.pwork->hp != 0; }
+
+namespace {
 
 // The talk ends with `result`, or, with a Death Pact, with the strike
 // first (the result kept for after it).

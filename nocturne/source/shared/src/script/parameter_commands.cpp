@@ -7,6 +7,7 @@
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/unit.hpp"
 #include "nocturne/external.hpp"
+#include "nocturne/build.hpp"
 #include "nocturne/script/commands.hpp"
 #include "nocturne/script/vm.hpp"
 
@@ -110,7 +111,8 @@ int32_t healStockSilently()
 
 // prm_DV_PLUS @ 0x0010D0F0: DV_PLUS(devil, join, unique ID)
 // A demon joins unless one of its kind is already there (join: 1 into the
-// party, 2 into the party without a compendium entry); with a unique ID it
+// party, 2 into the party without a compendium entry, which the first
+// release doesn't have); with a unique ID it
 // joins regardless, as a story demon.
 int32_t addDevil()
 {
@@ -123,7 +125,7 @@ int32_t addDevil()
     const int32_t devil = para(0);
     if (dat::findDevil(devil) != -1)
         return 1;
-    if (join == 2)
+    if (!kBuild.vanilla && join == 2)
         dat::addDevil(static_cast<int32_t>(static_cast<uint32_t>(devil) | 0x80000000u), true);
     else
         dat::addDevil(devil, join != 0);

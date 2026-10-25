@@ -32,5 +32,6 @@ void startTargetCursorProcess(MainProcessData& data);
 
 void playBattleSound(int32_t se);           // nbSound: a battle sound
 int32_t configOption(int32_t type);         // dds3ConfigMain: an option
+int32_t configBit(int32_t type, uint32_t config);   // 0x29BA80: ... read from a config word
 
 } // namespace nocturne::nb

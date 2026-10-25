@@ -149,7 +149,7 @@ World world(Gen& g, bool raw = false)
 
     Manager& m = manager();
     std::memset(&m, 0, sizeof m);
-    itf::MiscLinkInit(m.list, addr(m.nodes), 0x80, sizeof(itf::LinkNode));
+    itf::MiscLinkInit(m.list, addr(m.nodes), nocturne::mes::kWindowSlots, sizeof(itf::LinkNode));
     w.count = g.range(1, 3);
     for (int i = 0; i < w.count; ++i) {
         itf::LinkNode& node = *itf::MiscLinkTake(m.list);
@@ -216,14 +216,14 @@ void addMessageTests(std::vector<TestCase>& t)
     // ---- the instance list ----
     t.push_back({"itfMiscLinkInit", [](Gen& g) {
         World w = world(g);
-        int32_t count = g.range(2, 0x80);
+        int32_t count = g.range(2, nocturne::mes::kWindowSlots);
         uint64_t stack = A(&manager().list), nodes = A(manager().nodes);
         return Pair{[=] { return origVoid(0x001cae58, {stack, nodes, I(count), 0x14}); },
                     [=] { itf::MiscLinkInit(manager().list, static_cast<uint32_t>(nodes), count, 0x14); return uint64_t{0}; }};
     }});
     t.push_back({"itfMiscLinkTake", [](Gen& g) {
         World w = world(g);
-        for (int n = g.chance(5) ? 0x80 : 0; n > 0; --n)
+        for (int n = g.chance(5) ? nocturne::mes::kWindowSlots : 0; n > 0; --n)
             itf::MiscLinkTake(manager().list);
         uint64_t stack = A(&manager().list);
         return Pair{[=] { return orig(0x001caeb8, {stack}); },

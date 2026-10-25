@@ -138,9 +138,11 @@ EffectResult resolveEffect(int32_t skill, int32_t source, int32_t target)
     if (data.stat & BattleStat::DebugAlwaysRepel) return EffectResult::Repel;
     if (data.stat & BattleStat::DebugAlwaysHit)   return EffectResult::Hit;
 
-    if (skill == skill::HolyMelody && (data.stat & BattleStat::BossBattle) && data.encno != 0x408 && defender.isEnemy())
+    // (The Melodies' boss checks are not in the first release.)
+    if (!kBuild.vanilla && skill == skill::HolyMelody && (data.stat & BattleStat::BossBattle) && data.encno != 0x408 &&
+        defender.isEnemy())
         return EffectResult::Fail;
-    if (skill == skill::EvilMelody && (data.stat & BattleStat::BossBattle) && defender.isEnemy())
+    if (!kBuild.vanilla && skill == skill::EvilMelody && (data.stat & BattleStat::BossBattle) && defender.isEnemy())
         return EffectResult::Fail;
 
     // Affinity. Classes 12..14 have none.
@@ -164,10 +166,11 @@ EffectResult resolveEffect(int32_t skill, int32_t source, int32_t target)
         }
     }
 
-    // Program 6 (Eternal Rest) only works on sleepers; program 15 on the poisoned.
+    // Program 6 (Eternal Rest) only works on sleepers; program 15 on the
+    // poisoned (not in the first release).
     if (s.program == 6) {
         if (!hasAilment(defender, Ailment::Sleep)) return EffectResult::Fail;
-    } else if (s.program == 15 && !hasAilment(defender, Ailment::Poison)) {
+    } else if (!kBuild.vanilla && s.program == 15 && !hasAilment(defender, Ailment::Poison)) {
         return EffectResult::Fail;
     }
 
@@ -189,8 +192,8 @@ EffectResult resolveEffect(int32_t skill, int32_t source, int32_t target)
 
     Float hitRate = Float::fromInt(s.hitlevel) * 0.01f;
     // Normal difficulty: hptype 3 / hpn 1 skills (e.g. Evil Gaze) are less
-    // accurate against the player's side.
-    if (isNormalDifficulty() && s.hptype == 3 && s.hpn == 1 && !defender.isEnemy())
+    // accurate against the player's side (not in the first release).
+    if (!kBuild.vanilla && isNormalDifficulty() && s.hptype == 3 && s.hpn == 1 && !defender.isEnemy())
         hitRate = hitRate * 0.7f;
 
     Float attackerAccuracyBuff = buffMultiplier(source, 8);
@@ -550,7 +553,7 @@ bool rollEnemiesFirst(MainProcessData& data)
     diag::print(diag::Message::FirstStrike, s.playerLevel, s.enemyLevel, table, chance, draw);
     if (draw < chance)
         return false;
-    if (isNormalDifficulty() && (sdf::GetRandInt(128) & 1))
+    if (!kBuild.vanilla && isNormalDifficulty() && (sdf::GetRandInt(128) & 1))   // (the first release has no Normal reroll)
         return false;
     return true;
 }
@@ -621,7 +624,7 @@ bool rollEscape(MainProcessData& data)
     if (dat::partyHasSkill(skill::FastRetreat))
         chance = chance * dat::specialSkill(skill::FastRetreat).n / 100;
 
-    if (!escapeDifficulty(chance, isNormalDifficulty()))
+    if (!kBuild.vanilla && !escapeDifficulty(chance, isNormalDifficulty()))   // (the first release: no difficulty step)
         return false;
     diag::print(diag::Message::EscapeRate, chance);
 
@@ -632,7 +635,7 @@ bool rollEscape(MainProcessData& data)
     if (sdf::GetRandInt(4) == 1)
         return true;
     // Always Normal at this point, so this is a plain coin flip.
-    if (isNormalDifficulty() && (sdf::GetRandInt(2) & 1))
+    if (!kBuild.vanilla && isNormalDifficulty() && (sdf::GetRandInt(2) & 1))
         return true;
     return false;
 }
@@ -808,7 +811,7 @@ int32_t scatteredMacca(const UnitWork& unit)
     Float amount = Float::fromInt(base);
     int32_t value = (amount + amount * jitter).toInt();
 
-    if (isNormalDifficulty() && !unit.isEnemy())
+    if (!kBuild.vanilla && isNormalDifficulty() && !unit.isEnemy())   // (the first release: no Normal tenth)
         value /= 10;
     return value > 0 ? value : 1;
 }
@@ -942,7 +945,7 @@ HitType rollCritical(ActionProcessData& action, int32_t skill, int32_t source, i
     case Ailment::Sleep: case Ailment::Bind:   multiplier = 8.0f;   break;
     default: break;
     }
-    if ((action.data->form[target].stat & FormationStat::Unknown2000) && !dat::isNormalDifficulty())
+    if ((action.data->form[target].stat & FormationStat::Unknown2000) && (kBuild.vanilla || !dat::isNormalDifficulty()))   // (the first release: always)
         multiplier = 100.0f;
 
     bool mightFired = false;
@@ -1022,7 +1025,7 @@ HitType rollCritical(ActionProcessData& action, int32_t skill, int32_t source, i
     case Ailment::Sleep: case Ailment::Bind:   multiplier = 8.0f;   break;
     default: break;
     }
-    if ((action.data->form[target].stat & FormationStat::Unknown2000) && !dat::isNormalDifficulty())
+    if ((action.data->form[target].stat & FormationStat::Unknown2000) && (kBuild.vanilla || !dat::isNormalDifficulty()))   // (the first release: always)
         multiplier = 100.0f;
 
     // Might: normal attacks crit n/100 times as often (n = 300).
@@ -1090,7 +1093,7 @@ bool affinityOutcome(int32_t skill, const NormalSkill&, const UnitWork& attacker
 }
 #else
 // nbGetKoukaType @ 0x00265948: Repel, then Drain and Null, which Pierce lets
-// physical skills through (flagging it).
+// physical skills through (flagging it; the first release has no Pierce).
 bool affinityOutcome(int32_t skill, const NormalSkill& /*s*/, const UnitWork& attacker, Affinity affinity, MainProcessData& data,
                      EffectResult& outcome)
 {

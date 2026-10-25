@@ -268,6 +268,17 @@ void addFontTests(std::vector<TestCase>& t)
         return Pair{[=] { return origVoid(0x001c6160, {I(w)}); }, [=] { frSetBaseWidth(w); return uint64_t{0}; }};
     });
 #endif
+    add("ps2FontGetGlyphStorageSize", [=](Gen& g) {   // the shadow offset: the JP engine's by glyph, the US one's 24
+        const int8_t style = static_cast<int8_t>(g.range(-1, 4));
+        const int32_t index = g.chance(60) ? g.range(0x30, 0x60) + (g.chance(50) ? 0x124 : 0) : g.range(0, 0x400);
+#if NOCTURNE_US
+        return Pair{[=] { return iface::origVm(0x001c7080, {static_cast<uint64_t>(style), static_cast<uint64_t>(index)}); },
+                    [] { return norm(24); }};
+#else
+        return Pair{[=] { return iface::origVm(0x001c7080, {static_cast<uint64_t>(style), static_cast<uint64_t>(index)}); },
+                    [=] { return norm(shadowOffset(style, index)); }};
+#endif
+    });
     add("frGetXShiftLev", [=](Gen& g) {
         uint32_t text = textArg(g);
         if (!text)

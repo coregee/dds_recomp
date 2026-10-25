@@ -139,6 +139,7 @@ cmbGetPowerUpSkill	legacy
 rstRndGetPowerUpSkill	legacy
 cmbGetMutationSkill	legacy
 cmbSortKeisyoSkill	legacy
+cmbDevilSortCallback	legacy
 sortDevilsByRace (0x2133A0)	legacy
 cmbChkEventDevil	legacy
 cmbChkMetaOnlyDevil	legacy
@@ -242,25 +243,25 @@ cmbRaceSortCallback	legacy
 cmbLevelSortCallback	legacy
 CreateSortIndexByRace	legacy
 CreateSortIndexByLevel	legacy
-nbGetHitType (instructions)	differ
-nbGetKoukaType (instructions)	differ
+nbGetHitType (instructions)	ok
+nbGetKoukaType (instructions)	ok
 nbGetAisyo (instructions)	ok
-nbGetAisyoRitu (instructions)	differ
+nbGetAisyoRitu (instructions)	ok
 nbGetMagicAttack (instructions)	ok
 nbGetMagicKaifuku (instructions)	ok
 nbGetMaxHpWazaPoint (instructions)	ok
-nbGetKoukaHp (instructions)	differ
+nbGetKoukaHp (instructions)	ok
 GetAddExp	ok
 nbResultAddExp	ok
 ps2ShopItemId	ok
 ps2ShopPackId	ok
 ps2ShopItemCount	ok
 ps2ShopItemPrice	ok
-nbCheckSensei (instructions)	differ
+nbCheckSensei (instructions)	ok
 nbCheckBackAttack (instructions)	ok
-nbCheckEscape (instructions)	differ
+nbCheckEscape (instructions)	ok
 nbCheckRenzokuEncount (instructions)	ok
-nbGetKoukaBadDamage (instructions)	differ
+nbGetKoukaBadDamage (instructions)	ok
 nbAiChkMyHp	legacy
 nbAiChkMyMp	legacy
 nbAiChkFrHp	legacy
@@ -291,6 +292,7 @@ nbAiChkSkillNoMp	legacy
 nbAiChkHojo	legacy
 nbAiChkHojoMax	legacy
 nbAiChkJoken	legacy
+nbAiScriptChkJoken	legacy
 nbAiAiChk	legacy
 nbAiGetKoudou	legacy
 nbAiSetKoudou	legacy
@@ -298,126 +300,128 @@ nbAiChkCost	legacy
 nbAiChkClose	legacy
 nbRunAiSub	legacy
 nbRunAi	legacy
-nbAiAiChk (instructions)	pending
-nbAiGetKoudou (instructions)	pending
-nbAiSetKoudou (instructions)	pending
-nbAiChkCost (instructions)	pending
-nbAiChkClose (instructions)	pending
-nbRunAiSub (instructions)	pending
-nbRunAi (instructions)	pending
-SetSingleTarget	pending
-SetGroupTarget	pending
-SetTarget	pending
-CheckBadActionSkill	pending
-GetBadActionSkill	pending
-BadKaja	pending
-BadKaifuku	pending
-BadAttack	pending
-BadMaka	pending
-BadNego	pending
-BadReturn	pending
-BadBadWait	pending
-BadDamage	pending
-MakeRituList	pending
-GetBadAiAction	pending
-AddRituList	pending
-nbRunBadAi	pending
-nbSetJyokyoMes	pending
-nbGetJyokyoMes	pending
-nbGetTarSelStat	pending
-nbSetTarSelStat	pending
-nbSetTarSelJyokyoTime	pending
-AnimeTargetCursor	pending
-SetCursor	pending
-UpdateSelect	pending
-OnOffTargetCursor	pending
-DispTargetHelp	pending
-MemoryCommand (0x25E3F8)	pending
-CursorSelect	pending
-CursorSelectAuto	pending
-CheckFriend	pending
-CheckEnemy	pending
-nbSetTargetProcess	pending
-nbTarSelProcess1	pending
-nbTarSelShutdown	pending
-InitTarSelProcessData	pending
-nbInitTarSelProcess	pending
-nbPlaySe	pending
-dds3CheckConfigBit	pending
-GetTarSelProcessData	pending
-SetTarget	pending
-SetAction_TARSEL	pending
-GetCommSelProcessData	pending
-GetCommListCnt	pending
-AnimeCommandList	pending
-CheckSelectError	pending
-MemoryCommandComm (0x25C1D8)	pending
-GetNextCommType	pending
-SelectCommandList	pending
-SelectCommandListAuto	pending
-nbGetCommSelStat	pending
-nbSetCommSelStat	pending
-nbCloseCommSel	pending
-nbCommSelShutdown	pending
-SetCommList	pending
-SetPrevCursor	pending
-SetCommCursor2	pending
-nbSetAutoCommSel	pending
-InitCommSelProcessData	pending
-nbInitCommSelProcess	pending
-SetAction_COMM	pending
-CheckAction_COMM	pending
-SetAction_BAD	pending
-CheckAction_TARSEL	pending
-SetAction_STKSEL	pending
-CheckAction_STKSEL	pending
-nbSetPlayerSummonFormation	pending
-nbDispText	pending
-nbDispSkillName	pending
-nbDispItemName	pending
-nbDispMiscActionNameComm	pending
-nbDispBattleText	pending
-nbDispDevilName	pending
-nbDispJyokyoHelp	pending
-nbDispMsgHelp	pending
-nbHelpOff	pending
-nbHelpShutdown	pending
-InitHelpProcessData	pending
-nbInitHelpProcess	pending
-CheckDeadUnit	pending
-CheckDeadUnit2	pending
-CheckMaxHp	pending
-CheckMaxMp	pending
-CheckBad	pending
-CheckHojo	pending
-nbDispSkillErrorMessage	pending
-nbCheckBattleSkillError1	pending
-nbCheckBattleSkillError2	pending
-nbCheckBattleSkillError3	pending
-nbCheckCampSkillError	pending
-SetAction_AI	pending
-nbAiSelLifeMin	pending
-nbAiSelBaarLv	pending
-nbAiSelLvMin	pending
-nbAiSelLight	pending
-nbAiSelDark	pending
-nbAiSelPlayer	pending
-nbAiSelJoken	pending
-nbAiSelRnd	pending
-nbAiSelBad	pending
-nbAiSelId	pending
-nbAiSelAi	pending
-nbSetSingleTarget2	pending
-nbSetGroupTarget2	pending
-nbSetAiTarget	pending
-nbSetEnemySummonFormation	pending
-nbGetSelectBit	pending
-nbSetNormalSkill0	pending
-datGetItemSkillNo	pending
-nbGetItemSkillNo	pending
-nbGetTargetTypeRuleArea	pending
-CheckFormCursor	pending
-nbSetSelectOkMark	pending
+nbAiAiChk (instructions)	ok
+nbAiGetKoudou (instructions)	ok
+nbAiSetKoudou (instructions)	ok
+nbAiChkCost (instructions)	ok
+nbAiChkClose (instructions)	ok
+nbRunAiSub (instructions)	ok
+nbRunAi (instructions)	ok
+SetSingleTarget	ok
+SetGroupTarget	ok
+SetTarget (0x28E4B0)	ok
+CheckBadActionSkill	ok
+GetBadActionSkill	ok
+BadKaja	ok
+BadKaifuku	ok
+BadAttack	ok
+BadMaka	ok
+BadNego	ok
+BadReturn	ok
+BadBadWait	ok
+BadDamage	ok
+MakeRituList	ok
+GetBadAiAction	ok
+AddRituList	ok
+nbRunBadAi	ok
+nbSetJyokyoMes	ok
+nbGetJyokyoMes	ok
+nbGetTarSelStat	ok
+nbSetTarSelStat	ok
+nbSetTarSelJyokyoTime	ok
+AnimeTargetCursor	ok
+SetCursor	ok
+UpdateSelect	ok
+OnOffTargetCursor	ok
+DispTargetHelp	ok
+MemoryCommand (0x25E3F8)	ok
+CursorSelect	ok
+CursorSelectAuto	ok
+CheckFriend	ok
+CheckEnemy	ok
+nbSetTargetProcess	ok
+nbTarSelProcess1	ok
+nbTarSelShutdown	ok
+InitTarSelProcessData	ok
+nbInitTarSelProcess	ok
+nbPlaySe	ok
+FUN_0029ba80	ok
+dds3CheckConfigBit	ok
+GetTarSelProcessData	ok
+SetTarget (0x251428)	ok
+SetAction_TARSEL	ok
+GetCommSelProcessData	ok
+GetCommListCnt	ok
+AnimeCommandList	ok
+CheckSelectError	ok
+MemoryCommandComm (0x25C1D8)	ok
+GetNextCommType	ok
+SelectCommandList	ok
+SelectCommandListAuto	ok
+nbGetCommSelStat	ok
+nbSetCommSelStat	ok
+nbCloseCommSel	ok
+nbCommSelShutdown	ok
+SetCommList	ok
+SetPrevCursor	ok
+SetCommCursor2	ok
+nbSetAutoCommSel	ok
+InitCommSelProcessData	ok
+nbInitCommSelProcess	ok
+SetAction_COMM	ok
+CheckAction_COMM	ok
+SetAction_BAD	ok
+CheckAction_TARSEL	ok
+SetAction_STKSEL	ok
+CheckAction_STKSEL	ok
+nbSetPlayerSummonFormation	ok
+nbDispText	ok
+nbDispSkillName	ok
+nbDispItemName	ok
+nbDispMiscActionNameComm	ok
+nbDispMiscActionName	ok
+nbDispBattleText	ok
+nbDispDevilName	ok
+nbDispJyokyoHelp	ok
+nbDispMsgHelp	ok
+nbHelpOff	ok
+nbHelpShutdown	ok
+InitHelpProcessData	ok
+nbInitHelpProcess	ok
+CheckDeadUnit	ok
+CheckDeadUnit2	ok
+CheckMaxHp	ok
+CheckMaxMp	ok
+CheckBad	ok
+CheckHojo	ok
+nbDispSkillErrorMessage	ok
+nbCheckBattleSkillError1	ok
+nbCheckBattleSkillError2	ok
+nbCheckBattleSkillError3	ok
+nbCheckCampSkillError	ok
+SetAction_AI	ok
+nbAiSelLifeMin	legacy
+nbAiSelBaarLv	legacy
+nbAiSelLvMin	legacy
+nbAiSelLight	legacy
+nbAiSelDark	legacy
+nbAiSelPlayer	legacy
+nbAiSelJoken	legacy
+nbAiSelRnd	legacy
+nbAiSelBad	legacy
+nbAiSelId	legacy
+nbAiSelAi	legacy
+nbSetSingleTarget2	legacy
+nbSetGroupTarget2	legacy
+nbSetAiTarget	legacy
+nbSetEnemySummonFormation	legacy
+nbGetSelectBit	legacy
+nbSetNormalSkill0	legacy
+datGetItemSkillNo	legacy
+nbGetItemSkillNo	legacy
+nbGetTargetTypeRuleArea	legacy
+CheckFormCursor	legacy
+nbSetSelectOkMark	legacy
 nbCommand_AI_CHK_MYHP	legacy
 nbCommand_AI_CHK_MYMP	legacy
 nbCommand_AI_CHK_FRHP	legacy
@@ -567,14 +571,14 @@ ConvertZenkakuNumber	ok
 itfMesMngSetVar	ok
 itfMesMngSetVarScr	ok
 nbSetDevilNameMes	ok
-itfMesMngInitializeManager	differ
+itfMesMngInitializeManager	ok
 ExitALL	ok
 ps2PoolCreate	ok
 PoolTake	ok
 PoolGive	ok
 frInitTextHandle	ok
 frInitFontHandle	ok
-ps2FontBindContext	pending
+ps2FontBindContext	ok
 frLoadStyle	ok
 frLoadStyleAll	ok
 frDelFontStyle	ok
@@ -594,7 +598,7 @@ ps2FontAcquireCachedGlyph	ok
 ps2FontReleaseGlyph	ok
 frGetDefaultFontWidth	ok
 frGetDefaultFontHeight	ok
-frGetXShiftLev	pending
+frGetXShiftLev	ok
 frGetStrWidth	ok
 frGetChainWidth	ok
 frSetFont	ok
@@ -628,12 +632,12 @@ ps2FontAppendNameSecond	ok
 ps2FontAppendNameBoth	ok
 ps2FontAppendNameBitmapGlyph	ok
 ps2FontAppendResourceName	ok
-ps2FontLinkLetters	pending
-ps2FontLinkSpacedLetters	pending
+ps2FontLinkLetters	ok
+ps2FontLinkSpacedLetters	ok
 frCreateNewHandle	ok
 ps2FontAdvanceMessageLine	ok
 ps2FontAppendVariable	ok
-frAnalyzeTag	pending
+frAnalyzeTag	ok
 frAnalyzeMessage	ok
 MessageRequestEx	ok
 ps2FontMessageRequest	ok
@@ -660,238 +664,238 @@ itfPnlSetPosition	ok
 itfPnlSetPositionOffset	ok
 itfPnlSetColor	ok
 itfMiscSetRatioRGB	ok
-scrLinkScriptHandleList	pending
-scrUnlinkScriptHandleList	pending
-scrAddScript	pending
-scrAddScriptFirst	pending
-scrAddScript2	pending
-scrAddScript3	pending
-scrStartScriptProcess	pending
-scrStartScript1a	pending
-scrStartScript2	pending
-scrStartScript3	pending
-scrInitGlobalWork	pending
-scrReleaseScript	pending
-scrAllReleaseScript	pending
-scrSearchScriptName	pending
-scrSearchProcedureName	pending
-scrSetUserData	pending
-scrGetUserData	pending
-scrScriptShutdown	pending
-scrScriptProcess	pending
-scrTraceCode	pending
-Execute PUSHI	pending
-Execute PUSHF	pending
-Execute PUSHIX	pending
-Execute PUSHFX	pending
-Execute PUSHREG	pending
-Execute POPIX	pending
-Execute POPFX	pending
-Execute PROC	pending
-Execute COMM	pending
-Execute END	pending
-Execute JUMP	pending
-Execute CALL	pending
-Execute RUN	pending
-Execute GOTO	pending
-Execute ADD	pending
-Execute SUB	pending
-Execute MUL	pending
-Execute DIV	pending
-Execute MINUS	pending
-Execute NOT	pending
-Execute OR	pending
-Execute AND	pending
-Execute EQ	pending
-Execute NEQ	pending
-Execute S	pending
-Execute L	pending
-Execute SE	pending
-Execute LE	pending
-Execute IF	pending
-Execute PUSHIS	pending
-Execute PUSHLIX	pending
-Execute PUSHLFX	pending
-Execute POPLIX	pending
-Execute POPLFX	pending
-Execute PUSHSTR	pending
-scrPushInt	pending
-scrPushFloat	pending
-scrPushStr	pending
-scrPushRet	pending
-scrPopInt	pending
-scrPopFloat	pending
-TwoOperation	pending
-scrGetIntPara	pending
-scrGetFloatPara	pending
-scrGetStrPara	pending
-scrSetIntReturnValue	pending
-scrSetCodePointer	pending
-scrGetLabelCodeAddress	pending
-scrGetCommandTimer	pending
-scrGetMessageHandle	pending
-scrGetScriptHandle	pending
-scrGetData	pending
-SDF_ABORT1	pending
-Eve_BlurON	pending
-Eve_BlurOFF	pending
-Eve_PartialMultiBlurON	pending
-Eve_PartialMultiBlurOFF	pending
-Eve_DistortionBlurON	pending
-Eve_DistortionBlurOFF	pending
-Eve_RippleBlurON	pending
-Eve_RippleBlurOFF	pending
-Eve_FilterON	pending
-Eve_FilterOFF	pending
-Eve_PartialMultiFilterON	pending
-Eve_PartialMultiFilterOFF	pending
-dds3StopQuake	pending
-Eve_BlurGetParam	pending
-Eve_PartialMultiBlurEditorGetParams	pending
-Eve_DistortionBlurEditorGetParams	pending
-Eve_RippleBlurEditorGetParams	pending
-Eve_FilterEditorGetParams	pending
-Eve_PartialMultiFilterEditorGetParams	pending
-Eve_BlurSetParam	pending
-Eve_PartialMultiBlurSetParam	pending
-Eve_DistortionBlurSetParam	pending
-Eve_RippleBlurSetParam	pending
-Eve_FilterSetParam	pending
-Eve_PartialMultiFilterSetParam	pending
-Eve_DistortionBlurSetTex	pending
-dds3Filter2Swap	pending
-dds3Filter2On	pending
-dds3Filter2Off	pending
-dds3MFilterSwap	pending
-dds3MFilterOn	pending
-dds3MFilterOff	pending
-dds3Blur2Swap	pending
-dds3Blur2On	pending
-dds3Blur2Off	pending
-dds3MultiBlurSwap	pending
-dds3MultiBlurOn	pending
-dds3MultiBlurOff	pending
-dds3DistBlurSwap	pending
-dds3DistBlurOn	pending
-dds3DistBlurOff	pending
-dds3RipBlurSwap	pending
-dds3RipBlurOn	pending
-dds3RipBlurOff	pending
-dds3SetFilter2Para	pending
-dds3SetFilter2RGBA	pending
-dds3SetMFilterPara	pending
-dds3SetMFilterRGBA	pending
-dds3SetBlur2RGBA	pending
-dds3SetMultiBlurRGBA	pending
-dds3SetDistBlurRGBA	pending
-dds3SetRipBlurRGBA	pending
-dds3SetMFilterArea	pending
-dds3SetMultiBlurArea	pending
-dds3SetDistBlurArea	pending
-dds3SetRipBlurArea	pending
-dds3SetBlur2Area	pending
-dds3SetBlur2Para	pending
-dds3SetMultiBlurPara	pending
-dds3SetDistBlurPara	pending
-dds3SetRipBlurPara	pending
-dds3SetBlur	pending
-dds3SetScreenFovy	pending
-dds3SetAmbient	pending
-dds3SetFog	pending
-dds3SetLight	pending
-setdraw_xy	pending
-dds3SetLightColor	pending
-dds3SetLightDir	pending
-dds3SetAmbientColor	pending
-dds3SetFogColor	pending
-dds3SetFogPara	pending
-dds3SetSoftenBias	pending
-dds3SetQuake	pending
-command 7	pending
-command 8	pending
-command 9	pending
-command 10	pending
-command 13	pending
-command 14	pending
-command 15	pending
-command 16	pending
-command 17	pending
-command 26	pending
-command 36	pending
-command 65	pending
-command 66	pending
-command 67	pending
-command 83	pending
-command 84	pending
-command 109	pending
-command 114	pending
-command 153	pending
-command 165	pending
-command 166	pending
-command 167	pending
-command 168	pending
-command 169	pending
-command 171	pending
-command 172	pending
-command 189	pending
-command 234	pending
-command 235	pending
-command 236	pending
-command 237	pending
-command 238	pending
-command 239	pending
-command 240	pending
-command 241	pending
-command 242	pending
-command 243	pending
-command 295	pending
-command 296	pending
-command 297	pending
-command 298	pending
-command 299	pending
-command 300	pending
-command 301	pending
-command 302	pending
-command 303	pending
-command 304	pending
-command 305	pending
-command 306	pending
-command 307	pending
-command 308	pending
-command 309	pending
-command 310	pending
-command 311	pending
-command 322	pending
-command 323	pending
-command 324	pending
-command 325	pending
-command 326	pending
-command 327	pending
-command 180	pending
-command 181	pending
-command 182	pending
-command 187	pending
-command 188	pending
-command 71	pending
-command 112	pending
-command 290	pending
-command 32	pending
-command 313	pending
+scrLinkScriptHandleList	ok
+scrUnlinkScriptHandleList	ok
+scrAddScript	ok
+scrAddScriptFirst	ok
+scrAddScript2	ok
+scrAddScript3	ok
+scrStartScriptProcess	ok
+scrStartScript1a	ok
+scrStartScript2	ok
+scrStartScript3	ok
+scrInitGlobalWork	ok
+scrReleaseScript	ok
+scrAllReleaseScript	ok
+scrSearchScriptName	ok
+scrSearchProcedureName	ok
+scrSetUserData	ok
+scrGetUserData	ok
+scrScriptShutdown	ok
+scrScriptProcess	ok
+scrTraceCode	ok
+Execute PUSHI	ok
+Execute PUSHF	ok
+Execute PUSHIX	ok
+Execute PUSHFX	ok
+Execute PUSHREG	ok
+Execute POPIX	ok
+Execute POPFX	ok
+Execute PROC	ok
+Execute COMM	ok
+Execute END	ok
+Execute JUMP	ok
+Execute CALL	ok
+Execute RUN	ok
+Execute GOTO	ok
+Execute ADD	ok
+Execute SUB	ok
+Execute MUL	ok
+Execute DIV	ok
+Execute MINUS	ok
+Execute NOT	ok
+Execute OR	ok
+Execute AND	ok
+Execute EQ	ok
+Execute NEQ	ok
+Execute S	ok
+Execute L	ok
+Execute SE	ok
+Execute LE	ok
+Execute IF	ok
+Execute PUSHIS	ok
+Execute PUSHLIX	ok
+Execute PUSHLFX	ok
+Execute POPLIX	ok
+Execute POPLFX	ok
+Execute PUSHSTR	ok
+scrPushInt	ok
+scrPushFloat	ok
+scrPushStr	ok
+scrPushRet	ok
+scrPopInt	ok
+scrPopFloat	ok
+TwoOperation	ok
+scrGetIntPara	ok
+scrGetFloatPara	ok
+scrGetStrPara	ok
+scrSetIntReturnValue	ok
+scrSetCodePointer	ok
+scrGetLabelCodeAddress	ok
+scrGetCommandTimer	ok
+scrGetMessageHandle	ok
+scrGetScriptHandle	ok
+scrGetData	ok
+SDF_ABORT1	ok
+Eve_BlurON	ok
+Eve_BlurOFF	ok
+Eve_PartialMultiBlurON	ok
+Eve_PartialMultiBlurOFF	ok
+Eve_DistortionBlurON	ok
+Eve_DistortionBlurOFF	ok
+Eve_RippleBlurON	ok
+Eve_RippleBlurOFF	ok
+Eve_FilterON	ok
+Eve_FilterOFF	ok
+Eve_PartialMultiFilterON	ok
+Eve_PartialMultiFilterOFF	ok
+dds3StopQuake	ok
+Eve_BlurGetParam	ok
+Eve_PartialMultiBlurEditorGetParams	ok
+Eve_DistortionBlurEditorGetParams	ok
+Eve_RippleBlurEditorGetParams	ok
+Eve_FilterEditorGetParams	ok
+Eve_PartialMultiFilterEditorGetParams	ok
+Eve_BlurSetParam	ok
+Eve_PartialMultiBlurSetParam	ok
+Eve_DistortionBlurSetParam	ok
+Eve_RippleBlurSetParam	ok
+Eve_FilterSetParam	ok
+Eve_PartialMultiFilterSetParam	ok
+Eve_DistortionBlurSetTex	ok
+dds3Filter2Swap	ok
+dds3Filter2On	ok
+dds3Filter2Off	ok
+dds3MFilterSwap	ok
+dds3MFilterOn	ok
+dds3MFilterOff	ok
+dds3Blur2Swap	ok
+dds3Blur2On	ok
+dds3Blur2Off	ok
+dds3MultiBlurSwap	ok
+dds3MultiBlurOn	ok
+dds3MultiBlurOff	ok
+dds3DistBlurSwap	ok
+dds3DistBlurOn	ok
+dds3DistBlurOff	ok
+dds3RipBlurSwap	ok
+dds3RipBlurOn	ok
+dds3RipBlurOff	ok
+dds3SetFilter2Para	ok
+dds3SetFilter2RGBA	ok
+dds3SetMFilterPara	ok
+dds3SetMFilterRGBA	ok
+dds3SetBlur2RGBA	ok
+dds3SetMultiBlurRGBA	ok
+dds3SetDistBlurRGBA	ok
+dds3SetRipBlurRGBA	ok
+dds3SetMFilterArea	ok
+dds3SetMultiBlurArea	ok
+dds3SetDistBlurArea	ok
+dds3SetRipBlurArea	ok
+dds3SetBlur2Area	ok
+dds3SetBlur2Para	ok
+dds3SetMultiBlurPara	ok
+dds3SetDistBlurPara	ok
+dds3SetRipBlurPara	ok
+dds3SetBlur	ok
+dds3SetScreenFovy	ok
+dds3SetAmbient	ok
+dds3SetFog	ok
+dds3SetLight	ok
+setdraw_xy	ok
+dds3SetLightColor	ok
+dds3SetLightDir	ok
+dds3SetAmbientColor	ok
+dds3SetFogColor	ok
+dds3SetFogPara	ok
+dds3SetSoftenBias	ok
+dds3SetQuake	ok
+command 7	ok
+command 8	ok
+command 9	ok
+command 10	ok
+command 13	ok
+command 14	ok
+command 15	ok
+command 16	ok
+command 17	ok
+command 26	ok
+command 36	ok
+command 65	ok
+command 66	ok
+command 67	ok
+command 83	ok
+command 84	ok
+command 109	ok
+command 114	ok
+command 153	ok
+command 165	ok
+command 166	ok
+command 167	ok
+command 168	ok
+command 169	ok
+command 171	ok
+command 172	ok
+command 189	ok
+command 234	ok
+command 235	ok
+command 236	ok
+command 237	ok
+command 238	ok
+command 239	ok
+command 240	ok
+command 241	ok
+command 242	ok
+command 243	ok
+command 295	ok
+command 296	ok
+command 297	ok
+command 298	ok
+command 299	ok
+command 300	ok
+command 301	ok
+command 302	ok
+command 303	ok
+command 304	ok
+command 305	ok
+command 306	ok
+command 307	ok
+command 308	ok
+command 309	ok
+command 310	ok
+command 311	ok
+command 322	ok
+command 323	ok
+command 324	ok
+command 325	ok
+command 326	ok
+command 327	ok
+command 180	ok
+command 181	ok
+command 182	ok
+command 187	ok
+command 188	ok
+command 71	ok
+command 112	ok
+command 290	ok
+command 32	ok
+command 313	ok
 command 387	pending
-command 28	pending
-command 314	pending
+command 28	ok
+command 314	ok
 command 374	pending
 command 390	pending
-command 225	pending
+command 225	ok
 command 388	pending
-command 335	pending
-command 336	pending
-command 346	pending
-command 337	pending
-command 338	pending
-command 344	pending
-command 29	pending
-command 348	pending
+command 335	ok
+command 336	ok
+command 346	ok
+command 337	ok
+command 338	ok
+command 344	ok
+command 29	ok
+command 348	ok
 command 30	pending
 command 369	pending
 command 370	pending
@@ -923,8 +927,8 @@ GetAisyoRitu	ok
 datGetSkillKouka	ok
 datGetSkillBadKouka	ok
 datExecSkill	ok
-datPartyDamage	pending
-datPartyDamageFld	pending
+datPartyDamage	ok
+datPartyDamageFld	ok
 datPartyDamagePipe	pending
 datPartyKaifuku	pending
 affinityRate	ok
@@ -933,13 +937,15 @@ datGetLevelForDraw	ok
 datCheckPlayerDead	ok
 datAddMaka	ok
 datCheckMaka	ok
-datInitPlayer	pending
+datInitPlayer	ok
 datGetUniqueDevilId	ok
 datSearchDevilStock	ok
 datCheckStockFull	ok
 datDelDevil	ok
 datCheckItemFull	ok
 datCheckItem	ok
+effBTLSystemCut1Draw	ok
+nbSetPlayerFormation	ok
 nbGetKoukaProcessData	ok
 nbGetUniqueIdKoukaPacketCnt	ok
 nbGetKoukaPacketTypeCnt	ok
@@ -1048,14 +1054,14 @@ nbCommand_BTL_AI_CHANGE_OFF	pending
 nbCommand_BTL_AI_CHANGE_ON	pending
 nbInitAiScript	ok
 nbCameraSetState	ok
-SetActionSeq	differ
-nbActionProcess1	differ
+SetActionSeq	ok
+nbActionProcess1	ok
 CheckAction_BAD	ok
 SetAction_BADWAIT	ok
 CheckAction_BADWAIT	ok
 SetAction_WAIT	ok
 CheckAction_WAIT	ok
-SetAction_ESCAPE	differ
+SetAction_ESCAPE	ok
 CheckAction_ESCAPE	ok
 SetAction_RETURN	ok
 CheckAction_RETURN	ok
@@ -1070,12 +1076,12 @@ SetEnemyEscapePacket	ok
 SetAuroraPacket	ok
 SetAddPressPacket	ok
 SetAddFlareChargePacket	ok
-SetMakaPacket	differ
+SetMakaPacket	ok
 SetTorafuPacket	ok
 SetAnalyzePacket	ok
 SetSakePacket	ok
 SetMissPacket	ok
-SetDamagePacket	differ
+SetDamagePacket	ok
 nbAddOngBunshinPacket	ok
 nbAddOngBunshin2Packet	ok
 nbAddOngOutPacket	ok
@@ -1085,11 +1091,11 @@ SetOngShadowPacket2	ok
 SetTargetPlayer	ok
 SetTargetParty	ok
 CheckArrCounter	ok
-CheckCounter	differ
-CheckMukanNego	differ
-CheckSenseiNego	differ
-CheckInotiNego	differ
-CheckBinjoNego	differ
+CheckCounter	ok
+CheckMukanNego	ok
+CheckSenseiNego	ok
+CheckInotiNego	ok
+CheckBinjoNego	ok
 CheckDeadScript	ok
 CheckKoketaNego	ok
 KyouseiPress	ok
@@ -1100,12 +1106,12 @@ SetNowActionStat	ok
 nbGetNakama	ok
 SetAction_NEGO	ok
 SetAction_NEGORESULT	ok
-SetAction_READY	pending
+SetAction_READY	ok
 CheckAction_READY	ok
-SetAllPacket	differ
-SetAction_SKILL	pending
+SetAllPacket	ok
+SetAction_SKILL	ok
 CheckAction_SKILL	ok
-GetKoukaList	differ
+GetKoukaList	ok
 nbGetMotionEndType	legacy
 nbGetMotionEndData	legacy
 nbCameraSetTaizi	ok
@@ -1128,7 +1134,7 @@ SetAction_ATO	ok
 CheckAction_ATO	ok
 CheckAction_END	ok
 nbMakePressPacket	ok
-nbMakeNewPressPacket	differ
+nbMakeNewPressPacket	ok
 nbMakeFlyBadPacket	ok
 nbMakeBadDamagePacket	ok
 nbMakeBadKaifukuPacket	ok
@@ -1171,8 +1177,11 @@ nbNegoProcess1	ok
 nbNegoProcessMessage	ok
 nbNegoProcessMessageChk	ok
 nbNegoProcessEnd	ok
-nbNegoShutdown	differ
-InitNegoProcessData	differ
+nbNegoShutdown	ok
+InitNegoProcessData	ok
+nbInitNegoProcess	ok
+nbSetNegoPose	ok
+CheckSkillShinoKeiyaku	ok
 ChkAisyo	ok
 nbChkNegoAisyo	ok
 nbChkNegoAisyo2	ok
@@ -1188,8 +1197,8 @@ InitMakaProcessData	ok
 nbInitMakaProcess	ok
 nbStartBattleEventSound	ok
 nbStopBattleEventSound	ok
-nbLoadBattleEventPack	differ
-nbLoadBattleEventPackInit	differ
+nbLoadBattleEventPack	ok
+nbLoadBattleEventPackInit	ok
 nbUpdateEventProcessData	ok
 nbNextEventSeq	ok
 nbGetEventForm	ok
@@ -1202,7 +1211,7 @@ nbGetDeadEventFadeInFrame	ok
 nbGetDeadEventFadeStopFrame	ok
 nbEventProcess1	ok
 nbEventProcess3	ok
-nbEventShutdown	differ
+nbEventShutdown	ok
 nbInitEventProcess	ok
 GetUnitID	ok
 nbGetMotionSeNo	ok
@@ -1238,14 +1247,14 @@ nbBgmTrans	ok
 nbBgmFadeOut	ok
 nbBgmStop	ok
 nbBgmChannelReset	pending
-nbEncProcess1	pending
-nbEncProcess2	pending
-nbEncProcess2_5	pending
-nbEncProcess2_55	pending
-nbEncProcess2_6	pending
-nbEncProcess3	pending
-nbEncShutdown	pending
-nbInitEncProcess	pending
+nbEncProcess1	ok
+nbEncProcess2	ok
+nbEncProcess2_5	ok
+nbEncProcess2_55	ok
+nbEncProcess2_6	ok
+nbEncProcess3	ok
+nbEncShutdown	ok
+nbInitEncProcess	ok
 nbFormDispOff2	ok
 Flow1_3	ok
 Flow1_4	ok
@@ -1254,14 +1263,14 @@ Flow1_6	ok
 Flow1_7	ok
 Flow1_8	ok
 Flow1_9	ok
-Flow1_10	differ
-Flow1_11	differ
+Flow1_10	ok
+Flow1_11	ok
 Flow1_12	ok
 Flow1_13	ok
 Flow1_14	ok
 Flow1_15	ok
 Flow1_16	ok
-Flow1_17	differ
+Flow1_17	ok
 Flow1_18	ok
 Flow1_19	ok
 Flow1_20	ok
@@ -1284,27 +1293,27 @@ Flow1_36	ok
 Flow1_37	ok
 Flow1_38	ok
 Flow1_39	ok
-nbNegoFlowOne	differ
+nbNegoFlowOne	ok
 Flow2_1	ok
 Flow2_2	ok
 Flow2_3	ok
 Flow2_4	ok
-Flow2_5	differ
+Flow2_5	ok
 Flow2_6	ok
 Flow2_7	ok
 Flow2_8	ok
-Flow2_9	differ
+Flow2_9	ok
 Flow2_10	ok
-Flow2_11	differ
-Flow2_12	differ
-Flow2_13	differ
+Flow2_11	ok
+Flow2_12	ok
+Flow2_13	ok
 Flow2_14	ok
-Flow2_15	differ
+Flow2_15	ok
 Flow2_16	ok
-nbNegoFlowFullMoon	differ
+nbNegoFlowFullMoon	ok
 Flow3_1	ok
-Flow3_2	differ
-nbNegoFlowStock	differ
+Flow3_2	ok
+nbNegoFlowStock	ok
 Flow4_1	ok
 Flow4_2	ok
 Flow4_3	ok
@@ -1315,47 +1324,47 @@ Flow4_7	ok
 Flow4_8	ok
 Flow4_9	ok
 Flow4_10	ok
-Flow4_11	differ
+Flow4_11	ok
 Flow4_12	ok
-Flow4_13	differ
-nbNegoFlowDouchara	differ
+Flow4_13	ok
+nbNegoFlowDouchara	ok
 Flow5_1	ok
 Flow5_2	ok
-Flow5_3	differ
+Flow5_3	ok
 Flow5_4	ok
 Flow5_5	ok
 Flow5_6	ok
 Flow5_7	ok
 Flow5_8	ok
-Flow5_9	differ
+Flow5_9	ok
 Flow5_10	ok
 Flow5_11	ok
 Flow5_12	ok
 Flow5_13	ok
-Flow5_14	differ
-Flow5_15	differ
+Flow5_14	ok
+Flow5_15	ok
 Flow5_16	ok
 Flow5_17	ok
 Flow5_18	ok
 Flow5_19	ok
 Flow5_20	ok
-Flow5_21	differ
-nbNegoFlowInnen	differ
+Flow5_21	ok
+nbNegoFlowInnen	ok
 Flow6_1	ok
 Flow6_2	ok
-Flow6_3	differ
+Flow6_3	ok
 Flow6_4	ok
-Flow6_5	differ
-Flow6_6	differ
+Flow6_5	ok
+Flow6_6	ok
 Flow6_7	ok
-Flow6_8	differ
+Flow6_8	ok
 Flow6_9	ok
 Flow6_10	ok
 Flow6_11	ok
 Flow6_12	ok
 Flow6_13	ok
 Flow6_14	ok
-Flow6_15	differ
+Flow6_15	ok
 Flow6_16	ok
 Flow6_17	ok
 Flow6_18	ok
@@ -1370,7 +1379,7 @@ Flow6_26	ok
 Flow6_27	ok
 Flow6_28	ok
 Flow6_29	ok
-Flow6_30	differ
+Flow6_30	ok
 Flow6_31	ok
 Flow6_32	ok
 Flow6_33	ok
@@ -1387,13 +1396,13 @@ Flow6_43	ok
 Flow6_44	ok
 Flow6_45	ok
 Flow6_46	ok
-Flow6_47	differ
+Flow6_47	ok
 Flow6_48	ok
 Flow6_49	ok
 Flow6_50	ok
 Flow6_51	ok
 Flow6_52	ok
-Flow6_53	differ
+Flow6_53	ok
 Flow6_54	ok
 Flow6_55	ok
 Flow6_56	ok
@@ -1416,18 +1425,18 @@ Flow6_73	ok
 Flow6_74	ok
 Flow6_80	ok
 Flow6_81	ok
-nbNegoFlowTwo	differ
+nbNegoFlowTwo	ok
 Flow7_1	ok
 Flow7_3	ok
-Flow7_11	differ
-Flow7_15	differ
+Flow7_11	ok
+Flow7_15	ok
 Flow7_20	ok
 Flow7_22	ok
-Flow7_23	differ
-Flow7_24	differ
-Flow7_25	differ
-Flow7_26	differ
-nbNegoFlowQuestion	differ
+Flow7_23	ok
+Flow7_24	ok
+Flow7_25	ok
+Flow7_26	ok
+nbNegoFlowQuestion	ok
 Flow8_1	ok
 Flow8_2	ok
 Flow8_3	ok
@@ -1445,30 +1454,30 @@ Flow8_14	ok
 Flow8_15	ok
 Flow8_16	ok
 Flow8_17	ok
-Flow8_18	differ
+Flow8_18	ok
 Flow8_19	ok
-nbNegoFlowFight	differ
+nbNegoFlowFight	ok
 Flow9_1	ok
 Flow9_2	ok
 Flow9_3	ok
 Flow9_4	ok
-Flow9_5	differ
+Flow9_5	ok
 Flow9_6	ok
 Flow9_7	ok
 Flow9_9	ok
 Flow9_10	ok
 Flow9_11	ok
 Flow9_13	ok
-Flow9_14	differ
+Flow9_14	ok
 Flow9_15	ok
 Flow9_16	ok
-Flow9_17	differ
+Flow9_17	ok
 Flow9_18	ok
 Flow9_19	ok
 Flow9_20	ok
 Flow9_21	ok
-Flow9_22	differ
-nbNegoFlowOk	differ
+Flow9_22	ok
+nbNegoFlowOk	ok
 Flow10_1	ok
 Flow10_2	ok
 Flow10_3	ok
@@ -1478,7 +1487,7 @@ Flow10_6	ok
 Flow10_7	ok
 Flow10_8	ok
 Flow10_9	ok
-Flow10_10	differ
+Flow10_10	ok
 Flow10_11	ok
 Flow10_12	ok
 Flow10_13	ok
@@ -1490,18 +1499,18 @@ Flow10_19	ok
 Flow10_20	ok
 Flow10_21	ok
 Flow10_22	ok
-Flow10_23	differ
+Flow10_23	ok
 Flow10_24	ok
 Flow10_25	ok
 Flow10_26	ok
 Flow10_27	ok
 Flow10_28	ok
 Flow10_29	ok
-Flow10_30	differ
-Flow10_31	differ
-Flow10_32	differ
+Flow10_30	ok
+Flow10_31	ok
+Flow10_32	ok
 Flow10_33	ok
-nbNegoFlowNg	differ
+nbNegoFlowNg	ok
 Flow11_1	ok
 Flow11_2	ok
 Flow11_3	ok
@@ -1525,29 +1534,29 @@ Flow12_21	ok
 Flow12_22	ok
 Flow12_23	ok
 Flow12_24	ok
-Flow12_25	differ
+Flow12_25	ok
 Flow12_26	ok
 Flow12_27	ok
 Flow12_28	ok
 Flow12_29	ok
 Flow12_30	ok
-Flow12_31	differ
+Flow12_31	ok
 Flow12_35	ok
 Flow12_36	ok
-Flow12_37	differ
+Flow12_37	ok
 Flow12_38	ok
-Flow12_39	differ
+Flow12_39	ok
 Flow12_40	ok
-Flow12_41	differ
+Flow12_41	ok
 Flow12_42	ok
 Flow12_43	ok
-Flow12_44	differ
+Flow12_44	ok
 Flow12_45	ok
 Flow12_46	ok
 Flow12_47	ok
 Flow12_48	ok
 Flow12_49	ok
-nbNegoFlowMukan	differ
+nbNegoFlowMukan	ok
 Flow13_1	ok
 Flow13_2	ok
 Flow13_3	ok
@@ -1566,21 +1575,21 @@ Flow14_2	ok
 nbNegoFlowBinjo	ok
 Flow15_1	ok
 Flow15_5	ok
-Flow15_6	differ
+Flow15_6	ok
 Flow15_7	ok
 Flow15_8	ok
 Flow15_10	ok
-Flow15_11	differ
-Flow15_12	differ
-Flow15_13	differ
+Flow15_11	ok
+Flow15_12	ok
+Flow15_13	ok
 Flow15_14	ok
 Flow15_17	ok
-Flow15_18	differ
-Flow15_19	differ
+Flow15_18	ok
+Flow15_19	ok
 Flow15_20	ok
 Flow15_22	ok
 Flow15_23	ok
-nbNegoFlowInoti	differ
+nbNegoFlowInoti	ok
 Flow16_1	ok
 Flow16_2	ok
 Flow16_3	ok
@@ -1625,14 +1634,14 @@ effBTLSkillGetInvokeFormation	ok
 RunBossEffectKouka	ok
 RunMoveKouka	ok
 RunUnitColKouka	ok
-RunPressKouka	differ
+RunPressKouka	ok
 RunBadMotKaifukuKouka	ok
 RunFadeKouka	ok
 RunSummonKouka	ok
 RunDamageMotionKouka	ok
 RunSkillEffectKouka	ok
 RunMotionKouka	ok
-RunSeKouka	differ
+RunSeKouka	ok
 RunMotionStopKouka	ok
 RunReturnKouka	ok
 RunSakeKouka	ok

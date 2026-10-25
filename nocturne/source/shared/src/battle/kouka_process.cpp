@@ -471,17 +471,18 @@ void playAilment(EffectQueue&, EffectPacket& p) { setAilment(p.form->formindex, 
 // RunSeKouka @ 0x002606D8: a sound effect (data1). 0x19 plays it; 0x1C
 // plays it if its bank is in, noting either way; 0x1D waits a frame at a
 // time until the bank is in. The event boss's music for a repelled skill
-// 0x107 stops at sound 0x10008 or 0x10009, for 0x113 at 0x10008.
+// 0x107 stops at sound 0x10008 or 0x10009, for 0x113 at 0x10008 (not in the
+// first release, which has no such music).
 void playSound(EffectQueue& k, EffectPacket& p)
 {
     const int32_t sound = p.data1.i();
     const bool ready = snd::BankReady(static_cast<uint32_t>(sound));
     MainProcessData& main = battle(k);
-    if (main.d31_repel107 != 0 && static_cast<uint32_t>(sound - 0x10008) < 2) {
+    if (!kBuild.vanilla && main.d31_repel107 != 0 && static_cast<uint32_t>(sound - 0x10008) < 2) {
         main.d31_repel107 = 0;
         snd::StopEffectMidi(kRepelledSkillMusic);
     }
-    if (main.d31_repel113 != 0 && sound == 0x10008) {
+    if (!kBuild.vanilla && main.d31_repel113 != 0 && sound == 0x10008) {
         main.d31_repel113 = 0;
         snd::StopEffectMidi(0x1c740000);
     }
@@ -521,7 +522,8 @@ void playHitStop(EffectQueue&, EffectPacket& p)
 // RunPressKouka @ 0x00260528: the press gauge moves (0x12, data1: by how
 // much, kept within 0..1), or the press turn icons change (0x1F, data1: full
 // and blinking icons gained). On the player's turn the blinking icons lost
-// are counted (d31_press_total). Not while the units' state is held (0x10000).
+// are counted (d31_press_total; not in the first release). Not while the
+// units' state is held (0x10000).
 void playPress(EffectQueue& k, EffectPacket& p)
 {
     MainProcessData& main = battle(k);
@@ -535,7 +537,7 @@ void playPress(EffectQueue& k, EffectPacket& p)
             gauge = ee::Float::fromInt(1);
         main.press3 = gauge;
     } else if (p.type == kNewPress) {
-        const bool playerTurn = !(main.stat & 8);
+        const bool playerTurn = !kBuild.vanilla && !(main.stat & 8);
         const int32_t before = playerTurn ? main.press4_ten : 0;
         main.press4_p = static_cast<int16_t>(std::max(main.press4_p + static_cast<int16_t>(p.data1.raw), 0));
         const int32_t blinking = std::max(main.press4_ten + static_cast<int16_t>(p.data1.raw >> 16), 0);

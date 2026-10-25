@@ -7,6 +7,7 @@
 #include "nocturne/address.hpp"
 #include "nocturne/battle/kouka.hpp"
 #include "nocturne/external.hpp"
+#include "nocturne/build.hpp"
 #include "nocturne/guest.hpp"
 
 namespace nocturne::nb {
@@ -22,6 +23,7 @@ constexpr uint32_t kLoadEventPack = addr(0x001fac78);   // (no C yet) starts a p
 constexpr uint32_t kEventPackState = addr(0x001fa1f0);  // ... and its state (2 loaded)
 constexpr uint32_t kCreateEffect = addr(0x00114770);    // (no C yet) the effect library's basic effect
 constexpr uint32_t kStatEvent = 0x1000;           // MainProcessData::stat: an event runs
+constexpr int32_t kEventPacks = kBuild.vanilla ? 14 : 16;   // the entries with packs to load
 
 static_assert(offsetof(MainProcessData, EventProcessID) == 0x118 && offsetof(MainProcessData, encno) == 0x34);
 
@@ -52,10 +54,11 @@ void stopEventSound(MainProcessData& data)
 }
 
 // nbLoadBattleEventPack @ 0x0028F890: every pack and bank of the
-// encounter's events (the first sixteen) in memory.
+// encounter's events (the first sixteen; the first release's fourteen) in
+// memory.
 bool eventPacksLoaded(MainProcessData& data)
 {
-    for (int32_t i = 0; i < 16; ++i) {
+    for (int32_t i = 0; i < kEventPacks; ++i) {
         const EventEntry& e = events()[i];
         if (e.encno == 0 || e.encno != data.encno)
             continue;
@@ -71,7 +74,7 @@ bool eventPacksLoaded(MainProcessData& data)
 // processes children of the battle).
 void loadEventPacks(MainProcessData& data)
 {
-    for (int32_t i = 0; i < 16; ++i) {
+    for (int32_t i = 0; i < kEventPacks; ++i) {
         const EventEntry& e = events()[i];
         if (e.encno == 0 || e.encno != data.encno)
             continue;
@@ -212,7 +215,10 @@ void shutdownEvent(uint32_t process)
     }
     if (ed.pfile != 0) {
         file::WaitIdle();
-        file::PacRequestFree(ed.pfile);
+        if (kBuild.vanilla)
+            file::RequestRelease(ed.pfile);   // (the first release frees a pack as any file)
+        else
+            file::PacRequestFree(ed.pfile);
         ed.pfile = 0;
     }
     if (ed.usershutdown != 0)

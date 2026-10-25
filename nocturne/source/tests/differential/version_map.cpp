@@ -31,6 +31,7 @@ std::map<uint32_t, Function> gFunctions;     // by US Maniax start
 std::map<uint32_t, uint32_t> gData;          // US Maniax -> version, where the code formed it
 std::map<uint32_t, uint32_t> gCodeBack;      // version -> US Maniax: function starts
 std::map<uint32_t, uint32_t> gDataBack;      // ... and data
+std::map<uint32_t, bool> gNoData;            // US Maniax data the version doesn't have (hand pairs of 0)
 
 const char* versionName()
 {
@@ -123,6 +124,24 @@ bool load(const char* elfPath)
             gDataBack.emplace(b, a);
         }
     }
+    // Data paired by hand (<name>-data-pairs.tsv: US Maniax, the version's,
+    // 0 for none), over the matcher's.
+    std::ifstream pairs(folder / (std::string(name) + "-data-pairs.tsv"));
+    for (std::string line; std::getline(pairs, line);) {
+        if (line.empty() || line[0] == '#')
+            continue;
+        std::stringstream fields(line);
+        std::string us, other;
+        std::getline(fields, us, '\t');
+        std::getline(fields, other, '\t');
+        const uint32_t a = hex(us), b = hex(other);
+        if (b == 0) {
+            gNoData[a] = true;
+            continue;
+        }
+        gData[a] = b;
+        gDataBack[b] = a;
+    }
     return true;
 }
 
@@ -191,6 +210,8 @@ uint32_t data(uint32_t maniax)
 {
     if (!gActive)
         return maniax;
+    if (gNoData.count(maniax))
+        return 0;
     return between(gData, maniax);
 }
 

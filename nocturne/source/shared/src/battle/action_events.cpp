@@ -27,10 +27,12 @@ constexpr int32_t kTalkCounter = 0x10;      // buff counter 16: the enemy has al
 Formation& formAt(ActionProcessData& a, int32_t formindex) { return a.data->form[formindex]; }
 
 // Talks need a battle whose press-turn reflection field isn't 0xF0..0xF6
-// (tentative: special battles), a moon that isn't full, and so on.
+// (tentative: special battles; the first release has no such check), a
+// moon that isn't full, and so on.
 bool talkableBattle(const MainProcessData& main)
 {
-    return static_cast<uint16_t>(static_cast<uint16_t>(main.press4_repel) - 0xf0) > 6 && !(main.stat & BattleStat::BossBattle);
+    const bool special = !kBuild.vanilla && static_cast<uint16_t>(static_cast<uint16_t>(main.press4_repel) - 0xf0) <= 6;
+    return !special && !(main.stat & BattleStat::BossBattle);
 }
 
 bool fullMoon() { return evt::GetAgeOfMoon() == 8; }
@@ -125,7 +127,7 @@ bool checkAhrimanCounter(ActionProcessData& a)
 // `from` is shocked, frozen, asleep, bound, stunned, charmed or stoned.
 bool checkCounter(ActionProcessData& a, int32_t from, int32_t to)
 {
-    static constexpr uint32_t passives[] = {0x133, 0x132, 0x131};
+    static constexpr uint32_t passives[] = {skill::Avenge, skill::Retaliate, skill::Counter};
     static constexpr int32_t counters[] = {0xa6, 0xa5, 0xa4};
     if (timeListDead(a, to))
         return false;

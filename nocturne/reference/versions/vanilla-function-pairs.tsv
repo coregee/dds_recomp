@@ -3,3 +3,37 @@
 0010d030	0010db48	prm_MAKA_CHECK	the command table's entry 28
 0010d078	0010db90	prm_PARTY_DAMAGE	the command table's entry 314
 0010d0f0	0010dbb8	prm_DV_PLUS	the command table's entry 225
+0026a338	00000000	nbCheckKuisibari2Skill	Never Yield is a Maniax skill: the first release checks Endure alone
+00254488	00244098	SetAction_READY	the action state table's entry 14
+00255650	00245190	SetAction_SKILL	the action state table's entry 16
+001e8198	001dbfc0	FUN_001e8198	the command table's entry 33
+001e82a0	001dc098	FUN_001e82a0	the command table's entry 34
+002286a0	0021a950	FUN_002286a0	the command table's entry 98
+002886a8	00276038	nbCommand_AI_CHK_BA	the command table's entry 136
+002886c8	00276058	nbCommand_AI_CHK_ENLIGHT	the command table's entry 137
+002886e8	00276078	nbCommand_AI_CHK_ENDARK	the command table's entry 138
+00288708	00276098	nbCommand_AI_CHK_POW	the command table's entry 140
+00288728	002760b8	nbCommand_AI_CHK_PLV	the command table's entry 222
+00288758	002760e8	nbCommand_AI_CHK_PPARTYLV	the command table's entry 223
+00159bd0	00151888	FUN_00159bd0	the command table's entry 253
+00159c08	001518c0	FUN_00159c08	the command table's entry 254
+00159c40	001518f8	FUN_00159c40	the command table's entry 255
+00159ab8	001517b0	FUN_00159ab8	the command table's entry 272
+0010d008	00000000	prm_MAKA_PLUS_PER	the command table's entry 387 is empty in the first release
+0010d1a0	00000000	prm_DV_CHECK	the command table's entry 388 is empty in the first release
+00100410	00100408	FUN_00100410	nbEncProcess1 calls it where the US release calls 0x100410 (both read a gp word)
+002447c0	00234f90	datPartyDamage	prm_PARTY_DAMAGE calls it
+00244a38	002351b0	datPartyDamageFld	the function after it: modes 1 and 2 of the same field damage
+00244cc0	00000000	datPartyDamagePipe	not in the first release
+00244dd8	00000000	datPartyKaifuku	not in the first release (its commands are Maniax's)
+0010b110	0010bc60	scrCodeFunc_Minus	the opcode table's entry 18
+002538a0	002434a8	CheckAction_COMM	the action state table's entry 3
+00245b10	00235f48	datInitPlayer	between datGetSkillCost and datDelDevil (JP Maniax's, 0.99 alike)
+0028de28	00000000	nbBgmChannelReset	not in the first release (nothing between nbBgmStop and nbEncProcess3)
+001c6b68	001b74a0	ps2FontBindContext	JP Maniax's at 0x1C6670, instruction for instruction
+001c7088	001b79e8	ps2FontLayoutGlyph	JP Maniax's at 0x1C6BB8, instruction for instruction
+001c87c8	001b8e00	ps2FontParseMessageTag	JP Maniax's at 0x1C7FD0, instruction for instruction
+001ca018	001ba1f8	FUN_001ca018	JP Maniax's at 0x1C93C8, instruction for instruction
+001ca0d0	001ba3e0	ps2FontLinkLetters	JP Maniax's at 0x1C95B0, instruction for instruction
+001ca258	001ba5c8	ps2FontLinkSpacedLetters	JP Maniax's at 0x1C9798, instruction for instruction
+001c7080	001b7970	ps2FontGetGlyphStorageSize	JP Maniax's at 0x1C6B40 (the shadow offset), instruction for instruction

@@ -11,6 +11,7 @@
 #include "nocturne/data/records.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/external.hpp"
+#include "nocturne/build.hpp"
 #include "nocturne/guest.hpp"
 #include "nocturne/script/vm.hpp"
 
@@ -334,7 +335,8 @@ void loadMusic(uint32_t encdata)
         m.second = 0;
         m.partner = m.piece;
     };
-    switch (type) {
+    // (The first release has types 1..9 only.)
+    switch (kBuild.vanilla && type > 9 ? 0 : type) {
     case 1:
         m.piece = 0x150001;
         m.partner = 0x150002;

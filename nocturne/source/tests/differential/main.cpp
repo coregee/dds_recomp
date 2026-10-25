@@ -457,7 +457,7 @@ std::string describe(const Outcome& a, const Outcome& b)
     }
     if (a.statics != b.statics) {
         size_t offset = 0;
-        for (const StaticRange& r : kWrittenStatics) {
+        for (const StaticRange& r : writtenStatics()) {   // (as captured: at the version's addresses)
             for (uint32_t i = 0; i < r.size; ++i)
                 if (a.statics[offset + i] != b.statics[offset + i]) {
                     std::snprintf(buffer, sizeof buffer, "static data writes differ at %08x: %02x vs %02x", r.address + i,

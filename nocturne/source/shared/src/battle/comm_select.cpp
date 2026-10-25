@@ -403,7 +403,7 @@ void fillCommandLists(CommandMenu& d, Party& my)
 
     GlobalWork& global = dat::globalWork();
     if (listsItems(d, my, player)) {
-        for (int32_t i = 0; i < 0xa0; ++i) {
+        for (int32_t i = 0; i < kItemCount; ++i) {
             const ItemData& item = dat::item(i);
             if (global.item_counts[i] == 0 || !(item.use & 2))
                 continue;

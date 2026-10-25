@@ -250,6 +250,9 @@ bool piercesResistance(const UnitWork& attacker, int32_t skill)
     return (dat::hasSkill(attacker, skill::Pierce) || dat::hasSkill(attacker, skill::SonsOath)) &&
            dat::normalSkill(skill).damageClass == 0;
 }
+#elif NOCTURNE_VANILLA
+// nbGetAisyoRitu @ 0x00266130: the first release has no Pierce.
+bool piercesResistance(const UnitWork&, int32_t) { return false; }
 #else
 // nbGetAisyoRitu @ 0x00266130: Pierce, for physical skills.
 bool piercesResistance(const UnitWork& attacker, int32_t skill)
@@ -286,10 +289,11 @@ ee::Float boostedRatio(const UnitWork& attacker, int32_t skill, Attribute attr, 
     }
 }
 #else
-// ... Son's Oath boosts everything x1.5; Fire/Ice/Elec/Force Boost their element.
+// ... Son's Oath (not in the first release) boosts everything x1.5;
+// Fire/Ice/Elec/Force Boost their element.
 ee::Float boostedRatio(const UnitWork& attacker, int32_t, Attribute attr, ee::Float ratio)
 {
-    bool boost = dat::hasSkill(attacker, skill::SonsOath);
+    bool boost = !kBuild.vanilla && dat::hasSkill(attacker, skill::SonsOath);
     if (!boost && attr >= Attribute::Fire && attr <= Attribute::Force)
         boost = passiveActive(attacker, skill::FireBoost - 1 + static_cast<int32_t>(attr));
     return boost ? ratio * 1.5f : ratio;

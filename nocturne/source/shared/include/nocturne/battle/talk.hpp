@@ -16,6 +16,10 @@
 namespace nocturne::nb {
 
 // nbNegoProcessData_t (0x33C bytes, from the pool)
+// The demons' speech styles (DevilTalkFormat::speechStyle), each with its
+// message tables: Maniax has 31, the first release 17.
+inline constexpr int kSpeechStyles = kBuild.vanilla ? 17 : 31;
+
 struct TalkState {
     Ptr32<MainProcessData> data;
     Ptr32<ActionProcessData> actdata;
@@ -60,10 +64,10 @@ struct TalkState {
     int32_t getmakka, getitem, getinfotype, getinfomsg;   // what the player got
     // The talk's message tables (windows of the message manager), -1 none;
     // the steps use the demon's speech style's (ekucyo).
-    int32_t flowmsg[31];        // the steps' messages
+    int32_t flowmsg[kSpeechStyles];     // the steps' messages
     int32_t questionmsg;        // the questions (the demon's style's only)
-    int32_t aisyomsg[31];       // the helpers' affinity messages (HD name: "aisyo", affinity)
-    int32_t infomsg[31];        // the information a demon tells
+    int32_t aisyomsg[kSpeechStyles];    // the helpers' affinity messages (HD name: "aisyo", affinity)
+    int32_t infomsg[kSpeechStyles];     // the information a demon tells
     int32_t helpmsg, helpmsg2, innenmsg, bossmsg;
     int32_t selectcur;          // the debug menu's cursor
 };
@@ -71,8 +75,9 @@ static_assert(offsetof(TalkState, candidates) == 0x24 && offsetof(TalkState, msg
 static_assert(offsetof(TalkState, nowselect) == 0x58 && offsetof(TalkState, history) == 0xb4);
 static_assert(offsetof(TalkState, pwork) == 0x158 && offsetof(TalkState, ppartyindex) == 0x170);
 static_assert(offsetof(TalkState, prevreqtype) == 0x88 && offsetof(TalkState, flag1_6) == 0xa8);
-static_assert(offsetof(TalkState, flowmsg) == 0x1b0 && offsetof(TalkState, infomsg) == 0x2ac);
-static_assert(sizeof(TalkState) == 0x33c);
+static_assert(offsetof(TalkState, flowmsg) == 0x1b0 &&
+              offsetof(TalkState, infomsg) == (kBuild.vanilla ? 0x23c : 0x2ac));
+static_assert(sizeof(TalkState) == (kBuild.vanilla ? 0x294 : 0x33c));
 
 // ---- the process ("nb_nego", a child of the battle's) ----
 // Each returns the address of the process function to run next (0: the same

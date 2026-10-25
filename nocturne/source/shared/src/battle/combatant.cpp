@@ -118,8 +118,9 @@ bool checkEndureSkill(int32_t formindex, int32_t skill)
 // nbCheckKuisibariSkill @ 0x0026A2D8 ("kuisibari" = 食いしばり, gritting one's teeth)
 bool checkEndure(int32_t formindex) { return checkEndureSkill(formindex, skill::Endure); }
 
-// nbCheckKuisibari2Skill @ 0x0026A338
-bool checkNeverYield(int32_t formindex) { return checkEndureSkill(formindex, skill::NeverYield); }
+// nbCheckKuisibari2Skill @ 0x0026A338 (the first release has no Never Yield;
+// its callers check Endure alone)
+bool checkNeverYield(int32_t formindex) { return !kBuild.vanilla && checkEndureSkill(formindex, skill::NeverYield); }
 
 // nbSetKuisibariStop @ 0x0026A398
 void markEndureUsed(int32_t formindex)

@@ -62,6 +62,7 @@ uint16_t rstRndGetPowerUpSkill(const datUnitWork_PS2* unit, int8_t* index);
 uint16_t cmbGetMutationSkill(uint16_t skill, datUnitWork_PS2* unit);
 void ps2FusionSortSkills_00213350(uint64_t unit);
 void ps2FusionSortDescriptors_002133A0(uint64_t output, uint64_t count);
+uint64_t ps2FusionSortCompareDescriptor_00213230(uint64_t left, uint64_t right);
 uint64_t ps2FusionAccidentEventDisabled_001FD3B0(uint64_t id);
 uint64_t ps2FusionAccidentMetaOnly_001FE2C8(uint64_t id);
 uint64_t ps2FusionAccidentCheck_001FE2F0(void);
@@ -403,6 +404,15 @@ void addFusionTests(std::vector<TestCase>& t)
         }
         return Pair{[=] { ps2FusionSortSkills_00213350(u); return uint64_t{0}; },
                     [=] { cmb::sortInheritedSkills(unitAt(u)); return uint64_t{0}; }};
+    });
+    add("cmbDevilSortCallback", [](Gen& g) {
+        for (uint32_t k = 0; k < 2; ++k) {   // two entries, of devils often alike in race or level
+            auto& e = at<cmb::DevilSortEntry>(FW_SCRATCH + 8 * k);
+            e.devil = static_cast<uint16_t>(g.range(1, 0x17f));
+            e.format.address = nocturne::guest::addressOf(&dat::devilFormat(g.chance(30) && k ? at<cmb::DevilSortEntry>(FW_SCRATCH).devil : e.devil));
+        }
+        return Pair{[] { return norm(ps2FusionSortCompareDescriptor_00213230(FW_SCRATCH, FW_SCRATCH + 8)); },
+                    [] { return norm(static_cast<int32_t>(cmb::compareDevils(&at<cmb::DevilSortEntry>(FW_SCRATCH), &at<cmb::DevilSortEntry>(FW_SCRATCH + 8)))); }};
     });
     add("sortDevilsByRace (0x2133A0)", [](Gen& g) {
         uint16_t count = static_cast<uint16_t>(g.chance(50) ? 384 : g.range(0, 384));
