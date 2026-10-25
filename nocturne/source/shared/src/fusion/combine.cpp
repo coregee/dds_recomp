@@ -11,6 +11,7 @@
 #include "nocturne/fusion/inheritance.hpp"
 #include "nocturne/fusion/sort.hpp"
 #include "nocturne/fusion/stock.hpp"
+#include "nocturne/build.hpp"
 
 namespace nocturne::cmb {
 
@@ -342,5 +343,21 @@ FusionType fuse(const UnitWork& devil1, const UnitWork& devil2, const UnitWork* 
     }
     return devil == 0 ? FusionType::None : type;
 }
+
+} // namespace nocturne::cmb
+
+// ===========================================================================
+// By version (nocturne/build.hpp): the alternatives the builds choose between
+// ===========================================================================
+
+namespace nocturne::cmb {
+
+#if NOCTURNE_HARDTYPE
+// cmbCalcIkenieExp @ 0x001FE880: the sacrifice's EXP x1 (its constant at 0x1FE8C8).
+ee::Float sacrificeExpScale() { return ee::Float(1.0f); }
+#else
+// cmbCalcIkenieExp @ 0x001FE880: the sacrifice's EXP x1.5.
+ee::Float sacrificeExpScale() { return ee::Float(1.5f); }
+#endif
 
 } // namespace nocturne::cmb

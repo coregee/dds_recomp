@@ -2,10 +2,11 @@
 
     python tools/version_addresses.py chronicle
 
-The shared source writes US Maniax's addresses through nocturne/address.hpp:
+The source writes US Maniax's addresses through nocturne/address.hpp:
 addr(0x...) for an address every version has, optionalAddr(0x...) for one a
-version may lack (a debug print's format). This scans source/shared and
-source/maniax for them and maps each:
+version may lack (a debug print's format); the JP layers write what only
+the JP builds have by JP Maniax's address, jpAddr(0x...). This scans what
+the version builds (tools/sources.py) for them and maps each US one:
 
 - code (below US Maniax's data, 0x2F5000): through
   reference/versions/<name>-function-map.tsv (tools/match_functions.py): a
@@ -16,10 +17,14 @@ source/maniax for them and maps each:
   mapped neighbours below and above agree on, else where the same bytes
   occur once between them.
 
-Writes source/<name>/include/nocturne/version_addresses.hpp, the table
-addr() looks addresses up in at compile time. An address it can't place is
-written as 0: addr() refuses it (a compile error where it's used),
-optionalAddr() gives 0 (none). Prints those.
+and each JP Maniax one: itself in JP Maniax, else by the delta that the
+JP Maniax addresses nearest it below and above (both mapped from US
+Maniax, data maps) agree on in the version, else by its bytes.
+
+Writes source/generated/<name>/include/nocturne/version_addresses.hpp, the tables
+addr() and jpAddr() look addresses up in at compile time. An address it
+can't place is written as 0: addr() refuses it (a compile error where it's
+used), optionalAddr() gives 0 (none). Prints those.
 """
 import bisect
 import os
@@ -28,10 +33,10 @@ import struct
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-USE = re.compile(r'\b(addr|optionalAddr)\(0x([0-9a-fA-F]{8})\)')
+USE = re.compile(r'\b(addr|optionalAddr|jpAddr)\(0x([0-9a-fA-F]{8})\)')
 FIRST_DATA = 0x002f5000   # US Maniax's data segment
-EXECUTABLES = {'maniax': 'game/SLUS_209.11', 'chronicle': 'game/chronicle/SLPM_666.81',
-               'vanilla': 'game/vanilla/SLPM_652.42'}
+EXECUTABLES = {'maniax-us': 'game/SLUS_209.11', 'maniax': 'game/jpmaniax/SLPM_654.62',
+               'chronicle': 'game/chronicle/SLPM_666.81', 'vanilla': 'game/vanilla/SLPM_652.42'}
 
 
 def image(path):
@@ -81,21 +86,24 @@ def find_content(maniax, other, address, low, high):
     return None
 
 
-def used_addresses():
-    """{address: (kind, first file using it)}; addr wins over optionalAddr."""
+def used_addresses(name):
+    """{(key kind, address): (kind, first file using it)} over what the
+    version builds: its sources (tools/sources.py) and the headers on its
+    include path; addr wins over optionalAddr. The key kind is 'us' or 'jp'."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import sources
+    files = [str(path) for path, _ in sources.sources(name)]
+    for folder in sources.includes(name):
+        for top, _, names in os.walk(folder):
+            files += [os.path.join(top, f) for f in sorted(names) if f.endswith('.hpp')]
     found = {}
-    for top in ('source/shared', 'source/maniax'):
-        for folder, _, files in os.walk(os.path.join(ROOT, top)):
-            for f in sorted(files):
-                if not f.endswith(('.cpp', '.hpp')):
-                    continue
-                path = os.path.join(folder, f)
-                for line in open(path, encoding='utf-8'):
-                    for m in USE.finditer(line.split('//')[0]):
-                        address = int(m.group(2), 16)
-                        old = found.get(address)
-                        if old is None or (old[0] == 'optionalAddr' and m.group(1) == 'addr'):
-                            found[address] = (m.group(1), os.path.relpath(path, ROOT))
+    for path in files:
+        for line in open(path, encoding='utf-8'):
+            for m in USE.finditer(line.split('//')[0]):
+                key = ('jp' if m.group(1) == 'jpAddr' else 'us', int(m.group(2), 16))
+                old = found.get(key)
+                if old is None or (old[0] == 'optionalAddr' and m.group(1) == 'addr'):
+                    found[key] = (m.group(1), os.path.relpath(path, ROOT))
     return found
 
 
@@ -126,43 +134,68 @@ def map_code(address, starts, functions):
     return None
 
 
+def data_map(name):
+    """{US Maniax address: the version's}, where the code agreed."""
+    return {int(a, 16): int(b, 16) for a, b, _, agree in rows(name, 'data') if float(agree) >= 0.99}
+
+
+def map_data(address, known, keys, base, other):
+    if address in known:
+        return known[address]
+    k = bisect.bisect_left(keys, address)
+    below = keys[k - 1] if k > 0 else None
+    above = keys[k] if k < len(keys) else None
+    if below is not None and above is not None and known[below] - below == known[above] - above:
+        return address + known[below] - below
+    low = known[below] if below is not None else 0
+    high = known[above] if above is not None else 0xffffffff
+    return find_content(base, other, address, low, high)
+
+
 def main():
     name = sys.argv[1]
-    known = {int(a, 16): int(b, 16) for a, b, _, agree in rows(name, 'data') if float(agree) >= 0.99}
+    known = data_map(name)
     keys = sorted(k for k in known if k >= FIRST_DATA)
     starts, functions = code_map(name)
-    maniax, other = image(EXECUTABLES['maniax']), image(EXECUTABLES[name])
-    mapped, unresolved = {}, []
-    for address, (kind, where) in sorted(used_addresses().items()):
-        hit = None
-        if address < FIRST_DATA:
+    us, other = image(EXECUTABLES['maniax-us']), image(EXECUTABLES[name])
+    # JP Maniax addresses, by the JP Maniax addresses both maps reach.
+    jp_known = {}
+    if name != 'maniax':
+        jp_map = data_map('maniax')
+        jp_known = {jp_map[a]: known[a] for a in jp_map if a in known and a >= FIRST_DATA}
+    jp_keys = sorted(jp_known)
+    jp_image = image(EXECUTABLES['maniax'])
+    mapped, jp_mapped, unresolved = {}, {}, []
+    for (key_kind, address), (kind, where) in sorted(used_addresses(name).items()):
+        if key_kind == 'jp':
+            hit = address if name == 'maniax' else map_data(address, jp_known, jp_keys, jp_image, other)
+            jp_mapped[address] = hit or 0
+        elif address < FIRST_DATA:
             hit = map_code(address, starts, functions)
-        elif address in known:
-            hit = known[address]
+            mapped[address] = hit or 0
         else:
-            k = bisect.bisect_left(keys, address)
-            below = keys[k - 1] if k > 0 else None
-            above = keys[k] if k < len(keys) else None
-            if below is not None and above is not None and known[below] - below == known[above] - above:
-                hit = address + known[below] - below
-            else:
-                low = known[below] if below is not None else 0
-                high = known[above] if above is not None else 0xffffffff
-                hit = find_content(maniax, other, address, low, high)
-        mapped[address] = hit or 0
+            hit = map_data(address, known, keys, us, other)
+            mapped[address] = hit or 0
         if not hit:
             unresolved.append((address, kind, where))
-    out = os.path.join(ROOT, 'source/%s/include/nocturne/version_addresses.hpp' % name)
+    out = os.path.join(ROOT, 'source/generated/%s/include/nocturne/version_addresses.hpp' % name)
     os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, 'w', encoding='utf-8', newline='\n') as f:
-        f.write('// Generated by tools/version_addresses.py: the US Maniax addresses the\n')
-        f.write('// source uses (nocturne/address.hpp) and this version\'s, 0 for none.\n')
-        f.write('// Do not edit.\n#pragma once\n\nnamespace nocturne {\n\n')
+        f.write('// Generated by tools/version_addresses.py: the addresses the source uses\n')
+        f.write('// (nocturne/address.hpp) and this version\'s, 0 for none. Do not edit.\n')
+        f.write('#pragma once\n\nnamespace nocturne {\n\n')
+        f.write('// By US Maniax\'s address (addr, optionalAddr).\n')
         f.write('inline constexpr AddressPair kVersionAddresses[] = {\n')
         for a, b in sorted(mapped.items()):
             f.write('    {0x%08x, 0x%08x},\n' % (a, b))
+        f.write('};\n\n// By JP Maniax\'s address (jpAddr).\n')
+        f.write('inline constexpr AddressPair kJpAddresses[] = {\n')
+        for a, b in sorted(jp_mapped.items()):
+            f.write('    {0x%08x, 0x%08x},\n' % (a, b))
+        if not jp_mapped:
+            f.write('    {0, 0},\n')
         f.write('};\n\n} // namespace nocturne\n')
-    print('%s: %d addresses, %d without a counterpart' % (name, len(mapped), len(unresolved)))
+    print('%s: %d addresses, %d JP-only, %d without a counterpart' % (name, len(mapped), len(jp_mapped), len(unresolved)))
     for address, kind, where in unresolved:
         print('  %08x  %-12s %s' % (address, kind, where))
 

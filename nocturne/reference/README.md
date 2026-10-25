@@ -4,7 +4,8 @@ Evidence used to name and understand the code. Nothing here is built.
 
 | Path | Contents | Tracked |
 |---|---|---|
-| `function-map.tsv` | Every function: address, size, Ghidra name, state (rewritten / legacy / named / unknown), rewrite and legacy locations. Regenerate with `tools/ghidra/export-annotations.ps1`. | yes |
+| `function-map.tsv` | Every function: address, size, Ghidra name, state (rewritten / legacy / named / unknown), rewrite and legacy locations, and per build what its tests show (ok / differ / pending / legacy). Regenerate with `tools/ghidra/export-annotations.ps1`, or `python tools/function_map.py` from the map's own names. | yes |
+| `verification/<build>.tsv` | Each differential test's outcome on a build (`DIFF_RESULTS=<file>` when running `source/tests/differential/build.cmd`), read into the map's per-build columns. | yes |
 | `ps2/ghidra-annotations.tsv` | Text export of all user names, signatures, variables and comments in the Ghidra program. The backup of the Ghidra work. | yes |
 | `ps2/identification/` | How functions were identified: HD-remaster matches (`function-matches.tsv`, `calculation-matches.tsv`), PS2-only and library identifications, shared SMT signatures, rejected matches, and `hd-name-leads-unverified.tsv` (proposed HD names recovered from old reports; some are misaligned, check before use). `ghidra-annotations.tsv` there is an older export. | yes |
 | `ps2/layouts/` | Structure layout notes from the legacy work. | yes |

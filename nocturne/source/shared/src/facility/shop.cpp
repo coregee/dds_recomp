@@ -6,6 +6,7 @@
 #include "nocturne/data/types.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
+#include "nocturne/build.hpp"
 
 namespace nocturne::fcl {
 
@@ -53,5 +54,22 @@ uint32_t itemPrice(int32_t index, bool selling)
     const uint32_t buy = price * rate / 100;
     return evt::BitCheck(EventBit::NormalDifficulty) ? buy : hardBuyPrice(buy);
 }
+
+} // namespace nocturne::fcl
+
+// ===========================================================================
+// By version (nocturne/build.hpp): the alternatives the builds choose between
+// ===========================================================================
+
+namespace nocturne::fcl {
+
+#if NOCTURNE_HARDTYPE
+// Hard doubles the buy price (US Maniax triples it; shpCalcItemPrice,
+// 0x00207480).
+uint32_t hardBuyPrice(uint32_t price) { return price * 2; }
+#else
+// Hard triples the buy price (shpCalcItemPrice, 0x00207480).
+uint32_t hardBuyPrice(uint32_t price) { return price * 3; }
+#endif
 
 } // namespace nocturne::fcl

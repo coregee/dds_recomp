@@ -17,14 +17,15 @@ import bisect
 import os
 import struct
 import sys
-from collections import defaultdict
+from collections import Counter, defaultdict
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EXECUTABLES = {
-    'maniax': 'game/SLUS_209.11',
+    'maniax-us': 'game/SLUS_209.11',
     'hardtype': 'game/hardtype/SLUS_209.11',
     'chronicle': 'game/chronicle/SLPM_666.81',
     'vanilla': 'game/vanilla/SLPM_652.42',
+    'maniax': 'game/jpmaniax/SLPM_654.62',
 }
 
 # I-type opcodes whose immediate is an address part or a data offset.
@@ -104,7 +105,7 @@ def data_pointers(data, segments, start, count):
 
 def main():
     name = sys.argv[1] if len(sys.argv) > 1 else 'chronicle'
-    base_start, base = code_words(*load(EXECUTABLES['maniax']))
+    base_start, base = code_words(*load(EXECUTABLES['maniax-us']))
     other_start, other = code_words(*load(EXECUTABLES[name]))
     masked_other = [mask(w) for w in other]
 
@@ -163,6 +164,41 @@ def main():
                     changed = True
                     order.insert(k, address)
 
+    # Functions that differ, called from functions that match: a call at the
+    # same place in both copies of a caller pairs the callees (match
+    # "called"), when the calls agree.
+    size_of = {address: size for address, size, fname, index in functions}
+    votes = defaultdict(Counter)
+    for address, i in list(matched.items()):
+        n = size_of[address] // 4
+        start = (address - base_start) // 4
+        for k in range(n):
+            w, v = base[start + k], other[i + k]
+            if w >> 26 == 3 and v >> 26 == 3:
+                callee, theirs = (w & 0x3ffffff) << 2, (v & 0x3ffffff) << 2
+                if callee in size_of and callee not in matched:
+                    votes[callee][theirs] += 1
+    taken = {other_start + 4 * i for i in matched.values()}
+    by_call = set()
+    for callee, counter in votes.items():
+        theirs, count = counter.most_common(1)[0]
+        if count >= 0.9 * sum(counter.values()) and theirs not in taken:
+            matched[callee] = (theirs - other_start) // 4
+            taken.add(theirs)
+            by_call.add(callee)
+
+    # Pairs read off the instructions by hand
+    # (reference/versions/<name>-function-pairs.tsv: US Maniax, the version's).
+    by_hand = set()
+    pairs = os.path.join(ROOT, 'reference/versions/%s-function-pairs.tsv' % name)
+    if os.path.exists(pairs):
+        for line in open(pairs, encoding='utf-8').read().splitlines():
+            if line and not line.startswith('#'):
+                a, b = (int(x, 16) for x in line.split()[:2])
+                if a in size_of:
+                    matched[a] = (b - other_start) // 4
+                    by_hand.add(a)
+
     # Functions that differ, between matched neighbours: paired in order
     # with the other build's function starts in the same gap (called by jal
     # or formed as a code address; else also pointed to by data), when there
@@ -197,7 +233,7 @@ def main():
             found, exact = candidates[address]
             if address in matched:
                 i = matched[address]
-                how = ('gap' if address in gapped else 'exact' if i in exact
+                how = ('hand' if address in by_hand else 'called' if address in by_call else 'gap' if address in gapped else 'exact' if i in exact
                        else 'masked' if len(found) == 1 else 'ordered')
                 out.write('%08x\t%08x\t%d\t%s\t%s\n' % (address, other_start + 4 * i, size, how, fname))
             else:

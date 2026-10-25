@@ -42,8 +42,9 @@ of work.
 4. **Rewrite** into `source/`. Unrewritten callees go into
    `source/shared/include/nocturne/external.hpp` and are bridged in
    `source/shared/src/platform/legacy_bridge.cpp`. Code that differs by
-   version goes in the version's folder (`source/maniax/`,
-   `source/hardtype/`), behind a `[version]` function the shared code calls
+   version sits beside the other versions' in the same unit, chosen by a
+   trait of the build (`nocturne/build.hpp`: `#if NOCTURNE_JAPANESE`,
+   `if constexpr (kBuild.hardtype)`), never by the build's name
    ([docs/versions.md](docs/versions.md)).
 5. **Prove it.** Add every function to the differential test
    (`source/tests/differential/`: `main.cpp` for battle/unit code,

@@ -6,6 +6,7 @@
 #include <cstring>
 
 #include "harness.hpp"
+#include "version_map.hpp"
 #include "interface_world.hpp"
 #include "nocturne/battle/combatant.hpp"
 #include "nocturne/interface/message.hpp"
@@ -131,7 +132,7 @@ void randomInstance(Gen& g, Instance& p, const World& w)
     p.curctr.ctr0 = static_cast<int16_t>(g.chance(40) ? g.pick<int32_t>({32, 40, 64, 72, 246, 247, 255}) : g.range(-10, 300));
     p.curctr.ctr1 = static_cast<int16_t>(g.chance(30) ? g.pick<int32_t>({0, 1, 8}) : g.range(-20, 200));
     p.curctr.ctr_key = g.below(8);
-    p.mouthCallback = g.chance(50) ? kKuti : 0;
+    p.mouthCallback = g.chance(50) ? difftest::version::codeOrDie(kKuti) : 0;
 }
 
 // Tables are relocated before the game shows them; `raw` sometimes leaves
@@ -549,7 +550,7 @@ void addMessageTests(std::vector<TestCase>& t)
     }});
     t.push_back({"itfMesMngSetKutiCallback", [](Gen& g) {
         World w = world(g);
-        uint32_t f = g.chance(50) ? kKuti : 0;
+        uint32_t f = g.chance(50) ? difftest::version::codeOrDie(kKuti) : 0;
         return Pair{[=] { return origVoid(0x001ceb38, {I(w.id), f}); }, [=] { setMouthCallback(w.id, f); return uint64_t{0}; }};
     }});
     t.push_back({"itfMesMngGetConfig", [](Gen& g) {
@@ -654,8 +655,8 @@ void addMessageTests(std::vector<TestCase>& t)
     // ---- {var n} strings ----
     auto someString = [](Gen& g) -> uint32_t {
         switch (g.below(3)) {
-        case 0: return at<uint32_t>(0x003e7328 + 4 * g.below(100));       // a devil's name
-        case 1: return 0x00311450 + 32 * g.below(20);                      // an area's name
+        case 0: return at<uint32_t>(difftest::version::dataOrDie(0x003e7328) + 4 * g.below(100));       // a devil's name
+        case 1: return difftest::version::dataOrDie(0x00311450) + 32 * g.below(20);                      // an area's name
         default: return FW_MES_TABLE + 0x20 + g.below(0x200);              // whatever is in the table
         }
     };
@@ -687,11 +688,13 @@ void addMessageTests(std::vector<TestCase>& t)
         return Pair{[=] { return orig(0x001cfe48, {I(n), out}); },
                     [=] { return norm(static_cast<int32_t>(fw_address_of(ConvertZenkakuNumber(n, &at<char>(out))))); }};
     }});
+#if !NOCTURNE_JAPANESE   // (US Maniax's only)
     t.push_back({"BuildCharacterName", [](Gen& g) {
         World w = world(g);
         int32_t index = g.range(0, 3);
         return Pair{[=] { return origVoid(0x001ce538, {I(index)}); }, [=] { BuildCharacterName(index); return uint64_t{0}; }};
     }});
+#endif
     auto varArgs = [](Gen& g, int32_t& num, int64_t& type) {
         type = g.chance(5) ? g.range(-2, 14) : g.range(0, 10);
         switch (type) {

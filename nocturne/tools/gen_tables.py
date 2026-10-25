@@ -5,18 +5,18 @@
 Reads the tables from game/SLUS_209.11 and writes:
 
     source/shared/include/nocturne/data/ids.hpp    devil::, skill::, item:: ID constants and the Race enum
-    source/maniax/src/data/*_table.cpp             one file per table, one entry per record
+    source/generated/maniax-us/src/data/*_table.cpp          one file per table, one entry per record
 
 Names come from reference/names/*.tsv. Only non-zero fields are written, in
 declaration order (C++20 designated initializers). source/tests/tables checks
 that the compiled tables are byte-identical to the executable.
 
 With --variant, it reads that version's executable (game/<variant>/) and
-writes into source/<variant>/ only the files that differ from US Maniax's;
+writes into source/generated/<variant>/ only the files that differ from US Maniax's;
 a file equal to US Maniax's is removed from the version.
 
 The record layouts below must match source/shared/include/nocturne/data/records.hpp
-(and a version's own layouts, source/<version>/include/nocturne/data/version_tables.hpp).
+(and the layouts that differ by version, nocturne/data/version_tables.hpp).
 """
 import argparse
 import re
@@ -210,9 +210,9 @@ def wrap(parts, indent, width=110):
 
 
 def write(path, text):
-    if VARIANT:   # source/maniax/... or source/shared/... -> source/<version>/...
-        tree = path.relative_to(ROOT / "source")
-        base, path = path, ROOT / "source" / VARIANT / tree.relative_to(tree.parts[0])
+    if VARIANT:   # source/generated/maniax-us/... -> source/generated/<version>/...
+        tree = path.relative_to(ROOT / "source" / "generated")
+        base, path = path, ROOT / "source" / "generated" / VARIANT / tree.relative_to(tree.parts[0])
         if base.read_text(encoding="utf-8") == text:
             if path.exists():
                 path.unlink()
@@ -260,7 +260,7 @@ def generate_devils():
         parts = fields_text(rec)
         out.append("    {\n" + wrap(parts, "        ") + "\n    },\n" if parts else "    {},\n")
     out.append("};\n\n} // namespace nocturne::dat\n")
-    write(ROOT / "source/maniax/src/data/devil_table.cpp", "".join(out))
+    write(ROOT / "source/generated/maniax-us/src/data/devil_table.cpp", "".join(out))
 
 
 def generate_skills():
@@ -294,7 +294,7 @@ def generate_skills():
         sid = 0x128 + i
         out.append(f"    {{{n}, {m}, {a}, {b}}}, // 0x{sid:03X} {skill_names.get(sid, '(unnamed)')}\n")
     out.append("};\n\n} // namespace nocturne::dat\n")
-    write(ROOT / "source/maniax/src/data/skill_table.cpp", "".join(out))
+    write(ROOT / "source/generated/maniax-us/src/data/skill_table.cpp", "".join(out))
 
 
 def generate_encounters():
@@ -336,7 +336,7 @@ def generate_encounters():
             body.append(".enctable = {\n            " + ",\n            ".join(tables) + ",\n        }")
         out.append(f"    /* 0x{i:02X} */ " + ("{\n" + "".join(f"        {b},\n" for b in body) + "    },\n" if body else "{},\n"))
     out.append("};\n\n} // namespace nocturne::dat\n")
-    write(ROOT / "source/maniax/src/data/encounter_table.cpp", "".join(out))
+    write(ROOT / "source/generated/maniax-us/src/data/encounter_table.cpp", "".join(out))
 
 
 def affinity_text(v):
@@ -372,7 +372,7 @@ def generate_affinity():
         cells = ", ".join(affinity_text(v) for v in row)
         out.append(f"    /* {r:3} */ {{{cells}}},{(' // ' + label) if label else ''}\n")
     out.append("};\n\n} // namespace nocturne::dat\n")
-    write(ROOT / "source/maniax/src/data/affinity_table.cpp", "".join(out))
+    write(ROOT / "source/generated/maniax-us/src/data/affinity_table.cpp", "".join(out))
 
 
 def growth_event_text(level, type_, param):
@@ -403,7 +403,7 @@ def generate_growth():
         out.append(f"    // 0x{i:03X} {devil_names.get(i, '(unnamed)')}\n")
         out.append("    {\n" + "".join(f"        {x},\n" for x in parts) + "    },\n" if parts else "    {},\n")
     out.append("};\n\n} // namespace nocturne::dat\n")
-    write(ROOT / "source/maniax/src/data/growth_table.cpp", "".join(out))
+    write(ROOT / "source/generated/maniax-us/src/data/growth_table.cpp", "".join(out))
 
 
 def generate_inheritance():
@@ -442,7 +442,7 @@ def generate_inheritance():
         a, b = read(0x339C20 + i * 4, "HH")
         out.append(f"    {{{value_text(a, 'skill')}, {value_text(b, 'skill')}}},\n")
     out.append("};\n\n} // namespace nocturne::dat\n")
-    write(ROOT / "source/maniax/src/data/inheritance_table.cpp", "".join(out))
+    write(ROOT / "source/generated/maniax-us/src/data/inheritance_table.cpp", "".join(out))
 
 
 def generate_magatama():
@@ -472,7 +472,7 @@ def generate_magatama():
         out.append(f"    // 0x{i:02X} {magatama_names.get(i, '(none)')}\n")
         out.append("    {\n" + wrap(parts, "        ") + "\n    },\n" if parts else "    {},\n")
     out.append("};\n\n} // namespace nocturne::dat\n")
-    write(ROOT / "source/maniax/src/data/magatama_table.cpp", "".join(out))
+    write(ROOT / "source/generated/maniax-us/src/data/magatama_table.cpp", "".join(out))
 
 
 def generate_items():
@@ -487,7 +487,7 @@ def generate_items():
         if price: parts.append(f".price = {price}")
         out.append(f"    {{{', '.join(parts)}}}, // 0x{i:02X} {item_names.get(i, '(unnamed)')}\n")
     out.append("};\n\n} // namespace nocturne::dat\n")
-    write(ROOT / "source/maniax/src/data/item_table.cpp", "".join(out))
+    write(ROOT / "source/generated/maniax-us/src/data/item_table.cpp", "".join(out))
 
 
 def generate_fusion():
@@ -588,7 +588,7 @@ def generate_fusion():
     for r in range(4):
         out.append("    {" + ", ".join(devil(v) for v in read(0x32DDE8 + r * 10, "5H")) + "},\n")
     out.append("};\n\n} // namespace nocturne::dat\n")
-    write(ROOT / "source/maniax/src/data/fusion_table.cpp", "".join(out))
+    write(ROOT / "source/generated/maniax-us/src/data/fusion_table.cpp", "".join(out))
 
 def generate_devil_ai():
     base, count = 0x3989E0, 384
@@ -640,7 +640,7 @@ def generate_devil_ai():
         else:
             out.append(f"    // 0x{i:03X} {name}\n    {{{', '.join(parts)}}},\n")
     out.append("};\n\n} // namespace nocturne::dat\n")
-    write(ROOT / "source/maniax/src/data/devil_ai_table.cpp", "".join(out))
+    write(ROOT / "source/generated/maniax-us/src/data/devil_ai_table.cpp", "".join(out))
 
 
 if __name__ == "__main__":

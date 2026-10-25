@@ -5,6 +5,7 @@
 
 #include "nocturne/data/tables.hpp"
 #include "nocturne/external.hpp"
+#include "nocturne/build.hpp"
 
 namespace nocturne::cmb {
 
@@ -105,5 +106,54 @@ int8_t countInherited(const UnitWork& unit)
             ++count;
     return count;
 }
+
+} // namespace nocturne::cmb
+
+// ===========================================================================
+// By version (nocturne/build.hpp): the alternatives the builds choose between
+// ===========================================================================
+
+namespace nocturne::cmb {
+
+#if NOCTURNE_HARDTYPE
+// cmbGetKeisyoSkillLevel @ 0x00222BB0: 1 for skills not in the table, which
+// Hardtype packs into 3-byte rows. It no longer clears its row counter, so
+// it counts from what the caller left there: it searches 302 - counter rows
+// from the first (just the first when that is none), and leaves the counter
+// where it stopped.
+uint8_t inheritLevel(uint16_t skill, uint32_t counter, uint32_t* counterOut)
+{
+    const InheritanceLevelPacked* levels = dat::tableAt<InheritanceLevelPacked>(dat::address::InheritanceLevel);
+    for (int i = 0;; ++i) {
+        if (levels[i].skillId() == skill) {
+            if (counterOut)
+                *counterOut = counter;
+            return levels[i].level;
+        }
+        if (++counter >= static_cast<uint32_t>(dat::kInheritanceLevelCount))
+            break;
+    }
+    if (counterOut)
+        *counterOut = counter;
+    return 1;
+}
+#else
+// cmbGetKeisyoSkillLevel @ 0x00222BB0: 1 for skills not in the table. (The
+// counter is Hardtype's; US Maniax always starts from the first row.)
+uint8_t inheritLevel(uint16_t skill, uint32_t, uint32_t* counterOut)
+{
+    const InheritanceLevel* levels = dat::tableAt<InheritanceLevel>(dat::address::InheritanceLevel);
+    for (int i = 0; i < 227; ++i) {
+        if (levels[i].skill == skill) {
+            if (counterOut)
+                *counterOut = static_cast<uint32_t>(i);
+            return levels[i].level;
+        }
+    }
+    if (counterOut)
+        *counterOut = 227;
+    return 1;
+}
+#endif
 
 } // namespace nocturne::cmb

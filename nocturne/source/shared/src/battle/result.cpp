@@ -7,6 +7,10 @@
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/types.hpp"
 #include "nocturne/fusion/growth.hpp"
+#include "nocturne/build.hpp"
+#include "nocturne/data/ids.hpp"
+#include "nocturne/data/unit.hpp"
+#include "nocturne/external.hpp"
 
 namespace nocturne::nb {
 
@@ -40,5 +44,40 @@ void grantSpoils(MainProcessData& main)
         dat::addExp(unit, cappedExp(i, exp));
     }
 }
+
+} // namespace nocturne::nb
+
+// ===========================================================================
+// By version (nocturne/build.hpp): the alternatives the builds choose between
+// ===========================================================================
+
+namespace nocturne::nb {
+
+#if NOCTURNE_HARDTYPE
+// nbResultAddExp @ 0x0024C060 (in place): every stock demon shares, in full
+// with skill 0x162 and three quarters without.
+bool stockExpShare(const UnitWork& unit, int32_t& exp)
+{
+    const bool skill = dat::hasSkill(unit, 0x162);
+    if (exp > 0 && !skill)
+        exp = static_cast<int32_t>(static_cast<uint32_t>(exp) * 3u) >> 2;
+    return true;
+}
+#else
+// nbResultAddExp @ 0x0024C060: only a stock demon with skill 0x162 shares,
+// 1/n of the experience (n: that skill's).
+bool stockExpShare(const UnitWork& unit, int32_t& exp)
+{
+    if (!dat::hasSkill(unit, 0x162))
+        return false;
+    if (exp > 0) {
+        const int32_t n = dat::specialSkill(0x162).n;
+        if (n == 0)
+            divideByZeroTrap();
+        exp /= n;
+    }
+    return true;
+}
+#endif
 
 } // namespace nocturne::nb

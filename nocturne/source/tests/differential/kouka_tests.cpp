@@ -160,7 +160,7 @@ void actionWorld(Gen& g)
         if (g.chance(70)) {
             const uint32_t data = ps2PoolAllocate(static_cast<int32_t>(sizeof(ActionProcessData)));
             at<ActionProcessData>(data).seq = static_cast<int8_t>(g.chance(40) ? g.range(18, 20) : g.range(-1, 22));
-            process = static_cast<uint32_t>(dds3StartProcess(0x00544350, 1, 0, 0, 0, 0, data));
+            process = static_cast<uint32_t>(dds3StartProcess(difftest::version::dataOrDie(0x00544350), 1, 0, 0, 0, 0, data));
         }
     }
     main.NowActionProcess = g.range(0, 3);
@@ -191,11 +191,11 @@ void scriptActor(Gen& g)
     std::memset(&m, 0, sizeof m);
     nocturne::itf::MiscLinkInit(m.list, iface::addr(m.nodes), 0x80, sizeof(nocturne::itf::LinkNode));
     MainProcessData& main = at<MainProcessData>(FW_MAIN);
-    main.MainProcessID = static_cast<uint32_t>(dds3StartProcess(0x00544350, g.range(1, 9), 0, 0, 0, 0, FW_MAIN));
+    main.MainProcessID = static_cast<uint32_t>(dds3StartProcess(difftest::version::dataOrDie(0x00544350), g.range(1, 9), 0, 0, 0, 0, FW_MAIN));
     main.talkResult = g.chance(50) ? 0 : g.range(-2, 3);
     main.AiScriptProcessID = 0;
     if (g.chance(50))
-        main.AiScriptProcessID = static_cast<uint32_t>(dds3StartProcess(0x00544350, 2, 0, 0, 0, 0, FW_ACTION));
+        main.AiScriptProcessID = static_cast<uint32_t>(dds3StartProcess(difftest::version::dataOrDie(0x00544350), 2, 0, 0, 0, 0, FW_ACTION));
     else if (g.chance(30))
         main.AiScriptProcessID = 0x00777000;   // ended
 }
@@ -835,13 +835,13 @@ void addKoukaTests(std::vector<TestCase>& t)
         MainProcessData& main = at<MainProcessData>(FW_MAIN);
         for (uint32_t& p : main.ActionProcessID)
             p = 0;
-        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(0x00544350, 3, 0, 0, 0, 0, FW_ACTION));
+        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(difftest::version::dataOrDie(0x00544350), 3, 0, 0, 0, 0, FW_ACTION));
         main.NowActionProcess = g.range(0, 3);
         if (g.chance(70)) {   // the action before this one
             const uint32_t data = ps2PoolAllocate(static_cast<int32_t>(sizeof(ActionProcessData)));
             at<ActionProcessData>(data).seq = static_cast<int8_t>(g.range(-1, 22));
             main.ActionProcessID[main.NowActionProcess == 0 ? 3 : main.NowActionProcess - 1] =
-                static_cast<uint32_t>(dds3StartProcess(0x00544350, 1, 0, 0, 0, 0, data));
+                static_cast<uint32_t>(dds3StartProcess(difftest::version::dataOrDie(0x00544350), 1, 0, 0, 0, 0, data));
         }
         return Pair{[=] { const uint64_t r = origVm(0x00257cd0, {process}); return r ^ cameraState() << 8; },
                     [=] { return norm(runActionProcess(process)) ^ cameraState() << 8; }};
@@ -2001,7 +2001,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         n.pwork.address = someUnit(g);
         n.ework.address = someUnit(g);
         if (g.chance(60)) {   // a pair from the table
-            const int16_t* pair = nocturne::guest::table<const int16_t>(0x003e3158 + 0x3cu * static_cast<uint32_t>(g.range(0, 63)));
+            const int16_t* pair = nocturne::guest::table<const int16_t>(difftest::version::dataOrDie(0x003e3158) + 0x3cu * static_cast<uint32_t>(g.range(0, 63)));
             n.pwork->id = static_cast<uint16_t>(pair[1]);
             n.ework->id = static_cast<uint16_t>(pair[2]);
         }
@@ -2075,7 +2075,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         }
         // Group 0 (the game has none) runs the stand-in; its steps stay in it.
         at<uint32_t>(difftest::version::dataOrDie(0x004ef468)) = 0x00777300;
-        return static_cast<uint32_t>(dds3StartProcess(0x00551160, 0x3f9, 0, 0, 0, 0, FW_TALK));
+        return static_cast<uint32_t>(dds3StartProcess(difftest::version::dataOrDie(0x00551160), 0x3f9, 0, 0, 0, 0, FW_TALK));
     };
     struct TalkStateFunction { const char* name; uint32_t original; uint32_t (*rewrite)(uint32_t); };
     static const TalkStateFunction kTalkStates[] = {
@@ -2105,11 +2105,11 @@ void addKoukaTests(std::vector<TestCase>& t)
         const uint32_t process = talkProcess(g);
         TalkState& n = at<TalkState>(FW_TALK);
         // Some of its tables open, each in its own window.
-        const uint32_t* tables = nocturne::guest::table<const uint32_t>(0x004e3be8);
+        const uint32_t* tables = nocturne::guest::table<const uint32_t>(difftest::version::dataOrDie(0x004e3be8));
         for (int32_t i = 0; i < 31; ++i)
             n.flowmsg[i] = tables[i * 4] != 0 && g.chance(20) ? nocturne::mes::Initialize(tables[i * 4]) : -1;
         n.questionmsg = g.chance(50) ? nocturne::mes::Initialize(tables[2]) : -1;
-        n.bossmsg = g.chance(50) ? nocturne::mes::Initialize(0x004eb810) : -1;
+        n.bossmsg = g.chance(50) ? nocturne::mes::Initialize(difftest::version::dataOrDie(0x004eb810)) : -1;
         for (int32_t* w : {n.aisyomsg, n.infomsg})
             for (int32_t i = 0; i < 31; ++i)
                 w[i] = -1;
@@ -2238,7 +2238,7 @@ void addKoukaTests(std::vector<TestCase>& t)
                 at<UnitWork>(u).badstat = static_cast<uint16_t>(g.pick<int32_t>({1, 4, 8, 0x200}));
         nocturne::dat::globalWork().macca = g.chance(20) ? g.pick<int32_t>({499, 500, 501}) : g.range(0, 99999);
         if (g.chance(15) && !n.pwork->isPlayerCharacter()) {   // a fated pair
-            const uint32_t pair = 0x003e3158u + 0x3cu * static_cast<uint32_t>(g.range(0, 44));
+            const uint32_t pair = difftest::version::dataOrDie(0x003e3158) + 0x3cu * static_cast<uint32_t>(g.range(0, 44));
             n.pwork->id = at<uint16_t>(pair + 2);
             n.ework->id = at<uint16_t>(pair + 4);
         }
@@ -2371,7 +2371,7 @@ void addKoukaTests(std::vector<TestCase>& t)
     });
     talk("nbMakaProcess1", [=](Gen& g) {
         maccaWorld(g);
-        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(0x00551560, 0x2b0e, 0, 0, 0, 0, FW_MAKA));
+        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(difftest::version::dataOrDie(0x00551560), 0x2b0e, 0, 0, 0, 0, FW_MAKA));
         return Pair{[=] { return origVm(0x0028f698, {process}); }, [=] { return norm(static_cast<int32_t>(runMaccaWindow(process))); }};
     });
     talk("nbMakaShutdown", [=](Gen& g) {
@@ -2386,7 +2386,7 @@ void addKoukaTests(std::vector<TestCase>& t)
     });
     talk("nbInitMakaProcess", [=](Gen& g) {
         maccaWorld(g);
-        const uint32_t parent = g.chance(70) ? static_cast<uint32_t>(dds3StartProcess(0x00544350, 1, 0, 0, 0, 0, 0)) : 0;
+        const uint32_t parent = g.chance(70) ? static_cast<uint32_t>(dds3StartProcess(difftest::version::dataOrDie(0x00544350), 1, 0, 0, 0, 0, 0)) : 0;
         return Pair{[=] { return origVm(0x0028f770, {parent}); }, [=] { return norm(static_cast<int32_t>(startMaccaWindow(parent))); }};
     });
     // ---- the battle's events (nbEventProcess) ----
@@ -2394,8 +2394,8 @@ void addKoukaTests(std::vector<TestCase>& t)
     auto eventWorld = [](Gen& g) {
         MainProcessData& main = at<MainProcessData>(FW_MAIN);
         main.eventno = g.chance(80) ? g.range(0, 15) : g.range(0, 99);
-        main.encno = g.chance(60) ? at<int32_t>(0x00527260 + 0x1c * static_cast<uint32_t>(g.range(0, 15)) + 8) : g.chance(25) ? 0 : g.range(0, 0x400);
-        main.MainProcessID = static_cast<uint32_t>(dds3StartProcess(0x00544350, 1, 0, 0, 0, 0, 0));
+        main.encno = g.chance(60) ? at<int32_t>(difftest::version::dataOrDie(0x00527260) + 0x1c * static_cast<uint32_t>(g.range(0, 15)) + 8) : g.chance(25) ? 0 : g.range(0, 0x400);
+        main.MainProcessID = static_cast<uint32_t>(dds3StartProcess(difftest::version::dataOrDie(0x00544350), 1, 0, 0, 0, 0, 0));
         main.stat = static_cast<uint32_t>(g.range(0, 0xffff));
         main.endtype = static_cast<uint32_t>(g.range(0, 3));
         for (int i = 0; i < 14; ++i)
@@ -2416,7 +2416,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         ed.file = g.chance(50) ? static_cast<uint32_t>(g.range(1, 0x1000)) : 0;
         ed.pfile = g.chance(50) ? static_cast<uint32_t>(g.range(1, 0x1000)) : 0;
         ed.mem = g.chance(50) ? static_cast<uint32_t>(g.range(1, 0x1000)) : 0;
-        return static_cast<uint32_t>(dds3StartProcess(0x00545dc8, 0x3f9, 0, 0, 0, 0, data));
+        return static_cast<uint32_t>(dds3StartProcess(difftest::version::dataOrDie(0x00545dc8), 0x3f9, 0, 0, 0, 0, data));
     };
     add("nbStartBattleEventSound", [=](Gen& g) {
         eventWorld(g);
@@ -2733,7 +2733,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         musicWorld(g);
         const uint32_t data = encdata(g);
         if (g.chance(70))
-            at<uint32_t>(0x00551524 + 0x18) = 0;
+            at<uint32_t>(difftest::version::dataOrDie(0x00551524) + 0x18) = 0;
         return Pair{[=] { return origVmVoid(0x0028d9e0, {data}); }, [=] { loadMusic(data); return uint64_t{0}; }};
     });
     struct MusicCall { const char* name; uint32_t original; void (*rewrite)(); };
@@ -2784,7 +2784,7 @@ void addKoukaTests(std::vector<TestCase>& t)
     };
     auto encProcess = [=](Gen& g) {
         encProcessWorld(g);
-        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(0x00551550, 0x3f9, 0, 0, 0, 0, 0));
+        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(difftest::version::dataOrDie(0x00551550), 0x3f9, 0, 0, 0, 0, 0));
         at<int32_t>(process + 0x28) = g.range(0, 64);   // its run time
         return process;
     };
@@ -2808,7 +2808,7 @@ void addKoukaTests(std::vector<TestCase>& t)
     });
     add("nbInitEncProcess", [=](Gen& g) {
         encProcessWorld(g);
-        at<MainProcessData>(FW_MAIN).MainProcessID = static_cast<uint32_t>(dds3StartProcess(0x00544350, 1, 0, 0, 0, 0, 0));
+        at<MainProcessData>(FW_MAIN).MainProcessID = static_cast<uint32_t>(dds3StartProcess(difftest::version::dataOrDie(0x00544350), 1, 0, 0, 0, 0, 0));
         return Pair{[] { return origVmVoid(0x0028e360, {FW_MAIN}); }, [] { startEncounter(at<MainProcessData>(FW_MAIN)); return uint64_t{0}; }};
     });
     add("nbFormDispOff2", [](Gen& g) {
@@ -2818,22 +2818,22 @@ void addKoukaTests(std::vector<TestCase>& t)
     struct StepGroup { const char* name; uint32_t group, steps; const TalkStep* rewrite; int32_t count; const char* flow;
                        uint32_t dispatch; int32_t (*flowRewrite)(TalkState&); };
     static const StepGroup kStepGroups[] = {
-        {"Flow1", 1, 0x004ef4b0, kOpeningSteps, 40, "nbNegoFlowOne", 0x0026ead8, openingFlow},
-        {"Flow2", 2, 0x004ef780, kFullMoonSteps, 17, "nbNegoFlowFullMoon", 0x00274e60, fullMoonFlow},
-        {"Flow3", 3, 0x004ef7c8, kStockSteps, 3, "nbNegoFlowStock", 0x00274f08, stockFlow},
-        {"Flow4", 4, 0x004ef7d8, kKinSteps, 14, "nbNegoFlowDouchara", 0x00275750, kinFlow},
-        {"Flow5", 5, 0x004ef810, kFatedSteps, 22, "nbNegoFlowInnen", 0x00275dc8, fatedFlow},
-        {"Flow6", 6, 0x004ef550, kBargainSteps, 82, "nbNegoFlowTwo", 0x002726e8, bargainFlow},
-        {"Flow7", 7, 0x004ef868, kQuestionSteps, 27, "nbNegoFlowQuestion", 0x00276730, questionFlow},
-        {"Flow8", 8, 0x004ef8d8, kFightSteps, 20, "nbNegoFlowFight", 0x00276cd8, fightFlow},
-        {"Flow9", 9, 0x004ef698, kDealSteps, 23, "nbNegoFlowOk", 0x00273178, dealFlow},
-        {"Flow10", 10, 0x004ef6f8, kNoDealSteps, 34, "nbNegoFlowNg", 0x002741f8, noDealFlow},
-        {"Flow11", 11, 0x004ef928, kDrainSteps, 10, "nbNegoFlowDrain", 0x00277388, drainFlow},
-        {"Flow12", 12, 0x004ef960, kSpeakUpSteps, 50, "nbNegoFlowMukan", 0x00278718, speakUpFlow},
-        {"Flow13", 13, 0x004efa28, kAmbushSteps, 13, "nbNegoFlowSensei", 0x00278c88, ambushFlow},
-        {"Flow14", 14, 0x004ef950, kAskToJoinSteps, 3, "nbNegoFlowBinjo", 0x00277478, askToJoinFlow},
-        {"Flow15", 15, 0x004efa60, kMercySteps, 24, "nbNegoFlowInoti", 0x00279480, mercyFlow},
-        {"Flow16", 16, 0x004efac0, kTauntSteps, 4, "nbNegoFlowKoketa", 0x00279660, tauntFlow},
+        {"Flow1", 1, difftest::version::data(0x004ef4b0), kOpeningSteps, 40, "nbNegoFlowOne", 0x0026ead8, openingFlow},
+        {"Flow2", 2, difftest::version::data(0x004ef780), kFullMoonSteps, 17, "nbNegoFlowFullMoon", 0x00274e60, fullMoonFlow},
+        {"Flow3", 3, difftest::version::data(0x004ef7c8), kStockSteps, 3, "nbNegoFlowStock", 0x00274f08, stockFlow},
+        {"Flow4", 4, difftest::version::data(0x004ef7d8), kKinSteps, 14, "nbNegoFlowDouchara", 0x00275750, kinFlow},
+        {"Flow5", 5, difftest::version::data(0x004ef810), kFatedSteps, 22, "nbNegoFlowInnen", 0x00275dc8, fatedFlow},
+        {"Flow6", 6, difftest::version::data(0x004ef550), kBargainSteps, 82, "nbNegoFlowTwo", 0x002726e8, bargainFlow},
+        {"Flow7", 7, difftest::version::data(0x004ef868), kQuestionSteps, 27, "nbNegoFlowQuestion", 0x00276730, questionFlow},
+        {"Flow8", 8, difftest::version::data(0x004ef8d8), kFightSteps, 20, "nbNegoFlowFight", 0x00276cd8, fightFlow},
+        {"Flow9", 9, difftest::version::data(0x004ef698), kDealSteps, 23, "nbNegoFlowOk", 0x00273178, dealFlow},
+        {"Flow10", 10, difftest::version::data(0x004ef6f8), kNoDealSteps, 34, "nbNegoFlowNg", 0x002741f8, noDealFlow},
+        {"Flow11", 11, difftest::version::data(0x004ef928), kDrainSteps, 10, "nbNegoFlowDrain", 0x00277388, drainFlow},
+        {"Flow12", 12, difftest::version::data(0x004ef960), kSpeakUpSteps, 50, "nbNegoFlowMukan", 0x00278718, speakUpFlow},
+        {"Flow13", 13, difftest::version::data(0x004efa28), kAmbushSteps, 13, "nbNegoFlowSensei", 0x00278c88, ambushFlow},
+        {"Flow14", 14, difftest::version::data(0x004ef950), kAskToJoinSteps, 3, "nbNegoFlowBinjo", 0x00277478, askToJoinFlow},
+        {"Flow15", 15, difftest::version::data(0x004efa60), kMercySteps, 24, "nbNegoFlowInoti", 0x00279480, mercyFlow},
+        {"Flow16", 16, difftest::version::data(0x004efac0), kTauntSteps, 4, "nbNegoFlowKoketa", 0x00279660, tauntFlow},
     };
     for (const StepGroup& group : kStepGroups) {
         const StepGroup* gr = &group;

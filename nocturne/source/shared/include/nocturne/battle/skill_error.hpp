@@ -22,7 +22,7 @@ void showSkillError(int32_t err);
 int32_t reviveError(int32_t nskill);
 int32_t targetSkillError(int32_t nskill, uint32_t select);           // select: formation slots
 int32_t buffSkillError(int32_t nskill, uint32_t select);
-// [version] More skills checked as buffs (source/<version>/src/battle/skill_error.cpp).
+// [version] More skills checked as buffs.
 bool versionBuffSkill(int32_t nskill);
 int32_t menuSkillError(int32_t nskill, uint32_t select);             // select: stock units
 

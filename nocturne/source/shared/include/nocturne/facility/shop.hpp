@@ -54,7 +54,7 @@ int32_t packItemCount(int32_t place);
 // when sold (half its price).
 uint32_t itemPrice(int32_t index, bool selling);
 
-// [version] The buy price on Hard (source/<version>/src/facility/shop.cpp).
+// [version] The buy price on Hard.
 uint32_t hardBuyPrice(uint32_t price);
 
 } // namespace nocturne::fcl

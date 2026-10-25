@@ -3,43 +3,39 @@
     python tools/sources.py <version> sources    one "path|object name" per line
     python tools/sources.py <version> includes   one folder per line, searched in order
 
-The source tree (source/README.md):
+Every version compiles the same source (source/README.md): source/shared/,
+where code that differs by version holds each version's alternative side by
+side, chosen by the build's traits (nocturne/build.hpp). What a version adds
+is generated from its executable, under source/generated/<version>/:
 
-    source/shared/     code every version shares
-    source/maniax/     US Maniax's own code and data: what differs between versions
-    source/<version>/  another version's replacements (hardtype, chronicle, vanilla)
-
-A version compiles shared/, then each file of maniax/src/ unless it has its
-own at the same path, then the files only it has. Headers are searched in
-the version's include/ first, then maniax/include/, then shared/include/.
+    src/data/*_table.cpp            its data tables (tools/gen_tables.py); a
+                                    version without its own takes US Maniax's
+    include/nocturne/version_addresses.hpp
+                                    its addresses (tools/version_addresses.py)
 """
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "source"
-VERSIONS = ("maniax", "hardtype", "chronicle", "vanilla")
+GENERATED = SOURCE / "generated"
+VERSIONS = ("vanilla", "maniax", "chronicle", "maniax-us", "hardtype")
+BASE = "maniax-us"   # the tables a version doesn't generate its own of
 
 
 def sources(version):
     out = [(path, path.stem) for path in sorted((SOURCE / "shared" / "src").rglob("*.cpp"))]
-    base, own = SOURCE / "maniax" / "src", SOURCE / version / "src"
-    seen = set()
-    for path in sorted(base.rglob("*.cpp")):
-        relative = path.relative_to(base)
-        replacement = own / relative
-        out.append((replacement if replacement.exists() else path, "v_" + path.stem))
-        seen.add(relative)
-    if version != "maniax" and own.exists():
-        for path in sorted(own.rglob("*.cpp")):
-            if path.relative_to(own) not in seen:
-                out.append((path, "v_" + path.stem))
+    tables = {}   # file name -> path, the version's own over the base's
+    for name in (BASE, version):
+        for path in sorted((GENERATED / name / "src" / "data").glob("*.cpp")):
+            tables[path.name] = path
+    out += [(path, "g_" + path.stem) for _, path in sorted(tables.items())]
     return out
 
 
 def includes(version):
-    folders = [SOURCE / version / "include", SOURCE / "maniax" / "include", SOURCE / "shared" / "include"]
-    return list(dict.fromkeys(folder for folder in folders if folder.exists()))
+    folders = [GENERATED / version / "include", SOURCE / "shared" / "include"]
+    return [folder for folder in folders if folder.exists()]
 
 
 if __name__ == "__main__":

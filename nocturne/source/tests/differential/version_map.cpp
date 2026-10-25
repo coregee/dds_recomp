@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 
+#include "nocturne/build.hpp"
 #include "nocturne/variant.hpp"
 
 namespace difftest::version {
@@ -34,6 +35,7 @@ std::map<uint32_t, uint32_t> gDataBack;      // ... and data
 const char* versionName()
 {
     switch (nocturne::kVariant) {
+    case nocturne::Variant::Maniax: return "maniax";
     case nocturne::Variant::Chronicle: return "chronicle";
     case nocturne::Variant::Vanilla: return "vanilla";
     default: return nullptr;
@@ -129,7 +131,7 @@ uint32_t globalPointer() { return gGlobalPointer; }
 
 void requireUsText()
 {
-    if constexpr (nocturne::kVariant == nocturne::Variant::Chronicle || nocturne::kVariant == nocturne::Variant::Vanilla) {
+    if constexpr (nocturne::kBuild.japanese) {
 #pragma warning(suppress : 4996)
         const bool runPending = std::getenv("DIFF_PENDING") != nullptr;
         if (!runPending)

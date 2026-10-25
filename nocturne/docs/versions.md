@@ -1,54 +1,68 @@
 # Versions of the game
 
-The rewrite builds four versions from one source tree:
+The rewrite builds five versions from one source tree:
 
-| Name | Version | Executable | Layout |
+| Build | Version | Executable | Addresses |
 |---|---|---|---|
-| `maniax` | US Shin Megami Tensei III: Nocturne (Maniax) | SLUS_209.11 | the reference |
-| `hardtype` | the fan rebalance Hardtype 1.5.1, a patch of US Maniax | SLUS_209.11 | US Maniax's addresses |
-| `chronicle` | JP Nocturne Maniax Chronicle Edition (Raidou in place of Dante) | SLPM_666.81 | its own build |
-| `vanilla` | JP Nocturne, the first release (no Amala, Fiends or difficulty) | SLPM_652.42 | its own build |
+| `vanilla` | JP Nocturne, the first release (2003; no Amala, Fiends or difficulty) | SLPM_652.42 | its own |
+| `maniax` | JP Nocturne Maniax (2004; Dante, the Labyrinth of Amala) | SLPM_654.62 | its own |
+| `chronicle` | JP Nocturne Maniax Chronicle Edition (2008; Raidou in place of Dante) | SLPM_666.81 | its own |
+| `maniax-us` | US Shin Megami Tensei III: Nocturne (Maniax, 2004) | SLUS_209.11 | the reference |
+| `hardtype` | the fan rebalance Hardtype 1.5.1, a patch of the US release | SLUS_209.11 | the US release's |
 
 ## The source tree
 
-```
-source/
-  shared/     the code every version shares (src/, include/)
-  maniax/     US Maniax's own: its data tables, and its side of every
-              point where the versions differ
-  hardtype/   Hardtype's own: the same files where it differs, and what it adds
-  chronicle/  vanilla/   likewise
-  tests/      the tests, built once per version
+Every build compiles the same source, `source/shared/`. Where versions
+differ, the unit holds each version's alternative side by side, so a
+reader sees at one place what each version does:
+
+```cpp
+#if NOCTURNE_HARDTYPE
+// nbCheckEscape @ 0x00269E98: attempts and the stat ratio weigh 15 ...
+int32_t escapeWeight() { return 15; }
+#else
+// nbCheckEscape @ 0x00269E98: attempts and the stat ratio weigh 20 ...
+int32_t escapeWeight() { return 20; }
+#endif
 ```
 
-So the executable a piece of code comes from is the folder it is in.
+- **Traits, not build names.** Code tests what sets a build apart
+  (`nocturne/build.hpp`), never which build it is:
+  - `NOCTURNE_JAPANESE` / `kBuild.japanese`: the JP releases (vanilla,
+    Maniax, Chronicle): Japanese text and font engine, their global work
+    and window layout, their own addresses.
+  - `NOCTURNE_CHRONICLE` / `kBuild.chronicle`: the Chronicle Edition's own
+    changes.
+  - `NOCTURNE_HARDTYPE` / `kBuild.hardtype`: the Hardtype patch.
 
-- **Shared code never tests the version.** Where versions differ, shared
-  code calls a function its header marks `[version]`, and each version
-  defines it in a file at the same path under its own folder (shared
-  `src/data/unit.cpp` and `maniax/src/data/unit.cpp`,
-  `hardtype/src/data/unit.cpp`). A version file holds whole functions when
-  they differ substantially, small hooks when only a step does.
-- **A version falls back to US Maniax** for any file it doesn't have
-  (`tools/sources.py`): Chronicle, close to US Maniax, will hold little.
-- **Headers** are searched in the version's `include/` first, then
-  `maniax/include/`, then `shared/include/`. A version's own record layouts
-  (`nocturne/data/version_tables.hpp`, `nocturne/data/devil_ai.hpp`) and
-  its helpers (`nocturne/hardtype.hpp`) live there.
-- **Addresses.** Shared code writes US Maniax's addresses through
+  A small step that differs is `if constexpr` or a constant
+  (`kBuild.japanese ? 0x19 : 0x14`); whole alternatives, and anything that
+  names an address or type only some builds have, are `#if`. A unit's
+  alternatives sit in its "By version" section, the most specific first.
+- **Whole engines** that share nothing but their interface sit in sibling
+  files, each compiled only by its builds: `interface/font_layout_jp.cpp`
+  and `font_layout_us.cpp`, `font_message_jp.cpp` and
+  `font_message_us.cpp`.
+- **Record layouts** that differ are chosen in the record's header
+  (`records.hpp` `GlobalWork`, `interface/font.hpp`,
+  `data/version_tables.hpp`, `data/devil_ai.hpp`).
+- **Addresses.** The source writes US Maniax's addresses through
   `nocturne/address.hpp`: `addr(0x...)` for what every version has,
   `optionalAddr(0x...)` for what a version may lack (debug print formats;
-  0 there, and the print is skipped). Both are evaluated at compile time:
-  US Maniax and Hardtype keep the address, another version looks it up in
-  its generated `source/<name>/include/nocturne/version_addresses.hpp`
-  (`python tools/version_addresses.py <name>`), and an address with no
-  counterpart is a compile error where `addr()` uses it. Small constants
-  that differ (a music ID, the global work's offsets) are in each version's
-  `nocturne/version_constants.hpp`.
-- **Tables** are generated per version: `python tools/gen_tables.py` writes
-  US Maniax's into `maniax/src/data/`, and
-  `python tools/gen_tables.py --variant hardtype` writes Hardtype's that
-  differ into `hardtype/src/data/`.
+  0 there, and the print is skipped). What only the JP builds have is
+  written by JP Maniax's address, `jpAddr(0x...)`. All are evaluated at
+  compile time: the US release and Hardtype keep the US address, a JP build
+  looks it up in its generated
+  `source/generated/<build>/include/nocturne/version_addresses.hpp`
+  (`python tools/version_addresses.py <build>`), and an address with no
+  counterpart is a compile error where it's used.
+- **Tables** are generated per version into `source/generated/<build>/src/data/`:
+  `python tools/gen_tables.py` writes the US release's, and
+  `python tools/gen_tables.py --variant hardtype` Hardtype's that differ. A
+  build without its own takes the US release's (`tools/sources.py`).
+- **A version not ported yet** has no alternative of its own: a function
+  only some builds have written says `// (not ported for this version
+  yet)`, and that build fails to link until it is.
 
 ## Getting the discs
 
@@ -58,13 +72,15 @@ The ISOs sit in `nocturne/` under the names in `tools/disc_extract.py`:
 python tools/disc_extract.py --variant hardtype
 ```
 
-This extracts a version to `game/<name>/` and checks it against
-`tools/disc-sha256-<name>.json`. Disc files are never committed.
+This extracts a version to `game/<folder>/` (the US release to `game/`,
+JP Maniax to `game/jpmaniax/`) and checks it against
+`tools/disc-sha256-<build>.json`. Disc files are never committed.
 
 ## Building and testing a version
 
-Set `NOCTURNE_VARIANT` before running the build scripts. Each version builds
-into its own `build/*-<name>/` folder and runs against its own executable:
+Set `NOCTURNE_VARIANT` before running the build scripts (empty: `maniax-us`).
+Each version builds into its own `build/*-<build>/` folder and runs against
+its own executable:
 
 ```
 set NOCTURNE_VARIANT=hardtype
@@ -72,20 +88,29 @@ source\tests\tables\build.cmd
 source\tests\differential\build.cmd 300 31
 ```
 
+To record which functions each build proves, set
+`DIFF_RESULTS=reference/verification/<build>.tsv` for the run, then
+`python tools/function_map.py`: the map gets a column per build (ok,
+differ, pending, or legacy for a test only of US Maniax's legacy C).
+
 The tables test proves a version's tables byte for byte. The differential
 test runs each rewritten function against that version's own instructions;
-the tests against the legacy C (US Maniax only) are skipped for the other
-versions, and their count printed. `variant_tests.cpp` and the
+the tests against the legacy C (the US release only) are skipped for the
+other versions, and their count printed. `variant_tests.cpp` and the
 "(instructions)" tests cover what the versions change.
 
 ## Status
 
 - **hardtype:** every change to a function the rewrite has is ported and
   proven against Hardtype's own instructions; see
-  `source/hardtype/README.md`.
+  [hardtype.md](hardtype.md).
 - **chronicle:** builds and runs its differential suite against its own
   instructions (below); the font and message engine and a few changed
   functions are still to port.
+- **maniax (JP):** extracted and mapped (its function and data maps, its
+  address table); its font and message engine is Chronicle's. Not built yet: it still needs its own side of the
+  hooks only the US release has been checked for (affinity, field skills)
+  and its harness data.
 - **vanilla:** extracted and surveyed (below); no build yet.
 
 ## Chronicle and Vanilla: what the survey shows
@@ -142,30 +167,34 @@ set NOCTURNE_VARIANT=chronicle
 source\tests\differential\build.cmd
 ```
 
-On 2026-10-25 the suite ran 412 tests against Chronicle's instructions,
-all passing; 878 were pending (most because their worlds set up the US
-font and message engine, which the script and help tests share) and 361
-compare against US Maniax's legacy C only.
+What the port has so far (most of it under `NOCTURNE_JAPANESE`, which JP
+Maniax shares instruction for instruction):
 
-What the port has so far:
-
-- **Layouts.** The global work's fields sit 4 lower from the event bits
-  on and 0x2450 lower from the options on (`kGlobalWorkShift`,
-  `kGlobalWorkTailShift`).
+- **Layouts.** The JP builds' global work sits 4 lower from the script
+  variables on and 0x2450 lower from the options on.
+- **The font and message engine.** The JP builds' own (`font_layout_jp.cpp`,
+  `font_message_jp.cpp`):
+  a 0x20-byte style record and a shorter settings record; no size override
+  for styles 0 and 1, no code lists, last code or name tables; a mode bit
+  that halves ASCII; a per-glyph shadow offset; full-width digits and floor
+  names; entered names 8 letters long, family name first; no particle codes;
+  taller message windows (their default positions, option lines and speaker
+  panel); a default line step of 25.
+- **Hooks.** Son's Oath pierces resistance like Pierce, and the party
+  damage that leaves 1 HP spares no one (Chronicle's; JP Maniax's own
+  differ again and are still to port).
 - **Constants.** RunSeKouka stops music 0x1C04xxxx for the event boss's
-  repelled skill 0x107 (US 0x1C07xxxx).
-- **US-only font data.** What only the US font engine has (the 416- and
-  264-code tables, the last code laid out, the loaded styles, its pools,
-  the character name buffer) is `optionalAddr`, 0 in Chronicle: its font
-  engine is another (about 40 of the font and message functions differ),
-  still to port.
+  repelled skill 0x107 (Maniax 0x1C07xxxx: Dante's fight).
 
 The harness runs the same tests at Chronicle's addresses
 (`source/tests/differential/version_map.cpp`): hooks, interpreted ranges,
 entry points and the tests' static addresses are US Maniax's, mapped
 through `reference/versions/chronicle-*.tsv` when it starts; gp comes from
-the executable. Hooks that call US Maniax's legacy C run Chronicle's own
-instructions instead (`hookUs`). A test that reaches a function Chronicle
-has no counterpart for, or sets up the US font and message world, counts as
-pending, as do those listed in `kChroniclePending` (`main.cpp`), with what
-each still differs by.
+the executable, and the fonts and message files from `game/chronicle/dds3/`
+(`tools/dds3_archive.py --ddt game/chronicle/DDS3.DDT ...`). Hooks that call
+US Maniax's legacy C run Chronicle's own instructions instead (`hookUs`).
+A test that reaches a function Chronicle has no counterpart for counts as
+pending, as do the script tests (their world writes US addresses) and
+those listed in `kChroniclePending` (`main.cpp`), with what each still
+differs by. Still to port: the action states READY, COMM and SKILL
+(rewritten in Chronicle) and the AI script's start.

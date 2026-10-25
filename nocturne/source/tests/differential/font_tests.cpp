@@ -1,6 +1,10 @@
 // Font engine (frFont): the rewrite against the original instructions, run
 // by the EE interpreter in the same fake world, with the game's own fonts.
+// They run on both engines (the JP builds' through their own
+// font_layout.cpp and font_message.cpp); what only US Maniax's engine has
+// is tested under NOCTURNE_US_FONT_ENGINE.
 #include <cstring>
+#include <iterator>
 
 #include "harness.hpp"
 #include "version_map.hpp"
@@ -37,7 +41,7 @@ void world(Gen& g)
     iface::fontWorld(g);
 }
 
-uint32_t pool(Gen& g) { return at<uint32_t>(g.chance(50) ? 0x0056bb80 : 0x0056bb84); }
+uint32_t pool(Gen& g) { return g.chance(50) ? tables().text_pool.address : tables().request_pool.address; }
 
 uint32_t guestString(const char* s)
 {
@@ -50,8 +54,13 @@ uint32_t guestString(const char* s)
 uint32_t someString(Gen& g)
 {
     static const char* const strings[] = {"Pixie", "Hello, world!", "^caret^", "  spaced  ", "\x81\x40\x81\x41\x82\x60", "x",
-                                          "", "Jack\x80\xe2\x80\xe3", "1!1!"};
-    return guestString(strings[g.below(9)]);
+                                          "", "Jack\x80\xe2\x80\xe3", "1!1!",
+#if NOCTURNE_JAPANESE   // (kana and kanji: past the US fonts' glyphs)
+                                          "\x82\xa0\x82\xa2\x82\xa4", "\x83\x73\x83\x4e\x83\x56\x81\x5b",
+                                          "\x88\xa0\x89\x9f\x93\xfa", "\x8a\xbf\x8e\x9a",
+#endif
+    };
+    return guestString(strings[g.below(static_cast<uint32_t>(std::size(strings)))]);
 }
 
 int8_t someStyle(Gen& g)
@@ -132,7 +141,7 @@ void addFontTests(std::vector<TestCase>& t)
     });
     add("frLoadStyle", [](Gen& g) {
         uint8_t style = static_cast<uint8_t>(g.below(4));
-        uint32_t name = 0x005358f0 + 0x10 * g.below(4);
+        uint32_t name = difftest::version::dataOrDie(0x005358f0) + 0x10 * g.below(4);
         return Pair{[=] { return origVoid(0x001c6858, {style, name}); }, [=] { frLoadStyle(style, name); return uint64_t{0}; }};
     });
     add("frLoadStyleAll", [](Gen&) { return Pair{[] { return origVoid(0x001c6ce0, {}); }, [] { frLoadStyleAll(); return uint64_t{0}; }}; });
@@ -206,7 +215,10 @@ void addFontTests(std::vector<TestCase>& t)
         uint32_t text = textArg(g);
         if (!text)
             text = addr(frSetFont('A', 0, 0, 0, false));
-        int32_t index = g.chance(50) ? glyphIndex(at<Text>(text).code) : g.range(0, style(at<Text>(text).style).data->glyphs - 1);
+        const int32_t glyphs = style(at<Text>(text).style).data->glyphs;   // (the text's own glyph when the font has it)
+        int32_t index = glyphIndex(at<Text>(text).code);
+        if (g.chance(50) || index >= glyphs)
+            index = g.range(0, glyphs - 1);
         return Pair{[=] { return orig(0x001c7568, {text, I(index)}); }, [=] { return R(AcquireGlyph(at<Text>(text), index)); }};
     });
     add("ps2FontReleaseGlyph", [=](Gen& g) {
@@ -216,20 +228,23 @@ void addFontTests(std::vector<TestCase>& t)
         uint32_t text = addr(t);
         return Pair{[=] { return origVoid(0x001c6e50, {text}); }, [=] { ReleaseGlyph(at<Text>(text)); return uint64_t{0}; }};
     });
+#if !NOCTURNE_JAPANESE
     add("ps2FontFindCode416", [](Gen& g) {
-        uint16_t code = static_cast<uint16_t>(g.chance(50) ? at<uint16_t>(0x00325b10 + 2 * g.below(416)) : g.below(0x10000));
+        uint16_t code = static_cast<uint16_t>(g.chance(50) ? at<uint16_t>(difftest::version::dataOrDie(0x00325b10) + 2 * g.below(416)) : g.below(0x10000));
         return Pair{[=] { return orig(0x001c6098, {code}); }, [=] { return static_cast<uint64_t>(FindCode416(code)); }};
     });
     add("ps2FontFindCode264", [](Gen& g) {
-        uint16_t code = static_cast<uint16_t>(g.chance(50) ? at<uint16_t>(0x00325e50 + 2 * g.below(264)) : g.below(0x10000));
+        uint16_t code = static_cast<uint16_t>(g.chance(50) ? at<uint16_t>(difftest::version::dataOrDie(0x00325e50) + 2 * g.below(264)) : g.below(0x10000));
         return Pair{[=] { return orig(0x001c60e0, {code}); }, [=] { return static_cast<uint64_t>(FindCode264(code)); }};
     });
     add("ps2FontRecordLastCode", [](Gen& g) {
         uint16_t code = static_cast<uint16_t>(g.chance(30) ? g.pick<uint32_t>({0x85ec, 0x2e, 0x2f, 0x39, 0x3a, 0x40, 0x41}) : g.below(0x10000));
         return Pair{[=] { return origVoid(0x001c6128, {code}); }, [=] { RecordLastCode(code); return uint64_t{0}; }};
     });
+#endif
 
     // ---- layout ----
+#if !NOCTURNE_JAPANESE
     add("frGetFontWidth", [](Gen& g) {
         uint8_t s = static_cast<uint8_t>(g.below(4));
         return Pair{[=] { return orig(0x001c83f0, {s}); }, [=] { return norm(frGetFontWidth(s)); }};
@@ -238,6 +253,7 @@ void addFontTests(std::vector<TestCase>& t)
         uint8_t s = static_cast<uint8_t>(g.below(4));
         return Pair{[=] { return orig(0x001c8458, {s}); }, [=] { return norm(frGetFontHeight(s)); }};
     });
+#endif
     add("frGetDefaultFontWidth", [](Gen& g) {
         uint8_t s = static_cast<uint8_t>(g.below(4));
         return Pair{[=] { return orig(0x001c83b0, {s}); }, [=] { return norm(frGetDefaultFontWidth(s)); }};
@@ -246,10 +262,12 @@ void addFontTests(std::vector<TestCase>& t)
         uint8_t s = static_cast<uint8_t>(g.below(4));
         return Pair{[=] { return orig(0x001c8418, {s}); }, [=] { return norm(frGetDefaultFontHeight(s)); }};
     });
+#if !NOCTURNE_JAPANESE
     add("ps2FontSetSize", [](Gen& g) {
         int32_t w = g.range(-2, 30);
         return Pair{[=] { return origVoid(0x001c6160, {I(w)}); }, [=] { frSetBaseWidth(w); return uint64_t{0}; }};
     });
+#endif
     add("frGetXShiftLev", [=](Gen& g) {
         uint32_t text = textArg(g);
         if (!text)
@@ -282,8 +300,14 @@ void addFontTests(std::vector<TestCase>& t)
 
     // ---- building requests ----
     add("frSetFont", [](Gen& g) {
+#if !NOCTURNE_JAPANESE
         uint16_t code = static_cast<uint16_t>(g.chance(70) ? 32 + g.below(95) : g.chance(50) ? 0x8080 + g.below(0x100) : g.below(32));
-        uint8_t s = static_cast<uint8_t>(code >= 0x8080 ? g.below(2) : g.below(4)), col = static_cast<uint8_t>(g.below(6)), tp = static_cast<uint8_t>(g.below(3));
+        uint8_t s = static_cast<uint8_t>(code >= 0x8080 ? g.below(2) : g.below(4));
+#else   // (codes from 32: a lower one would decode a glyph before the font's)
+        uint16_t code = static_cast<uint16_t>(g.chance(50) ? 32 + g.below(95) : 0x8080 + (g.below(0x14) << 8) + g.below(0x80));
+        uint8_t s = static_cast<uint8_t>(g.below(4));
+#endif
+        uint8_t col = static_cast<uint8_t>(g.below(6)), tp = static_cast<uint8_t>(g.below(3));
         bool first = g.chance(50);
         return Pair{[=] { return orig(0x001c76e0, {code, s, col, tp, first}); }, [=] { return R(frSetFont(code, s, col, tp, first)); }};
     });
@@ -430,7 +454,7 @@ void addFontTests(std::vector<TestCase>& t)
         if (g.chance(70))
             ReferenceNameBank(bank, g.chance(50));
         if (g.chance(30))
-            at<int32_t>(0x0056bd50 + 4 * static_cast<uint32_t>(bank)) = 1;
+            at<int32_t>(difftest::version::dataOrDie(0x0056bd50) + 4 * static_cast<uint32_t>(bank)) = 1;
         return Pair{[=] { return origVoid(0x001c99c0, {I(bank)}); }, [=] { ReleaseNameBank(bank); return uint64_t{0}; }};
     });
     auto nameTest = [&](const char* name, uint32_t entry, std::function<Request*(int8_t, Request*, int8_t)> rewrite) {
@@ -484,11 +508,13 @@ void addFontTests(std::vector<TestCase>& t)
         info(g, iface::someText(g), true);
         return Pair{[] { return origVoid(0x001c8730, {kInfo}); }, [] { AdvanceMessageLine(at<MessageInfo>(kInfo)); return uint64_t{0}; }};
     });
+#if !NOCTURNE_JAPANESE
     add("ps2FontAppendSpecialCode", [](Gen& g) {
         info(g, iface::someText(g), true);
         uint16_t code = static_cast<uint16_t>(0x80e0 + g.below(10));
         return Pair{[=] { return origVoid(0x001c8758, {kInfo, code}); }, [=] { AppendSpecialCode(at<MessageInfo>(kInfo), code); return uint64_t{0}; }};
     });
+#endif
     add("ps2FontAppendVariable", [](Gen& g) {
         info(g, iface::someText(g), true);
         uint8_t index = static_cast<uint8_t>(g.chance(5) ? 255 : g.below(32));
@@ -552,6 +578,7 @@ void addFontTests(std::vector<TestCase>& t)
         uint32_t s = static_cast<uint32_t>(g.rng());
         return Pair{[=] { return origVoid(0x001c9230, {I(i), s}); }, [=] { frSetVariableRequest(i, s); return uint64_t{0}; }};
     });
+#if !NOCTURNE_JAPANESE
     add("ControlCodeLength", [](Gen& g) {
         uint16_t code = static_cast<uint16_t>(g.chance(70) ? 0xf200 + g.below(0x14) : g.below(0x10000));
         return Pair{[=] { return orig(0x001c8ce0, {code}); }, [=] { return norm(ControlCodeLength(code)); }};
@@ -566,6 +593,8 @@ void addFontTests(std::vector<TestCase>& t)
         return Pair{[=] { return origVoid(0x001c8d28, {text, kBuffer, I(line)}); },
                     [=] { CopyMessageLine(bytes(text), &at<uint8_t>(kBuffer), line); return uint64_t{0}; }};
     });
+#endif
 }
 
 } // namespace difftest
+

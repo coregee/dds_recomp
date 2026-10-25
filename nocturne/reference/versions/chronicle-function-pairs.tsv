@@ -1,0 +1,4 @@
+# Functions paired by reading the instructions (tools/match_functions.py):
+# US Maniax address, Chronicle address, name, how it was seen.
+001c87c8	001c8080	frAnalyzeTag	the only caller of AppendVariable and the name appenders; called by frAnalyzeMessage for F_ codes
+001c6b68	001c6720	ps2FontBindContext	the function frLoadStyle tail-calls; binds a style record to a font file

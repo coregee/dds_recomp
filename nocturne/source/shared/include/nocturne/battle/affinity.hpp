@@ -15,7 +15,7 @@ namespace nocturne::nb {
 // skills. skill may be -1 (no skill: Tetrakarn/Makarakarn are ignored).
 Affinity affinity(int32_t skill, int32_t formindex, Attribute attr);
 // [version] ... the unit's passive skills for an element 0..10 but Almighty
-// (source/<version>/src/battle/affinity.cpp).
+//.
 uint32_t passiveAffinity(const UnitWork& unit, int32_t element, uint32_t packed);
 // [version] nbGetAisyoRitu: whether the attacker's skill ignores resistance,
 // and the ratio after its boosts.

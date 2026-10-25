@@ -8,6 +8,7 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "nocturne/build.hpp"
 #include "nocturne/guest.hpp"
 #include "nocturne/interface/font.hpp"
 #include "nocturne/interface/panel.hpp"
@@ -258,8 +259,15 @@ uint32_t SetVar(Instance& pinst, int32_t index, uint32_t pstr, int32_t length);
 void SetVarImmediate(int32_t id, int32_t index, uint32_t pstr);
 void SetVarImmediate2(int32_t id, int32_t index, uint32_t pstr, int32_t length);
 void SetVarFormatted(int32_t id, int32_t index, int32_t num, uint64_t type);
-char* ConvertZenkakuNumber(int32_t num, char* buf);
+// {var index}'s own copy of a host string (SetVar's body).
+uint32_t StoreVariable(Instance& pinst, int32_t index, const char* source, int32_t length);
+// [version]
+char* ConvertZenkakuNumber(int32_t num, char* buf);   // a number in the version's digits
+void FloorText(int32_t num, char* out);               // "B2F", "3F", "R"
+void SetCharacterName(int32_t id, int32_t index, int32_t num);   // {var index}: entered name num
+#if !NOCTURNE_JAPANESE
 void BuildCharacterName(int32_t index);
+#endif
 
 // Variable types for SetVarFormatted (itfMesMngSetVar).
 enum VarType : uint32_t {

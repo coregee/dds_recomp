@@ -36,7 +36,7 @@ enum class SkillCheck : int32_t { Ok = 0, NotEnoughHp = 1, NotEnoughMp = 2, Mute
 SkillCheck checkSkillCost(int32_t formindex, int32_t skill);   // nbCheckSkillCost
 // nbCheckSkillUse: the same answer, coded 0 ok, 1 muted, 2 HP, 3 MP.
 int32_t checkSkillUse(int32_t formindex, int32_t skill);
-// [version] The skill both checks look at (source/<version>/src/battle/combatant.cpp).
+// [version] The skill both checks look at.
 int32_t checkedSkill(int32_t skill);
 
 // Endure / Never Yield: survive a fatal hit once per battle.

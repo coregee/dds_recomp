@@ -199,7 +199,15 @@ namespace fr = nocturne::fr;
 namespace mes = nocturne::mes;
 
 constexpr uint32_t kKuti = 0x001d1640;   // ps2MessageKutiDiagnostic
+// Where the four fonts go: US Maniax's in FW_FONTS, the JP builds' (larger)
+// in FW_JP_FONTS.
+#if !NOCTURNE_JAPANESE
+constexpr uint32_t kFontBase = FW_FONTS;
 constexpr uint32_t kFontOffset[4] = {0x00000, 0x18000, 0x2e000, 0x33000};
+#else
+constexpr uint32_t kFontBase = FW_JP_FONTS;
+constexpr uint32_t kFontOffset[4] = {0x00000, 0x5e000, 0x81600, 0x85e00};
+#endif
 
 std::vector<std::vector<uint8_t>> gTables;
 std::vector<uint8_t> gFonts[4];
@@ -675,7 +683,7 @@ ee::Interpreter makeOriginal()
             return uint64_t(std::snprintf(checked(c, a(c, 0)), 32, "/sound/MIDI%04X.SMG", static_cast<uint32_t>(a(c, 2))));
         std::abort();
     });
-    e.hook(kKuti, [](ee::Cpu&) { nocturneInvokeMessageKutiCallback(kKuti); return uint64_t{0}; });
+    e.hook(kKuti, [](ee::Cpu&) { nocturneInvokeMessageKutiCallback(version::code(kKuti)); return uint64_t{0}; });
     return e;
 }
 
@@ -761,8 +769,11 @@ void loadData(const char* elfPath)
         if (!table.empty() && table.size() <= 0x10000)
             gTables.push_back(std::move(table));
     }
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < 4; ++i)   // US Maniax's in EngFont/, the JP builds' in font/
         gFonts[i] = readFile(root + "font/EngFont/font" + std::to_string(i) + ".fnt");
+    if (gFonts[0].empty())
+        for (int i = 0; i < 4; ++i)
+            gFonts[i] = readFile(root + "font/font" + std::to_string(i) + ".fnt");
     for (const char* name : {"event/e600/e601/scr/e601.bf", "event/e600/e602/scr/e602.bf", "facility/scr/combine/message.bf"})
         gScripts.push_back(readFile(root + name));
     if (gTables.empty() || gFonts[0].empty())
@@ -780,40 +791,50 @@ static void putTable(const std::vector<uint8_t>& t, bool relocate)
     }
 }
 
-void loadTable(Gen& g, bool relocate) { version::requireUsText(); putTable(gTables[g.below(static_cast<uint32_t>(gTables.size()))], relocate); }
+void loadTable(Gen& g, bool relocate) { putTable(gTables[g.below(static_cast<uint32_t>(gTables.size()))], relocate); }
 
 void fontWorld(Gen& g)
 {
-    version::requireUsText();
-    // Fonts: style 1 shares style 0's file (as frLoadStyle does).
+    // Fonts. US Maniax's style 1 shares style 0's file (as its frLoadStyle
+    // does); the JP builds' has its own.
     for (int i = 0; i < 4; ++i)
-        std::memcpy(fw_ram + FW_FONTS + kFontOffset[i], gFonts[i].data(), gFonts[i].size());
+        std::memcpy(fw_ram + kFontBase + kFontOffset[i], gFonts[i].data(), gFonts[i].size());
     std::memset(&fr::style(0), 0, 9 * sizeof(fr::Style));
-    fr::BindStyle(0, 0, FW_FONTS + 1);
-    fr::BindStyle(1, 0, FW_FONTS + 1);
-    fr::BindStyle(2, 0, FW_FONTS + kFontOffset[2] + 1);
-    fr::BindStyle(3, 0, FW_FONTS + kFontOffset[3] + 1);
+    fr::BindStyle(0, 0, kFontBase + 1);
+#if !NOCTURNE_JAPANESE
+    fr::BindStyle(1, 0, kFontBase + 1);
+#else
+    fr::BindStyle(1, 0, kFontBase + kFontOffset[1] + 1);
+#endif
+    fr::BindStyle(2, 0, kFontBase + kFontOffset[2] + 1);
+    fr::BindStyle(3, 0, kFontBase + kFontOffset[3] + 1);
     if (g.chance(40))
-        fr::BindStyle(8, FW_FONTS + kFontOffset[1], 0);
-    for (int i = 0; i < 9; ++i)
+        fr::BindStyle(8, kFontBase + kFontOffset[1], 0);
+#if !NOCTURNE_JAPANESE
+    for (int i = 0; i < 9; ++i)   // the styles loaded once
         at<int32_t>(0x003261e8 + 4u * static_cast<uint32_t>(i)) = i < 4 && g.chance(80) ? 1 : 0;
+#endif
 
     fr::Settings& s = fr::settings();
     s.result = g.chance(50) ? g.below(8) : 0xffffffffu;
     s.space = static_cast<int8_t>(g.pick<int32_t>({3, 3, 0, 1, 2, -1}));
     s.step = g.chance(70) ? 0x14 : g.range(12, 28);
+#if !NOCTURNE_JAPANESE
     s.base_width = g.chance(70) ? 0x14 : g.range(14, 24);
     s.space_width = g.range(0, 4);
+#endif
     s.mode = static_cast<uint8_t>(g.chance(50) ? 0x16 : g.below(32));
     s.style = static_cast<uint8_t>(g.below(4));
-    at<uint8_t>(difftest::version::dataOrDie(0x0054f430)) = 0;                     // the empty string
+    at<uint8_t>(version::dataOrDie(0x0054f430)) = 0;   // the empty strings
+    at<uint8_t>(version::dataOrDie(0x0054f448)) = 0;
 
-    // Pools and counters (0x56BB74).
-    std::memset(fw_ram + 0x0056bb74, 0, 0x0056bbc4 - 0x0056bb74);
-    at<uint32_t>(difftest::version::dataOrDie(0x0056bb80)) = fw_address_of(fr::PoolCreate(0x2c, 2000));
-    at<uint32_t>(difftest::version::dataOrDie(0x0056bb84)) = fw_address_of(fr::PoolCreate(0x30, 400));
-    at<int32_t>(difftest::version::dataOrDie(0x0056bb90)) = 0x200;
-    at<int32_t>(difftest::version::dataOrDie(0x0056bba0)) = 0x1a40 + static_cast<int32_t>(g.below(4));
+    // Pools and counters (after the styles).
+    fr::Tables& tables = fr::tables();
+    std::memset(&tables, 0, sizeof tables);
+    tables.text_pool.address = fw_address_of(fr::PoolCreate(0x2c, 2000));
+    tables.request_pool.address = fw_address_of(fr::PoolCreate(0x30, 400));
+    tables.texture_width = 0x200;
+    tables.texture_base = 0x1a40 + static_cast<int32_t>(g.below(4));
 
     // Texture cells: a ring of 400 behind the anchor (cell 0), each with a glyph record.
     constexpr uint32_t kCells = 400;
@@ -830,24 +851,26 @@ void fontWorld(Gen& g)
         c.next.address = cells + 0x20 * (k == kCells ? 0 : k + 1);
         c.prev.address = cells + 0x20 * (k == 0 ? kCells : k - 1);
     }
-    fr::TextureCells& tc = at<fr::TextureCells>(difftest::version::dataOrDie(0x0056b668));
+    fr::TextureCells& tc = at<fr::TextureCells>(version::dataOrDie(0x0056b668));
     std::memset(&tc, 0, sizeof tc);
     tc.free = kCells;
     tc.ring.address = cells;
     tc.count = kCells + 1;
 
-    at<uint32_t>(difftest::version::dataOrDie(0x0056bbc4)) = 0;
-    at<uint32_t>(difftest::version::dataOrDie(0x0056bbc8)) = 0;
-    at<int32_t>(difftest::version::dataOrDie(0x00551b80)) = static_cast<int32_t>(g.below(2));
-    at<uint16_t>(difftest::version::dataOrDie(0x0054ea00)) = static_cast<uint16_t>(g.chance(50) ? 'A' + g.below(26) : 0x8020 + g.below(0x40));
+    at<uint32_t>(version::dataOrDie(0x0056bbc4)) = 0;   // the requests to free after each frame
+    at<uint32_t>(version::dataOrDie(0x0056bbc4) + 4) = 0;
+    at<int32_t>(version::dataOrDie(0x00551b80)) = static_cast<int32_t>(g.below(2));
+    at<uint32_t>(version::dataOrDie(0x0054ea20)) = FW_GLOBAL;   // the save data, with the entered names
+
+#if !NOCTURNE_JAPANESE
+    at<uint16_t>(0x0054ea00) = static_cast<uint16_t>(g.chance(50) ? 'A' + g.below(26) : 0x8020 + g.below(0x40));
 
     // {var n} strings.
     static const char* const strings[] = {"123", "Pixie", "B2F", "Jack Frost", "\x81\x40\x81\x41", "R"};
     for (uint32_t i = 0; i < 32; ++i)
         at<uint32_t>(0x0056bbd0 + 4 * i) = g.chance(50) ? poolString(strings[g.below(6)]) : 0;
 
-    // Entered names (save data at FW_GLOBAL): letter codes, bitmaps and lengths.
-    at<uint32_t>(difftest::version::dataOrDie(0x0054ea20)) = FW_GLOBAL;
+    // Entered names: letter codes, bitmaps and lengths, 16 letters to a name.
     for (uint32_t bank = 0; bank < 4; ++bank) {
         const uint32_t family = g.range(1, 6), given = g.range(1, 6);   // entered names have letters
         fw_ram[FW_GLOBAL + 0x657c + 2 * bank] = static_cast<uint8_t>(family);
@@ -866,6 +889,35 @@ void fontWorld(Gen& g)
         at<int32_t>(0x0056bd50 + 4 * bank) = 0;
     }
     std::memset(fw_ram + 0x0056bc50, 0, 0x100);
+#else
+    // {var n} strings: 2-byte characters (an odd length reads the end mark).
+    static const char* const strings[] = {"\x82\xa0\x82\xa2", "\x83\x73\x83\x4e\x83\x56\x81\x5b", "\x82\x50\x82\x51\x82\x52",
+                                          "\x88\xa0", "\x82\xa0x", ""};
+    for (uint32_t i = 0; i < 32; ++i)
+        at<uint32_t>(0x00569d88 + 4 * i) = g.chance(50) ? poolString(strings[g.below(6)]) : 0;
+
+    // Entered names: lengths, letter codes (8 to a name), bitmaps; one name as text.
+    for (uint32_t bank = 0; bank < 4; ++bank) {
+        const uint32_t family = g.range(1, 4), given = g.range(1, 4);
+        fw_ram[FW_GLOBAL + 0x4178 + 2 * bank] = static_cast<uint8_t>(family);
+        fw_ram[FW_GLOBAL + 0x4179 + 2 * bank] = static_cast<uint8_t>(given);
+        for (uint32_t k = 0; k < 8; ++k) {   // kana, kanji, and codes past 0x83C5
+            const uint16_t code = static_cast<uint16_t>(g.pick<int32_t>({0x82a0, 0x8340, 0x83c5, 0x8890, 0x82f0}) + g.below(0x30));
+            fw_ram[FW_GLOBAL + 0x4180 + 16 * bank + 2 * k] = static_cast<uint8_t>(code >> 8);
+            fw_ram[FW_GLOBAL + 0x4181 + 16 * bank + 2 * k] = static_cast<uint8_t>(code);
+        }
+        for (uint32_t k = 0; k < 0x900; k += 4)
+            at<uint32_t>(FW_GLOBAL + 0x1d78 + bank * 0x900 + k) = static_cast<uint32_t>(g.rng());
+        at<int32_t>(0x00569e88 + 4 * bank) = 0;
+    }
+    const uint32_t letters = g.range(0, 8);
+    fw_ram[FW_GLOBAL + 0x4200] = static_cast<uint8_t>(letters);
+    for (uint32_t k = 0; k < letters; ++k) {
+        fw_ram[FW_GLOBAL + 0x41c0 + 2 * k] = 0x82;
+        fw_ram[FW_GLOBAL + 0x41c1 + 2 * k] = static_cast<uint8_t>(0xa0 + g.below(0x50));
+    }
+    std::memset(fw_ram + 0x00569e08, 0, 0x80);
+#endif
 }
 
 uint32_t someText(Gen& g)
@@ -899,7 +951,6 @@ fr::Request* chain(Gen& g, int32_t x, int32_t y)
 
 HelpWorld helpWorld(Gen& g, std::initializer_list<int32_t> needed)
 {
-    version::requireUsText();
     // A table with messages at the indexes the caller shows.
     auto fits = [&](const std::vector<uint8_t>& t) {
         const uint32_t count = *reinterpret_cast<const uint32_t*>(t.data() + 0x18);   // numtypeheader

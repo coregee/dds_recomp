@@ -12,6 +12,7 @@
 #include <iterator>
 
 #include "nocturne/address.hpp"
+#include "nocturne/data/records.hpp"
 #include "nocturne/ee/double.hpp"
 #include "nocturne/ee/float.hpp"
 #include "nocturne/external.hpp"
@@ -24,7 +25,7 @@ namespace {
 
 constexpr uint32_t kScriptList = addr(0x0054e994);
 constexpr uint32_t kCurrent = addr(0x00551c78);        // the work of the running COMM
-constexpr uint32_t kGlobalWork = addr(0x0054ea20);     // pointer: ints at +0x40, floats at +0x440
+constexpr uint32_t kGlobalWork = addr(0x0054ea20);     // pointer to the global work (its script variables)
 constexpr uint32_t kCommands = addr(0x0052e350);       // scrCommandTable_t[]
 
 // TwoOperation keeps its operands and result in globals (0x551C58).
@@ -107,8 +108,8 @@ void scrPrintf(uint32_t, uint32_t) {}
 
 ScriptList& scriptList() { return *guest::table<ScriptList>(kScriptList); }
 ProcessWork* current() { return guest::table<Ptr32<ProcessWork>>(kCurrent)->get(); }
-int32_t& globalInt(uint32_t index) { return guest::table<int32_t>(globalWork() + 0x40)[index]; }
-uint32_t& globalFloat(uint32_t index) { return guest::table<uint32_t>(globalWork() + 0x440)[index]; }
+int32_t& globalInt(uint32_t index) { return guest::table<GlobalWork>(globalWork())->script_ints[index]; }
+uint32_t& globalFloat(uint32_t index) { return guest::table<GlobalWork>(globalWork())->script_floats[index]; }
 
 // ---- scripts and processes ---------------------------------------------------------------
 

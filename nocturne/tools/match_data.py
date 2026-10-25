@@ -81,9 +81,9 @@ def addresses(words, gp):
 
 def main():
     name = sys.argv[1] if len(sys.argv) > 1 else 'chronicle'
-    base_start, base = mf.code_words(*mf.load(mf.EXECUTABLES['maniax']))
+    base_start, base = mf.code_words(*mf.load(mf.EXECUTABLES['maniax-us']))
     other_start, other = mf.code_words(*mf.load(mf.EXECUTABLES[name]))
-    gp_base, gp_other = global_pointer(mf.EXECUTABLES['maniax']), global_pointer(mf.EXECUTABLES[name])
+    gp_base, gp_other = global_pointer(mf.EXECUTABLES['maniax-us']), global_pointer(mf.EXECUTABLES[name])
     seen = defaultdict(Counter)
     rows = [line.split('\t') for line in open(os.path.join(mf.ROOT, 'reference/versions/%s-function-map.tsv' % name),
                                              encoding='utf-8').read().splitlines()[1:]]

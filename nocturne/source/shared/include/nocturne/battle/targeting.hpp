@@ -18,7 +18,7 @@ int32_t itemSkillFor(const ActionProcessData& act, int32_t item);
 // nbGetTargetTypeRuleArea: for the unit's chosen command.
 void targetTypeRuleArea(const ActionProcessData& act, const UnitWork& unit, int32_t* type, int32_t* rule,
                         int32_t* area, bool reverse, bool fromAi = false);
-// [version] Where versions differ (source/<version>/src/battle/targeting.cpp):
+// [version] Where versions differ:
 void adjustSkillTarget(int32_t skill, bool fromAi, uint8_t& targettype, uint8_t& targetrule);
 int32_t summonRule(const UnitWork& unit, const MainProcessData& main);   // a summon's target rule
 

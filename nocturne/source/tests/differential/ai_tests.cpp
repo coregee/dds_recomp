@@ -134,7 +134,7 @@ void prepareAi(Gen& g)
     // (Hardtype: a devil whose table AI runs: with a record, action tables
     // and no script. Script devils' checks point at nothing real.)
     if constexpr (kPackedAi)
-        while (packedRecord(unit.id) < dat::address::DevilAI || packedRecord(unit.id) >= 0x003a7fe0 ||
+        while (packedRecord(unit.id) < dat::address::DevilAI || packedRecord(unit.id) >= difftest::version::dataOrDie(0x003a7fe0) ||
                dat::aiRecord(unit.id).tables() <= 0 || dat::aiRecord(unit.id).script() != 0)
             unit.id = static_cast<uint16_t>(g.range(1, 383));
     // Every devil has AI level 0 in the shipped data; patch the actor's

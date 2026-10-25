@@ -31,7 +31,7 @@ int32_t useFieldSkill(int32_t skill, UnitWork* source, UnitWork* target);
 // stunned, muted), 2 half, 3 all but 1 HP (by version, not Dante).
 void partyDamage(int32_t mode);
 // [version] A unit datPartyDamage's mode 3 leaves its HP
-// (source/<version>/src/data/field_skill.cpp).
+//.
 bool sparedFromLastHp(const UnitWork& unit);
 // datPartyDamageFld: 1 the poisoned lose 3%, 2 everyone 3%, 3 1-2% at
 // random, 4 half.

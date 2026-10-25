@@ -9,6 +9,7 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "nocturne/build.hpp"
 #include "nocturne/guest.hpp"
 
 namespace nocturne::fr {
@@ -74,7 +75,7 @@ struct FontHeader {
 };
 static_assert(offsetof(FontHeader, glyphs) == 0xe && offsetof(FontHeader, metrics) == 0x16 && offsetof(FontHeader, names) == 0x18);
 
-// A loaded font (one of nine styles, 0x56BA30): pointers into its file.
+// A loaded font (one of nine styles, US 0x56BA30): pointers into its file.
 struct Style {
     uint32_t handle;             // the memory handle holding the file, or 0
     Ptr32<FontHeader> data;
@@ -82,9 +83,38 @@ struct Style {
     uint32_t metric[2];          // the tables: {left, right} per glyph
     uint32_t cache;              // per glyph: its cached Glyph, or 0 (a zeroed array in the file)
     uint32_t glyphs;             // the compressed glyphs
-    uint32_t names;
+#if !NOCTURNE_JAPANESE
+    uint32_t names;              // the file's name table (the US engine's only)
+#endif
 };
-static_assert(sizeof(Style) == 0x24);
+static_assert(sizeof(Style) == (kBuild.japanese ? 0x20 : 0x24));
+
+// Font engine globals (US 0x54F404). The JP engine has no size override,
+// so no base and space widths.
+struct Settings {
+    uint32_t result;             // gMessageRequestResult: how the last page ended (frGetMessageResult)
+    int8_t space;                // gMessageSpaceX
+    uint8_t pad05[3];
+    int32_t step;                // gMessageStepY: line height, in 1/8 units
+#if !NOCTURNE_JAPANESE
+    int32_t base_width;          // the advance of styles 0 and 1 (frSetBaseWidth)
+    int32_t space_width;         // extra advance of a space in styles 0 and 1
+    uint32_t unknown_14;
+#endif
+    uint8_t mode;                // gModeFlag (frEnableMode)
+    uint8_t pad_mode[7];
+    uint8_t style;               // the style of the last frSetFontString
+};
+static_assert(offsetof(Settings, mode) == (kBuild.japanese ? 0xc : 0x18) &&
+              offsetof(Settings, style) == (kBuild.japanese ? 0x14 : 0x20));
+
+inline constexpr int32_t kDefaultLineStep = kBuild.japanese ? 0x19 : 0x14;   // frResetStepY
+
+#if NOCTURNE_JAPANESE
+// The shadow offset a glyph gets with kModeShadow: 24 for some, else 0
+// (the US engine: always 24; font_layout_jp.cpp).
+int32_t shadowOffset(int8_t style, int32_t index);
+#endif
 
 // A cell of the font texture (0x20 bytes, a ring at 0x56B668).
 struct TextureCell {
@@ -140,21 +170,6 @@ struct MessageInfo {
 };
 static_assert(sizeof(MessageInfo) == 0x20);
 
-// Font engine globals (0x54F404).
-struct Settings {
-    uint32_t result;             // gMessageRequestResult: how the last page ended (frGetMessageResult)
-    int8_t space;                // gMessageSpaceX
-    uint8_t pad05[3];
-    int32_t step;                // gMessageStepY: line height, in 1/8 units
-    int32_t base_width;          // the advance of styles 0 and 1 (frSetBaseWidth)
-    int32_t space_width;         // extra advance of a space in styles 0 and 1
-    uint32_t unknown_14;
-    uint8_t mode;                // gModeFlag (frEnableMode)
-    uint8_t pad19[7];
-    uint8_t style;               // the style of the last frSetFontString
-};
-static_assert(offsetof(Settings, mode) == 0x18 && offsetof(Settings, style) == 0x20);
-
 // Mode flags (Settings::mode, copied to each text).
 enum : uint8_t {
     kModeMetrics = 1,            // use the font's per-glyph advances
@@ -163,19 +178,35 @@ enum : uint8_t {
     kModeShadow = 16,            // texts get a 24-unit shadow offset
 };
 
+// Counters and pools, after the nine styles (US Maniax 0x56BB74).
+struct Tables {
+    int32_t glyphs;              // cached glyphs
+    int32_t texts;
+    int32_t requests;
+    Ptr32<PoolNode> text_pool;
+    Ptr32<PoolNode> request_pool;
+    uint32_t unknown_14, unknown_18;
+    int32_t texture_width;       // in pixels
+    int32_t unknown_20, unknown_24, unknown_28;
+    int32_t texture_base;        // in 64-word blocks (TBP)
+};
+
 Settings& settings();
 Style& style(int32_t index);
+Tables& tables();
+int32_t defaultAdvance(uint8_t style);   // a style's default advance (US Maniax 0x326060)
+Request* newRequest();                   // a request from the pool, counted
 
 // Pools
 PoolNode* PoolCreate(int32_t size, int32_t count);
 void* PoolTake(PoolNode& pool);
 bool PoolGive(void* element, PoolNode& pool);
 
-// Fonts
-void BindStyle(uint8_t style, uint32_t data, uint32_t handle);
-void frLoadStyle(uint8_t style, uint32_t name);
+// Fonts. [version] marks what each version's font_layout.cpp defines.
+void BindStyle(uint8_t style, uint32_t data, uint32_t handle);   // [version]
+void frLoadStyle(uint8_t style, uint32_t name);                  // [version]
 void frLoadStyleAll();
-void frDelFontStyle(uint8_t style);
+void frDelFontStyle(uint8_t style);   // [version]
 void frDelStyleAll();
 void frSetExtDic(uint32_t data);
 void frDelExtDic();
@@ -194,32 +225,35 @@ uint32_t DecodeGlyphPixels(uint8_t style, int32_t index);
 TextureCell* TakeTextureCell();
 Glyph* CreateTextureGlyph(int32_t width, int32_t height, uint32_t pixels, bool owned);
 void GiveTextureCell(TextureCell& cell);
-Glyph* AcquireGlyph(Text& text, int32_t index);
+Glyph* AcquireGlyph(Text& text, int32_t index);   // [version]
 void ReleaseGlyph(Text& text);
 int32_t glyphIndex(uint16_t code);
 
 // Layout
-int32_t frGetFontWidth(uint8_t style);
-int32_t frGetFontHeight(uint8_t style);
-int32_t frGetDefaultFontWidth(uint8_t style);
-int32_t frGetDefaultFontHeight(uint8_t style);
-void frSetBaseWidth(int64_t width);
-void frGetXShiftLev(Text& pText, int32_t index, bool first);
+int32_t frGetDefaultFontWidth(uint8_t style);                    // [version]
+int32_t frGetDefaultFontHeight(uint8_t style);                   // [version]
+void frSetBaseWidth(int64_t width);                              // [version]
+void frGetXShiftLev(Text& pText, int32_t index, bool first);     // [version]
 int32_t frGetStrWidth(const Request& pFRQ);
 int32_t frGetChainWidth(const Request& pFRQ);
 void RelayoutRequest(Request& pFRQ);
+#if !NOCTURNE_JAPANESE
+int32_t frGetFontWidth(uint8_t style);
+int32_t frGetFontHeight(uint8_t style);
 int64_t FindCode416(uint16_t code);
 int64_t FindCode264(uint16_t code);
 void RecordLastCode(uint16_t code);
+#endif
 
 // Building requests
-Text* frSetFont(uint16_t code, uint8_t style, uint8_t colno, uint8_t tp, bool first);
-Request* frSetFontString(const uint8_t* pStr, int8_t style, int8_t colno, int8_t tp, Request* pFRQ, bool first);
+Text* frSetFont(uint16_t code, uint8_t style, uint8_t colno, uint8_t tp, bool first);   // [version]
+Request* frSetFontString(const uint8_t* pStr, int8_t style, int8_t colno, int8_t tp, Request* pFRQ,
+                         bool first);                            // [version]
 Request* frLinkFontString(const uint8_t* pStr, int8_t style, int8_t colno, int8_t tp, Request* pFRQ);
 Request* AppendControlText(uint32_t data, Request* pFRQ);
 Request* LinkControlText(uint32_t data, Request* pFRQ);
 Request* frCombineFontRequest(Request* pFRQ1, Request* pFRQ2);
-Request* frCombineFontRequestEx(Request* pFRQ1, Request* pFRQ2, uint64_t mode);
+Request* frCombineFontRequestEx(Request* pFRQ1, Request* pFRQ2, uint64_t mode);   // [version]
 void frDestroyFontRequestNow(Request* pFRQ);
 void frDestroyFontRequestAfter(Request* pFRQ);
 bool frFadeOutText(Request* pFRQ);
@@ -239,7 +273,8 @@ void frSetFontDrawOT(uint32_t ot);
 void frSetStepY(int32_t step);
 void frResetStepY();
 
-// Entered names (font_message.cpp)
+// Entered names and pages: each version's font_message.cpp. (The JP
+// builds' name functions leave colno to their callers.)
 void LoadNameBank(int8_t bank, bool given, int8_t count, uint32_t pixels);
 void ReferenceNameBank(int8_t bank, bool given);
 void ReleaseNameBank(int8_t bank);
@@ -257,7 +292,6 @@ Request* LinkSpacedLetters(int32_t x, int32_t y, uint32_t z, uint32_t color, con
 // Laying out a page (font_message.cpp)
 void frCreateNewHandle(MessageInfo& m);
 void AdvanceMessageLine(MessageInfo& m);
-void AppendSpecialCode(MessageInfo& m, uint16_t code);
 void AppendVariable(uint8_t index, MessageInfo& m);
 bool frAnalyzeTag(uint8_t prefix, MessageInfo& m);
 Request* frAnalyzeMessage(MessageInfo& m);
@@ -272,8 +306,11 @@ Request* MessageRequestKeepSpace(int32_t x, int32_t y, uint32_t z, uint8_t style
                                  uint8_t speed, uint32_t text);
 int64_t frGetMessageResult(int64_t mask);
 void frSetVariableRequest(int32_t index, uint32_t pstr);
+#if !NOCTURNE_JAPANESE
+void AppendSpecialCode(MessageInfo& m, uint16_t code);
 int32_t ControlCodeLength(uint16_t code);
 int32_t CountMessageLines(const uint8_t* text);
 void CopyMessageLine(const uint8_t* text, uint8_t* out, int32_t line);
+#endif
 
 } // namespace nocturne::fr

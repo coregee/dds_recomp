@@ -54,7 +54,7 @@ into `source/scripts/` and verified to recompile to the original code
 ([docs/flowscript.md](docs/flowscript.md)), with every message table as
 text that encodes back to the original bytes ([docs/messages.md](docs/messages.md)).
 Game data as source: devils, skills, items, level-up/growth tables, Magatama,
-encounters, affinities, enemy AI, inheritance and every fusion table (`source/maniax/src/data/`, other versions' in their folders: [docs/versions.md](docs/versions.md));
+encounters, affinities, enemy AI, inheritance and every fusion table (`source/generated/<version>/src/data/`: [docs/versions.md](docs/versions.md));
 see [docs/fusion.md](docs/fusion.md) for how fusion works and
 [docs/magatama-and-compendium.md](docs/magatama-and-compendium.md) and
 [docs/enemy-ai.md](docs/enemy-ai.md).

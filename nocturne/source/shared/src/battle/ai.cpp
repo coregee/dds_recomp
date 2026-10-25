@@ -17,6 +17,8 @@
 #include "nocturne/data/unit.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
+#include "nocturne/build.hpp"
+#include "nocturne/hardtype.hpp"
 
 namespace nocturne::nb::ai {
 
@@ -939,5 +941,75 @@ void setNormalAttack(UnitWork& unit)
     guest::table<uint8_t>(dat::address::SkillHitEffect)[base * 4 + 1] = 0;
     diag::print(diag::Message::SkillRewritten);
 }
+
+} // namespace nocturne::nb::ai
+
+// ===========================================================================
+// By version (nocturne/build.hpp): the alternatives the builds choose between
+// ===========================================================================
+
+namespace nocturne::nb::ai {
+
+#if NOCTURNE_HARDTYPE
+// nbAiChkJoken @ 0x00286730: Hardtype adds types 29 (Kagutsuchi's phase is
+// n), 60 and 61 (the press turn gauge is at least / at most n), through its
+// dispatch table's empty slots.
+bool versionCondition(int32_t type, int32_t n, bool& holds)
+{
+    if (type != 29 && type != 60 && type != 61)
+        return false;
+    holds = hardtype::aiCondition(type, n);
+    return true;
+}
+#else
+// nbAiChkJoken @ 0x00286730: types 1..28 only.
+bool versionCondition(int32_t, int32_t, bool&) { return false; }
+#endif
+
+#if NOCTURNE_HARDTYPE
+// ... types 60 and 61 overwrite the register that held the action, so the
+// selection's mask lands in low memory instead.
+uint32_t& selectionAfterCondition(ActionProcessData& act, int32_t type)
+{
+    if (type == 60 || type == 61)
+        return *guest::table<uint32_t>(hardtype::pressGaugeRegister() + 0x190);
+    return act.aiselect;
+}
+#else
+// ... a holding condition narrows the AI's selection.
+uint32_t& selectionAfterCondition(ActionProcessData& act, int32_t) { return act.aiselect; }
+#endif
+
+#if NOCTURNE_HARDTYPE
+// nbAiAiChk @ 0x002867A8 (and 0x2FDD20): the selection is cleared through a
+// register before it is set, so the zero goes to its caller's loop counter
+// (index + 1) + 0x190 in low memory, and the selection stays.
+void clearSelectionForCheck(ActionProcessData&, int32_t index) { *guest::table<uint32_t>(static_cast<uint32_t>(index + 1) + 0x190) = 0; }
+#else
+// nbAiAiChk @ 0x002867A8: the selection cleared.
+void clearSelectionForCheck(ActionProcessData& act, int32_t) { act.aiselect = 0; }
+#endif
+
+#if NOCTURNE_HARDTYPE
+// nbRunAiSub @ 0x00287B40: the targets are read with the action index taken
+// from the wrong register, which still holds what nbAiChkClose last computed:
+// the command when it isn't a skill, the skill check's 0 when the skill is
+// usable (so the first action's targets), or the devil ID times 4 when it
+// isn't (targets read from far past the table).
+int32_t targetedAction(const ActionProcessData& act, int32_t)
+{
+    const UnitWork& unit = *act.work;
+    const int16_t command = unit.nowcommand;
+    if (command != 0 && command != 1 && command != 5)
+        return command;
+    const int32_t skill = command == 0 ? 0 : unit.nowindex;
+    if (checkSkillUse(act.form->formindex, skill) <= 0)
+        return 0;
+    return 4 * unit.id;
+}
+#else
+// nbRunAiSub @ 0x00287B40: the drawn action's targets.
+int32_t targetedAction(const ActionProcessData&, int32_t action) { return action; }
+#endif
 
 } // namespace nocturne::nb::ai

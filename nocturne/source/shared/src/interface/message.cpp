@@ -14,12 +14,24 @@
 #include "nocturne/address.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/script/vm.hpp"
+#include "nocturne/build.hpp"
 
 namespace nocturne {
 
 // ---- the instance list ---------------------------------------------------------------
 
 namespace itf {
+
+namespace {
+
+// itfMiscLinkTake with no free node: a debug print, the JP builds' only.
+#if NOCTURNE_JAPANESE
+constexpr uint32_t kLinkStackFullMessage = jpAddr(0x005333d8);   // "未使用がもうない" (no unused node left)
+#else
+constexpr uint32_t kLinkStackFullMessage = 0;
+#endif
+
+} // namespace
 
 // itfMiscLinkInit @ 0x001CAE58
 // Chains `count` nodes of `size` bytes into the free list, numbering them.
@@ -48,12 +60,15 @@ void MiscLinkInit(LinkStack& stack, uint32_t nodes, int32_t count, int32_t size)
 }
 
 // itfMiscLinkTake @ 0x001CAEB8
-// Moves the first free node to the end of the list in use.
+// Moves the first free node to the end of the list in use (a debug print,
+// by version, when there is none).
 LinkNode* MiscLinkTake(LinkStack& stack)
 {
     LinkNode* node = stack.freehead.get();
-    if (!node)
+    if (!node) {
+        diag::print(static_cast<diag::Message>(kLinkStackFullMessage));
         return nullptr;
+    }
     Ptr32<LinkNode> next = node->pnext;
     if (stack.head) {
         node->pprev = stack.tail;
@@ -106,6 +121,21 @@ constexpr uint32_t kManager = addr(0x0056be60);
 constexpr uint32_t kPad = addr(0x002f5830);          // pad trigger bytes (negative: pressed this frame)
 constexpr int16_t kNoSpeaker = -1;
 
+// The windows' layout: the JP builds' are taller, for their font.
+// A message window's default positions (1/16 units): the speaker's name,
+// the text and the options; the speaker's panel reaches this far below the
+// name.
+constexpr int32_t kSpeakerY = kBuild.japanese ? 0xa20 : 0x9b0;
+constexpr int32_t kMessageY = kBuild.japanese ? 0xaf8 : 0xa88;
+constexpr int32_t kSelectY = kBuild.japanese ? 0xc88 : 0xbc8;
+constexpr int32_t kSpeakerPanelBottom = kBuild.japanese ? 272 : 232;
+// A selection's options (itfMesMngRequestSelect, GetFontHandleUnit,
+// CalcSelect): lines kOptionLineHeight apart (1/8 units), the first
+// kOptionTopOffset lower, each kOptionLineGap below the last's text.
+constexpr int32_t kOptionLineHeight = kBuild.japanese ? 0xc8 : 0xa0;
+constexpr int32_t kOptionTopOffset = kBuild.japanese ? 0 : 0x14;
+constexpr int32_t kOptionLineGap = kBuild.japanese ? 0 : 10;
+
 // Pad bytes the message manager reads (tentative names from their use).
 enum Pad : uint32_t {
     kPadDecide = 1,       // ends a page, picks an option
@@ -144,7 +174,7 @@ void InitializeSpeaker(Speaker& speaker, bool defaultpos)
 {
     if (defaultpos) {
         speaker.pos.x = 0x430;
-        speaker.pos.y = 0x9b0;
+        speaker.pos.y = kSpeakerY;
     }
     speaker.pfont.address = 0;
     speaker.num = 0xffff;
@@ -155,7 +185,7 @@ void InitializeMessage(Message& message, bool defaultpos)
 {
     if (defaultpos) {
         message.pos.x = 0x4b0;
-        message.pos.y = 0xa88;
+        message.pos.y = kMessageY;
     }
     message.pbinheader.address = 0;
     message.last_spd = 0x80;
@@ -174,7 +204,7 @@ void InitializeMessage(Message& message, bool defaultpos)
 void InitializeSelect(Select& select)
 {
     select.pos.x = 0x560;
-    select.pos.y = 0xbc8;
+    select.pos.y = kSelectY;
     select.select_imm = -1;
     select.numdef = 0;
     select.pfont.address = 0;
@@ -435,14 +465,15 @@ uint32_t GetVarLocalize(int32_t id, int32_t index) { return instance(id).variabl
 
 namespace {
 
-constexpr uint32_t kNameBuffer = optionalAddr(0x0056c880);   // BuildCharacterName's output (US only, as the font: font.cpp)
-constexpr uint32_t kSaveData = addr(0x0054ea20);        // pointer to the data holding the entered names
+const char* guestString(uint32_t address) { return guest::table<char>(address); }
+
+} // namespace
 
 // Copies a string into a block of its own for {var index}. Without a length,
 // the copy is the string's length plus 4, rounded down to a word (so it may
 // take up to 3 bytes after the terminator); with one, the block is zeroed
 // first.
-uint32_t storeVariable(Instance& pinst, int32_t index, const char* source, int32_t length)
+uint32_t StoreVariable(Instance& pinst, int32_t index, const char* source, int32_t length)
 {
     Variable& v = pinst.variable;
     if (v.pptr[index]) {
@@ -465,14 +496,10 @@ uint32_t storeVariable(Instance& pinst, int32_t index, const char* source, int32
     return block;
 }
 
-const char* guestString(uint32_t address) { return guest::table<char>(address); }
-
-} // namespace
-
 // SetVar @ 0x001CF320
 uint32_t SetVar(Instance& pinst, int32_t index, uint32_t pstr, int32_t length)
 {
-    return storeVariable(pinst, index, guestString(pstr), length);
+    return StoreVariable(pinst, index, guestString(pstr), length);
 }
 
 // itfMesMngSetVarImmediate @ 0x001CE7D8
@@ -484,46 +511,9 @@ void SetVarImmediate2(int32_t id, int32_t index, uint32_t pstr, int32_t length)
     SetVar(instance(id), index, pstr, length);
 }
 
-// ConvertZenkakuNumber @ 0x001CFE48
-// Writes num in decimal (at most 10 digits) and returns the terminator's
-// position. (The Japanese name says full-width digits; the US build writes
-// ASCII.) A negative number gives one digit of its remainder.
-char* ConvertZenkakuNumber(int32_t num, char* buf)
-{
-    int32_t digits[10];
-    int count = 0;
-    do {
-        digits[count++] = num % 10;
-        num /= 10;
-    } while (num > 0 && count < 10);
-    while (count > 0)
-        *buf++ = static_cast<char>(static_cast<uint8_t>(digits[--count]) + '0');
-    *buf = 0;
-    return buf;
-}
-
-// BuildCharacterName @ 0x001CE538 (no original name)
-// Copies entered name `index` (0 the hero, 1 Yuko, 2 and 3 the classmates:
-// up to ten 2-byte characters; ASCII ones keep only their second byte) to
-// a buffer as a string.
-void BuildCharacterName(int32_t index)
-{
-    const uint32_t root = *guest::table<uint32_t>(kSaveData);
-    const uint8_t* length = guest::table<uint8_t>(root + 0x6654 + static_cast<uint32_t>(index));
-    const uint8_t* name = guest::table<uint8_t>(root + 0x6604 + static_cast<uint32_t>(index) * 20);
-    uint8_t* out = guest::table<uint8_t>(kNameBuffer);
-    for (int32_t k = 0; k < *length; ++k) {
-        uint8_t lead = name[2 * k];
-        if (lead & 0x80)
-            *out++ = lead;
-        *out++ = name[2 * k + 1];
-    }
-    *out = 0;
-}
-
 // itfMesMngSetVar @ 0x001CE5E8
-// Sets {var index} to a number, a floor ("B2F", "3F", "R" above 1000) or a
-// name from the game's tables.
+// Sets {var index} to a number, a floor ("B2F", "3F", "R" above 1000, in
+// the version's characters: FloorText) or a name from the game's tables.
 void SetVarFormatted(int32_t id, int32_t index, int32_t num, uint64_t type)
 {
     if (type >= 11)
@@ -533,26 +523,12 @@ void SetVarFormatted(int32_t id, int32_t index, int32_t num, uint64_t type)
     switch (static_cast<VarType>(type)) {
     case kVarNumber:
         std::snprintf(buffer, sizeof buffer, "%d", num);
-        storeVariable(instance(id), index, buffer, 0);
+        StoreVariable(instance(id), index, buffer, 0);
         return;
-    case kVarFloor: {
-        char* floor = buffer + 0x10;
-        if (num < 1001) {
-            char* cursor = floor;
-            if (num < 0) {
-                num = static_cast<int32_t>(0u - static_cast<uint32_t>(num));
-                *cursor++ = 'B';
-            }
-            cursor = ConvertZenkakuNumber(num, cursor);
-            cursor[0] = 'F';
-            cursor[1] = 0;
-        } else {
-            floor[0] = 'R';
-            floor[1] = 0;
-        }
-        storeVariable(instance(id), index, floor, 0);
+    case kVarFloor:
+        FloorText(num, buffer + 0x10);
+        StoreVariable(instance(id), index, buffer + 0x10, 0);
         return;
-    }
     case kVarDevil: table = addr(0x003e7328); break;
     case kVarItem: table = addr(0x003e8170); break;
     case kVarSkill: table = addr(0x003e83f0); break;
@@ -565,8 +541,7 @@ void SetVarFormatted(int32_t id, int32_t index, int32_t num, uint64_t type)
         SetVarImmediate(id, index, addr(0x00311850) + static_cast<uint32_t>(num) * 32);
         return;
     case kVarCharacter:
-        BuildCharacterName(num);
-        SetVarImmediate2(id, index, kNameBuffer, static_cast<int32_t>(std::strlen(guestString(kNameBuffer))));
+        SetCharacterName(id, index, num);
         return;
     case kVarUnused:
         return;
@@ -754,15 +729,15 @@ int32_t GetMaxLineWidth(fr::Request* pfont)
 }
 
 // GetFontHandleUnit @ 0x001CF500
-// Lays out a selection's visible options one below the other (10 units
-// apart), as one chain.
+// Lays out a selection's visible options one below the other (kOptionLineGap
+// units apart), as one chain.
 uint32_t GetFontHandleUnit(uint32_t ppstr, int32_t num, uint32_t mask, int32_t x, int32_t y, uint32_t z)
 {
     uint32_t font = 0;
     for (const uint32_t* text = guest::table<uint32_t>(ppstr); num > 0; --num, mask >>= 1, ++text) {
         if ((mask & 1) == 0) {
             font = addressOf(fr::MessageRequest(x, y, 0, 0, 0, 0x80, *text, request(font)));
-            y += request(font)->y_size * 8 + 10;
+            y += request(font)->y_size * 8 + kOptionLineGap;
         }
     }
     if (font) {
@@ -852,7 +827,8 @@ void OpenSpeakerPanel(Instance& pinst)
             int32_t width = s.pfont->w_pxls << 4;
             uint32_t panel = itf::PnlRegist2(itf::kPanelSpkWin2, manager().texture);
             w.spk.address = panel;
-            itf::PnlSetPosition(panel, s.pos.x - 720, s.pos.y - 104, s.pos.x + width + 720, s.pos.y + 232, pinst.z);
+            itf::PnlSetPosition(panel, s.pos.x - 720, s.pos.y - 104, s.pos.x + width + 720, s.pos.y + kSpeakerPanelBottom,
+                               pinst.z);
             itf::PnlSetColor(w.spk.address, 127, 127, 127, 0);
         }
         setStat(pinst, kSpeakerPhaseMask, 0x1000);
@@ -925,8 +901,8 @@ void RequestSelect(int32_t id, int32_t select)
     CommitVarTable(pinst.variable);
     if (pinst.pext)
         fr::frSetExtDic(pinst.pext);
-    uint32_t font = GetFontHandleUnit(addressOf(header.ptr), header.item, sel.mask, sel.pos.x, y + lines * -0xa0 + 0xb4,
-                                      pinst.z);
+    uint32_t font = GetFontHandleUnit(addressOf(header.ptr), header.item, sel.mask, sel.pos.x,
+                                      y - (lines - 1) * kOptionLineHeight + kOptionTopOffset, pinst.z);
     sel.phase = 1;
     sel.lines = static_cast<int16_t>(lines);
     sel.pfont.address = font;
@@ -1281,8 +1257,8 @@ void CalcSelect(Instance& pinst)
     uint32_t stat = pinst.stat;
     switch (s.phase) {
     case 1: {
-        int32_t top = s.pos.y - (s.lines * 160 - 160);
-        int32_t bottom = m.pos.y + m.lines * 160;
+        int32_t top = s.pos.y - (s.lines * kOptionLineHeight - kOptionLineHeight);
+        int32_t bottom = m.pos.y + m.lines * kOptionLineHeight;
         if (m.pfont && top < bottom) {
             SlideUpDownMessage(pinst, -64);
             return;
@@ -1320,7 +1296,7 @@ void CalcSelect(Instance& pinst)
         ChangeFontAlpha(s.pfont.get(), static_cast<uint32_t>(s.alpha));
         return;
     case 4:
-        if (!m.pfont || m.pos.y >= 0xa88) {
+        if (!m.pfont || m.pos.y >= kMessageY) {
             s.phase = -1;
             return;
         }
@@ -1505,7 +1481,7 @@ int32_t CommandSetMesPosDefault()
 {
     int32_t id = scr::scrGetMessageHandle();
     if (id >= 0)
-        SetMesPosition(id, 0x4b0, 0xa88);
+        SetMesPosition(id, 0x4b0, kMessageY);
     return 1;
 }
 
@@ -1575,3 +1551,152 @@ int32_t CommandSetVar()
 
 } // namespace mes
 } // namespace nocturne
+
+// ===========================================================================
+// By version (nocturne/build.hpp): the alternatives the builds choose between
+// ===========================================================================
+
+namespace nocturne::mes {
+
+#if NOCTURNE_JAPANESE
+namespace {
+
+constexpr uint32_t kSaveData = addr(0x0054ea20);   // pointer to the data holding the entered names
+
+// A 2-byte character code, stored high byte first.
+char* put(char* out, uint16_t code)
+{
+    out[0] = static_cast<char>(code >> 8);
+    out[1] = static_cast<char>(code);
+    return out + 2;
+}
+
+} // namespace
+#else
+namespace {
+
+constexpr uint32_t kNameBuffer = addr(0x0056c880);   // BuildCharacterName's output
+constexpr uint32_t kSaveData = addr(0x0054ea20);     // pointer to the data holding the entered names
+
+} // namespace
+#endif
+
+#if NOCTURNE_JAPANESE
+// ConvertZenkakuNumber @ 0x001CFE48
+// Writes num in full-width digits (0x8090 + digit; at most 10) and returns
+// the 2-byte terminator's position. A negative number gives one digit of
+// its (negative) remainder, its second byte wrapping.
+char* ConvertZenkakuNumber(int32_t num, char* buf)
+{
+    int32_t digits[10];
+    int count = 0;
+    do {
+        digits[count++] = num % 10;
+        num /= 10;
+    } while (num > 0 && count < 10);
+    while (count > 0)
+        buf = put(buf, static_cast<uint16_t>(0x8000 | ((0x90 + digits[--count]) & 0xff)));
+    buf[0] = buf[1] = 0;
+    return buf;
+}
+#else
+// ConvertZenkakuNumber @ 0x001CFE48
+// Writes num in decimal (at most 10 digits) and returns the terminator's
+// position. (The Japanese name says full-width digits; the US build writes
+// ASCII.) A negative number gives one digit of its remainder.
+char* ConvertZenkakuNumber(int32_t num, char* buf)
+{
+    int32_t digits[10];
+    int count = 0;
+    do {
+        digits[count++] = num % 10;
+        num /= 10;
+    } while (num > 0 && count < 10);
+    while (count > 0)
+        *buf++ = static_cast<char>(static_cast<uint8_t>(digits[--count]) + '0');
+    *buf = 0;
+    return buf;
+}
+#endif
+
+#if NOCTURNE_JAPANESE
+// itfMesMngSetVar @ 0x001CE5E8: a floor, "B2F", "3F"
+// or "R" (above 1000), in full-width letters.
+void FloorText(int32_t num, char* out)
+{
+    if (num >= 1001) {
+        out = put(out, 0x80b2);   // R
+        out[0] = out[1] = 0;
+        return;
+    }
+    if (num < 0) {
+        num = static_cast<int32_t>(0u - static_cast<uint32_t>(num));
+        out = put(out, 0x80a2);   // B
+    }
+    out = ConvertZenkakuNumber(num, out);
+    out = put(out, 0x80a6);       // F
+    out[0] = out[1] = 0;
+}
+#else
+// itfMesMngSetVar @ 0x001CE5E8: a floor, "B2F", "3F" or "R" (above 1000).
+void FloorText(int32_t num, char* out)
+{
+    if (num >= 1001) {
+        out[0] = 'R';
+        out[1] = 0;
+        return;
+    }
+    if (num < 0) {
+        num = static_cast<int32_t>(0u - static_cast<uint32_t>(num));
+        *out++ = 'B';
+    }
+    out = ConvertZenkakuNumber(num, out);
+    out[0] = 'F';
+    out[1] = 0;
+}
+#endif
+
+#if NOCTURNE_JAPANESE
+// (not ported for this version yet)
+#else
+// BuildCharacterName @ 0x001CE538 (no original name)
+// Copies entered name `index` (0 the hero, 1 Yuko, 2 and 3 the classmates:
+// up to ten 2-byte characters; ASCII ones keep only their second byte) to
+// a buffer as a string.
+void BuildCharacterName(int32_t index)
+{
+    const uint32_t root = *guest::table<uint32_t>(kSaveData);
+    const uint8_t* length = guest::table<uint8_t>(root + 0x6654 + static_cast<uint32_t>(index));
+    const uint8_t* name = guest::table<uint8_t>(root + 0x6604 + static_cast<uint32_t>(index) * 20);
+    uint8_t* out = guest::table<uint8_t>(kNameBuffer);
+    for (int32_t k = 0; k < *length; ++k) {
+        uint8_t lead = name[2 * k];
+        if (lead & 0x80)
+            *out++ = lead;
+        *out++ = name[2 * k + 1];
+    }
+    *out = 0;
+}
+#endif
+
+#if NOCTURNE_JAPANESE
+// itfMesMngSetVar @ 0x001CE5E8: {var index}, entered
+// name num, as the save data keeps it (16 bytes to a name; the length in
+// characters after).
+void SetCharacterName(int32_t id, int32_t index, int32_t num)
+{
+    const uint32_t root = *guest::table<uint32_t>(kSaveData);
+    const uint8_t length = *guest::table<uint8_t>(root + 0x4200 + static_cast<uint32_t>(num));
+    SetVarImmediate2(id, index, root + 0x41c0 + static_cast<uint32_t>(num) * 16, 2 * length);
+}
+#else
+// itfMesMngSetVar @ 0x001CE5E8: {var index}, entered name num, as a string.
+void SetCharacterName(int32_t id, int32_t index, int32_t num)
+{
+    BuildCharacterName(num);
+    SetVarImmediate2(id, index, kNameBuffer,
+                     static_cast<int32_t>(std::strlen(guest::table<char>(kNameBuffer))));
+}
+#endif
+
+} // namespace nocturne::mes

@@ -98,7 +98,7 @@ void setCommandMenuState(int8_t stat);
 void closeCommandMenu();
 void shutdownCommandMenu(uint32_t process);
 void fillCommandLists(CommandMenu& d, Party& my);
-// [version] Who gets the item and summon lists (source/<version>/src/battle/comm_select.cpp).
+// [version] Who gets the item and summon lists.
 bool listsItems(CommandMenu& d, Party& my, bool player);
 bool listsSummons(bool player);
 void placeCommandCursor(CommandMenu& d, int32_t tab, int32_t index);

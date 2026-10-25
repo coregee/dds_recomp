@@ -744,7 +744,7 @@ maniax	chronicle	size	match	name
 00116bb8	00116b98	80	masked	FUN_00116bb8
 00116c30	00116c10	100	masked	FUN_00116c30
 00116c98	00116c78	8	exact	FUN_00116c98
-00116ca0		1316	none	FUN_00116ca0
+00116ca0	00116c80	1316	called	FUN_00116ca0
 001171c8		1116	none	FUN_001171c8
 00117630	00117610	216	masked	FUN_00117630
 00117710	001176f0	44	exact	FUN_00117710
@@ -776,7 +776,7 @@ maniax	chronicle	size	match	name
 00118ca0	00118c78	288	masked	FUN_00118ca0
 00118dc0	00118d98	56	ordered	FUN_00118dc0
 00118df8	00118dd0	32	ordered	FUN_00118df8
-00118e18	00118df0	280	gap	FUN_00118e18
+00118e18	00118df0	280	called	FUN_00118e18
 00118f30	00118f70	324	masked	FUN_00118f30
 00119080	001190c0	60	masked	FUN_00119080
 001190b8	001190f8	116	masked	FUN_001190b8
@@ -798,9 +798,9 @@ maniax	chronicle	size	match	name
 0011be98	0011bed8	176	masked	ps2FieldRunDistanceAngle_0011BE98
 0011bf48	0011bf88	160	masked	FUN_0011bf48
 0011bfe8	0011c028	200	masked	FUN_0011bfe8
-0011c0b8	0011c0f8	1724	gap	FUN_0011c0b8
+0011c0b8	0011c0f8	1724	called	FUN_0011c0b8
 0011c7f8	0011c7a0	320	masked	FUN_0011c7f8
-0011c938	0011c8e0	864	gap	FUN_0011c938
+0011c938	0011c8e0	864	called	FUN_0011c938
 0011cca0	0011cc40	1040	masked	FUN_0011cca0
 0011d0b8	0011d058	332	masked	FUN_0011d0b8
 0011d208		716	none	FUN_0011d208
@@ -819,10 +819,10 @@ maniax	chronicle	size	match	name
 0011f1a8	0011f138	696	masked	FUN_0011f1a8
 0011f468	0011f3f8	168	masked	FUN_0011f468
 0011f510	0011f4a0	96	masked	ps2FieldSpecialEncounterCheck_0011F510
-0011f570	0011f500	1720	gap	FUN_0011f570
+0011f570	0011f500	1720	called	FUN_0011f570
 0011fc58	0011fb60	248	masked	FUN_0011fc58
 0011fd50	0011fc58	292	gap	FUN_0011fd50
-0011fe78	0011fd78	528	gap	FUN_0011fe78
+0011fe78	0011fd78	528	called	FUN_0011fe78
 00120088	0011ff88	148	masked	FUN_00120088
 00120120	00120020	132	masked	ps2FieldInfControllerNative_00120120
 001201a8	001200a8	56	masked	ps2FieldInfControllerNative_001201A8
@@ -842,7 +842,7 @@ maniax	chronicle	size	match	name
 00121008	00120f08	196	ordered	FUN_00121008
 001210d0	00120fd0	360	ordered	FUN_001210d0
 00121240	00121140	196	ordered	FUN_00121240
-00121308	00121208	184	gap	FUN_00121308
+00121308	00121208	184	called	FUN_00121308
 001213c8	001212b8	92	masked	FUN_001213c8
 00121428	00121318	84	masked	FUN_00121428
 00121480	00121370	84	masked	FUN_00121480
@@ -894,10 +894,10 @@ maniax	chronicle	size	match	name
 00123870	00123760	48	ordered	fldEsutoMaClear
 001238a0	00123790	52	ordered	fldEsutoMaStart
 001238d8	001237c8	20	masked	fldEsutoMaChk
-001238f0	001237e0	124	gap	fldAnahoriSelectInit
-00123970	00123850	152	gap	fldAnahoriSelectGet
+001238f0	001237e0	124	called	fldAnahoriSelectInit
+00123970	00123850	152	called	fldAnahoriSelectGet
 00123a10	001238e0	28	masked	fldAnahoriSelectNext
-00123a30	00123900	196	gap	fldAnahoriSelectDel
+00123a30	00123900	196	called	fldAnahoriSelectDel
 00123af8	001239c0	276	masked	FUN_00123af8
 00123c10	00123ad8	1468	masked	ps2FieldMovementEncounterCheck_00123C10
 001241f0	001240b8	36	ordered	FUN_001241f0
@@ -1047,7 +1047,7 @@ maniax	chronicle	size	match	name
 00130a98	00130960	204	masked	FUN_00130a98
 00130b68	00130a30	1868	masked	FUN_00130b68
 001312c8	00131190	228	masked	FUN_001312c8
-001313b0	00131278	6124	gap	FUN_001313b0
+001313b0	00131278	6124	called	FUN_001313b0
 00132c10	00132ae8	12	ordered	FUN_00132c10
 00132c20	00132af8	36	masked	FUN_00132c20
 00132c48	00132b20	228	masked	FUN_00132c48
@@ -1105,7 +1105,7 @@ maniax	chronicle	size	match	name
 00139550	00139428	832	masked	FUN_00139550
 00139898	00139770	388	masked	FUN_00139898
 00139a20	001398f8	864	masked	FUN_00139a20
-00139d90	00139c68	3052	gap	FUN_00139d90
+00139d90	00139c68	3052	called	FUN_00139d90
 0013a9a0	0013a888	3204	masked	FUN_0013a9a0
 0013b670	0013b558	692	masked	FUN_0013b670
 0013b928	0013b810	420	masked	ps2FieldInfControllerNative_0013B928
@@ -1113,7 +1113,7 @@ maniax	chronicle	size	match	name
 0013bfd0	0013beb8	1032	masked	FUN_0013bfd0
 0013c3d8	0013c2c0	788	masked	FUN_0013c3d8
 0013c6f0	0013c5d8	120	masked	ps2FieldInfControllerNative_0013C6F0
-0013c768	0013c650	248	gap	FUN_0013c768
+0013c768	0013c650	248	called	FUN_0013c768
 0013c860	0013c738	320	masked	ps2FieldInfControllerNative_0013C860
 0013c9a0	0013c878	296	masked	ps2FieldEventHitEnd_0013C9A0
 0013cac8	0013c9a0	32	masked	FUN_0013cac8
@@ -1156,7 +1156,7 @@ maniax	chronicle	size	match	name
 001414e8	001413c0	292	masked	FUN_001414e8
 00141610	001414e8	16	masked	FUN_00141610
 00141620	001414f8	312	masked	FUN_00141620
-00141758		1444	none	FUN_00141758
+00141758	00141630	1444	called	FUN_00141758
 00141d10	00141bd8	1204	masked	FUN_00141d10
 001421e8	001420b0	68	masked	FUN_001421e8
 00142230	001420f8	460	masked	FUN_00142230
@@ -1228,7 +1228,7 @@ maniax	chronicle	size	match	name
 00145d38	00145c00	16	masked	FUN_00145d38
 00145d48	00145c10	80	masked	FUN_00145d48
 00145dc0	00145c88	308	masked	FUN_00145dc0
-00145ef8	00145dc0	336	gap	FUN_00145ef8
+00145ef8	00145dc0	336	called	FUN_00145ef8
 00146048	00145f08	364	masked	FUN_00146048
 001461c0	00146080	100	masked	FUN_001461c0
 00146228	001460e8	100	masked	FUN_00146228
@@ -1241,9 +1241,9 @@ maniax	chronicle	size	match	name
 00146ca8	00146b68	116	masked	FUN_00146ca8
 00146d20	00146be0	156	exact	FUN_00146d20
 00146dc0	00146c80	96	masked	FUN_00146dc0
-00146e20	00146ce0	7644	gap	FUN_00146e20
+00146e20	00146ce0	7644	called	FUN_00146e20
 00148c58	00148ad8	364	masked	FUN_00148c58
-00148dc8	00148c48	780	gap	FUN_00148dc8
+00148dc8	00148c48	780	called	FUN_00148dc8
 001490d8	00148f58	320	masked	FUN_001490d8
 00149218	00149098	108	masked	FUN_00149218
 00149288	00149108	8	ordered	fldAutoMapChkMode
@@ -1262,7 +1262,7 @@ maniax	chronicle	size	match	name
 0014a1a0	0014a020	72	masked	FUN_0014a1a0
 0014a1e8	0014a068	344	masked	FUN_0014a1e8
 0014a348	0014a1c8	156	masked	FUN_0014a348
-0014a3e8	0014a268	888	gap	FUN_0014a3e8
+0014a3e8	0014a268	888	called	FUN_0014a3e8
 0014a770	0014a590	708	masked	FUN_0014a770
 0014aa38	0014a858	384	masked	FUN_0014aa38
 0014abb8	0014a9d8	340	masked	FUN_0014abb8
@@ -1308,21 +1308,21 @@ maniax	chronicle	size	match	name
 00150f70	00150d90	164	masked	FUN_00150f70
 00151040	00150e60	900	masked	FUN_00151040
 001513d0	001511f0	1272	masked	FUN_001513d0
-001518d0	001516f0	72	gap	FUN_001518d0
-00151918	00151770	68	gap	FUN_00151918
+001518d0	001516f0	72	called	FUN_001518d0
+00151918	00151770	68	called	FUN_00151918
 00151960	001517b0	64	masked	FUN_00151960
-001519a0		700	none	FUN_001519a0
-00151c68		28	ambiguous	FUN_00151c68
+001519a0	001517f0	700	called	FUN_001519a0
+00151c68	00151ab0	28	called	FUN_00151c68
 00151c88		28	ambiguous	FUN_00151c88
 00151ca8		64	none	FUN_00151ca8
 00151ce8	00151af0	68	masked	FUN_00151ce8
-00151d30	00151b38	184	gap	FUN_00151d30
+00151d30	00151b38	184	called	FUN_00151d30
 00151de8	00151bf0	80	ordered	FUN_00151de8
 00151e38	00151c40	124	masked	FUN_00151e38
 00151eb8	00151cc0	1168	masked	FUN_00151eb8
 00152350	00152158	16	masked	FUN_00152350
 00152360	00152168	1256	masked	FUN_00152360
-00152850		1192	none	FUN_00152850
+00152850	00152658	1192	called	FUN_00152850
 00152d00	00152bf0	24	masked	FUN_00152d00
 00152d18	00152c08	756	masked	FUN_00152d18
 00153010	00152f00	220	masked	FUN_00153010
@@ -1396,10 +1396,10 @@ maniax	chronicle	size	match	name
 00155558	00155410	100	masked	FUN_00155558
 001555c0	00155478	180	masked	FUN_001555c0
 00155678	00155530	972	gap	FUN_00155678
-001559b8	00155870	4352	gap	FUN_001559b8
+001559b8	00155870	4352	called	FUN_001559b8
 00156ae0	00156938	160	masked	FUN_00156ae0
 00156b80	001569d8	624	masked	FUN_00156b80
-00156df0	00156c48	568	gap	FUN_00156df0
+00156df0	00156c48	568	called	FUN_00156df0
 00157038	00156ec0	20	ordered	FUN_00157038
 00157050	00156ed8	8	exact	FUN_00157050
 00157058	00156ee0	204	masked	FUN_00157058
@@ -1408,7 +1408,7 @@ maniax	chronicle	size	match	name
 00157158	00156fe0	8	ordered	FUN_00157158
 00157160	00156fe8	1344	masked	FUN_00157160
 001576b8	00157540	76	masked	FUN_001576b8
-00157708	00157590	2004	gap	FUN_00157708
+00157708	00157590	2004	called	FUN_00157708
 00157ee8	00157d68	8	ordered	FUN_00157ee8
 00157ef0	00157d70	36	masked	FUN_00157ef0
 00157f18	00157d98	232	ordered	FUN_00157f18
@@ -3547,7 +3547,7 @@ maniax	chronicle	size	match	name
 001c6160		32	none	ps2FontSetSize
 001c6180		56	none	FUN_001c6180
 001c6270		136	none	frRelayoutRequest
-001c6300		56	none	frSetSpaceMetric
+001c6300	001c5f18	56	called	frSetSpaceMetric
 001c6338	001c5f48	40	exact	ps2FontSwapColorBytes
 001c6360	001c5f70	60	exact	frConvertVal2N
 001c63a0	001c5fb0	152	exact	FUN_001c63a0
@@ -3555,15 +3555,15 @@ maniax	chronicle	size	match	name
 001c6698	001c62a8	104	masked	FUN_001c6698
 001c6700	001c6310	128	masked	FUN_001c6700
 001c6780	001c6390	216	masked	FUN_001c6780
-001c6858	001c6468	148	gap	frLoadStyle
+001c6858	001c6468	148	called	frLoadStyle
 001c68f0	001c64a8	532	masked	FUN_001c68f0
 001c6b08	001c66c0	92	masked	FUN_001c6b08
-001c6b68		260	none	ps2FontBindContext
-001c6c70		108	none	frDelFontStyle
+001c6b68	001c6720	260	hand	ps2FontBindContext
+001c6c70	001c6808	108	called	frDelFontStyle
 001c6ce0	001c6858	80	masked	frLoadStyleAll
 001c6d30	001c68a8	92	masked	frDelStyleAll
 001c6d90	001c6908	192	masked	FUN_001c6d90
-001c6e50	001c69c8	120	gap	ps2BattleRewardPhaseRecycler_001C6E50
+001c6e50	001c69c8	120	called	ps2BattleRewardPhaseRecycler_001C6E50
 001c6ec8	001c6a38	64	masked	frDestroyFontRequestFade
 001c6f08	001c6a78	236	masked	ps2BattleRewardPhaseRecycler_001C6F08
 001c6ff8	001c6b68	88	masked	frDestroyFontRequestAfter
@@ -3577,7 +3577,7 @@ maniax	chronicle	size	match	name
 001c7660	001c7188	72	masked	frInitTextHandle
 001c76a8	001c71d0	56	exact	frInitFontHandle
 001c76e0	001c7208	328	gap	ps2FontCreateTextGlyph
-001c7828	001c7350	104	gap	ps2FontAppendStringCombined
+001c7828	001c7350	104	called	ps2FontAppendStringCombined
 001c7890	001c73b8	456	gap	ps2FontAppendString
 001c7a60	001c7548	36	exact	frSetDrawSpeed
 001c7a88	001c7570	44	masked	frSetFontSpace
@@ -3593,18 +3593,18 @@ maniax	chronicle	size	match	name
 001c7cb8	001c77a0	324	gap	frDrawEffect
 001c7e00	001c78c0	24	ordered	frDrawFont
 001c7e18	001c78d8	32	masked	frDrawFontEx
-001c7e38	001c78f8	640	gap	frDrawFontEx2
+001c7e38	001c78f8	640	called	frDrawFontEx2
 001c80b8	001c7ad8	80	gap	ps2BattleRewardPhaseRecycler_001C80B8
 001c8108	001c7b28	24	ordered	ps2FontCombineRequest
-001c8120	001c7b40	144	gap	frCombineFontRequestEx
+001c8120	001c7b40	144	called	frCombineFontRequestEx
 001c81b8	001c7ba0	32	masked	ps2FontBindMessageStyle
 001c81d8	001c7bc0	24	ordered	frDelExtDic
 001c8230	001c7c18	52	exact	ps2FontMeasureRequest
 001c8268	001c7c50	80	exact	frGetChainWidth
-001c82b8		248	none	FUN_001c82b8
-001c83b0		60	none	frGetDefaultFontWidth
+001c82b8	001c7ca0	248	gap	FUN_001c82b8
+001c83b0	001c7d90	60	called	frGetDefaultFontWidth
 001c83f0		36	none	frGetFontWidth
-001c8418		60	none	frGetDefaultFontHeight
+001c8418	001c7db0	60	called	frGetDefaultFontHeight
 001c8458		36	none	frGetFontHeight
 001c8480	001c7dd0	12	ordered	frResetStepY
 001c8490	001c7de0	8	ordered	frSetStepY
@@ -3613,22 +3613,22 @@ maniax	chronicle	size	match	name
 001c86a0	001c7fc8	144	masked	frCreateNewHandle
 001c8730	001c8058	36	masked	ps2FontAdvanceMessageLine
 001c8758		112	none	ps2FontAppendSpecialCode
-001c87c8		1264	none	ps2FontParseMessageTag
+001c87c8	001c8080	1264	hand	ps2FontParseMessageTag
 001c8ce0		68	none	frControlCodeLength
 001c8d28		276	none	frCopyMessageLine
 001c8e48		184	none	frCountMessageLines
-001c8f08		508	none	ps2FontParseMessage
+001c8f08	001c8448	508	called	ps2FontParseMessage
 001c9108	001c8630	52	masked	frMessageRequestPlain
 001c9140	001c8668	68	masked	ps2FontMessageRequest
 001c9188	001c86b0	88	masked	ps2FontMessageRequestEx
-001c91e0	001c8708	60	gap	frMessageRequestKeepSpace
+001c91e0	001c8708	60	called	frMessageRequestKeepSpace
 001c9220	001c8748	12	masked	ps2FontTestGlobalFlags
 001c9230	001c8758	24	masked	frSetVariableRequest
 001c9248	001c8770	744	masked	FUN_001c9248
-001c9530	001c8a58	424	gap	FUN_001c9530
+001c9530	001c8a58	424	called	FUN_001c9530
 001c96d8	001c8bf8	488	gap	ps2FontLoadNameBitmapBank
 001c98c0	001c8de0	248	gap	ps2FontReferenceNameBitmapBank
-001c99c0	001c8ee0	216	gap	ps2BattleRewardPhaseRecycler_001C99C0
+001c99c0	001c8ee0	216	called	ps2BattleRewardPhaseRecycler_001C99C0
 001c9a98	001c8fb8	192	gap	ps2FontAppendNameBitmapGlyph
 001c9b58	001c9088	208	gap	ps2FontAppendNameFirst
 001c9c28	001c9148	216	gap	ps2FontAppendNameSecond
@@ -3639,12 +3639,12 @@ maniax	chronicle	size	match	name
 001c9ff8	001c9458	32	masked	FUN_001c9ff8
 001ca018		184	none	FUN_001ca018
 001ca0d0		388	none	ps2FontLinkLetters
-001ca258		64	none	ps2FontLinkSpacedLetters
-001ca298		364	none	ps2FontBuildDrawString
+001ca258	001c9848	64	called	ps2FontLinkSpacedLetters
+001ca298	001c9868	364	called	ps2FontBuildDrawString
 001ca410	001c99f8	32	masked	FUN_001ca410
-001ca430	001c9a18	212	gap	ps2FontBuildPanelString
-001ca508	001c9ae8	212	gap	frStringRequest
-001ca5e0	001c9bb8	200	gap	FUN_001ca5e0
+001ca430	001c9a18	212	called	ps2FontBuildPanelString
+001ca508	001c9ae8	212	called	frStringRequest
+001ca5e0	001c9bb8	200	called	FUN_001ca5e0
 001ca6a8	001c9c80	420	masked	FUN_001ca6a8
 001ca860		296	none	FUN_001ca860
 001ca9c0	001c9e68	8	exact	ps2FontResourceIdentity
@@ -3659,7 +3659,7 @@ maniax	chronicle	size	match	name
 001cad68	001ca210	32	ordered	FUN_001cad68
 001cad88	001ca230	196	masked	FUN_001cad88
 001cae58	001ca300	96	exact	itfMiscLinkInit
-001caeb8	001ca360	92	gap	itfMiscLinkTake
+001caeb8	001ca360	92	called	itfMiscLinkTake
 001caf20	001ca3e0	80	exact	itfMiscLinkGive
 001caf78	001ca438	124	exact	ps2PanelScaleColors
 001cb0d8	001ca598	76	masked	FUN_001cb0d8
@@ -3730,9 +3730,9 @@ maniax	chronicle	size	match	name
 001cd9d8	001cce98	100	ordered	itfMesMngSelectDefKey
 001cda40	001ccf00	244	masked	itfMesMngInitialize
 001cdb38	001ccff8	68	masked	itfMesMngRelease
-001cdb80	001cd040	492	gap	itfMesMngRequestMessage
+001cdb80	001cd040	492	called	itfMesMngRequestMessage
 001cdd78	001cd220	220	masked	itfMesMngRequestMessageRelease
-001cde58	001cd300	296	gap	itfMesMngRequestSelect
+001cde58	001cd300	296	called	itfMesMngRequestSelect
 001cdf80	001cd410	136	masked	itfMesMngRequestSelectRelease
 001ce008	001cd498	32	ordered	itfMesMngSetMaskSelect
 001ce028	001cd4b8	100	masked	itfMesMngSetSelect
@@ -3741,7 +3741,7 @@ maniax	chronicle	size	match	name
 001ce480	001cd910	48	masked	itfMesMngClearBitStat
 001ce510	001cd9a0	40	masked	itfMesMngGetVarLocalize
 001ce538		172	none	ps2MessageBuildCharacterName
-001ce5e8		476	none	itfMesMngSetVar
+001ce5e8	001cd9c8	476	called	itfMesMngSetVar
 001ce7d8	001cdbb8	48	masked	itfMesMngSetVariableString
 001ce808	001cdbe8	44	masked	itfMesMngSetVariableBytes
 001ce838	001cdc18	132	masked	itfMesMngSetResourcePtr
@@ -3793,7 +3793,7 @@ maniax	chronicle	size	match	name
 001cff98	001cf378	56	masked	ps2MessageCalcFlow
 001cffd0	001cf3b0	308	masked	ps2MessageCalcWindow
 001d0118	001cf4f8	412	masked	ps2MessageCalcMessage
-001d02c0	001cf6a0	584	gap	ps2MessageCalcSelect
+001d02c0	001cf6a0	584	called	ps2MessageCalcSelect
 001d0518	001cf908	216	masked	ps2MessageSlide
 001d05f0	001cf9e0	324	masked	ps2MessageSelectItem
 001d0740	001cfb30	168	masked	ps2MessageSelectItemMove
@@ -4120,8 +4120,8 @@ maniax	chronicle	size	match	name
 001e0e08	001e01f8	44	masked	FUN_001e0e08
 001e0e38	001e0228	52	masked	evtBitAllOff
 001e0e70	001e0260	92	masked	FUN_001e0e70
-001e0ed0	001e02c0	60	gap	evtBitOn
-001e0f10	001e0300	64	gap	evtBitOff
+001e0ed0	001e02c0	60	called	evtBitOn
+001e0f10	001e0300	64	called	evtBitOff
 001e0f50	001e0340	48	masked	evtBitCheck
 001e0f80	001e0370	1080	masked	FUN_001e0f80
 001e13c8	001e07b8	180	masked	FUN_001e13c8
@@ -4635,7 +4635,7 @@ maniax	chronicle	size	match	name
 001fba70	001fae60	20	masked	FUN_001fba70
 001fba88	001fae78	112	masked	FUN_001fba88
 001fbaf8	001faee8	1472	masked	FUN_001fbaf8
-001fc0b8	001fb4a8	204	gap	FUN_001fc0b8
+001fc0b8	001fb4a8	204	called	FUN_001fc0b8
 001fc188	001fb570	360	masked	FUN_001fc188
 001fc2f8	001fb6e0	216	masked	FUN_001fc2f8
 001fc3d8	001fb7c0	140	masked	FUN_001fc3d8
@@ -4696,7 +4696,7 @@ maniax	chronicle	size	match	name
 001ff070	001fe458	52	masked	cmbClearSkill
 001ff0a8	001fe490	32	ordered	cmbClearKeisyoSkill
 001ff0c8	001fe4b0	172	masked	ps2CompactStockUnits
-001ff178	001fe560	124	gap	cmbDeleteUnitFromStockList
+001ff178	001fe560	124	called	cmbDeleteUnitFromStockList
 001ff1f8	001fe5d8	32	ordered	cmbAddUnitToStockList
 001ff218	001fe5f8	128	masked	cmbDeleteDevilFromStock
 001ff298	001fe678	144	masked	cmbAddDefaultDevilToStock
@@ -4708,7 +4708,7 @@ maniax	chronicle	size	match	name
 001ff648	001fea28	268	masked	ps2FusionCore_001FF648
 001ff758	001feb38	56	exact	ps2FusionCore_001FF758
 001ff790	001feb70	1236	masked	ps2FusionCore_001FF790
-001ffc78	001ff058	448	gap	FUN_001ffc78
+001ffc78	001ff058	448	called	FUN_001ffc78
 001ffe38	001ff210	152	masked	FUN_001ffe38
 001ffed8	001ff2b0	1348	masked	FUN_001ffed8
 00200428	001ff800	560	masked	FUN_00200428
@@ -4717,14 +4717,14 @@ maniax	chronicle	size	match	name
 002007b8	001ffb90	484	masked	FUN_002007b8
 002009a0	001ffd78	312	masked	FUN_002009a0
 00200ad8	001ffeb0	216	masked	FUN_00200ad8
-00200bb8		432	none	FUN_00200bb8
-00200d68		244	none	FUN_00200d68
-00200e60		516	none	FUN_00200e60
+00200bb8	001fff90	432	called	FUN_00200bb8
+00200d68	00200138	244	called	FUN_00200d68
+00200e60	00200228	516	called	FUN_00200e60
 00201068	00200430	256	masked	FUN_00201068
 00201168	00200530	148	masked	FUN_00201168
 00201200	002005c8	284	masked	FUN_00201200
 00201320	002006e8	84	masked	FUN_00201320
-00201378	00200740	176	gap	FUN_00201378
+00201378	00200740	176	called	FUN_00201378
 00201428	00200810	324	masked	FUN_00201428
 00201570	00200958	176	masked	FUN_00201570
 00201628	00200a10	116	masked	FUN_00201628
@@ -4816,7 +4816,7 @@ maniax	chronicle	size	match	name
 00206c38	00206020	160	masked	FUN_00206c38
 00206cd8	002060c0	96	masked	FUN_00206cd8
 00206d38	00206120	116	ordered	FUN_00206d38
-00206db0	00206198	116	gap	FUN_00206db0
+00206db0	00206198	116	called	FUN_00206db0
 00206e30	00206240	368	masked	FUN_00206e30
 00206fa0	002063b0	116	ordered	FUN_00206fa0
 00207018	00206428	228	masked	FUN_00207018
@@ -4890,7 +4890,7 @@ maniax	chronicle	size	match	name
 0020b3a8	0020a7a8	272	masked	FUN_0020b3a8
 0020b4b8	0020a8b8	228	ordered	FUN_0020b4b8
 0020b5a0	0020a9a0	228	ordered	FUN_0020b5a0
-0020b688	0020aa88	536	gap	FUN_0020b688
+0020b688	0020aa88	536	called	FUN_0020b688
 0020b8a8	0020ac98	708	masked	FUN_0020b8a8
 0020bb70	0020af60	464	masked	FUN_0020bb70
 0020bd40	0020b130	336	ordered	FUN_0020bd40
@@ -4943,11 +4943,11 @@ maniax	chronicle	size	match	name
 0020de70	0020d260	16	exact	ps2RecoveryServiceAppDispel_0020DE70
 0020de80	0020d270	48	masked	ps2RecoveryServiceAppAllRecover_0020DE80
 0020deb0	0020d2a0	160	masked	ps2RecoveryServiceGetDevilAttr_0020DEB0
-0020df50	0020d340	604	gap	FUN_0020df50
+0020df50	0020d340	604	called	FUN_0020df50
 0020e1b0	0020d598	240	masked	FUN_0020e1b0
 0020e2a8	0020d690	484	ordered	FUN_0020e2a8
 0020e490	0020d878	396	masked	FUN_0020e490
-0020e620	0020da08	728	gap	FUN_0020e620
+0020e620	0020da08	728	called	FUN_0020e620
 0020e900	0020dce0	428	masked	FUN_0020e900
 0020eab0	0020de90	120	ordered	FUN_0020eab0
 0020eb28	0020df08	120	ordered	FUN_0020eb28
@@ -5040,7 +5040,7 @@ maniax	chronicle	size	match	name
 00212ab0	00211e90	152	masked	FUN_00212ab0
 00212b48	00211f28	188	masked	FUN_00212b48
 00212c08	00211fe8	172	masked	FUN_00212c08
-00212e28	00212208	416	gap	FUN_00212e28
+00212e28	00212208	416	called	FUN_00212e28
 00212fd0	002123a0	376	masked	FUN_00212fd0
 002131e0	002125b0	80	exact	cmbSortKeisyoSkillCallback
 00213230	00212600	76	exact	cmbDevilSortCallback
@@ -5080,7 +5080,7 @@ maniax	chronicle	size	match	name
 002140a0	00213470	64	masked	FUN_002140a0
 002140e0	002134b0	64	masked	FUN_002140e0
 00214128	002134f8	52	masked	FUN_00214128
-00214160	00213530	212	gap	FUN_00214160
+00214160	00213530	212	called	FUN_00214160
 00214248	00213618	36	masked	FUN_00214248
 00214278	00213648	112	masked	FUN_00214278
 002142f0	002136c0	68	masked	FUN_002142f0
@@ -5101,7 +5101,7 @@ maniax	chronicle	size	match	name
 002146f8	00213ad0	52	masked	FUN_002146f8
 00214730	00213b08	716	masked	FUN_00214730
 00214a08	00213de0	292	masked	FUN_00214a08
-00214b30	00213f08	1180	gap	FUN_00214b30
+00214b30	00213f08	1180	called	FUN_00214b30
 00215010	002143e8	56	exact	FUN_00215010
 00215048	00214420	76	masked	FUN_00215048
 00215098	00214470	60	exact	FUN_00215098
@@ -5131,14 +5131,14 @@ maniax	chronicle	size	match	name
 00216608	002159e0	12	ordered	FUN_00216608
 00216618	002159f0	64	exact	FUN_00216618
 00216658	00215a30	12	ordered	FUN_00216658
-00216668	00215a40	36	gap	FUN_00216668
+00216668	00215a40	36	called	FUN_00216668
 00216690	00215a60	400	masked	FUN_00216690
 00216828	00215bf8	160	masked	FUN_00216828
 002168c8	00215c98	52	masked	FUN_002168c8
 00216900	00215cd0	12	ordered	FUN_00216900
 00216910	00215ce0	264	gap	ps2CompendiumRecords_00216910
-00216a18	00215de0	264	gap	ps2CompendiumRecords_00216A18
-00216b20	00215ee0	88	gap	ps2CompendiumRestore_00216B20
+00216a18	00215de0	264	called	ps2CompendiumRecords_00216A18
+00216b20	00215ee0	88	called	ps2CompendiumRestore_00216B20
 00216b78	00215f38	24	masked	fclEncycGetNum
 00216b90	00215f50	92	masked	fclEncycGetRatio2
 00216bf0	00215fb0	24	ordered	ps2CompendiumRestore_00216BF0
@@ -5175,7 +5175,7 @@ maniax	chronicle	size	match	name
 00218fa8	00218368	332	masked	FUN_00218fa8
 002190f8	002184b8	340	masked	FUN_002190f8
 00219260	00218620	168	exact	FUN_00219260
-00219318	002186d8	232	gap	ps2CompendiumRestore_00219318
+00219318	002186d8	232	called	ps2CompendiumRestore_00219318
 00219400	002187c0	136	masked	ps2CompendiumRecords_00219400
 00219488	00218848	288	masked	FUN_00219488
 002195a8	00218968	40	exact	FUN_002195a8
@@ -5195,16 +5195,16 @@ maniax	chronicle	size	match	name
 0021a0b8		96	none	ps2CompendiumRestore_0021A0B8
 0021a118	002194d8	496	masked	ps2CompendiumRestore_0021A118
 0021a308	002196c8	492	masked	ps2CompendiumRestore_0021A308
-0021a500	002198c0	116	gap	FUN_0021a500
+0021a500	002198c0	116	called	FUN_0021a500
 0021a578	00219930	572	masked	FUN_0021a578
-0021a7b8	00219b70	900	gap	FUN_0021a7b8
+0021a7b8	00219b70	900	called	FUN_0021a7b8
 0021ab40	00219ef8	84	masked	FUN_0021ab40
-0021ab98	00219f50	392	gap	FUN_0021ab98
+0021ab98	00219f50	392	called	FUN_0021ab98
 0021ad20	0021a0c0	104	masked	FUN_0021ad20
 0021ad88	0021a128	80	exact	FUN_0021ad88
 0021add8	0021a178	92	exact	FUN_0021add8
 0021ae38	0021a1d8	64	exact	FUN_0021ae38
-0021ae78	0021a218	664	gap	FUN_0021ae78
+0021ae78	0021a218	664	called	FUN_0021ae78
 0021b118	0021a4b8	148	masked	FUN_0021b118
 0021b1b0	0021a550	156	masked	FUN_0021b1b0
 0021b250	0021a5f0	92	exact	FUN_0021b250
@@ -5224,14 +5224,14 @@ maniax	chronicle	size	match	name
 0021be68	0021b208	256	masked	FUN_0021be68
 0021bf70	0021b310	364	masked	FUN_0021bf70
 0021c0e8	0021b488	336	masked	FUN_0021c0e8
-0021c240	0021b5e0	104	gap	FUN_0021c240
+0021c240	0021b5e0	104	called	FUN_0021c240
 0021c2a8	0021b648	132	exact	FUN_0021c2a8
 0021c338	0021b6d8	256	exact	FUN_0021c338
 0021c450	0021b7f0	124	exact	FUN_0021c450
 0021c4d8	0021b878	76	masked	FUN_0021c4d8
 0021c528	0021b8c8	620	masked	FUN_0021c528
 0021c798	0021bb38	396	masked	FUN_0021c798
-0021c928	0021bcc8	1576	gap	FUN_0021c928
+0021c928	0021bcc8	1576	called	FUN_0021c928
 0021cf50	0021c2f0	612	masked	FUN_0021cf50
 0021d1b8	0021c558	376	masked	FUN_0021d1b8
 0021d330	0021c6d0	512	masked	FUN_0021d330
@@ -5245,7 +5245,7 @@ maniax	chronicle	size	match	name
 0021e008	0021d3a8	780	masked	FUN_0021e008
 0021e328	0021d6c8	260	masked	FUN_0021e328
 0021e430	0021d7d0	516	masked	FUN_0021e430
-0021e638	0021d9d8	208	gap	FUN_0021e638
+0021e638	0021d9d8	208	called	FUN_0021e638
 0021e710	0021daa8	200	masked	FUN_0021e710
 0021e7d8	0021db70	156	masked	FUN_0021e7d8
 0021e878	0021dc10	24	ordered	FUN_0021e878
@@ -5280,7 +5280,7 @@ maniax	chronicle	size	match	name
 0021fd98	0021f130	28	exact	rstAddLevel
 0021fdb8	0021f150	92	masked	FUN_0021fdb8
 0021fe30	0021f1c8	28	masked	rstSetMotionReq
-0021fe50	0021f1e8	224	gap	FUN_0021fe50
+0021fe50	0021f1e8	224	called	FUN_0021fe50
 0021ff38	0021f2f8	16	masked	rstCancelMotionReq
 0021ff48	0021f308	112	masked	rstSetMotionReqFromTbl
 0021ffb8	0021f378	72	masked	rstChkAddSkill
@@ -5391,7 +5391,7 @@ maniax	chronicle	size	match	name
 00224288	002236c8	640	masked	FUN_00224288
 00224510	00223950	88	masked	FUN_00224510
 00224568	002239a8	344	masked	FUN_00224568
-002246c8	00223b08	544	gap	FUN_002246c8
+002246c8	00223b08	544	called	FUN_002246c8
 002248f8	00223f10	232	masked	FUN_002248f8
 002249e8	00224000	460	masked	FUN_002249e8
 00224bc8	002241e0	160	masked	FUN_00224bc8
@@ -5402,7 +5402,7 @@ maniax	chronicle	size	match	name
 002250e0	002246f8	192	masked	FUN_002250e0
 002251a0	002247b8	160	masked	FUN_002251a0
 00225240	00224858	500	masked	FUN_00225240
-00225450	00224a68	248	gap	FUN_00225450
+00225450	00224a68	248	called	FUN_00225450
 00225548	00224b50	496	masked	FUN_00225548
 00225748	00224d50	248	masked	FUN_00225748
 00225848	00224e50	136	masked	FUN_00225848
@@ -5410,7 +5410,7 @@ maniax	chronicle	size	match	name
 00225aa0	002250a8	148	masked	FUN_00225aa0
 00225b38	00225140	40	masked	FUN_00225b38
 00225b60	00225168	424	masked	FUN_00225b60
-00225d18	00225320	228	gap	FUN_00225d18
+00225d18	00225320	228	called	FUN_00225d18
 00225e08	00225410	324	masked	FUN_00225e08
 00225f50	00225558	332	masked	FUN_00225f50
 002260a0	002256a8	36	masked	FUN_002260a0
@@ -5457,8 +5457,8 @@ maniax	chronicle	size	match	name
 0022a490	00229c50	128	masked	FUN_0022a490
 0022a510	00229cd0	80	masked	FUN_0022a510
 0022a560	00229d20	36	ordered	FUN_0022a560
-0022a588	00229d48	708	gap	FUN_0022a588
-0022a850	00229fd8	284	gap	FUN_0022a850
+0022a588	00229d48	708	called	FUN_0022a588
+0022a850	00229fd8	284	called	FUN_0022a850
 0022a970	0022a0c0	180	masked	FUN_0022a970
 0022aa28	0022a178	144	masked	FUN_0022aa28
 0022aac0	0022a210	140	masked	FUN_0022aac0
@@ -5575,7 +5575,7 @@ maniax	chronicle	size	match	name
 002303a8	0022fa28	280	masked	FUN_002303a8
 002304c0	0022fb40	84	masked	FUN_002304c0
 00230518	0022fb98	20	ordered	FUN_00230518
-00230530	0022fbb0	368	gap	FUN_00230530
+00230530	0022fbb0	368	called	FUN_00230530
 00230860	0022fe60	96	masked	FUN_00230860
 002308c0	0022fec0	500	masked	FUN_002308c0
 00230ac0	002300c0	52	masked	FUN_00230ac0
@@ -5587,7 +5587,7 @@ maniax	chronicle	size	match	name
 00231138	00230738	364	masked	FUN_00231138
 002312b0	002308b0	236	masked	FUN_002312b0
 002313a0	002309a0	280	masked	FUN_002313a0
-002314c0	00230ac0	736	gap	FUN_002314c0
+002314c0	00230ac0	736	called	FUN_002314c0
 002317b0	00230da8	472	masked	FUN_002317b0
 00231990	00230f88	376	masked	FUN_00231990
 00231b18	00231110	568	masked	FUN_00231b18
@@ -5648,7 +5648,7 @@ maniax	chronicle	size	match	name
 002341a8	002337a0	484	masked	FUN_002341a8
 00234390	00233988	188	masked	FUN_00234390
 00234450	00233a48	252	masked	FUN_00234450
-00234550	00233b48	344	gap	FUN_00234550
+00234550	00233b48	344	called	FUN_00234550
 002346a8	00233c98	844	masked	FUN_002346a8
 00234a00	00233ff0	76	masked	FUN_00234a00
 00234a50	00234040	112	masked	FUN_00234a50
@@ -5673,7 +5673,7 @@ maniax	chronicle	size	match	name
 00235ab8	002350a8	148	masked	ps2MagatamaIconsUpdate_00235AB8
 00235b50	00235140	248	masked	ps2MagatamaInfoUpdate_00235B50
 00235c50	00235240	240	masked	FUN_00235c50
-00235d40	00235330	64	gap	FUN_00235d40
+00235d40	00235330	64	called	FUN_00235d40
 00235d80	00235360	8	ordered	FUN_00235d80
 00235d88	00235368	12	masked	FUN_00235d88
 00235d98	00235378	8	ordered	FUN_00235d98
@@ -5687,14 +5687,14 @@ maniax	chronicle	size	match	name
 00236490	00235a70	340	masked	FUN_00236490
 002365e8	00235bc8	576	masked	FUN_002365e8
 00236838	00235e18	304	masked	FUN_00236838
-00236968	00235f48	1500	gap	FUN_00236968
+00236968	00235f48	1500	called	FUN_00236968
 00236f50	002364d8	1224	masked	FUN_00236f50
 00237428	002369b0	1064	masked	FUN_00237428
 00237858	00236de0	240	masked	FUN_00237858
 00237950	00236ed8	352	masked	FUN_00237950
 00237ab0	00237038	784	masked	FUN_00237ab0
 00237dc8	00237350	424	masked	FUN_00237dc8
-00237f70	002374f8	1756	gap	FUN_00237f70
+00237f70	002374f8	1756	called	FUN_00237f70
 00238650	00237bb0	84	masked	FUN_00238650
 002386a8	00237c08	112	masked	FUN_002386a8
 00238718	00237c78	88	masked	FUN_00238718
@@ -5706,7 +5706,7 @@ maniax	chronicle	size	match	name
 00238cc8	00238228	1260	gap	FUN_00238cc8
 002391c8	00238710	48	masked	FUN_002391c8
 002391f8	00238740	160	masked	FUN_002391f8
-002392a0	002387e8	152	gap	FUN_002392a0
+002392a0	002387e8	152	called	FUN_002392a0
 00239338	00238848	36	masked	FUN_00239338
 00239360	00238870	140	masked	FUN_00239360
 002393f0	00238900	552	masked	FUN_002393f0
@@ -5773,7 +5773,7 @@ maniax	chronicle	size	match	name
 0023ba18	0023af28	64	exact	FUN_0023ba18
 0023ba58	0023af68	60	exact	FUN_0023ba58
 0023ba98	0023afa8	368	masked	FUN_0023ba98
-0023bc10	0023b120	300	gap	FUN_0023bc10
+0023bc10	0023b120	300	called	FUN_0023bc10
 0023bd40	0023b240	752	masked	FUN_0023bd40
 0023c038	0023b538	48	exact	FUN_0023c038
 0023c068	0023b568	260	masked	FUN_0023c068
@@ -5788,7 +5788,7 @@ maniax	chronicle	size	match	name
 0023cbb0	0023c0b0	188	masked	FUN_0023cbb0
 0023cc70	0023c170	324	masked	FUN_0023cc70
 0023cdb8	0023c2b8	240	masked	FUN_0023cdb8
-0023cea8	0023c3a8	260	gap	FUN_0023cea8
+0023cea8	0023c3a8	260	called	FUN_0023cea8
 0023cfb0	0023c4b0	324	masked	FUN_0023cfb0
 0023d0f8	0023c5f8	308	masked	FUN_0023d0f8
 0023d230	0023c730	444	masked	FUN_0023d230
@@ -5859,8 +5859,8 @@ maniax	chronicle	size	match	name
 00240568	0023fa68	164	masked	FUN_00240568
 00240610	0023fb10	372	masked	FUN_00240610
 00240788	0023fc88	128	masked	FUN_00240788
-00240808	0023fd08	484	gap	cmpReplaceStockGBWK
-002409f0	0023fef0	88	gap	cmpDeleteStockListGBWK
+00240808	0023fd08	484	called	cmpReplaceStockGBWK
+002409f0	0023fef0	88	called	cmpDeleteStockListGBWK
 00240a50	0023ff48	32	ordered	cmpAddStockListGBWK
 00240a70	0023ff68	20	exact	FUN_00240a70
 00240a88	0023ff80	16	exact	FUN_00240a88
@@ -5909,9 +5909,9 @@ maniax	chronicle	size	match	name
 002422e0	002417d8	64	masked	FUN_002422e0
 00242328	00241820	148	exact	FUN_00242328
 002423c0	002418b8	124	exact	FUN_002423c0
-00242440	00241938	468	gap	FUN_00242440
+00242440	00241938	468	called	FUN_00242440
 00242618	00241b10	12	masked	FUN_00242618
-00242628		196	none	FUN_00242628
+00242628	00241b20	196	called	FUN_00242628
 00242760	00241c50	120	masked	FUN_00242760
 002427d8	00241cc8	32	exact	ps2ShopSequenceInitialize_002427D8
 002427f8	00241ce8	92	exact	ps2ShopSequenceStatus_002427F8
@@ -5963,25 +5963,25 @@ maniax	chronicle	size	match	name
 00244410	00243900	88	masked	datCheckItemFull
 00244470	00243960	52	masked	datGetRace
 002444a8	00243998	136	exact	datCheckTalk
-00244530	00243a20	100	gap	datSearchDevilStock
+00244530	00243a20	100	called	datSearchDevilStock
 00244598	00243a78	12	ordered	datGetPlayerLevel
 002445a8	00243a88	24	masked	datCheckPlayerDead
 002445c0	00243aa0	80	masked	ps2UnitPlayerParameter_002445C0
 00244610	00243af0	88	masked	ps2UnitAddPlayerParameter_00244610
 00244668	00243b48	68	masked	ps2UnitCompanionParameter_00244668
 002446b0	00243b90	68	masked	ps2UnitPlayerAlignment_002446B0
-002446f8	00243bd8	196	gap	ps2UnitKillCompanion_002446F8
-002447c0	00243c98	632	gap	ps2FieldSkillPartyDamage_002447C0
-00244a38	00243f00	648	gap	ps2FieldSkillPartyStatusDamage_00244A38
-00244cc0	00244180	276	gap	ps2FieldSkillPartyPipeDamage_00244CC0
+002446f8	00243bd8	196	called	ps2UnitKillCompanion_002446F8
+002447c0	00243c98	632	called	ps2FieldSkillPartyDamage_002447C0
+00244a38	00243f00	648	called	ps2FieldSkillPartyStatusDamage_00244A38
+00244cc0	00244180	276	called	ps2FieldSkillPartyPipeDamage_00244CC0
 00244dd8	00244298	140	masked	ps2FieldSkillPartyRecover_00244DD8
 00244e68	00244328	76	masked	datGet3Zokusei
 00244eb8	00244378	60	masked	datCheckStockFull
 00244ef8	002443b8	292	masked	ps2UnitInitializeCompanion_00244EF8
-00245020	002444e0	352	gap	ps2UnitAddCompanion_00245020
-00245180	00244658	108	gap	ps2UnitAddUniqueCompanion_00245180
+00245020	002444e0	352	called	ps2UnitAddCompanion_00245020
+00245180	00244658	108	called	ps2UnitAddUniqueCompanion_00245180
 002451f0	002446c8	96	masked	ps2UnitFindUniqueCompanion_002451F0
-00245250	00244728	100	gap	datGetUniqueDevilId
+00245250	00244728	100	called	datGetUniqueDevilId
 002452b8	00244790	16	exact	ps2UnitAddExperience_002452B8
 002452c8	002447a0	180	masked	datAddHearts
 00245380	00244858	100	masked	ps2UnitRemoveMagatama_00245380
@@ -6071,14 +6071,14 @@ maniax	chronicle	size	match	name
 00249f78	00249450	32	ordered	FUN_00249f78
 00249f98	00249470	104	ordered	FUN_00249f98
 0024a000	002494d8	92	masked	FUN_0024a000
-0024a060	00249538	500	gap	ps2BattleRewardNative_0024A060
+0024a060	00249538	500	called	ps2BattleRewardNative_0024A060
 0024a258	00249728	60	masked	ps2BattleRewardNative_0024A258
 0024a298	00249768	76	masked	ps2BattleRewardNative_0024A298
 0024a2e8	002497b8	336	masked	ps2BattleRewardLevelupNative_0024A2E8
 0024a440	00249910	2592	gap	ps2BattleRewardLevelupNative_0024A440
 0024ae70	0024a328	300	masked	ps2BattleRewardNative_0024AE70
 0024afa0	0024a458	108	masked	ps2BattleRewardNative_0024AFA0
-0024b010	0024a4c8	3704	gap	ps2BattleRewardPhaseNative_0024B010
+0024b010	0024a4c8	3704	called	ps2BattleRewardPhaseNative_0024B010
 0024be88	0024b330	184	masked	ps2BattleRewardNative_0024BE88
 0024bf40	0024b3e8	172	masked	FUN_0024bf40
 0024bff0	0024b498	112	masked	ps2BattleRewardNative_0024BFF0
@@ -6111,7 +6111,7 @@ maniax	chronicle	size	match	name
 0024d3a0	0024c848	136	masked	nbGetMotionActframe
 0024d428	0024c8d0	100	masked	ps2BattleOutcome_0024D428
 0024d490	0024c938	188	masked	ps2BattleFormation_0024D490
-0024d550	0024c9f8	864	gap	ps2BattleFormation_0024D550
+0024d550	0024c9f8	864	called	ps2BattleFormation_0024D550
 0024d8c0	0024cd68	120	masked	ps2BattleFormation_0024D8C0
 0024d938	0024cde0	68	masked	FUN_0024d938
 0024d980	0024ce28	612	masked	nbReturnUnit
@@ -6256,17 +6256,17 @@ maniax	chronicle	size	match	name
 00258ce0	00257f68	256	masked	FUN_00258ce0
 00258de8	00258070	540	masked	nbGetTargetTypeRuleArea
 00259018	002582a0	352	masked	nbSetNormalSkill0
-00259180	00258408	224	gap	ps2BattleRoster_00259180
+00259180	00258408	224	called	ps2BattleRoster_00259180
 00259268	002584e8	64	masked	nbSetDevilNameMes
 002592b0	00258530	76	masked	ps2BattleAction_002592B0
 00259300	00258580	24	exact	ps2BattleAction_00259300
 00259318	00258598	380	masked	nbGetModelColor
 002594b0	00258730	236	masked	ps2BattleRoster_002594B0
-002595a0	00258820	180	gap	nbGetRandamStock
+002595a0	00258820	180	called	nbGetRandamStock
 00259658	002588c8	120	masked	nbSetEncounterAndReset
 002596d0	00258940	112	masked	nbClearCommandMemeoyRenzoku
 00259740	002589b0	456	masked	ps2BattleFormation_00259740
-00259908	00258b78	288	gap	FUN_00259908
+00259908	00258b78	288	called	FUN_00259908
 00259a30	00258c98	44	exact	nbGetUnitID
 00259a60	00258cc8	80	masked	nbGetUnitVisual
 00259ab0	00258d18	96	masked	nbCheckEventDead
@@ -6291,11 +6291,11 @@ maniax	chronicle	size	match	name
 0025aee0	0025a148	488	masked	FUN_0025aee0
 0025b0c8	0025a330	812	masked	FUN_0025b0c8
 0025b408	0025a670	388	exact	AnimeCommandList
-0025b598	0025a800	592	gap	FUN_0025b598
-0025b7f0	0025aa38	232	gap	FUN_0025b7f0
-0025b8d8	0025ab10	200	gap	FUN_0025b8d8
-0025b9a0	0025abb8	536	gap	FUN_0025b9a0
-0025bbc8	0025add0	800	gap	FUN_0025bbc8
+0025b598	0025a800	592	called	FUN_0025b598
+0025b7f0	0025aa38	232	called	FUN_0025b7f0
+0025b8d8	0025ab10	200	called	FUN_0025b8d8
+0025b9a0	0025abb8	536	called	FUN_0025b9a0
+0025bbc8	0025add0	800	called	FUN_0025bbc8
 0025bf08	0025afe8	636	masked	FUN_0025bf08
 0025c190	0025b270	72	exact	CheckSelectError
 0025c1d8	0025b2b8	288	masked	MemoryCommand
@@ -6307,7 +6307,7 @@ maniax	chronicle	size	match	name
 0025c8d0	0025b9b0	56	masked	nbCloseCommSel
 0025c908	0025b9e8	544	masked	nbCommSelProcess1
 0025cb40	0025bc20	60	masked	nbCommSelShutdown
-0025cb80	0025bc60	1624	gap	SetCommList
+0025cb80	0025bc60	1624	called	SetCommList
 0025d1e8	0025c2c8	184	masked	SetPrevCursor
 0025d2a0	0025c380	524	masked	SetCommCursor2
 0025d4c0	0025c5a0	60	masked	nbSetAutoCommSel
@@ -6475,7 +6475,7 @@ maniax	chronicle	size	match	name
 002658b8	00264998	140	masked	nbCheckKoukaJyoken
 00265948	00264a28	1880	gap	nbGetKoukaType
 002660c0	002651b8	108	masked	nbAddHpMp
-00266130	00265228	528	gap	nbGetAisyoRitu
+00266130	00265228	528	called	nbGetAisyoRitu
 00266350	00265460	1276	masked	nbGetKoukaHp
 00266878	00265988	1012	masked	nbGetKoukaMp
 00266c90	00265da0	68	ordered	nbGetHpDrainRitu
@@ -6938,7 +6938,7 @@ maniax	chronicle	size	match	name
 00279e20	00278f58	236	masked	ps2BattlePanelDrawScaledTextureXY_00279E20
 00279f10	00279048	300	masked	ps2BattlePanelDrawPivotScaledTexture_00279F10
 0027a040	00279178	148	masked	ps2BattlePanelDrawNumber
-0027a0d8	00279210	360	gap	ps2BattlePanelDrawName
+0027a0d8	00279210	360	called	ps2BattlePanelDrawName
 0027a240	00279378	80	masked	ps2BattlePanelCenterFontRequest_0027A240
 0027a290	002793c8	132	masked	nbPanelHPColor
 0027a318	00279450	92	exact	nbPanelMPColor
@@ -6947,7 +6947,7 @@ maniax	chronicle	size	match	name
 0027a630	00279768	400	masked	ps2BattlePanelDrawScaledGradientRect_0027A630
 0027a7c0	002798f8	640	masked	ps2BattlePanelDrawCurveHighlight_0027A7C0
 0027aa40	00279b78	204	masked	ps2BattleDrawEmptyPartyRow
-0027ab10	00279c48	3220	gap	nbPanelDrawPP1
+0027ab10	00279c48	3220	called	nbPanelDrawPP1
 0027b7a8	0027a8d0	2672	masked	nbPanelDrawPP
 0027c230	0027b358	56	masked	nbPanelPressGaugeInit
 0027c268	0027b390	36	masked	FUN_0027c268
@@ -6968,14 +6968,14 @@ maniax	chronicle	size	match	name
 0027fa70	0027eb98	8	ordered	FUN_0027fa70
 0027fa78	0027eba0	12	ordered	nbPanelStockEnd
 0027fa88	0027ebb0	12	ordered	nbPanelStockFadeOut
-0027fa98	0027ebc0	264	gap	nbPanelStockSelectInit
+0027fa98	0027ebc0	264	called	nbPanelStockSelectInit
 0027fba0	0027ecc0	360	masked	nbPanelStockSelectCtrl
 0027fd18	0027ee38	2020	masked	nbPanelStockSelect
 00280508	0027f628	16	ordered	nbPanelAnalyzeInit
 00280518	0027f638	16	ordered	nbPanelAnalyzeStart
 00280528	0027f648	16	ordered	nbPanelAnalyzeEnd
 00280538	0027f658	8	ordered	ps2BattlePanelSetAnalyzeUnit_00280538
-00280540	0027f660	6316	gap	nbPanelAnalyzeRun
+00280540	0027f660	6316	called	nbPanelAnalyzeRun
 00281e10	00280ef8	24	masked	nbPanelAutoShow
 00281e28	00280f10	8	ordered	ps2BattlePanelHideHookA
 00281e30	00280f18	8	ordered	nbPanelAutoCheckShow
@@ -7134,7 +7134,7 @@ maniax	chronicle	size	match	name
 00288d10	00287df8	52	masked	nbCommand_BTL_AI_CHANGE_OFF
 00288d48	00287e30	56	masked	nbCommand_BTL_AI_CHANGE_ON
 00288d80	00287e68	152	masked	nbInitAiScript
-00288e18	00287f00	492	gap	nbDispText
+00288e18	00287f00	492	called	nbDispText
 00289008	002880f0	56	ordered	nbDispSkillName
 00289040	00288128	56	ordered	nbDispItemName
 00289078	00288160	56	masked	nbDispMiscActionName
@@ -7283,7 +7283,7 @@ maniax	chronicle	size	match	name
 0028fe48	0028ef18	124	masked	nbEventProcess1
 0028fec8	0028ef98	232	masked	nbEventShutdown
 0028ffb0	0028f080	152	masked	nbInitEventProcess
-00290048	0028f118	88	gap	CheckDeadUnit
+00290048	0028f118	88	called	CheckDeadUnit
 002900a0	0028f168	72	exact	CheckDeadUnit2
 002900e8	0028f1b0	76	exact	CheckMaxHp
 00290138	0028f200	76	exact	CheckMaxMp
@@ -7429,19 +7429,19 @@ maniax	chronicle	size	match	name
 00297960		48	none	FUN_00297960
 00297990	002969f0	168	masked	FUN_00297990
 00297a38	00296a98	40	masked	FUN_00297a38
-00297a60	00296ac0	60	gap	FUN_00297a60
+00297a60	00296ac0	60	called	FUN_00297a60
 00297aa0	00296af8	8	ordered	FUN_00297aa0
 00297aa8	00296b28	44	masked	FUN_00297aa8
-00297ad8	00296b58	320	gap	FUN_00297ad8
+00297ad8	00296b58	320	called	FUN_00297ad8
 00297c20	00296c68	92	masked	FUN_00297c20
 00297c80	00296cc8	80	exact	FUN_00297c80
-00297cd0	00296d18	224	gap	FUN_00297cd0
+00297cd0	00296d18	224	called	FUN_00297cd0
 00297db8	00296e00	272	masked	FUN_00297db8
 00297ec8	00296f10	152	masked	FUN_00297ec8
 00297f68	00296fb0	152	masked	FUN_00297f68
 00298008	00297050	72	masked	FUN_00298008
-00298050	00297098	240	gap	FUN_00298050
-00298140	00297188	820	gap	FUN_00298140
+00298050	00297098	240	called	FUN_00298050
+00298140	00297188	820	called	FUN_00298140
 00298478	00297450	100	masked	FUN_00298478
 002984e0	002974b8	276	masked	FUN_002984e0
 00298600	002975d8	64	ordered	FUN_00298600
@@ -7450,8 +7450,8 @@ maniax	chronicle	size	match	name
 00298748	00297720	80	masked	FUN_00298748
 00298798	00297770	196	ordered	FUN_00298798
 00298860		196	ambiguous	FUN_00298860
-00298928		996	none	FUN_00298928
-00298d10		484	none	FUN_00298d10
+00298928	00297838	996	called	FUN_00298928
+00298d10	00297be0	484	called	FUN_00298d10
 00298ef8	00297db8	160	masked	FUN_00298ef8
 00298f98	00297e58	64	masked	FUN_00298f98
 00298fd8		440	none	FUN_00298fd8
@@ -7469,11 +7469,11 @@ maniax	chronicle	size	match	name
 00299f90	00299728	288	gap	FUN_00299f90
 0029a0b8	00299870	76	masked	FUN_0029a0b8
 0029a1b0	00299968	272	masked	FUN_0029a1b0
-0029a2c8	00299a80	524	gap	FUN_0029a2c8
-0029a430	00299be8	276	gap	FUN_0029a430
+0029a2c8	00299a80	524	called	FUN_0029a2c8
+0029a430	00299be8	276	called	FUN_0029a430
 0029a548	00299d00	52	masked	FUN_0029a548
 0029a580	00299d38	264	masked	FUN_0029a580
-0029a690		60	none	FUN_0029a690
+0029a690	00299e48	60	called	FUN_0029a690
 0029a6c8	00299f60	496	masked	FUN_0029a6c8
 0029a8d0	0029a168	364	masked	FUN_0029a8d0
 0029aa48	0029a2e0	240	masked	FUN_0029aa48
@@ -7481,7 +7481,7 @@ maniax	chronicle	size	match	name
 0029acd0	0029a568	268	masked	FUN_0029acd0
 0029ade8	0029a680	8	exact	FUN_0029ade8
 0029adf0	0029a688	124	masked	FUN_0029adf0
-0029ae70	0029a708	424	gap	FUN_0029ae70
+0029ae70	0029a708	424	called	FUN_0029ae70
 0029b028	0029a8c8	36	masked	FUN_0029b028
 0029b050	0029a8f0	84	masked	FUN_0029b050
 0029b0a8	0029a948	64	masked	FUN_0029b0a8
@@ -7526,7 +7526,7 @@ maniax	chronicle	size	match	name
 0029b980	0029b220	64	masked	FUN_0029b980
 0029b9c0	0029b260	184	masked	FUN_0029b9c0
 0029ba80	0029b320	92	exact	FUN_0029ba80
-0029bae0	0029b380	36	gap	dds3CheckConfigBit
+0029bae0	0029b380	36	called	dds3CheckConfigBit
 0029bb08	0029b3a0	248	masked	FUN_0029bb08
 0029bc00	0029b498	716	masked	FUN_0029bc00
 0029bed0	0029b768	304	masked	FUN_0029bed0
@@ -7535,7 +7535,7 @@ maniax	chronicle	size	match	name
 0029c2b0	0029bb48	388	masked	FUN_0029c2b0
 0029c438	0029bcd0	576	masked	FUN_0029c438
 0029c680	0029bf18	124	masked	FUN_0029c680
-0029c700	0029bf98	600	gap	FUN_0029c700
+0029c700	0029bf98	600	called	FUN_0029c700
 0029c958	0029c1f0	28	ordered	FUN_0029c958
 0029c978	0029c210	36	masked	FUN_0029c978
 0029c9a0	0029c238	212	masked	FUN_0029c9a0

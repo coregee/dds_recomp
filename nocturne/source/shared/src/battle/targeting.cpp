@@ -8,6 +8,8 @@
 #include "nocturne/data/tables.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
+#include "nocturne/build.hpp"
+#include "nocturne/hardtype.hpp"
 
 namespace nocturne::nb {
 
@@ -151,5 +153,46 @@ bool markTargetable(int32_t partyIndex, int32_t type, int32_t rule, int32_t area
     }
     return select.friendcnt + select.enemycnt != 0;
 }
+
+} // namespace nocturne::nb
+
+// ===========================================================================
+// By version (nocturne/build.hpp): the alternatives the builds choose between
+// ===========================================================================
+
+namespace nocturne::nb {
+
+#if NOCTURNE_HARDTYPE
+// nbGetTargetTypeRuleArea @ 0x00258DE8 (and 0x2FEAB0, 0x2FEA60): called by
+// the AI's target choice (its return address 0x287AAC), skills 0x45 and 0x46
+// have their type and rule flipped by bit 1 of the option byte.
+void adjustSkillTarget(int32_t skill, bool fromAi, uint8_t& targettype, uint8_t& targetrule)
+{
+    if (!fromAi || (skill != 0x45 && skill != 0x46))
+        return;
+    const uint8_t flip = static_cast<uint8_t>(hardtype::byteAt(hardtype::kOptions) >> 1);
+    targettype ^= flip;
+    targetrule ^= flip;
+}
+#else
+// nbGetTargetTypeRuleArea @ 0x00258DE8: a skill's target type and rule as
+// its record has them.
+void adjustSkillTarget(int32_t, bool, uint8_t&, uint8_t&) {}
+#endif
+
+#if NOCTURNE_HARDTYPE
+// ... (and 0x2FE2F0) a summon by anyone but the Demi-fiend (his unit in the
+// global work) targets rule 1.
+int32_t summonRule(const UnitWork& unit, const MainProcessData& main)
+{
+    if (guest::addressOf(&unit) != hardtype::kDemiFiend)
+        return 1;
+    return main.playerpcnt < 4 ? 12 : 2;
+}
+#else
+// ... a summon targets the empty party slots (rule 12) while the party has
+// fewer than four, else rule 2.
+int32_t summonRule(const UnitWork&, const MainProcessData& main) { return main.playerpcnt < 4 ? 12 : 2; }
+#endif
 
 } // namespace nocturne::nb

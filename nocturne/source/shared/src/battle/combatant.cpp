@@ -9,6 +9,8 @@
 #include "nocturne/external.hpp"
 #include "nocturne/facility/compendium.hpp"
 #include "nocturne/interface/message.hpp"
+#include "nocturne/build.hpp"
+#include "nocturne/hardtype.hpp"
 
 namespace nocturne::nb {
 
@@ -251,5 +253,26 @@ int32_t motionEndData(const Formation& form, int32_t motion)
 {
     return unitVisual(*GetUnitWorkFromFormindex(form.formindex)).motion[motion].enddata;
 }
+
+} // namespace nocturne::nb
+
+// ===========================================================================
+// By version (nocturne/build.hpp): the alternatives the builds choose between
+// ===========================================================================
+
+namespace nocturne::nb {
+
+#if NOCTURNE_HARDTYPE
+// nbCheckSkillCost @ 0x00269170 (and 0x2FE080, 0x2FE110), nbCheckSkillUse @
+// 0x00269280 (and 0x2FDC20): the acting skill noted, if any (hardtype.hpp).
+int32_t checkedSkill(int32_t skill)
+{
+    const uint16_t acting = hardtype::actingSkill();
+    return acting != 0 ? acting : skill;
+}
+#else
+// nbCheckSkillCost @ 0x00269170, nbCheckSkillUse @ 0x00269280: the skill asked about.
+int32_t checkedSkill(int32_t skill) { return skill; }
+#endif
 
 } // namespace nocturne::nb

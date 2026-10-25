@@ -20,6 +20,7 @@
 #include "nocturne/data/unit.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
+#include "nocturne/build.hpp"
 
 namespace nocturne::nb {
 
@@ -660,5 +661,25 @@ const TalkStep kOpeningSteps[40] = {
 
 // nbNegoFlowOne @ 0x0026EAD8
 int32_t openingFlow(TalkState& n) { return kOpeningSteps[n.talkId & 0xffff](n); }
+
+} // namespace nocturne::nb
+
+// ===========================================================================
+// By version (nocturne/build.hpp): the alternatives the builds choose between
+// ===========================================================================
+
+namespace nocturne::nb {
+
+#if NOCTURNE_HARDTYPE
+// Flow1_10 @ 0x0026D190 (and 0x2FEF80): a boss battle (stat 1), or an
+// encounter with flag 0x40.
+bool battleRefusesTalk(const MainProcessData& data)
+{
+    return (dat::encount(data.encno).flag & 0x40) || (data.stat & 1);
+}
+#else
+// Flow1_10 @ 0x0026D190: a boss battle (stat 1).
+bool battleRefusesTalk(const MainProcessData& data) { return (data.stat & 1) != 0; }
+#endif
 
 } // namespace nocturne::nb

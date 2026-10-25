@@ -3,6 +3,7 @@
 
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
+#include "nocturne/build.hpp"
 
 namespace nocturne::nb {
 
@@ -133,5 +134,44 @@ Float buffMultiplier(int32_t formindex, int32_t type)
         result = result * 2.5f;
     return result;
 }
+
+} // namespace nocturne::nb
+
+// ===========================================================================
+// By version (nocturne/build.hpp): the alternatives the builds choose between
+// ===========================================================================
+
+namespace nocturne::nb {
+
+#if NOCTURNE_HARDTYPE
+namespace {
+
+// Presumably meant to tell the sides apart by the address of their counters:
+// at or past 0xDB00 in the low half, raised stats reach 4 and lowered ones
+// stop at -2; below, 2 and -4. But the sum is of two registers each caller
+// leaves differently: nbSetHojoAddCounter the counters' address plus the new
+// value, CheckHojo the party's address plus the number of parties, and the
+// AI's checks (nbAiChkEnHojoMax, nbAiChkFrHojoMax) 128 x the slot plus 1,
+// always below.
+bool highKey(uint32_t callerKey) { return (callerKey & 0xffff) >= 0xdb00; }
+
+} // namespace
+#endif
+
+#if NOCTURNE_HARDTYPE
+// nbGetHojoCounterMax @ 0x00267EC8 (and 0x2FF210)
+int32_t statBuffMax(uint32_t callerKey) { return highKey(callerKey) ? 4 : 2; }
+#else
+// nbGetHojoCounterMax @ 0x00267EC8, nbGetHojoCounterMin @ 0x00267F18: the
+// stat counters go from -4 to 4.
+int32_t statBuffMax(uint32_t) { return 4; }
+#endif
+
+#if NOCTURNE_HARDTYPE
+// nbGetHojoCounterMin @ 0x00267F18 (and 0x2FF1E0)
+int32_t statBuffMin(uint32_t callerKey) { return highKey(callerKey) ? -2 : -4; }
+#else
+int32_t statBuffMin(uint32_t) { return -4; }
+#endif
 
 } // namespace nocturne::nb

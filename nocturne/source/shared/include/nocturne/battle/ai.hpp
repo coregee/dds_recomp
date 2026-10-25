@@ -57,7 +57,7 @@ bool cannotAfford(ActionProcessData& act, int32_t skill);           // nbAiChkSk
 // narrows the targets an earlier one picked.
 bool condition(ActionProcessData& act, uint32_t condition);
 
-// [version] Where versions differ (source/<version>/src/battle/ai.cpp):
+// [version] Where versions differ:
 bool versionCondition(int32_t type, int32_t n, bool& holds);   // a condition type of the version's own (false: none)
 uint32_t& selectionAfterCondition(ActionProcessData& act, int32_t type);   // what a holding condition narrows
 void clearSelectionForCheck(ActionProcessData& act, int32_t index);        // nbAiAiChk's start

@@ -22,7 +22,7 @@ from mips import disassemble  # noqa: E402
 def main():
     name = sys.argv[1]
     wanted = set(a.lower() for a in sys.argv[2:])
-    base_start, base = mf.code_words(*mf.load(mf.EXECUTABLES['maniax']))
+    base_start, base = mf.code_words(*mf.load(mf.EXECUTABLES['maniax-us']))
     other_start, other = mf.code_words(*mf.load(mf.EXECUTABLES[name]))
     rows = [line.split('\t') for line in open(os.path.join(mf.ROOT, 'reference/versions/%s-function-map.tsv' % name),
                                              encoding='utf-8').read().splitlines()[1:]]

@@ -18,7 +18,7 @@ int32_t cappedExp(int32_t index, int32_t exp);
 void grantSpoils(MainProcessData& main);
 
 // [version] A stock demon's share of `exp` (false: none)
-// (source/<version>/src/battle/result.cpp).
+//.
 bool stockExpShare(const UnitWork& unit, int32_t& exp);
 
 } // namespace nocturne::nb

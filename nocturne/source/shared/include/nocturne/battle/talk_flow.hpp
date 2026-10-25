@@ -74,7 +74,7 @@ bool moonproof(uint16_t devil);
 // 0x4EF468 for any other group: none in the game, the tests' stand-in).
 int32_t runTalkStep(TalkState& n);
 // [version] Flow1_10: a battle whose demons won't talk, as with bosses
-// (source/<version>/src/battle/talk_opening.cpp).
+//.
 bool battleRefusesTalk(const MainProcessData& data);
 
 // ---- group 1: the opening (NbNegoFlowOne) ----

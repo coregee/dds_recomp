@@ -35,7 +35,7 @@ void setBuffCounter(int32_t formindex, int32_t type, int32_t value);  // nbSetHo
 // leave in two registers; each caller says what that is).
 int32_t buffMax(int32_t type, uint32_t callerKey);
 int32_t buffMin(int32_t type, uint32_t callerKey);
-// [version] The limits of the stat counters, 4..8 (source/<version>/src/battle/buffs.cpp).
+// [version] The limits of the stat counters, 4..8.
 int32_t statBuffMax(uint32_t callerKey);
 int32_t statBuffMin(uint32_t callerKey);
 

@@ -98,7 +98,7 @@ int32_t updateTargetSelect(ActionProcessData& a);
 void enterStockSelect(ActionProcessData& a);
 uint8_t hitEffectByte(int32_t skill, int32_t n);   // SkillHitEffect (0x3DBD20): 4 bytes per skill
 void enterReady(ActionProcessData& a);
-// [version] READY's skill (source/<version>/src/battle/action.cpp): the
+// [version] READY's skill: the
 // skill played for the one chosen, the motion types of skills and summons,
 // the skill whose effect data is used, the skill the effect starts as.
 int32_t readySkill(int32_t skill);

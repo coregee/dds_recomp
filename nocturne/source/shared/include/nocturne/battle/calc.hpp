@@ -100,7 +100,7 @@ bool rollPanicAction(const UnitWork& unit);                          // nbCheckB
 bool isPartyPetrified();                                             // nbCheckBadStatusGameOver
 void updateHpModelScale(Formation& form);                            // nbSetHpScale
 const UnitVisual& unitVisual(const UnitWork& unit);                  // (unnamed, 0x259A60)
-// [version] The model a devil is drawn with (source/<version>/src/battle/calc.cpp).
+// [version] The model a devil is drawn with.
 int32_t visualModel(int32_t id);
 
 // ---- Encounter flow -------------------------------------------------------

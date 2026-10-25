@@ -6,7 +6,7 @@
 #include <algorithm>
 
 #include "nocturne/address.hpp"
-#include "nocturne/version_constants.hpp"
+#include "nocturne/build.hpp"
 #include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/calc.hpp"
@@ -20,6 +20,10 @@
 namespace nocturne::nb {
 
 namespace {
+
+// The music RunSeKouka stops when the event boss's repelled skill 0x107
+// ends (an effect MIDI): Dante's fight, Raidou's in the Chronicle Edition.
+constexpr uint32_t kRepelledSkillMusic = kBuild.chronicle ? 0x1c040000 : 0x1c070000;
 
 constexpr uint32_t kQueueName = addr(0x00544350);         // "nb_kouka"
 constexpr uint32_t kStockPanelFading = addr(0x00551208);  // uint32 (gp-relative): the stock panel fades out

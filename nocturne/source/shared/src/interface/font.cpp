@@ -18,33 +18,18 @@ namespace nocturne::fr {
 
 namespace {
 
-// The JP builds' font engine differs (docs/versions.md) and isn't ported
-// yet: what only the US engine has is optionalAddr (0 there).
+// What differs by version is in each version's font_layout.cpp
+// (docs/versions.md).
 constexpr uint32_t kSettings = addr(0x0054f404);
 constexpr uint32_t kStyles = addr(0x0056ba30);
 constexpr uint32_t kTextureCells = addr(0x0056b668);
 constexpr uint32_t kStyleAdvance = addr(0x00326060);   // int8 per style: the default advance
-constexpr uint32_t kLastCode = optionalAddr(0x0054ea00);   // uint16: the last character laid out
 constexpr uint32_t kDecodedBytes = addr(0x00551ea0);   // int32: bytes the last glyph decoded to
-constexpr uint32_t kCodes416 = optionalAddr(0x00325b10);   // uint16[416]
-constexpr uint32_t kCodes264 = optionalAddr(0x00325e50);   // uint16[264]
 constexpr uint32_t kDrawOt = addr(0x0054f420);         // the ordering table texts are drawn into
 
-// Counters and pools (0x56BB74).
-struct Tables {
-    int32_t glyphs;              // cached glyphs
-    int32_t texts;
-    int32_t requests;
-    Ptr32<PoolNode> text_pool;
-    Ptr32<PoolNode> request_pool;
-    uint32_t unknown_88, unknown_8c;
-    int32_t texture_width;       // in pixels
-    int32_t unknown_94, unknown_98, unknown_9c;
-    int32_t texture_base;        // in 64-word blocks (TBP)
-};
-constexpr uint32_t kTables = optionalAddr(0x0056bb74);
+// The counters follow the nine styles, as the original addresses them.
+constexpr uint32_t kTables = kStyles + 9 * sizeof(Style);
 
-Tables& tables() { return *guest::table<Tables>(kTables); }
 TextureCells& textureCells() { return *guest::table<TextureCells>(kTextureCells); }
 uint32_t addressOf(const void* p) { return guest::addressOf(p); }
 template <class T> T* at(uint32_t address) { return address ? guest::table<T>(address) : nullptr; }
@@ -61,6 +46,8 @@ template <class F> void forEachText(Request* pFRQ, F f)
 
 Settings& settings() { return *guest::table<Settings>(kSettings); }
 Style& style(int32_t index) { return guest::table<Style>(kStyles)[index]; }
+Tables& tables() { return *guest::table<Tables>(kTables); }
+int32_t defaultAdvance(uint8_t s) { return guest::table<int8_t>(kStyleAdvance)[s]; }
 
 // ---- pools ---------------------------------------------------------------------------------
 
@@ -151,55 +138,6 @@ void frInitFontHandle(Request& pFRQ)
 
 // ---- fonts ---------------------------------------------------------------------------------
 
-namespace {
-constexpr uint32_t kStyleLoaded = optionalAddr(0x003261e8);   // int32 per style: 1 once loaded
-int32_t& loaded(uint8_t s) { return guest::table<int32_t>(kStyleLoaded)[s]; }
-} // namespace
-
-// ps2FontBindContext @ 0x001C6B68 (no original name)
-// Points a style at a font file: given by address, or by the memory handle
-// holding it (kept, to free it with the style).
-void BindStyle(uint8_t styleIndex, uint32_t data, uint32_t handle)
-{
-    if (!data && handle)
-        data = mem::HandleAcquirePointer(handle);
-    Style& s = style(styleIndex);
-    const FontHeader& header = *guest::table<FontHeader>(data);
-    uint32_t offset = header.header_size;
-    s.handle = handle;
-    s.data.address = data;
-    offset += static_cast<uint32_t>(header.palettes) << 6;
-    if (header.metrics) {
-        for (int k = 0; k < 2; ++k) {
-            const uint32_t table = data + offset;
-            const int32_t size = *guest::table<int32_t>(table);
-            s.metric[k] = table + 4;
-            s.metric_size[k] = size;
-            offset += static_cast<uint32_t>(size) + 4;
-        }
-    } else {
-        s.metric[0] = s.metric[1] = 0;
-        s.metric_size[0] = s.metric_size[1] = 0;
-    }
-    s.cache = data + offset;
-    offset += static_cast<uint32_t>(s.data->glyphs) << 2;
-    s.glyphs = data + offset;
-    s.names = s.data->names ? data + s.data->names : 0;
-}
-
-// frLoadStyle @ 0x001C6858 (no original name)
-// Loads a font file into a style, once. Style 1 shares style 0's file.
-void frLoadStyle(uint8_t styleIndex, uint32_t name)
-{
-    if (loaded(styleIndex) == 1)
-        return;
-    if (styleIndex == 1)
-        BindStyle(1, 0, style(0).handle);
-    else
-        BindStyle(styleIndex, 0, file::Load(name));
-    loaded(styleIndex) = 1;
-}
-
 // frLoadStyleAll @ 0x001C6CE0: the four fonts every screen uses.
 void frLoadStyleAll()
 {
@@ -207,20 +145,6 @@ void frLoadStyleAll()
     frLoadStyle(1, addr(0x00535900));
     frLoadStyle(2, addr(0x00535910));
     frLoadStyle(3, addr(0x00535920));
-}
-
-// frDelFontStyle @ 0x001C6C70: unloads a style (0 and 1 stay).
-void frDelFontStyle(uint8_t styleIndex)
-{
-    if (styleIndex <= 1)
-        return;
-    loaded(styleIndex) = 0;
-    Style& s = style(styleIndex);
-    if (s.handle) {
-        mem::HandleFree(s.handle);
-        s.glyphs = 0;
-    }
-    s.cache = 0;
 }
 
 // frDelStyleAll @ 0x001C6D30: unloads every style that has glyphs.
@@ -369,26 +293,6 @@ Glyph* CreateTextureGlyph(int32_t width, int32_t height, uint32_t pixels, bool o
     return &glyph;
 }
 
-// ps2FontAcquireCachedGlyph @ 0x001C7568
-// The glyph for a text: the cached one (one more reference), or a new one.
-Glyph* AcquireGlyph(Text& text, int32_t index)
-{
-    Style& s = style(text.style);
-    uint32_t* cache = guest::table<uint32_t>(s.cache);
-    if (Glyph* cached = at<Glyph>(cache[index])) {
-        ++cached->refs;
-        return cached;
-    }
-    uint32_t pixels = DecodeGlyphPixels(text.style, index);
-    int32_t width = frGetFontWidth(text.style);
-    int32_t height = frGetFontHeight(text.style);
-    Glyph* glyph = CreateTextureGlyph(width, height, pixels, true);
-    glyph->index = static_cast<uint16_t>(index);
-    guest::table<uint32_t>(style(text.style).cache)[index] = addressOf(glyph);
-    ++tables().glyphs;
-    return glyph;
-}
-
 // ps2FontReleaseGlyph @ 0x001C6E50 (no original name)
 // Once no text uses a text's glyph, frees its cell.
 void ReleaseGlyph(Text& text)
@@ -415,76 +319,6 @@ int32_t glyphIndex(uint16_t code)
 }
 
 // ---- layout -----------------------------------------------------------------------------------
-
-// frGetFontWidth @ 0x001C83F0: a font's character size.
-int32_t frGetFontWidth(uint8_t s) { return style(s).data->width; }
-// frGetFontHeight @ 0x001C8458
-int32_t frGetFontHeight(uint8_t s) { return style(s).data->height; }
-
-// frGetDefaultFontWidth @ 0x001C83B0: styles 0 and 1 are drawn at the base width.
-int32_t frGetDefaultFontWidth(uint8_t s) { return s < 2 ? settings().base_width : frGetFontWidth(s); }
-// frGetDefaultFontHeight @ 0x001C8418
-int32_t frGetDefaultFontHeight(uint8_t s) { return s < 2 ? settings().base_width : frGetFontHeight(s); }
-
-// ps2FontSetSize @ 0x001C6160 (no original name)
-// Sets the base size of styles 0 and 1 (20 for none); style 1's default
-// advance follows it.
-void frSetBaseWidth(int64_t width)
-{
-    if (width < 1)
-        width = 0x14;
-    settings().base_width = static_cast<int32_t>(width);
-    guest::table<int8_t>(kStyleAdvance)[1] = static_cast<int8_t>(width - 5);
-}
-
-// frGetXShiftLev @ 0x001C7088
-// A text's size and advance. Styles 0 and 1 are scaled from 20-pixel
-// glyphs to the base width and give ASCII half the default advance; with
-// kModeMetrics, the font's per-glyph {left, right} gives the advance and
-// the shift. ('!' and '1' get 2 more pixels on each side; glyph 0x2C1 is
-// 7 narrower.)
-void frGetXShiftLev(Text& pText, int32_t index, bool)
-{
-    const Style& s = style(pText.style);
-    bool scaled = pText.style < 2;
-    ee::Float factor = 1.0f;
-    pText.width = static_cast<uint8_t>(frGetDefaultFontWidth(pText.style));
-    pText.height = static_cast<uint8_t>(frGetDefaultFontHeight(pText.style));
-    const int32_t advance = guest::table<int8_t>(kStyleAdvance)[pText.style];
-    pText.lw = advance;
-    if (pText.style < 2) {
-        scaled = true;
-        factor = ee::Float::fromInt(pText.width) / 20.0f;
-    }
-    const uint8_t mode = pText.mode;
-    if (scaled && pText.code < 128)
-        pText.lw = advance >> 1;
-    if (pText.code == ' ' && (pText.style == 0 || pText.style == 1)) {
-        pText.lw = settings().space_width + (pText.lw >> 1);
-        return;
-    }
-    if (index == 0x2c1)
-        pText.lw -= 7;
-    if (!(mode & kModeMetrics) || !s.data->metrics)
-        return;
-    const int32_t doubled = index * 2;
-    if (doubled >= s.metric_size[0])
-        return;
-    const int8_t* metric = guest::table<int8_t>(s.metric[0] + static_cast<uint32_t>(doubled));
-    const int32_t left = metric[0], right = metric[1];
-    if (!right)
-        return;
-    ee::Float width = ee::Float::fromInt(right - left) * factor;
-    ee::Float x = ee::Float::fromInt(left) * 16.0f * factor;
-    int32_t w = width.toInt(), shift = x.toInt();
-    const int32_t glyph = (doubled >> 1) + 32;
-    if (glyph == '!' || glyph == '1') {
-        shift -= 32;
-        w += 4;
-    }
-    pText.lw = w;
-    pText.lx = -shift;
-}
 
 // frGetStrWidth @ 0x001C8230: the advances of a request's texts plus its spacing.
 int32_t frGetStrWidth(const Request& pFRQ)
@@ -513,105 +347,14 @@ void RelayoutRequest(Request& pFRQ)
         frGetXShiftLev(*t, glyphIndex(t->code), false);
 }
 
-namespace {
-
-int64_t findCode(uint32_t table, uint32_t size, uint16_t code)
-{
-    const uint16_t* codes = guest::table<uint16_t>(table);
-    for (uint32_t i = 0; i < size; ++i)
-        if (codes[i] == code)
-            return i;
-    return -1;
-}
-
-} // namespace
-
-// ps2FontFindCode416 @ 0x001C6098
-// Whether a character is in one of two code lists (used to pick particles,
-// docs/messages.md); its position or -1.
-int64_t FindCode416(uint16_t code) { return findCode(kCodes416, 416, code); }
-// ps2FontFindCode264 @ 0x001C60E0
-int64_t FindCode264(uint16_t code) { return findCode(kCodes264, 264, code); }
-
-// ps2FontRecordLastCode @ 0x001C6128
-// Remembers the last letter laid out: not punctuation below '/', not ':'..'@'
-// and not 0x85EC.
-void RecordLastCode(uint16_t code)
-{
-    if (code != 0x85ec && code >= 0x2f && static_cast<uint16_t>(code - 0x3a) >= 7)
-        *guest::table<uint16_t>(kLastCode) = code;
-}
-
-// ---- building requests -------------------------------------------------------------------------
-
-// frSetFont @ 0x001C76E0
-// A text for one character, with its glyph. ('^' is shown as '&'.)
-Text* frSetFont(uint16_t code, uint8_t styleIndex, uint8_t colno, uint8_t tp, bool first)
-{
-    Text* text = static_cast<Text*>(PoolTake(*tables().text_pool));
-    ++tables().texts;
-    frInitTextHandle(*text, code, styleIndex, colno, 0xa09dc300, tp);
-    if (text->code == '^')
-        text->code = '&';
-    const int32_t index = glyphIndex(text->code);
-    text->glyph.address = addressOf(AcquireGlyph(*text, index));
-    frGetXShiftLev(*text, index, first);
-    text->ly = (text->mode & kModeShadow) ? 24 : 0;
-    return text;
-}
-
-namespace {
-
+// newRequest: a request from the pool, counted (in frSetFontString and
+// ps2FontCreateControlGlyph).
 Request* newRequest()
 {
     Request* r = static_cast<Request*>(PoolTake(*tables().request_pool));
     ++tables().requests;
     frInitFontHandle(*r);
     return r;
-}
-
-
-} // namespace
-
-// frSetFontString @ 0x001C7890
-// Appends a string (single-byte characters and 2-byte codes from 0x80) to a
-// request (a new one for null). A negative style keeps the last one; null
-// if that font isn't loaded.
-Request* frSetFontString(const uint8_t* pStr, int8_t styleIndex, int8_t colno, int8_t tp, Request* pFRQ, bool first)
-{
-    Settings& set = settings();
-    if (styleIndex >= 0)
-        set.style = static_cast<uint8_t>(styleIndex);
-    if (!style(set.style).glyphs)
-        return nullptr;
-    const uint32_t length = pStr ? static_cast<uint32_t>(std::strlen(reinterpret_cast<const char*>(pStr))) : 0;
-    if (!pFRQ)
-        pFRQ = newRequest();
-    Text* previous = pFRQ->str_end.get();
-    Text* last = nullptr;
-    for (uint32_t pos = 0; pos < length;) {
-        uint16_t code = pStr[pos];
-        if (code >= 128)
-            code = static_cast<uint16_t>(code << 8 | pStr[++pos]);
-        const bool scale = first && pos == 0;
-        ++pos;
-        last = frSetFont(code, settings().style, static_cast<uint8_t>(colno), static_cast<uint8_t>(tp), scale);
-        if (previous)
-            previous->next.address = addressOf(last);
-        else
-            pFRQ->str.address = addressOf(last);
-        last->prev.address = addressOf(previous);
-        pFRQ->w_pxls += last->lw;
-        ++pFRQ->strlen;
-        previous = last;
-        RecordLastCode(code);
-    }
-    if (last) {
-        pFRQ->str_end.address = addressOf(last);
-        pFRQ->x_size = last->width;
-        pFRQ->y_size = last->height;
-    }
-    return pFRQ;
 }
 
 // frLinkFontString @ 0x001C7828
@@ -638,7 +381,7 @@ Request* AppendControlText(uint32_t data, Request* pFRQ)
     else
         pFRQ->str.address = addressOf(text);
     text->data = data;
-    text->lw = guest::table<int8_t>(kStyleAdvance)[0];
+    text->lw = defaultAdvance(0);
     text->width = static_cast<uint8_t>(frGetDefaultFontWidth(0));
     text->height = static_cast<uint8_t>(frGetDefaultFontHeight(0));
     text->prev.address = addressOf(previous);
@@ -659,33 +402,6 @@ Request* LinkControlText(uint32_t data, Request* pFRQ)
 
 // frCombineFontRequest @ 0x001C8108
 Request* frCombineFontRequest(Request* pFRQ1, Request* pFRQ2) { return frCombineFontRequestEx(pFRQ1, pFRQ2, 1); }
-
-// frCombineFontRequestEx @ 0x001C8120
-// Chains pFRQ2 (a chain, by its last request) after pFRQ1 (likewise) and
-// returns the whole chain, by pFRQ2. With mode 1 pFRQ2 is also placed: below
-// pFRQ1 when it starts with a line feed (code 13), otherwise after it on the
-// same line.
-Request* frCombineFontRequestEx(Request* pFRQ1, Request* pFRQ2, uint64_t mode)
-{
-    if (!pFRQ1)
-        return pFRQ2;
-    if (!pFRQ2)
-        return pFRQ1;
-    pFRQ1->next = pFRQ2->head;
-    pFRQ2->head->prev.address = addressOf(pFRQ1);
-    pFRQ2->head = pFRQ1->head;
-    if (mode == 1) {
-        const Text* first = pFRQ2->str.get();
-        if (first && first->code == 13) {
-            pFRQ2->x = pFRQ1->x;
-            pFRQ2->y = pFRQ1->y + pFRQ1->y_size;
-        } else {
-            pFRQ2->x = pFRQ1->x + (pFRQ1->w_pxls << 4);
-            pFRQ2->y = pFRQ1->y;
-        }
-    }
-    return pFRQ2;
-}
 
 // frDestroyFontRequestNow @ 0x001C6F08
 // Frees a chain (from its last request back): its requests, their texts,
@@ -831,6 +547,6 @@ void frSetFontDrawOT(uint32_t ot) { *guest::table<uint32_t>(kDrawOt) = ot; }
 void frSetStepY(int32_t step) { settings().step = step; }
 
 // frResetStepY @ 0x001C8480 (no original name)
-void frResetStepY() { settings().step = 0x14; }
+void frResetStepY() { settings().step = kDefaultLineStep; }
 
 } // namespace nocturne::fr

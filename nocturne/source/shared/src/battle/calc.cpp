@@ -17,6 +17,10 @@
 #include "nocturne/data/unit.hpp"
 #include "nocturne/data/types.hpp"
 #include "nocturne/external.hpp"
+#include "nocturne/battle/process.hpp"
+#include "nocturne/build.hpp"
+#include "nocturne/guest.hpp"
+#include "nocturne/hardtype.hpp"
 
 namespace nocturne::nb {
 
@@ -827,5 +831,385 @@ int32_t earnedMacca(const MainProcessData& data)
         macca = 10000;
     return macca;
 }
+
+} // namespace nocturne::nb
+
+// ===========================================================================
+// By version (nocturne/build.hpp): the alternatives the builds choose between
+// ===========================================================================
+
+namespace nocturne::nb {
+
+#if NOCTURNE_HARDTYPE
+using ee::Float;
+
+namespace {
+
+constexpr uint32_t kModelOf = 0x002fe8e0;   // uint8_t by devil ID, used for 0xE0..0xFE
+
+} // namespace
+#else
+using ee::Float;
+#endif
+
+#if NOCTURNE_HARDTYPE
+// 0x00259A60 (unnamed, and 0x2FE560): devils 0xE0..0xFE borrow another's
+// model record: 0xE0..0xE5 those of Momunofu, Metatron, Beelzebub (Fly),
+// Lucifer, Ose and Shikigami (0x3C, 0x9C, 0x9D, 0x9E, 0x6B, 0x3D); the rest
+// record 0.
+int32_t visualModel(int32_t id)
+{
+    if (id < 0xe0 || id >= 0xff)
+        return id;
+    return *guest::table<uint8_t>(kModelOf + static_cast<uint32_t>(id));
+}
+#else
+// 0x00259A60 (unnamed): each devil has its own model record.
+int32_t visualModel(int32_t id) { return id; }
+#endif
+
+#if NOCTURNE_HARDTYPE
+// nbCheckEscape @ 0x00269E98: attempts and the stat ratio weigh 15; the
+// chance doubles on Normal only, and Hard rolls it too.
+int32_t escapeWeight() { return 15; }
+#else
+// nbCheckEscape @ 0x00269E98: attempts and the stat ratio weigh 20; the
+// chance doubles, and on Hard escape fails.
+int32_t escapeWeight() { return 20; }
+#endif
+
+#if NOCTURNE_HARDTYPE
+bool escapeDifficulty(int32_t& chance, bool normal)
+{
+    if (normal)
+        chance *= 2;
+    return true;
+}
+#else
+bool escapeDifficulty(int32_t& chance, bool normal)
+{
+    chance *= 2;
+    return normal;
+}
+#endif
+
+#if NOCTURNE_HARDTYPE
+// nbGetMakaBaramaki @ 0x0026A4B0: the party's side scatters 1/50 of its Macca.
+ee::Float maccaShareDivisor() { return ee::Float::fromInt(50); }
+#else
+// nbGetMakaBaramaki @ 0x0026A4B0: the party's side scatters 1/20 of its Macca.
+ee::Float maccaShareDivisor() { return ee::Float::fromInt(20); }
+#endif
+
+#if NOCTURNE_HARDTYPE
+// nbGetHitType @ 0x002654B8 (and 0x2FE190, 0x2FF2F0)
+//
+// As US Maniax's, but:
+// - Bright Might and Dark Might no longer crit outright: they are noted, and
+//   then count as Might at n/60 (Might itself n/100);
+// - the chance compares 2 Lu + Ag (attacker) with Lu + 2 Ag (defender):
+//     criticalpoint + (A - D) 2 criticalpoint / ((A + D) 2 + 100)
+//   times the multiplier, + 1/2 (a multiplier of 100 or more crits outright);
+// - the noted passive is cleared unless Might crits. (A crit with Might over a noted
+//   passive returns past restoring its caller's s0, leaving the threshold
+//   there; its one caller, SetAllPacket, sets s0 before reading it.)
+HitType rollCritical(ActionProcessData& action, int32_t skill, int32_t source, int32_t target)
+{
+    UnitWork& attacker = *GetUnitWorkFromFormindex(source);
+    UnitWork& defender = *GetUnitWorkFromFormindex(target);
+
+    Attribute attr = skillAttribute(skill);
+    if (attr == Attribute::None || (attr >= Attribute(12) && attr <= Attribute(15)))
+        return HitType::Normal;
+    Affinity targetAffinity = affinity(skill, target, attr);
+
+    if (skill == skill::NormalAttack) {
+        if (passiveActive(attacker, skill::BrightMight))
+            action.autoskill = skill::BrightMight;
+        else if (passiveActive(attacker, skill::DarkMight))
+            action.autoskill = skill::DarkMight;
+    }
+
+    if (targetAffinity.has(Affinity::Weak))
+        return HitType::Weakness;
+    if (GetPartyFromFormindex(source)->flag & PartyFlag::AlwaysCrit)
+        return HitType::Critical;
+
+    Float multiplier = 1.0f;
+    switch (static_cast<Ailment>(defender.ailment())) {
+    case Ailment::Shock: case Ailment::Freeze: multiplier = 100.0f; break;
+    case Ailment::Sleep: case Ailment::Bind:   multiplier = 8.0f;   break;
+    default: break;
+    }
+    if ((action.data->form[target].stat & FormationStat::Unknown2000) && !evt::BitCheck(EventBit::NormalDifficulty))
+        multiplier = 100.0f;
+
+    bool mightFired = false;
+    if (skill == skill::NormalAttack) {
+        int32_t per = 0;
+        if (passiveActive(attacker, skill::Might))
+            per = 100;
+        else if (action.autoskill != 0)
+            per = 60;
+        if (per != 0) {
+            mightFired = true;
+            multiplier = multiplier * (Float::fromInt(dat::specialSkill(skill::Might).n) / Float::fromInt(per));
+        }
+    }
+
+    const NormalSkill& s = dat::normalSkill(skill);
+    if (s.damageClass != 0)
+        return HitType::Normal;
+
+    const int32_t a = 2 * dat::param(attacker, Param::Luck) + dat::param(attacker, Param::Agility);
+    const int32_t d = 2 * dat::param(defender, Param::Agility) + dat::param(defender, Param::Luck);
+    const Float point = Float::fromInt(s.criticalpoint);
+    Float chance = Float::fromInt((a - d) * 2) * point / Float::fromInt((a + d) * 2 + 100) + point;
+    chance = chance * multiplier + 0.5f;
+    int32_t threshold = multiplier.toInt();
+    if (threshold < 100)
+        threshold = chance.toInt();
+    diag::print(diag::Message::Critical, s.criticalpoint, 100, threshold);
+
+    if (sdf::GetRandInt(100) >= threshold) {
+        action.autoskill = 0;
+        return HitType::Normal;
+    }
+    if (!mightFired)
+        action.autoskill = 0;
+    else if (action.autoskill == 0)
+        action.autoskill = skill::Might;
+    return HitType::Critical;
+}
+#else
+// nbGetHitType @ 0x002654B8
+//
+// Decides whether an attack that connects is a critical or weakness hit
+// (both earn a half press turn). Only physical skills can crit.
+HitType rollCritical(ActionProcessData& action, int32_t skill, int32_t source, int32_t target)
+{
+    UnitWork& attacker = *GetUnitWorkFromFormindex(source);
+    UnitWork& defender = *GetUnitWorkFromFormindex(target);
+
+    Attribute attr = skillAttribute(skill);
+    if (attr == Attribute::None || (attr >= Attribute(12) && attr <= Attribute(15)))
+        return HitType::Normal;
+    Affinity targetAffinity = affinity(skill, target, attr);
+
+    // Bright Might / Dark Might: guaranteed critical when they activate.
+    if (skill == skill::NormalAttack) {
+        if (passiveActive(attacker, skill::BrightMight)) {
+            action.autoskill = skill::BrightMight;
+            return HitType::Critical;
+        }
+        if (passiveActive(attacker, skill::DarkMight)) {
+            action.autoskill = skill::DarkMight;
+            return HitType::Critical;
+        }
+    }
+
+    if (targetAffinity.has(Affinity::Weak))
+        return HitType::Weakness;
+
+    if (GetPartyFromFormindex(source)->flag & PartyFlag::AlwaysCrit)
+        return HitType::Critical;
+
+    // Helpless targets are easy to crit: Shocked and Frozen effectively always.
+    Float multiplier = 1.0f;
+    switch (static_cast<Ailment>(defender.ailment())) {
+    case Ailment::Shock: case Ailment::Freeze: multiplier = 100.0f; break;
+    case Ailment::Sleep: case Ailment::Bind:   multiplier = 8.0f;   break;
+    default: break;
+    }
+    if ((action.data->form[target].stat & FormationStat::Unknown2000) && !evt::BitCheck(EventBit::NormalDifficulty))
+        multiplier = 100.0f;
+
+    // Might: normal attacks crit n/100 times as often (n = 300).
+    bool mightFired = false;
+    if (skill == skill::NormalAttack && passiveActive(attacker, skill::Might)) {
+        mightFired = true;
+        multiplier = multiplier * (Float::fromInt(dat::specialSkill(skill::Might).n) / 100.0f);
+    }
+
+    const NormalSkill& s = dat::normalSkill(skill);
+    if (s.damageClass != 0)
+        return HitType::Normal;
+
+    // Crit chance = criticalpoint, scaled by how far agility pushed accuracy
+    // above the skill's base, with accuracy floored at 50.
+    Float base = Float::fromInt(100 - s.failpoint);
+    Float accuracy = physicalAccuracy(s, attacker, defender);
+    if (accuracy < 50.0f)
+        accuracy = 50.0f;
+    Float chance = accuracy / base * Float::fromInt(s.criticalpoint) * multiplier;
+    int32_t threshold = chance.toInt();
+    diag::print(diag::Message::Critical, s.criticalpoint, accuracy.toInt(), threshold);
+
+    if (!(sdf::GetRandInt(100) < threshold))
+        return HitType::Normal;
+    if (mightFired)
+        action.autoskill = skill::Might;
+    return HitType::Critical;
+}
+#endif
+
+#if NOCTURNE_HARDTYPE
+// nbGetKoukaType @ 0x00265948 (and 0x2FE140, 0x2FE2B0): skill 0xA1 meets
+// Repel and Drain as Null. Pierce or Son's Oath work for the elements up to
+// Almighty (SkillInfo's 0..5): Physical through Null and Drain, the others
+// through Null only.
+bool affinityOutcome(int32_t skill, const NormalSkill&, const UnitWork& attacker, Affinity affinity, MainProcessData& data,
+                     EffectResult& outcome)
+{
+    if (skill == 0xa1 && (affinity.raw & (Affinity::Repel | Affinity::Drain)))
+        affinity.raw = Affinity::Null;
+    const bool pierce = dat::hasSkill(attacker, skill::Pierce) || dat::hasSkill(attacker, skill::SonsOath);
+    if (affinity.has(Affinity::Repel)) {
+        outcome = EffectResult::Repel;
+        return true;
+    }
+    if (pierce) {
+        const uint8_t element = static_cast<uint8_t>(dat::skillInfo(skill).skillattr);
+        const uint32_t unpierced = element == 0 ? Affinity::Repel : Affinity::Repel | Affinity::Drain;
+        if (element < 6 && !(affinity.raw & unpierced)) {
+            if (affinity.raw & (Affinity::Null | Affinity::Drain))
+                data.piercedResistance = 1;
+            return false;
+        }
+    }
+    if (affinity.has(Affinity::Drain)) {
+        outcome = EffectResult::Drain;
+        return true;
+    }
+    if (affinity.has(Affinity::Null)) {
+        outcome = EffectResult::Null;
+        return true;
+    }
+    return false;
+}
+#else
+// nbGetKoukaType @ 0x00265948: Repel, then Drain and Null, which Pierce lets
+// physical skills through (flagging it).
+bool affinityOutcome(int32_t skill, const NormalSkill& /*s*/, const UnitWork& attacker, Affinity affinity, MainProcessData& data,
+                     EffectResult& outcome)
+{
+    if (affinity.has(Affinity::Repel)) {
+        outcome = EffectResult::Repel;
+        return true;
+    }
+    if (piercesResistance(attacker, skill)) {   // Pierce (affinity.cpp), for physical skills
+        if (affinity.raw & (Affinity::Null | Affinity::Drain))
+            data.piercedResistance = 1;
+        return false;
+    }
+    if (affinity.has(Affinity::Drain)) {
+        outcome = EffectResult::Drain;
+        return true;
+    }
+    if (affinity.has(Affinity::Null)) {
+        outcome = EffectResult::Null;
+        return true;
+    }
+    return false;
+}
+#endif
+
+#if NOCTURNE_HARDTYPE
+// ... (and 0x2FE4E0): physical, the agility of both,
+//   100 - failpoint + (A - D) 140 / (4 (A + D) + 100) + 1/2;
+// magic, the caster's magic accuracy against the target's evasion power,
+//   100 + (acc - eva) 200 / ((acc + eva - 74) 4 + 100)
+// (95 no longer for enemies); then the hit rate, and the buffs (their
+// product above 1 counting a fifth). (A branch scaling failpoint for
+// single-target skills with a cost is never taken: its address check tests
+// a register the next instruction overwrote.)
+Float hitAccuracy(const NormalSkill& s, const UnitWork& attacker, const UnitWork& defender, Float hitRate,
+                  Float accuracyBuff, Float evasionBuff)
+{
+    Float accuracy;
+    if (s.damageClass == 0) {
+        const int32_t a = dat::param(attacker, Param::Agility), d = dat::param(defender, Param::Agility);
+        accuracy = Float::fromInt(a - d) * Float::fromInt(140) / Float::fromInt(4 * d + 4 * a + 100);
+        accuracy = accuracy + Float::fromInt(100 - s.failpoint) + 0.5f;
+    } else {
+        const int32_t evasion = dat::evasionPower(defender), magic = dat::magicAccuracy(attacker);
+        accuracy = Float::fromInt((magic - evasion) * 2) * 100.0f / (Float::fromInt((magic + evasion - 74) * 4) + 100.0f) + 100.0f;
+    }
+    accuracy = accuracy * hitRate;
+    Float buffs = accuracyBuff * evasionBuff;
+    if ((buffs * 100.0f).toInt() >= 100)
+        buffs = (buffs - 1.0f) / 5.0f + 1.0f;
+    return accuracy * buffs;
+}
+#else
+// ... physical, the agility scores; magic, evasion as
+// a percentage of the caster's magic accuracy, halved, on top of 100 (95 for
+// enemy casters); then the buffs and the skill's hit rate.
+Float hitAccuracy(const NormalSkill& s, const UnitWork& attacker, const UnitWork& defender, Float hitRate,
+                  Float accuracyBuff, Float evasionBuff)
+{
+    Float accuracy;
+    if (s.damageClass == 0) {
+        accuracy = physicalAccuracy(s, attacker, defender);
+    } else {
+        Float base = attacker.isEnemy() ? 95.0f : 100.0f;
+        int32_t evasion = dat::evasionPower(defender);
+        int32_t magicAccuracy = dat::magicAccuracy(attacker);
+        if (magicAccuracy == 0)
+            divideByZeroTrap();
+        int32_t evasionPercent = evasion * 100 / magicAccuracy;
+        accuracy = Float::fromInt(100 - evasionPercent) * 0.5f + base;
+    }
+    return accuracy * accuracyBuff * evasionBuff * hitRate;
+}
+#endif
+
+#if NOCTURNE_HARDTYPE
+// nbCheckSensei @ 0x00269AD8 (and 0x2FEEF0): 70 scaled by the area's entry,
+// then (if not 0) plus half the difference of Level + 3 Luck + 4 Agility,
+// within 0..85; no level gap exempts the Demi-fiend.
+int32_t firstStrikeChance(const InitiativeStats& s, uint8_t table, const Float* coefficients)
+{
+    const int32_t player = s.playerLevel + 3 * s.playerLuck + 4 * s.playerAgility;
+    const int32_t enemy = s.enemyLevel + 3 * s.enemyLuck + 4 * s.enemyAgility;
+    const int32_t half = (player - enemy) >> 1;
+    if (table >= 6)   // (the original reads past the six-entry table)
+        std::abort();
+    int32_t chance = (Float::fromInt(70) * coefficients[table]).toInt();
+    if (chance == 0)
+        return 0;
+    chance += half;
+    if (chance < 0) chance = 0;
+    if (chance > 85) chance = 85;
+    return chance;
+}
+#else
+// nbCheckSensei @ 0x00269AD8: 72 + (Demi-fiend score - enemy score), score =
+// Level + Luck/2 + Agility, clamped to 70..85; unless the Demi-fiend outlevels
+// the enemies by 15+, the area's entry scales it (x1, 0.9, 0.8, 0.6, 0 or 3).
+int32_t firstStrikeChance(const InitiativeStats& s, uint8_t table, const Float* coefficients)
+{
+    int32_t playerScore = s.playerLevel + s.playerLuck / 2 + s.playerAgility;
+    int32_t enemyScore = s.enemyLevel + s.enemyLuck / 2 + s.enemyAgility;
+    int32_t chance = playerScore - enemyScore + 72;
+    if (chance < 70) chance = 70;
+    if (chance > 85) chance = 85;
+    if (s.playerLevel < s.enemyLevel + 15) {
+        // The original reads past the six-entry table for larger indexes.
+        if (table >= 6)
+            std::abort();
+        chance = (Float::fromInt(chance) * coefficients[table]).toInt();
+    }
+    return chance;
+}
+#endif
+
+#if NOCTURNE_HARDTYPE
+// nbCheckBackAttack @ 0x00269D20: Level + 8 Luck + 4 Agility + 40.
+int32_t initiativeScore(int32_t level, int32_t luck, int32_t agility) { return level + 8 * luck + 4 * agility + 40; }
+#else
+// nbCheckBackAttack @ 0x00269D20: Level + Luck/2 + Agility + 10.
+int32_t initiativeScore(int32_t level, int32_t luck, int32_t agility) { return level + luck / 2 + agility + 10; }
+#endif
 
 } // namespace nocturne::nb

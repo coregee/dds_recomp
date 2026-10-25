@@ -15,10 +15,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 VARIANTS = {   # name: (ISO in the repository's nocturne/ folder, extraction folder under game/)
-    "maniax": ("Nocturne US Maniax.iso", ""),
+    "maniax-us": ("Nocturne US Maniax.iso", ""),
     "hardtype": ("Nocturne US Hardtype.iso", "hardtype"),
     "chronicle": ("Nocturne JP Chronicle.iso", "chronicle"),
     "vanilla": ("Nocturne JP.iso", "vanilla"),
+    "maniax": ("Nocturne JP Maniax.iso", "jpmaniax"),
 }
 GAME = ROOT / "game"
 MANIFEST = ROOT / "tools" / "disc-sha256.json"
@@ -134,7 +135,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--overwrite", action="store_true", help="Replace existing extracted files")
     parser.add_argument("--write-manifest", action="store_true", help="Create a new manifest from this ISO; refuses to replace an existing manifest")
-    parser.add_argument("--variant", choices=sorted(VARIANTS), default="maniax", help="Which version to extract (default: maniax)")
+    parser.add_argument("--variant", choices=sorted(VARIANTS), default="maniax-us", help="Which version to extract (default: maniax-us, the US release)")
     args = parser.parse_args()
     global GAME, MANIFEST
     iso, folder = VARIANTS[args.variant]

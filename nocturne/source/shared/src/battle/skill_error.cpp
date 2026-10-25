@@ -12,6 +12,7 @@
 #include "nocturne/data/types.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
+#include "nocturne/build.hpp"
 
 namespace nocturne::nb {
 
@@ -224,5 +225,33 @@ int32_t menuSkillError(int32_t nskill, uint32_t select)
         return 0;
     }
 }
+
+} // namespace nocturne::nb
+
+// ===========================================================================
+// By version (nocturne/build.hpp): the alternatives the builds choose between
+// ===========================================================================
+
+namespace nocturne::nb {
+
+#if NOCTURNE_HARDTYPE
+// nbCheckBattleSkillError3 @ 0x00290780 (and 0x2FED80): fourteen more skills
+// are refused when nothing they change can move. (A fifteenth, 0xE4, is
+// compared with a register its caller leaves holding a float constant's
+// upper half, so it never matches.)
+bool versionBuffSkill(int32_t nskill)
+{
+    switch (nskill) {
+    case 0x3a: case 0x80: case 0x81: case 0x82: case 0x84: case 0x85: case 0x89:
+    case 0x9c: case 0xf4: case 0x106: case 0x10b: case 0x10c: case 0x11b: case 0x11d:
+        return true;
+    default:
+        return false;
+    }
+}
+#else
+// nbCheckBattleSkillError3 @ 0x00290780: the buffs only.
+bool versionBuffSkill(int32_t) { return false; }
+#endif
 
 } // namespace nocturne::nb

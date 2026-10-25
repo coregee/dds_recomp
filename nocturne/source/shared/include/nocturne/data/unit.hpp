@@ -12,7 +12,7 @@
 
 namespace nocturne::dat {
 
-// [version]: defined by each version (source/<version>/src/data/unit.cpp).
+// [version]: defined by each version.
 
 // ---- Stats -----------------------------------------------------------------
 

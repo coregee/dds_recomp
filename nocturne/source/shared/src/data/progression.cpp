@@ -12,6 +12,8 @@
 #include "nocturne/external.hpp"
 #include "nocturne/fusion/growth.hpp"
 #include "nocturne/guest.hpp"
+#include "nocturne/build.hpp"
+#include "nocturne/hardtype.hpp"
 
 namespace nocturne::dat {
 
@@ -610,5 +612,39 @@ bool isBossRefight(int32_t encounter)
             return true;
     return false;
 }
+
+} // namespace nocturne::dat
+
+// ===========================================================================
+// By version (nocturne/build.hpp): the alternatives the builds choose between
+// ===========================================================================
+
+namespace nocturne::dat {
+
+#if NOCTURNE_HARDTYPE
+// datGetItemSkillNo @ 0x00245C90 (and 0x2FDDF0): as US Maniax's, but an
+// item with skill 0x89 gives its stand-in 0xDC, and notes the pair.
+int32_t itemSkill(int32_t item)
+{
+    const int32_t* choices = guest::table<const int32_t>(0x00543170);
+    if (item == 1)
+        return choices[sdf::GetRandInt(6)];
+    const uint16_t skill = dat::item(item).skillid;
+    if (skill != 0x89)
+        return skill;
+    hardtype::actingSkill() = skill;
+    hardtype::standInSkill() = 0xdc;
+    return 0xdc;
+}
+#else
+// datGetItemSkillNo @ 0x00245C90 (the six choices are the words at 0x543170)
+int32_t itemSkill(int32_t item)
+{
+    const int32_t* choices = guest::table<const int32_t>(addr(0x00543170));
+    if (item == 1)
+        return choices[sdf::GetRandInt(6)];
+    return dat::item(item).skillid;
+}
+#endif
 
 } // namespace nocturne::dat

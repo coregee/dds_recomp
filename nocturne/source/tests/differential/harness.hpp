@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "fake_world.h"
+#include "nocturne/build.hpp"
 #include "nocturne/data/records.hpp"
 #include "nocturne/variant.hpp"
 
@@ -54,12 +55,18 @@ struct TestCase {
     const char* name;
     std::function<Pair(Gen&)> make;
     bool legacyC = false;   // its original side is US Maniax's legacy C (main.cpp marks them)
-    bool usText = false;    // of the US font and message engine, which the JP builds' differs from (main.cpp)
+    bool usWorld = false;   // its world writes US Maniax's addresses; pending on the JP builds (main.cpp)
 };
 
 int32_t interestingSkill(Gen& g);
 // The last devil ID with an AI record: Hardtype's table has none for 0x17E,
 // so the game's death checks would read through a null pointer for it.
+// The end of the RAM each case starts clear and compares: the JP builds'
+// fonts are larger (FW_JP_FONTS).
+inline uint32_t dynamicEnd()
+{
+    return nocturne::kBuild.japanese ? FW_JP_DYNAMIC_END : FW_DYNAMIC_END;
+}
 inline int32_t lastDevilWithAi() { return nocturne::kVariant == nocturne::Variant::Hardtype ? 0x17d : 0x17f; }
 void battleWorld(Gen& g);   // a random battle: units, formations, parties, main and action data (main.cpp)
 void randomUnit(Gen& g, UnitWork& u, bool enemy);

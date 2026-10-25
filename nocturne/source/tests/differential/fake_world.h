@@ -49,6 +49,10 @@ enum {
     FW_MODELS     = 0x011b27c0,   /* the formations' model objects and unit handles (0x540 bytes) */
     FW_SHOP       = 0x011b2d00,   /* the shop's work (fclShopWork, 0x2290 bytes) */
     FW_DYNAMIC_END   = 0x011b5000,
+    /* The JP builds' four fonts (0x8A000 bytes, more than FW_FONTS holds),
+     * compared with the rest in those builds only (main.cpp dynamicEnd). */
+    FW_JP_FONTS      = 0x011b5000,
+    FW_JP_DYNAMIC_END = 0x01245000,
     /* Guest stack for legacy code that allocates on it (not compared). */
     FW_STACK_TOP     = 0x01300000,
 };

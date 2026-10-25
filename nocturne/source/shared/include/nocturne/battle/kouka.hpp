@@ -166,7 +166,7 @@ int32_t makePressPackets(int32_t startframe, int32_t uniqueid, ee::Float press);
 // SetAction_SKILL leaves in s6; the other callers never leave 0xFF there).
 int32_t makePressResultPackets(int32_t startframe, int32_t uniqueid, int32_t ptype, int32_t callerSkill = 0);
 // [version] A result type's press changes of the version's own (true: dFull
-// and dHalf set; it may also change ptype) (source/<version>/src/battle/kouka.cpp).
+// and dHalf set; it may also change ptype).
 bool versionPressResult(int32_t& ptype, int32_t callerSkill, int32_t& dFull, int32_t& dHalf);
 int32_t makeFlyAilmentPackets(int32_t startframe, int32_t uniqueid, Formation* form);
 int32_t makeAilmentPackets(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t bad);

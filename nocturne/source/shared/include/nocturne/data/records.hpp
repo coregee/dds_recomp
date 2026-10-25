@@ -10,7 +10,7 @@
 #include <cstdint>
 
 #include "nocturne/data/types.hpp"
-#include "nocturne/version_constants.hpp"
+#include "nocturne/build.hpp"
 #include "nocturne/ee/float.hpp"
 #include "nocturne/guest.hpp"
 
@@ -426,11 +426,17 @@ struct UpcomingSkills {
 static_assert(sizeof(UpcomingSkills) == 0x4a);
 
 // datGlobalWork: the save-game state. Partial: only fields used so far.
-// Offsets below are US Maniax's; a version's global work can sit lower
-// (kGlobalWorkShift from the event bits on, kGlobalWorkTailShift from the
-// options on: nocturne/version_constants.hpp).
+// The JP builds' global work is 4 bytes shorter before the script
+// variables, so every field after sits 4 lower; the block before the options
+// (the entered names' bitmaps among it) is shorter still: from the options
+// on, fields sit 0x2450 lower. The offsets below are the US release's.
+inline constexpr std::size_t kGlobalWorkShift = kBuild.japanese ? 4 : 0;
+inline constexpr std::size_t kGlobalWorkTailShift = kBuild.japanese ? 0x2450 : 0;
+
 struct GlobalWork {
-    uint8_t unknown_0000[0x840 - kGlobalWorkShift];
+    uint8_t unknown_0000[0x40 - kGlobalWorkShift];
+    int32_t script_ints[256];       // the script VM's global variables (scrInitGlobalWork)
+    uint32_t script_floats[256];    // ... as float bits
     uint32_t event_bits[128];
     uint8_t moon_flags, moon_phase;
     uint8_t unknown_0a42[2];
@@ -466,6 +472,8 @@ struct GlobalWork {
     EncycRecord encyc_records[184];
 };
 // (US Maniax's offsets.)
+static_assert(offsetof(GlobalWork, script_ints) + kGlobalWorkShift == 0x40 &&
+              offsetof(GlobalWork, event_bits) + kGlobalWorkShift == 0x840);
 static_assert(offsetof(GlobalWork, macca) + kGlobalWorkShift == 0xa48);
 static_assert(offsetof(GlobalWork, units) + kGlobalWorkShift == 0xa54);
 static_assert(offsetof(GlobalWork, stock_list) + kGlobalWorkShift == 0x1914);

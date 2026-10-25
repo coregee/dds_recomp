@@ -168,7 +168,7 @@ void randomParty(Gen& g, nb::Party& p)
 
 void randomWorld(Gen& g)
 {
-    std::memset(fw_ram + FW_DYNAMIC_BEGIN, 0, FW_DYNAMIC_END - FW_DYNAMIC_BEGIN);
+    std::memset(fw_ram + FW_DYNAMIC_BEGIN, 0, dynamicEnd() - FW_DYNAMIC_BEGIN);
     at<uint32_t>(dat::address::GlobalWorkPointer) = FW_GLOBAL;
 
     GlobalWork& global = at<GlobalWork>(FW_GLOBAL);
@@ -427,7 +427,7 @@ Outcome run(const std::function<uint64_t()>& body, uint64_t seed, int normal, ui
     else
         out.trap = code;
     out.trace = fw_current_trace;
-    out.ram.assign(fw_ram + FW_DYNAMIC_BEGIN, fw_ram + FW_DYNAMIC_END);
+    out.ram.assign(fw_ram + FW_DYNAMIC_BEGIN, fw_ram + dynamicEnd());
     out.statics = captureStatics();
     return out;
 }
@@ -1100,13 +1100,13 @@ std::vector<TestCase> tests()
         c.legacyC = true;
     addCalcInstructionTests(t);
     addAiTests(t);
-    const size_t textTests = t.size();
     addMessageTests(t);
     addFontTests(t);
-    for (size_t i = textTests; i < t.size(); ++i)
-        t[i].usText = true;
     addPanelTests(t);
+    const size_t scriptTests = t.size();
     addScriptTests(t);
+    for (size_t i = scriptTests; i < t.size(); ++i)   // (their world isn't ported to the JP builds' addresses yet)
+        t[i].usWorld = true;
     addDataTests(t);
     addKoukaTests(t);
     addVariantTests(t);
@@ -1147,48 +1147,68 @@ int main(int argc, char** argv)
     // DIFF_PENDING: run them anyway.
 #pragma warning(suppress : 4996)
     volatile bool hardtype = nocturne::kVariant == nocturne::Variant::Hardtype && !std::getenv("DIFF_PENDING");
-    // The JP builds' font and message engine (Japanese text) isn't ported
-    // yet: their tests of the US one are pending (docs/versions.md).
+    // Tests whose world writes US Maniax's addresses (the script VM's) are
+    // pending on the JP builds (docs/versions.md).
 #pragma warning(suppress : 4996)
     const bool runPending = std::getenv("DIFF_PENDING") != nullptr;
     volatile bool japanese =
-        (nocturne::kVariant == nocturne::Variant::Chronicle || nocturne::kVariant == nocturne::Variant::Vanilla) && !runPending;
+        nocturne::kBuild.japanese && !runPending;
     // Tests of what the Chronicle Edition changes that the port doesn't
     // follow yet (docs/versions.md).
     static const std::vector<const char*> kChroniclePending = {
         "nbInitAiScript",         // the AI script's start opens a message window (the US engine) ...
         "SetAction_AISCR",        // ... as do these two
         "SetAction_DEADSCRIPT",
+        "nbActionProcess1",       // reaches READY and COMM, rewritten in Chronicle (0x253880, 0x254600)
+        "SetAllPacket",           // its [version] wake step differs in Chronicle's RAM writes
+        // The talks' steps call Chronicle functions (0x26B018 ...) the test
+        // neither hooks nor interprets yet, and keep their state at 0x575370.
+        "Flow*",
     };
     volatile bool chronicle = nocturne::kVariant == nocturne::Variant::Chronicle && !runPending;
     auto pending = [&](const TestCase& test) {
-        if (japanese && test.usText)
+        if (japanese && test.usWorld)
             return true;
         const std::vector<const char*>* list = hardtype ? &kHardtypePending : chronicle ? &kChroniclePending : nullptr;
         if (!list)
             return false;
-        for (const char* p : *list)
-            if (std::strcmp(p, test.name) == 0)
+        for (const char* p : *list) {   // a trailing * matches the prefix
+            const size_t n = std::strlen(p);
+            if (p[n - 1] == '*' ? std::strncmp(p, test.name, n - 1) == 0 : std::strcmp(p, test.name) == 0)
                 return true;
+        }
         return false;
     };
 
-    std::vector<uint8_t> saved(FW_DYNAMIC_END - FW_DYNAMIC_BEGIN);
+    std::vector<uint8_t> saved(dynamicEnd() - FW_DYNAMIC_BEGIN);
     // The executable's image as loaded: each test starts from it, so what
     // one test's worlds leave in static memory can't reach the next.
     const std::vector<uint8_t> pristine(fw_ram, fw_ram + FW_DYNAMIC_BEGIN);
     int failedFunctions = 0, skippedTests = 0, pendingTests = 0;
+    // DIFF_RESULTS=<file>: each test's outcome, one "name<TAB>outcome" line
+    // (ok, differ, pending, or legacy: a test of US Maniax's legacy C another
+    // version skips), for tools/function_map.py's per-build columns.
+#pragma warning(suppress : 4996)
+    const char* resultsPath = std::getenv("DIFF_RESULTS");
+#pragma warning(suppress : 4996)
+    FILE* results = resultsPath ? std::fopen(resultsPath, "w") : nullptr;
+    auto record = [&](const TestCase& test, const char* outcome) {
+        if (results)
+            std::fprintf(results, "%s\t%s\n", test.name, outcome);
+    };
     // Another version than US Maniax (a variable, so the checks below aren't constant).
-    volatile bool otherVersion = nocturne::kVariant != nocturne::Variant::Maniax;
+    volatile bool otherVersion = nocturne::kVariant != nocturne::Variant::ManiaxUs;
     for (const TestCase& test : tests()) {
         if (!std::strstr(test.name, filter) || skip.find("," + std::string(test.name) + ",") != std::string::npos)
             continue;
         if (otherVersion && test.legacyC) {
             ++skippedTests;
+            record(test, "legacy");
             continue;
         }
         if (pending(test)) {
             ++pendingTests;
+            record(test, "pending");
             continue;
         }
         std::memcpy(fw_ram, pristine.data(), pristine.size());
@@ -1237,7 +1257,13 @@ int main(int argc, char** argv)
             std::memcpy(fw_ram + FW_DYNAMIC_BEGIN, saved.data(), saved.size());
             restoreStatics(statics);
             resetLeftRegisters();
-            Outcome rewrite = run(pair.rewrite, caseSeed, normal, moon);
+            Outcome rewrite;
+            try {
+                rewrite = run(pair.rewrite, caseSeed, normal, moon);
+            } catch (const difftest::version::NoCounterpart& e) {
+                missing = e;
+                break;
+            }
             restoreStatics(statics);
 
             traps += legacy.trap != 0;
@@ -1248,18 +1274,22 @@ int main(int argc, char** argv)
         }
         if (skippedLegacy) {
             ++skippedTests;
+            record(test, "legacy");
             continue;
         }
         if (usText) {
             ++pendingTests;
+            record(test, "pending");
             continue;
         }
         if (missing) {
             std::printf("%-26s pending: no counterpart for US Maniax's %s at %08x\n", test.name,
                         missing->code ? "code" : "data", missing->maniax);
             ++pendingTests;
+            record(test, "pending");
             continue;
         }
+        record(test, failures ? "differ" : "ok");
         std::printf("%-26s %s  %d cases, %llu RNG draws, %d traps\n", test.name,
                     failures ? "FAIL" : "ok  ", cases, (unsigned long long)draws, traps);
         failedFunctions += failures != 0;
@@ -1268,6 +1298,8 @@ int main(int argc, char** argv)
         std::printf("(%d test(s) against US Maniax's legacy C skipped for this version)\n", skippedTests);
     if (pendingTests)
         std::printf("(%d test(s) of what this version changes, still to port, skipped)\n", pendingTests);
+    if (results)
+        std::fclose(results);
     std::printf("%s: %d function(s) differ\n", failedFunctions ? "FAILED" : "PASSED", failedFunctions);
     return failedFunctions ? 1 : 0;
 }

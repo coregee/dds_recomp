@@ -28,7 +28,7 @@ int32_t walkForEncounter(int32_t pack, ee::Float length);   // nbEncountCalc: an
 bool encounterWorthFighting(int32_t encno);            // nbCheckEncountLevel: Estoma lets it through
 void resetEncounterCount();                            // nbResetEncountCount
 
-// [version] Where versions differ (source/<version>/src/battle/encount.cpp):
+// [version] Where versions differ:
 int32_t adjustThreshold(int32_t rolled, int32_t base);          // nbGetEncountMax: the rolled threshold kept
 bool levelAllowsEncounter(int32_t average, int32_t player);     // nbCheckEncountLevel: the group's average level
 
