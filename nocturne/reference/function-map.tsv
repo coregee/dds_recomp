@@ -116,8 +116,8 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 00104b20	8	FUN_00104b20	DEFAULT	unknown							
 00104b28	8	FUN_00104b28	DEFAULT	unknown							
 00104b30	512	FUN_00104b30	DEFAULT	unknown							
-00104d38	92	dds3SetQuake	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetQuake		ok	ok	pending	pending	
-00104d98	8	dds3StopQuake	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3StopQuake		ok	ok	pending	pending	
+00104d38	92	dds3SetQuake	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetQuake		ok	ok	ok	ok	
+00104d98	8	dds3StopQuake	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3StopQuake		ok	ok	ok	ok	
 00104da0	348	dds3RunQuake	USER_DEFINED	named							
 00104f00	120	FUN_00104f00	DEFAULT	unknown							
 00104f78	40	dds3FadeClear	USER_DEFINED	legacy		field_movement_encounter_constructor.c:body_00104f78;screen_fade.c:dds3FadeClear					
@@ -131,56 +131,56 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 00105158	168	dds3FadeUpdate	USER_DEFINED	legacy		screen_fade.c:dds3FadeUpdate					
 00105200	212	FUN_00105200	DEFAULT	unknown							
 001052d8	680	dds3DrawFade	USER_DEFINED	legacy		screen_fade.c:dds3DrawFade					
-00105580	12	dds3SetScreenFovy	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetScreenFovy	event_camera.c:dds3SetScreenFovy	ok	ok	pending	pending	
-00105590	24	dds3SetAmbient	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetAmbient		ok	ok	pending	pending	
-001055a8	56	dds3SetFog	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetFog		ok	ok	pending	pending	
-001055e0	24	dds3SetLight	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetLight		ok	ok	pending	pending	
-001055f8	28	setdraw_xy	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:setdraw_xy		ok	ok	pending	pending	
-00105618	12	dds3SetFilter2Para	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetFilter2Para		ok	ok	pending	pending	
-00105628	12	dds3SetFilter2RGBA	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetFilter2RGBA		ok	ok	pending	pending	
-00105638	200	dds3Filter2Swap	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3Filter2Swap		ok	ok	pending	pending	
-00105700	132	dds3Filter2On	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3Filter2On		ok	ok	pending	pending	
-00105788	108	dds3Filter2Off	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3Filter2Off		ok	ok	pending	pending	
-001057f8	12	dds3SetMFilterPara	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetMFilterPara		ok	ok	pending	pending	
-00105808	12	dds3SetMFilterRGBA	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetMFilterRGBA		ok	ok	pending	pending	
-00105818	24	dds3SetMFilterArea	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetMFilterArea		ok	ok	pending	pending	
-00105830	200	dds3MFilterSwap	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3MFilterSwap		ok	ok	pending	pending	
-00105900	112	dds3MFilterOn	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3MFilterOn		ok	ok	pending	pending	
-00105978	108	dds3MFilterOff	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3MFilterOff		ok	ok	pending	pending	
-001059e8	112	dds3SetBlur	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetBlur		ok	ok	pending	pending	
-00105a60	24	dds3SetBlur2Para	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetBlur2Para		ok	ok	pending	pending	
-00105a78	12	dds3SetBlur2RGBA	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetBlur2RGBA		ok	ok	pending	pending	
-00105a88	20	dds3SetBlur2Area	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetBlur2Area		ok	ok	pending	pending	
-00105aa0	232	dds3Blur2Swap	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3Blur2Swap		ok	ok	pending	pending	
-00105b88	132	dds3Blur2On	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3Blur2On		ok	ok	pending	pending	
-00105c10	108	dds3Blur2Off	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3Blur2Off		ok	ok	pending	pending	
-00105c80	24	dds3SetMultiBlurPara	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetMultiBlurPara		ok	ok	pending	pending	
-00105c98	12	dds3SetMultiBlurRGBA	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetMultiBlurRGBA		ok	ok	pending	pending	
-00105ca8	24	dds3SetMultiBlurArea	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetMultiBlurArea		ok	ok	pending	pending	
-00105cc0	212	dds3MultiBlurSwap	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3MultiBlurSwap		ok	ok	pending	pending	
-00105d98	104	dds3MultiBlurOn	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3MultiBlurOn		ok	ok	pending	pending	
-00105e00	116	dds3MultiBlurOff	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3MultiBlurOff		ok	ok	pending	pending	
-00105e78	68	ps2DistBlurSetPara_00105E78	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetDistBlurPara	script_distortion.c:ps2DistBlurSetPara_00105E78	ok	ok	pending	pending	
-00105ec0	12	ps2DistBlurSetRgba_00105EC0	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetDistBlurRGBA	script_distortion.c:ps2DistBlurSetRgba_00105EC0	ok	ok	pending	pending	
-00105ed0	24	ps2DistBlurSetArea_00105ED0	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetDistBlurArea	script_distortion.c:ps2DistBlurSetArea_00105ED0	ok	ok	pending	pending	
-00105ee8	216	dds3DistBlurSwap	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3DistBlurSwap		ok	ok	pending	pending	
-00105fc8	112	ps2DistBlurOn_00105FC8	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3DistBlurOn	script_distortion.c:ps2DistBlurOn_00105FC8	ok	ok	pending	pending	
-00106038	100	dds3DistBlurOff	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3DistBlurOff		ok	ok	pending	pending	
-001060a0	68	dds3SetRipBlurPara	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetRipBlurPara		ok	ok	pending	pending	
-001060e8	12	dds3SetRipBlurRGBA	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetRipBlurRGBA		ok	ok	pending	pending	
-001060f8	24	dds3SetRipBlurArea	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetRipBlurArea		ok	ok	pending	pending	
-00106110	216	dds3RipBlurSwap	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3RipBlurSwap		ok	ok	pending	pending	
-001061f0	120	dds3RipBlurOn	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3RipBlurOn		ok	ok	pending	pending	
-00106270	108	dds3RipBlurOff	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3RipBlurOff		ok	ok	pending	pending	
+00105580	12	dds3SetScreenFovy	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetScreenFovy	event_camera.c:dds3SetScreenFovy	ok	ok	ok	ok	
+00105590	24	dds3SetAmbient	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetAmbient		ok	ok	ok	ok	
+001055a8	56	dds3SetFog	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetFog		ok	ok	ok	ok	
+001055e0	24	dds3SetLight	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetLight		ok	ok	ok	ok	
+001055f8	28	setdraw_xy	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:setdraw_xy		ok	ok	ok	ok	
+00105618	12	dds3SetFilter2Para	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetFilter2Para		ok	ok	ok	ok	
+00105628	12	dds3SetFilter2RGBA	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetFilter2RGBA		ok	ok	ok	ok	
+00105638	200	dds3Filter2Swap	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3Filter2Swap		ok	ok	ok	ok	
+00105700	132	dds3Filter2On	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3Filter2On		ok	ok	ok	ok	
+00105788	108	dds3Filter2Off	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3Filter2Off		ok	ok	ok	ok	
+001057f8	12	dds3SetMFilterPara	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetMFilterPara		ok	ok	ok	ok	
+00105808	12	dds3SetMFilterRGBA	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetMFilterRGBA		ok	ok	ok	ok	
+00105818	24	dds3SetMFilterArea	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetMFilterArea		ok	ok	ok	ok	
+00105830	200	dds3MFilterSwap	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3MFilterSwap		ok	ok	ok	ok	
+00105900	112	dds3MFilterOn	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3MFilterOn		ok	ok	ok	ok	
+00105978	108	dds3MFilterOff	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3MFilterOff		ok	ok	ok	ok	
+001059e8	112	dds3SetBlur	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetBlur		ok	ok	ok	ok	
+00105a60	24	dds3SetBlur2Para	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetBlur2Para		ok	ok	ok	ok	
+00105a78	12	dds3SetBlur2RGBA	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetBlur2RGBA		ok	ok	ok	ok	
+00105a88	20	dds3SetBlur2Area	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetBlur2Area		ok	ok	ok	ok	
+00105aa0	232	dds3Blur2Swap	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3Blur2Swap		ok	ok	ok	ok	
+00105b88	132	dds3Blur2On	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3Blur2On		ok	ok	ok	ok	
+00105c10	108	dds3Blur2Off	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3Blur2Off		ok	ok	ok	ok	
+00105c80	24	dds3SetMultiBlurPara	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetMultiBlurPara		ok	ok	ok	ok	
+00105c98	12	dds3SetMultiBlurRGBA	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetMultiBlurRGBA		ok	ok	ok	ok	
+00105ca8	24	dds3SetMultiBlurArea	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetMultiBlurArea		ok	ok	ok	ok	
+00105cc0	212	dds3MultiBlurSwap	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3MultiBlurSwap		ok	ok	ok	ok	
+00105d98	104	dds3MultiBlurOn	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3MultiBlurOn		ok	ok	ok	ok	
+00105e00	116	dds3MultiBlurOff	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3MultiBlurOff		ok	ok	ok	ok	
+00105e78	68	ps2DistBlurSetPara_00105E78	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetDistBlurPara	script_distortion.c:ps2DistBlurSetPara_00105E78	ok	ok	ok	ok	
+00105ec0	12	ps2DistBlurSetRgba_00105EC0	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetDistBlurRGBA	script_distortion.c:ps2DistBlurSetRgba_00105EC0	ok	ok	ok	ok	
+00105ed0	24	ps2DistBlurSetArea_00105ED0	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetDistBlurArea	script_distortion.c:ps2DistBlurSetArea_00105ED0	ok	ok	ok	ok	
+00105ee8	216	dds3DistBlurSwap	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3DistBlurSwap		ok	ok	ok	ok	
+00105fc8	112	ps2DistBlurOn_00105FC8	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3DistBlurOn	script_distortion.c:ps2DistBlurOn_00105FC8	ok	ok	ok	ok	
+00106038	100	dds3DistBlurOff	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3DistBlurOff		ok	ok	ok	ok	
+001060a0	68	dds3SetRipBlurPara	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetRipBlurPara		ok	ok	ok	ok	
+001060e8	12	dds3SetRipBlurRGBA	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetRipBlurRGBA		ok	ok	ok	ok	
+001060f8	24	dds3SetRipBlurArea	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetRipBlurArea		ok	ok	ok	ok	
+00106110	216	dds3RipBlurSwap	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3RipBlurSwap		ok	ok	ok	ok	
+001061f0	120	dds3RipBlurOn	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3RipBlurOn		ok	ok	ok	ok	
+00106270	108	dds3RipBlurOff	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3RipBlurOff		ok	ok	ok	ok	
 001062e0	3036	dds3BlurUpdate	USER_DEFINED	named							
 00106ee0	484	dds3RotationArc	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3RotationArc						
-001070d0	248	dds3SetLightColor	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetLightColor		ok	ok	pending	pending	
-001071d0	320	dds3SetLightDir	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetLightDir		ok	ok	pending	pending	
-00107310	188	dds3SetAmbientColor	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetAmbientColor		ok	ok	pending	pending	
-001073d0	132	dds3SetFogColor	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetFogColor		ok	ok	pending	pending	
-00107458	148	dds3SetFogPara	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetFogPara		ok	ok	pending	pending	
+001070d0	248	dds3SetLightColor	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetLightColor		ok	ok	ok	ok	
+001071d0	320	dds3SetLightDir	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetLightDir		ok	ok	ok	ok	
+00107310	188	dds3SetAmbientColor	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetAmbientColor		ok	ok	ok	ok	
+001073d0	132	dds3SetFogColor	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetFogColor		ok	ok	ok	ok	
+00107458	148	dds3SetFogPara	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetFogPara		ok	ok	ok	ok	
 001074f0	1532	dds3SceneLightUpdateFirst	USER_DEFINED	named							
-00107af0	76	dds3SetSoftenBias	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetSoftenBias		ok	ok	pending	pending	
+00107af0	76	dds3SetSoftenBias	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetSoftenBias		ok	ok	ok	ok	
 00107b40	52	FUN_00107b40	DEFAULT	unknown							
 00107b78	8	FUN_00107b78	DEFAULT	unknown							
 00107b80	276	FUN_00107b80	DEFAULT	unknown							
@@ -322,31 +322,31 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 001097c8	8	FUN_001097c8	DEFAULT	unknown							
 001097d0	8	FUN_001097d0	DEFAULT	unknown							
 001097e8	72	ps2ScriptDiagnosticDisabled	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrPrintf	field_movement_encounter_carriers.c:body_001097e8;script_construction.c:ps2ScriptDiagnosticDisabled					
-00109848	60	scrLinkScriptHandleList	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrLinkScriptHandleList	field_movement_encounter_carriers.c:body_00109848;script_process.c:scrLinkScriptHandleList	ok	ok	pending	pending	
-00109888	88	scrUnlinkScriptHandleList	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrUnlinkScriptHandleList	field_movement_encounter_carriers.c:body_00109888;script_process.c:scrUnlinkScriptHandleList	ok	ok	pending	pending	
-001098e0	612	scrAddScript	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrAddScript	field_movement_encounter_carriers.c:body_001098e0;script_construction.c:scrAddScript	ok	ok	pending	pending	
-00109b48	256	scrAddScript2	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrAddScript2	field_movement_encounter_carriers.c:body_00109b48;script_construction.c:scrAddScript2	ok	ok	pending	pending	
-00109c58	96	scrAddScript3	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrAddScript3	script_file.c:scrAddScript3	ok	ok	pending	pending	
-00109cb8	88	scrStartScriptProcess	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrStartScriptProcess	field_movement_encounter_carriers.c:body_00109cb8;script_process.c:scrStartScriptProcess	ok	ok	pending	pending	
-00109d10	52	scrInitGlobalWork	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrInitGlobalWork	script_process.c:scrInitGlobalWork	ok	ok	pending	pending	
-00109d48	52	scrStartScript3	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrStartScript3	script_file.c:scrStartScript3	ok	ok	pending	pending	
-00109d98	52	scrStartScript2	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrStartScript2	field_movement_encounter_carriers.c:body_00109d98;script_construction.c:scrStartScript2	ok	ok	pending	pending	
-00109de8	80	scrStartScript1a	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrStartScript1a	script_construction.c:scrStartScript1a	ok	ok	pending	pending	
+00109848	60	scrLinkScriptHandleList	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrLinkScriptHandleList	field_movement_encounter_carriers.c:body_00109848;script_process.c:scrLinkScriptHandleList	ok	ok	ok	ok	
+00109888	88	scrUnlinkScriptHandleList	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrUnlinkScriptHandleList	field_movement_encounter_carriers.c:body_00109888;script_process.c:scrUnlinkScriptHandleList	ok	ok	ok	ok	
+001098e0	612	scrAddScript	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrAddScript	field_movement_encounter_carriers.c:body_001098e0;script_construction.c:scrAddScript	ok	ok	ok	ok	
+00109b48	256	scrAddScript2	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrAddScript2	field_movement_encounter_carriers.c:body_00109b48;script_construction.c:scrAddScript2	ok	ok	ok	ok	
+00109c58	96	scrAddScript3	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrAddScript3	script_file.c:scrAddScript3	ok	ok	ok	ok	
+00109cb8	88	scrStartScriptProcess	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrStartScriptProcess	field_movement_encounter_carriers.c:body_00109cb8;script_process.c:scrStartScriptProcess	ok	ok	ok	ok	
+00109d10	52	scrInitGlobalWork	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrInitGlobalWork	script_process.c:scrInitGlobalWork	ok	ok	ok	ok	
+00109d48	52	scrStartScript3	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrStartScript3	script_file.c:scrStartScript3	ok	ok	ok	ok	
+00109d98	52	scrStartScript2	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrStartScript2	field_movement_encounter_carriers.c:body_00109d98;script_construction.c:scrStartScript2	ok	ok	ok	ok	
+00109de8	80	scrStartScript1a	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrStartScript1a	script_construction.c:scrStartScript1a	ok	ok	ok	ok	
 00109e38	24	ps2ScriptAddFirst	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrAddScriptFirst	script_construction.c:ps2ScriptAddFirst					
-00109e50	180	scrReleaseScript	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrReleaseScript	field_movement_encounter_carriers.c:body_00109e50;script_lifetime.c:scrReleaseScript	ok	ok	pending	pending	
-00109f08	196	scrAllReleaseScript	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrAllReleaseScript	field_inf_controller_native.c:body_00109f08;field_inf_controller_native.c:ps2FieldInfControllerNative_00109F08;field_movement_encounter_constructor.c:body_00109f08;script_lifetime.c:scrAllReleaseScript	ok	ok	pending	pending	
-0010a078	88	scrSearchScriptName	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrSearchScriptName	field_movement_encounter_constructor.c:body_0010a078;script_process.c:scrSearchScriptName	ok	ok	pending	pending	
-0010a0d0	244	scrSearchProcedureName	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrSearchProcedureName	field_movement_encounter_carriers.c:body_0010a0d0;script_process.c:scrSearchProcedureName	ok	ok	pending	pending	
-0010a1c8	40	scrSetUserData	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrSetUserData	script_process.c:scrSetUserData	ok	ok	pending	pending	
-0010a1f0	32	ps2ScriptGetUserData	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetUserData	script_process.c:ps2ScriptGetUserData	ok	ok	pending	pending	
-0010a210	60	scrScriptShutdown	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrScriptShutdown	field_movement_encounter_carriers.c:body_0010a210;script_lifetime.c:scrScriptShutdown	ok	ok	pending	pending	
-0010a268	88	scrScriptProcess	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrScriptProcess	script_process.c:scrScriptProcess	ok	ok	pending	pending	
-0010a2c0	44	scrPushInt	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrPushInt	script_stack.c:scrPushInt	ok	ok	pending	pending	
-0010a2f0	48	scrPushFloatBits	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrPushFloat	script_stack.c:scrPushFloatBits	ok	ok	pending	pending	
-0010a320	48	scrPushStr	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrPushStr	script_stack.c:scrPushStr	ok	ok	pending	pending	
-0010a350	48	scrPushRet	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrPushRet	script_stack.c:scrPushRet	ok	ok	pending	pending	
-0010a380	204	scrPopInt	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrPopInt	script_core.c:scrPopInt	ok	ok	pending	pending	
-0010a458	208	scrPopFloatBits	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrPopFloat	script_stack.c:scrPopFloatBits	ok	ok	pending	pending	
+00109e50	180	scrReleaseScript	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrReleaseScript	field_movement_encounter_carriers.c:body_00109e50;script_lifetime.c:scrReleaseScript	ok	ok	ok	ok	
+00109f08	196	scrAllReleaseScript	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrAllReleaseScript	field_inf_controller_native.c:body_00109f08;field_inf_controller_native.c:ps2FieldInfControllerNative_00109F08;field_movement_encounter_constructor.c:body_00109f08;script_lifetime.c:scrAllReleaseScript	ok	ok	ok	ok	
+0010a078	88	scrSearchScriptName	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrSearchScriptName	field_movement_encounter_constructor.c:body_0010a078;script_process.c:scrSearchScriptName	ok	ok	ok	ok	
+0010a0d0	244	scrSearchProcedureName	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrSearchProcedureName	field_movement_encounter_carriers.c:body_0010a0d0;script_process.c:scrSearchProcedureName	ok	ok	ok	ok	
+0010a1c8	40	scrSetUserData	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrSetUserData	script_process.c:scrSetUserData	ok	ok	ok	ok	
+0010a1f0	32	ps2ScriptGetUserData	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetUserData	script_process.c:ps2ScriptGetUserData	ok	ok	ok	ok	
+0010a210	60	scrScriptShutdown	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrScriptShutdown	field_movement_encounter_carriers.c:body_0010a210;script_lifetime.c:scrScriptShutdown	ok	ok	ok	ok	
+0010a268	88	scrScriptProcess	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrScriptProcess	script_process.c:scrScriptProcess	ok	ok	ok	ok	
+0010a2c0	44	scrPushInt	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrPushInt	script_stack.c:scrPushInt	ok	ok	ok	ok	
+0010a2f0	48	scrPushFloatBits	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrPushFloat	script_stack.c:scrPushFloatBits	ok	ok	ok	ok	
+0010a320	48	scrPushStr	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrPushStr	script_stack.c:scrPushStr	ok	ok	ok	ok	
+0010a350	48	scrPushRet	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrPushRet	script_stack.c:scrPushRet	ok	ok	ok	ok	
+0010a380	204	scrPopInt	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrPopInt	script_core.c:scrPopInt	ok	ok	ok	ok	
+0010a458	208	scrPopFloatBits	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrPopFloat	script_stack.c:scrPopFloatBits	ok	ok	ok	ok	
 0010a540	80	scrCodeFunc_PushI	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushInt	script_stack.c:scrCodeFunc_PushI					
 0010a590	72	scrCodeFunc_PushIS	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushShort	script_stack.c:scrCodeFunc_PushIS					
 0010a5d8	80	scrCodeFunc_PushF	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushFloat	script_stack.c:scrCodeFunc_PushF					
@@ -383,18 +383,18 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 0010b3f0	56	scrCodeFunc_SE	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opLessEqual						
 0010b428	56	scrCodeFunc_LE	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opGreaterEqual						
 0010b460	188	scrCodeFunc_If	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opIf	script_ops.c:scrCodeFunc_If					
-0010b520	160	ps2ScriptTrace	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrTraceCode	script_core.c:ps2ScriptTrace	ok	ok	pending	pending	
-0010b5c8	188	scrGetIntPara	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetIntPara	script_movie.c:scrGetIntPara	ok	ok	pending	pending	
-0010b690	180	scrGetFloatParaBits	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetFloatPara	script_core.c:scrGetFloatParaBits	ok	ok	pending	pending	
-0010b748	72	scrGetStrPara	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetStrPara	script_core.c:scrGetStrPara	ok	ok	pending	pending	
-0010b790	20	scrSetIntReturnValue	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrSetIntReturnValue	script_movie.c:scrSetIntReturnValue	ok	ok	pending	pending	
-0010b7d8	24	scrGetLabelCodeAddress	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetLabelCodeAddress	script_core.c:scrGetLabelCodeAddress	ok	ok	pending	pending	
-0010b800	12	scrSetCodePointer	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrSetCodePointer	script_core.c:scrSetCodePointer	ok	ok	pending	pending	
-0010b820	12	scrGetCommandTimer	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetCommandTimer	script_core.c:scrGetCommandTimer	ok	ok	pending	pending	
-0010b830	12	scrGetMessageHandle	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetMessageHandle	script_core.c:scrGetMessageHandle	ok	ok	pending	pending	
-0010b840	8	scrGetScriptHandle	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetScriptHandle	script_core.c:scrGetScriptHandle	ok	ok	pending	pending	
-0010b848	12	scrGetData	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetData	script_core.c:scrGetData	ok	ok	pending	pending	
-0010b858	44	ps2ScriptSkipRequested	USER_DEFINED	rewritten	shared/src/script/vm.cpp:SDF_ABORT1	script_core.c:ps2ScriptSkipRequested	ok	ok	pending	pending	
+0010b520	160	ps2ScriptTrace	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrTraceCode	script_core.c:ps2ScriptTrace	ok	ok	ok	ok	
+0010b5c8	188	scrGetIntPara	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetIntPara	script_movie.c:scrGetIntPara	ok	ok	ok	ok	
+0010b690	180	scrGetFloatParaBits	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetFloatPara	script_core.c:scrGetFloatParaBits	ok	ok	ok	ok	
+0010b748	72	scrGetStrPara	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetStrPara	script_core.c:scrGetStrPara	ok	ok	ok	ok	
+0010b790	20	scrSetIntReturnValue	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrSetIntReturnValue	script_movie.c:scrSetIntReturnValue	ok	ok	ok	ok	
+0010b7d8	24	scrGetLabelCodeAddress	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetLabelCodeAddress	script_core.c:scrGetLabelCodeAddress	ok	ok	ok	ok	
+0010b800	12	scrSetCodePointer	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrSetCodePointer	script_core.c:scrSetCodePointer	ok	ok	ok	ok	
+0010b820	12	scrGetCommandTimer	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetCommandTimer	script_core.c:scrGetCommandTimer	ok	ok	ok	ok	
+0010b830	12	scrGetMessageHandle	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetMessageHandle	script_core.c:scrGetMessageHandle	ok	ok	ok	ok	
+0010b840	8	scrGetScriptHandle	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetScriptHandle	script_core.c:scrGetScriptHandle	ok	ok	ok	ok	
+0010b848	12	scrGetData	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetData	script_core.c:scrGetData	ok	ok	ok	ok	
+0010b858	44	ps2ScriptSkipRequested	USER_DEFINED	rewritten	shared/src/script/vm.cpp:SDF_ABORT1	script_core.c:ps2ScriptSkipRequested	ok	ok	ok	ok	
 0010b888	48	scrCommand_BIT_CHK	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BIT_CHK	script_common_bits.c:scrCommand_BIT_CHK					
 0010b8b8	40	scrCommand_BIT_ON	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BIT_ON	script_common_bits.c:scrCommand_BIT_ON					
 0010b8e0	40	scrCommand_BIT_OFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BIT_OFF	script_common_bits.c:scrCommand_BIT_OFF					
@@ -3216,34 +3216,34 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 001acc10	336	FUN_001acc10	DEFAULT	unknown							
 001acd60	1040	FUN_001acd60	DEFAULT	unknown							
 001ad170	192	FUN_001ad170	DEFAULT	unknown							
-001ad230	12	Eve_BlurON	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_BlurON		ok	ok	pending	pending	
-001ad240	8	Eve_BlurOFF	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_BlurOFF		ok	ok	pending	pending	
-001ad248	96	Eve_BlurSetParam	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_BlurSetParam		ok	ok	pending	pending	
-001ad2a8	12	Eve_BlurGetParam	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_BlurGetParam		ok	ok	pending	pending	
-001ad2b8	12	Eve_PartialMultiBlurON	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_PartialMultiBlurON		ok	ok	pending	pending	
-001ad2c8	8	Eve_PartialMultiBlurOFF	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_PartialMultiBlurOFF		ok	ok	pending	pending	
-001ad2d0	96	Eve_PartialMultiBlurSetParam	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_PartialMultiBlurSetParam		ok	ok	pending	pending	
-001ad330	8	Eve_PartialMultiBlurEditorGetParams	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_PartialMultiBlurEditorGetParams		ok	ok	pending	pending	
+001ad230	12	Eve_BlurON	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_BlurON		ok	ok	ok	ok	
+001ad240	8	Eve_BlurOFF	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_BlurOFF		ok	ok	ok	ok	
+001ad248	96	Eve_BlurSetParam	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_BlurSetParam		ok	ok	ok	ok	
+001ad2a8	12	Eve_BlurGetParam	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_BlurGetParam		ok	ok	ok	ok	
+001ad2b8	12	Eve_PartialMultiBlurON	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_PartialMultiBlurON		ok	ok	ok	ok	
+001ad2c8	8	Eve_PartialMultiBlurOFF	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_PartialMultiBlurOFF		ok	ok	ok	ok	
+001ad2d0	96	Eve_PartialMultiBlurSetParam	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_PartialMultiBlurSetParam		ok	ok	ok	ok	
+001ad330	8	Eve_PartialMultiBlurEditorGetParams	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_PartialMultiBlurEditorGetParams		ok	ok	ok	ok	
 001ad348	36	FUN_001ad348	DEFAULT	unknown							
-001ad370	12	ps2DistBlurFlagSet_001AD370	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_DistortionBlurON	script_distortion.c:ps2DistBlurFlagSet_001AD370	ok	ok	pending	pending	
-001ad380	8	ps2DistBlurFlagClear_001AD380	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_DistortionBlurOFF	script_distortion.c:ps2DistBlurFlagClear_001AD380	ok	ok	pending	pending	
-001ad388	96	ps2DistBlurCopyConfig_001AD388	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_DistortionBlurSetParam	script_distortion.c:ps2DistBlurCopyConfig_001AD388	ok	ok	pending	pending	
-001ad3e8	8	Eve_DistortionBlurEditorGetParams	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_DistortionBlurEditorGetParams		ok	ok	pending	pending	
-001ad3f0	12	Eve_DistortionBlurSetTex	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_DistortionBlurSetTex		ok	ok	pending	pending	
+001ad370	12	ps2DistBlurFlagSet_001AD370	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_DistortionBlurON	script_distortion.c:ps2DistBlurFlagSet_001AD370	ok	ok	ok	ok	
+001ad380	8	ps2DistBlurFlagClear_001AD380	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_DistortionBlurOFF	script_distortion.c:ps2DistBlurFlagClear_001AD380	ok	ok	ok	ok	
+001ad388	96	ps2DistBlurCopyConfig_001AD388	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_DistortionBlurSetParam	script_distortion.c:ps2DistBlurCopyConfig_001AD388	ok	ok	ok	ok	
+001ad3e8	8	Eve_DistortionBlurEditorGetParams	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_DistortionBlurEditorGetParams		ok	ok	ok	ok	
+001ad3f0	12	Eve_DistortionBlurSetTex	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_DistortionBlurSetTex		ok	ok	ok	ok	
 001ad400	36	FUN_001ad400	DEFAULT	unknown							
-001ad428	12	Eve_RippleBlurON	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_RippleBlurON		ok	ok	pending	pending	
-001ad438	8	Eve_RippleBlurOFF	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_RippleBlurOFF		ok	ok	pending	pending	
-001ad440	96	Eve_RippleBlurSetParam	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_RippleBlurSetParam		ok	ok	pending	pending	
-001ad4a0	8	ps2PostEffectFourthOwner_001AD4A0	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_RippleBlurEditorGetParams	script_distortion_owner.c:ps2PostEffectFourthOwner_001AD4A0	ok	ok	pending	pending	
+001ad428	12	Eve_RippleBlurON	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_RippleBlurON		ok	ok	ok	ok	
+001ad438	8	Eve_RippleBlurOFF	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_RippleBlurOFF		ok	ok	ok	ok	
+001ad440	96	Eve_RippleBlurSetParam	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_RippleBlurSetParam		ok	ok	ok	ok	
+001ad4a0	8	ps2PostEffectFourthOwner_001AD4A0	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_RippleBlurEditorGetParams	script_distortion_owner.c:ps2PostEffectFourthOwner_001AD4A0	ok	ok	ok	ok	
 001ad4b8	36	FUN_001ad4b8	DEFAULT	unknown							
-001ad4e0	12	Eve_FilterON	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_FilterON		ok	ok	pending	pending	
-001ad4f0	8	Eve_FilterOFF	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_FilterOFF		ok	ok	pending	pending	
-001ad4f8	64	Eve_FilterSetParam	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_FilterSetParam		ok	ok	pending	pending	
-001ad538	12	Eve_FilterEditorGetParams	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_FilterEditorGetParams		ok	ok	pending	pending	
-001ad548	12	Eve_PartialMultiFilterON	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_PartialMultiFilterON		ok	ok	pending	pending	
-001ad558	8	Eve_PartialMultiFilterOFF	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_PartialMultiFilterOFF		ok	ok	pending	pending	
-001ad560	80	Eve_PartialMultiFilterSetParam	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_PartialMultiFilterSetParam		ok	ok	pending	pending	
-001ad5b0	8	Eve_PartialMultiFilterEditorGetParams	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_PartialMultiFilterEditorGetParams		ok	ok	pending	pending	
+001ad4e0	12	Eve_FilterON	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_FilterON		ok	ok	ok	ok	
+001ad4f0	8	Eve_FilterOFF	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_FilterOFF		ok	ok	ok	ok	
+001ad4f8	64	Eve_FilterSetParam	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_FilterSetParam		ok	ok	ok	ok	
+001ad538	12	Eve_FilterEditorGetParams	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_FilterEditorGetParams		ok	ok	ok	ok	
+001ad548	12	Eve_PartialMultiFilterON	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_PartialMultiFilterON		ok	ok	ok	ok	
+001ad558	8	Eve_PartialMultiFilterOFF	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_PartialMultiFilterOFF		ok	ok	ok	ok	
+001ad560	80	Eve_PartialMultiFilterSetParam	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_PartialMultiFilterSetParam		ok	ok	ok	ok	
+001ad5b0	8	Eve_PartialMultiFilterEditorGetParams	USER_DEFINED	rewritten	shared/src/effect/event.cpp:Eve_PartialMultiFilterEditorGetParams		ok	ok	ok	ok	
 001ad5c8	36	FUN_001ad5c8	DEFAULT	unknown							
 001ad5f0	96	ps2PostEffectInitializeOwners_001AD5F0	USER_DEFINED	legacy		script_distortion_owner.c:ps2PostEffectInitializeOwners_001AD5F0					
 001ad650	148	FUN_001ad650	DEFAULT	unknown							
@@ -3558,7 +3558,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 001c6858	148	frLoadStyle	USER_DEFINED	rewritten	shared/src/interface/font_layout_us.cpp:frLoadStyle		ok	ok	ok	ok	
 001c68f0	532	FUN_001c68f0	DEFAULT	unknown							
 001c6b08	92	FUN_001c6b08	DEFAULT	unknown							
-001c6b68	260	ps2FontBindContext	USER_DEFINED	rewritten	shared/src/interface/font_layout_us.cpp:BindStyle	battle_action_skill_registered_frames.c:body_001c6b68;battle_panel_renderer_remaining.c:body_001c6b68;font_text.c:ps2FontBindContext	ok	ok	ok	pending	
+001c6b68	260	ps2FontBindContext	USER_DEFINED	rewritten	shared/src/interface/font_layout_us.cpp:BindStyle	battle_action_skill_registered_frames.c:body_001c6b68;battle_panel_renderer_remaining.c:body_001c6b68;font_text.c:ps2FontBindContext	ok	ok	ok	ok	
 001c6c70	108	frDelFontStyle	USER_DEFINED	rewritten	shared/src/interface/font_layout_us.cpp:frDelFontStyle		ok	ok	ok	ok	
 001c6ce0	80	frLoadStyleAll	USER_DEFINED	rewritten	shared/src/interface/font.cpp:frLoadStyleAll		ok	ok	ok	ok	
 001c6d30	92	frDelStyleAll	USER_DEFINED	rewritten	shared/src/interface/font.cpp:frDelStyleAll		ok	ok	ok	ok	
@@ -3613,7 +3613,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 001c86a0	144	frCreateNewHandle	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:frCreateNewHandle	battle_action_skill_registered_frames.c:body_001c86a0;battle_panel_renderer_remaining.c:body_001c86a0;font_parser_support.c:frCreateNewHandle	ok	ok	ok	ok	
 001c8730	36	ps2FontAdvanceMessageLine	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:AdvanceMessageLine	battle_action_skill_registered_frames.c:body_001c8730;battle_panel_renderer_remaining.c:body_001c8730;font_parser_support.c:ps2FontAdvanceMessageLine	ok	ok	ok	ok	
 001c8758	112	ps2FontAppendSpecialCode	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:AppendSpecialCode	battle_action_skill_registered_frames.c:body_001c8758;battle_panel_renderer_remaining.c:body_001c8758;font_parser_support.c:ps2FontAppendSpecialCode	ok	ok			
-001c87c8	1264	ps2FontParseMessageTag	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:frAnalyzeTag	battle_action_skill_registered_frames.c:body_001c87c8;battle_panel_renderer_remaining.c:body_001c87c8;font_message.c:ps2FontParseMessageTag	ok	ok	ok	pending	
+001c87c8	1264	ps2FontParseMessageTag	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:frAnalyzeTag	battle_action_skill_registered_frames.c:body_001c87c8;battle_panel_renderer_remaining.c:body_001c87c8;font_message.c:ps2FontParseMessageTag	ok	ok	ok	ok	
 001c8ce0	68	frControlCodeLength	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:ControlCodeLength						
 001c8d28	276	frCopyMessageLine	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:CopyMessageLine						
 001c8e48	184	frCountMessageLines	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:CountMessageLines						
@@ -6158,7 +6158,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 0024fc28	148	SetMissPacket	USER_DEFINED	rewritten	shared/src/battle/action.cpp:queueMiss	battle_action_skill_core_frames.c:body_0024fc28;battle_action_skill_core_frames.c:ps2BattleActionSkill_0024FC28	ok	ok	ok	ok	
 0024fcc0	384	SetOngShadowPacket	USER_DEFINED	rewritten	shared/src/battle/action.cpp:queueOngyokiFound	battle_action_skill_core_frames.c:body_0024fcc0;battle_action_skill_core_frames.c:ps2BattleActionSkill_0024FCC0	ok	ok	ok	ok	
 0024fe40	284	SetOngShadowPacket2	USER_DEFINED	rewritten	shared/src/battle/action.cpp:queueOngyokiClonesVanish	battle_action_skill_core_frames.c:body_0024fe40;battle_action_skill_core_frames.c:ps2BattleActionSkill_0024FE40	ok	ok	ok	ok	
-0024ff60	5240	ps2BattleAction_0024FF60	USER_DEFINED	rewritten	shared/src/battle/action.cpp:queueHitResult	battle_action_consumer.c:body_0024ff60;battle_action_consumer.c:ps2BattleAction_0024FF60	ok	ok	pending	ok	
+0024ff60	5240	ps2BattleAction_0024FF60	USER_DEFINED	rewritten	shared/src/battle/action.cpp:queueHitResult	battle_action_consumer.c:body_0024ff60;battle_action_consumer.c:ps2BattleAction_0024FF60	ok	ok	ok	ok	
 00251428	196	SetTarget	USER_DEFINED	rewritten	shared/src/battle/action_events.cpp:setTarget	battle_status_pairs.c:body_00251428;battle_status_pairs_native.c:body_00251428	ok	ok	ok	ok	
 002514f0	68	nbActionClearTimeList	USER_DEFINED	rewritten	shared/src/battle/action.cpp:clearTimeList	battle_action_sequence.c:nbActionClearTimeList;battle_panel_renderer_remaining.c:body_002514f0	ok	ok	ok	ok	
 00251538	156	nbActionSetHpForTimeList	USER_DEFINED	rewritten	shared/src/battle/action.cpp:initTimeListHp	battle_action_sequence.c:nbActionSetHpForTimeList;battle_panel_renderer_remaining.c:body_00251538	ok	ok	ok	ok	
@@ -6191,12 +6191,12 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 00253488	8	nbActionSetNone	USER_DEFINED	rewritten	shared/src/battle/action.cpp:enterNone	battle_action_entry.c:nbActionSetNone	ok	ok	ok	ok	
 00253490	904	ps2BattleActionChoice_00253490	USER_DEFINED	rewritten	shared/src/battle/action.cpp:updateNone	battle_action_choice.c:body_00253490;battle_action_choice.c:ps2BattleActionChoice_00253490;battle_callback_choice.c:body_00253490;battle_callback_choice.c:ps2BattleCallbackChoice_00253490	ok	ok	ok	ok	
 00253830	104	SetAction_COMM	USER_DEFINED	rewritten	shared/src/battle/action.cpp:enterCommand		ok	ok	ok	ok	
-002538a0	852	CheckAction_COMM	USER_DEFINED	rewritten	shared/src/battle/action.cpp:updateCommand		ok	ok	pending	ok	
+002538a0	852	CheckAction_COMM	USER_DEFINED	rewritten	shared/src/battle/action.cpp:updateCommand		ok	ok	ok	ok	
 00253bf8	36	nbActionSetAi	USER_DEFINED	rewritten	shared/src/battle/action.cpp:enterAi	battle_action_entry.c:nbActionSetAi	ok	ok	ok	ok	
 00253c20	32	nbActionCheckAi	USER_DEFINED	rewritten	shared/src/battle/action.cpp:updateAi	battle_action_entry.c:nbActionCheckAi	ok	ok	ok	ok	
-00253c40	72	ps2BattleStartActorAi	USER_DEFINED	rewritten	shared/src/battle/action.cpp:enterAiScript	battle_work_access.c:ps2BattleStartActorAi	ok	ok	pending	pending	
+00253c40	72	ps2BattleStartActorAi	USER_DEFINED	rewritten	shared/src/battle/action.cpp:enterAiScript	battle_work_access.c:ps2BattleStartActorAi	ok	ok	ok	ok	
 00253c88	120	nbActionCheckAiScript	USER_DEFINED	rewritten	shared/src/battle/action.cpp:updateAiScript	battle_action_sequence.c:nbActionCheckAiScript	ok	ok	ok	ok	
-00253d00	52	nbActionSetDeadScript	USER_DEFINED	rewritten	shared/src/battle/action.cpp:enterDeathScript	battle_action_sequence.c:nbActionSetDeadScript	ok	ok	pending	pending	
+00253d00	52	nbActionSetDeadScript	USER_DEFINED	rewritten	shared/src/battle/action.cpp:enterDeathScript	battle_action_sequence.c:nbActionSetDeadScript	ok	ok	ok	ok	
 00253d38	160	nbActionCheckDeadScript	USER_DEFINED	rewritten	shared/src/battle/action.cpp:updateDeathScript	battle_action_finish.c:nbActionCheckDeadScript	ok	ok	ok	ok	
 00253de0	28	SetAction_BAD	USER_DEFINED	rewritten	shared/src/battle/action.cpp:enterAilment	battle_status_pairs.c:body_00253de0;battle_status_pairs.c:ps2BattleStatusPairs_00253DE0;battle_status_pairs_native.c:body_00253de0;battle_status_pairs_native.c:ps2BattleStatusPairsNative_00253DE0	ok	ok	ok	ok	
 00253e00	508	CheckAction_BAD	USER_DEFINED	rewritten	shared/src/battle/action.cpp:updateAilment	battle_status_pairs.c:body_00253e00;battle_status_pairs.c:ps2BattleStatusPairs_00253E00;battle_status_pairs_native.c:body_00253e00;battle_status_pairs_native.c:ps2BattleStatusPairsNative_00253E00	ok	ok	ok	ok	
@@ -6206,9 +6206,9 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 00254190	444	CheckAction_TARSEL	USER_DEFINED	rewritten	shared/src/battle/action.cpp:updateTargetSelect	battle_status_pairs.c:body_00254190;battle_status_pairs.c:ps2BattleStatusPairs_00254190;battle_status_pairs_native.c:body_00254190;battle_status_pairs_native.c:ps2BattleStatusPairsNative_00254190	ok	ok	ok	ok	
 00254360	60	SetAction_STKSEL	USER_DEFINED	rewritten	shared/src/battle/action.cpp:enterStockSelect	battle_status_pairs.c:body_00254360;battle_status_pairs.c:ps2BattleStatusPairs_00254360;battle_status_pairs_native.c:body_00254360;battle_status_pairs_native.c:ps2BattleStatusPairsNative_00254360	ok	ok	ok	ok	
 002543a0	228	CheckAction_STKSEL	USER_DEFINED	rewritten	shared/src/battle/action.cpp:updateStockSelect	battle_status_pairs.c:body_002543a0;battle_status_pairs.c:ps2BattleStatusPairs_002543A0;battle_status_pairs_native.c:body_002543a0;battle_status_pairs_native.c:ps2BattleStatusPairsNative_002543A0	ok	ok	ok	ok	
-00254488	3452	SetAction_READY	USER_DEFINED	rewritten	shared/src/battle/action.cpp:enterReady		ok	ok	pending	pending	
-00255260	960	CheckAction_READY	USER_DEFINED	rewritten	shared/src/battle/action.cpp:updateReady		ok	ok	pending	ok	
-00255650	5016	SetAction_SKILL	USER_DEFINED	rewritten	shared/src/battle/action.cpp:enterSkill	battle_action_skill_core_frames.c:body_00255650;battle_action_skill_core_frames.c:ps2BattleActionSkill_00255650	ok	ok	pending	pending	
+00254488	3452	SetAction_READY	USER_DEFINED	rewritten	shared/src/battle/action.cpp:enterReady		ok	ok	ok	ok	
+00255260	960	CheckAction_READY	USER_DEFINED	rewritten	shared/src/battle/action.cpp:updateReady		ok	ok	ok	ok	
+00255650	5016	SetAction_SKILL	USER_DEFINED	rewritten	shared/src/battle/action.cpp:enterSkill	battle_action_skill_core_frames.c:body_00255650;battle_action_skill_core_frames.c:ps2BattleActionSkill_00255650	ok	ok	ok	ok	
 00256a78	32	CheckAction_SKILL	USER_DEFINED	rewritten	shared/src/battle/action.cpp:updateSkill		ok	ok	ok	ok	
 00256a98	240	SetAction_NEGO	USER_DEFINED	rewritten	shared/src/battle/action.cpp:enterTalk		ok	ok	ok	ok	
 00256b88	116	CheckAction_NEGO	USER_DEFINED	rewritten	shared/src/battle/action.cpp:updateTalk		ok	ok	ok	ok	
@@ -6234,7 +6234,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 00257c20	88	nbGetPrevActionSeq	USER_DEFINED	rewritten	shared/src/battle/action.cpp:previousActionState	battle_action_sequence.c:nbGetPrevActionSeq	ok	ok	ok	ok	
 00257c80	68	nbActionSetSeq	USER_DEFINED	rewritten	shared/src/battle/action.cpp:enterState	battle_action_entry.c:nbActionSetSeq;battle_action_skill_bridge_frames.c:body_00257c80;battle_callback_dispatch.c:nbActionSetSeq;battle_callback_native.c:body_00257c80;battle_callback_native.c:ps2BattleCallbackNative_00257C80	ok	ok	ok	ok	
 00257cc8	8	nbActionSetNextSeq	USER_DEFINED	rewritten	shared/src/battle/action.cpp:setNextState	battle_action_sequence.c:nbActionSetNextSeq;battle_panel_renderer_remaining.c:body_00257cc8	ok	ok	ok	ok	
-00257cd0	344	nbActionProcess1	USER_DEFINED	rewritten	shared/src/battle/action.cpp:runActionProcess	battle_action_process.c:nbActionProcess1;battle_callback_dispatch.c:nbActionProcess1;battle_callback_native.c:body_00257cd0;battle_callback_native.c:ps2BattleCallbackNative_00257CD0	ok	ok	pending	pending	
+00257cd0	344	nbActionProcess1	USER_DEFINED	rewritten	shared/src/battle/action.cpp:runActionProcess	battle_action_process.c:nbActionProcess1;battle_callback_dispatch.c:nbActionProcess1;battle_callback_native.c:body_00257cd0;battle_callback_native.c:ps2BattleCallbackNative_00257CD0	ok	ok	ok	ok	
 00257e30	124	ps2BattleActionChoice_00257E30	USER_DEFINED	legacy		battle_action_choice.c:body_00257e30;battle_action_choice.c:ps2BattleActionChoice_00257E30					
 00257eb0	248	ps2BattleActionChoice_00257EB0	USER_DEFINED	legacy		battle_action_choice.c:body_00257eb0;battle_action_choice.c:ps2BattleActionChoice_00257EB0					
 00257fa8	160	ps2BattleActionChoice_00257FA8	USER_DEFINED	legacy		battle_action_choice.c:body_00257fa8;battle_action_choice.c:ps2BattleActionChoice_00257FA8					
@@ -6580,347 +6580,347 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 0026c780	364	nbNegoShutdown	USER_DEFINED	rewritten	shared/src/battle/talk.cpp:shutdownTalk		ok	ok	ok	ok	
 0026c8f0	1016	InitNegoProcessData	USER_DEFINED	rewritten	shared/src/battle/talk.cpp:newTalk		ok	ok	ok	ok	
 0026ccf0	144	nbInitNegoProcess	USER_DEFINED	rewritten	shared/src/battle/talk.cpp:startTalk						
-0026cd80	120	ps2NegotiationPhaseFlow1_03_0026CD80	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:talkerCanTalk	negotiation_phases.c:ps2NegotiationPhaseFlow1_03_0026CD80	ok	ok	pending	pending	
-0026cdf8	284	ps2NegotiationPhaseFlow1_04_0026CDF8	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:wontListen	negotiation_phases.c:ps2NegotiationPhaseFlow1_04_0026CDF8	ok	ok	pending	pending	
-0026cf18	216	Flow1_5	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:specialSkill		ok	ok	pending	pending	
-0026cff0	56	Flow1_6	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:skillWords		ok	ok	pending	pending	
-0026d028	88	ps2NegotiationPhaseFlow1_07_0026D028	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:demonCanTalk	negotiation_phases.c:ps2NegotiationPhaseFlow1_07_0026D028	ok	ok	pending	pending	
-0026d080	60	Flow1_8	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:demonCantTalk		ok	ok	pending	pending	
-0026d0c0	200	Flow1_9	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:demonsAilment		ok	ok	pending	pending	
-0026d190	164	Flow1_10	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:bossOrNot		ok	ok	pending	pending	
-0026d238	188	Flow1_11	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:bossRefuses		ok	ok	pending	pending	
-0026d300	228	ps2NegotiationPhaseFlow1_33_0026D300	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:wordsOrNot	negotiation_phases.c:ps2NegotiationPhaseFlow1_33_0026D300	ok	ok	pending	pending	
-0026d3f0	1016	ps2NegotiationPhaseFlow1_32_0026D3F0	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:raceWords	negotiation_phases.c:ps2NegotiationPhaseFlow1_32_0026D3F0	ok	ok	pending	pending	
-0026d7f0	232	Flow1_12	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:loanDue		ok	ok	pending	pending	
-0026d8d8	64	Flow1_13	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:loanDueGoesOn		ok	ok	pending	pending	
-0026d918	80	Flow1_14	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:loanWords		ok	ok	pending	pending	
-0026d968	120	Flow1_15	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:collects		ok	ok	pending	pending	
-0026d9e8	120	Flow1_16	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:collectsThird		ok	ok	pending	pending	
-0026da60	80	Flow1_17	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:paysUp		ok	ok	pending	pending	
-0026dab0	300	ps2NegotiationPhaseFlow1_18_0026DAB0	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:fullMoonOrNot	negotiation_phases.c:ps2NegotiationPhaseFlow1_18_0026DAB0	ok	ok	pending	pending	
-0026dbe0	148	Flow1_19	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:kinOrNot		ok	ok	pending	pending	
-0026dc78	144	ps2NegotiationPhaseFlow1_20_0026DC78	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:inStockOrNot	negotiation_phases.c:ps2NegotiationPhaseFlow1_20_0026DC78	ok	ok	pending	pending	
-0026dd08	124	Flow1_21	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:othersOrNot		ok	ok	pending	pending	
-0026dd88	324	ps2NegotiationPhaseFlow1_22_0026DD88	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:alwaysBreaksIn	negotiation_phases.c:ps2NegotiationPhaseFlow1_22_0026DD88	ok	ok	pending	pending	
-0026ded0	216	Flow1_23	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:brokenIn		ok	ok	pending	pending	
-0026dfa8	316	ps2NegotiationPhaseFlow1_24_0026DFA8	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:mayBreakIn	negotiation_phases.c:ps2NegotiationPhaseFlow1_24_0026DFA8	ok	ok	pending	pending	
-0026e0f0	288	Flow1_25	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:breaksIn		ok	ok	pending	pending	
-0026e218	148	ps2NegotiationPhaseFlow1_26_0026E218	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:fatedOrNot	negotiation_phases.c:ps2NegotiationPhaseFlow1_26_0026E218	ok	ok	pending	pending	
-0026e2b0	132	Flow1_27	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:honbouOrNot		ok	ok	pending	pending	
-0026e338	176	ps2NegotiationPhaseFlow1_28_0026E338	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:wontTalk	negotiation_phases.c:ps2NegotiationPhaseFlow1_28_0026E338	ok	ok	pending	pending	
-0026e3e8	116	Flow1_29	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:refusesToTalk		ok	ok	pending	pending	
-0026e468	152	Flow1_30	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:opens		ok	ok	pending	pending	
-0026e508	632	Flow1_31	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:introduction		ok	ok	pending	pending	
-0026e788	124	Flow1_34	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:bySkillKind		ok	ok	pending	pending	
-0026e808	128	ps2NegotiationPhaseFlow1_35_0026E808	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:byLevel	negotiation_phases.c:ps2NegotiationPhaseFlow1_35_0026E808	ok	ok	pending	pending	
-0026e888	56	Flow1_36	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:tooStrong		ok	ok	pending	pending	
-0026e8c0	208	Flow1_37	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:raceBargains		ok	ok	pending	pending	
-0026e9a0	136	Flow1_38	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:corpusSkill		ok	ok	pending	pending	
-0026ea30	160	Flow1_39	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:corpusRefuses		ok	ok	pending	pending	
+0026cd80	120	ps2NegotiationPhaseFlow1_03_0026CD80	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:talkerCanTalk	negotiation_phases.c:ps2NegotiationPhaseFlow1_03_0026CD80	ok	ok	ok	ok	
+0026cdf8	284	ps2NegotiationPhaseFlow1_04_0026CDF8	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:wontListen	negotiation_phases.c:ps2NegotiationPhaseFlow1_04_0026CDF8	ok	ok	ok	ok	
+0026cf18	216	Flow1_5	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:specialSkill		ok	ok	ok	ok	
+0026cff0	56	Flow1_6	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:skillWords		ok	ok	ok	ok	
+0026d028	88	ps2NegotiationPhaseFlow1_07_0026D028	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:demonCanTalk	negotiation_phases.c:ps2NegotiationPhaseFlow1_07_0026D028	ok	ok	ok	ok	
+0026d080	60	Flow1_8	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:demonCantTalk		ok	ok	ok	ok	
+0026d0c0	200	Flow1_9	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:demonsAilment		ok	ok	ok	ok	
+0026d190	164	Flow1_10	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:bossOrNot		ok	ok	ok	ok	
+0026d238	188	Flow1_11	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:bossRefuses		ok	ok	ok	ok	
+0026d300	228	ps2NegotiationPhaseFlow1_33_0026D300	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:wordsOrNot	negotiation_phases.c:ps2NegotiationPhaseFlow1_33_0026D300	ok	ok	ok	ok	
+0026d3f0	1016	ps2NegotiationPhaseFlow1_32_0026D3F0	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:raceWords	negotiation_phases.c:ps2NegotiationPhaseFlow1_32_0026D3F0	ok	ok	ok	ok	
+0026d7f0	232	Flow1_12	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:loanDue		ok	ok	ok	ok	
+0026d8d8	64	Flow1_13	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:loanDueGoesOn		ok	ok	ok	ok	
+0026d918	80	Flow1_14	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:loanWords		ok	ok	ok	ok	
+0026d968	120	Flow1_15	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:collects		ok	ok	ok	ok	
+0026d9e8	120	Flow1_16	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:collectsThird		ok	ok	ok	ok	
+0026da60	80	Flow1_17	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:paysUp		ok	ok	ok	ok	
+0026dab0	300	ps2NegotiationPhaseFlow1_18_0026DAB0	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:fullMoonOrNot	negotiation_phases.c:ps2NegotiationPhaseFlow1_18_0026DAB0	ok	ok	ok	ok	
+0026dbe0	148	Flow1_19	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:kinOrNot		ok	ok	ok	ok	
+0026dc78	144	ps2NegotiationPhaseFlow1_20_0026DC78	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:inStockOrNot	negotiation_phases.c:ps2NegotiationPhaseFlow1_20_0026DC78	ok	ok	ok	ok	
+0026dd08	124	Flow1_21	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:othersOrNot		ok	ok	ok	ok	
+0026dd88	324	ps2NegotiationPhaseFlow1_22_0026DD88	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:alwaysBreaksIn	negotiation_phases.c:ps2NegotiationPhaseFlow1_22_0026DD88	ok	ok	ok	ok	
+0026ded0	216	Flow1_23	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:brokenIn		ok	ok	ok	ok	
+0026dfa8	316	ps2NegotiationPhaseFlow1_24_0026DFA8	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:mayBreakIn	negotiation_phases.c:ps2NegotiationPhaseFlow1_24_0026DFA8	ok	ok	ok	ok	
+0026e0f0	288	Flow1_25	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:breaksIn		ok	ok	ok	ok	
+0026e218	148	ps2NegotiationPhaseFlow1_26_0026E218	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:fatedOrNot	negotiation_phases.c:ps2NegotiationPhaseFlow1_26_0026E218	ok	ok	ok	ok	
+0026e2b0	132	Flow1_27	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:honbouOrNot		ok	ok	ok	ok	
+0026e338	176	ps2NegotiationPhaseFlow1_28_0026E338	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:wontTalk	negotiation_phases.c:ps2NegotiationPhaseFlow1_28_0026E338	ok	ok	ok	ok	
+0026e3e8	116	Flow1_29	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:refusesToTalk		ok	ok	ok	ok	
+0026e468	152	Flow1_30	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:opens		ok	ok	ok	ok	
+0026e508	632	Flow1_31	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:introduction		ok	ok	ok	ok	
+0026e788	124	Flow1_34	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:bySkillKind		ok	ok	ok	ok	
+0026e808	128	ps2NegotiationPhaseFlow1_35_0026E808	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:byLevel	negotiation_phases.c:ps2NegotiationPhaseFlow1_35_0026E808	ok	ok	ok	ok	
+0026e888	56	Flow1_36	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:tooStrong		ok	ok	ok	ok	
+0026e8c0	208	Flow1_37	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:raceBargains		ok	ok	ok	ok	
+0026e9a0	136	Flow1_38	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:corpusSkill		ok	ok	ok	ok	
+0026ea30	160	Flow1_39	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:corpusRefuses		ok	ok	ok	ok	
 0026ead8	48	nbNegoFlowOne	USER_DEFINED	rewritten	shared/src/battle/talk_opening.cpp:openingFlow		ok	ok	ok	ok	
 0026eb08	884	ps2NegotiationPhaseCheckCompatibility_0026EB08	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:checkAffinity	negotiation_phases.c:ps2NegotiationPhaseCheckCompatibility_0026EB08	ok	ok	ok	ok	
 0026ee90	132	nbChkNegoAisyo	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:pairAffinity		ok	ok	ok	ok	
 0026ef18	132	nbChkNegoAisyo2	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:pairAffinity		ok	ok	ok	ok	
-0026efa0	584	Flow6_1	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:disposition		ok	ok	pending	pending	
-0026f1f0	172	ps2NegotiationPhaseFlow6_02_0026F1F0	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:neutral	negotiation_phases.c:ps2NegotiationPhaseFlow6_02_0026F1F0	ok	ok	pending	pending	
-0026f2a0	172	Flow6_80	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:charisma		ok	ok	pending	pending	
-0026f350	80	Flow6_81	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:charmed		ok	ok	pending	pending	
-0026f3a0	120	Flow6_3	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:wellDisposed		ok	ok	pending	pending	
-0026f420	100	Flow6_4	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:dealAtOnce		ok	ok	pending	pending	
-0026f488	80	Flow6_5	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:wellDisposedTalks		ok	ok	pending	pending	
-0026f4d8	120	Flow6_6	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:badlyDisposed		ok	ok	pending	pending	
-0026f558	100	Flow6_7	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:noDealAtOnce		ok	ok	pending	pending	
-0026f5c0	80	Flow6_8	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:badlyDisposedTalks		ok	ok	pending	pending	
-0026f610	352	Flow6_9	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:asksFor		ok	ok	pending	pending	
-0026f778	100	Flow6_10	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:wantsFight		ok	ok	pending	pending	
-0026f7e0	100	Flow6_11	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:wantsDrain		ok	ok	pending	pending	
-0026f848	308	Flow6_12	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:offersMacca		ok	ok	pending	pending	
-0026f980	120	ps2NegotiationPhaseFlow6_13_0026F980	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:nearDeath	negotiation_phases.c:ps2NegotiationPhaseFlow6_13_0026F980	ok	ok	pending	pending	
-0026f9f8	184	Flow6_14	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:backsOff		ok	ok	pending	pending	
-0026fab8	40	Flow6_15	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:leaves		ok	ok	pending	pending	
-0026fae0	112	Flow6_16	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:asksMaccaGift		ok	ok	pending	pending	
-0026fb50	272	Flow6_17	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:itemOrMacca		ok	ok	pending	pending	
-0026fc60	76	Flow6_18	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:halfMacca		ok	ok	pending	pending	
-0026fcb0	68	Flow6_19	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:doubleMacca		ok	ok	pending	pending	
-0026fcf8	416	Flow6_20	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:asksIt		ok	ok	pending	pending	
-0026fe98	168	Flow6_21	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:asksQuestion		ok	ok	pending	pending	
-0026ff40	448	Flow6_70	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:demand		ok	ok	pending	pending	
-00270110	276	ps2NegotiationFlow6_22_00270110	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:gives	negotiation_flow.c:ps2NegotiationFlow6_22_00270110	ok	ok	pending	pending	
-00270230	208	Flow6_23	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:notOnHand		ok	ok	pending	pending	
-00270300	1252	ps2NegotiationFlow6_24_00270300	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:outcome	negotiation_flow.c:ps2NegotiationFlow6_24_00270300	ok	ok	pending	pending	
-00270800	116	Flow6_25	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:talksOn		ok	ok	pending	pending	
-00270878	88	Flow6_26	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:anyHelper		ok	ok	pending	pending	
-002708d0	140	Flow6_27	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperForTalk		ok	ok	pending	pending	
-00270960	280	ps2NegotiationPhaseFlow6_28_00270960	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:dealOrOn	negotiation_phases.c:ps2NegotiationPhaseFlow6_28_00270960	ok	ok	pending	pending	
-00270a80	92	Flow6_29	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperMatched		ok	ok	pending	pending	
-00270ae0	80	Flow6_30	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperWords		ok	ok	pending	pending	
-00270b30	92	Flow6_31	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helpedDeal		ok	ok	pending	pending	
-00270b90	276	Flow6_32	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperSkill		ok	ok	pending	pending	
-00270ca8	224	Flow6_33	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperFailed		ok	ok	pending	pending	
-00270d88	80	Flow6_34	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:unmoved		ok	ok	pending	pending	
-00270dd8	92	Flow6_35	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:almostDeal		ok	ok	pending	pending	
-00270e38	168	Flow6_36	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:dealOrMore		ok	ok	pending	pending	
-00270ee0	264	Flow6_37	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:moreOrDeal		ok	ok	pending	pending	
-00270ff0	184	Flow6_38	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:roundWords		ok	ok	pending	pending	
-002710b0	408	Flow6_39	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:asksMore		ok	ok	pending	pending	
-00271258	216	Flow6_40	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:asksMoreWords		ok	ok	pending	pending	
-00271338	36	Flow6_41	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:asksMoreGoesOn		ok	ok	pending	pending	
-00271360	212	Flow6_42	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:giveMore		ok	ok	pending	pending	
-00271440	260	Flow6_43	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:refuses		ok	ok	pending	pending	
-00271550	88	Flow6_44	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:refusalHelper		ok	ok	pending	pending	
-002715a8	140	Flow6_45	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:refusalHelperSkill		ok	ok	pending	pending	
-00271638	100	Flow6_46	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:wonBack		ok	ok	pending	pending	
-002716a0	76	Flow6_47	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperLost		ok	ok	pending	pending	
-002716f0	92	Flow6_48	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggleOrNot		ok	ok	pending	pending	
-00271750	104	Flow6_49	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggleMacca		ok	ok	pending	pending	
-002717b8	100	Flow6_50	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggleHelper		ok	ok	pending	pending	
-00271820	152	Flow6_51	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggleHelperSkill		ok	ok	pending	pending	
-002718b8	64	Flow6_52	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperSteps		ok	ok	pending	pending	
-002718f8	540	Flow6_53	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperTakesPlace		ok	ok	pending	pending	
-00271b20	372	Flow6_74	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperLeaves		ok	ok	pending	pending	
-00271c98	200	Flow6_54	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperOwnWords		ok	ok	pending	pending	
-00271d60	80	Flow6_55	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperSpeaks		ok	ok	pending	pending	
-00271db0	328	Flow6_56	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperAffinity		ok	ok	pending	pending	
-00271f00	292	Flow6_57	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperWorks		ok	ok	pending	pending	
-00272028	72	Flow6_58	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggledDown		ok	ok	pending	pending	
-00272070	116	Flow6_59	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggleWords		ok	ok	pending	pending	
-002720e8	92	Flow6_71	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggleOnce		ok	ok	pending	pending	
-00272148	112	Flow6_60	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggledOnce		ok	ok	pending	pending	
-002721b8	92	Flow6_72	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggleTwice		ok	ok	pending	pending	
-00272218	112	Flow6_61	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggledTwice		ok	ok	pending	pending	
-00272288	92	Flow6_73	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggleThrice		ok	ok	pending	pending	
-002722e8	112	Flow6_62	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggledThrice		ok	ok	pending	pending	
-00272358	132	Flow6_63	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggleFailed		ok	ok	pending	pending	
-002723e0	112	Flow6_64	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:asksAgain		ok	ok	pending	pending	
-00272450	392	ps2NegotiationPhaseFlow6_65_00272450	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:notGiven	negotiation_phases.c:ps2NegotiationPhaseFlow6_65_00272450	ok	ok	pending	pending	
-002725e0	104	Flow6_66	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:tryAgain		ok	ok	pending	pending	
-00272648	116	Flow6_67	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:triesAgain		ok	ok	pending	pending	
-002726c0	36	Flow6_69	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:backToRequest		ok	ok	pending	pending	
+0026efa0	584	Flow6_1	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:disposition		ok	ok	ok	ok	
+0026f1f0	172	ps2NegotiationPhaseFlow6_02_0026F1F0	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:neutral	negotiation_phases.c:ps2NegotiationPhaseFlow6_02_0026F1F0	ok	ok	ok	ok	
+0026f2a0	172	Flow6_80	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:charisma		ok	ok	ok	ok	
+0026f350	80	Flow6_81	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:charmed		ok	ok	ok	ok	
+0026f3a0	120	Flow6_3	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:wellDisposed		ok	ok	ok	ok	
+0026f420	100	Flow6_4	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:dealAtOnce		ok	ok	ok	ok	
+0026f488	80	Flow6_5	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:wellDisposedTalks		ok	ok	ok	ok	
+0026f4d8	120	Flow6_6	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:badlyDisposed		ok	ok	ok	ok	
+0026f558	100	Flow6_7	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:noDealAtOnce		ok	ok	ok	ok	
+0026f5c0	80	Flow6_8	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:badlyDisposedTalks		ok	ok	ok	ok	
+0026f610	352	Flow6_9	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:asksFor		ok	ok	ok	ok	
+0026f778	100	Flow6_10	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:wantsFight		ok	ok	ok	ok	
+0026f7e0	100	Flow6_11	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:wantsDrain		ok	ok	ok	ok	
+0026f848	308	Flow6_12	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:offersMacca		ok	ok	ok	ok	
+0026f980	120	ps2NegotiationPhaseFlow6_13_0026F980	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:nearDeath	negotiation_phases.c:ps2NegotiationPhaseFlow6_13_0026F980	ok	ok	ok	ok	
+0026f9f8	184	Flow6_14	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:backsOff		ok	ok	ok	ok	
+0026fab8	40	Flow6_15	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:leaves		ok	ok	ok	ok	
+0026fae0	112	Flow6_16	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:asksMaccaGift		ok	ok	ok	ok	
+0026fb50	272	Flow6_17	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:itemOrMacca		ok	ok	ok	ok	
+0026fc60	76	Flow6_18	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:halfMacca		ok	ok	ok	ok	
+0026fcb0	68	Flow6_19	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:doubleMacca		ok	ok	ok	ok	
+0026fcf8	416	Flow6_20	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:asksIt		ok	ok	ok	ok	
+0026fe98	168	Flow6_21	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:asksQuestion		ok	ok	ok	ok	
+0026ff40	448	Flow6_70	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:demand		ok	ok	ok	ok	
+00270110	276	ps2NegotiationFlow6_22_00270110	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:gives	negotiation_flow.c:ps2NegotiationFlow6_22_00270110	ok	ok	ok	ok	
+00270230	208	Flow6_23	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:notOnHand		ok	ok	ok	ok	
+00270300	1252	ps2NegotiationFlow6_24_00270300	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:outcome	negotiation_flow.c:ps2NegotiationFlow6_24_00270300	ok	ok	ok	ok	
+00270800	116	Flow6_25	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:talksOn		ok	ok	ok	ok	
+00270878	88	Flow6_26	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:anyHelper		ok	ok	ok	ok	
+002708d0	140	Flow6_27	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperForTalk		ok	ok	ok	ok	
+00270960	280	ps2NegotiationPhaseFlow6_28_00270960	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:dealOrOn	negotiation_phases.c:ps2NegotiationPhaseFlow6_28_00270960	ok	ok	ok	ok	
+00270a80	92	Flow6_29	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperMatched		ok	ok	ok	ok	
+00270ae0	80	Flow6_30	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperWords		ok	ok	ok	ok	
+00270b30	92	Flow6_31	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helpedDeal		ok	ok	ok	ok	
+00270b90	276	Flow6_32	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperSkill		ok	ok	ok	ok	
+00270ca8	224	Flow6_33	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperFailed		ok	ok	ok	ok	
+00270d88	80	Flow6_34	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:unmoved		ok	ok	ok	ok	
+00270dd8	92	Flow6_35	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:almostDeal		ok	ok	ok	ok	
+00270e38	168	Flow6_36	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:dealOrMore		ok	ok	ok	ok	
+00270ee0	264	Flow6_37	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:moreOrDeal		ok	ok	ok	ok	
+00270ff0	184	Flow6_38	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:roundWords		ok	ok	ok	ok	
+002710b0	408	Flow6_39	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:asksMore		ok	ok	ok	ok	
+00271258	216	Flow6_40	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:asksMoreWords		ok	ok	ok	ok	
+00271338	36	Flow6_41	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:asksMoreGoesOn		ok	ok	ok	ok	
+00271360	212	Flow6_42	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:giveMore		ok	ok	ok	ok	
+00271440	260	Flow6_43	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:refuses		ok	ok	ok	ok	
+00271550	88	Flow6_44	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:refusalHelper		ok	ok	ok	ok	
+002715a8	140	Flow6_45	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:refusalHelperSkill		ok	ok	ok	ok	
+00271638	100	Flow6_46	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:wonBack		ok	ok	ok	ok	
+002716a0	76	Flow6_47	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperLost		ok	ok	ok	ok	
+002716f0	92	Flow6_48	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggleOrNot		ok	ok	ok	ok	
+00271750	104	Flow6_49	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggleMacca		ok	ok	ok	ok	
+002717b8	100	Flow6_50	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggleHelper		ok	ok	ok	ok	
+00271820	152	Flow6_51	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggleHelperSkill		ok	ok	ok	ok	
+002718b8	64	Flow6_52	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperSteps		ok	ok	ok	ok	
+002718f8	540	Flow6_53	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperTakesPlace		ok	ok	ok	ok	
+00271b20	372	Flow6_74	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperLeaves		ok	ok	ok	ok	
+00271c98	200	Flow6_54	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperOwnWords		ok	ok	ok	ok	
+00271d60	80	Flow6_55	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperSpeaks		ok	ok	ok	ok	
+00271db0	328	Flow6_56	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperAffinity		ok	ok	ok	ok	
+00271f00	292	Flow6_57	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:helperWorks		ok	ok	ok	ok	
+00272028	72	Flow6_58	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggledDown		ok	ok	ok	ok	
+00272070	116	Flow6_59	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggleWords		ok	ok	ok	ok	
+002720e8	92	Flow6_71	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggleOnce		ok	ok	ok	ok	
+00272148	112	Flow6_60	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggledOnce		ok	ok	ok	ok	
+002721b8	92	Flow6_72	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggleTwice		ok	ok	ok	ok	
+00272218	112	Flow6_61	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggledTwice		ok	ok	ok	ok	
+00272288	92	Flow6_73	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggleThrice		ok	ok	ok	ok	
+002722e8	112	Flow6_62	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggledThrice		ok	ok	ok	ok	
+00272358	132	Flow6_63	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:haggleFailed		ok	ok	ok	ok	
+002723e0	112	Flow6_64	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:asksAgain		ok	ok	ok	ok	
+00272450	392	ps2NegotiationPhaseFlow6_65_00272450	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:notGiven	negotiation_phases.c:ps2NegotiationPhaseFlow6_65_00272450	ok	ok	ok	ok	
+002725e0	104	Flow6_66	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:tryAgain		ok	ok	ok	ok	
+00272648	116	Flow6_67	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:triesAgain		ok	ok	ok	ok	
+002726c0	36	Flow6_69	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:backToRequest		ok	ok	ok	ok	
 002726e8	48	nbNegoFlowTwo	USER_DEFINED	rewritten	shared/src/battle/talk_bargain.cpp:bargainFlow		ok	ok	ok	ok	
-00272718	360	ps2NegotiationOkFlow9_1_00272718	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:dealStruck	negotiation_ok.c:ps2NegotiationOkFlow9_1_00272718	ok	ok	pending	pending	
-00272888	120	ps2NegotiationOkFlow9_2_00272888	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:offersToJoin	negotiation_ok.c:ps2NegotiationOkFlow9_2_00272888	ok	ok	pending	pending	
-00272908	88	ps2NegotiationOkFlow9_3_00272908	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:checkStockRoom	negotiation_ok.c:ps2NegotiationOkFlow9_3_00272908	ok	ok	pending	pending	
-00272960	136	ps2NegotiationOkFlow9_4_00272960	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:checkLevel	negotiation_ok.c:ps2NegotiationOkFlow9_4_00272960	ok	ok	pending	pending	
-002729e8	84	ps2NegotiationOkFlow9_5_002729E8	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:joins	negotiation_ok.c:ps2NegotiationOkFlow9_5_002729E8	ok	ok	pending	pending	
-00272a40	80	ps2NegotiationOkFlow9_6_00272A40	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:stockFull	negotiation_ok.c:ps2NegotiationOkFlow9_6_00272A40	ok	ok	pending	pending	
-00272a90	8	ps2NegotiationOkFlow9_7_00272A90	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:joined	negotiation_ok.c:ps2NegotiationOkFlow9_7_00272A90	ok	ok	pending	pending	
-00272a98	80	ps2NegotiationOkFlow9_9_00272A98	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:tooWeak	negotiation_ok.c:ps2NegotiationOkFlow9_9_00272A98	ok	ok	pending	pending	
-00272ae8	80	ps2NegotiationOkFlow9_10_00272AE8	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:cannotJoin	negotiation_ok.c:ps2NegotiationOkFlow9_10_00272AE8	ok	ok	pending	pending	
-00272b38	168	ps2NegotiationOkFlow9_11_00272B38	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:chooseGift	negotiation_ok.c:ps2NegotiationOkFlow9_11_00272B38	ok	ok	pending	pending	
-00272be8	200	ps2NegotiationOkFlow9_13_00272BE8	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:offersMacca	negotiation_ok.c:ps2NegotiationOkFlow9_13_00272BE8	ok	ok	pending	pending	
-00272cb8	96	ps2NegotiationOkFlow9_14_00272CB8	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:receivesMacca	negotiation_ok.c:ps2NegotiationOkFlow9_14_00272CB8	ok	ok	pending	pending	
-00272d18	132	ps2NegotiationOkFlow9_15_00272D18	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:addsMacca	negotiation_ok.c:ps2NegotiationOkFlow9_15_00272D18	ok	ok	pending	pending	
-00272da0	356	ps2NegotiationOkFlow9_16_00272DA0	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:offersItem	negotiation_ok.c:ps2NegotiationOkFlow9_16_00272DA0	ok	ok	pending	pending	
-00272f08	96	ps2NegotiationOkFlow9_17_00272F08	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:receivesItem	negotiation_ok.c:ps2NegotiationOkFlow9_17_00272F08	ok	ok	pending	pending	
-00272f68	60	ps2NegotiationOkFlow9_18_00272F68	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:addsItem	negotiation_ok.c:ps2NegotiationOkFlow9_18_00272F68	ok	ok	pending	pending	
-00272fa8	120	ps2NegotiationOkFlow9_19_00272FA8	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:offersInformation	negotiation_ok.c:ps2NegotiationOkFlow9_19_00272FA8	ok	ok	pending	pending	
-00273028	164	ps2NegotiationOkFlow9_20_00273028	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:asksWhatAbout	negotiation_ok.c:ps2NegotiationOkFlow9_20_00273028	ok	ok	pending	pending	
-002730d8	76	ps2NegotiationOkFlow9_21_002730D8	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:choosesInformation	negotiation_ok.c:ps2NegotiationOkFlow9_21_002730D8	ok	ok	pending	pending	
-00273128	80	ps2NegotiationOkFlow9_22_00273128	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:tellsInformation	negotiation_ok.c:ps2NegotiationOkFlow9_22_00273128	ok	ok	pending	pending	
+00272718	360	ps2NegotiationOkFlow9_1_00272718	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:dealStruck	negotiation_ok.c:ps2NegotiationOkFlow9_1_00272718	ok	ok	ok	ok	
+00272888	120	ps2NegotiationOkFlow9_2_00272888	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:offersToJoin	negotiation_ok.c:ps2NegotiationOkFlow9_2_00272888	ok	ok	ok	ok	
+00272908	88	ps2NegotiationOkFlow9_3_00272908	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:checkStockRoom	negotiation_ok.c:ps2NegotiationOkFlow9_3_00272908	ok	ok	ok	ok	
+00272960	136	ps2NegotiationOkFlow9_4_00272960	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:checkLevel	negotiation_ok.c:ps2NegotiationOkFlow9_4_00272960	ok	ok	ok	ok	
+002729e8	84	ps2NegotiationOkFlow9_5_002729E8	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:joins	negotiation_ok.c:ps2NegotiationOkFlow9_5_002729E8	ok	ok	ok	ok	
+00272a40	80	ps2NegotiationOkFlow9_6_00272A40	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:stockFull	negotiation_ok.c:ps2NegotiationOkFlow9_6_00272A40	ok	ok	ok	ok	
+00272a90	8	ps2NegotiationOkFlow9_7_00272A90	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:joined	negotiation_ok.c:ps2NegotiationOkFlow9_7_00272A90	ok	ok	ok	ok	
+00272a98	80	ps2NegotiationOkFlow9_9_00272A98	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:tooWeak	negotiation_ok.c:ps2NegotiationOkFlow9_9_00272A98	ok	ok	ok	ok	
+00272ae8	80	ps2NegotiationOkFlow9_10_00272AE8	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:cannotJoin	negotiation_ok.c:ps2NegotiationOkFlow9_10_00272AE8	ok	ok	ok	ok	
+00272b38	168	ps2NegotiationOkFlow9_11_00272B38	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:chooseGift	negotiation_ok.c:ps2NegotiationOkFlow9_11_00272B38	ok	ok	ok	ok	
+00272be8	200	ps2NegotiationOkFlow9_13_00272BE8	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:offersMacca	negotiation_ok.c:ps2NegotiationOkFlow9_13_00272BE8	ok	ok	ok	ok	
+00272cb8	96	ps2NegotiationOkFlow9_14_00272CB8	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:receivesMacca	negotiation_ok.c:ps2NegotiationOkFlow9_14_00272CB8	ok	ok	ok	ok	
+00272d18	132	ps2NegotiationOkFlow9_15_00272D18	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:addsMacca	negotiation_ok.c:ps2NegotiationOkFlow9_15_00272D18	ok	ok	ok	ok	
+00272da0	356	ps2NegotiationOkFlow9_16_00272DA0	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:offersItem	negotiation_ok.c:ps2NegotiationOkFlow9_16_00272DA0	ok	ok	ok	ok	
+00272f08	96	ps2NegotiationOkFlow9_17_00272F08	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:receivesItem	negotiation_ok.c:ps2NegotiationOkFlow9_17_00272F08	ok	ok	ok	ok	
+00272f68	60	ps2NegotiationOkFlow9_18_00272F68	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:addsItem	negotiation_ok.c:ps2NegotiationOkFlow9_18_00272F68	ok	ok	ok	ok	
+00272fa8	120	ps2NegotiationOkFlow9_19_00272FA8	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:offersInformation	negotiation_ok.c:ps2NegotiationOkFlow9_19_00272FA8	ok	ok	ok	ok	
+00273028	164	ps2NegotiationOkFlow9_20_00273028	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:asksWhatAbout	negotiation_ok.c:ps2NegotiationOkFlow9_20_00273028	ok	ok	ok	ok	
+002730d8	76	ps2NegotiationOkFlow9_21_002730D8	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:choosesInformation	negotiation_ok.c:ps2NegotiationOkFlow9_21_002730D8	ok	ok	ok	ok	
+00273128	80	ps2NegotiationOkFlow9_22_00273128	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:tellsInformation	negotiation_ok.c:ps2NegotiationOkFlow9_22_00273128	ok	ok	ok	ok	
 00273178	48	ps2NegotiationOkDispatch_00273178	USER_DEFINED	rewritten	shared/src/battle/talk_deal.cpp:dealFlow	negotiation_ok.c:ps2NegotiationOkDispatch_00273178	ok	ok	ok	ok	
 002731a8	40	CheckSkillShinoKeiyaku	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:deathPact						
-002731d0	252	Flow10_1	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:noDeal		ok	ok	pending	pending	
-002732d0	132	Flow10_2	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:shakesHead		ok	ok	pending	pending	
-00273358	88	Flow10_3	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:anyHelper		ok	ok	pending	pending	
-002733b0	140	Flow10_4	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:helperStepsIn		ok	ok	pending	pending	
-00273440	128	Flow10_5	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:helperFailed		ok	ok	pending	pending	
-002734c8	148	Flow10_6	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:attacks		ok	ok	pending	pending	
-00273560	200	Flow10_7	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:attacksOverGift		ok	ok	pending	pending	
-00273630	116	Flow10_8	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:attacksOverJoining		ok	ok	pending	pending	
-002736a8	116	Flow10_9	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:attacksOverInformation		ok	ok	pending	pending	
-00273720	356	Flow10_33	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:deathPactStrike		ok	ok	pending	pending	
-00273898	144	Flow10_10	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:helperWins		ok	ok	pending	pending	
-00273928	80	Flow10_11	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:refusesGently		ok	ok	pending	pending	
-00273978	160	Flow10_12	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:partingGiftOrNot		ok	ok	pending	pending	
-00273a20	108	Flow10_13	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:choosesPartingGift		ok	ok	pending	pending	
-00273a90	132	Flow10_15	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:partingMacca		ok	ok	pending	pending	
-00273b18	188	Flow10_16	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:partingItem		ok	ok	pending	pending	
-00273bd8	80	Flow10_17	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:partingHealing		ok	ok	pending	pending	
-00273c28	56	Flow10_18	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:addsMacca		ok	ok	pending	pending	
-00273c60	60	Flow10_19	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:addsItem		ok	ok	pending	pending	
-00273ca0	124	Flow10_20	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:heals		ok	ok	pending	pending	
-00273d20	152	Flow10_21	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:leavesOrAttacks		ok	ok	pending	pending	
-00273db8	80	Flow10_22	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:thanks		ok	ok	pending	pending	
-00273e08	68	Flow10_23	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:leaves		ok	ok	pending	pending	
-00273e50	140	Flow10_24	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:attacksAfterAll		ok	ok	pending	pending	
-00273ee0	208	Flow10_25	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:fightsOverGift		ok	ok	pending	pending	
-00273fb8	120	Flow10_26	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:fightsOverJoining		ok	ok	pending	pending	
-00274030	120	Flow10_27	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:fightsOverInformation		ok	ok	pending	pending	
-002740a8	80	Flow10_28	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:parts		ok	ok	pending	pending	
-002740f8	8	Flow10_29	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:gone		ok	ok	pending	pending	
-00274100	80	Flow10_30	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:receivedMacca		ok	ok	pending	pending	
-00274150	80	Flow10_31	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:receivedItem		ok	ok	pending	pending	
-002741a0	84	Flow10_32	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:healed		ok	ok	pending	pending	
+002731d0	252	Flow10_1	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:noDeal		ok	ok	ok	ok	
+002732d0	132	Flow10_2	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:shakesHead		ok	ok	ok	ok	
+00273358	88	Flow10_3	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:anyHelper		ok	ok	ok	ok	
+002733b0	140	Flow10_4	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:helperStepsIn		ok	ok	ok	ok	
+00273440	128	Flow10_5	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:helperFailed		ok	ok	ok	ok	
+002734c8	148	Flow10_6	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:attacks		ok	ok	ok	ok	
+00273560	200	Flow10_7	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:attacksOverGift		ok	ok	ok	ok	
+00273630	116	Flow10_8	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:attacksOverJoining		ok	ok	ok	ok	
+002736a8	116	Flow10_9	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:attacksOverInformation		ok	ok	ok	ok	
+00273720	356	Flow10_33	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:deathPactStrike		ok	ok	ok	ok	
+00273898	144	Flow10_10	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:helperWins		ok	ok	ok	ok	
+00273928	80	Flow10_11	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:refusesGently		ok	ok	ok	ok	
+00273978	160	Flow10_12	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:partingGiftOrNot		ok	ok	ok	ok	
+00273a20	108	Flow10_13	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:choosesPartingGift		ok	ok	ok	ok	
+00273a90	132	Flow10_15	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:partingMacca		ok	ok	ok	ok	
+00273b18	188	Flow10_16	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:partingItem		ok	ok	ok	ok	
+00273bd8	80	Flow10_17	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:partingHealing		ok	ok	ok	ok	
+00273c28	56	Flow10_18	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:addsMacca		ok	ok	ok	ok	
+00273c60	60	Flow10_19	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:addsItem		ok	ok	ok	ok	
+00273ca0	124	Flow10_20	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:heals		ok	ok	ok	ok	
+00273d20	152	Flow10_21	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:leavesOrAttacks		ok	ok	ok	ok	
+00273db8	80	Flow10_22	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:thanks		ok	ok	ok	ok	
+00273e08	68	Flow10_23	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:leaves		ok	ok	ok	ok	
+00273e50	140	Flow10_24	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:attacksAfterAll		ok	ok	ok	ok	
+00273ee0	208	Flow10_25	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:fightsOverGift		ok	ok	ok	ok	
+00273fb8	120	Flow10_26	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:fightsOverJoining		ok	ok	ok	ok	
+00274030	120	Flow10_27	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:fightsOverInformation		ok	ok	ok	ok	
+002740a8	80	Flow10_28	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:parts		ok	ok	ok	ok	
+002740f8	8	Flow10_29	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:gone		ok	ok	ok	ok	
+00274100	80	Flow10_30	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:receivedMacca		ok	ok	ok	ok	
+00274150	80	Flow10_31	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:receivedItem		ok	ok	ok	ok	
+002741a0	84	Flow10_32	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:healed		ok	ok	ok	ok	
 002741f8	48	nbNegoFlowNg	USER_DEFINED	rewritten	shared/src/battle/talk_nodeal.cpp:noDealFlow		ok	ok	ok	ok	
-00274228	436	ps2NegoFullMoon2_1_00274228	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonDecides	negotiation_fullmoon.c:ps2NegoFullMoon2_1_00274228	ok	ok	pending	pending	
-002743e8	196	ps2NegoFullMoon2_2_002743E8	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonRefuses	negotiation_fullmoon.c:ps2NegoFullMoon2_2_002743E8	ok	ok	pending	pending	
-002744b8	36	ps2NegoFullMoon2_3_002744B8	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonQuestionBegins	negotiation_fullmoon.c:ps2NegoFullMoon2_3_002744B8	ok	ok	pending	pending	
-002744e0	96	ps2NegoFullMoon2_4_002744E0	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonPicksQuestion	negotiation_fullmoon.c:ps2NegoFullMoon2_4_002744E0	ok	ok	pending	pending	
-00274540	328	ps2NegoFullMoon2_5_00274540	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonAsks	negotiation_fullmoon.c:ps2NegoFullMoon2_5_00274540	ok	ok	pending	pending	
-00274690	616	ps2NegoFullMoon2_6_00274690	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonJudges	negotiation_fullmoon.c:ps2NegoFullMoon2_6_00274690	ok	ok	pending	pending	
-00274908	64	ps2NegoFullMoon2_7_00274908	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonPleased	negotiation_fullmoon.c:ps2NegoFullMoon2_7_00274908	ok	ok	pending	pending	
-00274948	36	ps2NegoFullMoon2_8_00274948	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonPleasedGoesOn	negotiation_fullmoon.c:ps2NegoFullMoon2_8_00274948	ok	ok	pending	pending	
-00274970	152	ps2NegoFullMoon2_9_00274970	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonSaysPleased	negotiation_fullmoon.c:ps2NegoFullMoon2_9_00274970	ok	ok	pending	pending	
-00274a10	388	ps2NegoFullMoon2_10_00274A10	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonGiftOrJoin	negotiation_fullmoon.c:ps2NegoFullMoon2_10_00274A10	ok	ok	pending	pending	
-00274b98	108	ps2NegoFullMoon2_11_00274B98	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonGivesMacca	negotiation_fullmoon.c:ps2NegoFullMoon2_11_00274B98	ok	ok	pending	pending	
-00274c08	68	ps2NegoFullMoon2_12_00274C08	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonJoins	negotiation_fullmoon.c:ps2NegoFullMoon2_12_00274C08	ok	ok	pending	pending	
-00274c50	192	ps2NegoFullMoon2_13_00274C50	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonDispleased	negotiation_fullmoon.c:ps2NegoFullMoon2_13_00274C50	ok	ok	pending	pending	
-00274d18	160	ps2NegoFullMoon2_14_00274D18	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonLeavesOrAttacks	negotiation_fullmoon.c:ps2NegoFullMoon2_14_00274D18	ok	ok	pending	pending	
-00274db8	68	ps2NegoFullMoon2_15_00274DB8	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonLeaves	negotiation_fullmoon.c:ps2NegoFullMoon2_15_00274DB8	ok	ok	pending	pending	
-00274e00	92	ps2NegoFullMoon2_16_00274E00	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonAttacks	negotiation_fullmoon.c:ps2NegoFullMoon2_16_00274E00	ok	ok	pending	pending	
+00274228	436	ps2NegoFullMoon2_1_00274228	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonDecides	negotiation_fullmoon.c:ps2NegoFullMoon2_1_00274228	ok	ok	ok	ok	
+002743e8	196	ps2NegoFullMoon2_2_002743E8	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonRefuses	negotiation_fullmoon.c:ps2NegoFullMoon2_2_002743E8	ok	ok	ok	ok	
+002744b8	36	ps2NegoFullMoon2_3_002744B8	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonQuestionBegins	negotiation_fullmoon.c:ps2NegoFullMoon2_3_002744B8	ok	ok	ok	ok	
+002744e0	96	ps2NegoFullMoon2_4_002744E0	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonPicksQuestion	negotiation_fullmoon.c:ps2NegoFullMoon2_4_002744E0	ok	ok	ok	ok	
+00274540	328	ps2NegoFullMoon2_5_00274540	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonAsks	negotiation_fullmoon.c:ps2NegoFullMoon2_5_00274540	ok	ok	ok	ok	
+00274690	616	ps2NegoFullMoon2_6_00274690	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonJudges	negotiation_fullmoon.c:ps2NegoFullMoon2_6_00274690	ok	ok	ok	ok	
+00274908	64	ps2NegoFullMoon2_7_00274908	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonPleased	negotiation_fullmoon.c:ps2NegoFullMoon2_7_00274908	ok	ok	ok	ok	
+00274948	36	ps2NegoFullMoon2_8_00274948	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonPleasedGoesOn	negotiation_fullmoon.c:ps2NegoFullMoon2_8_00274948	ok	ok	ok	ok	
+00274970	152	ps2NegoFullMoon2_9_00274970	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonSaysPleased	negotiation_fullmoon.c:ps2NegoFullMoon2_9_00274970	ok	ok	ok	ok	
+00274a10	388	ps2NegoFullMoon2_10_00274A10	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonGiftOrJoin	negotiation_fullmoon.c:ps2NegoFullMoon2_10_00274A10	ok	ok	ok	ok	
+00274b98	108	ps2NegoFullMoon2_11_00274B98	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonGivesMacca	negotiation_fullmoon.c:ps2NegoFullMoon2_11_00274B98	ok	ok	ok	ok	
+00274c08	68	ps2NegoFullMoon2_12_00274C08	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonJoins	negotiation_fullmoon.c:ps2NegoFullMoon2_12_00274C08	ok	ok	ok	ok	
+00274c50	192	ps2NegoFullMoon2_13_00274C50	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonDispleased	negotiation_fullmoon.c:ps2NegoFullMoon2_13_00274C50	ok	ok	ok	ok	
+00274d18	160	ps2NegoFullMoon2_14_00274D18	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonLeavesOrAttacks	negotiation_fullmoon.c:ps2NegoFullMoon2_14_00274D18	ok	ok	ok	ok	
+00274db8	68	ps2NegoFullMoon2_15_00274DB8	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonLeaves	negotiation_fullmoon.c:ps2NegoFullMoon2_15_00274DB8	ok	ok	ok	ok	
+00274e00	92	ps2NegoFullMoon2_16_00274E00	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:moonAttacks	negotiation_fullmoon.c:ps2NegoFullMoon2_16_00274E00	ok	ok	ok	ok	
 00274e60	48	nbNegoFlowFullMoon	USER_DEFINED	rewritten	shared/src/battle/talk_fullmoon.cpp:fullMoonFlow		ok	ok	ok	ok	
-00274e90	80	Flow3_1	USER_DEFINED	rewritten	shared/src/battle/talk_minor.cpp:stockSays		ok	ok	pending	pending	
-00274ee0	40	Flow3_2	USER_DEFINED	rewritten	shared/src/battle/talk_minor.cpp:stockEnds		ok	ok	pending	pending	
+00274e90	80	Flow3_1	USER_DEFINED	rewritten	shared/src/battle/talk_minor.cpp:stockSays		ok	ok	ok	ok	
+00274ee0	40	Flow3_2	USER_DEFINED	rewritten	shared/src/battle/talk_minor.cpp:stockEnds		ok	ok	ok	ok	
 00274f08	48	nbNegoFlowStock	USER_DEFINED	rewritten	shared/src/battle/talk_minor.cpp:stockFlow		ok	ok	ok	ok	
-00274f38	832	Flow4_1	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:meetsKin		ok	ok	pending	pending	
-00275280	92	Flow4_2	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:giftOrParting		ok	ok	pending	pending	
-002752e0	36	Flow4_3	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:gift		ok	ok	pending	pending	
-00275308	108	Flow4_4	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:chooseGift		ok	ok	pending	pending	
-00275378	124	Flow4_5	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:offersMacca		ok	ok	pending	pending	
-002753f8	172	Flow4_6	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:offersItem		ok	ok	pending	pending	
-002754a8	80	Flow4_7	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:offersHealing		ok	ok	pending	pending	
-002754f8	56	Flow4_8	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:addsMacca		ok	ok	pending	pending	
-00275530	60	Flow4_9	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:addsItem		ok	ok	pending	pending	
-00275570	124	Flow4_10	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:heals		ok	ok	pending	pending	
-002755f0	220	Flow4_11	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:received		ok	ok	pending	pending	
-002756d8	80	Flow4_12	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:parts		ok	ok	pending	pending	
-00275728	40	Flow4_13	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:leaves		ok	ok	pending	pending	
+00274f38	832	Flow4_1	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:meetsKin		ok	ok	ok	ok	
+00275280	92	Flow4_2	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:giftOrParting		ok	ok	ok	ok	
+002752e0	36	Flow4_3	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:gift		ok	ok	ok	ok	
+00275308	108	Flow4_4	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:chooseGift		ok	ok	ok	ok	
+00275378	124	Flow4_5	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:offersMacca		ok	ok	ok	ok	
+002753f8	172	Flow4_6	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:offersItem		ok	ok	ok	ok	
+002754a8	80	Flow4_7	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:offersHealing		ok	ok	ok	ok	
+002754f8	56	Flow4_8	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:addsMacca		ok	ok	ok	ok	
+00275530	60	Flow4_9	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:addsItem		ok	ok	ok	ok	
+00275570	124	Flow4_10	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:heals		ok	ok	ok	ok	
+002755f0	220	Flow4_11	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:received		ok	ok	ok	ok	
+002756d8	80	Flow4_12	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:parts		ok	ok	ok	ok	
+00275728	40	Flow4_13	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:leaves		ok	ok	ok	ok	
 00275750	48	nbNegoFlowDouchara	USER_DEFINED	rewritten	shared/src/battle/talk_kin.cpp:kinFlow		ok	ok	ok	ok	
-00275780	36	Flow5_1	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:fateBegins		ok	ok	pending	pending	
-002757a8	148	Flow5_2	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:firstMeeting		ok	ok	pending	pending	
-00275840	356	Flow5_3	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:exchange		ok	ok	pending	pending	
-002759a8	108	Flow5_4	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:outcome		ok	ok	pending	pending	
-00275a18	8	Flow5_5	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	pending	pending	
-00275a20	216	Flow5_6	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:givesGifts		ok	ok	pending	pending	
-00275af8	8	Flow5_7	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	pending	pending	
-00275b00	8	Flow5_8	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	pending	pending	
-00275b08	128	Flow5_9	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:showsGifts		ok	ok	pending	pending	
-00275b88	8	Flow5_10	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	pending	pending	
-00275b90	8	Flow5_11	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	pending	pending	
-00275b98	8	Flow5_12	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	pending	pending	
-00275ba0	8	Flow5_13	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	pending	pending	
-00275ba8	68	Flow5_14	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:lost		ok	ok	pending	pending	
-00275bf0	92	Flow5_15	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:won		ok	ok	pending	pending	
-00275c50	8	Flow5_16	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	pending	pending	
-00275c58	8	Flow5_17	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	pending	pending	
-00275c60	216	Flow5_18	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:givesGiftsAgain		ok	ok	pending	pending	
-00275d38	8	Flow5_19	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	pending	pending	
-00275d40	8	Flow5_20	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	pending	pending	
-00275d48	128	Flow5_21	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:showsGiftsAgain		ok	ok	pending	pending	
+00275780	36	Flow5_1	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:fateBegins		ok	ok	ok	ok	
+002757a8	148	Flow5_2	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:firstMeeting		ok	ok	ok	ok	
+00275840	356	Flow5_3	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:exchange		ok	ok	ok	ok	
+002759a8	108	Flow5_4	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:outcome		ok	ok	ok	ok	
+00275a18	8	Flow5_5	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	ok	ok	
+00275a20	216	Flow5_6	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:givesGifts		ok	ok	ok	ok	
+00275af8	8	Flow5_7	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	ok	ok	
+00275b00	8	Flow5_8	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	ok	ok	
+00275b08	128	Flow5_9	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:showsGifts		ok	ok	ok	ok	
+00275b88	8	Flow5_10	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	ok	ok	
+00275b90	8	Flow5_11	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	ok	ok	
+00275b98	8	Flow5_12	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	ok	ok	
+00275ba0	8	Flow5_13	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	ok	ok	
+00275ba8	68	Flow5_14	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:lost		ok	ok	ok	ok	
+00275bf0	92	Flow5_15	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:won		ok	ok	ok	ok	
+00275c50	8	Flow5_16	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	ok	ok	
+00275c58	8	Flow5_17	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	ok	ok	
+00275c60	216	Flow5_18	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:givesGiftsAgain		ok	ok	ok	ok	
+00275d38	8	Flow5_19	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	ok	ok	
+00275d40	8	Flow5_20	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:nothing		ok	ok	ok	ok	
+00275d48	128	Flow5_21	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:showsGiftsAgain		ok	ok	ok	ok	
 00275dc8	48	nbNegoFlowInnen	USER_DEFINED	rewritten	shared/src/battle/talk_fated.cpp:fatedFlow		ok	ok	ok	ok	
-00275df8	36	ps2NegotiationQuestionFlow7_1_00275DF8	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:questionBegins	negotiation_question.c:ps2NegotiationQuestionFlow7_1_00275DF8	ok	ok	pending	pending	
-00275e20	168	ps2NegotiationQuestionFlow7_3_00275E20	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:picksQuestion	negotiation_question.c:ps2NegotiationQuestionFlow7_3_00275E20	ok	ok	pending	pending	
-00275ec8	324	ps2NegotiationQuestionFlow7_11_00275EC8	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:asksOfKind	negotiation_question.c:ps2NegotiationQuestionFlow7_11_00275EC8	ok	ok	pending	pending	
-00276018	272	ps2NegotiationQuestionFlow7_15_00276018	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:asksOwn	negotiation_question.c:ps2NegotiationQuestionFlow7_15_00276018	ok	ok	pending	pending	
-00276130	304	ps2NegotiationQuestionFlow7_20_00276130	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:judgesOwnAnswer	negotiation_question.c:ps2NegotiationQuestionFlow7_20_00276130	ok	ok	pending	pending	
-00276260	476	ps2NegotiationQuestionFlow7_22_00276260	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:judgesKindAnswer	negotiation_question.c:ps2NegotiationQuestionFlow7_22_00276260	ok	ok	pending	pending	
-00276448	240	Flow7_23	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:pleasedOwn		ok	ok	pending	pending	
-00276540	248	Flow7_24	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:displeasedOwn		ok	ok	pending	pending	
-00276640	108	Flow7_25	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:pleasedKind		ok	ok	pending	pending	
-002766b0	120	Flow7_26	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:displeasedKind		ok	ok	pending	pending	
+00275df8	36	ps2NegotiationQuestionFlow7_1_00275DF8	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:questionBegins	negotiation_question.c:ps2NegotiationQuestionFlow7_1_00275DF8	ok	ok	ok	ok	
+00275e20	168	ps2NegotiationQuestionFlow7_3_00275E20	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:picksQuestion	negotiation_question.c:ps2NegotiationQuestionFlow7_3_00275E20	ok	ok	ok	ok	
+00275ec8	324	ps2NegotiationQuestionFlow7_11_00275EC8	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:asksOfKind	negotiation_question.c:ps2NegotiationQuestionFlow7_11_00275EC8	ok	ok	ok	ok	
+00276018	272	ps2NegotiationQuestionFlow7_15_00276018	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:asksOwn	negotiation_question.c:ps2NegotiationQuestionFlow7_15_00276018	ok	ok	ok	ok	
+00276130	304	ps2NegotiationQuestionFlow7_20_00276130	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:judgesOwnAnswer	negotiation_question.c:ps2NegotiationQuestionFlow7_20_00276130	ok	ok	ok	ok	
+00276260	476	ps2NegotiationQuestionFlow7_22_00276260	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:judgesKindAnswer	negotiation_question.c:ps2NegotiationQuestionFlow7_22_00276260	ok	ok	ok	ok	
+00276448	240	Flow7_23	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:pleasedOwn		ok	ok	ok	ok	
+00276540	248	Flow7_24	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:displeasedOwn		ok	ok	ok	ok	
+00276640	108	Flow7_25	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:pleasedKind		ok	ok	ok	ok	
+002766b0	120	Flow7_26	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:displeasedKind		ok	ok	ok	ok	
 00276730	48	nbNegoFlowQuestion	USER_DEFINED	rewritten	shared/src/battle/talk_question.cpp:questionFlow		ok	ok	ok	ok	
-00276760	80	Flow8_1	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:opens		ok	ok	pending	pending	
-002767b0	36	Flow8_2	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:afterOpening		ok	ok	pending	pending	
-002767d8	80	Flow8_3	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:threeWays		ok	ok	pending	pending	
-00276828	36	Flow8_4	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:toDecision		ok	ok	pending	pending	
-00276850	92	Flow8_5	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:agreesOrLeaves		ok	ok	pending	pending	
-002768b0	80	Flow8_6	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:agrees		ok	ok	pending	pending	
-00276900	116	Flow8_7	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:leaves		ok	ok	pending	pending	
-00276980	36	Flow8_8	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:secondWay		ok	ok	pending	pending	
-002769a8	64	Flow8_9	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:secondWayChoice		ok	ok	pending	pending	
-002769e8	64	Flow8_10	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:secondWayFight		ok	ok	pending	pending	
-00276a28	64	Flow8_11	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:thirdWay		ok	ok	pending	pending	
-00276a68	132	Flow8_12	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:refusesAndFights		ok	ok	pending	pending	
-00276af8	80	Flow8_13	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:warns		ok	ok	pending	pending	
-00276b48	92	Flow8_14	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:eitherFight		ok	ok	pending	pending	
-00276ba8	116	Flow8_15	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:shakesHeadAndFights		ok	ok	pending	pending	
-00276c28	56	Flow8_16	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:fights		ok	ok	pending	pending	
-00276c60	36	Flow8_17	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:toMacca		ok	ok	pending	pending	
-00276c88	68	Flow8_18	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:maccaAndFights		ok	ok	pending	pending	
-00276cd0	8	Flow8_19	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:ends		ok	ok	pending	pending	
+00276760	80	Flow8_1	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:opens		ok	ok	ok	ok	
+002767b0	36	Flow8_2	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:afterOpening		ok	ok	ok	ok	
+002767d8	80	Flow8_3	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:threeWays		ok	ok	ok	ok	
+00276828	36	Flow8_4	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:toDecision		ok	ok	ok	ok	
+00276850	92	Flow8_5	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:agreesOrLeaves		ok	ok	ok	ok	
+002768b0	80	Flow8_6	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:agrees		ok	ok	ok	ok	
+00276900	116	Flow8_7	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:leaves		ok	ok	ok	ok	
+00276980	36	Flow8_8	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:secondWay		ok	ok	ok	ok	
+002769a8	64	Flow8_9	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:secondWayChoice		ok	ok	ok	ok	
+002769e8	64	Flow8_10	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:secondWayFight		ok	ok	ok	ok	
+00276a28	64	Flow8_11	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:thirdWay		ok	ok	ok	ok	
+00276a68	132	Flow8_12	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:refusesAndFights		ok	ok	ok	ok	
+00276af8	80	Flow8_13	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:warns		ok	ok	ok	ok	
+00276b48	92	Flow8_14	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:eitherFight		ok	ok	ok	ok	
+00276ba8	116	Flow8_15	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:shakesHeadAndFights		ok	ok	ok	ok	
+00276c28	56	Flow8_16	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:fights		ok	ok	ok	ok	
+00276c60	36	Flow8_17	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:toMacca		ok	ok	ok	ok	
+00276c88	68	Flow8_18	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:maccaAndFights		ok	ok	ok	ok	
+00276cd0	8	Flow8_19	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:ends		ok	ok	ok	ok	
 00276cd8	48	nbNegoFlowFight	USER_DEFINED	rewritten	shared/src/battle/talk_fight.cpp:fightFlow		ok	ok	ok	ok	
-00276d08	36	Flow11_1	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:drainBegins		ok	ok	pending	pending	
-00276d30	232	Flow11_2	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:howMuch		ok	ok	pending	pending	
-00276e20	636	Flow11_3	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:drains		ok	ok	pending	pending	
-002770a0	120	Flow11_4	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:afterDrain		ok	ok	pending	pending	
-00277118	96	Flow11_5	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:talkerFell		ok	ok	pending	pending	
-00277178	92	Flow11_6	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:mpOrHp		ok	ok	pending	pending	
-002771d8	108	Flow11_7	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:mpDrained		ok	ok	pending	pending	
-00277248	100	Flow11_8	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:satisfied		ok	ok	pending	pending	
-002772b0	204	Flow11_9	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:notEnough		ok	ok	pending	pending	
+00276d08	36	Flow11_1	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:drainBegins		ok	ok	ok	ok	
+00276d30	232	Flow11_2	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:howMuch		ok	ok	ok	ok	
+00276e20	636	Flow11_3	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:drains		ok	ok	ok	ok	
+002770a0	120	Flow11_4	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:afterDrain		ok	ok	ok	ok	
+00277118	96	Flow11_5	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:talkerFell		ok	ok	ok	ok	
+00277178	92	Flow11_6	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:mpOrHp		ok	ok	ok	ok	
+002771d8	108	Flow11_7	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:mpDrained		ok	ok	ok	ok	
+00277248	100	Flow11_8	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:satisfied		ok	ok	ok	ok	
+002772b0	204	Flow11_9	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:notEnough		ok	ok	ok	ok	
 00277388	48	nbNegoFlowDrain	USER_DEFINED	rewritten	shared/src/battle/talk_drain.cpp:drainFlow		ok	ok	ok	ok	
-002773b8	60	Flow14_1	USER_DEFINED	rewritten	shared/src/battle/talk_minor.cpp:asksToJoin		ok	ok	pending	pending	
-002773f8	120	Flow14_2	USER_DEFINED	rewritten	shared/src/battle/talk_minor.cpp:asksToJoinNods		ok	ok	pending	pending	
+002773b8	60	Flow14_1	USER_DEFINED	rewritten	shared/src/battle/talk_minor.cpp:asksToJoin		ok	ok	ok	ok	
+002773f8	120	Flow14_2	USER_DEFINED	rewritten	shared/src/battle/talk_minor.cpp:asksToJoinNods		ok	ok	ok	ok	
 00277478	48	nbNegoFlowBinjo	USER_DEFINED	rewritten	shared/src/battle/talk_minor.cpp:askToJoinFlow		ok	ok	ok	ok	
-002774a8	60	ps2NegotiationMukanFlow12_1_002774A8	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:speaksUp	negotiation_mukan.c:ps2NegotiationMukanFlow12_1_002774A8	ok	ok	pending	pending	
-002774e8	276	ps2NegotiationMukanFlow12_2_002774E8	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:questionOrNot	negotiation_mukan.c:ps2NegotiationMukanFlow12_2_002774E8	ok	ok	pending	pending	
-00277600	392	ps2NegotiationMukanFlow12_3_00277600	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:asksFirst	negotiation_mukan.c:ps2NegotiationMukanFlow12_3_00277600	ok	ok	pending	pending	
-00277798	392	ps2NegotiationMukanFlow12_4_00277798	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:asksSecond	negotiation_mukan.c:ps2NegotiationMukanFlow12_4_00277798	ok	ok	pending	pending	
-00277930	120	Flow12_24	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:noQuestion		ok	ok	pending	pending	
-002779b0	68	Flow12_25	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:leavesWithoutQuestion		ok	ok	pending	pending	
-002779f8	120	Flow12_16	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:firstPleased		ok	ok	pending	pending	
-00277a78	120	Flow12_17	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:firstDispleased		ok	ok	pending	pending	
-00277af8	120	Flow12_18	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:firstPleasedOther		ok	ok	pending	pending	
-00277b78	120	Flow12_19	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:firstDispleasedOther		ok	ok	pending	pending	
-00277bf8	120	Flow12_20	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:secondPleased		ok	ok	pending	pending	
-00277c78	120	Flow12_21	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:secondDispleased		ok	ok	pending	pending	
-00277cf8	120	Flow12_22	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:secondPleasedOther		ok	ok	pending	pending	
-00277d78	120	Flow12_23	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:secondDispleasedOther		ok	ok	pending	pending	
-00277df8	36	Flow12_26	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:pleasedGoesOn		ok	ok	pending	pending	
-00277e20	408	Flow12_27	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:offers		ok	ok	pending	pending	
-00277fb8	124	Flow12_28	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:offersToJoin		ok	ok	pending	pending	
-00278038	144	Flow12_29	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:takeIt		ok	ok	pending	pending	
-002780d0	224	Flow12_30	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:gladToJoin		ok	ok	pending	pending	
-002781c0	40	Flow12_31	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:joins		ok	ok	pending	pending	
-002781e8	124	Flow12_35	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:offersInformation		ok	ok	pending	pending	
-00278268	92	Flow12_36	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:choosesInformation		ok	ok	pending	pending	
-002782c8	80	Flow12_37	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:tells		ok	ok	pending	pending	
-00278318	128	Flow12_38	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:turnedDown		ok	ok	pending	pending	
-002783a0	68	Flow12_39	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:leavesTurnedDown		ok	ok	pending	pending	
-002783e8	144	Flow12_40	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:offersMacca		ok	ok	pending	pending	
-00278480	80	Flow12_41	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:receivedMacca		ok	ok	pending	pending	
-002784d0	56	Flow12_42	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:addsMacca		ok	ok	pending	pending	
-00278508	196	Flow12_43	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:offersItem		ok	ok	pending	pending	
-002785d0	80	Flow12_44	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:receivedItem		ok	ok	pending	pending	
-00278620	60	Flow12_45	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:addsItem		ok	ok	pending	pending	
-00278660	36	Flow12_46	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:displeasedGoesOn		ok	ok	pending	pending	
-00278688	92	Flow12_47	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:leavesOrAttacks		ok	ok	pending	pending	
-002786e8	36	Flow12_48	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:leaves		ok	ok	pending	pending	
-00278710	8	Flow12_49	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:attacks		ok	ok	pending	pending	
+002774a8	60	ps2NegotiationMukanFlow12_1_002774A8	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:speaksUp	negotiation_mukan.c:ps2NegotiationMukanFlow12_1_002774A8	ok	ok	ok	ok	
+002774e8	276	ps2NegotiationMukanFlow12_2_002774E8	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:questionOrNot	negotiation_mukan.c:ps2NegotiationMukanFlow12_2_002774E8	ok	ok	ok	ok	
+00277600	392	ps2NegotiationMukanFlow12_3_00277600	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:asksFirst	negotiation_mukan.c:ps2NegotiationMukanFlow12_3_00277600	ok	ok	ok	ok	
+00277798	392	ps2NegotiationMukanFlow12_4_00277798	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:asksSecond	negotiation_mukan.c:ps2NegotiationMukanFlow12_4_00277798	ok	ok	ok	ok	
+00277930	120	Flow12_24	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:noQuestion		ok	ok	ok	ok	
+002779b0	68	Flow12_25	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:leavesWithoutQuestion		ok	ok	ok	ok	
+002779f8	120	Flow12_16	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:firstPleased		ok	ok	ok	ok	
+00277a78	120	Flow12_17	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:firstDispleased		ok	ok	ok	ok	
+00277af8	120	Flow12_18	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:firstPleasedOther		ok	ok	ok	ok	
+00277b78	120	Flow12_19	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:firstDispleasedOther		ok	ok	ok	ok	
+00277bf8	120	Flow12_20	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:secondPleased		ok	ok	ok	ok	
+00277c78	120	Flow12_21	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:secondDispleased		ok	ok	ok	ok	
+00277cf8	120	Flow12_22	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:secondPleasedOther		ok	ok	ok	ok	
+00277d78	120	Flow12_23	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:secondDispleasedOther		ok	ok	ok	ok	
+00277df8	36	Flow12_26	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:pleasedGoesOn		ok	ok	ok	ok	
+00277e20	408	Flow12_27	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:offers		ok	ok	ok	ok	
+00277fb8	124	Flow12_28	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:offersToJoin		ok	ok	ok	ok	
+00278038	144	Flow12_29	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:takeIt		ok	ok	ok	ok	
+002780d0	224	Flow12_30	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:gladToJoin		ok	ok	ok	ok	
+002781c0	40	Flow12_31	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:joins		ok	ok	ok	ok	
+002781e8	124	Flow12_35	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:offersInformation		ok	ok	ok	ok	
+00278268	92	Flow12_36	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:choosesInformation		ok	ok	ok	ok	
+002782c8	80	Flow12_37	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:tells		ok	ok	ok	ok	
+00278318	128	Flow12_38	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:turnedDown		ok	ok	ok	ok	
+002783a0	68	Flow12_39	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:leavesTurnedDown		ok	ok	ok	ok	
+002783e8	144	Flow12_40	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:offersMacca		ok	ok	ok	ok	
+00278480	80	Flow12_41	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:receivedMacca		ok	ok	ok	ok	
+002784d0	56	Flow12_42	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:addsMacca		ok	ok	ok	ok	
+00278508	196	Flow12_43	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:offersItem		ok	ok	ok	ok	
+002785d0	80	Flow12_44	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:receivedItem		ok	ok	ok	ok	
+00278620	60	Flow12_45	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:addsItem		ok	ok	ok	ok	
+00278660	36	Flow12_46	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:displeasedGoesOn		ok	ok	ok	ok	
+00278688	92	Flow12_47	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:leavesOrAttacks		ok	ok	ok	ok	
+002786e8	36	Flow12_48	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:leaves		ok	ok	ok	ok	
+00278710	8	Flow12_49	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:attacks		ok	ok	ok	ok	
 00278718	48	nbNegoFlowMukan	USER_DEFINED	rewritten	shared/src/battle/talk_speaksup.cpp:speakUpFlow		ok	ok	ok	ok	
-00278748	60	Flow13_1	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:ambushOpens		ok	ok	pending	pending	
-00278788	160	Flow13_2	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:questionOrItem		ok	ok	pending	pending	
-00278828	104	Flow13_3	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:asksQuestion		ok	ok	pending	pending	
-00278890	128	Flow13_4	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:demandsItem		ok	ok	pending	pending	
-00278910	144	Flow13_5	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:handOver		ok	ok	pending	pending	
-002789a8	92	Flow13_6	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:checkItemOnHand		ok	ok	pending	pending	
-00278a08	92	Flow13_7	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:refused		ok	ok	pending	pending	
-00278a68	80	Flow13_12	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:letsGo		ok	ok	pending	pending	
-00278ab8	180	Flow13_8	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:notOnHand		ok	ok	pending	pending	
-00278b70	132	Flow13_9	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:takesItem		ok	ok	pending	pending	
-00278bf8	136	Flow13_10	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:angered		ok	ok	pending	pending	
-00278c80	8	Flow13_11	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:fights		ok	ok	pending	pending	
+00278748	60	Flow13_1	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:ambushOpens		ok	ok	ok	ok	
+00278788	160	Flow13_2	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:questionOrItem		ok	ok	ok	ok	
+00278828	104	Flow13_3	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:asksQuestion		ok	ok	ok	ok	
+00278890	128	Flow13_4	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:demandsItem		ok	ok	ok	ok	
+00278910	144	Flow13_5	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:handOver		ok	ok	ok	ok	
+002789a8	92	Flow13_6	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:checkItemOnHand		ok	ok	ok	ok	
+00278a08	92	Flow13_7	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:refused		ok	ok	ok	ok	
+00278a68	80	Flow13_12	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:letsGo		ok	ok	ok	ok	
+00278ab8	180	Flow13_8	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:notOnHand		ok	ok	ok	ok	
+00278b70	132	Flow13_9	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:takesItem		ok	ok	ok	ok	
+00278bf8	136	Flow13_10	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:angered		ok	ok	ok	ok	
+00278c80	8	Flow13_11	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:fights		ok	ok	ok	ok	
 00278c88	48	nbNegoFlowSensei	USER_DEFINED	rewritten	shared/src/battle/talk_ambush.cpp:ambushFlow		ok	ok	ok	ok	
-00278cb8	60	Flow15_1	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:begs		ok	ok	pending	pending	
-00278cf8	316	Flow15_5	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:choosesOffer		ok	ok	pending	pending	
-00278e40	252	Flow15_6	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:offers		ok	ok	pending	pending	
-00278f40	144	Flow15_7	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:spareIt		ok	ok	pending	pending	
-00278fd8	156	Flow15_8	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:keepsWord		ok	ok	pending	pending	
-00279078	356	Flow15_10	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:makesGood		ok	ok	pending	pending	
-002791e8	40	Flow15_11	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:joins		ok	ok	pending	pending	
-00279210	68	Flow15_12	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:givesMacca		ok	ok	pending	pending	
-00279258	68	Flow15_13	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:givesItem		ok	ok	pending	pending	
-002792a0	92	Flow15_14	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:choosesInformation		ok	ok	pending	pending	
-00279300	56	Flow15_17	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:addsMacca		ok	ok	pending	pending	
-00279338	76	Flow15_18	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:addsItem		ok	ok	pending	pending	
-00279388	80	Flow15_19	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:tells		ok	ok	pending	pending	
-002793d8	100	Flow15_20	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:runsOff		ok	ok	pending	pending	
-00279440	8	Flow15_22	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:ranOff		ok	ok	pending	pending	
-00279448	56	Flow15_23	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:notSpared		ok	ok	pending	pending	
+00278cb8	60	Flow15_1	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:begs		ok	ok	ok	ok	
+00278cf8	316	Flow15_5	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:choosesOffer		ok	ok	ok	ok	
+00278e40	252	Flow15_6	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:offers		ok	ok	ok	ok	
+00278f40	144	Flow15_7	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:spareIt		ok	ok	ok	ok	
+00278fd8	156	Flow15_8	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:keepsWord		ok	ok	ok	ok	
+00279078	356	Flow15_10	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:makesGood		ok	ok	ok	ok	
+002791e8	40	Flow15_11	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:joins		ok	ok	ok	ok	
+00279210	68	Flow15_12	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:givesMacca		ok	ok	ok	ok	
+00279258	68	Flow15_13	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:givesItem		ok	ok	ok	ok	
+002792a0	92	Flow15_14	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:choosesInformation		ok	ok	ok	ok	
+00279300	56	Flow15_17	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:addsMacca		ok	ok	ok	ok	
+00279338	76	Flow15_18	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:addsItem		ok	ok	ok	ok	
+00279388	80	Flow15_19	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:tells		ok	ok	ok	ok	
+002793d8	100	Flow15_20	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:runsOff		ok	ok	ok	ok	
+00279440	8	Flow15_22	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:ranOff		ok	ok	ok	ok	
+00279448	56	Flow15_23	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:notSpared		ok	ok	ok	ok	
 00279480	48	nbNegoFlowInoti	USER_DEFINED	rewritten	shared/src/battle/talk_mercy.cpp:mercyFlow		ok	ok	ok	ok	
-002794b0	136	Flow16_1	USER_DEFINED	rewritten	shared/src/battle/talk_minor.cpp:taunts		ok	ok	pending	pending	
-00279538	236	Flow16_2	USER_DEFINED	rewritten	shared/src/battle/talk_minor.cpp:tauntSays		ok	ok	pending	pending	
-00279628	56	Flow16_3	USER_DEFINED	rewritten	shared/src/battle/talk_minor.cpp:tauntEnds		ok	ok	pending	pending	
+002794b0	136	Flow16_1	USER_DEFINED	rewritten	shared/src/battle/talk_minor.cpp:taunts		ok	ok	ok	ok	
+00279538	236	Flow16_2	USER_DEFINED	rewritten	shared/src/battle/talk_minor.cpp:tauntSays		ok	ok	ok	ok	
+00279628	56	Flow16_3	USER_DEFINED	rewritten	shared/src/battle/talk_minor.cpp:tauntEnds		ok	ok	ok	ok	
 00279660	48	nbNegoFlowKoketa	USER_DEFINED	rewritten	shared/src/battle/talk_minor.cpp:tauntFlow		ok	ok	ok	ok	
 00279690	116	FUN_00279690	DEFAULT	unknown							
 00279708	84	FUN_00279708	DEFAULT	unknown							
@@ -7133,7 +7133,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 00288ce8	36	nbCommand_BTL_AI_ROT_GET	USER_DEFINED	rewritten	shared/src/battle/ai_script.cpp:rotationGet	battle_ai_actions.c:nbCommand_BTL_AI_ROT_GET	ok	legacy	legacy	legacy	
 00288d10	52	nbCommand_BTL_AI_CHANGE_OFF	USER_DEFINED	rewritten	shared/src/battle/ai_script.cpp:lockAi	battle_presentation.c:nbCommand_BTL_AI_CHANGE_OFF	ok	ok	ok	ok	
 00288d48	56	nbCommand_BTL_AI_CHANGE_ON	USER_DEFINED	rewritten	shared/src/battle/ai_script.cpp:unlockAi	battle_presentation.c:nbCommand_BTL_AI_CHANGE_ON	ok	ok	ok	ok	
-00288d80	152	nbInitAiScript	USER_DEFINED	rewritten	shared/src/battle/ai_script.cpp:start	battle_ai_startup.c:nbInitAiScript	ok	ok	pending	pending	
+00288d80	152	nbInitAiScript	USER_DEFINED	rewritten	shared/src/battle/ai_script.cpp:start	battle_ai_startup.c:nbInitAiScript	ok	ok	ok	ok	
 00288e18	492	nbDispText	USER_DEFINED	rewritten	shared/src/battle/help.cpp:showHelpText	battle_action_skill_support_frames.c:body_00288e18;battle_action_skill_support_frames.c:ps2BattleActionSkill_00288E18;battle_status_pairs.c:body_00288e18;battle_status_pairs_native.c:body_00288e18	ok	ok	ok	ok	
 00289008	56	nbDispSkillName	USER_DEFINED	rewritten	shared/src/battle/help.cpp:showSkillName	battle_action_skill_support_frames.c:body_00289008;battle_action_skill_support_frames.c:ps2BattleActionSkill_00289008	ok	ok	ok	ok	
 00289040	56	nbDispItemName	USER_DEFINED	rewritten	shared/src/battle/help.cpp:showItemName		ok	ok	ok	ok	

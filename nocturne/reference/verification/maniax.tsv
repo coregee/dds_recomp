@@ -574,7 +574,7 @@ PoolTake	ok
 PoolGive	ok
 frInitTextHandle	ok
 frInitFontHandle	ok
-ps2FontBindContext	pending
+ps2FontBindContext	ok
 frLoadStyle	ok
 frLoadStyleAll	ok
 frDelFontStyle	ok
@@ -634,7 +634,7 @@ ps2FontLinkSpacedLetters	ok
 frCreateNewHandle	ok
 ps2FontAdvanceMessageLine	ok
 ps2FontAppendVariable	ok
-frAnalyzeTag	pending
+frAnalyzeTag	ok
 frAnalyzeMessage	ok
 MessageRequestEx	ok
 ps2FontMessageRequest	ok
@@ -648,247 +648,247 @@ itfPnlSetPosition	ok
 itfPnlSetPositionOffset	ok
 itfPnlSetColor	ok
 itfMiscSetRatioRGB	ok
-scrLinkScriptHandleList	pending
-scrUnlinkScriptHandleList	pending
-scrAddScript	pending
-scrAddScriptFirst	pending
-scrAddScript2	pending
-scrAddScript3	pending
-scrStartScriptProcess	pending
-scrStartScript1a	pending
-scrStartScript2	pending
-scrStartScript3	pending
-scrInitGlobalWork	pending
-scrReleaseScript	pending
-scrAllReleaseScript	pending
-scrSearchScriptName	pending
-scrSearchProcedureName	pending
-scrSetUserData	pending
-scrGetUserData	pending
-scrScriptShutdown	pending
-scrScriptProcess	pending
-scrTraceCode	pending
-Execute PUSHI	pending
-Execute PUSHF	pending
-Execute PUSHIX	pending
-Execute PUSHFX	pending
-Execute PUSHREG	pending
-Execute POPIX	pending
-Execute POPFX	pending
-Execute PROC	pending
-Execute COMM	pending
-Execute END	pending
-Execute JUMP	pending
-Execute CALL	pending
-Execute RUN	pending
-Execute GOTO	pending
-Execute ADD	pending
-Execute SUB	pending
-Execute MUL	pending
-Execute DIV	pending
-Execute MINUS	pending
-Execute NOT	pending
-Execute OR	pending
-Execute AND	pending
-Execute EQ	pending
-Execute NEQ	pending
-Execute S	pending
-Execute L	pending
-Execute SE	pending
-Execute LE	pending
-Execute IF	pending
-Execute PUSHIS	pending
-Execute PUSHLIX	pending
-Execute PUSHLFX	pending
-Execute POPLIX	pending
-Execute POPLFX	pending
-Execute PUSHSTR	pending
-scrPushInt	pending
-scrPushFloat	pending
-scrPushStr	pending
-scrPushRet	pending
-scrPopInt	pending
-scrPopFloat	pending
-TwoOperation	pending
-scrGetIntPara	pending
-scrGetFloatPara	pending
-scrGetStrPara	pending
-scrSetIntReturnValue	pending
-scrSetCodePointer	pending
-scrGetLabelCodeAddress	pending
-scrGetCommandTimer	pending
-scrGetMessageHandle	pending
-scrGetScriptHandle	pending
-scrGetData	pending
-SDF_ABORT1	pending
-Eve_BlurON	pending
-Eve_BlurOFF	pending
-Eve_PartialMultiBlurON	pending
-Eve_PartialMultiBlurOFF	pending
-Eve_DistortionBlurON	pending
-Eve_DistortionBlurOFF	pending
-Eve_RippleBlurON	pending
-Eve_RippleBlurOFF	pending
-Eve_FilterON	pending
-Eve_FilterOFF	pending
-Eve_PartialMultiFilterON	pending
-Eve_PartialMultiFilterOFF	pending
-dds3StopQuake	pending
-Eve_BlurGetParam	pending
-Eve_PartialMultiBlurEditorGetParams	pending
-Eve_DistortionBlurEditorGetParams	pending
-Eve_RippleBlurEditorGetParams	pending
-Eve_FilterEditorGetParams	pending
-Eve_PartialMultiFilterEditorGetParams	pending
-Eve_BlurSetParam	pending
-Eve_PartialMultiBlurSetParam	pending
-Eve_DistortionBlurSetParam	pending
-Eve_RippleBlurSetParam	pending
-Eve_FilterSetParam	pending
-Eve_PartialMultiFilterSetParam	pending
-Eve_DistortionBlurSetTex	pending
-dds3Filter2Swap	pending
-dds3Filter2On	pending
-dds3Filter2Off	pending
-dds3MFilterSwap	pending
-dds3MFilterOn	pending
-dds3MFilterOff	pending
-dds3Blur2Swap	pending
-dds3Blur2On	pending
-dds3Blur2Off	pending
-dds3MultiBlurSwap	pending
-dds3MultiBlurOn	pending
-dds3MultiBlurOff	pending
-dds3DistBlurSwap	pending
-dds3DistBlurOn	pending
-dds3DistBlurOff	pending
-dds3RipBlurSwap	pending
-dds3RipBlurOn	pending
-dds3RipBlurOff	pending
-dds3SetFilter2Para	pending
-dds3SetFilter2RGBA	pending
-dds3SetMFilterPara	pending
-dds3SetMFilterRGBA	pending
-dds3SetBlur2RGBA	pending
-dds3SetMultiBlurRGBA	pending
-dds3SetDistBlurRGBA	pending
-dds3SetRipBlurRGBA	pending
-dds3SetMFilterArea	pending
-dds3SetMultiBlurArea	pending
-dds3SetDistBlurArea	pending
-dds3SetRipBlurArea	pending
-dds3SetBlur2Area	pending
-dds3SetBlur2Para	pending
-dds3SetMultiBlurPara	pending
-dds3SetDistBlurPara	pending
-dds3SetRipBlurPara	pending
-dds3SetBlur	pending
-dds3SetScreenFovy	pending
-dds3SetAmbient	pending
-dds3SetFog	pending
-dds3SetLight	pending
-setdraw_xy	pending
-dds3SetLightColor	pending
-dds3SetLightDir	pending
-dds3SetAmbientColor	pending
-dds3SetFogColor	pending
-dds3SetFogPara	pending
-dds3SetSoftenBias	pending
-dds3SetQuake	pending
-command 7	pending
-command 8	pending
-command 9	pending
-command 10	pending
-command 13	pending
-command 14	pending
-command 15	pending
-command 16	pending
-command 17	pending
-command 26	pending
-command 36	pending
-command 65	pending
-command 66	pending
-command 67	pending
-command 83	pending
-command 84	pending
-command 109	pending
-command 114	pending
-command 153	pending
-command 165	pending
-command 166	pending
-command 167	pending
-command 168	pending
-command 169	pending
-command 171	pending
-command 172	pending
-command 189	pending
-command 234	pending
-command 235	pending
-command 236	pending
-command 237	pending
-command 238	pending
-command 239	pending
-command 240	pending
-command 241	pending
-command 242	pending
-command 243	pending
-command 295	pending
-command 296	pending
-command 297	pending
-command 298	pending
-command 299	pending
-command 300	pending
-command 301	pending
-command 302	pending
-command 303	pending
-command 304	pending
-command 305	pending
-command 306	pending
-command 307	pending
-command 308	pending
-command 309	pending
-command 310	pending
-command 311	pending
-command 322	pending
-command 323	pending
-command 324	pending
-command 325	pending
-command 326	pending
-command 327	pending
-command 180	pending
-command 181	pending
-command 182	pending
-command 187	pending
-command 188	pending
-command 71	pending
-command 112	pending
-command 290	pending
-command 32	pending
-command 313	pending
-command 387	pending
-command 28	pending
-command 314	pending
-command 374	pending
-command 390	pending
-command 225	pending
-command 388	pending
-command 335	pending
-command 336	pending
-command 346	pending
-command 337	pending
-command 338	pending
-command 344	pending
-command 29	pending
-command 348	pending
-command 30	pending
-command 369	pending
-command 370	pending
-command 386	pending
-command 371	pending
-command 372	pending
-command 373	pending
-command 368	pending
-command 375	pending
+scrLinkScriptHandleList	ok
+scrUnlinkScriptHandleList	ok
+scrAddScript	ok
+scrAddScriptFirst	ok
+scrAddScript2	ok
+scrAddScript3	ok
+scrStartScriptProcess	ok
+scrStartScript1a	ok
+scrStartScript2	ok
+scrStartScript3	ok
+scrInitGlobalWork	ok
+scrReleaseScript	ok
+scrAllReleaseScript	ok
+scrSearchScriptName	ok
+scrSearchProcedureName	ok
+scrSetUserData	ok
+scrGetUserData	ok
+scrScriptShutdown	ok
+scrScriptProcess	ok
+scrTraceCode	ok
+Execute PUSHI	ok
+Execute PUSHF	ok
+Execute PUSHIX	ok
+Execute PUSHFX	ok
+Execute PUSHREG	ok
+Execute POPIX	ok
+Execute POPFX	ok
+Execute PROC	ok
+Execute COMM	ok
+Execute END	ok
+Execute JUMP	ok
+Execute CALL	ok
+Execute RUN	ok
+Execute GOTO	ok
+Execute ADD	ok
+Execute SUB	ok
+Execute MUL	ok
+Execute DIV	ok
+Execute MINUS	ok
+Execute NOT	ok
+Execute OR	ok
+Execute AND	ok
+Execute EQ	ok
+Execute NEQ	ok
+Execute S	ok
+Execute L	ok
+Execute SE	ok
+Execute LE	ok
+Execute IF	ok
+Execute PUSHIS	ok
+Execute PUSHLIX	ok
+Execute PUSHLFX	ok
+Execute POPLIX	ok
+Execute POPLFX	ok
+Execute PUSHSTR	ok
+scrPushInt	ok
+scrPushFloat	ok
+scrPushStr	ok
+scrPushRet	ok
+scrPopInt	ok
+scrPopFloat	ok
+TwoOperation	ok
+scrGetIntPara	ok
+scrGetFloatPara	ok
+scrGetStrPara	ok
+scrSetIntReturnValue	ok
+scrSetCodePointer	ok
+scrGetLabelCodeAddress	ok
+scrGetCommandTimer	ok
+scrGetMessageHandle	ok
+scrGetScriptHandle	ok
+scrGetData	ok
+SDF_ABORT1	ok
+Eve_BlurON	ok
+Eve_BlurOFF	ok
+Eve_PartialMultiBlurON	ok
+Eve_PartialMultiBlurOFF	ok
+Eve_DistortionBlurON	ok
+Eve_DistortionBlurOFF	ok
+Eve_RippleBlurON	ok
+Eve_RippleBlurOFF	ok
+Eve_FilterON	ok
+Eve_FilterOFF	ok
+Eve_PartialMultiFilterON	ok
+Eve_PartialMultiFilterOFF	ok
+dds3StopQuake	ok
+Eve_BlurGetParam	ok
+Eve_PartialMultiBlurEditorGetParams	ok
+Eve_DistortionBlurEditorGetParams	ok
+Eve_RippleBlurEditorGetParams	ok
+Eve_FilterEditorGetParams	ok
+Eve_PartialMultiFilterEditorGetParams	ok
+Eve_BlurSetParam	ok
+Eve_PartialMultiBlurSetParam	ok
+Eve_DistortionBlurSetParam	ok
+Eve_RippleBlurSetParam	ok
+Eve_FilterSetParam	ok
+Eve_PartialMultiFilterSetParam	ok
+Eve_DistortionBlurSetTex	ok
+dds3Filter2Swap	ok
+dds3Filter2On	ok
+dds3Filter2Off	ok
+dds3MFilterSwap	ok
+dds3MFilterOn	ok
+dds3MFilterOff	ok
+dds3Blur2Swap	ok
+dds3Blur2On	ok
+dds3Blur2Off	ok
+dds3MultiBlurSwap	ok
+dds3MultiBlurOn	ok
+dds3MultiBlurOff	ok
+dds3DistBlurSwap	ok
+dds3DistBlurOn	ok
+dds3DistBlurOff	ok
+dds3RipBlurSwap	ok
+dds3RipBlurOn	ok
+dds3RipBlurOff	ok
+dds3SetFilter2Para	ok
+dds3SetFilter2RGBA	ok
+dds3SetMFilterPara	ok
+dds3SetMFilterRGBA	ok
+dds3SetBlur2RGBA	ok
+dds3SetMultiBlurRGBA	ok
+dds3SetDistBlurRGBA	ok
+dds3SetRipBlurRGBA	ok
+dds3SetMFilterArea	ok
+dds3SetMultiBlurArea	ok
+dds3SetDistBlurArea	ok
+dds3SetRipBlurArea	ok
+dds3SetBlur2Area	ok
+dds3SetBlur2Para	ok
+dds3SetMultiBlurPara	ok
+dds3SetDistBlurPara	ok
+dds3SetRipBlurPara	ok
+dds3SetBlur	ok
+dds3SetScreenFovy	ok
+dds3SetAmbient	ok
+dds3SetFog	ok
+dds3SetLight	ok
+setdraw_xy	ok
+dds3SetLightColor	ok
+dds3SetLightDir	ok
+dds3SetAmbientColor	ok
+dds3SetFogColor	ok
+dds3SetFogPara	ok
+dds3SetSoftenBias	ok
+dds3SetQuake	ok
+command 7	ok
+command 8	ok
+command 9	ok
+command 10	ok
+command 13	ok
+command 14	ok
+command 15	ok
+command 16	ok
+command 17	ok
+command 26	ok
+command 36	ok
+command 65	ok
+command 66	ok
+command 67	ok
+command 83	ok
+command 84	ok
+command 109	ok
+command 114	ok
+command 153	ok
+command 165	ok
+command 166	ok
+command 167	ok
+command 168	ok
+command 169	ok
+command 171	ok
+command 172	ok
+command 189	ok
+command 234	ok
+command 235	ok
+command 236	ok
+command 237	ok
+command 238	ok
+command 239	ok
+command 240	ok
+command 241	ok
+command 242	ok
+command 243	ok
+command 295	ok
+command 296	ok
+command 297	ok
+command 298	ok
+command 299	ok
+command 300	ok
+command 301	ok
+command 302	ok
+command 303	ok
+command 304	ok
+command 305	ok
+command 306	ok
+command 307	ok
+command 308	ok
+command 309	ok
+command 310	ok
+command 311	ok
+command 322	ok
+command 323	ok
+command 324	ok
+command 325	ok
+command 326	ok
+command 327	ok
+command 180	ok
+command 181	ok
+command 182	ok
+command 187	ok
+command 188	ok
+command 71	ok
+command 112	ok
+command 290	ok
+command 32	ok
+command 313	ok
+command 387	ok
+command 28	ok
+command 314	ok
+command 374	ok
+command 390	ok
+command 225	ok
+command 388	ok
+command 335	ok
+command 336	ok
+command 346	ok
+command 337	ok
+command 338	ok
+command 344	ok
+command 29	ok
+command 348	ok
+command 30	ok
+command 369	ok
+command 370	ok
+command 386	ok
+command 371	ok
+command 372	ok
+command 373	ok
+command 368	ok
+command 375	ok
 GetButuriAttack	ok
 GetButuriKaifuku	ok
 GetMagicAttack	ok
@@ -1022,10 +1022,10 @@ nbCommand_BTL_FORM_ALL_ON	ok
 nbCommand_BTL_FORM_ENE_ON	ok
 nbCommand_BTL_AI_CHANGE_OFF	ok
 nbCommand_BTL_AI_CHANGE_ON	ok
-nbInitAiScript	pending
+nbInitAiScript	ok
 nbCameraSetState	ok
 SetActionSeq	ok
-nbActionProcess1	pending
+nbActionProcess1	ok
 CheckAction_BAD	ok
 SetAction_BADWAIT	ok
 CheckAction_BADWAIT	ok
@@ -1076,10 +1076,10 @@ SetNowActionStat	ok
 nbGetNakama	ok
 SetAction_NEGO	ok
 SetAction_NEGORESULT	ok
-SetAction_READY	pending
+SetAction_READY	ok
 CheckAction_READY	ok
 SetAllPacket	ok
-SetAction_SKILL	pending
+SetAction_SKILL	ok
 CheckAction_SKILL	ok
 GetKoukaList	ok
 nbGetMotionEndType	legacy
@@ -1089,9 +1089,9 @@ nbAppendEnemyDevilWork	ok
 nbGetRandamStock	ok
 nbClearCommandMemeoyRenzoku	ok
 SetPlayerSummonPacket	ok
-SetAction_AISCR	pending
+SetAction_AISCR	ok
 CheckAction_AISCR	ok
-SetAction_DEADSCRIPT	pending
+SetAction_DEADSCRIPT	ok
 CheckAction_DEADSCRIPT	ok
 SetAction_END	ok
 SetAction_NON	ok
@@ -1223,343 +1223,343 @@ nbEncProcess3	ok
 nbEncShutdown	ok
 nbInitEncProcess	ok
 nbFormDispOff2	ok
-Flow1_3	pending
-Flow1_4	pending
-Flow1_5	pending
-Flow1_6	pending
-Flow1_7	pending
-Flow1_8	pending
-Flow1_9	pending
-Flow1_10	pending
-Flow1_11	pending
-Flow1_12	pending
-Flow1_13	pending
-Flow1_14	pending
-Flow1_15	pending
-Flow1_16	pending
-Flow1_17	pending
-Flow1_18	pending
-Flow1_19	pending
-Flow1_20	pending
-Flow1_21	pending
-Flow1_22	pending
-Flow1_23	pending
-Flow1_24	pending
-Flow1_25	pending
-Flow1_26	pending
-Flow1_27	pending
-Flow1_28	pending
-Flow1_29	pending
-Flow1_30	pending
-Flow1_31	pending
-Flow1_32	pending
-Flow1_33	pending
-Flow1_34	pending
-Flow1_35	pending
-Flow1_36	pending
-Flow1_37	pending
-Flow1_38	pending
-Flow1_39	pending
+Flow1_3	ok
+Flow1_4	ok
+Flow1_5	ok
+Flow1_6	ok
+Flow1_7	ok
+Flow1_8	ok
+Flow1_9	ok
+Flow1_10	ok
+Flow1_11	ok
+Flow1_12	ok
+Flow1_13	ok
+Flow1_14	ok
+Flow1_15	ok
+Flow1_16	ok
+Flow1_17	ok
+Flow1_18	ok
+Flow1_19	ok
+Flow1_20	ok
+Flow1_21	ok
+Flow1_22	ok
+Flow1_23	ok
+Flow1_24	ok
+Flow1_25	ok
+Flow1_26	ok
+Flow1_27	ok
+Flow1_28	ok
+Flow1_29	ok
+Flow1_30	ok
+Flow1_31	ok
+Flow1_32	ok
+Flow1_33	ok
+Flow1_34	ok
+Flow1_35	ok
+Flow1_36	ok
+Flow1_37	ok
+Flow1_38	ok
+Flow1_39	ok
 nbNegoFlowOne	ok
-Flow2_1	pending
-Flow2_2	pending
-Flow2_3	pending
-Flow2_4	pending
-Flow2_5	pending
-Flow2_6	pending
-Flow2_7	pending
-Flow2_8	pending
-Flow2_9	pending
-Flow2_10	pending
-Flow2_11	pending
-Flow2_12	pending
-Flow2_13	pending
-Flow2_14	pending
-Flow2_15	pending
-Flow2_16	pending
+Flow2_1	ok
+Flow2_2	ok
+Flow2_3	ok
+Flow2_4	ok
+Flow2_5	ok
+Flow2_6	ok
+Flow2_7	ok
+Flow2_8	ok
+Flow2_9	ok
+Flow2_10	ok
+Flow2_11	ok
+Flow2_12	ok
+Flow2_13	ok
+Flow2_14	ok
+Flow2_15	ok
+Flow2_16	ok
 nbNegoFlowFullMoon	ok
-Flow3_1	pending
-Flow3_2	pending
+Flow3_1	ok
+Flow3_2	ok
 nbNegoFlowStock	ok
-Flow4_1	pending
-Flow4_2	pending
-Flow4_3	pending
-Flow4_4	pending
-Flow4_5	pending
-Flow4_6	pending
-Flow4_7	pending
-Flow4_8	pending
-Flow4_9	pending
-Flow4_10	pending
-Flow4_11	pending
-Flow4_12	pending
-Flow4_13	pending
+Flow4_1	ok
+Flow4_2	ok
+Flow4_3	ok
+Flow4_4	ok
+Flow4_5	ok
+Flow4_6	ok
+Flow4_7	ok
+Flow4_8	ok
+Flow4_9	ok
+Flow4_10	ok
+Flow4_11	ok
+Flow4_12	ok
+Flow4_13	ok
 nbNegoFlowDouchara	ok
-Flow5_1	pending
-Flow5_2	pending
-Flow5_3	pending
-Flow5_4	pending
-Flow5_5	pending
-Flow5_6	pending
-Flow5_7	pending
-Flow5_8	pending
-Flow5_9	pending
-Flow5_10	pending
-Flow5_11	pending
-Flow5_12	pending
-Flow5_13	pending
-Flow5_14	pending
-Flow5_15	pending
-Flow5_16	pending
-Flow5_17	pending
-Flow5_18	pending
-Flow5_19	pending
-Flow5_20	pending
-Flow5_21	pending
+Flow5_1	ok
+Flow5_2	ok
+Flow5_3	ok
+Flow5_4	ok
+Flow5_5	ok
+Flow5_6	ok
+Flow5_7	ok
+Flow5_8	ok
+Flow5_9	ok
+Flow5_10	ok
+Flow5_11	ok
+Flow5_12	ok
+Flow5_13	ok
+Flow5_14	ok
+Flow5_15	ok
+Flow5_16	ok
+Flow5_17	ok
+Flow5_18	ok
+Flow5_19	ok
+Flow5_20	ok
+Flow5_21	ok
 nbNegoFlowInnen	ok
-Flow6_1	pending
-Flow6_2	pending
-Flow6_3	pending
-Flow6_4	pending
-Flow6_5	pending
-Flow6_6	pending
-Flow6_7	pending
-Flow6_8	pending
-Flow6_9	pending
-Flow6_10	pending
-Flow6_11	pending
-Flow6_12	pending
-Flow6_13	pending
-Flow6_14	pending
-Flow6_15	pending
-Flow6_16	pending
-Flow6_17	pending
-Flow6_18	pending
-Flow6_19	pending
-Flow6_20	pending
-Flow6_21	pending
-Flow6_22	pending
-Flow6_23	pending
-Flow6_24	pending
-Flow6_25	pending
-Flow6_26	pending
-Flow6_27	pending
-Flow6_28	pending
-Flow6_29	pending
-Flow6_30	pending
-Flow6_31	pending
-Flow6_32	pending
-Flow6_33	pending
-Flow6_34	pending
-Flow6_35	pending
-Flow6_36	pending
-Flow6_37	pending
-Flow6_38	pending
-Flow6_39	pending
-Flow6_40	pending
-Flow6_41	pending
-Flow6_42	pending
-Flow6_43	pending
-Flow6_44	pending
-Flow6_45	pending
-Flow6_46	pending
-Flow6_47	pending
-Flow6_48	pending
-Flow6_49	pending
-Flow6_50	pending
-Flow6_51	pending
-Flow6_52	pending
-Flow6_53	pending
-Flow6_54	pending
-Flow6_55	pending
-Flow6_56	pending
-Flow6_57	pending
-Flow6_58	pending
-Flow6_59	pending
-Flow6_60	pending
-Flow6_61	pending
-Flow6_62	pending
-Flow6_63	pending
-Flow6_64	pending
-Flow6_65	pending
-Flow6_66	pending
-Flow6_67	pending
-Flow6_69	pending
-Flow6_70	pending
-Flow6_71	pending
-Flow6_72	pending
-Flow6_73	pending
-Flow6_74	pending
-Flow6_80	pending
-Flow6_81	pending
+Flow6_1	ok
+Flow6_2	ok
+Flow6_3	ok
+Flow6_4	ok
+Flow6_5	ok
+Flow6_6	ok
+Flow6_7	ok
+Flow6_8	ok
+Flow6_9	ok
+Flow6_10	ok
+Flow6_11	ok
+Flow6_12	ok
+Flow6_13	ok
+Flow6_14	ok
+Flow6_15	ok
+Flow6_16	ok
+Flow6_17	ok
+Flow6_18	ok
+Flow6_19	ok
+Flow6_20	ok
+Flow6_21	ok
+Flow6_22	ok
+Flow6_23	ok
+Flow6_24	ok
+Flow6_25	ok
+Flow6_26	ok
+Flow6_27	ok
+Flow6_28	ok
+Flow6_29	ok
+Flow6_30	ok
+Flow6_31	ok
+Flow6_32	ok
+Flow6_33	ok
+Flow6_34	ok
+Flow6_35	ok
+Flow6_36	ok
+Flow6_37	ok
+Flow6_38	ok
+Flow6_39	ok
+Flow6_40	ok
+Flow6_41	ok
+Flow6_42	ok
+Flow6_43	ok
+Flow6_44	ok
+Flow6_45	ok
+Flow6_46	ok
+Flow6_47	ok
+Flow6_48	ok
+Flow6_49	ok
+Flow6_50	ok
+Flow6_51	ok
+Flow6_52	ok
+Flow6_53	ok
+Flow6_54	ok
+Flow6_55	ok
+Flow6_56	ok
+Flow6_57	ok
+Flow6_58	ok
+Flow6_59	ok
+Flow6_60	ok
+Flow6_61	ok
+Flow6_62	ok
+Flow6_63	ok
+Flow6_64	ok
+Flow6_65	ok
+Flow6_66	ok
+Flow6_67	ok
+Flow6_69	ok
+Flow6_70	ok
+Flow6_71	ok
+Flow6_72	ok
+Flow6_73	ok
+Flow6_74	ok
+Flow6_80	ok
+Flow6_81	ok
 nbNegoFlowTwo	ok
-Flow7_1	pending
-Flow7_3	pending
-Flow7_11	pending
-Flow7_15	pending
-Flow7_20	pending
-Flow7_22	pending
-Flow7_23	pending
-Flow7_24	pending
-Flow7_25	pending
-Flow7_26	pending
+Flow7_1	ok
+Flow7_3	ok
+Flow7_11	ok
+Flow7_15	ok
+Flow7_20	ok
+Flow7_22	ok
+Flow7_23	ok
+Flow7_24	ok
+Flow7_25	ok
+Flow7_26	ok
 nbNegoFlowQuestion	ok
-Flow8_1	pending
-Flow8_2	pending
-Flow8_3	pending
-Flow8_4	pending
-Flow8_5	pending
-Flow8_6	pending
-Flow8_7	pending
-Flow8_8	pending
-Flow8_9	pending
-Flow8_10	pending
-Flow8_11	pending
-Flow8_12	pending
-Flow8_13	pending
-Flow8_14	pending
-Flow8_15	pending
-Flow8_16	pending
-Flow8_17	pending
-Flow8_18	pending
-Flow8_19	pending
+Flow8_1	ok
+Flow8_2	ok
+Flow8_3	ok
+Flow8_4	ok
+Flow8_5	ok
+Flow8_6	ok
+Flow8_7	ok
+Flow8_8	ok
+Flow8_9	ok
+Flow8_10	ok
+Flow8_11	ok
+Flow8_12	ok
+Flow8_13	ok
+Flow8_14	ok
+Flow8_15	ok
+Flow8_16	ok
+Flow8_17	ok
+Flow8_18	ok
+Flow8_19	ok
 nbNegoFlowFight	ok
-Flow9_1	pending
-Flow9_2	pending
-Flow9_3	pending
-Flow9_4	pending
-Flow9_5	pending
-Flow9_6	pending
-Flow9_7	pending
-Flow9_9	pending
-Flow9_10	pending
-Flow9_11	pending
-Flow9_13	pending
-Flow9_14	pending
-Flow9_15	pending
-Flow9_16	pending
-Flow9_17	pending
-Flow9_18	pending
-Flow9_19	pending
-Flow9_20	pending
-Flow9_21	pending
-Flow9_22	pending
+Flow9_1	ok
+Flow9_2	ok
+Flow9_3	ok
+Flow9_4	ok
+Flow9_5	ok
+Flow9_6	ok
+Flow9_7	ok
+Flow9_9	ok
+Flow9_10	ok
+Flow9_11	ok
+Flow9_13	ok
+Flow9_14	ok
+Flow9_15	ok
+Flow9_16	ok
+Flow9_17	ok
+Flow9_18	ok
+Flow9_19	ok
+Flow9_20	ok
+Flow9_21	ok
+Flow9_22	ok
 nbNegoFlowOk	ok
-Flow10_1	pending
-Flow10_2	pending
-Flow10_3	pending
-Flow10_4	pending
-Flow10_5	pending
-Flow10_6	pending
-Flow10_7	pending
-Flow10_8	pending
-Flow10_9	pending
-Flow10_10	pending
-Flow10_11	pending
-Flow10_12	pending
-Flow10_13	pending
-Flow10_15	pending
-Flow10_16	pending
-Flow10_17	pending
-Flow10_18	pending
-Flow10_19	pending
-Flow10_20	pending
-Flow10_21	pending
-Flow10_22	pending
-Flow10_23	pending
-Flow10_24	pending
-Flow10_25	pending
-Flow10_26	pending
-Flow10_27	pending
-Flow10_28	pending
-Flow10_29	pending
-Flow10_30	pending
-Flow10_31	pending
-Flow10_32	pending
-Flow10_33	pending
+Flow10_1	ok
+Flow10_2	ok
+Flow10_3	ok
+Flow10_4	ok
+Flow10_5	ok
+Flow10_6	ok
+Flow10_7	ok
+Flow10_8	ok
+Flow10_9	ok
+Flow10_10	ok
+Flow10_11	ok
+Flow10_12	ok
+Flow10_13	ok
+Flow10_15	ok
+Flow10_16	ok
+Flow10_17	ok
+Flow10_18	ok
+Flow10_19	ok
+Flow10_20	ok
+Flow10_21	ok
+Flow10_22	ok
+Flow10_23	ok
+Flow10_24	ok
+Flow10_25	ok
+Flow10_26	ok
+Flow10_27	ok
+Flow10_28	ok
+Flow10_29	ok
+Flow10_30	ok
+Flow10_31	ok
+Flow10_32	ok
+Flow10_33	ok
 nbNegoFlowNg	ok
-Flow11_1	pending
-Flow11_2	pending
-Flow11_3	pending
-Flow11_4	pending
-Flow11_5	pending
-Flow11_6	pending
-Flow11_7	pending
-Flow11_8	pending
-Flow11_9	pending
+Flow11_1	ok
+Flow11_2	ok
+Flow11_3	ok
+Flow11_4	ok
+Flow11_5	ok
+Flow11_6	ok
+Flow11_7	ok
+Flow11_8	ok
+Flow11_9	ok
 nbNegoFlowDrain	ok
-Flow12_1	pending
-Flow12_2	pending
-Flow12_3	pending
-Flow12_4	pending
-Flow12_16	pending
-Flow12_17	pending
-Flow12_18	pending
-Flow12_19	pending
-Flow12_20	pending
-Flow12_21	pending
-Flow12_22	pending
-Flow12_23	pending
-Flow12_24	pending
-Flow12_25	pending
-Flow12_26	pending
-Flow12_27	pending
-Flow12_28	pending
-Flow12_29	pending
-Flow12_30	pending
-Flow12_31	pending
-Flow12_35	pending
-Flow12_36	pending
-Flow12_37	pending
-Flow12_38	pending
-Flow12_39	pending
-Flow12_40	pending
-Flow12_41	pending
-Flow12_42	pending
-Flow12_43	pending
-Flow12_44	pending
-Flow12_45	pending
-Flow12_46	pending
-Flow12_47	pending
-Flow12_48	pending
-Flow12_49	pending
+Flow12_1	ok
+Flow12_2	ok
+Flow12_3	ok
+Flow12_4	ok
+Flow12_16	ok
+Flow12_17	ok
+Flow12_18	ok
+Flow12_19	ok
+Flow12_20	ok
+Flow12_21	ok
+Flow12_22	ok
+Flow12_23	ok
+Flow12_24	ok
+Flow12_25	ok
+Flow12_26	ok
+Flow12_27	ok
+Flow12_28	ok
+Flow12_29	ok
+Flow12_30	ok
+Flow12_31	ok
+Flow12_35	ok
+Flow12_36	ok
+Flow12_37	ok
+Flow12_38	ok
+Flow12_39	ok
+Flow12_40	ok
+Flow12_41	ok
+Flow12_42	ok
+Flow12_43	ok
+Flow12_44	ok
+Flow12_45	ok
+Flow12_46	ok
+Flow12_47	ok
+Flow12_48	ok
+Flow12_49	ok
 nbNegoFlowMukan	ok
-Flow13_1	pending
-Flow13_2	pending
-Flow13_3	pending
-Flow13_4	pending
-Flow13_5	pending
-Flow13_6	pending
-Flow13_7	pending
-Flow13_8	pending
-Flow13_9	pending
-Flow13_10	pending
-Flow13_11	pending
-Flow13_12	pending
+Flow13_1	ok
+Flow13_2	ok
+Flow13_3	ok
+Flow13_4	ok
+Flow13_5	ok
+Flow13_6	ok
+Flow13_7	ok
+Flow13_8	ok
+Flow13_9	ok
+Flow13_10	ok
+Flow13_11	ok
+Flow13_12	ok
 nbNegoFlowSensei	ok
-Flow14_1	pending
-Flow14_2	pending
+Flow14_1	ok
+Flow14_2	ok
 nbNegoFlowBinjo	ok
-Flow15_1	pending
-Flow15_5	pending
-Flow15_6	pending
-Flow15_7	pending
-Flow15_8	pending
-Flow15_10	pending
-Flow15_11	pending
-Flow15_12	pending
-Flow15_13	pending
-Flow15_14	pending
-Flow15_17	pending
-Flow15_18	pending
-Flow15_19	pending
-Flow15_20	pending
-Flow15_22	pending
-Flow15_23	pending
+Flow15_1	ok
+Flow15_5	ok
+Flow15_6	ok
+Flow15_7	ok
+Flow15_8	ok
+Flow15_10	ok
+Flow15_11	ok
+Flow15_12	ok
+Flow15_13	ok
+Flow15_14	ok
+Flow15_17	ok
+Flow15_18	ok
+Flow15_19	ok
+Flow15_20	ok
+Flow15_22	ok
+Flow15_23	ok
 nbNegoFlowInoti	ok
-Flow16_1	pending
-Flow16_2	pending
-Flow16_3	pending
+Flow16_1	ok
+Flow16_2	ok
+Flow16_3	ok
 nbNegoFlowKoketa	ok
 nbFormDispOn2	ok
 nbResetFormPosRot	ok
