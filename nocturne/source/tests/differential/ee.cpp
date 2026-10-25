@@ -66,6 +66,10 @@ uint64_t Interpreter::call(uint32_t entry, std::initializer_list<uint64_t> args,
 {
     ++calls_;
     cpu = Cpu{};
+    for (const auto& [reg, lanes] : presetVf_)
+        for (int k = 0; k < 4; ++k)
+            cpu.vf[reg][k] = lanes[k];
+    presetVf_.clear();
     int f = 12;
     for (uint32_t bits : floatArgs)
         cpu.f[f++] = bits;

@@ -6,6 +6,7 @@
 
 #include <cstdint>
 #include <initializer_list>
+#include <array>
 #include <vector>
 
 #include "harness.hpp"
@@ -20,6 +21,8 @@ uint64_t origVoid(uint32_t entry, std::initializer_list<uint64_t> args);
 uint64_t origVm(uint32_t entry, std::initializer_list<uint64_t> args, std::initializer_list<uint32_t> floatArgs = {});
 uint64_t origVmVoid(uint32_t entry, std::initializer_list<uint64_t> args, std::initializer_list<uint32_t> floatArgs = {});
 uint32_t origVmFloat();   // the float result (f0) of the last origVm
+// A function that takes vectors in vf10 (and vf11) and leaves one in vf10.
+std::array<uint32_t, 4> origVmVector(uint32_t entry, const uint32_t (&vf10)[4], const uint32_t (&vf11)[4]);
 // A function's own instructions where the harness hooks it to a fake (its
 // callers see the fake; this tests the function itself), and those of the
 // hooked callees it calls.

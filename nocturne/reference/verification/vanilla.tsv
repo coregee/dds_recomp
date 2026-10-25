@@ -140,6 +140,7 @@ rstRndGetPowerUpSkill	legacy
 cmbGetMutationSkill	legacy
 cmbSortKeisyoSkill	legacy
 cmbDevilSortCallback	legacy
+ps2Qsort_002D4860	legacy
 sortDevilsByRace (0x2133A0)	legacy
 cmbChkEventDevil	legacy
 cmbChkMetaOnlyDevil	legacy
@@ -598,6 +599,7 @@ ps2FontAcquireCachedGlyph	ok
 ps2FontReleaseGlyph	ok
 frGetDefaultFontWidth	ok
 frGetDefaultFontHeight	ok
+ps2FontGetGlyphStorageSize	ok
 frGetXShiftLev	ok
 frGetStrWidth	ok
 frGetChainWidth	ok
@@ -642,6 +644,7 @@ frAnalyzeMessage	ok
 MessageRequestEx	ok
 ps2FontMessageRequest	ok
 MessageRequestPlain	ok
+frStringRequest	ok
 MessageRequestKeepSpace	ok
 frGetMessageResult	ok
 frSetVariableRequest	ok
@@ -677,6 +680,7 @@ scrStartScript3	ok
 scrInitGlobalWork	ok
 scrReleaseScript	ok
 scrAllReleaseScript	ok
+ps2ScriptDiagnosticDisabled	ok
 scrSearchScriptName	ok
 scrSearchProcedureName	ok
 scrSetUserData	ok
@@ -806,6 +810,8 @@ dds3SetLight	ok
 setdraw_xy	ok
 dds3SetLightColor	ok
 dds3SetLightDir	ok
+dds3RotationArc	ok
+ps2QuaternionNormalize	ok
 dds3SetAmbientColor	ok
 dds3SetFogColor	ok
 dds3SetFogPara	ok

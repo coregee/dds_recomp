@@ -4,11 +4,14 @@
 #include <cstring>
 
 #include "harness.hpp"
+#include "interface_world.hpp"
+#include "version_map.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/fusion/accident.hpp"
 #include "nocturne/fusion/growth.hpp"
 #include "nocturne/fusion/inheritance.hpp"
 #include "nocturne/fusion/sort.hpp"
+#include "nocturne/libc/qsort.hpp"
 #include "nocturne/fusion/stock.hpp"
 
 // Legacy prototypes (the legacy headers use C-only constructs).
@@ -413,6 +416,21 @@ void addFusionTests(std::vector<TestCase>& t)
         }
         return Pair{[] { return norm(ps2FusionSortCompareDescriptor_00213230(FW_SCRATCH, FW_SCRATCH + 8)); },
                     [] { return norm(static_cast<int32_t>(cmb::compareDevils(&at<cmb::DevilSortEntry>(FW_SCRATCH), &at<cmb::DevilSortEntry>(FW_SCRATCH + 8)))); }};
+    });
+    add("ps2Qsort_002D4860", [](Gen& g) {   // the C library's qsort, against its own instructions
+        const uint32_t count = g.chance(10) ? g.below(3) : g.range(3, 64);
+        for (uint32_t k = 0; k < count; ++k) {   // devils often alike in race and level, so many ties
+            auto& e = at<cmb::DevilSortEntry>(FW_SCRATCH + 8 * k);
+            e.devil = static_cast<uint16_t>(g.chance(40) && k ? at<cmb::DevilSortEntry>(FW_SCRATCH + 8 * g.below(k)).devil
+                                                             : g.range(1, 0x17f));
+            e.unused = static_cast<uint16_t>(k);   // (shows where each entry went)
+            e.format.address = nocturne::guest::addressOf(&dat::devilFormat(e.devil));
+        }
+        return Pair{[=] { return iface::origVmVoid(0x002d4860, {FW_SCRATCH, count, 8, difftest::version::codeOrDie(0x00213230)}); },
+                    [=] {
+                        nocturne::libc::qsort(&at<cmb::DevilSortEntry>(FW_SCRATCH), count, 8, cmb::compareDevils);
+                        return uint64_t{0};
+                    }};
     });
     add("sortDevilsByRace (0x2133A0)", [](Gen& g) {
         uint16_t count = static_cast<uint16_t>(g.chance(50) ? 384 : g.range(0, 384));

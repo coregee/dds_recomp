@@ -1288,6 +1288,55 @@ void addScriptTests(std::vector<TestCase>& t)
         return Pair{[=] { return origVmVoid(0x001071d0, {I(frame), no, v}); },
                     [=] { dds3::dds3SetLightDir(static_cast<uint32_t>(frame), no, at<dds3::Vector4>(v)); return uint64_t{0}; }};
     });
+    // The quaternion helpers take vectors in VU0 registers; both sides leave
+    // the result's four lanes in scratch RAM.
+    auto unitVector = [](Gen& g, uint32_t (&lanes)[4]) {
+        float v[3] = {static_cast<float>(g.range(-100, 100)), static_cast<float>(g.range(-100, 100)), static_cast<float>(g.range(-100, 100))};
+        if (v[0] == 0 && v[1] == 0 && v[2] == 0)
+            v[1] = 1;
+        const float length = std::sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+        for (int k = 0; k < 3; ++k)
+            lanes[k] = static_cast<uint32_t>(floatBits(v[k] / length));
+        lanes[3] = 0;
+    };
+    auto keep = [](uint32_t at0, const std::array<uint32_t, 4>& lanes) {
+        for (uint32_t k = 0; k < 4; ++k)
+            at<uint32_t>(at0 + 4 * k) = lanes[k];
+        return uint64_t{0};
+    };
+    auto lanesOf = [](const dds3::Vector4& v) { return std::array<uint32_t, 4>{v.x.bits(), v.y.bits(), v.z.bits(), v.w.bits()}; };
+    effect("dds3RotationArc", [=](Gen& g) {
+        uint32_t from[4], to[4];
+        unitVector(g, from);
+        unitVector(g, to);
+        if (g.chance(15))   // the same direction, or the opposite
+            for (int k = 0; k < 3; ++k)
+                to[k] = g.chance(50) ? from[k] : from[k] ^ 0x80000000u;
+        const uint32_t out = alloc(16);
+        const dds3::Vector4 a{ee::Float::fromBits(from[0]), ee::Float::fromBits(from[1]), ee::Float::fromBits(from[2]), ee::Float::fromBits(from[3])};
+        const dds3::Vector4 b{ee::Float::fromBits(to[0]), ee::Float::fromBits(to[1]), ee::Float::fromBits(to[2]), ee::Float::fromBits(to[3])};
+        const std::array<uint32_t, 4> f{from[0], from[1], from[2], from[3]}, t{to[0], to[1], to[2], to[3]};
+        return Pair{[=] {
+                        uint32_t x[4] = {f[0], f[1], f[2], f[3]}, y[4] = {t[0], t[1], t[2], t[3]};
+                        return keep(out, iface::origVmVector(0x00106ee0, x, y));
+                    },
+                    [=] { return keep(out, lanesOf(dds3::dds3RotationArc(a, b))); }};
+    });
+    effect("ps2QuaternionNormalize", [=](Gen& g) {
+        uint32_t q[4];
+        for (uint32_t& lane : q)
+            lane = static_cast<uint32_t>(floatBits(static_cast<float>(g.range(-300, 300)) / 64.0f));
+        if (q[0] == 0 && q[1] == 0 && q[2] == 0 && q[3] == 0)
+            q[3] = 0x3f800000;
+        const uint32_t out = alloc(16);
+        const dds3::Vector4 v{ee::Float::fromBits(q[0]), ee::Float::fromBits(q[1]), ee::Float::fromBits(q[2]), ee::Float::fromBits(q[3])};
+        const std::array<uint32_t, 4> l{q[0], q[1], q[2], q[3]};
+        return Pair{[=] {
+                        uint32_t x[4] = {l[0], l[1], l[2], l[3]}, y[4] = {0, 0, 0, 0};
+                        return keep(out, iface::origVmVector(0x002c04e8, x, y));
+                    },
+                    [=] { return keep(out, lanesOf(dds3::ps2QuaternionNormalize(v))); }};
+    });
     effect("dds3SetAmbientColor", [=](Gen& g) {
         const int32_t frame = frames(g);
         const uint32_t v = vector(g);

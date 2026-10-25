@@ -173,7 +173,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001061f0	120	dds3RipBlurOn	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3RipBlurOn		ok	ok	ok	ok	ok
 00106270	108	dds3RipBlurOff	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3RipBlurOff		ok	ok	ok	ok	ok
 001062e0	3036	dds3BlurUpdate	USER_DEFINED	named							
-00106ee0	484	dds3RotationArc	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3RotationArc						
+00106ee0	484	dds3RotationArc	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3RotationArc		ok	ok	ok	ok	ok
 001070d0	248	dds3SetLightColor	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetLightColor		ok	ok	ok	ok	ok
 001071d0	320	dds3SetLightDir	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetLightDir		ok	ok	ok	ok	ok
 00107310	188	dds3SetAmbientColor	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3SetAmbientColor		ok	ok	ok	ok	ok
@@ -321,7 +321,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001097c0	8	FUN_001097c0	DEFAULT	unknown							
 001097c8	8	FUN_001097c8	DEFAULT	unknown							
 001097d0	8	FUN_001097d0	DEFAULT	unknown							
-001097e8	72	ps2ScriptDiagnosticDisabled	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrPrintf	field_movement_encounter_carriers.c:body_001097e8;script_construction.c:ps2ScriptDiagnosticDisabled					
+001097e8	72	ps2ScriptDiagnosticDisabled	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrPrintf	field_movement_encounter_carriers.c:body_001097e8;script_construction.c:ps2ScriptDiagnosticDisabled	ok	ok	ok	ok	ok
 00109848	60	scrLinkScriptHandleList	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrLinkScriptHandleList	field_movement_encounter_carriers.c:body_00109848;script_process.c:scrLinkScriptHandleList	ok	ok	ok	ok	ok
 00109888	88	scrUnlinkScriptHandleList	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrUnlinkScriptHandleList	field_movement_encounter_carriers.c:body_00109888;script_process.c:scrUnlinkScriptHandleList	ok	ok	ok	ok	ok
 001098e0	612	scrAddScript	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrAddScript	field_movement_encounter_carriers.c:body_001098e0;script_construction.c:scrAddScript	ok	ok	ok	ok	ok
@@ -3567,7 +3567,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001c6ec8	64	frDestroyFontRequestFade	USER_DEFINED	rewritten	shared/src/interface/font.cpp:frDestroyFontRequestFade		ok	ok	ok	ok	ok
 001c6f08	236	ps2BattleRewardPhaseRecycler_001C6F08	USER_DEFINED	rewritten	shared/src/interface/font.cpp:frDestroyFontRequestNow	battle_reward_phase_recycler.c:body_001c6f08;battle_reward_phase_recycler.c:ps2BattleRewardPhaseRecycler_001C6F08	ok	ok	ok	ok	ok
 001c6ff8	88	frDestroyFontRequestAfter	USER_DEFINED	rewritten	shared/src/interface/font.cpp:frDestroyFontRequestAfter	battle_action_skill_registered_frames.c:body_001c6ff8;battle_panel_renderer_existing_5.c:body_001c6ff8;script_lifetime.c:frDestroyFontRequestAfter	ok	ok	ok	ok	ok
-001c7080	8	ps2FontGetGlyphStorageSize	USER_DEFINED	rewritten	shared/src/interface/font_layout_jp.cpp:shadowOffset	battle_action_skill_registered_frames.c:body_001c7080;battle_panel_renderer_existing_5.c:body_001c7080;font_resource.c:ps2FontGetGlyphStorageSize					
+001c7080	8	ps2FontGetGlyphStorageSize	USER_DEFINED	rewritten	shared/src/interface/font_layout_jp.cpp:shadowOffset	battle_action_skill_registered_frames.c:body_001c7080;battle_panel_renderer_existing_5.c:body_001c7080;font_resource.c:ps2FontGetGlyphStorageSize	ok	ok	ok	ok	ok
 001c7088	512	ps2FontLayoutGlyph	USER_DEFINED	rewritten	shared/src/interface/font_layout_us.cpp:frGetXShiftLev	battle_action_skill_registered_frames.c:body_001c7088;battle_panel_renderer_existing_5.c:body_001c7088;font_text.c:ps2FontLayoutGlyph	ok	ok	ok	ok	ok
 001c7288	300	ps2FontCreateControlGlyph	USER_DEFINED	rewritten	shared/src/interface/font.cpp:AppendControlText	battle_action_skill_registered_frames.c:body_001c7288;battle_panel_renderer_remaining.c:body_001c7288;font_text.c:ps2FontCreateControlGlyph	ok	ok	ok	ok	ok
 001c73b8	76	ps2FontLinkControlGlyph	USER_DEFINED	rewritten	shared/src/interface/font.cpp:LinkControlText		ok	ok	ok	ok	ok
@@ -3643,7 +3643,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001ca298	364	ps2FontBuildDrawString	USER_DEFINED	legacy		battle_panel_color_prerequisites.c:body_001ca298;battle_panel_renderer_prerequisites.c:body_001ca298;battle_panel_support.c:ps2FontBuildDrawString					
 001ca410	32	FUN_001ca410	DEFAULT	unknown							
 001ca430	212	ps2FontBuildPanelString	USER_DEFINED	legacy		battle_panel_color_prerequisites.c:body_001ca430;battle_panel_renderer_prerequisites.c:body_001ca430;battle_panel_support.c:ps2FontBuildPanelString					
-001ca508	212	frStringRequest	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:StringRequest						
+001ca508	212	frStringRequest	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:StringRequest		ok	ok	ok	ok	ok
 001ca5e0	200	FUN_001ca5e0	DEFAULT	unknown							
 001ca6a8	420	FUN_001ca6a8	DEFAULT	unknown							
 001ca860	296	FUN_001ca860	DEFAULT	unknown							
@@ -8350,7 +8350,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 002c0258	176	ps2FieldDoorAtan2Bits_002C0258	USER_DEFINED	legacy		field_door_motion.c:ps2FieldDoorAtan2Bits_002C0258;field_movement_encounter_constructor.c:body_002c0258					
 002c0388	128	FUN_002c0388	DEFAULT	unknown							
 002c0488	44	sdfQuatMult	USER_DEFINED	legacy		basic_pose.c:sdfQuatMult					
-002c04e8	36	ps2QuaternionNormalize	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:ps2QuaternionNormalize	path_rotation.c:ps2QuaternionNormalize					
+002c04e8	36	ps2QuaternionNormalize	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:ps2QuaternionNormalize	path_rotation.c:ps2QuaternionNormalize	ok	ok	ok	ok	ok
 002c0560	80	ps2FieldInfControllerNative_002C0560	USER_DEFINED	legacy		field_inf_controller_native.c:body_002c0560;field_inf_controller_native.c:ps2FieldInfControllerNative_002C0560					
 002c05b0	80	FUN_002c05b0	DEFAULT	unknown							
 002c0600	112	sdfQuatToMatrix	USER_DEFINED	legacy		basic_pose.c:sdfQuatToMatrix;battle_action_model_frames.c:body_002c0600;battle_action_model_frames.c:ps2BattleActionModel_002C0600					
@@ -8722,7 +8722,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 002d4748	112	ps2LibcPrintf	USER_DEFINED	legacy		battle_action_printf_frames.c:body_002d4748;battle_action_printf_frames.c:ps2BattleActionPrintf_002D4748;battle_panel_renderer_existing_3.c:body_002d4748;battle_panel_renderer_remaining.c:body_002d4748;libc_printf.c:ps2LibcPrintf					
 002d47b8	132	FUN_002d47b8	DEFAULT	unknown							
 002d4840	32	FUN_002d4840	DEFAULT	unknown							
-002d4860	2472	ps2Qsort_002D4860	USER_DEFINED	rewritten	shared/src/libc/qsort.cpp:qsort	ps2_qsort.c:ps2Qsort_002D4860					
+002d4860	2472	ps2Qsort_002D4860	USER_DEFINED	rewritten	shared/src/libc/qsort.cpp:qsort	ps2_qsort.c:ps2Qsort_002D4860	legacy	legacy	legacy	ok	legacy
 002d5250	88	ps2HeapSbrkReentrant	USER_DEFINED	legacy		battle_action_libc_frames.c:body_002d5250;battle_panel_renderer_existing_1.c:body_002d5250;heap_queue.c:ps2HeapSbrkReentrant					
 002d52a8	112	FUN_002d52a8	DEFAULT	unknown							
 002d5318	128	FUN_002d5318	DEFAULT	unknown							

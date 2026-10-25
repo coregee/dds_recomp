@@ -10,6 +10,7 @@
 // callee; any other call is a test setup error.
 #pragma once
 
+#include <array>
 #include <cstdint>
 #include <functional>
 #include <initializer_list>
@@ -41,6 +42,12 @@ using Hook = std::function<uint64_t(Cpu&)>;
 
 class Interpreter {
 public:
+    // Vector registers the next call() starts with (for functions that take
+    // their arguments in VU0 registers).
+    void presetVf(uint32_t reg, const uint32_t (&lanes)[4])
+    {
+        presetVf_.push_back({reg, {lanes[0], lanes[1], lanes[2], lanes[3]}});
+    }
     // Calls to these addresses run the host function; its result goes in v0.
     // Addresses are US Maniax's, mapped for another build (version_map.hpp):
     // a function the version doesn't have is left out.
@@ -79,6 +86,7 @@ public:
     Cpu cpu;
 
 private:
+    std::vector<std::pair<uint32_t, std::array<uint32_t, 4>>> presetVf_;
     bool interpreted(uint32_t address) const;
     void step();
     void vu0(uint32_t pc, uint32_t op);

@@ -347,6 +347,8 @@ ee::Interpreter makeOriginal()
     e.interpret(0x00221f20, 0x002220c0);   // cmbChkMasterHeartsStatNums
     e.interpret(0x00221e70, 0x00221ef4);   // cmbGetPlayerRaceID
     e.interpret(0x002071e0, 0x002074c0);   // the shop: item, pack, count, price
+    e.interpret(0x002d4860, 0x002d5250);   // the C library's qsort (its epilogue past the size Ghidra gives it)
+    e.interpret(0x00213230, 0x0021327c);   // cmbDevilSortCallback (qsort's test sorts with it)
     e.interpret(0x00216b78, 0x00216b90);   // fclEncycGetNum
     e.interpret(0x00216b90, 0x00216bec);   // fclEncycGetRatio2
     e.interpret(0x00219df0, 0x00219fbc);   // fclEncyc_SetElem
@@ -764,6 +766,14 @@ uint64_t origOwn(uint32_t entry, std::initializer_list<uint64_t> args, std::init
     return norm(original().call(own[0], args, {}, own));
 }
 uint32_t origVmFloat() { return original().cpu.f[0]; }
+std::array<uint32_t, 4> origVmVector(uint32_t entry, const uint32_t (&vf10)[4], const uint32_t (&vf11)[4])
+{
+    original().presetVf(10, vf10);
+    original().presetVf(11, vf11);
+    call(version::codeOrDie(entry), {}, true);
+    const ee::Cpu& c = original().cpu;
+    return {c.vf[10][0], c.vf[10][1], c.vf[10][2], c.vf[10][3]};
+}
 uint64_t interpretedCalls() { return ee::Interpreter::calls(); }
 uint64_t origVoid(uint32_t entry, std::initializer_list<uint64_t> args) { call(version::codeOrDie(entry), args); return 0; }
 

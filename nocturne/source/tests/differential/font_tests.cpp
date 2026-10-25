@@ -574,6 +574,14 @@ void addFontTests(std::vector<TestCase>& t)
         uint32_t font = g.chance(40) ? addr(iface::chain(g, 0, 0)) : 0;
         return Pair{[=] { return orig(0x001c9108, {I(x), I(y), text, font}); }, [=] { return R(MessageRequestPlain(x, y, text, P<Request>(font))); }};
     });
+    add("frStringRequest", [](Gen& g) {   // (its codes not parsed)
+        int32_t x = g.range(0, 0x2000), y = g.range(0, 0x1000);
+        static const char* const strings[] = {"Macca", "Lv 42", "HP 999/999", "", "Demi-fiend"};   // (short, plain: no codes)
+        uint32_t z = g.below(0x10000), color = static_cast<uint32_t>(g.rng()), text = guestString(strings[g.below(5)]);
+        uint32_t font = g.chance(40) ? addr(iface::chain(g, 0, 0)) : 0;
+        return Pair{[=] { return orig(0x001ca508, {I(x), I(y), z, color, text, font}); },
+                    [=] { return R(StringRequest(x, y, z, color, text, P<Request>(font))); }};
+    });
     add("MessageRequestKeepSpace", [](Gen& g) {
         int32_t x = g.range(0, 0x2000), y = g.range(0, 0x1000);
         uint32_t z = g.below(0x10000), text = iface::someText(g);
