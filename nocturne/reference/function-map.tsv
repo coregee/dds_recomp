@@ -332,7 +332,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 00109d48	52	scrStartScript3	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrStartScript3	script_file.c:scrStartScript3	ok	ok	ok	ok	
 00109d98	52	scrStartScript2	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrStartScript2	field_movement_encounter_carriers.c:body_00109d98;script_construction.c:scrStartScript2	ok	ok	ok	ok	
 00109de8	80	scrStartScript1a	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrStartScript1a	script_construction.c:scrStartScript1a	ok	ok	ok	ok	
-00109e38	24	ps2ScriptAddFirst	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrAddScriptFirst	script_construction.c:ps2ScriptAddFirst					
+00109e38	24	ps2ScriptAddFirst	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrAddScriptFirst	script_construction.c:ps2ScriptAddFirst	ok	ok	ok	ok	
 00109e50	180	scrReleaseScript	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrReleaseScript	field_movement_encounter_carriers.c:body_00109e50;script_lifetime.c:scrReleaseScript	ok	ok	ok	ok	
 00109f08	196	scrAllReleaseScript	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrAllReleaseScript	field_inf_controller_native.c:body_00109f08;field_inf_controller_native.c:ps2FieldInfControllerNative_00109F08;field_movement_encounter_constructor.c:body_00109f08;script_lifetime.c:scrAllReleaseScript	ok	ok	ok	ok	
 0010a078	88	scrSearchScriptName	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrSearchScriptName	field_movement_encounter_constructor.c:body_0010a078;script_process.c:scrSearchScriptName	ok	ok	ok	ok	
@@ -347,42 +347,42 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 0010a350	48	scrPushRet	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrPushRet	script_stack.c:scrPushRet	ok	ok	ok	ok	
 0010a380	204	scrPopInt	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrPopInt	script_core.c:scrPopInt	ok	ok	ok	ok	
 0010a458	208	scrPopFloatBits	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrPopFloat	script_stack.c:scrPopFloatBits	ok	ok	ok	ok	
-0010a540	80	scrCodeFunc_PushI	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushInt	script_stack.c:scrCodeFunc_PushI					
-0010a590	72	scrCodeFunc_PushIS	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushShort	script_stack.c:scrCodeFunc_PushIS					
-0010a5d8	80	scrCodeFunc_PushF	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushFloat	script_stack.c:scrCodeFunc_PushF					
-0010a628	88	scrCodeFunc_PushIX	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushIntVar	script_stack.c:scrCodeFunc_PushIX					
-0010a680	88	scrCodeFunc_PushFX	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushFloatVar	script_stack.c:scrCodeFunc_PushFX					
-0010a6d8	88	scrCodeFunc_PushLIX	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushLocalIntVar	script_stack.c:scrCodeFunc_PushLIX					
-0010a730	88	scrCodeFunc_PushLFX	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushLocalFloatVar	script_stack.c:scrCodeFunc_PushLFX					
-0010a788	80	scrCodeFunc_PushSTR	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushString	script_stack.c:scrCodeFunc_PushSTR					
-0010a7d8	68	scrCodeFunc_PushReg	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushResult	script_stack.c:scrCodeFunc_PushReg					
-0010a820	88	scrCodeFunc_PopIX	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPopIntVar	script_stack.c:scrCodeFunc_PopIX					
-0010a878	84	scrCodeFunc_PopFX	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPopFloatVar	script_stack.c:scrCodeFunc_PopFX					
-0010a8d0	88	scrCodeFunc_PopLIX	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPopLocalIntVar	script_stack.c:scrCodeFunc_PopLIX					
-0010a928	84	scrCodeFunc_PopLFX	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPopLocalFloatVar	script_stack.c:scrCodeFunc_PopLFX					
-0010a980	20	scrCodeFunc_Proc	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opProcedure	script_stack.c:scrCodeFunc_Proc					
-0010a998	156	scrCodeFunc_Comm	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opCommand	script_core.c:scrCodeFunc_Comm					
-0010aa38	64	scrCodeFunc_End	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opEnd	script_core.c:scrCodeFunc_End					
-0010aa78	48	scrCodeFunc_Jump	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opJump	script_stack.c:scrCodeFunc_Jump					
-0010aaa8	84	scrCodeFunc_Call	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opCall	script_stack.c:scrCodeFunc_Call					
-0010ab00	20	scrCodeFunc_Run	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opRun	script_stack.c:scrCodeFunc_Run					
-0010ab18	48	scrCodeFunc_Goto	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opGoto	script_core.c:scrCodeFunc_Goto					
-0010ab48	1196	scrCodeFunc_2Operation	USER_DEFINED	rewritten	shared/src/script/vm.cpp:TwoOperation	script_ops.c:scrCodeFunc_2Operation					
-0010b030	56	scrCodeFunc_Add	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opAdd						
-0010b068	56	scrCodeFunc_Sub	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opSubtract						
-0010b0a0	56	scrCodeFunc_Mul	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opMultiply						
-0010b0d8	56	scrCodeFunc_Div	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opDivide						
-0010b110	212	scrCodeFunc_Minus	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opNegate	script_core.c:scrCodeFunc_Minus					
-0010b1f8	160	scrCodeFunc_Not	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opNot	script_ops.c:scrCodeFunc_Not					
-0010b2a0	56	scrCodeFunc_Or	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opOr						
-0010b2d8	56	scrCodeFunc_And	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opAnd						
-0010b310	56	scrCodeFunc_EQ	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opEqual						
-0010b348	56	scrCodeFunc_NEQ	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opNotEqual						
-0010b380	56	scrCodeFunc_S	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opLess						
-0010b3b8	56	scrCodeFunc_L	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opGreater						
-0010b3f0	56	scrCodeFunc_SE	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opLessEqual						
-0010b428	56	scrCodeFunc_LE	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opGreaterEqual						
-0010b460	188	scrCodeFunc_If	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opIf	script_ops.c:scrCodeFunc_If					
+0010a540	80	scrCodeFunc_PushI	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushInt	script_stack.c:scrCodeFunc_PushI	ok	ok	ok	ok	
+0010a590	72	scrCodeFunc_PushIS	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushShort	script_stack.c:scrCodeFunc_PushIS	ok	ok	ok	ok	
+0010a5d8	80	scrCodeFunc_PushF	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushFloat	script_stack.c:scrCodeFunc_PushF	ok	ok	ok	ok	
+0010a628	88	scrCodeFunc_PushIX	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushIntVar	script_stack.c:scrCodeFunc_PushIX	ok	ok	ok	ok	
+0010a680	88	scrCodeFunc_PushFX	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushFloatVar	script_stack.c:scrCodeFunc_PushFX	ok	ok	ok	ok	
+0010a6d8	88	scrCodeFunc_PushLIX	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushLocalIntVar	script_stack.c:scrCodeFunc_PushLIX	ok	ok	ok	ok	
+0010a730	88	scrCodeFunc_PushLFX	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushLocalFloatVar	script_stack.c:scrCodeFunc_PushLFX	ok	ok	ok	ok	
+0010a788	80	scrCodeFunc_PushSTR	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushString	script_stack.c:scrCodeFunc_PushSTR	ok	ok	ok	ok	
+0010a7d8	68	scrCodeFunc_PushReg	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPushResult	script_stack.c:scrCodeFunc_PushReg	ok	ok	ok	ok	
+0010a820	88	scrCodeFunc_PopIX	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPopIntVar	script_stack.c:scrCodeFunc_PopIX	ok	ok	ok	ok	
+0010a878	84	scrCodeFunc_PopFX	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPopFloatVar	script_stack.c:scrCodeFunc_PopFX	ok	ok	ok	ok	
+0010a8d0	88	scrCodeFunc_PopLIX	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPopLocalIntVar	script_stack.c:scrCodeFunc_PopLIX	ok	ok	ok	ok	
+0010a928	84	scrCodeFunc_PopLFX	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opPopLocalFloatVar	script_stack.c:scrCodeFunc_PopLFX	ok	ok	ok	ok	
+0010a980	20	scrCodeFunc_Proc	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opProcedure	script_stack.c:scrCodeFunc_Proc	ok	ok	ok	ok	
+0010a998	156	scrCodeFunc_Comm	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opCommand	script_core.c:scrCodeFunc_Comm	ok	ok	ok	ok	
+0010aa38	64	scrCodeFunc_End	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opEnd	script_core.c:scrCodeFunc_End	ok	ok	ok	ok	
+0010aa78	48	scrCodeFunc_Jump	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opJump	script_stack.c:scrCodeFunc_Jump	ok	ok	ok	ok	
+0010aaa8	84	scrCodeFunc_Call	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opCall	script_stack.c:scrCodeFunc_Call	ok	ok	ok	ok	
+0010ab00	20	scrCodeFunc_Run	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opRun	script_stack.c:scrCodeFunc_Run	ok	ok	ok	ok	
+0010ab18	48	scrCodeFunc_Goto	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opGoto	script_core.c:scrCodeFunc_Goto	ok	ok	ok	ok	
+0010ab48	1196	scrCodeFunc_2Operation	USER_DEFINED	rewritten	shared/src/script/vm.cpp:TwoOperation	script_ops.c:scrCodeFunc_2Operation	ok	ok	ok	ok	
+0010b030	56	scrCodeFunc_Add	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opAdd		ok	ok	ok	ok	
+0010b068	56	scrCodeFunc_Sub	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opSubtract		ok	ok	ok	ok	
+0010b0a0	56	scrCodeFunc_Mul	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opMultiply		ok	ok	ok	ok	
+0010b0d8	56	scrCodeFunc_Div	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opDivide		ok	ok	ok	ok	
+0010b110	212	scrCodeFunc_Minus	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opNegate	script_core.c:scrCodeFunc_Minus	ok	ok	ok	ok	
+0010b1f8	160	scrCodeFunc_Not	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opNot	script_ops.c:scrCodeFunc_Not	ok	ok	ok	ok	
+0010b2a0	56	scrCodeFunc_Or	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opOr		ok	ok	ok	ok	
+0010b2d8	56	scrCodeFunc_And	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opAnd		ok	ok	ok	ok	
+0010b310	56	scrCodeFunc_EQ	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opEqual		ok	ok	ok	ok	
+0010b348	56	scrCodeFunc_NEQ	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opNotEqual		ok	ok	ok	ok	
+0010b380	56	scrCodeFunc_S	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opLess		ok	ok	ok	ok	
+0010b3b8	56	scrCodeFunc_L	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opGreater		ok	ok	ok	ok	
+0010b3f0	56	scrCodeFunc_SE	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opLessEqual		ok	ok	ok	ok	
+0010b428	56	scrCodeFunc_LE	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opGreaterEqual		ok	ok	ok	ok	
+0010b460	188	scrCodeFunc_If	USER_DEFINED	rewritten	shared/src/script/vm.cpp:opIf	script_ops.c:scrCodeFunc_If	ok	ok	ok	ok	
 0010b520	160	ps2ScriptTrace	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrTraceCode	script_core.c:ps2ScriptTrace	ok	ok	ok	ok	
 0010b5c8	188	scrGetIntPara	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetIntPara	script_movie.c:scrGetIntPara	ok	ok	ok	ok	
 0010b690	180	scrGetFloatParaBits	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetFloatPara	script_core.c:scrGetFloatParaBits	ok	ok	ok	ok	
@@ -395,100 +395,100 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 0010b840	8	scrGetScriptHandle	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetScriptHandle	script_core.c:scrGetScriptHandle	ok	ok	ok	ok	
 0010b848	12	scrGetData	USER_DEFINED	rewritten	shared/src/script/vm.cpp:scrGetData	script_core.c:scrGetData	ok	ok	ok	ok	
 0010b858	44	ps2ScriptSkipRequested	USER_DEFINED	rewritten	shared/src/script/vm.cpp:SDF_ABORT1	script_core.c:ps2ScriptSkipRequested	ok	ok	ok	ok	
-0010b888	48	scrCommand_BIT_CHK	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BIT_CHK	script_common_bits.c:scrCommand_BIT_CHK					
-0010b8b8	40	scrCommand_BIT_ON	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BIT_ON	script_common_bits.c:scrCommand_BIT_ON					
-0010b8e0	40	scrCommand_BIT_OFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BIT_OFF	script_common_bits.c:scrCommand_BIT_OFF					
-0010b908	52	scrCommand_RND	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_RND	battle_script_commands.c:scrCommand_RND					
-0010b940	32	scrCommand_SYNC	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SYNC	script_core.c:scrCommand_SYNC					
-0010b960	72	scrCommand_WAIT	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_WAIT	script_core.c:scrCommand_WAIT					
-0010b9a8	72	scrCommand_PUT	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_PUT						
-0010b9f0	72	scrCommand_PUTS	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_PUTS						
-0010ba38	148	scrCommand_FADE_IN	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_FADE_IN	screen_fade.c:scrCommand_FADE_IN					
-0010bad8	148	scrCommand_FADE_OUT	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_FADE_OUT	screen_fade.c:scrCommand_FADE_OUT					
-0010bb78	88	scrCommand_SEL_JMP	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SEL_JMP	script_core.c:scrCommand_SEL_JMP					
-0010bbd0	52	scrCommand_PAD_TRIG	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_PAD_TRIG						
-0010bc08	52	scrCommand_PAD_PRESS	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_PAD_PRESS						
-0010bc40	88	scrCommand_PAD_ACT	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_PAD_ACT						
-0010bc98	132	scrCommand_SET_FOVY	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SET_FOVY						
-0010bd20	188	scrCommand_SCR_RUN	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCR_RUN	script_lifecycle_commands.c:scrCommand_SCR_RUN					
-0010bde0	72	scrCommand_SCR_KILL	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCR_KILL	script_lifecycle_commands.c:scrCommand_SCR_KILL					
-0010be28	40	scrCommand_SCR_WAIT	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCR_WAIT	script_lifecycle_commands.c:scrCommand_SCR_WAIT					
-0010be50	72	scrCommand_SCR_STAT	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCR_STAT	script_lifecycle_commands.c:scrCommand_SCR_STAT					
-0010be98	92	scrCommand_SCR_TIME	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCR_TIME	script_lifecycle_commands.c:scrCommand_SCR_TIME					
-0010bef8	64	scrCommand_QUAKE_ON	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_QUAKE_ON						
-0010bf38	32	scrCommand_QUAKE_OFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_QUAKE_OFF						
-0010bf58	116	scrCommand_SCENE_LIGHT_RGB	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCENE_LIGHT_RGB						
-0010bfd0	172	scrCommand_SCENE_LIGHT_DIR	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCENE_LIGHT_DIR						
-0010c080	112	scrCommand_SCENE_AMBIENT	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCENE_AMBIENT						
-0010c0f0	84	scrCommand_SCENE_FOG_RGB	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCENE_FOG_RGB						
-0010c148	296	scrCommand_SCENE_FOG_PARA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCENE_FOG_PARA						
-0010c280	88	scrCommand_SOFTEN_BIAS	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SOFTEN_BIAS						
-0010c2d8	88	scrCommand_BLUR	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BLUR						
-0010c330	132	scrCommand_MUL_BLUR_PARA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MUL_BLUR_PARA						
-0010c3b8	132	scrCommand_MUL_BLUR_RGBA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MUL_BLUR_RGBA						
-0010c440	88	scrCommand_MUL_BLUR_AREA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MUL_BLUR_AREA						
-0010c498	40	scrCommand_MUL_BLUR_SWAP	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MUL_BLUR_SWAP						
-0010c4c0	40	scrCommand_MUL_BLUR_ON	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MUL_BLUR_ON						
-0010c4e8	40	scrCommand_MUL_BLUR_OFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MUL_BLUR_OFF						
-0010c510	228	scrCommand_DIST_BLUR_PARA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_DIST_BLUR_PARA	script_distortion.c:scrCommand_DIST_BLUR_PARA					
-0010c5f8	132	scrCommand_DIST_BLUR_RGBA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_DIST_BLUR_RGBA	script_distortion.c:scrCommand_DIST_BLUR_RGBA					
-0010c680	88	scrCommand_DIST_BLUR_AREA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_DIST_BLUR_AREA	script_distortion.c:scrCommand_DIST_BLUR_AREA					
-0010c6d8	40	scrCommand_DIST_BLUR_SWAP	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_DIST_BLUR_SWAP						
-0010c700	40	scrCommand_DIST_BLUR_ON	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_DIST_BLUR_ON	script_distortion.c:scrCommand_DIST_BLUR_ON					
-0010c728	40	scrCommand_DIST_BLUR_OFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_DIST_BLUR_OFF						
-0010c750	228	scrCommand_RIP_BLUR_PARA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_RIP_BLUR_PARA						
-0010c838	132	scrCommand_RIP_BLUR_RGBA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_RIP_BLUR_RGBA						
-0010c8c0	88	scrCommand_RIP_BLUR_AREA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_RIP_BLUR_AREA						
-0010c918	40	scrCommand_RIP_BLUR_SWAP	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_RIP_BLUR_SWAP						
-0010c940	40	scrCommand_RIP_BLUR_ON	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_RIP_BLUR_ON						
-0010c968	40	scrCommand_RIP_BLUR_OFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_RIP_BLUR_OFF						
-0010c990	152	scrCommand_BLUR2_PARA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BLUR2_PARA						
-0010ca30	132	scrCommand_BLUR2_RGBA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BLUR2_RGBA						
-0010cab8	64	scrCommand_BLUR2_AREA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BLUR2_AREA						
-0010caf8	40	scrCommand_BLUR2_SWAP	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BLUR2_SWAP						
-0010cb20	40	scrCommand_BLUR2_ON	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BLUR2_ON						
-0010cb48	40	scrCommand_BLUR2_OFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BLUR2_OFF						
-0010cb70	120	scrCommand_FILTER2_PARA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_FILTER2_PARA						
-0010cbf0	132	scrCommand_FILTER2_RGBA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_FILTER2_RGBA						
-0010cc78	40	scrCommand_FILTER2_SWAP	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_FILTER2_SWAP						
-0010cca0	40	scrCommand_FILTER2_ON	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_FILTER2_ON						
-0010ccc8	40	scrCommand_FILTER2_OFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_FILTER2_OFF						
-0010ccf0	120	scrCommand_MFILTER_PARA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MFILTER_PARA						
-0010cd70	132	scrCommand_MFILTER_RGBA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MFILTER_RGBA						
-0010cdf8	88	scrCommand_MFILTER_AREA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MFILTER_AREA						
-0010ce50	40	scrCommand_MFILTER_SWAP	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MFILTER_SWAP						
-0010ce78	40	scrCommand_MFILTER_ON	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MFILTER_ON						
-0010cea0	40	scrCommand_MFILTER_OFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MFILTER_OFF						
-0010cec8	72	scrCommand_BLUR_ALLOFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BLUR_ALLOFF						
-0010cf10	40	scrCommand_FILTER_ALLOFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_FILTER_ALLOFF						
-0010cf38	64	prm_ITEM_PLUS	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:addItem						
-0010cf78	40	prm_DH_PLUS	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:addMagatama						
-0010cfa0	64	prm_DH_EQUIP	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:equipMagatama						
-0010cfe0	40	prm_MAKA_PLUS	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:addMacca						
-0010d008	40	prm_MAKA_PLUS_PER	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:addMaccaPercent						
-0010d030	72	prm_MAKA_CHECK	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:hasMacca						
-0010d078	40	ps2FieldSkillScriptPartyDamage_0010D078	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:damageParty	field_skill.c:ps2FieldSkillScriptPartyDamage_0010D078					
-0010d0a0	48	ps2FieldSkillScriptPartyRecover_0010D0A0	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:healStock	field_skill.c:ps2FieldSkillScriptPartyRecover_0010D0A0					
-0010d0d0	32	ps2FieldSkillScriptPartyRecoverSilent_0010D0D0	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:healStockSilently	field_skill.c:ps2FieldSkillScriptPartyRecoverSilent_0010D0D0					
-0010d0f0	176	prm_DV_PLUS	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:addDevil						
-0010d1a0	76	prm_DV_CHECK	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:hasDevil						
-0010d1f0	88	prm_UDV_LEAVE	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:storyDevilLeaves						
-0010d248	76	prm_UDV_CHECK	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:hasStoryDevil						
-0010d298	48	prm_UDV_GETID	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:storyDevilId						
-0010d2c8	100	prm_UDV_DELETE_OK	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:storyDevilMayLeave						
-0010d330	96	prm_UDV_DELETE_NG	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:storyDevilMayNotLeave						
-0010d390	60	prm_STOCK_PLUS	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:growStock						
-0010d3d0	64	prm_STOCK_FULL_CHECK	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:stockFull						
-0010d410	48	prm_PLAYER_GET_PARAM	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:playerStat						
-0010d440	64	prm_PLAYER_ADD_PARAM	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:addPlayerStat						
-0010d480	72	prm_NAKAMA_GET_PARAM	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:devilStat						
-0010d4c8	40	prm_PLAYER_GET_LND	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:playerAlignment						
-0010d4f0	40	prm_PLAYER_GET_LEVEL	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:playerLevel						
-0010d518	40	prm_NAKAMA_DEAD	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:devilDies						
-0010d540	164	prm_NAKAMA_CHK_PIKUKO	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:isFirstPixie						
-0010d5e8	104	prm_PIKUKO_GETID	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:firstPixieId						
-0010d658	72	prm_BOSS_PRESS_REC	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:recordBossPress						
-0010d6a0	136	prm_DV_COPY_PARAM	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:copyDevilStats						
+0010b888	48	scrCommand_BIT_CHK	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BIT_CHK	script_common_bits.c:scrCommand_BIT_CHK	ok	ok	ok	ok	
+0010b8b8	40	scrCommand_BIT_ON	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BIT_ON	script_common_bits.c:scrCommand_BIT_ON	ok	ok	ok	ok	
+0010b8e0	40	scrCommand_BIT_OFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BIT_OFF	script_common_bits.c:scrCommand_BIT_OFF	ok	ok	ok	ok	
+0010b908	52	scrCommand_RND	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_RND	battle_script_commands.c:scrCommand_RND	ok	ok	ok	ok	
+0010b940	32	scrCommand_SYNC	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SYNC	script_core.c:scrCommand_SYNC	ok	ok	ok	ok	
+0010b960	72	scrCommand_WAIT	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_WAIT	script_core.c:scrCommand_WAIT	ok	ok	ok	ok	
+0010b9a8	72	scrCommand_PUT	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_PUT		ok	ok	ok	ok	
+0010b9f0	72	scrCommand_PUTS	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_PUTS		ok	ok	ok	ok	
+0010ba38	148	scrCommand_FADE_IN	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_FADE_IN	screen_fade.c:scrCommand_FADE_IN	ok	ok	ok	ok	
+0010bad8	148	scrCommand_FADE_OUT	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_FADE_OUT	screen_fade.c:scrCommand_FADE_OUT	ok	ok	ok	ok	
+0010bb78	88	scrCommand_SEL_JMP	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SEL_JMP	script_core.c:scrCommand_SEL_JMP	ok	ok	ok	ok	
+0010bbd0	52	scrCommand_PAD_TRIG	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_PAD_TRIG		ok	ok	ok	ok	
+0010bc08	52	scrCommand_PAD_PRESS	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_PAD_PRESS		ok	ok	ok	ok	
+0010bc40	88	scrCommand_PAD_ACT	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_PAD_ACT		ok	ok	ok	ok	
+0010bc98	132	scrCommand_SET_FOVY	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SET_FOVY		ok	ok	ok	ok	
+0010bd20	188	scrCommand_SCR_RUN	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCR_RUN	script_lifecycle_commands.c:scrCommand_SCR_RUN	ok	ok	ok	ok	
+0010bde0	72	scrCommand_SCR_KILL	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCR_KILL	script_lifecycle_commands.c:scrCommand_SCR_KILL	ok	ok	ok	ok	
+0010be28	40	scrCommand_SCR_WAIT	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCR_WAIT	script_lifecycle_commands.c:scrCommand_SCR_WAIT	ok	ok	ok	ok	
+0010be50	72	scrCommand_SCR_STAT	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCR_STAT	script_lifecycle_commands.c:scrCommand_SCR_STAT	ok	ok	ok	ok	
+0010be98	92	scrCommand_SCR_TIME	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCR_TIME	script_lifecycle_commands.c:scrCommand_SCR_TIME	ok	ok	ok	ok	
+0010bef8	64	scrCommand_QUAKE_ON	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_QUAKE_ON		ok	ok	ok	ok	
+0010bf38	32	scrCommand_QUAKE_OFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_QUAKE_OFF		ok	ok	ok	ok	
+0010bf58	116	scrCommand_SCENE_LIGHT_RGB	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCENE_LIGHT_RGB		ok	ok	ok	ok	
+0010bfd0	172	scrCommand_SCENE_LIGHT_DIR	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCENE_LIGHT_DIR		ok	ok	ok	ok	
+0010c080	112	scrCommand_SCENE_AMBIENT	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCENE_AMBIENT		ok	ok	ok	ok	
+0010c0f0	84	scrCommand_SCENE_FOG_RGB	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCENE_FOG_RGB		ok	ok	ok	ok	
+0010c148	296	scrCommand_SCENE_FOG_PARA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SCENE_FOG_PARA		ok	ok	ok	ok	
+0010c280	88	scrCommand_SOFTEN_BIAS	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_SOFTEN_BIAS		ok	ok	ok	ok	
+0010c2d8	88	scrCommand_BLUR	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BLUR		ok	ok	ok	ok	
+0010c330	132	scrCommand_MUL_BLUR_PARA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MUL_BLUR_PARA		ok	ok	ok	ok	
+0010c3b8	132	scrCommand_MUL_BLUR_RGBA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MUL_BLUR_RGBA		ok	ok	ok	ok	
+0010c440	88	scrCommand_MUL_BLUR_AREA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MUL_BLUR_AREA		ok	ok	ok	ok	
+0010c498	40	scrCommand_MUL_BLUR_SWAP	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MUL_BLUR_SWAP		ok	ok	ok	ok	
+0010c4c0	40	scrCommand_MUL_BLUR_ON	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MUL_BLUR_ON		ok	ok	ok	ok	
+0010c4e8	40	scrCommand_MUL_BLUR_OFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MUL_BLUR_OFF		ok	ok	ok	ok	
+0010c510	228	scrCommand_DIST_BLUR_PARA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_DIST_BLUR_PARA	script_distortion.c:scrCommand_DIST_BLUR_PARA	ok	ok	ok	ok	
+0010c5f8	132	scrCommand_DIST_BLUR_RGBA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_DIST_BLUR_RGBA	script_distortion.c:scrCommand_DIST_BLUR_RGBA	ok	ok	ok	ok	
+0010c680	88	scrCommand_DIST_BLUR_AREA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_DIST_BLUR_AREA	script_distortion.c:scrCommand_DIST_BLUR_AREA	ok	ok	ok	ok	
+0010c6d8	40	scrCommand_DIST_BLUR_SWAP	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_DIST_BLUR_SWAP		ok	ok	ok	ok	
+0010c700	40	scrCommand_DIST_BLUR_ON	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_DIST_BLUR_ON	script_distortion.c:scrCommand_DIST_BLUR_ON	ok	ok	ok	ok	
+0010c728	40	scrCommand_DIST_BLUR_OFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_DIST_BLUR_OFF		ok	ok	ok	ok	
+0010c750	228	scrCommand_RIP_BLUR_PARA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_RIP_BLUR_PARA		ok	ok	ok	ok	
+0010c838	132	scrCommand_RIP_BLUR_RGBA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_RIP_BLUR_RGBA		ok	ok	ok	ok	
+0010c8c0	88	scrCommand_RIP_BLUR_AREA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_RIP_BLUR_AREA		ok	ok	ok	ok	
+0010c918	40	scrCommand_RIP_BLUR_SWAP	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_RIP_BLUR_SWAP		ok	ok	ok	ok	
+0010c940	40	scrCommand_RIP_BLUR_ON	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_RIP_BLUR_ON		ok	ok	ok	ok	
+0010c968	40	scrCommand_RIP_BLUR_OFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_RIP_BLUR_OFF		ok	ok	ok	ok	
+0010c990	152	scrCommand_BLUR2_PARA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BLUR2_PARA		ok	ok	ok	ok	
+0010ca30	132	scrCommand_BLUR2_RGBA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BLUR2_RGBA		ok	ok	ok	ok	
+0010cab8	64	scrCommand_BLUR2_AREA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BLUR2_AREA		ok	ok	ok	ok	
+0010caf8	40	scrCommand_BLUR2_SWAP	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BLUR2_SWAP		ok	ok	ok	ok	
+0010cb20	40	scrCommand_BLUR2_ON	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BLUR2_ON		ok	ok	ok	ok	
+0010cb48	40	scrCommand_BLUR2_OFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BLUR2_OFF		ok	ok	ok	ok	
+0010cb70	120	scrCommand_FILTER2_PARA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_FILTER2_PARA		ok	ok	ok	ok	
+0010cbf0	132	scrCommand_FILTER2_RGBA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_FILTER2_RGBA		ok	ok	ok	ok	
+0010cc78	40	scrCommand_FILTER2_SWAP	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_FILTER2_SWAP		ok	ok	ok	ok	
+0010cca0	40	scrCommand_FILTER2_ON	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_FILTER2_ON		ok	ok	ok	ok	
+0010ccc8	40	scrCommand_FILTER2_OFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_FILTER2_OFF		ok	ok	ok	ok	
+0010ccf0	120	scrCommand_MFILTER_PARA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MFILTER_PARA		ok	ok	ok	ok	
+0010cd70	132	scrCommand_MFILTER_RGBA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MFILTER_RGBA		ok	ok	ok	ok	
+0010cdf8	88	scrCommand_MFILTER_AREA	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MFILTER_AREA		ok	ok	ok	ok	
+0010ce50	40	scrCommand_MFILTER_SWAP	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MFILTER_SWAP		ok	ok	ok	ok	
+0010ce78	40	scrCommand_MFILTER_ON	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MFILTER_ON		ok	ok	ok	ok	
+0010cea0	40	scrCommand_MFILTER_OFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_MFILTER_OFF		ok	ok	ok	ok	
+0010cec8	72	scrCommand_BLUR_ALLOFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_BLUR_ALLOFF		ok	ok	ok	ok	
+0010cf10	40	scrCommand_FILTER_ALLOFF	USER_DEFINED	rewritten	shared/src/script/commands.cpp:scrCommand_FILTER_ALLOFF		ok	ok	ok	ok	
+0010cf38	64	prm_ITEM_PLUS	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:addItem		ok	ok	ok	ok	
+0010cf78	40	prm_DH_PLUS	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:addMagatama		ok	ok	ok	ok	
+0010cfa0	64	prm_DH_EQUIP	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:equipMagatama		ok	ok	ok	ok	
+0010cfe0	40	prm_MAKA_PLUS	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:addMacca		ok	ok	ok	ok	
+0010d008	40	prm_MAKA_PLUS_PER	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:addMaccaPercent		ok	ok	ok	ok	
+0010d030	72	prm_MAKA_CHECK	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:hasMacca		ok	ok	ok	ok	
+0010d078	40	ps2FieldSkillScriptPartyDamage_0010D078	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:damageParty	field_skill.c:ps2FieldSkillScriptPartyDamage_0010D078	ok	ok	ok	ok	
+0010d0a0	48	ps2FieldSkillScriptPartyRecover_0010D0A0	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:healStock	field_skill.c:ps2FieldSkillScriptPartyRecover_0010D0A0	ok	ok	ok	ok	
+0010d0d0	32	ps2FieldSkillScriptPartyRecoverSilent_0010D0D0	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:healStockSilently	field_skill.c:ps2FieldSkillScriptPartyRecoverSilent_0010D0D0	ok	ok	ok	ok	
+0010d0f0	176	prm_DV_PLUS	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:addDevil		ok	ok	ok	ok	
+0010d1a0	76	prm_DV_CHECK	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:hasDevil		ok	ok	ok	ok	
+0010d1f0	88	prm_UDV_LEAVE	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:storyDevilLeaves		ok	ok	ok	ok	
+0010d248	76	prm_UDV_CHECK	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:hasStoryDevil		ok	ok	ok	ok	
+0010d298	48	prm_UDV_GETID	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:storyDevilId		ok	ok	ok	ok	
+0010d2c8	100	prm_UDV_DELETE_OK	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:storyDevilMayLeave		ok	ok	ok	ok	
+0010d330	96	prm_UDV_DELETE_NG	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:storyDevilMayNotLeave		ok	ok	ok	ok	
+0010d390	60	prm_STOCK_PLUS	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:growStock		ok	ok	ok	ok	
+0010d3d0	64	prm_STOCK_FULL_CHECK	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:stockFull		ok	ok	ok	ok	
+0010d410	48	prm_PLAYER_GET_PARAM	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:playerStat		ok	ok	ok	ok	
+0010d440	64	prm_PLAYER_ADD_PARAM	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:addPlayerStat		ok	ok	ok	ok	
+0010d480	72	prm_NAKAMA_GET_PARAM	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:devilStat		ok	ok	ok	ok	
+0010d4c8	40	prm_PLAYER_GET_LND	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:playerAlignment		ok	ok	ok	ok	
+0010d4f0	40	prm_PLAYER_GET_LEVEL	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:playerLevel		ok	ok	ok	ok	
+0010d518	40	prm_NAKAMA_DEAD	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:devilDies		ok	ok	ok	ok	
+0010d540	164	prm_NAKAMA_CHK_PIKUKO	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:isFirstPixie		ok	ok	ok	ok	
+0010d5e8	104	prm_PIKUKO_GETID	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:firstPixieId		ok	ok	ok	ok	
+0010d658	72	prm_BOSS_PRESS_REC	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:recordBossPress		ok	ok	ok	ok	
+0010d6a0	136	prm_DV_COPY_PARAM	USER_DEFINED	rewritten	shared/src/script/parameter_commands.cpp:copyDevilStats		ok	ok	ok	ok	
 0010d730	764	FUN_0010d730	DEFAULT	unknown							
 0010da30	136	FUN_0010da30	DEFAULT	unknown							
 0010dab8	292	FUN_0010dab8	DEFAULT	unknown							
@@ -1794,20 +1794,20 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 0016a990	48	FUN_0016a990	DEFAULT	unknown							
 0016a9c0	332	ps2BattleAction_0016A9C0	USER_DEFINED	legacy		battle_action_activation.c:ps2BattleAction_0016A9C0					
 0016ab10	96	effBTLDelete	USER_DEFINED	legacy		battle_action_finish.c:effBTLDelete					
-0016ab70	44	effBTLGetMotionChangeFrame	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:motionChangeFrame	battle_action_skill_support_frames.c:body_0016ab70;battle_action_skill_support_frames.c:ps2BattleActionSkill_0016AB70					
-0016aba0	44	effBTLGetCutEndFrame	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:cutEndFrame	battle_action_skill_support_frames.c:body_0016aba0;battle_action_skill_support_frames.c:ps2BattleActionSkill_0016ABA0					
+0016ab70	44	effBTLGetMotionChangeFrame	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:motionChangeFrame	battle_action_skill_support_frames.c:body_0016ab70;battle_action_skill_support_frames.c:ps2BattleActionSkill_0016AB70	ok	ok	ok	ok	
+0016aba0	44	effBTLGetCutEndFrame	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:cutEndFrame	battle_action_skill_support_frames.c:body_0016aba0;battle_action_skill_support_frames.c:ps2BattleActionSkill_0016ABA0	ok	ok	ok	ok	
 0016ac28	68	effBTLCutListRelease	USER_DEFINED	legacy		battle_action_finish.c:effBTLCutListRelease					
 0016ac70	396	effBTLCutCreate	USER_DEFINED	legacy		battle_action_hit_frames.c:ps2BattleActionCutCreate_0016AC70;battle_effect_copy.c:effBTLCutCreate					
 0016ae08	144	effBTLCutDelete	USER_DEFINED	legacy		battle_action_finish.c:effBTLCutDelete					
-0016aea0	8	effBTLCutGetFrame	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:frame						
-0016aec0	12	effBTLCutGetMotionChangeFrame	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:motionChangeFrame	battle_action_skill_support_frames.c:body_0016aec0;battle_action_skill_support_frames.c:ps2BattleActionSkill_0016AEC0					
-0016aed0	24	effBTLCutSetCutEndFrame	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:setCutEndFrame						
-0016aee8	8	effBTLCutGetCutEndFrame	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:cutEndFrame	battle_action_hit_length_frames.c:body_0016aee8;battle_action_hit_length_frames.c:ps2BattleActionHitLength_0016AEE8;battle_effect_copy.c:effBTLCutGetCutEndFrame					
-0016aef0	48	effBTLCutSetDrawEndFrame	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:setDrawEndFrame	battle_action_skill_support_frames.c:body_0016aef0;battle_action_skill_support_frames.c:ps2BattleActionSkill_0016AEF0					
+0016aea0	8	effBTLCutGetFrame	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:frame		ok	ok	ok	ok	
+0016aec0	12	effBTLCutGetMotionChangeFrame	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:motionChangeFrame	battle_action_skill_support_frames.c:body_0016aec0;battle_action_skill_support_frames.c:ps2BattleActionSkill_0016AEC0	ok	ok	ok	ok	
+0016aed0	24	effBTLCutSetCutEndFrame	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:setCutEndFrame		ok	ok	ok	ok	
+0016aee8	8	effBTLCutGetCutEndFrame	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:cutEndFrame	battle_action_hit_length_frames.c:body_0016aee8;battle_action_hit_length_frames.c:ps2BattleActionHitLength_0016AEE8;battle_effect_copy.c:effBTLCutGetCutEndFrame	ok	ok	ok	ok	
+0016aef0	48	effBTLCutSetDrawEndFrame	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:setDrawEndFrame	battle_action_skill_support_frames.c:body_0016aef0;battle_action_skill_support_frames.c:ps2BattleActionSkill_0016AEF0	ok	ok	ok	ok	
 0016af28	8	FUN_0016af28	DEFAULT	unknown							
 0016af30	8	FUN_0016af30	DEFAULT	unknown							
 0016af38	336	FUN_0016af38	DEFAULT	unknown							
-0016b090	96	effBTLCutSetCameraState	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:setCutCameraState	battle_action_skill_support_frames.c:body_0016b090;battle_action_skill_support_frames.c:ps2BattleActionSkill_0016B090					
+0016b090	96	effBTLCutSetCameraState	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:setCutCameraState	battle_action_skill_support_frames.c:body_0016b090;battle_action_skill_support_frames.c:ps2BattleActionSkill_0016B090	ok	ok	ok	ok	
 0016b0f0	1040	effBTLCutDraw	USER_DEFINED	named							
 0016b510	120	ps2EffectPartControlNative_0016B510	USER_DEFINED	named							
 0016b588	316	ps2BattleAction_0016B588	USER_DEFINED	legacy		battle_action_activation.c:ps2BattleAction_0016B588					
@@ -1823,7 +1823,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 0016ba18	12	FUN_0016ba18	DEFAULT	unknown							
 0016ba28	12	effBTLSkillGetTargetBit	USER_DEFINED	legacy		battle_presentation.c:effBTLSkillGetTargetBit					
 0016ba38	8	FUN_0016ba38	DEFAULT	unknown							
-0016ba40	40	effBTLSkillSetState	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:setSkillState	battle_action_skill_support_frames.c:body_0016ba40;battle_action_skill_support_frames.c:ps2BattleActionSkill_0016BA40					
+0016ba40	40	effBTLSkillSetState	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:setSkillState	battle_action_skill_support_frames.c:body_0016ba40;battle_action_skill_support_frames.c:ps2BattleActionSkill_0016BA40	ok	ok	ok	ok	
 0016ba68	8	FUN_0016ba68	DEFAULT	unknown							
 0016ba70	8	effBTLSkillGetID	USER_DEFINED	legacy		battle_effect_copy.c:effBTLSkillGetID					
 0016ba78	8	FUN_0016ba78	DEFAULT	unknown							
@@ -2914,21 +2914,21 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 00198200	148	effPCPBossONGYCreate	USER_DEFINED	legacy		battle_action_skill_support_frames.c:body_00198200;battle_action_skill_support_frames.c:ps2BattleActionSkill_00198200					
 00198298	48	effPCPBossONGYDelete	USER_DEFINED	named							
 001982c8	1432	effPCPBossONGYDraw	USER_DEFINED	named							
-00198860	8	effPCPBossONGYGetLength	USER_DEFINED	rewritten	shared/src/effect/boss.cpp:ongyokiEffectLength	battle_action_skill_support_frames.c:body_00198860;battle_action_skill_support_frames.c:ps2BattleActionSkill_00198860					
+00198860	8	effPCPBossONGYGetLength	USER_DEFINED	rewritten	shared/src/effect/boss.cpp:ongyokiEffectLength	battle_action_skill_support_frames.c:body_00198860;battle_action_skill_support_frames.c:ps2BattleActionSkill_00198860	ok	ok	ok	ok	
 00198868	148	effPCPBossONGY2Create	USER_DEFINED	legacy		battle_action_skill_support_frames.c:body_00198868;battle_action_skill_support_frames.c:ps2BattleActionSkill_00198868					
 00198900	48	effPCPBossONGY2Delete	USER_DEFINED	named							
 00198930	1732	effPCPBossONGY2Draw	USER_DEFINED	named							
-00198ff8	8	effPCPBossONGY2GetLength	USER_DEFINED	rewritten	shared/src/effect/boss.cpp:ongyokiEffect2Length	battle_action_skill_support_frames.c:body_00198ff8;battle_action_skill_support_frames.c:ps2BattleActionSkill_00198FF8					
+00198ff8	8	effPCPBossONGY2GetLength	USER_DEFINED	rewritten	shared/src/effect/boss.cpp:ongyokiEffect2Length	battle_action_skill_support_frames.c:body_00198ff8;battle_action_skill_support_frames.c:ps2BattleActionSkill_00198FF8	ok	ok	ok	ok	
 00199000	236	effPCPBossBUNSINCreate	USER_DEFINED	named							
 001990f0	48	effPCPBossBUNSINDelete	USER_DEFINED	named							
 00199120	772	FUN_00199120	DEFAULT	unknown							
 00199428	468	FUN_00199428	DEFAULT	unknown							
 00199600	1272	effPCPBossBUNSINDraw	USER_DEFINED	named							
-00199b08	8	effPCPBossBUNSINGetLength	USER_DEFINED	rewritten	shared/src/effect/boss.cpp:ongyokiCloneEffectLength						
+00199b08	8	effPCPBossBUNSINGetLength	USER_DEFINED	rewritten	shared/src/effect/boss.cpp:ongyokiCloneEffectLength		ok	ok	ok	ok	
 00199b10	180	effPCPBossBUNSIN2Create	USER_DEFINED	named							
 00199bc8	60	effPCPBossBUNSIN2Delete	USER_DEFINED	named							
 00199c08	164	effPCPBossBUNSIN2Draw	USER_DEFINED	named							
-00199cb0	32	effPCPBossBUNSIN2GetLength	USER_DEFINED	rewritten	shared/src/effect/boss.cpp:ongyokiCloneEffect2Length						
+00199cb0	32	effPCPBossBUNSIN2GetLength	USER_DEFINED	rewritten	shared/src/effect/boss.cpp:ongyokiCloneEffect2Length		ok	ok	ok	ok	
 00199cd0	244	FUN_00199cd0	DEFAULT	unknown							
 00199dc8	604	FUN_00199dc8	DEFAULT	unknown							
 0019a028	300	FUN_0019a028	DEFAULT	unknown							
@@ -3546,8 +3546,8 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 001c6128	56	ps2FontRecordLastCode	USER_DEFINED	rewritten	shared/src/interface/font_layout_us.cpp:RecordLastCode	battle_action_skill_registered_frames.c:body_001c6128;battle_panel_renderer_existing_5.c:body_001c6128;font_resource.c:ps2FontRecordLastCode	ok	ok			
 001c6160	32	ps2FontSetSize	USER_DEFINED	rewritten	shared/src/interface/font_layout_us.cpp:frSetBaseWidth	battle_panel_color_prerequisites.c:body_001c6160;battle_panel_renderer_prerequisites.c:body_001c6160;battle_panel_support.c:ps2FontSetSize	ok	ok			
 001c6180	56	FUN_001c6180	DEFAULT	unknown							
-001c6270	136	frRelayoutRequest	USER_DEFINED	rewritten	shared/src/interface/font.cpp:RelayoutRequest						
-001c6300	56	frSetSpaceMetric	USER_DEFINED	rewritten	shared/src/interface/font.cpp:SetSpaceMetric						
+001c6270	136	frRelayoutRequest	USER_DEFINED	rewritten	shared/src/interface/font.cpp:RelayoutRequest		ok	ok			
+001c6300	56	frSetSpaceMetric	USER_DEFINED	rewritten	shared/src/interface/font.cpp:SetSpaceMetric		ok	ok	ok	ok	
 001c6338	40	ps2FontSwapColorBytes	USER_DEFINED	legacy		battle_panel_color_prerequisites.c:body_001c6338;battle_panel_renderer_prerequisites.c:body_001c6338;message_frame_draw.c:ps2FontSwapColorBytes					
 001c6360	60	frConvertVal2N	USER_DEFINED	rewritten	shared/src/interface/font.cpp:frConvertVal2N		ok	ok	ok	ok	
 001c63a0	152	FUN_001c63a0	DEFAULT	unknown							
@@ -3570,7 +3570,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 001c7080	8	ps2FontGetGlyphStorageSize	USER_DEFINED	rewritten	shared/src/interface/font_layout_jp.cpp:shadowOffset	battle_action_skill_registered_frames.c:body_001c7080;battle_panel_renderer_existing_5.c:body_001c7080;font_resource.c:ps2FontGetGlyphStorageSize					
 001c7088	512	ps2FontLayoutGlyph	USER_DEFINED	rewritten	shared/src/interface/font_layout_us.cpp:frGetXShiftLev	battle_action_skill_registered_frames.c:body_001c7088;battle_panel_renderer_existing_5.c:body_001c7088;font_text.c:ps2FontLayoutGlyph	ok	ok	ok	ok	
 001c7288	300	ps2FontCreateControlGlyph	USER_DEFINED	rewritten	shared/src/interface/font.cpp:AppendControlText	battle_action_skill_registered_frames.c:body_001c7288;battle_panel_renderer_remaining.c:body_001c7288;font_text.c:ps2FontCreateControlGlyph	ok	ok	ok	ok	
-001c73b8	76	ps2FontLinkControlGlyph	USER_DEFINED	rewritten	shared/src/interface/font.cpp:LinkControlText						
+001c73b8	76	ps2FontLinkControlGlyph	USER_DEFINED	rewritten	shared/src/interface/font.cpp:LinkControlText		ok	ok	ok	ok	
 001c7408	220	ps2FontCreateTextureGlyph	USER_DEFINED	rewritten	shared/src/interface/font.cpp:CreateTextureGlyph	battle_action_skill_registered_frames.c:body_001c7408;battle_panel_renderer_existing_5.c:body_001c7408;font_text.c:ps2FontCreateTextureGlyph	ok	ok	ok	ok	
 001c74e8	124	ps2FontAllocateDecodedGlyph	USER_DEFINED	rewritten	shared/src/interface/font.cpp:DecodeGlyphPixels	battle_action_skill_registered_frames.c:body_001c74e8;battle_panel_renderer_existing_5.c:body_001c74e8;font_resource.c:ps2FontAllocateDecodedGlyph	ok	ok	ok	ok	
 001c7568	240	ps2FontAcquireCachedGlyph	USER_DEFINED	rewritten	shared/src/interface/font_layout_us.cpp:AcquireGlyph	battle_action_skill_registered_frames.c:body_001c7568;battle_panel_renderer_existing_5.c:body_001c7568;font_text.c:ps2FontAcquireCachedGlyph	ok	ok	ok	ok	
@@ -3614,14 +3614,14 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 001c8730	36	ps2FontAdvanceMessageLine	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:AdvanceMessageLine	battle_action_skill_registered_frames.c:body_001c8730;battle_panel_renderer_remaining.c:body_001c8730;font_parser_support.c:ps2FontAdvanceMessageLine	ok	ok	ok	ok	
 001c8758	112	ps2FontAppendSpecialCode	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:AppendSpecialCode	battle_action_skill_registered_frames.c:body_001c8758;battle_panel_renderer_remaining.c:body_001c8758;font_parser_support.c:ps2FontAppendSpecialCode	ok	ok			
 001c87c8	1264	ps2FontParseMessageTag	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:frAnalyzeTag	battle_action_skill_registered_frames.c:body_001c87c8;battle_panel_renderer_remaining.c:body_001c87c8;font_message.c:ps2FontParseMessageTag	ok	ok	ok	ok	
-001c8ce0	68	frControlCodeLength	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:ControlCodeLength						
-001c8d28	276	frCopyMessageLine	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:CopyMessageLine						
-001c8e48	184	frCountMessageLines	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:CountMessageLines						
+001c8ce0	68	frControlCodeLength	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:ControlCodeLength		ok	ok			
+001c8d28	276	frCopyMessageLine	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:CopyMessageLine		ok	ok			
+001c8e48	184	frCountMessageLines	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:CountMessageLines		ok	ok			
 001c8f08	508	ps2FontParseMessage	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:frAnalyzeMessage	battle_action_skill_registered_frames.c:body_001c8f08;battle_panel_renderer_remaining.c:body_001c8f08;font_message.c:ps2FontParseMessage	ok	ok	ok	ok	
-001c9108	52	frMessageRequestPlain	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:MessageRequestPlain	battle_action_skill_support_frames.c:body_001c9108;battle_action_skill_support_frames.c:ps2BattleActionSkill_001C9108;battle_status_pairs.c:body_001c9108;battle_status_pairs_native.c:body_001c9108					
+001c9108	52	frMessageRequestPlain	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:MessageRequestPlain	battle_action_skill_support_frames.c:body_001c9108;battle_action_skill_support_frames.c:ps2BattleActionSkill_001C9108;battle_status_pairs.c:body_001c9108;battle_status_pairs_native.c:body_001c9108	ok	ok	ok	ok	
 001c9140	68	ps2FontMessageRequest	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:MessageRequest	font_message.c:ps2FontMessageRequest	ok	ok	ok	ok	
 001c9188	88	ps2FontMessageRequestEx	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:MessageRequestEx	battle_action_skill_registered_frames.c:body_001c9188;battle_panel_renderer_remaining.c:body_001c9188;font_message.c:ps2FontMessageRequestEx	ok	ok	ok	ok	
-001c91e0	60	frMessageRequestKeepSpace	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:MessageRequestKeepSpace						
+001c91e0	60	frMessageRequestKeepSpace	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:MessageRequestKeepSpace		ok	ok	ok	ok	
 001c9220	12	ps2FontTestGlobalFlags	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:frGetMessageResult	message_commands.c:ps2FontTestGlobalFlags	ok	ok	ok	ok	
 001c9230	24	frSetVariableRequest	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:frSetVariableRequest	battle_action_skill_registered_frames.c:body_001c9230;battle_panel_renderer_remaining.c:body_001c9230;message_commands.c:frSetVariableRequest	ok	ok	ok	ok	
 001c9248	744	FUN_001c9248	DEFAULT	unknown							
@@ -3638,7 +3638,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 001c9fc8	48	FUN_001c9fc8	DEFAULT	unknown							
 001c9ff8	32	FUN_001c9ff8	DEFAULT	unknown							
 001ca018	184	FUN_001ca018	DEFAULT	unknown							
-001ca0d0	388	ps2FontLinkLetters	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:LinkLetters	battle_action_skill_support_frames.c:body_001ca0d0;battle_action_skill_support_frames.c:ps2BattleActionSkill_001CA0D0;battle_reward_levelup_native.c:body_001ca0d0;battle_reward_levelup_native.c:ps2BattleRewardLevelupNative_001CA0D0;battle_reward_phase_rows.c:body_001ca0d0;battle_reward_phase_rows.c:ps2BattleRewardPhaseRows_001CA0D0;battle_status_pairs.c:body_001ca0d0;battle_status_pairs_native.c:body_001ca0d0	ok	ok	pending	pending	
+001ca0d0	388	ps2FontLinkLetters	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:LinkLetters	battle_action_skill_support_frames.c:body_001ca0d0;battle_action_skill_support_frames.c:ps2BattleActionSkill_001CA0D0;battle_reward_levelup_native.c:body_001ca0d0;battle_reward_levelup_native.c:ps2BattleRewardLevelupNative_001CA0D0;battle_reward_phase_rows.c:body_001ca0d0;battle_reward_phase_rows.c:ps2BattleRewardPhaseRows_001CA0D0;battle_status_pairs.c:body_001ca0d0;battle_status_pairs_native.c:body_001ca0d0	ok	ok	ok	ok	
 001ca258	64	ps2FontLinkSpacedLetters	USER_DEFINED	rewritten	shared/src/interface/font_message_us.cpp:LinkSpacedLetters	battle_action_skill_support_frames.c:body_001ca258;battle_action_skill_support_frames.c:ps2BattleActionSkill_001CA258;battle_reward_levelup_native.c:body_001ca258;battle_reward_levelup_native.c:ps2BattleRewardLevelupNative_001CA258;battle_reward_phase_rows.c:body_001ca258;battle_reward_phase_rows.c:ps2BattleRewardPhaseRows_001CA258;battle_status_pairs.c:body_001ca258;battle_status_pairs_native.c:body_001ca258	ok	ok	ok	ok	
 001ca298	364	ps2FontBuildDrawString	USER_DEFINED	legacy		battle_panel_color_prerequisites.c:body_001ca298;battle_panel_renderer_prerequisites.c:body_001ca298;battle_panel_support.c:ps2FontBuildDrawString					
 001ca410	32	FUN_001ca410	DEFAULT	unknown							
@@ -3652,8 +3652,8 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 001ca9f8	32	FUN_001ca9f8	DEFAULT	unknown							
 001caa18	288	ps2FontDecodeGlyph	USER_DEFINED	rewritten	shared/src/interface/font.cpp:DecodeGlyph	battle_action_skill_registered_frames.c:body_001caa18;battle_panel_renderer_existing_5.c:body_001caa18;font_resource.c:ps2FontDecodeGlyph	ok	ok	ok	ok	
 001cab38	160	ps2PoolCreate	USER_DEFINED	rewritten	shared/src/interface/font.cpp:PoolCreate		ok	ok	ok	ok	
-001cabd8	40	ps2FontTakeGlyphSlot	USER_DEFINED	rewritten	shared/src/interface/font.cpp:PoolTake	battle_action_skill_registered_frames.c:body_001cabd8;battle_panel_renderer_existing_5.c:body_001cabd8;font_resource.c:ps2FontTakeGlyphSlot					
-001cac00	48	ps2BattleRewardPhaseRecycler_001CAC00	USER_DEFINED	rewritten	shared/src/interface/font.cpp:PoolGive	battle_reward_phase_recycler.c:body_001cac00;battle_reward_phase_recycler.c:ps2BattleRewardPhaseRecycler_001CAC00					
+001cabd8	40	ps2FontTakeGlyphSlot	USER_DEFINED	rewritten	shared/src/interface/font.cpp:PoolTake	battle_action_skill_registered_frames.c:body_001cabd8;battle_panel_renderer_existing_5.c:body_001cabd8;font_resource.c:ps2FontTakeGlyphSlot	ok	ok	ok	ok	
+001cac00	48	ps2BattleRewardPhaseRecycler_001CAC00	USER_DEFINED	rewritten	shared/src/interface/font.cpp:PoolGive	battle_reward_phase_recycler.c:body_001cac00;battle_reward_phase_recycler.c:ps2BattleRewardPhaseRecycler_001CAC00	ok	ok	ok	ok	
 001cac30	32	FUN_001cac30	DEFAULT	unknown							
 001cad00	100	FUN_001cad00	DEFAULT	unknown							
 001cad68	32	FUN_001cad68	DEFAULT	unknown							
@@ -3682,19 +3682,19 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 001cc270	68	itfPnlSetColor	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:PnlSetColor	panel_construction.c:itfPnlSetColor	ok	ok	ok	ok	
 001cc2b8	108	ps2PanelSubmitDraw	USER_DEFINED	legacy		message_frame_draw.c:ps2PanelSubmitDraw					
 001cc328	48	itfPnlDraw	USER_DEFINED	legacy		panel_draw.c:itfPnlDraw					
-001cc358	120	ps2PanelVertexNormal	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateVertexNormal	panel_construction.c:ps2PanelVertexNormal					
-001cc3d0	364	ps2PanelVertexMessage	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateVertexMesWin	panel_construction.c:ps2PanelVertexMessage					
-001cc540	324	ps2PanelVertexSelection	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateVertexSelWin	panel_construction.c:ps2PanelVertexSelection					
-001cc688	48	ps2PanelVertexPlain	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateVertexPlain	panel_construction.c:ps2PanelVertexPlain					
-001cc6b8	108	ps2PanelVertexFacility	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateVertexLeftFade	panel_construction.c:ps2PanelVertexFacility					
-001cc728	120	ps2PanelVertexPera	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateVertexFacility	panel_construction.c:ps2PanelVertexPera					
-001cc7a0	44	ps2PanelColorNormal	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateColorNormal	panel_construction.c:ps2PanelColorNormal					
-001cc7d0	96	ps2PanelColorMessage	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateColorMesWin	panel_construction.c:ps2PanelColorMessage					
-001cc830	96	ps2PanelColorSelection	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateColorSelWin	panel_construction.c:ps2PanelColorSelection					
-001cc890	140	ps2PanelColorPlain	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateColorPlain	panel_construction.c:ps2PanelColorPlain					
-001cc920	24	ps2PanelColorLeftFade	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateColorPera1	panel_construction.c:ps2PanelColorLeftFade					
-001cc938	44	ps2PanelColorFacility	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateColorLeftFade	panel_construction.c:ps2PanelColorFacility					
-001cc968	56	ps2PanelColorPera	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateColorFacility	panel_construction.c:ps2PanelColorPera					
+001cc358	120	ps2PanelVertexNormal	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateVertexNormal	panel_construction.c:ps2PanelVertexNormal	ok	ok	ok	ok	
+001cc3d0	364	ps2PanelVertexMessage	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateVertexMesWin	panel_construction.c:ps2PanelVertexMessage	ok	ok	ok	ok	
+001cc540	324	ps2PanelVertexSelection	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateVertexSelWin	panel_construction.c:ps2PanelVertexSelection	ok	ok	ok	ok	
+001cc688	48	ps2PanelVertexPlain	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateVertexPlain	panel_construction.c:ps2PanelVertexPlain	ok	ok	ok	ok	
+001cc6b8	108	ps2PanelVertexFacility	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateVertexLeftFade	panel_construction.c:ps2PanelVertexFacility	ok	ok	ok	ok	
+001cc728	120	ps2PanelVertexPera	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateVertexFacility	panel_construction.c:ps2PanelVertexPera	ok	ok	ok	ok	
+001cc7a0	44	ps2PanelColorNormal	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateColorNormal	panel_construction.c:ps2PanelColorNormal	ok	ok	ok	ok	
+001cc7d0	96	ps2PanelColorMessage	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateColorMesWin	panel_construction.c:ps2PanelColorMessage	ok	ok	ok	ok	
+001cc830	96	ps2PanelColorSelection	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateColorSelWin	panel_construction.c:ps2PanelColorSelection	ok	ok	ok	ok	
+001cc890	140	ps2PanelColorPlain	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateColorPlain	panel_construction.c:ps2PanelColorPlain	ok	ok	ok	ok	
+001cc920	24	ps2PanelColorLeftFade	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateColorPera1	panel_construction.c:ps2PanelColorLeftFade	ok	ok	ok	ok	
+001cc938	44	ps2PanelColorFacility	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateColorLeftFade	panel_construction.c:ps2PanelColorFacility	ok	ok	ok	ok	
+001cc968	56	ps2PanelColorPera	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:CreateColorFacility	panel_construction.c:ps2PanelColorPera	ok	ok	ok	ok	
 001cc9a0	172	ps2PanelDrawNormal	USER_DEFINED	legacy		panel_draw.c:ps2PanelDrawNormal					
 001cca50	272	ps2PanelDrawMessage	USER_DEFINED	legacy		panel_draw.c:ps2PanelDrawMessage					
 001ccb60	272	ps2PanelDrawSelection	USER_DEFINED	legacy		panel_draw.c:ps2PanelDrawSelection					
@@ -3706,7 +3706,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 001cd0c8	420	ps2PanelDrawPera	USER_DEFINED	legacy		panel_draw.c:ps2PanelDrawPera					
 001cd270	108	ps2PanelAppendDrawState	USER_DEFINED	legacy		message_frame_draw.c:ps2PanelAppendDrawState					
 001cd2e0	156	itfMesMngMessage	USER_DEFINED	rewritten	shared/src/interface/message.cpp:CommandMessage	message_request.c:itfMesMngMessage	ok	ok	ok	ok	
-001cd380	68	itfMesMngMoveMessagePanel	USER_DEFINED	rewritten	shared/src/interface/message.cpp:MoveMessagePanel						
+001cd380	68	itfMesMngMoveMessagePanel	USER_DEFINED	rewritten	shared/src/interface/message.cpp:MoveMessagePanel		ok	ok	ok	ok	
 001cd3c8	32	itfMesMngGetPhase	USER_DEFINED	rewritten	shared/src/interface/message.cpp:CommandGetPhase		ok	ok	ok	ok	
 001cd3e8	32	itfMesMngSetPhase	USER_DEFINED	rewritten	shared/src/interface/message.cpp:CommandSetPhase		ok	ok	ok	ok	
 001cd408	160	itfMesMngSelect	USER_DEFINED	rewritten	shared/src/interface/message.cpp:CommandSelect		ok	ok	ok	ok	
@@ -4822,11 +4822,11 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 00207018	228	FUN_00207018	DEFAULT	unknown							
 00207100	64	FUN_00207100	DEFAULT	unknown							
 00207140	52	FUN_00207140	DEFAULT	unknown							
-002071e0	48	ps2ShopItemId_002071E0	USER_DEFINED	rewritten	shared/src/facility/shop.cpp:listedItem	shop_transaction.c:ps2ShopItemId_002071E0					
-00207210	120	ps2ShopPackId_00207210	USER_DEFINED	rewritten	shared/src/facility/shop.cpp:packOf	shop_transaction.c:ps2ShopPackId_00207210					
-00207290	100	ps2ShopItemCount_00207290	USER_DEFINED	rewritten	shared/src/facility/shop.cpp:packItemCount	shop_transaction.c:ps2ShopItemCount_00207290					
+002071e0	48	ps2ShopItemId_002071E0	USER_DEFINED	rewritten	shared/src/facility/shop.cpp:listedItem	shop_transaction.c:ps2ShopItemId_002071E0	ok	ok	ok	ok	
+00207210	120	ps2ShopPackId_00207210	USER_DEFINED	rewritten	shared/src/facility/shop.cpp:packOf	shop_transaction.c:ps2ShopPackId_00207210	ok	ok	ok	ok	
+00207290	100	ps2ShopItemCount_00207290	USER_DEFINED	rewritten	shared/src/facility/shop.cpp:packItemCount	shop_transaction.c:ps2ShopItemCount_00207290	ok	ok	ok	ok	
 002072f8	220	ps2ShopCreateBuyList_002072F8	USER_DEFINED	legacy		shop_transaction.c:ps2ShopCreateBuyList_002072F8					
-002073d8	228	ps2ShopItemPrice_002073D8	USER_DEFINED	rewritten	shared/src/facility/shop.cpp:itemPrice	shop_transaction.c:ps2ShopItemPrice_002073D8					
+002073d8	228	ps2ShopItemPrice_002073D8	USER_DEFINED	rewritten	shared/src/facility/shop.cpp:itemPrice	shop_transaction.c:ps2ShopItemPrice_002073D8	ok	ok	ok	ok	
 002074c0	240	ps2ShopAffordableQuantity_002074C0	USER_DEFINED	legacy		shop_transaction.c:ps2ShopAffordableQuantity_002074C0					
 002075b8	228	ps2ShopChoiceMaximum_002075B8	USER_DEFINED	legacy		shop_transaction.c:ps2ShopChoiceMaximum_002075B8					
 002076a0	256	FUN_002076a0	DEFAULT	unknown							
@@ -5048,7 +5048,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 002132c0	60	ps2FusionSortUnpack_002132C0	USER_DEFINED	legacy		fusion_sort.c:ps2FusionSortUnpack_002132C0					
 00213300	36	FUN_00213300	DEFAULT	unknown							
 00213350	76	ps2FusionSortSkills_00213350	USER_DEFINED	rewritten	shared/src/fusion/sort.cpp:sortInheritedSkills	fusion_sort.c:ps2FusionSortSkills_00213350	ok	legacy	legacy	legacy	
-002133a0	84	ps2FusionSortDescriptors_002133A0	USER_DEFINED	rewritten	shared/src/fusion/sort.cpp:sortDevilsByRace	fusion_sort.c:ps2FusionSortDescriptors_002133A0					
+002133a0	84	ps2FusionSortDescriptors_002133A0	USER_DEFINED	rewritten	shared/src/fusion/sort.cpp:sortDevilsByRace	fusion_sort.c:ps2FusionSortDescriptors_002133A0	ok	legacy	legacy	legacy	
 002133f8	232	FUN_002133f8	DEFAULT	unknown							
 00213518	200	FUN_00213518	DEFAULT	unknown							
 002135e0	200	ps2ShopListCursorMove_002135E0	USER_DEFINED	legacy		shop_selection.c:ps2ShopListCursorMove_002135E0					
@@ -5191,7 +5191,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 00219d00	192	ps2CompendiumRecords_00219D00	USER_DEFINED	rewritten	shared/src/facility/compendium.cpp:compareByLevel	compendium_records.c:body_00219d00;compendium_records.c:ps2CompendiumRecords_00219D00	ok	legacy	legacy	legacy	
 00219dc0	44	ps2CompendiumRecords_00219DC0	USER_DEFINED	rewritten	shared/src/facility/compendium.cpp:fillIndex	compendium_records.c:body_00219dc0;compendium_records.c:ps2CompendiumRecords_00219DC0	ok	legacy	legacy	legacy	
 00219df0	460	fclEncyc_SetElem	USER_DEFINED	rewritten	shared/src/facility/compendium.cpp:setRecord	fcl_encyc.c:fclEncyc_SetElem	ok	legacy	legacy	legacy	
-00219fc0	248	ps2CompendiumRecords_00219FC0	USER_DEFINED	legacy		compendium_records.c:body_00219fc0;compendium_records.c:ps2CompendiumRecords_00219FC0					
+00219fc0	248	ps2CompendiumRecords_00219FC0	USER_DEFINED	legacy		compendium_records.c:body_00219fc0;compendium_records.c:ps2CompendiumRecords_00219FC0	ok	legacy	legacy	legacy	
 0021a0b8	96	ps2CompendiumRestore_0021A0B8	USER_DEFINED	rewritten	shared/src/facility/compendium.cpp:restore	compendium_restore.c:body_0021a0b8;compendium_restore.c:ps2CompendiumRestore_0021A0B8	ok	legacy	legacy	legacy	
 0021a118	496	ps2CompendiumRestore_0021A118	USER_DEFINED	rewritten	shared/src/facility/compendium.cpp:restoreFromRecord	compendium_restore.c:body_0021a118;compendium_restore.c:ps2CompendiumRestore_0021A118	ok	legacy	legacy	legacy	
 0021a308	492	ps2CompendiumRestore_0021A308	USER_DEFINED	rewritten	shared/src/facility/compendium.cpp:compareToRecord	compendium_restore.c:body_0021a308;compendium_restore.c:ps2CompendiumRestore_0021A308	ok	legacy	legacy	legacy	
@@ -6183,7 +6183,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 00252720	684	ps2BattleActionChoice_00252720	USER_DEFINED	rewritten	shared/src/battle/action_events.cpp:checkBegForLife	battle_action_choice.c:body_00252720;battle_action_choice.c:ps2BattleActionChoice_00252720;battle_callback_choice.c:body_00252720	ok	ok	ok	ok	
 002529d0	596	ps2BattleActionChoice_002529D0	USER_DEFINED	rewritten	shared/src/battle/action_events.cpp:checkAskToJoin	battle_action_choice.c:body_002529d0;battle_action_choice.c:ps2BattleActionChoice_002529D0;battle_callback_choice.c:body_002529d0	ok	ok	ok	ok	
 00252c28	176	nbActionQueueDeadScripts	USER_DEFINED	rewritten	shared/src/battle/action_events.cpp:checkDeathScripts	battle_check1_packets.c:nbActionQueueDeadScripts	ok	ok	ok	ok	
-00252cd8	456	ps2BattleOutcome_00252CD8	USER_DEFINED	rewritten	shared/src/battle/action_events.cpp:checkFreeActionAfterEscape	battle_outcome.c:body_00252cd8;battle_outcome.c:ps2BattleOutcome_00252CD8	ok	ok	pending	ok	
+00252cd8	456	ps2BattleOutcome_00252CD8	USER_DEFINED	rewritten	shared/src/battle/action_events.cpp:checkFreeActionAfterEscape	battle_outcome.c:body_00252cd8;battle_outcome.c:ps2BattleOutcome_00252CD8	ok	ok	ok	ok	
 00252ea8	60	KyouseiPress	USER_DEFINED	rewritten	shared/src/battle/action_events.cpp:debugEndPressTurns		ok	ok	ok	ok	
 00252ee8	200	DokodemoPoa	USER_DEFINED	rewritten	shared/src/battle/action_events.cpp:debugWinBattle		ok	ok	ok	ok	
 00252fb8	728	SetNowActionStat	USER_DEFINED	rewritten	shared/src/battle/action_events.cpp:noteActionKind	battle_action_skill_core_frames.c:body_00252fb8;battle_action_skill_core_frames.c:ps2BattleActionSkill_00252FB8	ok	ok	ok	ok	
@@ -6263,12 +6263,12 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 00259318	380	nbGetModelColor	USER_DEFINED	named							
 002594b0	236	ps2BattleRoster_002594B0	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:addEnemyUnit	battle_action_skill_core_frames.c:body_002594b0;battle_action_skill_core_frames.c:ps2BattleActionSkill_002594B0;battle_roster.c:body_002594b0;battle_roster.c:ps2BattleRoster_002594B0	ok	ok	ok	ok	
 002595a0	180	nbGetRandamStock	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:summonableStock	battle_action_skill_core_frames.c:body_002595a0;battle_action_skill_core_frames.c:ps2BattleActionSkill_002595A0	ok	ok	ok	ok	
-00259658	120	nbSetEncounterAndReset	USER_DEFINED	rewritten	shared/src/battle/calc.cpp:setEncounter	combat_calculation.c:ps2CombatSetEncounter_00259658					
+00259658	120	nbSetEncounterAndReset	USER_DEFINED	rewritten	shared/src/battle/calc.cpp:setEncounter	combat_calculation.c:ps2CombatSetEncounter_00259658	ok	legacy	legacy	legacy	
 002596d0	112	nbClearCommandMemeoyRenzoku	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:forgetChainTargets		ok	ok	ok	ok	
 00259740	456	ps2BattleFormation_00259740	USER_DEFINED	legacy		battle_formation.c:body_00259740;battle_formation.c:ps2BattleFormation_00259740					
 00259908	288	FUN_00259908	DEFAULT	unknown							
 00259a30	44	nbGetUnitID	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:unitModelId	battle_action_packet_frames.c:body_00259a30;battle_action_packet_frames.c:ps2BattleActionPacket_00259A30;battle_action_status.c:nbGetUnitID	ok	legacy	legacy	legacy	
-00259a60	80	nbGetUnitVisual	USER_DEFINED	rewritten	shared/src/battle/calc.cpp:unitVisual	battle_action_skill_registered_frames.c:body_00259a60;combat_calculation.c:ps2CombatModelScaleDescriptor_00259A60					
+00259a60	80	nbGetUnitVisual	USER_DEFINED	rewritten	shared/src/battle/calc.cpp:unitVisual	battle_action_skill_registered_frames.c:body_00259a60;combat_calculation.c:ps2CombatModelScaleDescriptor_00259A60	ok	legacy	legacy	legacy	
 00259ab0	96	nbCheckEventDead	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:diesByEvent	battle_action_packet_frames.c:body_00259ab0;battle_action_packet_frames.c:ps2BattleActionPacket_00259AB0;battle_action_status.c:nbCheckEventDead	ok	ok	ok	ok	
 00259b10	92	nbCheckDeadScript	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:hasDeathScript	battle_action_status.c:nbCheckDeadScript	ok	ok	ok	ok	
 00259b70	92	nbCheckDeadEvent	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:hasDeathEvent	battle_action_packet_frames.c:body_00259b70;battle_action_packet_frames.c:ps2BattleActionPacket_00259B70;battle_action_status.c:nbCheckDeadEvent	ok	ok	ok	ok	
@@ -7157,10 +7157,10 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 00289c60	24	nbFormDispOn2	USER_DEFINED	rewritten	shared/src/battle/formation.cpp:showFormation		ok	ok	ok	ok	
 00289c78	176	nbGroupFormDispOff	USER_DEFINED	rewritten	shared/src/battle/formation.cpp:hideSide	battle_presentation.c:nbGroupFormDispOff	ok	ok	ok	ok	
 00289d30	176	nbGroupFormDispOn	USER_DEFINED	rewritten	shared/src/battle/formation.cpp:showSide	battle_presentation.c:nbGroupFormDispOn	ok	ok	ok	ok	
-00289de8	60	FUN_00289de8	DEFAULT	rewritten	shared/src/battle/formation.cpp:hideAllFormations						
+00289de8	60	FUN_00289de8	DEFAULT	rewritten	shared/src/battle/formation.cpp:hideAllFormations		ok	ok	ok	ok	
 00289e28	60	nbAllFormDispOn	USER_DEFINED	rewritten	shared/src/battle/formation.cpp:showAllFormations	battle_presentation.c:nbAllFormDispOn	ok	ok	ok	ok	
 00289e68	100	FUN_00289e68	DEFAULT	rewritten	shared/src/battle/formation.cpp:showOnly		ok	ok	ok	ok	
-00289ed0	124	FUN_00289ed0	DEFAULT	rewritten	shared/src/battle/formation.cpp:showOnly						
+00289ed0	124	FUN_00289ed0	DEFAULT	rewritten	shared/src/battle/formation.cpp:showOnly		ok	ok	ok	ok	
 00289f50	404	FUN_00289f50	DEFAULT	unknown							
 0028a0e8	108	nbSetFormPos	USER_DEFINED	rewritten	shared/src/battle/formation.cpp:setFormationPosition	battle_presentation.c:nbSetFormPos	ok	ok	ok	ok	
 0028a158	164	nbSetFormRot	USER_DEFINED	legacy		battle_presentation.c:nbSetFormRot					
@@ -7213,12 +7213,12 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 0028d1b8	32	ps2NegoActorMotionId_0028D1B8	USER_DEFINED	rewritten	shared/src/battle/sound.cpp:formationTalkBank	negotiation_fullmoon_support.c:ps2NegoActorMotionId_0028D1B8	ok	ok	ok	ok	
 0028d1d8	188	nbMemoryLoadNegoSe	USER_DEFINED	rewritten	shared/src/battle/sound.cpp:loadTalkSound		ok	ok	ok	ok	
 0028d298	272	nbMemoryLoadMotionSe	USER_DEFINED	rewritten	shared/src/battle/sound.cpp:loadMotionSound		ok	ok	ok	ok	
-0028d3a8	108	nbReleaseUnitSound	USER_DEFINED	rewritten	shared/src/battle/sound.cpp:releaseUnitSounds						
-0028d418	156	nbRetainUnitSound	USER_DEFINED	rewritten	shared/src/battle/sound.cpp:retainUnitSounds						
-0028d4b8	260	nbRequestUnitSound	USER_DEFINED	rewritten	shared/src/battle/sound.cpp:requestUnitSounds						
+0028d3a8	108	nbReleaseUnitSound	USER_DEFINED	rewritten	shared/src/battle/sound.cpp:releaseUnitSounds		ok	ok	ok	ok	
+0028d418	156	nbRetainUnitSound	USER_DEFINED	rewritten	shared/src/battle/sound.cpp:retainUnitSounds		ok	ok	ok	ok	
+0028d4b8	260	nbRequestUnitSound	USER_DEFINED	rewritten	shared/src/battle/sound.cpp:requestUnitSounds		ok	ok	ok	ok	
 0028d5c0	256	nbUpdateSoundTable	USER_DEFINED	rewritten	shared/src/battle/sound.cpp:updateSoundTable		ok	ok	ok	ok	
 0028d6c0	84	nbEmptySoundEntry	USER_DEFINED	rewritten	shared/src/battle/sound.cpp:emptySoundEntry		ok	ok	ok	ok	
-0028d718	96	nbFindUnitSound	USER_DEFINED	rewritten	shared/src/battle/sound.cpp:findUnitSounds						
+0028d718	96	nbFindUnitSound	USER_DEFINED	rewritten	shared/src/battle/sound.cpp:findUnitSounds		ok	ok	ok	ok	
 0028d778	216	nbFreeSound1	USER_DEFINED	rewritten	shared/src/battle/sound.cpp:clearSoundEntry		ok	ok	ok	ok	
 0028d850	92	nbFreeSound	USER_DEFINED	rewritten	shared/src/battle/sound.cpp:freeSounds		ok	ok	ok	ok	
 0028d8b0	104	nbInitSound	USER_DEFINED	rewritten	shared/src/battle/sound.cpp:initSounds		ok	ok	ok	ok	
@@ -7258,9 +7258,9 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 0028f218	56	GetMakaProcessData	USER_DEFINED	rewritten	shared/src/battle/macca_window.cpp:maccaWindow		ok	ok	ok	ok	
 0028f258	84	nbMakaDispOn	USER_DEFINED	rewritten	shared/src/battle/macca_window.cpp:showMacca		ok	ok	ok	ok	
 0028f2b0	72	nbMakaDispOff	USER_DEFINED	rewritten	shared/src/battle/macca_window.cpp:hideMacca		ok	ok	ok	ok	
-0028f2f8	80	nbMakaDigit	USER_DEFINED	rewritten	shared/src/battle/macca_window.cpp:maccaDigit						
+0028f2f8	80	nbMakaDigit	USER_DEFINED	rewritten	shared/src/battle/macca_window.cpp:maccaDigit		ok	ok	ok	ok	
 0028f348	692	DispMaka	USER_DEFINED	rewritten	shared/src/battle/macca_window.cpp:drawMaccaWindow		ok	ok	ok	ok	
-0028f600	140	nbMakaFade	USER_DEFINED	rewritten	shared/src/battle/macca_window.cpp:stepMaccaWindow						
+0028f600	140	nbMakaFade	USER_DEFINED	rewritten	shared/src/battle/macca_window.cpp:stepMaccaWindow		ok	ok	ok	ok	
 0028f698	88	nbMakaProcess1	USER_DEFINED	rewritten	shared/src/battle/macca_window.cpp:runMaccaWindow		ok	ok	ok	ok	
 0028f6f0	48	nbMakaShutdown	USER_DEFINED	rewritten	shared/src/battle/macca_window.cpp:shutdownMaccaWindow		ok	ok	ok	ok	
 0028f728	72	InitMakaProcessData	USER_DEFINED	rewritten	shared/src/battle/macca_window.cpp:newMaccaWindow		ok	ok	ok	ok	
@@ -7284,11 +7284,11 @@ address	size	name	name_source	status	rewrite	legacy	maniax-us	hardtype	chronicle
 0028fec8	232	nbEventShutdown	USER_DEFINED	rewritten	shared/src/battle/event_process.cpp:shutdownEvent		ok	ok	ok	ok	
 0028ffb0	152	nbInitEventProcess	USER_DEFINED	rewritten	shared/src/battle/event_process.cpp:startEvent		ok	ok	ok	ok	
 00290048	88	CheckDeadUnit	USER_DEFINED	rewritten	shared/src/battle/skill_error.cpp:anyStockDead		ok	ok	ok	ok	
-002900a0	72	CheckDeadUnit2	USER_DEFINED	rewritten	shared/src/battle/skill_error.cpp:anyDead						
-002900e8	76	CheckMaxHp	USER_DEFINED	rewritten	shared/src/battle/skill_error.cpp:allFullHp	battle_status_pairs.c:body_002900e8;battle_status_pairs_native.c:body_002900e8					
-00290138	76	CheckMaxMp	USER_DEFINED	rewritten	shared/src/battle/skill_error.cpp:allFullMp	battle_status_pairs.c:body_00290138;battle_status_pairs_native.c:body_00290138					
-00290188	68	CheckBad	USER_DEFINED	rewritten	shared/src/battle/skill_error.cpp:anyHasAilment	battle_status_pairs.c:body_00290188;battle_status_pairs_native.c:body_00290188					
-002901d0	704	CheckHojo	USER_DEFINED	rewritten	shared/src/battle/skill_error.cpp:anyBuffMovable	battle_action_skill_support_frames.c:body_002901d0;battle_action_skill_support_frames.c:ps2BattleActionSkill_002901D0;battle_status_pairs.c:body_002901d0;battle_status_pairs_native.c:body_002901d0					
+002900a0	72	CheckDeadUnit2	USER_DEFINED	rewritten	shared/src/battle/skill_error.cpp:anyDead		ok	ok	ok	ok	
+002900e8	76	CheckMaxHp	USER_DEFINED	rewritten	shared/src/battle/skill_error.cpp:allFullHp	battle_status_pairs.c:body_002900e8;battle_status_pairs_native.c:body_002900e8	ok	ok	ok	ok	
+00290138	76	CheckMaxMp	USER_DEFINED	rewritten	shared/src/battle/skill_error.cpp:allFullMp	battle_status_pairs.c:body_00290138;battle_status_pairs_native.c:body_00290138	ok	ok	ok	ok	
+00290188	68	CheckBad	USER_DEFINED	rewritten	shared/src/battle/skill_error.cpp:anyHasAilment	battle_status_pairs.c:body_00290188;battle_status_pairs_native.c:body_00290188	ok	ok	ok	ok	
+002901d0	704	CheckHojo	USER_DEFINED	rewritten	shared/src/battle/skill_error.cpp:anyBuffMovable	battle_action_skill_support_frames.c:body_002901d0;battle_action_skill_support_frames.c:ps2BattleActionSkill_002901D0;battle_status_pairs.c:body_002901d0;battle_status_pairs_native.c:body_002901d0	ok	ok	ok	ok	
 00290490	140	nbDispSkillErrorMessage	USER_DEFINED	rewritten	shared/src/battle/skill_error.cpp:showSkillError	battle_status_pairs.c:body_00290490;battle_status_pairs_native.c:body_00290490	ok	ok	ok	ok	
 00290520	68	nbCheckBattleSkillError1	USER_DEFINED	rewritten	shared/src/battle/skill_error.cpp:reviveError		ok	ok	ok	ok	
 00290568	520	nbCheckBattleSkillError2	USER_DEFINED	rewritten	shared/src/battle/skill_error.cpp:targetSkillError	battle_status_pairs.c:body_00290568;battle_status_pairs_native.c:body_00290568	ok	ok	ok	ok	

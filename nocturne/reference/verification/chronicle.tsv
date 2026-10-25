@@ -353,7 +353,7 @@ GetCommSelProcessData	ok
 GetCommListCnt	ok
 AnimeCommandList	ok
 CheckSelectError	ok
-MemoryCommandComm	ok
+MemoryCommandComm (0x25C1D8)	ok
 GetNextCommType	ok
 SelectCommandList	ok
 SelectCommandListAuto	ok
@@ -387,6 +387,11 @@ nbHelpShutdown	ok
 InitHelpProcessData	ok
 nbInitHelpProcess	ok
 CheckDeadUnit	ok
+CheckDeadUnit2	ok
+CheckMaxHp	ok
+CheckMaxMp	ok
+CheckBad	ok
+CheckHojo	ok
 nbDispSkillErrorMessage	ok
 nbCheckBattleSkillError1	ok
 nbCheckBattleSkillError2	ok
@@ -512,9 +517,9 @@ ReadytoMessage	ok
 ps2MessageOpenPanel	ok
 ps2MessageOpenSpeakerPanel	ok
 itfMesMngRequestMessage	ok
-itfMesMngRequestMessageMarked	ok
-itfMesMngRequestMessageAgain	ok
-itfMesMngRequestMessageUnset	ok
+itfMesMngRequestMessage (marked)	ok
+itfMesMngRequestMessage (again)	ok
+itfMesMngRequestMessage (unset)	ok
 itfMesMngRequestSelect	ok
 itfMesMngMarkBitStat	ok
 itfMesMngClearBitStat	ok
@@ -597,7 +602,6 @@ frGetDefaultFontHeight	ok
 frGetXShiftLev	ok
 frGetStrWidth	ok
 frGetChainWidth	ok
-RelayoutRequest	pending
 frSetFont	ok
 frSetFontString	ok
 frLinkFontString	ok
@@ -629,7 +633,7 @@ ps2FontAppendNameSecond	ok
 ps2FontAppendNameBoth	ok
 ps2FontAppendNameBitmapGlyph	ok
 ps2FontAppendResourceName	ok
-ps2FontLinkLetters	pending
+ps2FontLinkLetters	ok
 ps2FontLinkSpacedLetters	ok
 frCreateNewHandle	ok
 ps2FontAdvanceMessageLine	ok
@@ -642,6 +646,19 @@ MessageRequestPlain	ok
 MessageRequestKeepSpace	ok
 frGetMessageResult	ok
 frSetVariableRequest	ok
+CreateVertexNormal	ok
+CreateVertexMesWin	ok
+CreateVertexSelWin	ok
+CreateVertexPlain	ok
+CreateVertexLeftFade	ok
+CreateVertexFacility	ok
+CreateColorNormal	ok
+CreateColorMesWin	ok
+CreateColorSelWin	ok
+CreateColorPlain	ok
+CreateColorPera1	ok
+CreateColorLeftFade	ok
+CreateColorFacility	ok
 itfPnlRegist2	ok
 itfPnlRelease	ok
 itfPnlSetPosition	ok
@@ -1067,7 +1084,7 @@ CheckSenseiNego	ok
 CheckInotiNego	ok
 CheckBinjoNego	ok
 CheckDeadScript	ok
-CheckKoketaNego	pending
+CheckKoketaNego	ok
 KyouseiPress	ok
 DokodemoPoa	ok
 SetAction_CHECK1	ok
@@ -1188,12 +1205,12 @@ GetNegoMIDI	ok
 nbGetNegoMIDI	ok
 nbMemoryLoadNegoSe	ok
 nbMemoryLoadMotionSe	ok
-nbReleaseUnitSounds	ok
-nbRetainUnitSounds	ok
-nbRequestUnitSounds	ok
+nbReleaseUnitSounds (0x28D3A8)	ok
+nbRetainUnitSounds (0x28D418)	ok
+nbRequestUnitSounds (0x28D4B8)	ok
 nbUpdateSoundTable	ok
 nbEmptySoundEntry	ok
-nbFindUnitSounds	ok
+nbFindUnitSounds (0x28D718)	ok
 nbFreeSound1	ok
 nbFreeSound	ok
 nbInitSound	ok
@@ -1565,12 +1582,12 @@ nbFormDispOn2	ok
 nbResetFormPosRot	ok
 nbFormDispOff	ok
 nbGroupFormDispOff	ok
-nbAllFormDispOff	ok
+nbAllFormDispOff (0x289DE8)	ok
 nbFormDispOn	ok
 nbGroupFormDispOn	ok
 nbAllFormDispOn	ok
 nbSingleFormExceptedDispOff	ok
-nbDoubleFormExceptedDispOff	ok
+nbDoubleFormExceptedDispOff (0x289ED0)	ok
 nbSetFormPos	ok
 nbSetFormPosRot	ok
 nbResetAllFormPosRot	ok
@@ -1580,6 +1597,19 @@ nbFormationGetRadiusDef	ok
 nbGetEnemyInterval	ok
 nbPanelPartyShow	ok
 nbPanelPartyHide	ok
+effBTLGetMotionChangeFrame	ok
+effBTLGetCutEndFrame	ok
+effBTLCutGetMotionChangeFrame	ok
+effBTLCutGetCutEndFrame	ok
+effBTLCutGetFrame	ok
+effBTLCutSetCutEndFrame	ok
+effBTLCutSetDrawEndFrame	ok
+effBTLCutSetCameraState	ok
+effBTLSkillSetState	ok
+effPCPBossONGYGetLength	ok
+effPCPBossONGY2GetLength	ok
+effPCPBossBUNSINGetLength	ok
+effPCPBossBUNSIN2GetLength	ok
 nbCameraSetBougai	ok
 nbCameraSetTarget	ok
 nbCameraSetHojo	ok
