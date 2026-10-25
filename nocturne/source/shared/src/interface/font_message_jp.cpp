@@ -9,7 +9,7 @@
 
 #include "nocturne/build.hpp"
 
-#if NOCTURNE_JAPANESE
+#if !NOCTURNE_US
 
 #include <cstring>
 
@@ -495,4 +495,4 @@ void frSetVariableRequest(int32_t index, uint32_t pstr) { variable(static_cast<u
 
 } // namespace nocturne::fr
 
-#endif // NOCTURNE_JAPANESE
+#endif // !NOCTURNE_US

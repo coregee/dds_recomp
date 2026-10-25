@@ -131,7 +131,7 @@ uint32_t globalPointer() { return gGlobalPointer; }
 
 void requireUsText()
 {
-    if constexpr (nocturne::kBuild.japanese) {
+    if constexpr (!nocturne::kBuild.us) {
 #pragma warning(suppress : 4996)
         const bool runPending = std::getenv("DIFF_PENDING") != nullptr;
         if (!runPending)

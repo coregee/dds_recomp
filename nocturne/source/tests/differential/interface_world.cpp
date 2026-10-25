@@ -201,7 +201,7 @@ namespace mes = nocturne::mes;
 constexpr uint32_t kKuti = 0x001d1640;   // ps2MessageKutiDiagnostic
 // Where the four fonts go: US Maniax's in FW_FONTS, the JP builds' (larger)
 // in FW_JP_FONTS.
-#if !NOCTURNE_JAPANESE
+#if NOCTURNE_US
 constexpr uint32_t kFontBase = FW_FONTS;
 constexpr uint32_t kFontOffset[4] = {0x00000, 0x18000, 0x2e000, 0x33000};
 #else
@@ -312,6 +312,9 @@ ee::Interpreter makeOriginal()
     e.interpret(0x0025cb40, 0x0025d690);   // nbCommSelShutdown .. nbInitCommSelProcess
     e.interpret(0x00290048, 0x00290b20);   // nbSkillError
     e.interpret(0x0029ba80, 0x0029bb08);   // dds3CheckConfigBit
+    e.interpret(0x001e0e38, 0x001e0e6c);   // evtBitAllOff (its callers get the fake; origOwn tests it)
+    e.interpret(0x001e0ed0, 0x001e0f80);   // evtBitOn, evtBitOff, evtBitCheck (the same)
+    e.interpret(0x001e9998, 0x001e9a7c);   // the moon's phase and switches (the same)
     e.interpret(0x00251428, 0x002514f0);   // SetTarget
     e.interpret(0x00254178, 0x00254190);   // SetAction_TARSEL
     e.interpret(0x00256b88, 0x00256c00);   // CheckAction_NEGO
@@ -752,6 +755,11 @@ uint64_t origVmVoidAt(uint32_t entry, std::initializer_list<uint64_t> args)
     call(entry, args, true);
     return 0;
 }
+uint64_t origOwn(uint32_t entry, std::initializer_list<uint64_t> args)
+{
+    std::memset(fw_ram + FW_STACK_TOP - 0x2000, 0, 0x2000 + 0x40);
+    return norm(original().call(version::codeOrDie(entry), args, {}, true));
+}
 uint32_t origVmFloat() { return original().cpu.f[0]; }
 uint64_t interpretedCalls() { return ee::Interpreter::calls(); }
 uint64_t origVoid(uint32_t entry, std::initializer_list<uint64_t> args) { call(version::codeOrDie(entry), args); return 0; }
@@ -801,7 +809,7 @@ void fontWorld(Gen& g)
         std::memcpy(fw_ram + kFontBase + kFontOffset[i], gFonts[i].data(), gFonts[i].size());
     std::memset(&fr::style(0), 0, 9 * sizeof(fr::Style));
     fr::BindStyle(0, 0, kFontBase + 1);
-#if !NOCTURNE_JAPANESE
+#if NOCTURNE_US
     fr::BindStyle(1, 0, kFontBase + 1);
 #else
     fr::BindStyle(1, 0, kFontBase + kFontOffset[1] + 1);
@@ -810,7 +818,7 @@ void fontWorld(Gen& g)
     fr::BindStyle(3, 0, kFontBase + kFontOffset[3] + 1);
     if (g.chance(40))
         fr::BindStyle(8, kFontBase + kFontOffset[1], 0);
-#if !NOCTURNE_JAPANESE
+#if NOCTURNE_US
     for (int i = 0; i < 9; ++i)   // the styles loaded once
         at<int32_t>(0x003261e8 + 4u * static_cast<uint32_t>(i)) = i < 4 && g.chance(80) ? 1 : 0;
 #endif
@@ -819,7 +827,7 @@ void fontWorld(Gen& g)
     s.result = g.chance(50) ? g.below(8) : 0xffffffffu;
     s.space = static_cast<int8_t>(g.pick<int32_t>({3, 3, 0, 1, 2, -1}));
     s.step = g.chance(70) ? 0x14 : g.range(12, 28);
-#if !NOCTURNE_JAPANESE
+#if NOCTURNE_US
     s.base_width = g.chance(70) ? 0x14 : g.range(14, 24);
     s.space_width = g.range(0, 4);
 #endif
@@ -862,7 +870,7 @@ void fontWorld(Gen& g)
     at<int32_t>(version::dataOrDie(0x00551b80)) = static_cast<int32_t>(g.below(2));
     at<uint32_t>(version::dataOrDie(0x0054ea20)) = FW_GLOBAL;   // the save data, with the entered names
 
-#if !NOCTURNE_JAPANESE
+#if NOCTURNE_US
     at<uint16_t>(0x0054ea00) = static_cast<uint16_t>(g.chance(50) ? 'A' + g.below(26) : 0x8020 + g.below(0x40));
 
     // {var n} strings.

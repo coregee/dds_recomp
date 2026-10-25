@@ -1,13 +1,16 @@
 # Versions of the game
 
-The rewrite builds five versions from one source tree:
+The rewrite builds five versions from one source tree. The source reads as
+JP Maniax, the reference: the release every other one differs from least
+(Chronicle and the US release are built on it, Hardtype on the US release,
+and Vanilla is what came before it).
 
 | Build | Version | Executable | Addresses |
 |---|---|---|---|
+| `maniax` | JP Nocturne Maniax (2004; Dante, the Labyrinth of Amala): the reference | SLPM_654.62 | its own |
 | `vanilla` | JP Nocturne, the first release (2003; no Amala, Fiends or difficulty) | SLPM_652.42 | its own |
-| `maniax` | JP Nocturne Maniax (2004; Dante, the Labyrinth of Amala) | SLPM_654.62 | its own |
 | `chronicle` | JP Nocturne Maniax Chronicle Edition (2008; Raidou in place of Dante) | SLPM_666.81 | its own |
-| `maniax-us` | US Shin Megami Tensei III: Nocturne (Maniax, 2004) | SLUS_209.11 | the reference |
+| `us` | US Shin Megami Tensei III: Nocturne (Maniax, 2004) | SLUS_209.11 | the address keys (below) |
 | `hardtype` | the fan rebalance Hardtype 1.5.1, a patch of the US release | SLUS_209.11 | the US release's |
 
 ## The source tree
@@ -26,19 +29,21 @@ int32_t escapeWeight() { return 20; }
 #endif
 ```
 
-- **Traits, not build names.** Code tests what sets a build apart
-  (`nocturne/build.hpp`), never which build it is:
-  - `NOCTURNE_JAPANESE` / `kBuild.japanese`: the JP releases (vanilla,
-    Maniax, Chronicle): Japanese text and font engine, their global work
-    and window layout, their own addresses.
+- **Traits, not build names.** Code tests how a build departs from JP
+  Maniax (`nocturne/build.hpp`), never which build it is:
+  - `NOCTURNE_US` / `kBuild.us`: the US release and Hardtype: English text
+    and font engine, their global work and window layout, their constants.
+  - `NOCTURNE_VANILLA` / `kBuild.vanilla`: the first release, without what
+    Maniax added.
   - `NOCTURNE_CHRONICLE` / `kBuild.chronicle`: the Chronicle Edition's own
     changes.
   - `NOCTURNE_HARDTYPE` / `kBuild.hardtype`: the Hardtype patch.
 
   A small step that differs is `if constexpr` or a constant
-  (`kBuild.japanese ? 0x19 : 0x14`); whole alternatives, and anything that
-  names an address or type only some builds have, are `#if`. A unit's
-  alternatives sit in its "By version" section, the most specific first.
+  (`kBuild.us ? 0x14 : 0x19`); whole alternatives, and anything that names
+  an address or type only some builds have, are `#if`, the departures
+  first and JP Maniax's in `#else`. A unit's alternatives sit in its "By
+  version" section, the most specific first.
 - **Whole engines** that share nothing but their interface sit in sibling
   files, each compiled only by its builds: `interface/font_layout_jp.cpp`
   and `font_layout_us.cpp`, `font_message_jp.cpp` and
@@ -78,7 +83,7 @@ JP Maniax to `game/jpmaniax/`) and checks it against
 
 ## Building and testing a version
 
-Set `NOCTURNE_VARIANT` before running the build scripts (empty: `maniax-us`).
+Set `NOCTURNE_VARIANT` before running the build scripts (empty: `maniax`).
 Each version builds into its own `build/*-<build>/` folder and runs against
 its own executable:
 
@@ -113,7 +118,7 @@ other versions, and their count printed. `variant_tests.cpp` and the
   affinity and party damage are the US release's (Son's Oath and the
   spared Dante are Chronicle's changes); it keeps battle debug prints the
   US release and Chronicle removed (`SetAllPacket`'s hit names, Macca
-  thrown, Ongyo-Ki's clones), under `NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE`.
+  thrown, Ongyo-Ki's clones), outside `NOCTURNE_US` and `NOCTURNE_CHRONICLE`.
 - **vanilla:** extracted, mapped and started (`NOCTURNE_VANILLA`: what
   Maniax added is left out: eleven script commands, the AI's rotation
   commands, the boss refights). It doesn't build yet: its data tables
@@ -177,7 +182,7 @@ set NOCTURNE_VARIANT=chronicle
 source\tests\differential\build.cmd
 ```
 
-What the port has so far (most of it under `NOCTURNE_JAPANESE`, which JP
+What the port has so far (most of it JP Maniax's own code, which JP
 Maniax shares instruction for instruction):
 
 - **Layouts.** The JP builds' global work sits 4 lower from the script

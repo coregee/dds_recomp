@@ -2,7 +2,7 @@
 
 As established by `source/shared/src/battle/ai.cpp`, `ai_script.cpp` and
 `targeting.cpp` (original names in parentheses). The data is
-`source/generated/maniax-us/src/data/devil_ai_table.cpp` (`datDevilAI`, 0x3989E0).
+`source/generated/us/src/data/devil_ai_table.cpp` (`datDevilAI`, 0x3989E0).
 
 ## The AI record
 

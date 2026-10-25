@@ -485,7 +485,7 @@ void addAiTests(std::vector<TestCase>& t)
         iface::helpWorld(g);
         return tVoid(0x0025e300, nb::showTargetName);
     });
-    tarsel("MemoryCommand", [=](Gen&) { return tVoid(0x0025e3f8, nb::rememberTarget); });
+    tarsel("MemoryCommand (0x25E3F8)", [=](Gen&) { return tVoid(0x0025e3f8, nb::rememberTarget); });
     tarsel("CursorSelect", [=](Gen&) { return tVoid(0x0025e448, nb::readTargetPad); });
     tarsel("CursorSelectAuto", [=](Gen&) { return tVoid(0x0025e6e0, nb::chooseTargetAutomatically); });
     tarsel("CheckFriend", [](Gen& g) {
@@ -529,6 +529,10 @@ void addAiTests(std::vector<TestCase>& t)
     tarsel("dds3CheckConfigBit", [](Gen& g) {
         const int32_t type = g.range(-1, 6);
         return Pair{[=] { return iface::origVm(0x0029bae0, {sx(type)}); }, [=] { return norm(nb::configOption(type)); }};
+    });
+    tarsel("GetTarSelProcessData", [](Gen&) {
+        return Pair{[] { return iface::origVm(0x0025d690, {}); },
+                    [] { return norm(static_cast<int32_t>(nocturne::guest::addressOf(&nb::targetSelectData()))); }};
     });
     tarsel("SetTarget", [](Gen& g) {
         act().work->nowcommand = static_cast<int16_t>(g.pick<int32_t>({0, 1, 1, 6, 5, 3}));

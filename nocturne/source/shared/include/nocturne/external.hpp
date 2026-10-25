@@ -391,7 +391,7 @@ enum class Message : uint32_t {
     BgmStop          = optionalAddr(0x00545ce0), // "nbBgmStop(%d,%d)"
     EncounterRate    = optionalAddr(0x00545ba0), // エンカウント率 %d/%d (the encounter threshold rolled, and its base)
     UnitLoadTime     = optionalAddr(0x00545cf8), // ">>> UNIT LOAD TIME = %d frame <<<"
-#if NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE
+#if !NOCTURNE_US && !NOCTURNE_CHRONICLE
     // JP Maniax's own, which the US release and the Chronicle Edition removed
     // (by JP Maniax's address):
     MaccaScattered   = optionalJpAddr(0x005418d0),       // ばらまき = %d (Macca thrown: SetMakaPacket)

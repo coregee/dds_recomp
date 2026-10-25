@@ -9,6 +9,7 @@
 #include "nocturne/data/field_skill.hpp"
 #include "nocturne/data/progression.hpp"
 #include "nocturne/data/tables.hpp"
+#include "nocturne/event/state.hpp"
 
 extern "C" {
 uint32_t ps2PoolAllocate(int32_t);
@@ -105,6 +106,69 @@ void addDataTests(std::vector<TestCase>& t)
                      }});
     };
     auto unit = [](uint32_t address) -> UnitWork& { return at<UnitWork>(address); };
+
+    // ---- the event flags and Kagutsuchi (evt), each function's own code ----
+    // Flags of noise, a phase of any byte (the game keeps it under 16) and
+    // the moon's switches.
+    auto storyWorld = [](Gen& g) {
+        GlobalWork& w = globalWork();
+        for (uint32_t& word : w.event_bits)
+            word = g.chance(30) ? 0u : static_cast<uint32_t>(g.rng());
+        w.moon_phase = static_cast<uint8_t>(g.chance(80) ? g.range(0, 15) : g.range(0, 255));
+        w.moon_flags = static_cast<uint8_t>(g.below(256));
+        w.moon_move_bits = static_cast<uint32_t>(g.rng());
+    };
+    auto flag = [](Gen& g) { return g.range(0, 4095); };
+    add("evtBitAllOff", [=](Gen& g) {
+        storyWorld(g);
+        return Pair{[] { iface::origOwn(0x001e0e38, {}); return uint64_t{0}; }, [] { nocturne::evt::clearAllFlags(); return uint64_t{0}; }};
+    });
+    add("evtBitOn", [=](Gen& g) {
+        storyWorld(g);
+        const int32_t f = flag(g);
+        return Pair{[=] { iface::origOwn(0x001e0ed0, {I(f)}); return uint64_t{0}; }, [=] { nocturne::evt::setFlag(f); return uint64_t{0}; }};
+    });
+    add("evtBitOff", [=](Gen& g) {
+        storyWorld(g);
+        const int32_t f = flag(g);
+        return Pair{[=] { iface::origOwn(0x001e0f10, {I(f)}); return uint64_t{0}; }, [=] { nocturne::evt::clearFlag(f); return uint64_t{0}; }};
+    });
+    add("evtBitCheck", [=](Gen& g) {
+        storyWorld(g);
+        const int32_t f = flag(g);
+        return Pair{[=] { return iface::origOwn(0x001e0f50, {I(f)}); }, [=] { return norm(nocturne::evt::isFlagSet(f) ? 1 : 0); }};
+    });
+    add("evtGetAgeOfMoon", [=](Gen& g) {
+        storyWorld(g);
+        return Pair{[] { return iface::origOwn(0x001e9998, {}); }, [] { return norm(static_cast<int32_t>(nocturne::evt::moonAge())); }};
+    });
+    add("evtGetAgeOfMoon16", [=](Gen& g) {
+        storyWorld(g);
+        return Pair{[] { return iface::origOwn(0x001e99c0, {}); }, [] { return norm(static_cast<int32_t>(nocturne::evt::moonPhase())); }};
+    });
+    add("evtSetAgeOfMoon", [=](Gen& g) {
+        storyWorld(g);
+        const int32_t phase = g.chance(80) ? g.range(0, 15) : static_cast<int32_t>(g.rng());
+        return Pair{[=] { iface::origOwn(0x001e99d0, {I(phase)}); return uint64_t{0}; },
+                    [=] { nocturne::evt::setMoonPhase(phase); return uint64_t{0}; }};
+    });
+    struct Switch { const char* name; uint32_t original; void (*rewrite)(); };
+    static const Switch kSwitches[] = {
+        {"evtEnableMoonCalc", 0x001e99e8, nocturne::evt::enableMoonCycle},
+        {"evtDisableMoonCalc (0x1E9A00)", 0x001e9a00, nocturne::evt::disableMoonCycle},
+        {"evtEnableMoonDraw", 0x001e9a18, nocturne::evt::showMoon},
+        {"evtDisableMoonDraw", 0x001e9a38, nocturne::evt::hideMoon},
+        {"evtEnableMoonDraw2", 0x001e9a50, nocturne::evt::showMoonKeepFade},
+        {"evtDisableMoonDraw2", 0x001e9a68, nocturne::evt::hideMoonKeepFade},
+    };
+    for (const Switch& sw : kSwitches) {
+        const Switch* w = &sw;
+        add(w->name, [=](Gen& g) {
+            storyWorld(g);
+            at<uint32_t>(difftest::version::dataOrDie(0x0054f75c)) = static_cast<uint32_t>(g.rng());   // the moon's fade
+            return Pair{[w] { iface::origOwn(w->original, {}); return uint64_t{0}; }, [w] { w->rewrite(); return uint64_t{0}; }};
+        });
+    }
 
     // ---- skills outside battle ----
     struct Power {
@@ -224,6 +288,10 @@ void addDataTests(std::vector<TestCase>& t)
     add("datCheckItemFull", [](Gen& g) {
         const int32_t item = g.range(0, 0x9f);
         return Pair{[=] { return origVm(0x00244410, {I(item)}); }, [=] { return norm(isItemFull(item)); }};
+    });
+    add("datCheckItem", [](Gen& g) {
+        const int32_t item = g.range(0, 0x9f), count = g.range(-1, 12);
+        return Pair{[=] { return origVm(0x002443f8, {I(item), I(count)}); }, [=] { return norm(hasItem(item, count)); }};
     });
     add("datInitBossPress", [](Gen&) {
         return Pair{[=] { return origVmVoid(0x00245c40, {}); }, [=] { initBossPress(); return uint64_t{0}; }};

@@ -688,7 +688,7 @@ void addMessageTests(std::vector<TestCase>& t)
         return Pair{[=] { return orig(0x001cfe48, {I(n), out}); },
                     [=] { return norm(static_cast<int32_t>(fw_address_of(ConvertZenkakuNumber(n, &at<char>(out))))); }};
     }});
-#if !NOCTURNE_JAPANESE   // (US Maniax's only)
+#if NOCTURNE_US   // (US Maniax's only)
     t.push_back({"BuildCharacterName", [](Gen& g) {
         World w = world(g);
         int32_t index = g.range(0, 3);

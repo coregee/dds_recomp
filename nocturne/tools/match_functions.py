@@ -21,7 +21,7 @@ from collections import Counter, defaultdict
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EXECUTABLES = {
-    'maniax-us': 'game/SLUS_209.11',
+    'us': 'game/SLUS_209.11',
     'hardtype': 'game/hardtype/SLUS_209.11',
     'chronicle': 'game/chronicle/SLPM_666.81',
     'vanilla': 'game/vanilla/SLPM_652.42',
@@ -105,7 +105,7 @@ def data_pointers(data, segments, start, count):
 
 def main():
     name = sys.argv[1] if len(sys.argv) > 1 else 'chronicle'
-    base_start, base = code_words(*load(EXECUTABLES['maniax-us']))
+    base_start, base = code_words(*load(EXECUTABLES['us']))
     other_start, other = code_words(*load(EXECUTABLES[name]))
     masked_other = [mask(w) for w in other]
 

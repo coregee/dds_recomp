@@ -265,7 +265,7 @@ uint32_t StoreVariable(Instance& pinst, int32_t index, const char* source, int32
 char* ConvertZenkakuNumber(int32_t num, char* buf);   // a number in the version's digits
 void FloorText(int32_t num, char* out);               // "B2F", "3F", "R"
 void SetCharacterName(int32_t id, int32_t index, int32_t num);   // {var index}: entered name num
-#if !NOCTURNE_JAPANESE
+#if NOCTURNE_US
 void BuildCharacterName(int32_t index);
 #endif
 

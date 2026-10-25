@@ -19,8 +19,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "source"
 GENERATED = SOURCE / "generated"
-VERSIONS = ("vanilla", "maniax", "chronicle", "maniax-us", "hardtype")
-BASE = "maniax-us"   # the tables a version doesn't generate its own of
+VERSIONS = ("maniax", "vanilla", "chronicle", "us", "hardtype")
+BASE = "us"   # the tables a version doesn't generate its own of
 
 
 def sources(version):

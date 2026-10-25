@@ -64,7 +64,7 @@ int32_t interestingSkill(Gen& g);
 // fonts are larger (FW_JP_FONTS).
 inline uint32_t dynamicEnd()
 {
-    return nocturne::kBuild.japanese ? FW_JP_DYNAMIC_END : FW_DYNAMIC_END;
+    return nocturne::kBuild.us ? FW_DYNAMIC_END : FW_JP_DYNAMIC_END;
 }
 inline int32_t lastDevilWithAi() { return nocturne::kVariant == nocturne::Variant::Hardtype ? 0x17d : 0x17f; }
 void battleWorld(Gen& g);   // a random battle: units, formations, parties, main and action data (main.cpp)

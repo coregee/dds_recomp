@@ -37,7 +37,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 USE = re.compile(r'\b(addr|optionalAddr|jpAddr|optionalJpAddr)\(0x([0-9a-fA-F]{8})\)')
 FIRST_DATA = 0x002f5000   # US Maniax's data segment
-EXECUTABLES = {'maniax-us': 'game/SLUS_209.11', 'maniax': 'game/jpmaniax/SLPM_654.62',
+EXECUTABLES = {'us': 'game/SLUS_209.11', 'maniax': 'game/jpmaniax/SLPM_654.62',
                'chronicle': 'game/chronicle/SLPM_666.81', 'vanilla': 'game/vanilla/SLPM_652.42'}
 
 
@@ -159,7 +159,7 @@ def main():
     known = data_map(name)
     keys = sorted(k for k in known if k >= FIRST_DATA)
     starts, functions = code_map(name)
-    us, other = image(EXECUTABLES['maniax-us']), image(EXECUTABLES[name])
+    us, other = image(EXECUTABLES['us']), image(EXECUTABLES[name])
     # JP Maniax addresses, by the JP Maniax addresses both maps reach.
     jp_known = {}
     if name != 'maniax':

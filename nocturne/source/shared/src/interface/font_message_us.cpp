@@ -10,7 +10,7 @@
 
 #include "nocturne/build.hpp"
 
-#if !NOCTURNE_JAPANESE
+#if NOCTURNE_US
 
 #include <cstring>
 
@@ -590,4 +590,4 @@ void CopyMessageLine(const uint8_t* text, uint8_t* out, int32_t line)
 
 } // namespace nocturne::fr
 
-#endif // !NOCTURNE_JAPANESE
+#endif // NOCTURNE_US

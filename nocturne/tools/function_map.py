@@ -27,7 +27,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-BUILDS = ("maniax-us", "hardtype", "chronicle", "maniax", "vanilla")
+BUILDS = ("maniax", "vanilla", "chronicle", "us", "hardtype")
 # When a function has several tests, the worst outcome stands.
 RANK = {"differ": 3, "ok": 2, "pending": 1, "legacy": 0}
 TAGGED = {}   # original name -> address, from the rewrites' tags (rewrites())
@@ -66,7 +66,7 @@ def table_word(address):
     """A word of US Maniax's executable (its tables)."""
     import match_functions as mf
     if not hasattr(table_word, "image"):
-        table_word.image = mf.load(mf.EXECUTABLES["maniax-us"])
+        table_word.image = mf.load(mf.EXECUTABLES["us"])
     data, segments = table_word.image
     for vaddr, offset, size, _ in segments:
         if vaddr <= address < vaddr + size:
@@ -149,7 +149,7 @@ def rewrites():
     definition = re.compile(r"^[A-Za-z_][\w:<>&\* ]*?\b(\w+)\(")
     # (US Maniax's build: tools/sources.py)
     import sources
-    paths = [path for path, _ in sources.sources("maniax-us")]
+    paths = [path for path, _ in sources.sources("us")]
     for path in sorted(paths):
         lines = path.read_text(encoding="utf-8").splitlines()
         section = False

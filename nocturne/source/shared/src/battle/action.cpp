@@ -287,7 +287,7 @@ void queueMaccaThrow(ActionProcessData& a, int32_t, int32_t sframe)
     if (isPlayerSide(a.form->formindex) && dat::globalWork().macca < amount)
         amount = dat::globalWork().macca;
     setTimeList(a, a.form->formindex, sframe, 30, 30);
-#if NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE   // (JP Maniax's debug print)
+#if !NOCTURNE_US && !NOCTURNE_CHRONICLE   // (JP Maniax's debug print)
     diag::print(diag::Message::MaccaScattered, amount);
 #endif
     setStatusMessage(a, 0x2c, 0, amount);
@@ -372,7 +372,7 @@ void queueMiss(ActionProcessData& a, int32_t, int32_t, int32_t dformindex, int32
 // clones stagger (motion 14). Two icons lost (result type 14).
 void queueOngyokiFound(ActionProcessData& a, int32_t, int32_t, int32_t dformindex, int32_t, int32_t frame)
 {
-#if NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE   // (JP Maniax's debug print)
+#if !NOCTURNE_US && !NOCTURNE_CHRONICLE   // (JP Maniax's debug print)
     diag::print(diag::Message::OngyoKiShadowOne);
 #endif
     Formation& form = formAt(a, dformindex);
@@ -399,7 +399,7 @@ void queueOngyokiFound(ActionProcessData& a, int32_t, int32_t, int32_t dforminde
 // notes it (stat bit 0x4000) when there were any.
 void queueOngyokiClonesVanish(ActionProcessData& a, int32_t dformindex, int32_t frame)
 {
-#if NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE   // (JP Maniax's debug print)
+#if !NOCTURNE_US && !NOCTURNE_CHRONICLE   // (JP Maniax's debug print)
     diag::print(diag::Message::OngyoKiShadowAll);
 #endif
     int32_t gone = 0;
@@ -1121,7 +1121,7 @@ namespace {
 // Maniax's only; the hits and misses aren't named).
 void printResultKind([[maybe_unused]] int32_t kind)
 {
-#if NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE
+#if !NOCTURNE_US && !NOCTURNE_CHRONICLE
     switch (kind) {
     case 6: diag::print(diag::Message::SummonKind); break;
     case 7: diag::print(diag::Message::AnalyzeKind); break;
@@ -1140,7 +1140,7 @@ void printResultKind([[maybe_unused]] int32_t kind)
 // a result against the unit's own side isn't named).
 void printPressResult([[maybe_unused]] int32_t type)
 {
-#if NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE
+#if !NOCTURNE_US && !NOCTURNE_CHRONICLE
     switch (type) {
     case 0: diag::print(diag::Message::NormalHit); break;
     case 3: diag::print(diag::Message::CriticalHit); break;

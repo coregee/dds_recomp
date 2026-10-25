@@ -1156,7 +1156,7 @@ int main(int argc, char** argv)
 #pragma warning(suppress : 4996)
     const bool runPending = std::getenv("DIFF_PENDING") != nullptr;
     volatile bool japanese =
-        nocturne::kBuild.japanese && !runPending;
+        !nocturne::kBuild.us && !runPending;
     // Tests of what the JP builds change that the port doesn't follow yet
     // (docs/versions.md).
     static const std::vector<const char*> kJapanesePending = {
@@ -1196,7 +1196,7 @@ int main(int argc, char** argv)
             std::fprintf(results, "%s\t%s\n", test.name, outcome);
     };
     // Another version than US Maniax (a variable, so the checks below aren't constant).
-    volatile bool otherVersion = nocturne::kVariant != nocturne::Variant::ManiaxUs;
+    volatile bool otherVersion = nocturne::kVariant != nocturne::Variant::Us;
     for (const TestCase& test : tests()) {
         if (!std::strstr(test.name, filter) || skip.find("," + std::string(test.name) + ",") != std::string::npos)
             continue;

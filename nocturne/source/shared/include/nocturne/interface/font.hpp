@@ -83,11 +83,11 @@ struct Style {
     uint32_t metric[2];          // the tables: {left, right} per glyph
     uint32_t cache;              // per glyph: its cached Glyph, or 0 (a zeroed array in the file)
     uint32_t glyphs;             // the compressed glyphs
-#if !NOCTURNE_JAPANESE
+#if NOCTURNE_US
     uint32_t names;              // the file's name table (the US engine's only)
 #endif
 };
-static_assert(sizeof(Style) == (kBuild.japanese ? 0x20 : 0x24));
+static_assert(sizeof(Style) == (kBuild.us ? 0x24 : 0x20));
 
 // Font engine globals (US 0x54F404). The JP engine has no size override,
 // so no base and space widths.
@@ -96,7 +96,7 @@ struct Settings {
     int8_t space;                // gMessageSpaceX
     uint8_t pad05[3];
     int32_t step;                // gMessageStepY: line height, in 1/8 units
-#if !NOCTURNE_JAPANESE
+#if NOCTURNE_US
     int32_t base_width;          // the advance of styles 0 and 1 (frSetBaseWidth)
     int32_t space_width;         // extra advance of a space in styles 0 and 1
     uint32_t unknown_14;
@@ -105,12 +105,12 @@ struct Settings {
     uint8_t pad_mode[7];
     uint8_t style;               // the style of the last frSetFontString
 };
-static_assert(offsetof(Settings, mode) == (kBuild.japanese ? 0xc : 0x18) &&
-              offsetof(Settings, style) == (kBuild.japanese ? 0x14 : 0x20));
+static_assert(offsetof(Settings, mode) == (kBuild.us ? 0x18 : 0xc) &&
+              offsetof(Settings, style) == (kBuild.us ? 0x20 : 0x14));
 
-inline constexpr int32_t kDefaultLineStep = kBuild.japanese ? 0x19 : 0x14;   // frResetStepY
+inline constexpr int32_t kDefaultLineStep = kBuild.us ? 0x14 : 0x19;   // frResetStepY
 
-#if NOCTURNE_JAPANESE
+#if !NOCTURNE_US
 // The shadow offset a glyph gets with kModeShadow: 24 for some, else 0
 // (the US engine: always 24; font_layout_jp.cpp).
 int32_t shadowOffset(int8_t style, int32_t index);
@@ -236,7 +236,7 @@ void frSetBaseWidth(int64_t width);                              // [version]
 void frGetXShiftLev(Text& pText, int32_t index, bool first);     // [version]
 int32_t frGetStrWidth(const Request& pFRQ);
 int32_t frGetChainWidth(const Request& pFRQ);
-#if !NOCTURNE_JAPANESE
+#if NOCTURNE_US
 void RelayoutRequest(Request& pFRQ);   // (the US release's only)
 int32_t frGetFontWidth(uint8_t style);
 int32_t frGetFontHeight(uint8_t style);
@@ -306,7 +306,7 @@ Request* MessageRequestKeepSpace(int32_t x, int32_t y, uint32_t z, uint8_t style
                                  uint8_t speed, uint32_t text);
 int64_t frGetMessageResult(int64_t mask);
 void frSetVariableRequest(int32_t index, uint32_t pstr);
-#if !NOCTURNE_JAPANESE
+#if NOCTURNE_US
 void AppendSpecialCode(MessageInfo& m, uint16_t code);
 int32_t ControlCodeLength(uint16_t code);
 int32_t CountMessageLines(const uint8_t* text);

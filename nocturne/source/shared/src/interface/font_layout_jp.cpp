@@ -5,7 +5,7 @@
 
 #include "nocturne/build.hpp"
 
-#if NOCTURNE_JAPANESE
+#if !NOCTURNE_US
 
 #include "nocturne/address.hpp"
 #include "nocturne/interface/font.hpp"
@@ -245,4 +245,4 @@ Request* frCombineFontRequestEx(Request* pFRQ1, Request* pFRQ2, uint64_t mode)
 
 } // namespace nocturne::fr
 
-#endif // NOCTURNE_JAPANESE
+#endif // !NOCTURNE_US

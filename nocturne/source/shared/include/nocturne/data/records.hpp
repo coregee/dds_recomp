@@ -430,8 +430,8 @@ static_assert(sizeof(UpcomingSkills) == 0x4a);
 // variables, so every field after sits 4 lower; the block before the options
 // (the entered names' bitmaps among it) is shorter still: from the options
 // on, fields sit 0x2450 lower. The offsets below are the US release's.
-inline constexpr std::size_t kGlobalWorkShift = kBuild.japanese ? 4 : 0;
-inline constexpr std::size_t kGlobalWorkTailShift = kBuild.japanese ? 0x2450 : 0;
+inline constexpr std::size_t kGlobalWorkShift = kBuild.us ? 0 : 4;
+inline constexpr std::size_t kGlobalWorkTailShift = kBuild.us ? 0 : 0x2450;
 
 struct GlobalWork {
     uint8_t unknown_0000[0x40 - kGlobalWorkShift];

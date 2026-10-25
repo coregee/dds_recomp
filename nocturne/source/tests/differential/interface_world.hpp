@@ -20,6 +20,9 @@ uint64_t origVoid(uint32_t entry, std::initializer_list<uint64_t> args);
 uint64_t origVm(uint32_t entry, std::initializer_list<uint64_t> args, std::initializer_list<uint32_t> floatArgs = {});
 uint64_t origVmVoid(uint32_t entry, std::initializer_list<uint64_t> args, std::initializer_list<uint32_t> floatArgs = {});
 uint32_t origVmFloat();   // the float result (f0) of the last origVm
+// A function's own instructions where the harness hooks it to a fake (its
+// callers see the fake; this tests the function itself).
+uint64_t origOwn(uint32_t entry, std::initializer_list<uint64_t> args);
 // The entries above are US Maniax's addresses (mapped for another build,
 // version_map.hpp); these take the version's own, for the bridges the
 // rewrite calls with addresses it read or formed.

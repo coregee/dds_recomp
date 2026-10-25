@@ -340,7 +340,7 @@ int32_t frGetChainWidth(const Request& pFRQ)
     return sum;
 }
 
-#if !NOCTURNE_JAPANESE
+#if NOCTURNE_US
 // 0x001C6270 (no original name): lays out a request's texts again. Nothing
 // calls it; the JP builds don't have it.
 void RelayoutRequest(Request& pFRQ)

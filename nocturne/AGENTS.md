@@ -43,8 +43,9 @@ of work.
    `source/shared/include/nocturne/external.hpp` and are bridged in
    `source/shared/src/platform/legacy_bridge.cpp`. Code that differs by
    version sits beside the other versions' in the same unit, chosen by a
-   trait of the build (`nocturne/build.hpp`: `#if NOCTURNE_JAPANESE`,
-   `if constexpr (kBuild.hardtype)`), never by the build's name
+   trait of the build (`nocturne/build.hpp`: `#if NOCTURNE_US`,
+   `if constexpr (kBuild.hardtype)`), never by the build's name; plain
+   code is JP Maniax's, the reference
    ([docs/versions.md](docs/versions.md)).
 5. **Prove it.** Add every function to the differential test
    (`source/tests/differential/`: `main.cpp` for battle/unit code,

@@ -68,7 +68,10 @@ public:
 
     // Runs the function at `entry`; arguments after the eighth go on the stack,
     // float arguments in f12, f13... Returns v0 (a float result is in cpu.f[0]).
-    uint64_t call(uint32_t entry, std::initializer_list<uint64_t> args = {}, std::initializer_list<uint32_t> floatArgs = {});
+    // `ownEntry`: the entry's own instructions run even where a hook sits
+    // there (a function whose callers the harness fakes, tested itself).
+    uint64_t call(uint32_t entry, std::initializer_list<uint64_t> args = {}, std::initializer_list<uint32_t> floatArgs = {},
+                  bool ownEntry = false);
     // Calls run so far, by any interpreter (a test's original side either runs
     // the executable's instructions or the legacy C).
     static uint64_t calls() { return calls_; }

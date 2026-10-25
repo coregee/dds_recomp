@@ -236,6 +236,20 @@ void addKoukaTests(std::vector<TestCase>& t)
         return Pair{[=] { return origVmVoid(0x0025ea00, {kQueue, packet}); },
                     [=] { unlinkPacket(queue(), at<EffectPacket>(packet)); return uint64_t{0}; }};
     });
+    add("nbLinkKoukaPacket", [](Gen& g) {   // a packet taken out, linked again at the end
+        if (!queue().first)
+            addPacket(queue(), 1, 1, 1);
+        EffectPacket* p = queue().first.get();
+        for (int n = g.range(0, 5); n > 0 && p->next; --n)
+            p = p->next.get();
+        unlinkPacket(queue(), *p);
+        const uint32_t packet = iface::addr(p);
+        return Pair{[=] { return origVmVoid(0x0025e9c8, {kQueue, packet}); },
+                    [=] { linkPacket(queue(), at<EffectPacket>(packet)); return uint64_t{0}; }};
+    });
+    add("nbPanelStockFadeOut (0x27FA88)", [](Gen&) {
+        return Pair{[] { return origVmVoid(0x0027fa88, {}); }, [] { startStockPanelFadeOut(); return uint64_t{0}; }};
+    });
     add("nbAddKoukaPacket", [](Gen& g) {
         const int32_t s = frame(g), l = frame(g), id = uid(g);
         return Pair{[=] { return origVm(0x0025ea48, {kQueue, I(s), I(l), I(id)}); }, [=] { return R(&addPacket(queue(), s, l, id)); }};
