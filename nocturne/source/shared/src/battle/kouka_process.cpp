@@ -5,6 +5,8 @@
 
 #include <algorithm>
 
+#include "nocturne/address.hpp"
+#include "nocturne/version_constants.hpp"
 #include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/calc.hpp"
@@ -19,8 +21,8 @@ namespace nocturne::nb {
 
 namespace {
 
-constexpr uint32_t kQueueName = 0x00544350;         // "nb_kouka"
-constexpr uint32_t kStockPanelFading = 0x00551208;  // uint32 (gp-relative): the stock panel fades out
+constexpr uint32_t kQueueName = addr(0x00544350);         // "nb_kouka"
+constexpr uint32_t kStockPanelFading = addr(0x00551208);  // uint32 (gp-relative): the stock panel fades out
 constexpr uint32_t kUnitModelMotion = 0x8c;         // a unit model's motion (its +0x1c: the playing one)
 constexpr uint32_t kUnitModelFlags = 0xa4;
 
@@ -41,7 +43,7 @@ PlayerEntry playerFor(int8_t type)
     switch (type) {
     case kSkillEffect: case kSkillEffect2: case kSkillEffect1: case kSkillEffect3: return {playSkillEffect, 0};
     case kTargetMove: case kHomeMove: return {playMove, 0};
-    case kRot: case kHomeRot: return {nullptr, 0x0025f228};                                  // RunRotKouka
+    case kRot: case kHomeRot: return {nullptr, addr(0x0025f228)};                                  // RunRotKouka
     case kUnitCol: case kUnitHomeCol: case kUnitA: case kUnitHomeA: return {playUnitColor, 0};
     case kDamageMotion: case kAilmentDamageMotion: case kAilmentMotion: case kLightDamageMotion:
         return {playDamageMotion, 0};
@@ -50,12 +52,12 @@ PlayerEntry playerFor(int8_t type)
     case kDodge: return {playDodge, 0};
     case kSkillColorOff: case kSkillColor: return {playSkillColor, 0};
     case kHitEff: return {playHitEffect, 0};
-    case kNumberEff: return {nullptr, 0x0025ffb0};                                           // RunNumEffectKouka
+    case kNumberEff: return {nullptr, addr(0x0025ffb0)};                                           // RunNumEffectKouka
     case kHpMp: return {playHpMp, 0};
     case kPress: case kNewPress: return {playPress, 0};
     case kAilment: return {playAilment, 0};
     case kAilmentMotionCure: return {playAilmentMotionCure, 0};
-    case kWordEff: return {nullptr, 0x002601e8};                                             // RunMojiEffectKouka
+    case kWordEff: return {nullptr, addr(0x002601e8)};                                             // RunMojiEffectKouka
     case kAilmentEff: return {playAilmentEffect, 0};
     case kAilmentCureEff: return {playAilmentCureEffect, 0};
     case kSe: case kSe2: case kSe3: return {playSound, 0};
@@ -64,11 +66,11 @@ PlayerEntry playerFor(int8_t type)
     case kMotionStop: case kMotionStopClear: return {playMotionStop, 0};
     case kAnalyze: return {playAnalyze, 0};
     case kStatusMessage: return {playStatusMessage, 0};
-    case kDeadPcm: return {nullptr, 0x00260888};                                             // RunPcmKouka
+    case kDeadPcm: return {nullptr, addr(0x00260888)};                                             // RunPcmKouka
     case kFormOnOff: return {playFormationShow, 0};
     case kOngyokiClone: case kOngyokiClone2: case kOngyokiOut: case kOngyokiOut2: return {playBossEffect, 0};
     case kFormFlagOnOff: return {playFormationFlag, 0};
-    case kFly: return {nullptr, 0x00260aa8};                                                 // RunFlyKouka
+    case kFly: return {nullptr, addr(0x00260aa8)};                                                 // RunFlyKouka
     case kDeadEvent: return {playDeathEvent, 0};
     case kFadeOut: case kFadeIn: return {playFade, 0};
     case kSkillName: return {playSkillName, 0};
@@ -162,7 +164,7 @@ uint32_t newEffectQueue(MainProcessData& data)
 void startEffectQueue(MainProcessData& data)
 {
     const uint32_t queue = newEffectQueue(data);
-    const uint32_t process = dds3::StartProcess(kQueueName, 0x2b08, 1, 1, 0x00260f38, 0x002613f8, queue);
+    const uint32_t process = dds3::StartProcess(kQueueName, 0x2b08, 1, 1, addr(0x00260f38), addr(0x002613f8), queue);
     dds3::LinkProcess(data.MainProcessID, process);
     data.EffectQueueProcessID = process;
 }
@@ -473,7 +475,7 @@ void playSound(EffectQueue& k, EffectPacket& p)
     MainProcessData& main = battle(k);
     if (main.d31_repel107 != 0 && static_cast<uint32_t>(sound - 0x10008) < 2) {
         main.d31_repel107 = 0;
-        snd::StopEffectMidi(0x1c070000);
+        snd::StopEffectMidi(kRepelledSkillMusic);
     }
     if (main.d31_repel113 != 0 && sound == 0x10008) {
         main.d31_repel113 = 0;
@@ -482,10 +484,10 @@ void playSound(EffectQueue& k, EffectPacket& p)
     switch (p.type) {
     case kSe2:
         if (!ready) {
-            scr::scrPrintf(0x00544680, static_cast<uint32_t>(sound));   // "se2 [%08X] chk err"
+            scr::scrPrintf(optionalAddr(0x00544680), static_cast<uint32_t>(sound));   // "se2 [%08X] chk err"
             return;
         }
-        scr::scrPrintf(0x00544668, static_cast<uint32_t>(sound));       // "se2 [%08X] play!"
+        scr::scrPrintf(optionalAddr(0x00544668), static_cast<uint32_t>(sound));       // "se2 [%08X] play!"
         snd::Play(sound, 0x7f, 0x3f);
         break;
     case kSe:

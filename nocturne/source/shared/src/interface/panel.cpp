@@ -2,6 +2,7 @@
 // instructions; drawing is not rewritten yet.
 #include "nocturne/interface/panel.hpp"
 
+#include "nocturne/address.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
 
@@ -10,10 +11,10 @@ namespace nocturne::itf {
 namespace {
 
 namespace address {
-constexpr uint32_t ShadeMesWin = 0x00326518;    // ColorRatio[6]
-constexpr uint32_t ShadeSelWin = 0x00326578;    // ColorRatio[4]
-constexpr uint32_t ShadePlain = 0x003265B8;     // ColorRatio[1]
-constexpr uint32_t ShadePlainHalf = 0x003265C8; // ColorRatio[2]
+constexpr uint32_t ShadeMesWin = addr(0x00326518);    // ColorRatio[6]
+constexpr uint32_t ShadeSelWin = addr(0x00326578);    // ColorRatio[4]
+constexpr uint32_t ShadePlain = addr(0x003265B8);     // ColorRatio[1]
+constexpr uint32_t ShadePlainHalf = addr(0x003265C8); // ColorRatio[2]
 } // namespace address
 
 // The size of each type's work block (the table at 0x3264E0).

@@ -9,6 +9,7 @@
 
 #include <cstdint>
 
+#include "nocturne/address.hpp"
 #include "nocturne/battle/talk.hpp"
 
 namespace nocturne::nb {
@@ -30,7 +31,7 @@ struct TalkSkill {           // datNegoSkill_t
     TalkSkillRule bad[4];    // (HD: ngaisyo)
 };
 static_assert(sizeof(TalkSkill) == 0x68);
-inline constexpr uint32_t kTalkSkillTable = 0x003e1338;
+inline constexpr uint32_t kTalkSkillTable = addr(0x003e1338);
 
 // ChkAisyo: does `a` meet condition `jo` toward `b`? The condition's bits
 // (all must hold): 2..0x20 a's speech traits (the Demi-fiend's: 0x14),
@@ -55,7 +56,7 @@ struct OwnQuestion {
     int16_t judge;    // 0: by stat 1 (Param::Unused1), 1: by level; else even odds
     uint8_t chanceAhead, chanceBehind;   // percent
 };
-inline constexpr uint32_t kOwnQuestionAnswers = 0x003e2538;
+inline constexpr uint32_t kOwnQuestionAnswers = addr(0x003e2538);
 // [speech style][36] where an answer to a question of a kind moves the
 // player: the full moon's [kind % 3][answer 0..2], then the others'
 // [kind % 3][question 0..1][answer 0..2] (kinds 3, 1, 2 in that order).
@@ -63,7 +64,7 @@ struct QuestionReason {
     int8_t reason;    // datAddKotowariPoint's
     uint8_t unused;
 };
-inline constexpr uint32_t kQuestionReasons = 0x003e28a0;
+inline constexpr uint32_t kQuestionReasons = addr(0x003e28a0);
 
 // The demons a full Kagutsuchi doesn't stir (the steps of groups 1, 2 and
 // 16 single them out; a list in each, the same).

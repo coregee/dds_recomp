@@ -5,6 +5,9 @@
 | `disc_extract.py` | Extract the ISO in `nocturne/` to `game/`, checking `disc-sha256.json`. `--variant <name>`: another version's disc to `game/<name>/`. `--overwrite` to replace. |
 | `sources.py` | `sources.py <version> sources|includes`: a version's source files (shared, then US Maniax's replaced by the version's own) and include path; used by the build scripts. |
 | `variant.cmd` | Read `NOCTURNE_VARIANT` and set the build's defines, includes, executable and folder suffix. |
+| `match_functions.py`, `match_data.py` | Find US Maniax's functions, and the data addresses their code forms, in another version's executable (`reference/versions/<name>-*.tsv`). |
+| `version_diff.py`, `mips.py` | Line up a function another version changes with US Maniax's, disassembled. |
+| `version_addresses.py` | `version_addresses.py <name>`: map the addresses the source writes through `addr()` / `optionalAddr()` to another version's, into `source/<name>/include/nocturne/version_addresses.hpp` (docs/versions.md). |
 | `ghidra/ExportVariantDiff.java` | List the functions another version's executable changes against US Maniax's, and its new code. |
 | `dds3_archive.py` | `list` / `extract PATH...` / `all [--filter X]` for the `DDS3.DDT`/`DDS3.IMG` archive, into `game/dds3/`. |
 | `function_map.py` | Build `reference/function-map.tsv` (called by `ghidra/export-annotations.ps1`). |

@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cstring>
 
+#include "nocturne/address.hpp"
 #include "nocturne/battle/calc.hpp"
 #include "nocturne/battle/combatant.hpp"
 #include "nocturne/battle/pad.hpp"
@@ -19,13 +20,13 @@ namespace nocturne::nb {
 
 namespace {
 
-constexpr uint32_t kCommSelName = 0x005441a8;   // "nb_commsel"
-constexpr uint32_t kListRows = 0x00544190;      // int32[6]: rows each tab shows
+constexpr uint32_t kCommSelName = addr(0x005441a8);   // "nb_commsel"
+constexpr uint32_t kListRows = addr(0x00544190);      // int32[6]: rows each tab shows
 
 // Talk skills (from 0x180) have a record of 0x68 bytes from 0x3E1338 whose
 // first word is the kind of talk; kinds 0..6 go in the menu. (The HD
 // remaster keeps it as a table of its own; its name is unknown.)
-constexpr uint32_t kTalkSkills = 0x003e1338;
+constexpr uint32_t kTalkSkills = addr(0x003e1338);
 uint32_t talkKind(int32_t skill) { return guest::table<const uint32_t>(kTalkSkills + 0x68u * static_cast<uint32_t>(skill - 0x180))[0]; }
 
 constexpr uint32_t kHelpPanelHidden = 0xc0e;    // event bit: the menu's help panel off
@@ -102,8 +103,8 @@ void animateCommandMenu(CommandMenu& d)
         }
     }
     if (flags & CommandMenuAnimation::Grow) {
-        const ee::Float least = guest::table<const ee::Float>(0x0054e500)[0];   // 0.01
-        const ee::Float rate = guest::table<const ee::Float>(0x0054e504)[0];    // 0.6
+        const ee::Float least = guest::table<const ee::Float>(addr(0x0054e500))[0];   // 0.01
+        const ee::Float rate = guest::table<const ee::Float>(addr(0x0054e504))[0];    // 0.6
         const ee::Float ritu = d.summonGrow;
         if (ritu.abs() < least) {
             d.summonGrow = ee::Float::fromInt(0);
@@ -527,7 +528,7 @@ uint32_t newCommandMenu(MainProcessData& data, Party& my, ActionProcessData& act
 void startCommandMenu(MainProcessData& data, Party& my, ActionProcessData& act)
 {
     const uint32_t d = newCommandMenu(data, my, act);
-    const uint32_t process = dds3::StartProcess(kCommSelName, 0x2b0e, 1, 1, 0x0025c908, 0x0025cb40, d);
+    const uint32_t process = dds3::StartProcess(kCommSelName, 0x2b0e, 1, 1, addr(0x0025c908), addr(0x0025cb40), d);
     dds3::LinkProcess(data.MainProcessID, process);
     data.CommandMenuProcessID = process;
 }

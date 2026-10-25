@@ -74,7 +74,7 @@ uint64_t ps2FusionAccidentBoost_001FE570(uint64_t unit);
 namespace difftest {
 namespace {
 
-constexpr uint32_t kStock = FW_GLOBAL + 0xa54;   // GlobalWork::units[16]
+constexpr uint32_t kStock = FW_GLOBAL + static_cast<uint32_t>(offsetof(nocturne::GlobalWork, units));   // GlobalWork::units[16]
 constexpr uint32_t kScratch = FW_ENEMIES;        // a spare unit in dynamic RAM
 constexpr uint16_t kDevilCount = 384;
 

@@ -11,6 +11,7 @@
 #include <cstring>
 #include <iterator>
 
+#include "nocturne/address.hpp"
 #include "nocturne/ee/double.hpp"
 #include "nocturne/ee/float.hpp"
 #include "nocturne/external.hpp"
@@ -21,10 +22,10 @@ namespace nocturne::scr {
 
 namespace {
 
-constexpr uint32_t kScriptList = 0x0054e994;
-constexpr uint32_t kCurrent = 0x00551c78;        // the work of the running COMM
-constexpr uint32_t kGlobalWork = 0x0054ea20;     // pointer: ints at +0x40, floats at +0x440
-constexpr uint32_t kCommands = 0x0052e350;       // scrCommandTable_t[]
+constexpr uint32_t kScriptList = addr(0x0054e994);
+constexpr uint32_t kCurrent = addr(0x00551c78);        // the work of the running COMM
+constexpr uint32_t kGlobalWork = addr(0x0054ea20);     // pointer: ints at +0x40, floats at +0x440
+constexpr uint32_t kCommands = addr(0x0052e350);       // scrCommandTable_t[]
 
 // TwoOperation keeps its operands and result in globals (0x551C58).
 struct Operands {
@@ -32,7 +33,7 @@ struct Operands {
     uint32_t float_top, float_below, float_result;
     int32_t type_top, type_below;
 };
-constexpr uint32_t kOperands = 0x00551c58;
+constexpr uint32_t kOperands = addr(0x00551c58);
 
 // scrCommandTable_t
 struct CommandEntry {
@@ -209,7 +210,7 @@ ProcessWork* scrAddScript(uint32_t header, uint32_t typetable, uint32_t proctabl
         w->MesHandle = mes::Initialize(mesdata);
     scrLinkScriptHandleList(*w);
     diag::print(diag::Message::ProcedureStart, addressOf(&proc));
-    scrPrintf(0x0052e288, addressOf(&proc));
+    scrPrintf(optionalAddr(0x0052e288), addressOf(&proc));
     return w;
 }
 
@@ -265,7 +266,7 @@ ProcessWork* scrAddScript3(uint32_t path, int64_t startproc)
 uint32_t scrStartScriptProcess(int32_t priority, ProcessWork* work)
 {
     const uint32_t name = work->procTable.address + static_cast<uint32_t>(work->StartProc) * sizeof(ProcTable);
-    const uint32_t process = dds3::StartProcess(name, priority, 1, 1, 0x0010a268, 0x0010a210, addressOf(work));
+    const uint32_t process = dds3::StartProcess(name, priority, 1, 1, addr(0x0010a268), addr(0x0010a210), addressOf(work));
     work->ProcessID = process;
     return process;
 }
@@ -306,7 +307,7 @@ void scrReleaseScript(ProcessWork& work)
 {
     const uint32_t proc = work.procTable.address + static_cast<uint32_t>(work.StartProc) * sizeof(ProcTable);
     diag::print(diag::Message::ProcedureEnd, proc);
-    scrPrintf(0x0052e2d0, proc);
+    scrPrintf(optionalAddr(0x0052e2d0), proc);
     if (work.LocalInt)
         mem::PoolRelease(work.LocalInt.address);
     if (work.LocalFloat)
@@ -832,6 +833,6 @@ uint32_t scrGetData() { return current()->data; }
 // SDF_ABORT1 @ 0x0010B858
 // Whether the player asks to skip a waiting command: it has waited a frame
 // and the pad's button 1 was just pressed (DDS3_PADCHECK_TRIG).
-bool SDF_ABORT1() { return scrGetCommandTimer() != 0 && guest::table<int8_t>(0x005298c8)[1] < 0; }
+bool SDF_ABORT1() { return scrGetCommandTimer() != 0 && guest::table<int8_t>(addr(0x005298c8))[1] < 0; }
 
 } // namespace nocturne::scr

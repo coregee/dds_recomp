@@ -10,6 +10,7 @@
 #include <cstdint>
 
 #include "nocturne/data/types.hpp"
+#include "nocturne/version_constants.hpp"
 #include "nocturne/ee/float.hpp"
 #include "nocturne/guest.hpp"
 
@@ -425,8 +426,11 @@ struct UpcomingSkills {
 static_assert(sizeof(UpcomingSkills) == 0x4a);
 
 // datGlobalWork: the save-game state. Partial: only fields used so far.
+// Offsets below are US Maniax's; a version's global work can sit lower
+// (kGlobalWorkShift from the event bits on, kGlobalWorkTailShift from the
+// options on: nocturne/version_constants.hpp).
 struct GlobalWork {
-    uint8_t unknown_0000[0x840];
+    uint8_t unknown_0000[0x840 - kGlobalWorkShift];
     uint32_t event_bits[128];
     uint8_t moon_flags, moon_phase;
     uint8_t unknown_0a42[2];
@@ -450,7 +454,7 @@ struct GlobalWork {
     uint8_t hearts_owned[64];
     uint8_t hearts_skill_state[64];
     uint8_t hearts_owned_count;
-    uint8_t unknown_1d7c[0x11ab8 - 0x1d7c];
+    uint8_t unknown_1d7c[0x11ab8 - 0x1d7c - (kGlobalWorkTailShift - kGlobalWorkShift)];   // (US Maniax's offsets)
     uint32_t config;          // the options' bits (dds3CheckConfigBit)
     uint32_t unknown_11abc;
     uint16_t hearts_learned_skills[26][12]; // Magatama skills learned, in order
@@ -461,17 +465,18 @@ struct GlobalWork {
     uint8_t unknown_11e84[0xc];
     EncycRecord encyc_records[184];
 };
-static_assert(offsetof(GlobalWork, macca) == 0xa48);
-static_assert(offsetof(GlobalWork, units) == 0xa54);
-static_assert(offsetof(GlobalWork, stock_list) == 0x1914);
-static_assert(offsetof(GlobalWork, item_counts) == 0x1928);
-static_assert(offsetof(GlobalWork, reason_points) == 0x1cec && offsetof(GlobalWork, loanCounts) == 0x1ca8);
-static_assert(offsetof(GlobalWork, config) == 0x11ab8 && offsetof(GlobalWork, hearts_learned_skills) == 0x11ac0);
-static_assert(offsetof(GlobalWork, hearts_equipped) == 0x1cfa);
-static_assert(offsetof(GlobalWork, hearts_owned_count) == 0x1d7b);
-static_assert(offsetof(GlobalWork, hearts_learned_skills) == 0x11ac0);
-static_assert(offsetof(GlobalWork, hearts_param_upgrades) == 0x11dc0);
-static_assert(offsetof(GlobalWork, encyc_count) == 0x11e80);
-static_assert(offsetof(GlobalWork, encyc_records) == 0x11e90);
+// (US Maniax's offsets.)
+static_assert(offsetof(GlobalWork, macca) + kGlobalWorkShift == 0xa48);
+static_assert(offsetof(GlobalWork, units) + kGlobalWorkShift == 0xa54);
+static_assert(offsetof(GlobalWork, stock_list) + kGlobalWorkShift == 0x1914);
+static_assert(offsetof(GlobalWork, item_counts) + kGlobalWorkShift == 0x1928);
+static_assert(offsetof(GlobalWork, reason_points) + kGlobalWorkShift == 0x1cec && offsetof(GlobalWork, loanCounts) + kGlobalWorkShift == 0x1ca8);
+static_assert(offsetof(GlobalWork, config) + kGlobalWorkTailShift == 0x11ab8);
+static_assert(offsetof(GlobalWork, hearts_equipped) + kGlobalWorkShift == 0x1cfa);
+static_assert(offsetof(GlobalWork, hearts_owned_count) + kGlobalWorkShift == 0x1d7b);
+static_assert(offsetof(GlobalWork, hearts_learned_skills) + kGlobalWorkTailShift == 0x11ac0);
+static_assert(offsetof(GlobalWork, hearts_param_upgrades) + kGlobalWorkTailShift == 0x11dc0);
+static_assert(offsetof(GlobalWork, encyc_count) + kGlobalWorkTailShift == 0x11e80);
+static_assert(offsetof(GlobalWork, encyc_records) + kGlobalWorkTailShift == 0x11e90);
 
 } // namespace nocturne

@@ -4,13 +4,14 @@
 
 #include <cstdint>
 
+#include "nocturne/address.hpp"
 #include "nocturne/guest.hpp"
 
 namespace nocturne::nb {
 
 namespace {
 
-constexpr uint32_t kPartyShown = 0x0055123d;   // uint8 (gp-relative): the party's panel shown
+constexpr uint32_t kPartyShown = addr(0x0055123d);   // uint8 (gp-relative): the party's panel shown
 
 } // namespace
 

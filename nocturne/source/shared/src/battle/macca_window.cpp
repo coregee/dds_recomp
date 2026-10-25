@@ -2,6 +2,7 @@
 // the original instructions.
 #include "nocturne/battle/macca_window.hpp"
 
+#include "nocturne/address.hpp"
 #include "nocturne/battle/process.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/external.hpp"
@@ -12,10 +13,10 @@ namespace nocturne::nb {
 
 namespace {
 
-constexpr uint32_t kProcessName = 0x00551560;   // "nb_maka"
-constexpr uint32_t kDigits = 0x00551568;        // char[10][8]: "0".."9"
-constexpr uint32_t kRunMaccaWindow = 0x0028f698;
-constexpr uint32_t kShutdownMaccaWindow = 0x0028f6f0;
+constexpr uint32_t kProcessName = addr(0x00551560);   // "nb_maka"
+constexpr uint32_t kDigits = addr(0x00551568);        // char[10][8]: "0".."9"
+constexpr uint32_t kRunMaccaWindow = addr(0x0028f698);
+constexpr uint32_t kShutdownMaccaWindow = addr(0x0028f6f0);
 
 } // namespace
 

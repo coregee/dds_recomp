@@ -90,6 +90,7 @@ void enterState(ActionProcessData& a, int32_t seq);     // enters a state
 int32_t runActionProcess(uint32_t process);               // the action process, each frame
 
 void enterNone(ActionProcessData& a);
+int32_t updateNone(ActionProcessData& a);
 void enterCommand(ActionProcessData& a);
 int32_t updateCommand(ActionProcessData& a);
 void enterAilment(ActionProcessData& a);

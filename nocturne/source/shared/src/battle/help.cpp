@@ -5,6 +5,7 @@
 
 #include <cstring>
 
+#include "nocturne/address.hpp"
 #include "nocturne/data/magatama.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/external.hpp"
@@ -14,16 +15,16 @@ namespace nocturne::nb {
 
 namespace {
 
-constexpr uint32_t kHelpName = 0x005514f0;   // "nb_help"
+constexpr uint32_t kHelpName = addr(0x005514f0);   // "nb_help"
 
 // String tables (guest pointers to EUC-JP / ASCII strings).
-constexpr uint32_t kSkillNames = 0x003e83f0;
-constexpr uint32_t kItemNames = 0x003e8170;
-constexpr uint32_t kMiscActionNames = 0x005263f8;   // two leftover Japanese strings
-constexpr uint32_t kBattleText = 0x003e8bf0;        // "Attack", "Retreat", "Pass", "Summon", ...
-constexpr uint32_t kDevilNames = 0x003e7328;
-constexpr uint32_t kRaceNames = 0x003e7930;
-constexpr uint32_t kPlayerRaceNames = 0x003e7a30;   // "Fiend", "Votary", ...
+constexpr uint32_t kSkillNames = addr(0x003e83f0);
+constexpr uint32_t kItemNames = addr(0x003e8170);
+constexpr uint32_t kMiscActionNames = addr(0x005263f8);   // two leftover Japanese strings
+constexpr uint32_t kBattleText = addr(0x003e8bf0);        // "Attack", "Retreat", "Pass", "Summon", ...
+constexpr uint32_t kDevilNames = addr(0x003e7328);
+constexpr uint32_t kRaceNames = addr(0x003e7930);
+constexpr uint32_t kPlayerRaceNames = addr(0x003e7a30);   // "Fiend", "Votary", ...
 
 constexpr uint32_t kWhite = 0x89feff80;
 constexpr uint32_t kNameColor = 0xa09dc380;
@@ -197,7 +198,7 @@ uint32_t newHelpLine()
 void startHelpLine(MainProcessData& data)
 {
     const uint32_t h = newHelpLine();
-    const uint32_t process = dds3::StartProcess(kHelpName, 0x3f9, 1, 1, 0x00289630, 0x002898c0, h);
+    const uint32_t process = dds3::StartProcess(kHelpName, 0x3f9, 1, 1, addr(0x00289630), addr(0x002898c0), h);
     dds3::LinkProcess(data.MainProcessID, process);
     data.HelpProcessID = process;
 }

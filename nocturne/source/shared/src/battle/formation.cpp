@@ -3,6 +3,7 @@
 // marked).
 #include "nocturne/battle/formation.hpp"
 
+#include "nocturne/address.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
 
@@ -160,6 +161,6 @@ ee::Float summonInterval() { return ee::Float::fromBits(0x42480000); }  // 50.0
 // nbFormationGetRadiusDef @ 0x0028A320
 ee::Float defaultRadius() { return ee::Float::fromBits(0x42c80000); }   // 100.0
 // nbGetEnemyInterval @ 0x0028A338: a setting (gp global 0x5514FC).
-ee::Float enemyInterval() { return *guest::table<ee::Float>(0x005514fc); }
+ee::Float enemyInterval() { return *guest::table<ee::Float>(addr(0x005514fc)); }
 
 } // namespace nocturne::nb

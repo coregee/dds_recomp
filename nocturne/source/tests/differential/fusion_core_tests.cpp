@@ -46,7 +46,7 @@ uint64_t ps2FusionCore_001FF790(uint64_t p0, uint64_t p1, uint64_t p2, uint64_t 
 namespace difftest {
 namespace {
 
-constexpr uint32_t kUnits = FW_GLOBAL + 0xa54;
+constexpr uint32_t kUnits = FW_GLOBAL + static_cast<uint32_t>(offsetof(nocturne::GlobalWork, units));
 constexpr uint32_t kResult = FW_ENEMIES;            // a spare unit for results
 constexpr uint32_t kIds = FW_SCRATCH;               // uint16_t[3]
 constexpr uint32_t kRaces = FW_SCRATCH + 8;         // uint8_t[3]

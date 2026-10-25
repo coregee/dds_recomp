@@ -66,8 +66,8 @@ uint64_t ps2CompendiumRestore_00216B20(uint64_t p0);
 namespace difftest {
 namespace {
 
-constexpr uint32_t kUnits = FW_GLOBAL + 0xa54;
-constexpr uint32_t kRecords = FW_GLOBAL + 0x11e90;
+constexpr uint32_t kUnits = FW_GLOBAL + static_cast<uint32_t>(offsetof(nocturne::GlobalWork, units));
+constexpr uint32_t kRecords = FW_GLOBAL + static_cast<uint32_t>(offsetof(nocturne::GlobalWork, encyc_records));
 constexpr uint32_t kScratchUnit = FW_ENEMIES;      // a spare unit
 constexpr uint32_t kScratchRecord = FW_ENEMIES + 0x100;
 constexpr uint32_t kList = FW_SCRATCH;             // byte / int16 lists, skill info

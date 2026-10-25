@@ -102,14 +102,14 @@ HitType rollCritical(ActionProcessData& action, int32_t skill, int32_t source, i
 
 // nbGetKoukaType @ 0x00265948: Repel, then Drain and Null, which Pierce lets
 // physical skills through (flagging it).
-bool affinityOutcome(int32_t, const NormalSkill& s, const UnitWork& attacker, Affinity affinity, MainProcessData& data,
+bool affinityOutcome(int32_t skill, const NormalSkill& /*s*/, const UnitWork& attacker, Affinity affinity, MainProcessData& data,
                      EffectResult& outcome)
 {
     if (affinity.has(Affinity::Repel)) {
         outcome = EffectResult::Repel;
         return true;
     }
-    if (dat::hasSkill(attacker, skill::Pierce) && s.damageClass == 0) {
+    if (piercesResistance(attacker, skill)) {   // Pierce (affinity.cpp), for physical skills
         if (affinity.raw & (Affinity::Null | Affinity::Drain))
             data.piercedResistance = 1;
         return false;

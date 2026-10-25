@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <cstring>
 
+#include "nocturne/address.hpp"
 #include "nocturne/battle/combatant.hpp"
 #include "nocturne/battle/encount.hpp"
 #include "nocturne/data/records.hpp"
@@ -17,9 +18,9 @@ namespace nocturne::nb {
 
 namespace {
 
-constexpr uint32_t kSoundModels = 0x003e7028;   // uint16_t[]: the unit whose banks a unit uses
-constexpr uint32_t kSoundPath = 0x00575450;     // char[]: a bank's file name
-constexpr uint32_t kHandleSize = 0x002a8fe8;    // (no C yet) a memory handle's size
+constexpr uint32_t kSoundModels = addr(0x003e7028);   // uint16_t[]: the unit whose banks a unit uses
+constexpr uint32_t kSoundPath = addr(0x00575450);     // char[]: a bank's file name
+constexpr uint32_t kHandleSize = addr(0x002a8fe8);    // (no C yet) a memory handle's size
 constexpr uint32_t kSharedBank = 0x10000;       // requested with the table
 constexpr uint32_t kStatMotionSound = 0x200;    // MainProcessData::stat: a motion's bank was sent
 
@@ -36,7 +37,7 @@ struct MusicState {
 };
 static_assert(sizeof(MusicState) == 0x20);
 
-MusicState& music() { return *guest::table<MusicState>(0x00551524); }
+MusicState& music() { return *guest::table<MusicState>(addr(0x00551524)); }
 
 // The normal battles' pieces (types 1..3), one per battle in turn.
 constexpr uint32_t kTypeOnePieces[7] = {0x160000, 0x170000, 0x180000, 0x190000, 0x1a0000, 0x1b0000, 0x1c0000};
@@ -105,7 +106,7 @@ bool loadTalkSound(const Formation& form)
 {
     GetMainProcessData();
     if (snd::BankStatus(formationTalkBank(form)) != 0) {
-        scr::scrPrintf(0x00545bc0);   // "negoSE_ok!"
+        scr::scrPrintf(optionalAddr(0x00545bc0));   // "negoSE_ok!"
         return true;
     }
     const int32_t index = findUnitSounds(static_cast<uint32_t>(formationUnitId(form)));
@@ -129,7 +130,7 @@ bool loadMotionSound(const Formation& form, int32_t motion)
         return false;
     diag::print(diag::Message::MotionMidi, static_cast<int32_t>(bank));
     if (snd::BankStatus(bank) != 0) {
-        scr::scrPrintf(0x00545be0);   // "motSE_ok!"
+        scr::scrPrintf(optionalAddr(0x00545be0));   // "motSE_ok!"
         return true;
     }
     const int32_t index = findUnitSounds(static_cast<uint32_t>(formationUnitId(form)));
@@ -182,7 +183,7 @@ int32_t requestUnitSounds(uint32_t id)
         if (bank == 0)
             continue;
         e->requests[i] = requestBank(bank);
-        scr::scrPrintf(0x00545c08, kSoundPath);   // "load %s"
+        scr::scrPrintf(optionalAddr(0x00545c08), kSoundPath);   // "load %s"
     }
     e->talkRequest = requestBank(talkBank(static_cast<int32_t>(id)));
     return 1;

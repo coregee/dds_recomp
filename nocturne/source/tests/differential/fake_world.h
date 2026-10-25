@@ -47,7 +47,8 @@ enum {
     FW_MAKA       = 0x011b2780,   /* nbMakaProcessData (the Macca window; 0x40 bytes) */
     FW_MAKA_PROCESS = 0x00777400, /* the "nb_maka" process (only its data is real) */
     FW_MODELS     = 0x011b27c0,   /* the formations' model objects and unit handles (0x540 bytes) */
-    FW_DYNAMIC_END   = 0x011b2d00,
+    FW_SHOP       = 0x011b2d00,   /* the shop's work (fclShopWork, 0x2290 bytes) */
+    FW_DYNAMIC_END   = 0x011b5000,
     /* Guest stack for legacy code that allocates on it (not compared). */
     FW_STACK_TOP     = 0x01300000,
 };
@@ -79,6 +80,9 @@ void fw_begin_case(uint64_t seed, int normal_difficulty, uint32_t moon_age);
  * ps2LibcPrintf. */
 void fw_record_print(uint32_t format, const int64_t *args);
 int fw_print_arg_count(uint32_t format);
+/* The US Maniax address of one of the version's (version_map.cpp). */
+uint32_t fw_maniax_address(uint32_t address);
+int fw_other_version(void);   /* not US Maniax's addresses (version_map.cpp) */
 
 /* A BREAK 7 trap: longjmps to the harness. */
 #ifdef __cplusplus

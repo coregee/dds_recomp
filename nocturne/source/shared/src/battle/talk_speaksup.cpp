@@ -6,6 +6,7 @@
 // tells something, gives Macca or an item, or just leaves. Rewritten from
 // the original instructions. Messages are in the demon's flow table or the
 // help table.
+#include "nocturne/address.hpp"
 #include "nocturne/battle/talk_flow.hpp"
 
 #include "nocturne/data/ids.hpp"
@@ -25,7 +26,7 @@ constexpr int32_t kAmbushTalk = 2;   // TalkState::talkType
 // [DevilTalkFormat::lastEnemyTalkIndex][3] percent weights: question 12_3,
 // question 12_4, or no question (12_24). (The six rows in use are all
 // 33, 33, 34.)
-constexpr uint32_t kSpeakUpWeights = 0x003e2470;
+constexpr uint32_t kSpeakUpWeights = addr(0x003e2470);
 
 int32_t flowWindow(const TalkState& n) { return n.flowmsg[n.ekucyo]; }
 

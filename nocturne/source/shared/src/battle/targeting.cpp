@@ -1,6 +1,7 @@
 // Which combatants an action can target (original unit: nbCalc / nbTarSel).
 #include "nocturne/battle/targeting.hpp"
 
+#include "nocturne/address.hpp"
 #include "nocturne/battle/combatant.hpp"
 #include "nocturne/data/ids.hpp"
 #include "nocturne/data/progression.hpp"
@@ -12,7 +13,7 @@ namespace nocturne::nb {
 
 namespace {
 
-constexpr uint32_t kTargetSelectName = 0x005442b8;   // "nb_tarsel"
+constexpr uint32_t kTargetSelectName = addr(0x005442b8);   // "nb_tarsel"
 
 Formation& slot(const MainProcessData& main, int32_t index)
 {

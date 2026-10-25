@@ -9,6 +9,7 @@
 
 #include <cstdint>
 
+#include "nocturne/address.hpp"
 #include "nocturne/battle/process.hpp"
 #include "nocturne/data/records.hpp"
 #include "nocturne/data/types.hpp"
@@ -286,110 +287,110 @@ ee::Float GetRandFloat();            // uniform in [0, 1)
 // format string so a host build can print the original Japanese text.
 namespace diag {
 enum class Message : uint32_t {
-    Critical         = 0x005449c0, // "critical p:%d, z = %d, a = %d"
-    PhysicalHitRate  = 0x005449e0, // 物理ヒット率 = %d   (physical hit rate)
-    MagicHitRate     = 0x005449f8, // 魔法ヒット率 = %d   (magic hit rate)
-    StoneShatterRate = 0x00544bf8, // 石化一撃確率 = %d   (stone one-hit chance)
-    AilmentRecovery  = 0x00544c10, // バットステータス回復確率 = %d
-    FirstStrike      = 0x00544d70, // 先制率 Plv, Elv, Tbl, z, rnd
-    BackAttack       = 0x00544da8, // バックアタック確率 X, Y, B, rand
-    EscapeRate       = 0x00544de0, // 逃走率 = %d
-    ConsecutiveRate  = 0x00544df0, // "renzoku ritu = %d, index = %d"
-    Miss             = 0x00551140, // "MISS!!"
-    AttackRatio      = 0x00544d00, // "atkritu = %f"
-    DefenseRatio     = 0x00544d10, // "defritu = %f"
-    MagicHeal        = 0x00544d30, // 回復 waza = %d, atkritu = %f 回復値=%d (heal: power, ratio, amount)
-    StingerVsBoss    = 0x00544b48, // "DANTE SUTING BOSS NG..."
-    CurseKillBlocked = 0x00544b68, // "SIBAE JYUSATU TAISEI ARI NG..." (target resists Death)
-    PestilenceNoPoison = 0x00544b88, // "PESTO POISON NASI NG..."
-    AilmentChance    = 0x00544ba8, // バッドステータス反映確率 waza:%d aisyo:%d ritu:%d rnd:%d
-    AilmentCureRate  = 0x00544be8, // "bad ritu:%f"
-    ResetLevel       = 0x00543188, // "YAMI-B Lv:%d"
-    ResetExp         = 0x00543198, // "YAMI-B Exp:%d"
-    FusionAccident   = 0x0053caf8, // "Combione accident!!!..." (passed the accident type)
-    CompendiumFull   = 0x0053d7e8, // "****** FATAL!! The encyclopedia record is bound to burst!!!"
-    AiActionTable    = 0x00545830, // "Koukatbl = %d" (the action chosen)
-    DidPhysical      = 0x00544070, // 物理攻撃を行った (made a physical attack): an action's stat bits 0x10000..
-    DidMagicAttack   = 0x00544088, // 魔法攻撃を行った (made a magic attack)
-    DidHeal          = 0x005440a0, // 回復を行った (healed)
-    DidMagic         = 0x005440b0, // 魔法を使用した (used magic)
-    DidItem          = 0x005440c0, // アイテムを使用した (used an item)
-    DidSummon        = 0x005440d8, // 召喚を行った (summoned)
-    AilmentWeight          = 0x00545d40, // BAD行動確率 type:%d ritu:%d (an ailment action's weight)
-    AdpcmPlaying     = 0x005440e8, // AD-PCM再生中! (a streamed voice is playing)
-    SkillSkill       = 0x00546138, // すきるすきる＝%d ("skill skill = %d", a menu skill checked)
-    DeadFormindex    = 0x00544030, // "dead formindex = %d!!"
-    AllFrame         = 0x00544048, // "allframe %d" (an action's length)
-    PrevCommind      = 0x00544058, // "prev commind = %d"
-    Returning        = 0x00544020, // 帰還します (a devil returns to the stock)
-    AhrimanCounter   = 0x00543880, // アーリマンカウンター発生!!! (Ahriman counters)
-    Counter          = 0x005438c0, // カウンター発生!!! (a counter)
-    BegForLifeSide       = 0x005438d8, // "inoti party = %d (%X)" (an enemy begs for its life)
-    AskToJoinSide       = 0x005438f0, // "binjo party = %d" (an enemy asks to join)
-    EscapeErrParty   = 0x00543908, // "escape err party" (a free hit after a failed escape)
-    TalkResult       = 0x00543fb8, // "nego result = %d"
-    HitHp            = 0x00543780, // "HP damage = %d, kaifuku = %d" (a hit's damage and healing)
-    HitMp            = 0x005437a0, // "MP damage = %d, kaifuku = %d"
-    HitMiss          = 0x005437c0, // "MISS!!!" (a hit that did nothing)
-    HitCount         = 0x005437f8, // 攻撃回数=%d, select = 0x%08X (hits; EUC-JP)
-    BedName          = 0x00543b30, // "name [%d]:%s" (a skill's effect file)
-    MidiName         = 0x00543b58, // "MIDI :%s" (its sound file)
-    ActTime          = 0x00543b68, // "acttime = %d" (frames to the hit)
-    SelectBits       = 0x00543b78, // "select %d -> %08X"
-    MotionSoundWait        = 0x00543ce0, // "mot se wait(1).."
-    SeSize           = 0x00543cf8, // "se size = %d"
-    LoadSeOrBed      = 0x00543d18, // "load se or bed"
-    SeOk             = 0x00543d40, // "se ok!! [%08X]"
-    SeWait2          = 0x00543d50, // "se wait(2).."
-    BedOk            = 0x00543d70, // "bed ok!!"
-    LoadBed          = 0x00543d80, // "load bed"
-    TalkSides        = 0x00543fa8, // "NEGO p:%d e:%d" (the talks' two slots)
-    ItemNo           = 0x005439f8, // "item no = %d" (an item chosen in the menu)
-    SkillNo          = 0x00543a08, // "skill no = %d" (the skill it uses)
-    AiTable          = 0x00545840, // "AItbl = %d"
-    AiNoSkill        = 0x005457d8, // "no skill"
-    AiNoTarget       = 0x005457e8, // "taisyo nashi!!!" (no target)
-    SkillRewritten   = 0x00544170, // スキル書き換え!! (normal attack data rewritten)
-    NoMessagePage    = 0x00535a80, // "itfMesMngRequestMessage() escape 1" (a message with no pages)
-    NotASelection    = 0x00535aa8, // "itfMesMngRequestSelect() - Invalid Type : %d"
-    NameTranslate    = 0x00535998, // "NAME[%d] : Translate." (an entered name's glyphs loaded)
-    NameRestore      = 0x005359b0, // "NAME[%d] : Restore." (and freed)
-    ProcedureStart   = 0x0052e270, // "procedure start <%s>"
-    ProcedureEnd     = 0x0052e2b8, // "procedure end <%s>"
-    ScriptsBefore    = 0x0052e2e0, // "before = %d" (scripts running)
-    ScriptRelease    = 0x0052e2f0, // "scrAllReleaseScript <%s>"
-    ScriptKillProcess = 0x0052e310, // "dds3KillProcess"
-    ScriptReleaseWork = 0x0052e328, // "scrReleaseScript"
-    ScriptsAfter     = 0x0052e340, // "after = %d"
-    ScriptRunWithoutProcess = 0x0052f5e8, // SCR_RUN from a script without a process (EUC-JP)
-    ScriptPut        = 0x0052f588, // "put -> %d"
-    ScriptPuts       = 0x0052f5a8, // "puts -> %s"
-    CutCreate        = 0x00544518, // "cutcreate 3" (a skill effect packet's cut starts)
-    NoInvoker        = 0x00532f90, // "effBTL:InvokeForm == NULL ****** !!"
-    SkillState       = 0x00532f20, // "effBTL:Set Stat[%X]" (what a skill did, for its effect)
-    SkillMotionCut   = 0x00543e10, // "mot %d, cut %d" (the first cut's hit and end frames)
-    SkillEffectResult = 0x00543e20, // スキル効果タイプ = %d (how the skill lands on a target)
-    SkillCut3Frames  = 0x00543e38, // "cut3 mottime:%d  endtime:%d" (the second cut's)
-    SkillTotalDamage = 0x00543e58, // トータルダメージ HP=%d, MP=%d
-    SkillEndFrame    = 0x00543e78, // "skill kouka end time = %d"
-    SkillFreeFrame   = 0x00543e98, // "skill kouka unlock time = %d"
-    NoBuffEffect     = 0x00543eb8, // "Kereijyou Koukaga nai ---" (a buff with nothing left to do)
-    SpeakUpLevels    = 0x00545218, // "plv = %d, elv = %d" (the same, for a demon speaking up)
-    TalkDrain        = 0x005451f8, // "drain = %d" (what a demon drains)
-    TalkDrainedHp    = 0x00545208, // "pwork hp = %d" (the talker's HP after)
-    BattleEvent      = 0x00545db0, // イベント起動 -> %d (an event starts)
-    TalkRequest      = 0x00544ff0, // "request = %d" (what a demon asks for)
-    TalkSelect       = 0x00545018, // "select = %d" (the answer to its demand)
-    TalkHelper       = 0x00545068, // 味方スキル発動! p[%d] id[%04X] (a helper's talk skill)
-    TalkLevels       = 0x005450e0, // "plv = %d, elv = %d" (the Demi-fiend's and the demon's levels)
-    TalkMessageEnd   = 0x00544f10, // "msg end" (a talk step's message read)
-    InfoChosen       = 0x00544e48, // "select info usemestype = %d mesno =%d" (nbGetInfoMsg)
-    InfoCounts       = 0x00544e70, // "normal_mesno = %d jouken_mesno = %d"
-    SkillPress       = 0x00543ee8, // "press %f" (the press turns the action used)
-    MotionMidi       = 0x00545bd0, // "MIDI=0x%08X" (a motion's sound bank)
-    BgmStop          = 0x00545ce0, // "nbBgmStop(%d,%d)"
-    EncounterRate    = 0x00545ba0, // エンカウント率 %d/%d (the encounter threshold rolled, and its base)
-    UnitLoadTime     = 0x00545cf8, // ">>> UNIT LOAD TIME = %d frame <<<"
+    Critical         = optionalAddr(0x005449c0), // "critical p:%d, z = %d, a = %d"
+    PhysicalHitRate  = optionalAddr(0x005449e0), // 物理ヒット率 = %d   (physical hit rate)
+    MagicHitRate     = optionalAddr(0x005449f8), // 魔法ヒット率 = %d   (magic hit rate)
+    StoneShatterRate = optionalAddr(0x00544bf8), // 石化一撃確率 = %d   (stone one-hit chance)
+    AilmentRecovery  = optionalAddr(0x00544c10), // バットステータス回復確率 = %d
+    FirstStrike      = optionalAddr(0x00544d70), // 先制率 Plv, Elv, Tbl, z, rnd
+    BackAttack       = optionalAddr(0x00544da8), // バックアタック確率 X, Y, B, rand
+    EscapeRate       = optionalAddr(0x00544de0), // 逃走率 = %d
+    ConsecutiveRate  = optionalAddr(0x00544df0), // "renzoku ritu = %d, index = %d"
+    Miss             = optionalAddr(0x00551140), // "MISS!!"
+    AttackRatio      = optionalAddr(0x00544d00), // "atkritu = %f"
+    DefenseRatio     = optionalAddr(0x00544d10), // "defritu = %f"
+    MagicHeal        = optionalAddr(0x00544d30), // 回復 waza = %d, atkritu = %f 回復値=%d (heal: power, ratio, amount)
+    StingerVsBoss    = optionalAddr(0x00544b48), // "DANTE SUTING BOSS NG..."
+    CurseKillBlocked = optionalAddr(0x00544b68), // "SIBAE JYUSATU TAISEI ARI NG..." (target resists Death)
+    PestilenceNoPoison = optionalAddr(0x00544b88), // "PESTO POISON NASI NG..."
+    AilmentChance    = optionalAddr(0x00544ba8), // バッドステータス反映確率 waza:%d aisyo:%d ritu:%d rnd:%d
+    AilmentCureRate  = optionalAddr(0x00544be8), // "bad ritu:%f"
+    ResetLevel       = optionalAddr(0x00543188), // "YAMI-B Lv:%d"
+    ResetExp         = optionalAddr(0x00543198), // "YAMI-B Exp:%d"
+    FusionAccident   = optionalAddr(0x0053caf8), // "Combione accident!!!..." (passed the accident type)
+    CompendiumFull   = optionalAddr(0x0053d7e8), // "****** FATAL!! The encyclopedia record is bound to burst!!!"
+    AiActionTable    = optionalAddr(0x00545830), // "Koukatbl = %d" (the action chosen)
+    DidPhysical      = optionalAddr(0x00544070), // 物理攻撃を行った (made a physical attack): an action's stat bits 0x10000..
+    DidMagicAttack   = optionalAddr(0x00544088), // 魔法攻撃を行った (made a magic attack)
+    DidHeal          = optionalAddr(0x005440a0), // 回復を行った (healed)
+    DidMagic         = optionalAddr(0x005440b0), // 魔法を使用した (used magic)
+    DidItem          = optionalAddr(0x005440c0), // アイテムを使用した (used an item)
+    DidSummon        = optionalAddr(0x005440d8), // 召喚を行った (summoned)
+    AilmentWeight          = optionalAddr(0x00545d40), // BAD行動確率 type:%d ritu:%d (an ailment action's weight)
+    AdpcmPlaying     = optionalAddr(0x005440e8), // AD-PCM再生中! (a streamed voice is playing)
+    SkillSkill       = optionalAddr(0x00546138), // すきるすきる＝%d ("skill skill = %d", a menu skill checked)
+    DeadFormindex    = optionalAddr(0x00544030), // "dead formindex = %d!!"
+    AllFrame         = optionalAddr(0x00544048), // "allframe %d" (an action's length)
+    PrevCommind      = optionalAddr(0x00544058), // "prev commind = %d"
+    Returning        = optionalAddr(0x00544020), // 帰還します (a devil returns to the stock)
+    AhrimanCounter   = optionalAddr(0x00543880), // アーリマンカウンター発生!!! (Ahriman counters)
+    Counter          = optionalAddr(0x005438c0), // カウンター発生!!! (a counter)
+    BegForLifeSide       = optionalAddr(0x005438d8), // "inoti party = %d (%X)" (an enemy begs for its life)
+    AskToJoinSide       = optionalAddr(0x005438f0), // "binjo party = %d" (an enemy asks to join)
+    EscapeErrParty   = optionalAddr(0x00543908), // "escape err party" (a free hit after a failed escape)
+    TalkResult       = optionalAddr(0x00543fb8), // "nego result = %d"
+    HitHp            = optionalAddr(0x00543780), // "HP damage = %d, kaifuku = %d" (a hit's damage and healing)
+    HitMp            = optionalAddr(0x005437a0), // "MP damage = %d, kaifuku = %d"
+    HitMiss          = optionalAddr(0x005437c0), // "MISS!!!" (a hit that did nothing)
+    HitCount         = optionalAddr(0x005437f8), // 攻撃回数=%d, select = 0x%08X (hits; EUC-JP)
+    BedName          = optionalAddr(0x00543b30), // "name [%d]:%s" (a skill's effect file)
+    MidiName         = optionalAddr(0x00543b58), // "MIDI :%s" (its sound file)
+    ActTime          = optionalAddr(0x00543b68), // "acttime = %d" (frames to the hit)
+    SelectBits       = optionalAddr(0x00543b78), // "select %d -> %08X"
+    MotionSoundWait        = optionalAddr(0x00543ce0), // "mot se wait(1).."
+    SeSize           = optionalAddr(0x00543cf8), // "se size = %d"
+    LoadSeOrBed      = optionalAddr(0x00543d18), // "load se or bed"
+    SeOk             = optionalAddr(0x00543d40), // "se ok!! [%08X]"
+    SeWait2          = optionalAddr(0x00543d50), // "se wait(2).."
+    BedOk            = optionalAddr(0x00543d70), // "bed ok!!"
+    LoadBed          = optionalAddr(0x00543d80), // "load bed"
+    TalkSides        = optionalAddr(0x00543fa8), // "NEGO p:%d e:%d" (the talks' two slots)
+    ItemNo           = optionalAddr(0x005439f8), // "item no = %d" (an item chosen in the menu)
+    SkillNo          = optionalAddr(0x00543a08), // "skill no = %d" (the skill it uses)
+    AiTable          = optionalAddr(0x00545840), // "AItbl = %d"
+    AiNoSkill        = optionalAddr(0x005457d8), // "no skill"
+    AiNoTarget       = optionalAddr(0x005457e8), // "taisyo nashi!!!" (no target)
+    SkillRewritten   = optionalAddr(0x00544170), // スキル書き換え!! (normal attack data rewritten)
+    NoMessagePage    = optionalAddr(0x00535a80), // "itfMesMngRequestMessage() escape 1" (a message with no pages)
+    NotASelection    = optionalAddr(0x00535aa8), // "itfMesMngRequestSelect() - Invalid Type : %d"
+    NameTranslate    = optionalAddr(0x00535998), // "NAME[%d] : Translate." (an entered name's glyphs loaded)
+    NameRestore      = optionalAddr(0x005359b0), // "NAME[%d] : Restore." (and freed)
+    ProcedureStart   = optionalAddr(0x0052e270), // "procedure start <%s>"
+    ProcedureEnd     = optionalAddr(0x0052e2b8), // "procedure end <%s>"
+    ScriptsBefore    = optionalAddr(0x0052e2e0), // "before = %d" (scripts running)
+    ScriptRelease    = optionalAddr(0x0052e2f0), // "scrAllReleaseScript <%s>"
+    ScriptKillProcess = optionalAddr(0x0052e310), // "dds3KillProcess"
+    ScriptReleaseWork = optionalAddr(0x0052e328), // "scrReleaseScript"
+    ScriptsAfter     = optionalAddr(0x0052e340), // "after = %d"
+    ScriptRunWithoutProcess = optionalAddr(0x0052f5e8), // SCR_RUN from a script without a process (EUC-JP)
+    ScriptPut        = optionalAddr(0x0052f588), // "put -> %d"
+    ScriptPuts       = optionalAddr(0x0052f5a8), // "puts -> %s"
+    CutCreate        = optionalAddr(0x00544518), // "cutcreate 3" (a skill effect packet's cut starts)
+    NoInvoker        = optionalAddr(0x00532f90), // "effBTL:InvokeForm == NULL ****** !!"
+    SkillState       = optionalAddr(0x00532f20), // "effBTL:Set Stat[%X]" (what a skill did, for its effect)
+    SkillMotionCut   = optionalAddr(0x00543e10), // "mot %d, cut %d" (the first cut's hit and end frames)
+    SkillEffectResult = optionalAddr(0x00543e20), // スキル効果タイプ = %d (how the skill lands on a target)
+    SkillCut3Frames  = optionalAddr(0x00543e38), // "cut3 mottime:%d  endtime:%d" (the second cut's)
+    SkillTotalDamage = optionalAddr(0x00543e58), // トータルダメージ HP=%d, MP=%d
+    SkillEndFrame    = optionalAddr(0x00543e78), // "skill kouka end time = %d"
+    SkillFreeFrame   = optionalAddr(0x00543e98), // "skill kouka unlock time = %d"
+    NoBuffEffect     = optionalAddr(0x00543eb8), // "Kereijyou Koukaga nai ---" (a buff with nothing left to do)
+    SpeakUpLevels    = optionalAddr(0x00545218), // "plv = %d, elv = %d" (the same, for a demon speaking up)
+    TalkDrain        = optionalAddr(0x005451f8), // "drain = %d" (what a demon drains)
+    TalkDrainedHp    = optionalAddr(0x00545208), // "pwork hp = %d" (the talker's HP after)
+    BattleEvent      = optionalAddr(0x00545db0), // イベント起動 -> %d (an event starts)
+    TalkRequest      = optionalAddr(0x00544ff0), // "request = %d" (what a demon asks for)
+    TalkSelect       = optionalAddr(0x00545018), // "select = %d" (the answer to its demand)
+    TalkHelper       = optionalAddr(0x00545068), // 味方スキル発動! p[%d] id[%04X] (a helper's talk skill)
+    TalkLevels       = optionalAddr(0x005450e0), // "plv = %d, elv = %d" (the Demi-fiend's and the demon's levels)
+    TalkMessageEnd   = optionalAddr(0x00544f10), // "msg end" (a talk step's message read)
+    InfoChosen       = optionalAddr(0x00544e48), // "select info usemestype = %d mesno =%d" (nbGetInfoMsg)
+    InfoCounts       = optionalAddr(0x00544e70), // "normal_mesno = %d jouken_mesno = %d"
+    SkillPress       = optionalAddr(0x00543ee8), // "press %f" (the press turns the action used)
+    MotionMidi       = optionalAddr(0x00545bd0), // "MIDI=0x%08X" (a motion's sound bank)
+    BgmStop          = optionalAddr(0x00545ce0), // "nbBgmStop(%d,%d)"
+    EncounterRate    = optionalAddr(0x00545ba0), // エンカウント率 %d/%d (the encounter threshold rolled, and its base)
+    UnitLoadTime     = optionalAddr(0x00545cf8), // ">>> UNIT LOAD TIME = %d frame <<<"
 };
 // Integer arguments are passed sign-extended; %f arguments are ee::Double bits.
 void print(Message message, int64_t a = 0, int64_t b = 0, int64_t c = 0, int64_t d = 0, int64_t e = 0);

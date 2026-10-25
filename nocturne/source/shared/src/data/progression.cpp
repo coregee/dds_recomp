@@ -3,6 +3,7 @@
 
 #include <cstring>
 
+#include "nocturne/address.hpp"
 #include "nocturne/data/ids.hpp"
 #include "nocturne/data/magatama.hpp"
 #include "nocturne/facility/compendium.hpp"
@@ -203,7 +204,7 @@ void initPlayer()
 {
     GlobalWork& global = globalWork();
     std::memset(global.units, 0, sizeof global.units);
-    std::memcpy(&global.units[0], guest::table<uint8_t>(0x003493c0), 0xe8);
+    std::memcpy(&global.units[0], guest::table<uint8_t>(addr(0x003493c0)), 0xe8);
     global.stock_list[0] = 0;
     global.stock_count = 1;
     global.macca = 0;
@@ -481,7 +482,7 @@ void recoverPartyWhileWalking()
 // An optional event bit (0 in the shipped game) can disable it.
 uint16_t luckyFindOwner()
 {
-    int32_t requiredEvent = *guest::table<const int32_t>(0x003dc920);
+    int32_t requiredEvent = *guest::table<const int32_t>(addr(0x003dc920));
     if (requiredEvent && !evt::BitCheck(requiredEvent))
         return 0;
     for (const UnitWork& unit : globalWork().units) {
@@ -542,7 +543,7 @@ int32_t reasonRank(int32_t rank)
 
 namespace {
 
-const BossPress* bossPresses() { return guest::table<const BossPress>(0x003fa430); }
+const BossPress* bossPresses() { return guest::table<const BossPress>(addr(0x003fa430)); }
 constexpr int kBossPresses = 40;
 
 } // namespace

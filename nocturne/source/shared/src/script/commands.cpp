@@ -1,6 +1,7 @@
 // The FlowScript commands every script can use (original unit: scrCommonCommand).
 #include "nocturne/script/commands.hpp"
 
+#include "nocturne/address.hpp"
 #include "nocturne/ee/float.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/kernel/draw.hpp"
@@ -54,7 +55,7 @@ int32_t scrCommand_WAIT()
 int32_t scrCommand_PUT()
 {
     diag::print(diag::Message::ScriptPut, scrGetIntPara(0));
-    scrPrintf(0x0052f598, static_cast<uint32_t>(scrGetIntPara(0)));
+    scrPrintf(optionalAddr(0x0052f598), static_cast<uint32_t>(scrGetIntPara(0)));
     return 1;
 }
 
@@ -62,7 +63,7 @@ int32_t scrCommand_PUT()
 int32_t scrCommand_PUTS()
 {
     diag::print(diag::Message::ScriptPuts, scrGetStrPara(0));
-    scrPrintf(0x0052f5b8, scrGetStrPara(0));
+    scrPrintf(optionalAddr(0x0052f5b8), scrGetStrPara(0));
     return 1;
 }
 
@@ -110,7 +111,7 @@ namespace {
 
 // The pad manager's state of each button (DDS3_PADCHECK_*): bit 7 when
 // pressed this frame, bit 0 while held.
-int8_t padButton(int32_t button) { return guest::table<int8_t>(0x005298c8)[button]; }
+int8_t padButton(int32_t button) { return guest::table<int8_t>(addr(0x005298c8))[button]; }
 
 } // namespace
 
@@ -207,9 +208,9 @@ int32_t scrCommand_PAD_ACT()
 // 5 and 180 (a check written for degrees), so ordinary angles never apply.
 int32_t scrCommand_SET_FOVY()
 {
-    const ee::Float fovy = ee::Float::fromBits(scrGetFloatPara(0)) * *guest::table<ee::Float>(0x0054c194);   // pi / 180
+    const ee::Float fovy = ee::Float::fromBits(scrGetFloatPara(0)) * *guest::table<ee::Float>(addr(0x0054c194));   // pi / 180
     if (fovy <= ee::Float(5.0f) || ee::Float(180.0f) <= fovy) {
-        scrPrintf(0x0052f5c8);   // "WARNING: SET_FOVY over = %f"
+        scrPrintf(optionalAddr(0x0052f5c8));   // "WARNING: SET_FOVY over = %f"
         return 1;
     }
     dds3::dds3SetScreenFovy(fovy);
@@ -296,9 +297,9 @@ int32_t scrCommand_SCENE_LIGHT_RGB()
 int32_t scrCommand_SCENE_LIGHT_DIR()
 {
     const ee::Float x = floatPara(1), y = floatPara(2), z = floatPara(3);
-    const ee::Float least = *guest::table<ee::Float>(0x0054c198);   // 0.01
+    const ee::Float least = *guest::table<ee::Float>(addr(0x0054c198));   // 0.01
     if (x.abs() <= least && y.abs() <= least && z.abs() <= least) {
-        scrPrintf(0x0052f630);   // "WARNING: SCENE_LIGHT_DIR length zero"
+        scrPrintf(optionalAddr(0x0052f630));   // "WARNING: SCENE_LIGHT_DIR length zero"
         return 1;
     }
     dds3::dds3SetLightDir(static_cast<uint32_t>(scrGetIntPara(0)), 0, {x, y, z, ee::Float::fromBits(0)});
@@ -494,7 +495,7 @@ int32_t scrCommand_BLUR2_PARA()
 {
     const int32_t mode = scrGetIntPara(2);
     if (mode < 0 || mode > 2)
-        scrPrintf(0x0052f658);   // "error: BLUR2_PARA blend"
+        scrPrintf(optionalAddr(0x0052f658));   // "error: BLUR2_PARA blend"
     const int32_t blend = blurBlend(mode);
     const ee::Float rotate = floatPara(0);
     dds3::dds3SetBlur2Para(rotate, floatPara(1), blend);
@@ -540,7 +541,7 @@ int32_t scrCommand_BLUR2_OFF()
 // scrCommand_FILTER2_PARA @ 0x0010CB70: FILTER2_PARA(blend)
 int32_t scrCommand_FILTER2_PARA()
 {
-    dds3::dds3SetFilter2Para(filterBlend(scrGetIntPara(0), 0x0052f678));   // "error: FILTER2_PARA blend"
+    dds3::dds3SetFilter2Para(filterBlend(scrGetIntPara(0), addr(0x0052f678)));   // "error: FILTER2_PARA blend"
     return 1;
 }
 
@@ -575,7 +576,7 @@ int32_t scrCommand_FILTER2_OFF()
 // scrCommand_MFILTER_PARA @ 0x0010CCF0: MFILTER_PARA(blend)
 int32_t scrCommand_MFILTER_PARA()
 {
-    dds3::dds3SetMFilterPara(filterBlend(scrGetIntPara(0), 0x0052f698));   // "error: MFILTER_PARA blend"
+    dds3::dds3SetMFilterPara(filterBlend(scrGetIntPara(0), addr(0x0052f698)));   // "error: MFILTER_PARA blend"
     return 1;
 }
 
@@ -644,54 +645,54 @@ struct Command {
 };
 
 constexpr Command kCommands[] = {
-    {0x0010b888, scrCommand_BIT_CHK},       {0x0010b8b8, scrCommand_BIT_ON},
-    {0x0010b8e0, scrCommand_BIT_OFF},       {0x0010b908, scrCommand_RND},
-    {0x0010b940, scrCommand_SYNC},          {0x0010b960, scrCommand_WAIT},
-    {0x0010b9a8, scrCommand_PUT},           {0x0010b9f0, scrCommand_PUTS},
-    {0x0010ba38, scrCommand_FADE_IN},       {0x0010bad8, scrCommand_FADE_OUT},
-    {0x0010bb78, scrCommand_SEL_JMP},       {0x0010bbd0, scrCommand_PAD_TRIG},
-    {0x0010bc08, scrCommand_PAD_PRESS},     {0x0010bc40, scrCommand_PAD_ACT},
-    {0x0010bc98, scrCommand_SET_FOVY},      {0x0010bd20, scrCommand_SCR_RUN},
-    {0x0010bde0, scrCommand_SCR_KILL},      {0x0010be28, scrCommand_SCR_WAIT},
-    {0x0010be50, scrCommand_SCR_STAT},      {0x0010be98, scrCommand_SCR_TIME},
-    {0x0010bef8, scrCommand_QUAKE_ON},      {0x0010bf38, scrCommand_QUAKE_OFF},
-    {0x0010bf58, scrCommand_SCENE_LIGHT_RGB}, {0x0010bfd0, scrCommand_SCENE_LIGHT_DIR},
-    {0x0010c080, scrCommand_SCENE_AMBIENT},
-    {0x0010c0f0, scrCommand_SCENE_FOG_RGB}, {0x0010c148, scrCommand_SCENE_FOG_PARA},
-    {0x0010c280, scrCommand_SOFTEN_BIAS},   {0x0010c2d8, scrCommand_BLUR},          {0x0010c330, scrCommand_MUL_BLUR_PARA},
-    {0x0010c3b8, scrCommand_MUL_BLUR_RGBA}, {0x0010c440, scrCommand_MUL_BLUR_AREA},
-    {0x0010c498, scrCommand_MUL_BLUR_SWAP}, {0x0010c4c0, scrCommand_MUL_BLUR_ON},
-    {0x0010c4e8, scrCommand_MUL_BLUR_OFF},  {0x0010c510, scrCommand_DIST_BLUR_PARA},
-    {0x0010c5f8, scrCommand_DIST_BLUR_RGBA}, {0x0010c680, scrCommand_DIST_BLUR_AREA},
-    {0x0010c6d8, scrCommand_DIST_BLUR_SWAP}, {0x0010c700, scrCommand_DIST_BLUR_ON},
-    {0x0010c728, scrCommand_DIST_BLUR_OFF}, {0x0010c750, scrCommand_RIP_BLUR_PARA},
-    {0x0010c838, scrCommand_RIP_BLUR_RGBA}, {0x0010c8c0, scrCommand_RIP_BLUR_AREA},
-    {0x0010c918, scrCommand_RIP_BLUR_SWAP}, {0x0010c940, scrCommand_RIP_BLUR_ON},
-    {0x0010c968, scrCommand_RIP_BLUR_OFF},  {0x0010c990, scrCommand_BLUR2_PARA},
-    {0x0010ca30, scrCommand_BLUR2_RGBA},    {0x0010cab8, scrCommand_BLUR2_AREA},
-    {0x0010caf8, scrCommand_BLUR2_SWAP},    {0x0010cb20, scrCommand_BLUR2_ON},
-    {0x0010cb48, scrCommand_BLUR2_OFF},     {0x0010cb70, scrCommand_FILTER2_PARA},
-    {0x0010cbf0, scrCommand_FILTER2_RGBA},  {0x0010cc78, scrCommand_FILTER2_SWAP},
-    {0x0010cca0, scrCommand_FILTER2_ON},    {0x0010ccc8, scrCommand_FILTER2_OFF},
-    {0x0010ccf0, scrCommand_MFILTER_PARA},  {0x0010cd70, scrCommand_MFILTER_RGBA},
-    {0x0010cdf8, scrCommand_MFILTER_AREA},  {0x0010ce50, scrCommand_MFILTER_SWAP},
-    {0x0010ce78, scrCommand_MFILTER_ON},    {0x0010cea0, scrCommand_MFILTER_OFF},
-    {0x0010cec8, scrCommand_BLUR_ALLOFF},   {0x0010cf10, scrCommand_FILTER_ALLOFF},
+    {addr(0x0010b888), scrCommand_BIT_CHK},       {addr(0x0010b8b8), scrCommand_BIT_ON},
+    {addr(0x0010b8e0), scrCommand_BIT_OFF},       {addr(0x0010b908), scrCommand_RND},
+    {addr(0x0010b940), scrCommand_SYNC},          {addr(0x0010b960), scrCommand_WAIT},
+    {addr(0x0010b9a8), scrCommand_PUT},           {addr(0x0010b9f0), scrCommand_PUTS},
+    {addr(0x0010ba38), scrCommand_FADE_IN},       {addr(0x0010bad8), scrCommand_FADE_OUT},
+    {addr(0x0010bb78), scrCommand_SEL_JMP},       {addr(0x0010bbd0), scrCommand_PAD_TRIG},
+    {addr(0x0010bc08), scrCommand_PAD_PRESS},     {addr(0x0010bc40), scrCommand_PAD_ACT},
+    {addr(0x0010bc98), scrCommand_SET_FOVY},      {addr(0x0010bd20), scrCommand_SCR_RUN},
+    {addr(0x0010bde0), scrCommand_SCR_KILL},      {addr(0x0010be28), scrCommand_SCR_WAIT},
+    {addr(0x0010be50), scrCommand_SCR_STAT},      {addr(0x0010be98), scrCommand_SCR_TIME},
+    {addr(0x0010bef8), scrCommand_QUAKE_ON},      {addr(0x0010bf38), scrCommand_QUAKE_OFF},
+    {addr(0x0010bf58), scrCommand_SCENE_LIGHT_RGB}, {addr(0x0010bfd0), scrCommand_SCENE_LIGHT_DIR},
+    {addr(0x0010c080), scrCommand_SCENE_AMBIENT},
+    {addr(0x0010c0f0), scrCommand_SCENE_FOG_RGB}, {addr(0x0010c148), scrCommand_SCENE_FOG_PARA},
+    {addr(0x0010c280), scrCommand_SOFTEN_BIAS},   {addr(0x0010c2d8), scrCommand_BLUR},          {addr(0x0010c330), scrCommand_MUL_BLUR_PARA},
+    {addr(0x0010c3b8), scrCommand_MUL_BLUR_RGBA}, {addr(0x0010c440), scrCommand_MUL_BLUR_AREA},
+    {addr(0x0010c498), scrCommand_MUL_BLUR_SWAP}, {addr(0x0010c4c0), scrCommand_MUL_BLUR_ON},
+    {addr(0x0010c4e8), scrCommand_MUL_BLUR_OFF},  {addr(0x0010c510), scrCommand_DIST_BLUR_PARA},
+    {addr(0x0010c5f8), scrCommand_DIST_BLUR_RGBA}, {addr(0x0010c680), scrCommand_DIST_BLUR_AREA},
+    {addr(0x0010c6d8), scrCommand_DIST_BLUR_SWAP}, {addr(0x0010c700), scrCommand_DIST_BLUR_ON},
+    {addr(0x0010c728), scrCommand_DIST_BLUR_OFF}, {addr(0x0010c750), scrCommand_RIP_BLUR_PARA},
+    {addr(0x0010c838), scrCommand_RIP_BLUR_RGBA}, {addr(0x0010c8c0), scrCommand_RIP_BLUR_AREA},
+    {addr(0x0010c918), scrCommand_RIP_BLUR_SWAP}, {addr(0x0010c940), scrCommand_RIP_BLUR_ON},
+    {addr(0x0010c968), scrCommand_RIP_BLUR_OFF},  {addr(0x0010c990), scrCommand_BLUR2_PARA},
+    {addr(0x0010ca30), scrCommand_BLUR2_RGBA},    {addr(0x0010cab8), scrCommand_BLUR2_AREA},
+    {addr(0x0010caf8), scrCommand_BLUR2_SWAP},    {addr(0x0010cb20), scrCommand_BLUR2_ON},
+    {addr(0x0010cb48), scrCommand_BLUR2_OFF},     {addr(0x0010cb70), scrCommand_FILTER2_PARA},
+    {addr(0x0010cbf0), scrCommand_FILTER2_RGBA},  {addr(0x0010cc78), scrCommand_FILTER2_SWAP},
+    {addr(0x0010cca0), scrCommand_FILTER2_ON},    {addr(0x0010ccc8), scrCommand_FILTER2_OFF},
+    {addr(0x0010ccf0), scrCommand_MFILTER_PARA},  {addr(0x0010cd70), scrCommand_MFILTER_RGBA},
+    {addr(0x0010cdf8), scrCommand_MFILTER_AREA},  {addr(0x0010ce50), scrCommand_MFILTER_SWAP},
+    {addr(0x0010ce78), scrCommand_MFILTER_ON},    {addr(0x0010cea0), scrCommand_MFILTER_OFF},
+    {addr(0x0010cec8), scrCommand_BLUR_ALLOFF},   {addr(0x0010cf10), scrCommand_FILTER_ALLOFF},
     // scrParameterCommand
-    {0x0010cf38, addItem},            {0x0010cf78, addMagatama},
-    {0x0010cfa0, equipMagatama},             {0x0010cfe0, addMacca},
-    {0x0010d008, addMaccaPercent},        {0x0010d030, hasMacca},
-    {0x0010d078, damageParty},         {0x0010d0a0, healStock},
-    {0x0010d0d0, healStockSilently},       {0x0010d0f0, addDevil},
-    {0x0010d1a0, hasDevil},             {0x0010d1f0, storyDevilLeaves},
-    {0x0010d248, hasStoryDevil},            {0x0010d298, storyDevilId},
-    {0x0010d2c8, storyDevilMayLeave},        {0x0010d330, storyDevilMayNotLeave},
-    {0x0010d390, growStock},           {0x0010d3d0, stockFull},
-    {0x0010d410, playerStat},     {0x0010d440, addPlayerStat},
-    {0x0010d480, devilStat},     {0x0010d4c8, playerAlignment},
-    {0x0010d4f0, playerLevel},     {0x0010d518, devilDies},
-    {0x0010d540, isFirstPixie},    {0x0010d5e8, firstPixieId},
-    {0x0010d658, recordBossPress},       {0x0010d6a0, copyDevilStats},
+    {addr(0x0010cf38), addItem},            {addr(0x0010cf78), addMagatama},
+    {addr(0x0010cfa0), equipMagatama},             {addr(0x0010cfe0), addMacca},
+    {addr(0x0010d008), addMaccaPercent},        {addr(0x0010d030), hasMacca},
+    {addr(0x0010d078), damageParty},         {addr(0x0010d0a0), healStock},
+    {addr(0x0010d0d0), healStockSilently},       {addr(0x0010d0f0), addDevil},
+    {addr(0x0010d1a0), hasDevil},             {addr(0x0010d1f0), storyDevilLeaves},
+    {addr(0x0010d248), hasStoryDevil},            {addr(0x0010d298), storyDevilId},
+    {addr(0x0010d2c8), storyDevilMayLeave},        {addr(0x0010d330), storyDevilMayNotLeave},
+    {addr(0x0010d390), growStock},           {addr(0x0010d3d0), stockFull},
+    {addr(0x0010d410), playerStat},     {addr(0x0010d440), addPlayerStat},
+    {addr(0x0010d480), devilStat},     {addr(0x0010d4c8), playerAlignment},
+    {addr(0x0010d4f0), playerLevel},     {addr(0x0010d518), devilDies},
+    {addr(0x0010d540), isFirstPixie},    {addr(0x0010d5e8), firstPixieId},
+    {addr(0x0010d658), recordBossPress},       {addr(0x0010d6a0), copyDevilStats},
 };
 
 } // namespace

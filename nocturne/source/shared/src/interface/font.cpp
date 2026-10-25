@@ -10,6 +10,7 @@
 
 #include <cstring>
 
+#include "nocturne/address.hpp"
 #include "nocturne/ee/float.hpp"
 #include "nocturne/external.hpp"
 
@@ -17,15 +18,17 @@ namespace nocturne::fr {
 
 namespace {
 
-constexpr uint32_t kSettings = 0x0054f404;
-constexpr uint32_t kStyles = 0x0056ba30;
-constexpr uint32_t kTextureCells = 0x0056b668;
-constexpr uint32_t kStyleAdvance = 0x00326060;   // int8 per style: the default advance
-constexpr uint32_t kLastCode = 0x0054ea00;       // uint16: the last character laid out
-constexpr uint32_t kDecodedBytes = 0x00551ea0;   // int32: bytes the last glyph decoded to
-constexpr uint32_t kCodes416 = 0x00325b10;       // uint16[416]
-constexpr uint32_t kCodes264 = 0x00325e50;       // uint16[264]
-constexpr uint32_t kDrawOt = 0x0054f420;         // the ordering table texts are drawn into
+// The JP builds' font engine differs (docs/versions.md) and isn't ported
+// yet: what only the US engine has is optionalAddr (0 there).
+constexpr uint32_t kSettings = addr(0x0054f404);
+constexpr uint32_t kStyles = addr(0x0056ba30);
+constexpr uint32_t kTextureCells = addr(0x0056b668);
+constexpr uint32_t kStyleAdvance = addr(0x00326060);   // int8 per style: the default advance
+constexpr uint32_t kLastCode = optionalAddr(0x0054ea00);   // uint16: the last character laid out
+constexpr uint32_t kDecodedBytes = addr(0x00551ea0);   // int32: bytes the last glyph decoded to
+constexpr uint32_t kCodes416 = optionalAddr(0x00325b10);   // uint16[416]
+constexpr uint32_t kCodes264 = optionalAddr(0x00325e50);   // uint16[264]
+constexpr uint32_t kDrawOt = addr(0x0054f420);         // the ordering table texts are drawn into
 
 // Counters and pools (0x56BB74).
 struct Tables {
@@ -39,7 +42,7 @@ struct Tables {
     int32_t unknown_94, unknown_98, unknown_9c;
     int32_t texture_base;        // in 64-word blocks (TBP)
 };
-constexpr uint32_t kTables = 0x0056bb74;
+constexpr uint32_t kTables = optionalAddr(0x0056bb74);
 
 Tables& tables() { return *guest::table<Tables>(kTables); }
 TextureCells& textureCells() { return *guest::table<TextureCells>(kTextureCells); }
@@ -149,7 +152,7 @@ void frInitFontHandle(Request& pFRQ)
 // ---- fonts ---------------------------------------------------------------------------------
 
 namespace {
-constexpr uint32_t kStyleLoaded = 0x003261e8;    // int32 per style: 1 once loaded
+constexpr uint32_t kStyleLoaded = optionalAddr(0x003261e8);   // int32 per style: 1 once loaded
 int32_t& loaded(uint8_t s) { return guest::table<int32_t>(kStyleLoaded)[s]; }
 } // namespace
 
@@ -200,10 +203,10 @@ void frLoadStyle(uint8_t styleIndex, uint32_t name)
 // frLoadStyleAll @ 0x001C6CE0: the four fonts every screen uses.
 void frLoadStyleAll()
 {
-    frLoadStyle(0, 0x005358f0);
-    frLoadStyle(1, 0x00535900);
-    frLoadStyle(2, 0x00535910);
-    frLoadStyle(3, 0x00535920);
+    frLoadStyle(0, addr(0x005358f0));
+    frLoadStyle(1, addr(0x00535900));
+    frLoadStyle(2, addr(0x00535910));
+    frLoadStyle(3, addr(0x00535920));
 }
 
 // frDelFontStyle @ 0x001C6C70: unloads a style (0 and 1 stay).
@@ -715,7 +718,7 @@ void frDestroyFontRequestNow(Request* pFRQ)
 // current frame's list, freed when that buffer comes round again.
 void frDestroyFontRequestAfter(Request* pFRQ)
 {
-    uint32_t& pending = guest::table<uint32_t>(0x0056bbc4)[dds3::GetFrameIndex() & 0xff];
+    uint32_t& pending = guest::table<uint32_t>(addr(0x0056bbc4))[dds3::GetFrameIndex() & 0xff];
     pending = addressOf(frCombineFontRequestEx(at<Request>(pending), pFRQ, 0));
 }
 

@@ -17,6 +17,8 @@
 #include <utility>
 #include <vector>
 
+#include "version_map.hpp"
+
 namespace difftest::ee {
 
 struct Cpu {
@@ -40,9 +42,29 @@ using Hook = std::function<uint64_t(Cpu&)>;
 class Interpreter {
 public:
     // Calls to these addresses run the host function; its result goes in v0.
-    void hook(uint32_t address, Hook function) { hooks_[address] = std::move(function); }
+    // Addresses are US Maniax's, mapped for another build (version_map.hpp):
+    // a function the version doesn't have is left out.
+    void hook(uint32_t address, Hook function)
+    {
+        if (const uint32_t at = version::code(address))
+            hooks_[at] = std::move(function);
+    }
+    // A hook into US Maniax's legacy C, which reads US Maniax's addresses:
+    // on another build the function's own instructions run instead.
+    void hookUs(uint32_t address, Hook function)
+    {
+        if (!version::active())
+            hook(address, std::move(function));
+        else if (const uint32_t size = version::functionSize(address))
+            interpret(address, address + size);
+    }
     // Calls into [begin, end) run the original code.
-    void interpret(uint32_t begin, uint32_t end) { ranges_.push_back({begin, end}); }
+    void interpret(uint32_t begin, uint32_t end)
+    {
+        const uint32_t from = version::codeBegin(begin), to = version::codeEnd(end);
+        if (from && to > from)
+            ranges_.push_back({from, to});
+    }
 
     // Runs the function at `entry`; arguments after the eighth go on the stack,
     // float arguments in f12, f13... Returns v0 (a float result is in cpu.f[0]).

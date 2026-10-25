@@ -2,6 +2,7 @@
 // original instructions.
 #include "nocturne/battle/camera.hpp"
 
+#include "nocturne/address.hpp"
 #include "nocturne/effect/cut.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
@@ -11,8 +12,8 @@ namespace nocturne::nb {
 namespace {
 
 namespace address {
-constexpr uint32_t CameraCurrent = 0x00320e40;      // Camera
-constexpr uint32_t CameraStateTable = 0x00320c50;   // CameraStateTable[]
+constexpr uint32_t CameraCurrent = addr(0x00320e40);      // Camera
+constexpr uint32_t CameraStateTable = addr(0x00320c50);   // CameraStateTable[]
 } // namespace address
 
 } // namespace

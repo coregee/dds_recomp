@@ -1,6 +1,7 @@
 // Talks with a demon (original unit: nbNegoProcess): the talk's helpers.
 // Rewritten from the original instructions.
 #include "nocturne/battle/talk.hpp"
+#include "nocturne/address.hpp"
 #include "nocturne/battle/sound.hpp"
 #include "nocturne/battle/talk_flow.hpp"
 
@@ -21,15 +22,15 @@ namespace nocturne::nb {
 namespace {
 
 // Weighted choices (percent weights, summed in order until past a 0..99 roll).
-constexpr uint32_t kRequestWeights = 0x003e22a8;       // [reqtype][5]: what a demon asks for
-constexpr uint32_t kAskedItems = 0x003e2318;           // [level band][4] {item, weight}
-constexpr uint32_t kExtraRequestWeights = 0x003e23b8;  // [tuikareqtype][3]
-constexpr uint32_t kAskedItemsB = 0x003e23f8;          // [level band][3] {item, weight}
-constexpr uint32_t kMaccaRate = 0x0054e5a0;            // float (gp-relative): 0.8
-constexpr uint32_t kInfo = 0x003e4058;                 // [60] the information messages: 3 event bits, then the rest (0xCC bytes)
-constexpr uint32_t kOwnQuestions = 0x003e2508;         // [privateselindex][4] question weights (datNegoPrivateQues)
-constexpr uint32_t kTalkSkills = 0x003e1338;           // [skill - 0x180] the talk skills: kind (0x68 bytes)
-constexpr uint32_t kFatedPairs = 0x003e3158;           // [64] {used, player's devil, demon, ...} (0x3C bytes)
+constexpr uint32_t kRequestWeights = addr(0x003e22a8);       // [reqtype][5]: what a demon asks for
+constexpr uint32_t kAskedItems = addr(0x003e2318);           // [level band][4] {item, weight}
+constexpr uint32_t kExtraRequestWeights = addr(0x003e23b8);  // [tuikareqtype][3]
+constexpr uint32_t kAskedItemsB = addr(0x003e23f8);          // [level band][3] {item, weight}
+constexpr uint32_t kMaccaRate = addr(0x0054e5a0);            // float (gp-relative): 0.8
+constexpr uint32_t kInfo = addr(0x003e4058);                 // [60] the information messages: 3 event bits, then the rest (0xCC bytes)
+constexpr uint32_t kOwnQuestions = addr(0x003e2508);         // [privateselindex][4] question weights (datNegoPrivateQues)
+constexpr uint32_t kTalkSkills = addr(0x003e1338);           // [skill - 0x180] the talk skills: kind (0x68 bytes)
+constexpr uint32_t kFatedPairs = addr(0x003e3158);           // [64] {used, player's devil, demon, ...} (0x3C bytes)
 
 const uint8_t* bytes(uint32_t address) { return guest::table<const uint8_t>(address); }
 
@@ -492,16 +493,16 @@ int32_t fatedPair(const TalkState& n)
 
 namespace {
 
-constexpr uint32_t kTalkName = 0x00551160;      // "nb_nego"
-constexpr uint32_t kTalkMessages = 0x004e3be8;  // [31] {flow, affinity, question, info} message tables
-constexpr uint32_t kBossMessages = 0x004eb810;
-constexpr uint32_t kHelpMessages = 0x004ee8b0;
-constexpr uint32_t kHelpMessages2 = 0x004ef0c8;
-constexpr uint32_t kFatedMessages = 0x004e3dd8;
+constexpr uint32_t kTalkName = addr(0x00551160);      // "nb_nego"
+constexpr uint32_t kTalkMessages = addr(0x004e3be8);  // [31] {flow, affinity, question, info} message tables
+constexpr uint32_t kBossMessages = addr(0x004eb810);
+constexpr uint32_t kHelpMessages = addr(0x004ee8b0);
+constexpr uint32_t kHelpMessages2 = addr(0x004ef0c8);
+constexpr uint32_t kFatedMessages = addr(0x004e3dd8);
 constexpr uint32_t kDebugMode = 0x400000;       // battle stat: the talks' debug menu
 
-constexpr uint32_t kRunTalk = 0x0026c4f0, kShowMessage = 0x0026c400, kWaitMessage = 0x0026c390, kEndTalk = 0x0026c4c0;
-constexpr uint32_t kShutdownTalk = 0x0026c780;
+constexpr uint32_t kRunTalk = addr(0x0026c4f0), kShowMessage = addr(0x0026c400), kWaitMessage = addr(0x0026c390), kEndTalk = addr(0x0026c4c0);
+constexpr uint32_t kShutdownTalk = addr(0x0026c780);
 
 TalkState& talkOf(uint32_t process) { return *guest::table<TalkState>(dds3::GetProcessData(process)); }
 uint32_t addressOf(const TalkState& n) { return guest::addressOf(&n); }

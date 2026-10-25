@@ -4,6 +4,7 @@
 // version's, where the legacy-C tests of the same functions are skipped
 // (variants/<name>/differential-skip.txt).
 #include "harness.hpp"
+#include "version_map.hpp"
 #include "interface_world.hpp"
 #include "nocturne/battle/process.hpp"
 #include "nocturne/battle/targeting.hpp"
@@ -163,7 +164,7 @@ void addVariantTests(std::vector<TestCase>& t)
         const uint32_t unit = someUnit(g);
         unitAt(unit).level = static_cast<uint16_t>(g.range(1, 99));
         const uint16_t skill = g.chance(50) ? unitAt(unit).skill[g.below(8)] : inheritSkill(g);
-        at<uint32_t>(0x00529be0) = static_cast<uint32_t>(g.rng());   // the RNG state's carry bit
+        at<uint32_t>(difftest::version::dataOrDie(0x00529be0)) = static_cast<uint32_t>(g.rng());   // the RNG state's carry bit
         return Pair{[=] { return origVm(0x00223520, {skill, unit}); }, [=] { return norm(int32_t{cmb::mutationSkill(skill, unitAt(unit))}); }};
     });
     add("datGetItemSkillNo (instructions)", [](Gen& g) {

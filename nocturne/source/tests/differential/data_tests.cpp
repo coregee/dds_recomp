@@ -4,6 +4,7 @@
 #include <cstring>
 
 #include "harness.hpp"
+#include "version_map.hpp"
 #include "interface_world.hpp"
 #include "nocturne/data/field_skill.hpp"
 #include "nocturne/data/progression.hpp"
@@ -34,7 +35,7 @@ uint32_t unitAddress(int index) { return FW_GLOBAL + static_cast<uint32_t>(offse
 void dataWorld(Gen& g)
 {
     std::memset(fw_ram + FW_MES_STATE, 0, FW_MES_POOL_END - FW_MES_STATE);
-    at<uint32_t>(0x0054ea20) = FW_GLOBAL;
+    at<uint32_t>(difftest::version::dataOrDie(0x0054ea20)) = FW_GLOBAL;
     randomStock(g);
     GlobalWork& w = global();
     for (UnitWork& unit : w.units) {

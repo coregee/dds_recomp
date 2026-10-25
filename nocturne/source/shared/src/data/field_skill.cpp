@@ -319,7 +319,7 @@ void partyDamage(int32_t mode)
                 hurt(units[i], units[i].hp >> 1);
     if (mode == 3)
         for (int i = 0; i < 16; ++i)
-            if (units[i].id != devil::Dante && hurtable(units[i]))
+            if (!sparedFromLastHp(units[i]) && hurtable(units[i]))
                 units[i].hp = 1;
     if (mode >= 4 && mode <= 6) {
         const uint16_t inflicted = mode == 4 ? ailment::Poison : mode == 5 ? ailment::Stun : ailment::Mute;

@@ -6,6 +6,7 @@
 
 #include <cstring>
 
+#include "nocturne/address.hpp"
 #include "nocturne/battle/action.hpp"
 #include "nocturne/battle/combatant.hpp"
 #include "nocturne/battle/help.hpp"
@@ -19,13 +20,13 @@ namespace nocturne::nb {
 
 namespace {
 
-constexpr uint32_t kTarSelName = 0x005442b8;   // "nb_tarsel"
+constexpr uint32_t kTarSelName = addr(0x005442b8);   // "nb_tarsel"
 
 // The cursor's animation keyframes (5 frames apart, 30 frames a loop).
-constexpr uint32_t kAlphaA = 0x005442c8;       // int32[7]
-constexpr uint32_t kScaleA = 0x005442e8;       // float[7]
-constexpr uint32_t kAlphaB = 0x00544308;       // int32[7]
-constexpr uint32_t kScaleB = 0x00544328;       // float[7]
+constexpr uint32_t kAlphaA = addr(0x005442c8);       // int32[7]
+constexpr uint32_t kScaleA = addr(0x005442e8);       // float[7]
+constexpr uint32_t kAlphaB = addr(0x00544308);       // int32[7]
+constexpr uint32_t kScaleB = addr(0x00544328);       // float[7]
 
 // Left / right step through a side's targets, up / down switch sides.
 using pad::pressed;
@@ -350,7 +351,7 @@ uint32_t newTargetCursor(MainProcessData& data)
 void startTargetCursorProcess(MainProcessData& data)
 {
     const uint32_t t = newTargetCursor(data);
-    const uint32_t process = dds3::StartProcess(kTarSelName, 0x3f9, 1, 1, 0x0025e720, 0x0025e7d8, t);
+    const uint32_t process = dds3::StartProcess(kTarSelName, 0x3f9, 1, 1, addr(0x0025e720), addr(0x0025e7d8), t);
     dds3::LinkProcess(data.MainProcessID, process);
     data.TargetCursorProcessID = process;
 }

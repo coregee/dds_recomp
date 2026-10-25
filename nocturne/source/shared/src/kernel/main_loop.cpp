@@ -2,6 +2,7 @@
 // motion. Rewritten from the original instructions.
 #include "nocturne/kernel/main_loop.hpp"
 
+#include "nocturne/address.hpp"
 #include "nocturne/guest.hpp"
 
 namespace nocturne::dds3 {
@@ -9,13 +10,13 @@ namespace nocturne::dds3 {
 namespace {
 
 // The loop's state (gp-relative words).
-constexpr uint32_t kRunCount = 0x0054e804;    // frames run so far (dds3RunCount)
-constexpr uint32_t kPauseSign = 0x0054e80c;   // processes stopped
-constexpr uint32_t kPauseTime = 0x0054e810;   // ... for this many more frames (0: until resumed)
-constexpr uint32_t kSlowSign = 0x0054e814;    // slow motion on
-constexpr uint32_t kSlowTime = 0x0054e818;    // ... running every this many frames
-constexpr uint32_t kSlowRunCount = 0x0054e81c;   // ... since this run count
-constexpr uint32_t kSlowEndCount = 0x0054e820;   // ... for this many frames
+constexpr uint32_t kRunCount = addr(0x0054e804);    // frames run so far (dds3RunCount)
+constexpr uint32_t kPauseSign = addr(0x0054e80c);   // processes stopped
+constexpr uint32_t kPauseTime = addr(0x0054e810);   // ... for this many more frames (0: until resumed)
+constexpr uint32_t kSlowSign = addr(0x0054e814);    // slow motion on
+constexpr uint32_t kSlowTime = addr(0x0054e818);    // ... running every this many frames
+constexpr uint32_t kSlowRunCount = addr(0x0054e81c);   // ... since this run count
+constexpr uint32_t kSlowEndCount = addr(0x0054e820);   // ... for this many frames
 
 uint32_t& word(uint32_t address) { return *guest::table<uint32_t>(address); }
 

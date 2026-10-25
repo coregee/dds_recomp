@@ -4,6 +4,7 @@
 
 #include <cstddef>
 
+#include "nocturne/address.hpp"
 #include "nocturne/battle/camera.hpp"
 #include "nocturne/battle/process.hpp"
 #include "nocturne/external.hpp"
@@ -16,9 +17,9 @@ static_assert(sizeof(BattleCut) == 0x20 && offsetof(BattleCut, description) == 0
 namespace {
 
 constexpr uint32_t kDescriptionSize = 0x618;   // cut 2's description follows cut 1's
-constexpr uint32_t kSkillState = 0x00551d80;    // uint32 (gp-relative): effBTLSkillSetState's state
-constexpr uint32_t kSkillInvoker = 0x005698e0;  // Formation*: the unit using the skill
-constexpr uint32_t kCutCameraStates = 0x0031b8c0;   // uint16[3] by cut number
+constexpr uint32_t kSkillState = addr(0x00551d80);    // uint32 (gp-relative): effBTLSkillSetState's state
+constexpr uint32_t kSkillInvoker = addr(0x005698e0);  // Formation*: the unit using the skill
+constexpr uint32_t kCutCameraStates = addr(0x0031b8c0);   // uint16[3] by cut number
 
 uint32_t word(uint32_t address) { return *guest::table<const uint32_t>(address); }
 

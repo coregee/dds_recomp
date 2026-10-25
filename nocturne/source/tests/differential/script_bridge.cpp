@@ -3,6 +3,7 @@
 #include <cstring>
 
 #include "harness.hpp"
+#include "version_map.hpp"
 #include "nocturne/script/vm.hpp"
 
 using namespace nocturne;
@@ -33,7 +34,7 @@ void scriptWork(int32_t messageHandle)
         w.StackType[i] = scr::kInt;
     w.MesHandle = messageHandle;
     w.data = FW_ACTION;
-    at<uint32_t>(0x00551c78) = FW_SCRIPT;   // the running COMM's work
+    at<uint32_t>(difftest::version::dataOrDie(0x00551c78)) = FW_SCRIPT;   // the running COMM's work
 }
 
 // Argument i is the i-th entry below the top of the stack.

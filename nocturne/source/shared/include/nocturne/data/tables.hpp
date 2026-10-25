@@ -8,6 +8,7 @@
 
 #include <cstdint>
 
+#include "nocturne/address.hpp"
 #include "nocturne/data/records.hpp"
 #include "nocturne/data/version_tables.hpp"   // the rows of the tables whose layout differs by version
 #include "nocturne/guest.hpp"
@@ -53,44 +54,44 @@ extern const uint16_t kCombineManinTbl[4][5]; // [race][moon range] -> Fiend
 extern const DevilAI kDevilAI[384];
 
 namespace address {
-inline constexpr uint32_t Affinity          = 0x003a7fe0;
-inline constexpr uint32_t DevilFormat       = 0x003497c0;
-inline constexpr uint32_t DevilTalkFormat   = 0x003dcb38;
-inline constexpr uint32_t DefaultUnitVisual = 0x003494b0;
-inline constexpr uint32_t UnitVisual        = 0x0034f1e0;
-inline constexpr uint32_t Encount           = 0x003aefe0;
-inline constexpr uint32_t EncountPack       = 0x003bade0;
-inline constexpr uint32_t SkillHitEffect    = 0x003dbd20; // 4-byte rows; byte 3 = "no hit effect"
-inline constexpr uint32_t NormalSkill       = 0x003d7998;
-inline constexpr uint32_t SkillInfo         = 0x003d6998;
-inline constexpr uint32_t SpecialSkill      = 0x003dc1e0;
-inline constexpr uint32_t SenseiCoefficient = 0x00544d58; // float[6], see nbCheckSensei
-inline constexpr uint32_t DevilGrowth       = 0x00333cf8;
-inline constexpr uint32_t Magatama          = 0x00339e00;
-inline constexpr uint32_t EvolutionRequirement = 0x00339640;
-inline constexpr uint32_t InheritanceLevel  = 0x00339658;
-inline constexpr uint32_t InheritanceScores = 0x003399e8;
-inline constexpr uint32_t DarkDevil         = 0x00339ba8;
-inline constexpr uint32_t SkillPowerUp      = 0x00339c20;
-inline constexpr uint32_t Item              = 0x003dc4a0;
-inline constexpr uint32_t CombineTbl        = 0x0032d270;
-inline constexpr uint32_t CombineCurseTbl   = 0x0032d670;
-inline constexpr uint32_t RankUpDownTbl     = 0x0032da70;
-inline constexpr uint32_t ExtPatternTbl     = 0x0032db78;
-inline constexpr uint32_t BirthSpiritTbl    = 0x0032db90;
-inline constexpr uint32_t SpiritParamUpTbl  = 0x0032dbb8;
-inline constexpr uint32_t IkenieExtPatternTbl        = 0x0032dbd8;
-inline constexpr uint32_t IkenieExtPatternDevTbl     = 0x0032dbe0;
-inline constexpr uint32_t IkenieExtPatternDev2Tbl    = 0x0032dc18;
-inline constexpr uint32_t IkenieExtPatternDevRaceTbl = 0x0032dc90;
-inline constexpr uint32_t AccidentFailTbl   = 0x0032dca0;
-inline constexpr uint32_t EventDevilTbl     = 0x0032dcc0;
-inline constexpr uint32_t CombineManinKagTbl  = 0x0032ddd0;
-inline constexpr uint32_t CombineManinRaceTbl = 0x0032dde0;
-inline constexpr uint32_t CombineManinTbl     = 0x0032dde8;
-inline constexpr uint32_t GlobalWorkPointer = 0x0054ea20;
-inline constexpr uint32_t DevilCount        = 0x0054ff18; // int32 (gp-relative), 384
-inline constexpr uint32_t DevilAI           = 0x003989e0;
+inline constexpr uint32_t Affinity          = addr(0x003a7fe0);
+inline constexpr uint32_t DevilFormat       = addr(0x003497c0);
+inline constexpr uint32_t DevilTalkFormat   = addr(0x003dcb38);
+inline constexpr uint32_t DefaultUnitVisual = addr(0x003494b0);
+inline constexpr uint32_t UnitVisual        = addr(0x0034f1e0);
+inline constexpr uint32_t Encount           = addr(0x003aefe0);
+inline constexpr uint32_t EncountPack       = addr(0x003bade0);
+inline constexpr uint32_t SkillHitEffect    = addr(0x003dbd20); // 4-byte rows; byte 3 = "no hit effect"
+inline constexpr uint32_t NormalSkill       = addr(0x003d7998);
+inline constexpr uint32_t SkillInfo         = addr(0x003d6998);
+inline constexpr uint32_t SpecialSkill      = addr(0x003dc1e0);
+inline constexpr uint32_t SenseiCoefficient = addr(0x00544d58); // float[6], see nbCheckSensei
+inline constexpr uint32_t DevilGrowth       = addr(0x00333cf8);
+inline constexpr uint32_t Magatama          = addr(0x00339e00);
+inline constexpr uint32_t EvolutionRequirement = addr(0x00339640);
+inline constexpr uint32_t InheritanceLevel  = addr(0x00339658);
+inline constexpr uint32_t InheritanceScores = addr(0x003399e8);
+inline constexpr uint32_t DarkDevil         = addr(0x00339ba8);
+inline constexpr uint32_t SkillPowerUp      = addr(0x00339c20);
+inline constexpr uint32_t Item              = addr(0x003dc4a0);
+inline constexpr uint32_t CombineTbl        = addr(0x0032d270);
+inline constexpr uint32_t CombineCurseTbl   = addr(0x0032d670);
+inline constexpr uint32_t RankUpDownTbl     = addr(0x0032da70);
+inline constexpr uint32_t ExtPatternTbl     = addr(0x0032db78);
+inline constexpr uint32_t BirthSpiritTbl    = addr(0x0032db90);
+inline constexpr uint32_t SpiritParamUpTbl  = addr(0x0032dbb8);
+inline constexpr uint32_t IkenieExtPatternTbl        = addr(0x0032dbd8);
+inline constexpr uint32_t IkenieExtPatternDevTbl     = addr(0x0032dbe0);
+inline constexpr uint32_t IkenieExtPatternDev2Tbl    = addr(0x0032dc18);
+inline constexpr uint32_t IkenieExtPatternDevRaceTbl = addr(0x0032dc90);
+inline constexpr uint32_t AccidentFailTbl   = addr(0x0032dca0);
+inline constexpr uint32_t EventDevilTbl     = addr(0x0032dcc0);
+inline constexpr uint32_t CombineManinKagTbl  = addr(0x0032ddd0);
+inline constexpr uint32_t CombineManinRaceTbl = addr(0x0032dde0);
+inline constexpr uint32_t CombineManinTbl     = addr(0x0032dde8);
+inline constexpr uint32_t GlobalWorkPointer = addr(0x0054ea20);
+inline constexpr uint32_t DevilCount        = addr(0x0054ff18); // int32 (gp-relative), 384
+inline constexpr uint32_t DevilAI           = addr(0x003989e0);
 } // namespace address
 
 inline const NormalSkill& normalSkill(int32_t id) { return guest::table<const NormalSkill>(address::NormalSkill)[id]; }

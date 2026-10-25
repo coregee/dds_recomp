@@ -4,6 +4,7 @@
 
 #include <cstddef>
 
+#include "nocturne/address.hpp"
 #include "nocturne/battle/kouka.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
@@ -12,14 +13,14 @@ namespace nocturne::nb {
 
 namespace {
 
-constexpr uint32_t kEvents = 0x00527260;          // EventEntry[100]
-constexpr uint32_t kProcessName = 0x00545dc8;     // "nb_event"
-constexpr uint32_t kRunEventStart = 0x0028fe48;
-constexpr uint32_t kRunEventSetup = 0x0028fd18;
-constexpr uint32_t kShutdownEvent = 0x0028fec8;
-constexpr uint32_t kLoadEventPack = 0x001fac78;   // (no C yet) starts a pack's loading process: it
-constexpr uint32_t kEventPackState = 0x001fa1f0;  // ... and its state (2 loaded)
-constexpr uint32_t kCreateEffect = 0x00114770;    // (no C yet) the effect library's basic effect
+constexpr uint32_t kEvents = addr(0x00527260);          // EventEntry[100]
+constexpr uint32_t kProcessName = addr(0x00545dc8);     // "nb_event"
+constexpr uint32_t kRunEventStart = addr(0x0028fe48);
+constexpr uint32_t kRunEventSetup = addr(0x0028fd18);
+constexpr uint32_t kShutdownEvent = addr(0x0028fec8);
+constexpr uint32_t kLoadEventPack = addr(0x001fac78);   // (no C yet) starts a pack's loading process: it
+constexpr uint32_t kEventPackState = addr(0x001fa1f0);  // ... and its state (2 loaded)
+constexpr uint32_t kCreateEffect = addr(0x00114770);    // (no C yet) the effect library's basic effect
 constexpr uint32_t kStatEvent = 0x1000;           // MainProcessData::stat: an event runs
 
 static_assert(offsetof(MainProcessData, EventProcessID) == 0x118 && offsetof(MainProcessData, encno) == 0x34);

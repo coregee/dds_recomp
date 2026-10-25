@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "harness.hpp"
+#include "version_map.hpp"
 #include "interface_world.hpp"
 #include "nocturne/battle/action.hpp"
 #include "nocturne/battle/ai_script.hpp"
@@ -46,29 +47,29 @@ uint64_t dds3GetProcessData(uint64_t);
 // original code in the interpreter, as on the original side.
 extern "C" void nocturneInvokeBattleActionEntry(uint32_t entry, uint64_t context)
 {
-    difftest::iface::origVmVoid(entry, {context});
+    difftest::iface::origVmVoidAt(entry, {context});
 }
 extern "C" uint64_t nocturneInvokeBattleActionUpdate(uint32_t target, uint64_t context)
 {
-    return difftest::iface::origVm(target, {context});
+    return difftest::iface::origVmAt(target, {context});
 }
 // ... and so do the kouka process's players not rewritten yet.
 extern "C" uint64_t nocturneInvokeOriginal(uint32_t entry, uint64_t a0, uint64_t a1, uint64_t a2, uint64_t a3)
 {
-    return difftest::iface::origVm(entry, {a0, a1, a2, a3});
+    return difftest::iface::origVmAt(entry, {a0, a1, a2, a3});
 }
 extern "C" uint64_t nocturneInvokeBattleMovePackets(uint32_t entry, uint64_t startframe, uint64_t uniqueid, uint64_t form,
                                                     uint64_t target)
 {
-    return difftest::iface::origVm(entry, {startframe, uniqueid, form, target});
+    return difftest::iface::origVmAt(entry, {startframe, uniqueid, form, target});
 }
 extern "C" uint64_t nocturneInvokeBattleTalkStep(uint32_t entry, uint64_t talk)
 {
-    return difftest::iface::origVm(entry, {talk});
+    return difftest::iface::origVmAt(entry, {talk});
 }
 extern "C" void nocturneInvokeBattleKoukaPlayer(uint32_t entry, uint64_t queue, uint64_t packet)
 {
-    difftest::iface::origVmVoid(entry, {queue, packet});
+    difftest::iface::origVmVoidAt(entry, {queue, packet});
 }
 
 namespace difftest {
@@ -177,7 +178,7 @@ void scriptActor(Gen& g)
     a.form->formindex = static_cast<int16_t>(f);
     a.party.address = FW_PARTY + 128u * static_cast<uint32_t>(f);
     a.work.address = at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f));
-    a.work->id = static_cast<uint16_t>(g.range(0, 383));
+    a.work->id = static_cast<uint16_t>(g.range(0, lastDevilWithAi()));
     a.adata = g.range(0, 140);
     a.stat = static_cast<uint32_t>(g.rng());
     auto* forms = &at<Formation>(FW_FORMS);
@@ -604,6 +605,19 @@ void addKoukaTests(std::vector<TestCase>& t)
     action("ClearTimeList", [=](Gen&) {
         return Pair{[] { return origVmVoid(0x002514f0, {FW_ACTION}); }, [=] { clearTimeList(act()); return uint64_t{0}; }};
     });
+    action("CheckAction_NON", [=](Gen& g) {
+        scriptActor(g);
+        ActionProcessData& a = act();
+        a.type = g.chance(50) ? 0 : g.range(1, 6);
+        a.target = g.range(0, 13);
+        a.party->flag = static_cast<int16_t>((a.party->flag & ~0x10e) | (g.chance(15) ? 8 : 0) | (g.chance(50) ? 2 : 0) |
+                                             (g.chance(20) ? 4 : 0) | (g.chance(30) ? 0x100 : 0));
+        a.work->badstat = static_cast<uint16_t>(g.pick<int32_t>({0, 0, 0, 1, 2, 4, 8, 0x10, 0x20, 0x80, 0x400, 0x800}));
+        MainProcessData& main = at<MainProcessData>(FW_MAIN);
+        main.stat ^= g.chance(30) ? 0x10000000u : 0u;
+        at<int32_t>(difftest::version::dataOrDie(0x0054e824)) = g.chance(30) ? 1 : 0;   // the debug pad
+        return Pair{[] { return origVm(0x00253490, {FW_ACTION}); }, [=] { return norm(updateNone(act())); }};
+    });
     action("SetHpForTimeList", [=](Gen&) {
         auto* forms = &at<Formation>(FW_FORMS);
         for (int f = 0; f < 14; ++f)   // present party slots have units, as in the game
@@ -740,7 +754,7 @@ void addKoukaTests(std::vector<TestCase>& t)
     });
     // (The camera is in the executable's data, which the harness doesn't
     // compare: return its state.)
-    auto camera = [] { return std::ref(at<Camera>(0x00320e40)); };
+    auto camera = [] { return std::ref(at<Camera>(difftest::version::dataOrDie(0x00320e40))); };
     auto cameraState = [=] { return uint64_t{camera().get().state_change} | uint64_t{camera().get().state} << 32; };
     script("nbCameraSetState", [=](Gen& g) {
         const uint16_t state = static_cast<uint16_t>(g.chance(20) ? 25 : g.range(0, 29));
@@ -817,7 +831,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         if (a.stat & 2 && a.seq == kActionReady)
             a.seq = static_cast<int8_t>(g.pick(kCheckable));
         // (READY's own functions aren't rewritten; both sides reach fakes of them.)
-        at<uint32_t>(0x005519c8) = g.chance(20) ? 1u : 0u;   // a streamed voice playing
+        at<uint32_t>(difftest::version::dataOrDie(0x005519c8)) = g.chance(20) ? 1u : 0u;   // a streamed voice playing
         MainProcessData& main = at<MainProcessData>(FW_MAIN);
         for (uint32_t& p : main.ActionProcessID)
             p = 0;
@@ -1071,7 +1085,7 @@ void addKoukaTests(std::vector<TestCase>& t)
                         party.flag = static_cast<int16_t>(party.flag | g.pick<int32_t>({0x20, 0x40}));
                     UnitWork& u = at<UnitWork>(unit);
                     if (g.chance(40))
-                        u.id = static_cast<uint16_t>(g.chance(30) ? 0x123 : g.range(1, 383));
+                        u.id = static_cast<uint16_t>(g.chance(30) ? 0x123 : g.range(1, lastDevilWithAi()));
                     u.badstat = static_cast<uint16_t>(g.chance(60) ? 0 : 1u << g.range(0, 11));
                     u.flag = (u.flag & ~0x24u) | (f < 4 ? (f == 0 ? 4u : 0u) : 0x20u);
                     u.maxhp = static_cast<uint16_t>(g.range(1, 500));
@@ -1122,7 +1136,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         return t;
     }();
     auto pickFrom = [](Gen& g, const std::vector<uint16_t>& ids) {
-        return ids.empty() ? static_cast<uint16_t>(g.range(1, 383)) : ids[g.below(static_cast<uint32_t>(ids.size()))];
+        return ids.empty() ? static_cast<uint16_t>(g.range(1, lastDevilWithAi())) : ids[g.below(static_cast<uint32_t>(ids.size()))];
     };
     auto side = [&](const char* name, std::function<Pair(Gen&)> body) {
         script(name, [=](Gen& g) {
@@ -1181,7 +1195,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         a.work->nowcommand = static_cast<int16_t>(g.range(-1, 6));
         a.work->badstat = static_cast<uint16_t>(g.chance(80) ? 0 : 0x80);
         if (g.chance(50))
-            a.work->id = static_cast<uint16_t>(g.range(1, 383));
+            a.work->id = static_cast<uint16_t>(g.range(1, lastDevilWithAi()));
     };
     side("CheckMukanNego", [=](Gen& g) {
         talker(g);
@@ -1196,7 +1210,7 @@ void addKoukaTests(std::vector<TestCase>& t)
             a.work.address = at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(self));
             a.partyindex = self;
             a.party->flag = static_cast<int16_t>(a.party->flag | 2);
-            a.work->id = static_cast<uint16_t>(g.range(1, 383));
+            a.work->id = static_cast<uint16_t>(g.range(1, lastDevilWithAi()));
             // No devil talks this way in the shipped data; patch the
             // actor's record so the dormant code runs.
             const_cast<nocturne::DevilTalkFormat&>(nocturne::dat::devilTalkFormat(a.work->id)).lastEnemyTalk = 1;
@@ -1213,7 +1227,7 @@ void addKoukaTests(std::vector<TestCase>& t)
                 main.stat |= 0x2000000;
         }
         if constexpr (nocturne::kVariant == nocturne::Variant::Hardtype)   // its option byte
-            at<uint8_t>(0x002ff388) = static_cast<uint8_t>(g.chance(30) ? 1 : 0);
+            at<uint8_t>(difftest::version::dataOrDie(0x002ff388)) = static_cast<uint8_t>(g.chance(30) ? 1 : 0);
         return sideBool(0x00252400, checkLastEnemyTalks);
     });
     side("CheckSenseiNego", [=](Gen& g) {
@@ -1228,7 +1242,7 @@ void addKoukaTests(std::vector<TestCase>& t)
             main.enemypcnt = static_cast<int16_t>(g.chance(70) ? 1 : g.range(2, 4));
         }
         if constexpr (nocturne::kVariant == nocturne::Variant::Hardtype)   // its option byte
-            at<uint8_t>(0x002ff388) = static_cast<uint8_t>(g.chance(30) ? 1 : 0);
+            at<uint8_t>(difftest::version::dataOrDie(0x002ff388)) = static_cast<uint8_t>(g.chance(30) ? 1 : 0);
         return sideBool(0x002525f0, checkAmbushTalk);
     });
     side("CheckInotiNego", [=](Gen& g) {
@@ -1329,7 +1343,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         for (int i = 1; i < 16; ++i) {
             nocturne::UnitWork& unit = global.units[i];
             unit.flag = g.chance(60) ? (1u | (g.chance(40) ? 2u : 0u) | (g.chance(10) ? 0x10u : 0u)) : 0u;
-            unit.id = static_cast<uint16_t>(g.range(1, 383));
+            unit.id = static_cast<uint16_t>(g.range(1, lastDevilWithAi()));
             unit.hp = static_cast<uint16_t>(g.chance(15) ? 0 : g.range(1, 500));
             unit.badstat = static_cast<uint16_t>(g.chance(15) ? 0x800 : 0);
         }
@@ -1423,7 +1437,7 @@ void addKoukaTests(std::vector<TestCase>& t)
             if (g.chance(40))
                 unit.id = static_cast<uint16_t>(g.pick<int32_t>({0x15e, 0xc8, 0x15f, 0xc9, 0x115, 0x11, 0x15d, 0xc7}));
             const uint32_t pair = g.pick<uint32_t>({0u, 0x005a005au, 0x00330091u, 0x00dc0089u, static_cast<uint32_t>(g.rng()) & 0x00ff00ffu});
-            at<uint32_t>(0x002fe91c) = pair;
+            at<uint32_t>(difftest::version::dataOrDie(0x002fe91c)) = pair;
         }
         unit.badstat = static_cast<uint16_t>(g.chance(60) ? 0 : g.pick<int32_t>({8, 0x20, 0x8000, 0x8008, 1}));
         unit.hp = static_cast<uint16_t>(g.chance(30) ? g.range(1, 3) : g.range(1, unit.maxhp));
@@ -1729,7 +1743,7 @@ void addKoukaTests(std::vector<TestCase>& t)
     });
     script("nbAppendEnemyDevilWork", [=](Gen& g) {
         stockWorld(g);
-        const int32_t id = g.range(1, 383);
+        const int32_t id = g.range(1, lastDevilWithAi());
         return Pair{[=] { return origVm(0x002594b0, {FW_MAIN, I(id)}); },
                     [=] { return norm(addEnemyUnit(at<MainProcessData>(FW_MAIN), id)); }};
     });
@@ -1752,7 +1766,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         stockWorld(g);
         ActionProcessData& a = act();
         a.party->flag = static_cast<int16_t>(g.chance(50) ? (a.party->flag | 2) : (a.party->flag & ~2));
-        a.aisummonid = static_cast<uint32_t>(g.range(1, 383));
+        a.aisummonid = static_cast<uint32_t>(g.range(1, lastDevilWithAi()));
         a.work->nowcommand = static_cast<int16_t>(g.pick<int32_t>({1, 1, 0, 5}));
         a.work->nowindex = static_cast<uint16_t>(g.chance(40) ? 0xdf : g.range(0, 15));
         const int32_t d = g.range(0, 13), frame = g.range(0, 40);
@@ -1853,7 +1867,7 @@ void addKoukaTests(std::vector<TestCase>& t)
                 unit.level = static_cast<uint16_t>(g.chance(10) ? g.pick<int32_t>({0, 99, 100, 120}) : g.range(1, 99));
                 unit.maxhp = static_cast<uint16_t>(g.range(1, 999));
                 unit.maxmp = static_cast<uint16_t>(g.range(0, 999));
-                unit.id = static_cast<uint16_t>(g.range(0, 383));
+                unit.id = static_cast<uint16_t>(g.range(0, lastDevilWithAi()));
             }
     };
     auto someUnit = [](Gen& g) {
@@ -1949,7 +1963,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         const uint32_t w = someUnit(g);
         if (g.chance(75))   // a demon without its own questions (privatesel 0)
             for (int tries = 0; tries < 50; ++tries) {
-                at<UnitWork>(w).id = static_cast<uint16_t>(g.range(1, 383));
+                at<UnitWork>(w).id = static_cast<uint16_t>(g.range(1, lastDevilWithAi()));
                 if (nocturne::dat::devilTalkFormat(at<UnitWork>(w).id).privatesel != 1)
                     break;
             }
@@ -2060,7 +2074,7 @@ void addKoukaTests(std::vector<TestCase>& t)
                 n.stat |= 1;
         }
         // Group 0 (the game has none) runs the stand-in; its steps stay in it.
-        at<uint32_t>(0x004ef468) = 0x00777300;
+        at<uint32_t>(difftest::version::dataOrDie(0x004ef468)) = 0x00777300;
         return static_cast<uint32_t>(dds3StartProcess(0x00551160, 0x3f9, 0, 0, 0, 0, FW_TALK));
     };
     struct TalkStateFunction { const char* name; uint32_t original; uint32_t (*rewrite)(uint32_t); };
@@ -2147,9 +2161,9 @@ void addKoukaTests(std::vector<TestCase>& t)
             form.partyindex = static_cast<int16_t>(f);
             at<MainProcessData>(FW_MAIN).party[f].flag |= 1;
         }
-        at<uint32_t>(0x005698e0) = g.chance(95) ? formAddress(p) : 0;
+        at<uint32_t>(difftest::version::dataOrDie(0x005698e0)) = g.chance(95) ? formAddress(p) : 0;
         // (some of the devils the steps single out; sometimes the talker's kind)
-        n.ework->id = static_cast<uint16_t>(g.chance(30) ? g.pick<int32_t>({0x5c, 0x3d, 0x61, 0x5b, 0x99, 0x96, 0x1d, 0x24, 0x27, 0x6e, 0x90, 0x9a, 0x38, 0x59, 0x68, 0x71, 109, 111, 113, 0x3a, 0x3c, 0x5a}) : g.range(1, 383));
+        n.ework->id = static_cast<uint16_t>(g.chance(30) ? g.pick<int32_t>({0x5c, 0x3d, 0x61, 0x5b, 0x99, 0x96, 0x1d, 0x24, 0x27, 0x6e, 0x90, 0x9a, 0x38, 0x59, 0x68, 0x71, 109, 111, 113, 0x3a, 0x3c, 0x5a}) : g.range(1, lastDevilWithAi()));
         if (g.chance(20) && !n.pwork->isPlayerCharacter())
             n.pwork->id = n.ework->id;
         n.ekucyo = g.range(0, 30);
@@ -2257,7 +2271,7 @@ void addKoukaTests(std::vector<TestCase>& t)
             nocturne::UnitWork& unit = global.units[i];
             unit.flag = g.chance(60) ? (unit.flag | nocturne::UnitFlag::Valid) & ~nocturne::UnitFlag::PlayerCharacter
                                      : unit.flag & ~nocturne::UnitFlag::Valid;
-            unit.id = static_cast<uint16_t>(g.chance(10) ? n.ework->id : g.range(1, 383));
+            unit.id = static_cast<uint16_t>(g.chance(10) ? n.ework->id : g.range(1, lastDevilWithAi()));
         }
         if (g.chance(10))   // the talker down
             n.pwork->hp = 0;
@@ -2398,7 +2412,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         ed.seq = g.range(0, 5);
         ed.seqtime = g.range(0, 100);
         ed.userdata = g.chance(50) ? ps2PoolAllocate(0x10) : 0;
-        ed.usershutdown = g.chance(50) ? 0x002c1ca0u : 0;   // (a function the tests log)
+        ed.usershutdown = g.chance(50) ? difftest::version::codeOrDie(0x002c1ca0) : 0;   // (a function the tests log)
         ed.file = g.chance(50) ? static_cast<uint32_t>(g.range(1, 0x1000)) : 0;
         ed.pfile = g.chance(50) ? static_cast<uint32_t>(g.range(1, 0x1000)) : 0;
         ed.mem = g.chance(50) ? static_cast<uint32_t>(g.range(1, 0x1000)) : 0;
@@ -2492,7 +2506,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         Formation& form = at<Formation>(formAddress(f));
         form.formindex = static_cast<int16_t>(f);
         UnitWork& unit = at<UnitWork>(at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)));
-        unit.id = static_cast<uint16_t>(g.chance(10) ? g.range(0x150, 0x17f) : g.range(1, 0x14f));
+        unit.id = static_cast<uint16_t>(g.chance(10) ? g.range(0x150, lastDevilWithAi()) : g.range(1, 0x14f));
         return formAddress(f);
     };
     // The table of ten units' banks, some in use (the units' ids, or others),
@@ -2618,7 +2632,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         MainProcessData& main = at<MainProcessData>(FW_MAIN);
         main.encpackno = g.chance(20) ? 0 : g.chance(5) ? -1 : g.range(1, 255);
         main.encno = g.range(0, 1269);
-        uint32_t* state = &at<uint32_t>(0x00551524);
+        uint32_t* state = &at<uint32_t>(difftest::version::dataOrDie(0x00551524));
         static const uint32_t pieces[] = {0, 0x150001, 0x150002, 0x1f0002, 0x40001, 0x110000, 0x800001};
         for (int i = 0; i < 3; ++i)
             state[i] = g.pick(pieces);
@@ -2657,7 +2671,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         work.units[0].level = static_cast<uint16_t>(g.range(1, 99));
         for (uint32_t& bits : work.event_bits)
             bits = static_cast<uint32_t>(g.rng());
-        at<int32_t>(0x00551520) = g.chance(40) ? 0 : g.chance(10) ? -g.range(1, 10) : g.chance(50) ? g.range(16, 40) : g.range(16, 700);
+        at<int32_t>(difftest::version::dataOrDie(0x00551520)) = g.chance(40) ? 0 : g.chance(10) ? -g.range(1, 10) : g.chance(50) ? g.range(16, 40) : g.range(16, 700);
         if constexpr (nocturne::kVariant == nocturne::Variant::Hardtype) {   // the moon phase and 25th Magatama it reads
             at<uint8_t>(0x01248f41) = static_cast<uint8_t>(g.chance(40) ? 8 : g.range(0, 15));
             at<uint8_t>(0x0124a213) = static_cast<uint8_t>(g.chance(50) ? 0 : g.range(1, 25));
@@ -2761,9 +2775,9 @@ void addKoukaTests(std::vector<TestCase>& t)
             party.flag = static_cast<int16_t>((party.flag & ~9) | (g.chance(60) ? g.pick<int16_t>({1, 8, 9}) : 0));
             party.formindex = static_cast<int16_t>(f);
         }
-        at<int32_t>(0x0054e800) = g.range(0, 100000);                                  // the frame counter
-        at<int32_t>(0x00551548) = at<int32_t>(0x0054e800) - g.range(0, 300);           // the loading's start
-        at<int32_t>(0x0055154c) = g.chance(50) ? 0 : g.range(1, 300);                  // ... and time
+        at<int32_t>(difftest::version::dataOrDie(0x0054e800)) = g.range(0, 100000);                                  // the frame counter
+        at<int32_t>(difftest::version::dataOrDie(0x00551548)) = at<int32_t>(difftest::version::dataOrDie(0x0054e800)) - g.range(0, 300);           // the loading's start
+        at<int32_t>(difftest::version::dataOrDie(0x0055154c)) = g.chance(50) ? 0 : g.range(1, 300);                  // ... and time
         at<uint32_t>(FW_SCRATCH + 0xbf0) = static_cast<uint32_t>(g.rng());             // (varies the fakes' answers)
         nocturne::dat::globalWork().moon_phase = static_cast<uint8_t>(g.chance(50) ? 8 : g.range(0, 15));
         main.statusMessageTable = iface::helpWorld(g, {6, 7}).id;   // (a back attack's status message, either form)
@@ -2920,24 +2934,24 @@ void addKoukaTests(std::vector<TestCase>& t)
     for (const FormConstant& constant : kFormConstants) {
         const FormConstant* c = &constant;
         add(c->name, [=](Gen& g) {
-            at<uint32_t>(0x005514fc) = static_cast<uint32_t>(g.rng());
+            at<uint32_t>(difftest::version::dataOrDie(0x005514fc)) = static_cast<uint32_t>(g.rng());
             return Pair{[=] { origVm(c->original, {}); return uint64_t{difftest::iface::origVmFloat()}; },
                         [=] { return uint64_t{c->rewrite().bits()}; }};
         });
     }
     add("nbPanelPartyShow", [](Gen& g) {
-        at<uint8_t>(0x0055123d) = static_cast<uint8_t>(g.range(0, 1));
+        at<uint8_t>(difftest::version::dataOrDie(0x0055123d)) = static_cast<uint8_t>(g.range(0, 1));
         return Pair{[] { return origVmVoid(0x00282258, {}); }, [] { panelPartyShow(); return uint64_t{0}; }};
     });
     add("nbPanelPartyHide", [](Gen& g) {
-        at<uint8_t>(0x0055123d) = static_cast<uint8_t>(g.range(0, 1));
+        at<uint8_t>(difftest::version::dataOrDie(0x0055123d)) = static_cast<uint8_t>(g.range(0, 1));
         return Pair{[] { return origVmVoid(0x00282268, {}); }, [] { panelPartyHide(); return uint64_t{0}; }};
     });
     for (const char* which : {"nbCameraSetBougai", "nbCameraSetTarget", "nbCameraSetHojo", "nbCameraSetEveTarget", "effBTLSkillGetInvokeFormation"}) {
         const std::string name = which;
         add(which, [=](Gen& g) {
             const uint32_t a = formAddress(g.range(0, 13)), b = formAddress(g.range(0, 13)), c = formAddress(g.range(0, 13));
-            at<uint32_t>(0x005698e0) = g.chance(90) ? formAddress(g.range(0, 13)) : 0;
+            at<uint32_t>(difftest::version::dataOrDie(0x005698e0)) = g.chance(90) ? formAddress(g.range(0, 13)) : 0;
             if (name == "nbCameraSetBougai")
                 return Pair{[=] { return origVmVoid(0x001b17a0, {a}); }, [=] { cameraOnObstructor(at<Formation>(a)); return uint64_t{0}; }};
             if (name == "nbCameraSetTarget")
@@ -3158,7 +3172,7 @@ void addKoukaTests(std::vector<TestCase>& t)
     });
     add("dds3SlowOn", [](Gen& g) {
         const int32_t period = g.range(1, 4), frames = g.range(0, 40);
-        at<uint32_t>(0x0054e804) = static_cast<uint32_t>(g.rng());
+        at<uint32_t>(difftest::version::dataOrDie(0x0054e804)) = static_cast<uint32_t>(g.rng());
         return Pair{[=] { return origVmVoid(0x00100460, {I(period), I(frames)}); },
                     [=] { nocturne::dds3::slowOn(period, frames); return uint64_t{0}; }};
     });

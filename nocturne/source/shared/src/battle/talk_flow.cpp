@@ -1,6 +1,7 @@
 // The talks' steps: each group's flow, rewritten or still the original's.
 #include "nocturne/battle/talk_flow.hpp"
 
+#include "nocturne/address.hpp"
 #include "nocturne/data/ids.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
@@ -9,7 +10,7 @@ namespace nocturne::nb {
 
 namespace {
 
-constexpr uint32_t kTalkFlows = 0x004ef468;   // [step group] the original's flow functions
+constexpr uint32_t kTalkFlows = addr(0x004ef468);   // [step group] the original's flow functions
 
 } // namespace
 

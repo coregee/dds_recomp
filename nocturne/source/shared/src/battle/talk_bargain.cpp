@@ -7,6 +7,7 @@
 // party may step in with a talk skill (6_51..6_57, 6_74). Rewritten from
 // the original instructions. Messages are in the demon's flow or affinity
 // table, or the help tables.
+#include "nocturne/address.hpp"
 #include "nocturne/battle/talk_flow.hpp"
 
 #include "nocturne/battle/camera.hpp"
@@ -31,9 +32,9 @@ constexpr uint32_t kNoDeal = 0xa0001;
 constexpr uint32_t kHelperLeaves = step(0x4a);       // 6_74: the helper's way back, then workid[6]
 constexpr uint32_t kHelperStepsIn = step(0x34);      // 6_52: then workid[0] or [1]
 constexpr uint32_t kDemand = step(0x46);             // 6_70: give it?
-constexpr uint32_t kMovePacketsAway = 0x00265298;     // a unit steps back, fading out (VU0)
-constexpr uint32_t kMovePacketsOut = 0x00265130;      // ... steps aside, turning
-constexpr uint32_t kMovePacketsIn = 0x002653a0;       // ... steps forward, fading in
+constexpr uint32_t kMovePacketsAway = addr(0x00265298);     // a unit steps back, fading out (VU0)
+constexpr uint32_t kMovePacketsOut = addr(0x00265130);      // ... steps aside, turning
+constexpr uint32_t kMovePacketsIn = addr(0x002653a0);       // ... steps forward, fading in
 
 // What the demon asks for (TalkState::requesttype here).
 enum Request : int32_t { kAskItem, kAskMacca, kAskQuestion, kAskDrain, kAskFight, kAskMaccaGift };

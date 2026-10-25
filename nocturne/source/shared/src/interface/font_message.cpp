@@ -8,6 +8,7 @@
 // per name (family and given name).
 #include <cstring>
 
+#include "nocturne/address.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/interface/font.hpp"
 
@@ -15,13 +16,13 @@ namespace nocturne::fr {
 
 namespace {
 
-constexpr uint32_t kEmptyString = 0x0054f430;
-constexpr uint32_t kEmptyString2 = 0x0054f448;   // (another "")
-constexpr uint32_t kVariables = 0x0056bbd0;      // uint32[32]: the {var n} strings
-constexpr uint32_t kNameGlyphs = 0x0056bc50;     // Glyph*[4][16]
-constexpr uint32_t kNameRefs = 0x0056bd50;       // int32[4]
-constexpr uint32_t kSaveData = 0x0054ea20;       // pointer to the data holding the entered names
-constexpr uint32_t kLastCode = 0x0054ea00;
+constexpr uint32_t kEmptyString = addr(0x0054f430);
+constexpr uint32_t kEmptyString2 = addr(0x0054f448);   // (another "")
+constexpr uint32_t kVariables = addr(0x0056bbd0);      // uint32[32]: the {var n} strings
+constexpr uint32_t kNameGlyphs = addr(0x0056bc50);     // Glyph*[4][16]
+constexpr uint32_t kNameRefs = addr(0x0056bd50);       // int32[4]
+constexpr uint32_t kSaveData = addr(0x0054ea20);       // pointer to the data holding the entered names
+constexpr uint32_t kLastCode = optionalAddr(0x0054ea00);   // (the US font engine's; font.cpp)
 
 uint32_t addressOf(const void* p) { return guest::addressOf(p); }
 template <class T> T* at(uint32_t address) { return address ? guest::table<T>(address) : nullptr; }

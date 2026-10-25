@@ -7,6 +7,7 @@
 // 1_31, the introduction (the two face each other), with the step to go on
 // to noted in workid[3]. Rewritten from the original instructions.
 // Messages are in the demon's flow table, the bosses' or the help table.
+#include "nocturne/address.hpp"
 #include "nocturne/battle/talk_flow.hpp"
 
 #include "nocturne/battle/camera.hpp"
@@ -26,7 +27,7 @@ namespace {
 
 constexpr uint32_t step(uint32_t number) { return 0x10000u | number; }
 constexpr uint32_t kIntroduction = step(0x1f);
-constexpr uint32_t kTalkSkills = 0x003e1338;   // [skill - 0x180] the talk skills: kind first (0x68 bytes)
+constexpr uint32_t kTalkSkills = addr(0x003e1338);   // [skill - 0x180] the talk skills: kind first (0x68 bytes)
 constexpr uint32_t kCantAct = 0x20;            // ActionProcessData::stat (tentative)
 constexpr uint32_t kTalkBreakIns = 0x800000;   // MainProcessData::stat: other enemies may break in (tentative)
 

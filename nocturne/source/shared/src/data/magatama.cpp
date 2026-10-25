@@ -3,6 +3,7 @@
 
 #include <cstddef>
 
+#include "nocturne/address.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/unit.hpp"
 #include "nocturne/external.hpp"
@@ -13,7 +14,7 @@ namespace nocturne::magatama {
 
 namespace {
 
-constexpr uint32_t kItemMagatama = 0x0053d6e8;   // int8_t[25]: Magatama for items 0x40..0x58
+constexpr uint32_t kItemMagatama = addr(0x0053d6e8);   // int8_t[25]: Magatama for items 0x40..0x58
 
 GlobalWork& global() { return dat::globalWork(); }
 

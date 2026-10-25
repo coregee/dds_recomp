@@ -6,11 +6,12 @@
 
 #include <cstdint>
 
+#include "nocturne/address.hpp"
 #include "nocturne/guest.hpp"
 
 namespace nocturne::nb::pad {
 
-inline constexpr uint32_t kAddress = 0x002f5830;
+inline constexpr uint32_t kAddress = addr(0x002f5830);
 
 enum Button {
     kPass = 0,         // in the command menu: choose Pass at once

@@ -11,6 +11,7 @@
 #include <cstdio>
 #include <cstring>
 
+#include "nocturne/address.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/script/vm.hpp"
 
@@ -101,8 +102,8 @@ namespace mes {
 
 namespace {
 
-constexpr uint32_t kManager = 0x0056be60;
-constexpr uint32_t kPad = 0x002f5830;          // pad trigger bytes (negative: pressed this frame)
+constexpr uint32_t kManager = addr(0x0056be60);
+constexpr uint32_t kPad = addr(0x002f5830);          // pad trigger bytes (negative: pressed this frame)
 constexpr int16_t kNoSpeaker = -1;
 
 // Pad bytes the message manager reads (tentative names from their use).
@@ -392,12 +393,12 @@ void InitializeManager()
     m.count = 0;
     m.frame = 0;
     m.config = 0;
-    m.texture = tex::Load(0x00535b10);                    // "/itf/MESWIN.TMX"
+    m.texture = tex::Load(addr(0x00535b10));                    // "/itf/MESWIN.TMX"
     itf::MiscLinkInit(m.list, addressOf(m.nodes), 0x80, sizeof(itf::LinkNode));
     for (itf::LinkNode* node = m.list.freehead.get(); node; node = node->pnext.get())
         node->instance.address = 0;
-    dds3::StartProcess(0x00535b20, 0x409, 0, 0, 0x001d0ff8, 0x001d10a8, 0);    // "CalcMsgMng": CalcManagerProc
-    dds3::StartProcess(0x00535b30, 0x2b1a, 0, 0, 0x001d1038, 0x001d10a8, 0);   // "DrawMsgMng": DrawManagerProc
+    dds3::StartProcess(addr(0x00535b20), 0x409, 0, 0, addr(0x001d0ff8), addr(0x001d10a8), 0);    // "CalcMsgMng": CalcManagerProc
+    dds3::StartProcess(addr(0x00535b30), 0x2b1a, 0, 0, addr(0x001d1038), addr(0x001d10a8), 0);   // "DrawMsgMng": DrawManagerProc
 }
 
 // ExitALL @ 0x001D10A8
@@ -434,8 +435,8 @@ uint32_t GetVarLocalize(int32_t id, int32_t index) { return instance(id).variabl
 
 namespace {
 
-constexpr uint32_t kNameBuffer = 0x0056c880;      // BuildCharacterName's output
-constexpr uint32_t kSaveData = 0x0054ea20;        // pointer to the data holding the entered names
+constexpr uint32_t kNameBuffer = optionalAddr(0x0056c880);   // BuildCharacterName's output (US only, as the font: font.cpp)
+constexpr uint32_t kSaveData = addr(0x0054ea20);        // pointer to the data holding the entered names
 
 // Copies a string into a block of its own for {var index}. Without a length,
 // the copy is the string's length plus 4, rounded down to a word (so it may
@@ -552,16 +553,16 @@ void SetVarFormatted(int32_t id, int32_t index, int32_t num, uint64_t type)
         storeVariable(instance(id), index, floor, 0);
         return;
     }
-    case kVarDevil: table = 0x003e7328; break;
-    case kVarItem: table = 0x003e8170; break;
-    case kVarSkill: table = 0x003e83f0; break;
-    case kVarRace: table = 0x003e7930; break;
-    case kVarMagatama: table = 0x003e8c30; break;
+    case kVarDevil: table = addr(0x003e7328); break;
+    case kVarItem: table = addr(0x003e8170); break;
+    case kVarSkill: table = addr(0x003e83f0); break;
+    case kVarRace: table = addr(0x003e7930); break;
+    case kVarMagatama: table = addr(0x003e8c30); break;
     case kVarArea:
-        SetVarImmediate(id, index, 0x00311450 + static_cast<uint32_t>(num) * 32);
+        SetVarImmediate(id, index, addr(0x00311450) + static_cast<uint32_t>(num) * 32);
         return;
     case kVarSubArea:
-        SetVarImmediate(id, index, 0x00311850 + static_cast<uint32_t>(num) * 32);
+        SetVarImmediate(id, index, addr(0x00311850) + static_cast<uint32_t>(num) * 32);
         return;
     case kVarCharacter:
         BuildCharacterName(num);

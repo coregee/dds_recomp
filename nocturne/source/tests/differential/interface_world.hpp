@@ -20,6 +20,11 @@ uint64_t origVoid(uint32_t entry, std::initializer_list<uint64_t> args);
 uint64_t origVm(uint32_t entry, std::initializer_list<uint64_t> args, std::initializer_list<uint32_t> floatArgs = {});
 uint64_t origVmVoid(uint32_t entry, std::initializer_list<uint64_t> args, std::initializer_list<uint32_t> floatArgs = {});
 uint32_t origVmFloat();   // the float result (f0) of the last origVm
+// The entries above are US Maniax's addresses (mapped for another build,
+// version_map.hpp); these take the version's own, for the bridges the
+// rewrite calls with addresses it read or formed.
+uint64_t origVmAt(uint32_t entry, std::initializer_list<uint64_t> args);
+uint64_t origVmVoidAt(uint32_t entry, std::initializer_list<uint64_t> args);
 uint64_t interpretedCalls();   // calls into the original instructions so far
 
 inline uint32_t addr(const void* p) { return p ? fw_address_of(p) : 0; }

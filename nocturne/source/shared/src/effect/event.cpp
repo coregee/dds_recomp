@@ -1,6 +1,8 @@
 // The event screen effects' switches and parameters (original unit: effEvent).
 #include "nocturne/effect/event.hpp"
 
+#include "nocturne/address.hpp"
+
 namespace nocturne::eff {
 
 namespace {
@@ -12,13 +14,13 @@ struct Objects {
     Ptr32<PartialMultiFilter> multiFilter;
     Ptr32<RippleBlur> rippleBlur;
 };
-Objects& objects() { return *guest::table<Objects>(0x00551de8); }
+Objects& objects() { return *guest::table<Objects>(addr(0x00551de8)); }
 
 } // namespace
 
-Switches& switches() { return *guest::table<Switches>(0x0054f278); }
-Blur& blurParam() { return *guest::table<Blur>(0x003201d0); }
-Filter& filterParam() { return *guest::table<Filter>(0x00320258); }
+Switches& switches() { return *guest::table<Switches>(addr(0x0054f278)); }
+Blur& blurParam() { return *guest::table<Blur>(addr(0x003201d0)); }
+Filter& filterParam() { return *guest::table<Filter>(addr(0x00320258)); }
 PartialMultiBlur* multiBlur() { return objects().multiBlur.get(); }
 DistortionBlur* distortionBlur() { return objects().distortionBlur.get(); }
 PartialMultiFilter* multiFilter() { return objects().multiFilter.get(); }

@@ -491,6 +491,8 @@ uint32_t dds3::StartProcess(uint32_t name, int32_t priority, int32_t startdelay,
 
 void diag::print(Message message, int64_t a, int64_t b, int64_t c, int64_t d, int64_t e)
 {
+    if (static_cast<uint32_t>(message) == 0)
+        return;   // a print this version doesn't have (optionalAddr)
     ps2LibcPrintf(static_cast<uint32_t>(message), static_cast<uint64_t>(a), static_cast<uint64_t>(b),
                   static_cast<uint64_t>(c), static_cast<uint64_t>(d), static_cast<uint64_t>(e));
 }

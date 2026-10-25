@@ -8,7 +8,7 @@ every US Maniax address, so its delta is the bytes it changes.
   `python tools/gen_tables.py --variant hardtype` writes the tables that
   differ into `source/hardtype/src/data/`; `NOCTURNE_VARIANT=hardtype` with
   `source/tests/tables/build.cmd` proves them byte for byte.
-- **Code:** 73 functions patched (60 of them rewritten in the base so far).
+- **Code:** 73 functions patched (62 of them rewritten in the base so far).
   Most patches are short jumps into about 5.7 KB of new code that Hardtype
   places in space that is empty in US Maniax (0x2FDC20..0x2FF388). Its own
   small state lives there too (`nocturne/hardtype.hpp`).
@@ -119,6 +119,13 @@ Demi-fiend's unit (0x1248F54) and the Magatama owned (0x124A213). An option
 byte at 0x2FF388, which no code writes (presumably set by the patch's
 cheats), turns some changes on.
 
+## Outside battle
+
+- **Experience:** demons in stock earn three quarters of the battle's
+  experience, or all of it with the skill 0x162 (US Maniax: none without
+  it, and the skill's divisor with it).
+- **Shops:** Hard doubles the buy price instead of tripling it.
+
 ## Status
 
 Ported and proven against Hardtype's own instructions (`variant_tests.cpp`,
@@ -129,7 +136,8 @@ cmbCalcKeisyoSkillRate, cmbGetMutationSkill, nbGetTargetTypeRuleArea, and
 the AI's checks and actions (nbAiAiChk, its conditions, the action choice and
 cost checks), the death checks, SetCommList, nbCheckBattleSkillError3, the
 buff limits, the encounter functions, the unit models, the action process
-(READY, SKILL, SetAllPacket, the press results, escape, Macca), and nbCalc's
+(NON, READY, SKILL, SetAllPacket, the press results, escape, Macca), the
+battle reward (nbResultAddExp), the shop price (shpCalcItemPrice), and nbCalc's
 damage, accuracy, critical, affinity and ailment functions (their
 "(instructions)" tests in `main.cpp`).
 
@@ -140,7 +148,7 @@ both). `kHardtypePending` in `source/tests/differential/main.cpp` lists
 tests of patches not yet followed (none now).
 
 Every Hardtype change to a function the rewrite has is ported. The
-patched functions the base hasn't rewritten yet (a shop's prices, battle
-rewards, a command choice and some field and fusion functions) follow
-their base rewrites. Not yet covered: the AI's effect estimates (reached by
-AI levels above 0, which Hardtype's own data never uses).
+patched functions the base hasn't rewritten yet (a command choice and some
+field and fusion functions) follow their base rewrites. The AI's effect estimates (AI levels 1 to 3, which
+Hardtype's own data never uses) run through the ported functions and pass
+too.

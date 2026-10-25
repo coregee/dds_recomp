@@ -1,18 +1,19 @@
 // The kernel's screen state (original unit: dds3KernelDraw).
 #include "nocturne/kernel/draw.hpp"
 
+#include "nocturne/address.hpp"
 #include "nocturne/guest.hpp"
 
 namespace nocturne::dds3 {
 
 namespace {
 
-ee::Float& fovy() { return *guest::table<ee::Float>(0x002f59bc); }   // dds3ScreenParam.fovy
-uint32_t* lights() { return guest::table<uint32_t>(0x002f5b40); }    // dds3DirLights: sdf3DLight_t*[]
-uint32_t* ambient() { return guest::table<uint32_t>(0x002f5b50); }   // dds3Ambient
-FogParam& fog() { return *guest::table<FogParam>(0x002f5b60); }      // dds3FogParam
-ee::Float& soften() { return *guest::table<ee::Float>(0x005518a8); }  // the models' softening
-ee::Float& bias() { return *guest::table<ee::Float>(0x005518ac); }
+ee::Float& fovy() { return *guest::table<ee::Float>(addr(0x002f59bc)); }   // dds3ScreenParam.fovy
+uint32_t* lights() { return guest::table<uint32_t>(addr(0x002f5b40)); }    // dds3DirLights: sdf3DLight_t*[]
+uint32_t* ambient() { return guest::table<uint32_t>(addr(0x002f5b50)); }   // dds3Ambient
+FogParam& fog() { return *guest::table<FogParam>(addr(0x002f5b60)); }      // dds3FogParam
+ee::Float& soften() { return *guest::table<ee::Float>(addr(0x005518a8)); }  // the models' softening
+ee::Float& bias() { return *guest::table<ee::Float>(addr(0x005518ac)); }
 
 // A colour packed as the GS takes it (0xAABBGGRR): each lane scaled,
 // truncated to an int and cut to its low byte (VFTOI0, PPACH, PPACB).
@@ -101,18 +102,18 @@ void startSwap(EffectFade& f, int32_t frame)
 
 } // namespace
 
-uint32_t& dds3DrawFlag() { return *guest::table<uint32_t>(0x0054e95c); }
-Quake& quake() { return *guest::table<Quake>(0x0054e970); }
-ScreenBlur& screenBlur() { return *guest::table<ScreenBlur>(0x0054e960); }
-BlurFade& blurFade() { return *guest::table<BlurFade>(0x00551bac); }
-EffectFades& effectFades() { return *guest::table<EffectFades>(0x00551c10); }
-Effects& effects() { return *guest::table<Effects>(0x005572c0); }
-SceneFades& sceneFades() { return *guest::table<SceneFades>(0x00551bc0); }
-SceneTargets& sceneTargets() { return *guest::table<SceneTargets>(0x00557220); }
-Vector4& fogparabase() { return *guest::table<Vector4>(0x005572a0); }
-Vector4& fogparatarget() { return *guest::table<Vector4>(0x005572b0); }
-int32_t& distblurovercnt() { return *guest::table<int32_t>(0x0054e97c); }
-int32_t& ripblurovercnt() { return *guest::table<int32_t>(0x0054e980); }
+uint32_t& dds3DrawFlag() { return *guest::table<uint32_t>(addr(0x0054e95c)); }
+Quake& quake() { return *guest::table<Quake>(addr(0x0054e970)); }
+ScreenBlur& screenBlur() { return *guest::table<ScreenBlur>(addr(0x0054e960)); }
+BlurFade& blurFade() { return *guest::table<BlurFade>(addr(0x00551bac)); }
+EffectFades& effectFades() { return *guest::table<EffectFades>(addr(0x00551c10)); }
+Effects& effects() { return *guest::table<Effects>(addr(0x005572c0)); }
+SceneFades& sceneFades() { return *guest::table<SceneFades>(addr(0x00551bc0)); }
+SceneTargets& sceneTargets() { return *guest::table<SceneTargets>(addr(0x00557220)); }
+Vector4& fogparabase() { return *guest::table<Vector4>(addr(0x005572a0)); }
+Vector4& fogparatarget() { return *guest::table<Vector4>(addr(0x005572b0)); }
+int32_t& distblurovercnt() { return *guest::table<int32_t>(addr(0x0054e97c)); }
+int32_t& ripblurovercnt() { return *guest::table<int32_t>(addr(0x0054e980)); }
 
 // ---- the camera, lights and fog -----------------------------------------------------------
 
@@ -199,8 +200,8 @@ Vector4 dds3RotationArc(Vector4 from, Vector4 to)
     normalize(from);
     to = withoutAlpha(to);
     normalize(to);
-    const ee::Float same = *guest::table<ee::Float>(0x0054c18c);       // 0.9999
-    const ee::Float opposite = *guest::table<ee::Float>(0x0054c190);   // -0.9999
+    const ee::Float same = *guest::table<ee::Float>(addr(0x0054c18c));       // 0.9999
+    const ee::Float opposite = *guest::table<ee::Float>(addr(0x0054c190));   // -0.9999
     const ee::Float d = dot(from, to);
     if (same <= d)
         return {0.0f, 0.0f, 0.0f, 1.0f};
@@ -238,7 +239,7 @@ void dds3SetAmbientColor(uint32_t frame, const Vector4& col)
 {
     Vector4 color = col;
     color.w = ee::Float(1.0f);
-    Vector4& ambient = *guest::table<Vector4>(0x002f5b50);
+    Vector4& ambient = *guest::table<Vector4>(addr(0x002f5b50));
     if (frame == 0) {
         clearFlags(kAmbientFade);
         ambient = color;

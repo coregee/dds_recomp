@@ -6,6 +6,7 @@
 #include <cstdio>
 #include <utility>
 
+#include "nocturne/address.hpp"
 #include "nocturne/battle/affinity.hpp"
 #include "nocturne/battle/ai.hpp"
 #include "nocturne/battle/ai_script.hpp"
@@ -460,14 +461,14 @@ namespace {
 struct StateEntry {
     uint32_t set, check;
 };
-constexpr uint32_t kStateTable = 0x003fa7c0;
+constexpr uint32_t kStateTable = addr(0x003fa7c0);
 
 struct StateFunctions {
     void (*set)(ActionProcessData&);
     int32_t (*check)(ActionProcessData&);
 };
 constexpr StateFunctions kStates[24] = {
-    {enterNone, nullptr},                           // 0 NON
+    {enterNone, updateNone},                        // 0 NON
     {enterCommand, updateCommand},                  // 1 COMM
     {enterAi, updateAi},                            // 2 AI
     {enterAiScript, updateAiScript},                // 3 AISCR
@@ -662,8 +663,8 @@ namespace {
 
 constexpr uint32_t kStatAutoBattle = 0x40;      // MainProcessData::stat: the party fights on its own
 constexpr uint32_t kActAuto = 0x80;             // ActionProcessData::stat: this unit acts on its own
-constexpr uint32_t kDebugPad = 0x0054e824;      // int32: the debug shortcuts on the pad are on
-constexpr uint32_t kStockChoice = 0x00551120;   // int32: the stock demon chosen (-1 none yet, -2 cancelled)
+constexpr uint32_t kDebugPad = addr(0x0054e824);      // int32: the debug shortcuts on the pad are on
+constexpr uint32_t kStockChoice = addr(0x00551120);   // int32: the stock demon chosen (-1 none yet, -2 cancelled)
 
 int32_t& stockChoice() { return guest::table<int32_t>(kStockChoice)[0]; }
 int8_t padByte(int32_t button) { return guest::table<const int8_t>(pad::kAddress)[button]; }
@@ -681,7 +682,101 @@ void clearSelected(MainProcessData& main)
         guest::table<Formation>(main.form.address)[i].stat &= ~FormationStat::Selected;
 }
 
+constexpr uint16_t kPartyHidden = 0x8;          // Party::flag (tentative): the unit sits the turn out (INVISIBLE)
+constexpr uint32_t kStatTalkSettled = 0x4000;   // MainProcessData::stat, cleared each turn (tentative)
+constexpr uint32_t kStatPadControl = 0x10000000;   // ... with the debug pad: the player gives enemies commands
+constexpr uint16_t kTalkSkill = 0x182;          // the talk "skill" a talk's command carries
+
+// A talk the unit opens: command 4 on a target, played from READY.
+int32_t openTalk(ActionProcessData& a, int32_t talkType, uint16_t index)
+{
+    a.work->nowcommand = 4;
+    a.work->nowindex = index;
+    a.talkType = talkType;
+    return kActionReady;
+}
+
 } // namespace
+
+// CheckAction_NON @ 0x00253490: a new turn's first state. It clears the
+// talks' slots and last turn's flags and rolls the skill item 1 would give
+// (massuruid); a hidden unit sits the turn out (INVISIBLE). Then by the
+// turn's type: 1..3 a talk (types 4, 3 and 5) at `target`, 4 the skill
+// `adata` at `target` (and stat bit 4), 5 the unit's death script;
+// otherwise the unit's counters 0x11 and 0x12 tick, an ailing unit (Shock,
+// Freeze, Sleep, Bind, Charm, Stone) goes to BAD, the party's side to COMM
+// (or ATO, if inactive), and an enemy to a talk of its own (CheckMukanNego,
+// CheckSenseiNego) or its AI (script or table; COMM under the debug pad's
+// control).
+int32_t updateNone(ActionProcessData& a)
+{
+    MainProcessData& main = *a.data;
+    main.talkResult = 0;
+    main.talkPlayerSlot = 0;
+    main.stat &= ~kStatTalkSettled;
+    main.talkEnemySlot = 0;
+    a.massuruid = dat::itemSkill(1);
+    a.form->motionend = 0;
+    const uint16_t flag = a.party->flag;
+    a.party->flag = static_cast<int16_t>(flag & ~PartyFlag::AlwaysCrit);
+    if (flag & kPartyHidden) {
+        setNextState(a, kActionInvisible);
+        return 1;
+    }
+
+    int32_t next;
+    switch (a.type) {
+    case 1:
+    case 2:
+    case 3:
+        next = openTalk(a, a.type == 1 ? 4 : a.type == 2 ? 3 : 5, a.type == 2 ? main.prevcommind : kTalkSkill);
+        targetPartySlot(a, a.target);
+        a.select = ai::selectedBits(main);
+        break;
+    case 4:
+        a.work->nowcommand = 1;
+        a.work->nowindex = static_cast<uint16_t>(a.adata);
+        targetPartySlot(a, a.target);
+        a.select = ai::selectedBits(main);
+        next = kActionReady;
+        a.stat |= 4;
+        break;
+    case 5:
+        next = kActionDeathScript;
+        break;
+    default: {
+        const int32_t slot = a.form->formindex;
+        addBuff(slot, 0x11, 1, false);
+        addBuff(slot, 0x12, 1, false);
+        switch (static_cast<Ailment>(badStat(a.form->formindex))) {
+        case Ailment::Shock: case Ailment::Freeze: case Ailment::Sleep:
+        case Ailment::Bind: case Ailment::Charm: case Ailment::Stone:
+            next = kActionAilment;
+            break;
+        default:
+            if (!(a.party->flag & PartyFlag::EnemySide)) {
+                next = (a.party->flag & PartyFlag::Inactive) ? kActionCleanup : kActionCommand;
+            } else if (checkLastEnemyTalks(a)) {
+                next = openTalk(a, 1, kTalkSkill);
+                targetDemiFiend(a);
+                a.select = ai::selectedBits(main);
+            } else if (checkAmbushTalk(a)) {
+                next = openTalk(a, 2, kTalkSkill);
+                targetDemiFiend(a);
+                a.select = ai::selectedBits(main);
+            } else if (guest::table<const int32_t>(kDebugPad)[0] == 1 && (main.stat & kStatPadControl)) {
+                next = kActionCommand;
+            } else {
+                next = dat::aiRecord(a.work->id).script() == 0 ? kActionAi : kActionAiScript;
+            }
+            break;
+        }
+        break;
+    }
+    }
+    setNextState(a, next);
+    return 1;
+}
 
 // SetAction_COMM @ 0x00253830: the command menu opens (in an auto battle
 // the unit chooses by itself), with the battle panel and press gauge.
@@ -1353,7 +1448,7 @@ void queueHitResult(ActionProcessData& a, int32_t koukatype, int32_t nskill, int
 
 namespace {
 
-constexpr uint32_t kMidiPath = 0x00575360;   // char[]: the skill's sound file name
+constexpr uint32_t kMidiPath = addr(0x00575360);   // char[]: the skill's sound file name
 
 } // namespace
 
@@ -2149,7 +2244,7 @@ void enterAftermath(ActionProcessData& a)
 int32_t updateAftermath(ActionProcessData& a)
 {
     if (a.stat & 0x10) {
-        const int8_t* pad = guest::table<const int8_t>(0x002f5830);
+        const int8_t* pad = guest::table<const int8_t>(addr(0x002f5830));
         if (pad[1] >= 0 && pad[3] >= 0) {
             setPacketTypeFlag(14, 2, 1);
             return 0;

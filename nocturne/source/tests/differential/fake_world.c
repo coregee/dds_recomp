@@ -211,7 +211,7 @@ float sdfGetRandFloat(uint32_t *state)
 
 int fw_print_arg_count(uint32_t format)
 {
-    switch (format) {
+    switch (fw_maniax_address(format)) {
     case 0x005449c0: return 3; /* critical */
     case 0x005449e0: case 0x005449f8: case 0x00544bf8:
     case 0x00544c10: case 0x00544de0: return 1;
@@ -289,6 +289,12 @@ int fw_print_arg_count(uint32_t format)
     case 0x005457d8: case 0x005457e8: case 0x00544170: return 0;
     case 0x00544ba8: return 4; /* ailment chance */
     default:
+        /* Another build: US Maniax's legacy C (its own addresses) may print
+         * before the harness sees the test runs no instructions. */
+        if (fw_other_version()) {
+            fprintf(stderr, "fake world: unknown print format %08x (US Maniax %08x)\n", format, fw_maniax_address(format));
+            return 0;
+        }
         fprintf(stderr, "fake world: unknown print format %08x\n", format);
         abort();
     }
@@ -425,7 +431,7 @@ static void guest_sp_release(uint32_t bytes);
  * target-selection process. */
 uint64_t dds3SearchProcessName(uint64_t name)
 {
-    switch ((uint32_t)name) {
+    switch (fw_maniax_address((uint32_t)name)) {
     case 0x005514f0: return FW_HELP_PROCESS;
     case 0x005441a8: return FW_COMMSEL_PROCESS;
     case 0x00551560: return FW_MAKA_PROCESS;
@@ -495,6 +501,7 @@ uint64_t ps2CompendiumRecords_00219C40(uint64_t p0, uint64_t p1);
 uint64_t ps2CompendiumRecords_00219D00(uint64_t p0, uint64_t p1);
 uint64_t nocturneCompendiumRecordsCompare(uint64_t target, uint64_t left, uint64_t right)
 {
+    target = fw_maniax_address((uint32_t)target);
     if ((uint32_t)target == 0x00219c40u) return ps2CompendiumRecords_00219C40(left, right);
     if ((uint32_t)target == 0x00219d00u) return ps2CompendiumRecords_00219D00(left, right);
     unreachable("qsort comparator");

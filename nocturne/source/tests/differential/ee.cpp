@@ -22,7 +22,6 @@ namespace difftest::ee {
 namespace {
 
 constexpr uint32_t kReturn = 0xfffffff0u;          // ra of the outermost call
-constexpr uint32_t kGlobalPointer = 0x00554170u;   // gp, as the entry point sets it
 
 [[noreturn]] void fail(const char* what, uint32_t pc, uint32_t op)
 {
@@ -76,7 +75,7 @@ uint64_t Interpreter::call(uint32_t entry, std::initializer_list<uint64_t> args,
             store<uint64_t>(FW_STACK_TOP + 8u * static_cast<uint32_t>(i - 8), a);
         ++i;
     }
-    cpu.r[28] = kGlobalPointer;
+    cpu.r[28] = version::globalPointer();
     cpu.r[29] = FW_STACK_TOP;
     cpu.r[31] = kReturn;
     pc_ = entry;
@@ -92,8 +91,20 @@ uint64_t Interpreter::call(uint32_t entry, std::initializer_list<uint64_t> args,
             npc_ = pc_ + 4;
             continue;
         }
-        if (!interpreted(pc_))
+        if (!interpreted(pc_)) {
+            // Another build: a function the harness doesn't map yet fails
+            // the case (trap 99), naming it once, instead of the run.
+            if (version::active()) {
+                static std::unordered_map<uint32_t, bool> reported;
+                if (!reported[pc_]) {
+                    reported[pc_] = true;
+                    std::fprintf(stderr, "ee: call outside the interpreted code at %08x (US Maniax %08x)\n", pc_,
+                                 version::maniax(pc_));
+                }
+                fw_trap(99);
+            }
             fail("call outside the interpreted code", pc_, 0);
+        }
         step();
     }
     return cpu.r[2];

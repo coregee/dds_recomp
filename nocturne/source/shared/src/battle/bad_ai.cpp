@@ -2,6 +2,7 @@
 // Rewritten from the original instructions.
 #include "nocturne/battle/bad_ai.hpp"
 
+#include "nocturne/address.hpp"
 #include "nocturne/battle/ai.hpp"
 #include "nocturne/battle/calc.hpp"
 #include "nocturne/battle/combatant.hpp"
@@ -17,8 +18,8 @@ namespace nocturne::nb {
 namespace {
 
 namespace address {
-constexpr uint32_t RituList = 0x00575490;     // BadRitu[]
-constexpr uint32_t RituCount = 0x00551558;    // int32 (gp-relative)
+constexpr uint32_t RituList = addr(0x00575490);     // BadRitu[]
+constexpr uint32_t RituCount = addr(0x00551558);    // int32 (gp-relative)
 } // namespace address
 
 AilmentWeight* weightList() { return guest::table<AilmentWeight>(address::RituList); }

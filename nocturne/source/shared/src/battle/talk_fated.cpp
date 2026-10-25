@@ -5,6 +5,7 @@
 // from the record: its messages, with nods and head shakes, then gifts or
 // a fight. Rewritten from the original instructions. Messages are in the
 // fated pairs' table or the help table. Several of its steps are empty.
+#include "nocturne/address.hpp"
 #include "nocturne/battle/talk_flow.hpp"
 
 #include "nocturne/battle/kouka.hpp"
@@ -31,7 +32,7 @@ struct FatedPair {
                                                         // player's devil, else the demon; nod 1, else a head shake
 };
 static_assert(sizeof(FatedPair) == 0x3c);
-constexpr uint32_t kFatedPairs = 0x003e3158;
+constexpr uint32_t kFatedPairs = addr(0x003e3158);
 
 const FatedPair& pairOf(const TalkState& n) { return guest::table<const FatedPair>(kFatedPairs)[n.innen_id]; }
 

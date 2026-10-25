@@ -1,6 +1,7 @@
 // Script commands for AI scripts (original unit: nbAiScript).
 #include "nocturne/battle/ai_script.hpp"
 
+#include "nocturne/address.hpp"
 #include "nocturne/battle/affinity.hpp"
 #include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/ai.hpp"
@@ -15,8 +16,8 @@ namespace nocturne::nb::ai::script {
 
 namespace {
 
-constexpr uint32_t kRotation = 0x005514e8;   // int32: the rotation counter
-constexpr uint32_t kScripts = 0x004f0800;    // the AI scripts (a FlowScript in the executable)
+constexpr uint32_t kRotation = addr(0x005514e8);   // int32: the rotation counter
+constexpr uint32_t kScripts = addr(0x004f0800);    // the AI scripts (a FlowScript in the executable)
 
 ActionProcessData& act() { return *guest::table<ActionProcessData>(scr::scrGetData()); }
 int32_t& rotation() { return *guest::table<int32_t>(kRotation); }

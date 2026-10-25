@@ -36,7 +36,7 @@ void datClearCommMemory(uint64_t work);
 namespace difftest {
 namespace {
 
-constexpr uint32_t kUnits = FW_GLOBAL + 0xa54;
+constexpr uint32_t kUnits = FW_GLOBAL + static_cast<uint32_t>(offsetof(nocturne::GlobalWork, units));
 uint32_t unitAddress(int i) { return kUnits + 0xec * static_cast<uint32_t>(i); }
 
 const uint16_t kRecoverySkills[] = {skill::LifeAid, skill::ManaAid, skill::VictoryCry, skill::LifeRefill, skill::ManaRefill};

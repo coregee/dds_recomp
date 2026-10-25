@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "harness.hpp"
+#include "version_map.hpp"
 #include "interface_world.hpp"
 #include "nocturne/interface/message.hpp"
 #include "nocturne/effect/event.hpp"
@@ -131,8 +132,8 @@ void effectWorld(Gen& g)
     randomBytes(g, 0x00551bc0, 0x50);           // the scene's fades
     randomBytes(g, 0x00557220, 0x20);
     randomBytes(g, 0x005572a0, 0x20);
-    at<uint32_t>(0x005518a8) = randomFloat(g);  // soften, bias
-    at<uint32_t>(0x005518ac) = randomFloat(g);
+    at<uint32_t>(difftest::version::dataOrDie(0x005518a8)) = randomFloat(g);  // soften, bias
+    at<uint32_t>(difftest::version::dataOrDie(0x005518ac)) = randomFloat(g);
 }
 
 // Global variables, the message manager, an empty script list.
@@ -143,7 +144,7 @@ void baseWorld(Gen& g)
     mes::Manager& m = mes::manager();
     std::memset(&m, 0, sizeof m);
     itf::MiscLinkInit(m.list, addr(m.nodes), 0x80, sizeof(itf::LinkNode));
-    at<uint32_t>(0x0054ea20) = FW_GLOBAL;
+    at<uint32_t>(difftest::version::dataOrDie(0x0054ea20)) = FW_GLOBAL;
     for (uint32_t i = 0; i < 256; ++i) {
         globalInt(i) = randomInt(g);
         globalFloat(i) = randomFloat(g);
@@ -314,7 +315,7 @@ uint32_t floatArguments(int16_t command)
 uint32_t fovyEdge(Gen& g)
 {
     static const std::vector<uint32_t> edges = [] {
-        const nocturne::ee::Float k = at<nocturne::ee::Float>(0x0054c194);
+        const nocturne::ee::Float k = at<nocturne::ee::Float>(difftest::version::dataOrDie(0x0054c194));
         std::vector<uint32_t> found;
         for (float bound : {5.0f, 180.0f}) {
             uint32_t bits = static_cast<uint32_t>(floatBits(bound * 57.29578f)) - 64;
@@ -335,7 +336,7 @@ uint32_t directionLane(Gen& g, int lane)
     static int32_t kind = 0;
     if (lane == 0)
         kind = static_cast<int32_t>(g.below(4));
-    const uint32_t light = at<uint32_t>(0x002f5b40);
+    const uint32_t light = at<uint32_t>(difftest::version::dataOrDie(0x002f5b40));
     const uint32_t own = light ? at<uint32_t>(light + 0x10 + 4u * static_cast<uint32_t>(lane)) : 0;
     switch (kind) {
     case 0: return own;                  // the same direction

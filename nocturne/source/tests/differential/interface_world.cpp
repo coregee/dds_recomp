@@ -264,7 +264,7 @@ ee::Interpreter makeOriginal()
     e.interpret(0x00267788, 0x002677b4);   // nbGetBadStat
     e.interpret(0x002514f0, 0x002518c8);   // nbActionProcess: the time list
     e.interpret(0x0026a7d0, 0x0026a824);   // nbGetDevilFormatFlag
-    e.interpret(0x00253488, 0x00253490);   // SetAction_NON
+    e.interpret(0x00253488, 0x00253830);   // SetAction_NON, CheckAction_NON
     e.interpret(0x00253bf8, 0x00253de0);   // SetAction_AI .. CheckAction_DEADSCRIPT
     e.interpret(0x00288d80, 0x00288e18);   // nbInitAiScript
     e.interpret(0x00288e18, 0x002894e0);   // nbHelpProcess: nbDispText .. nbHelpOff
@@ -330,9 +330,12 @@ ee::Interpreter makeOriginal()
     e.interpret(0x00257cc8, 0x00257cd0);   // SetNextActionSeq
     e.interpret(0x00223628, 0x00223668);   // cmpCalcLevelUpBaseExp
     e.interpret(0x00223668, 0x00223728);   // cmbCalcLevelUpExp
+    if (version::active())
+        e.interpret(0x00223728, 0x00223744);   // cmbChkLevelUpExp (the JP builds' cmbCalcIkenieExp calls it)
     e.interpret(0x00222160, 0x002221cc);   // cmbGetMasterHeartsNums
     e.interpret(0x00221f20, 0x002220c0);   // cmbChkMasterHeartsStatNums
     e.interpret(0x00221e70, 0x00221ef4);   // cmbGetPlayerRaceID
+    e.interpret(0x002071e0, 0x002074c0);   // the shop: item, pack, count, price
     e.interpret(0x00216b78, 0x00216b90);   // fclEncycGetNum
     e.interpret(0x00216b90, 0x00216bec);   // fclEncycGetRatio2
     e.interpret(0x00219df0, 0x00219fbc);   // fclEncyc_SetElem
@@ -364,8 +367,8 @@ ee::Interpreter makeOriginal()
     // It also leaves in a3 the old first state word, which becomes the
     // second: the second as the fake leaves it (Hardtype's SetCommList reads it).
     e.hook(0x002c0ba8, [](ee::Cpu& c) {
-        c.r[5] = *nocturne::guest::table<uint32_t>(0x00529be0) >> 31;
-        c.r[7] = *nocturne::guest::table<uint32_t>(0x00529bdc);
+        c.r[5] = *nocturne::guest::table<uint32_t>(version::dataOrDie(0x00529be0)) >> 31;
+        c.r[7] = *nocturne::guest::table<uint32_t>(version::dataOrDie(0x00529bdc));
         return uint64_t{sdfGetRand(nullptr)};
     });
     e.interpret(0x002328c8, 0x00232920);   // cmpChkHaveHearts
@@ -392,37 +395,39 @@ ee::Interpreter makeOriginal()
     });
     e.hook(0x00280518, [](ee::Cpu&) { nbPanelAnalyzeStart(); return uint64_t{0}; });
     e.hook(0x0027fd18, [=](ee::Cpu& c) { return nbPanelStockSelect(a(c, 0), a(c, 1)); });
-    e.hook(0x00280528, [](ee::Cpu&) { nbPanelAnalyzeEnd(); return uint64_t{0}; });
+    e.hookUs(0x00280528, [](ee::Cpu&) { nbPanelAnalyzeEnd(); return uint64_t{0}; });
     e.interpret(0x00267ec8, 0x00267f14);   // nbGetHojoCounterMax (Hardtype patches it)
     e.interpret(0x00267f18, 0x00267f54);   // nbGetHojoCounterMin (Hardtype patches it)
-    e.hook(0x002584c8, [](ee::Cpu&) { nbUpdateOrder(); return uint64_t{0}; });
+    e.hookUs(0x002584c8, [](ee::Cpu&) { nbUpdateOrder(); return uint64_t{0}; });
     e.hook(0x002c2180, [](ee::Cpu&) { return ps2MovieStopAdpcm(); });
     e.hook(0x00198200, [=](ee::Cpu& c) { return ps2BattleActionSkill_00198200(a(c, 0)); });
     e.hook(0x00198868, [=](ee::Cpu& c) { return ps2BattleActionSkill_00198868(a(c, 0)); });
     e.hook(0x00199000, [=](ee::Cpu& c) { return effPCPBossBUNSINCreate(a(c, 0)); });
     e.hook(0x00199b10, [=](ee::Cpu& c) { return effPCPBossBUNSIN2Create(a(c, 0)); });
-    e.hook(0x00269448, [=](ee::Cpu& c) { ps2CombatAddRewards_00269448(a(c, 0)); return uint64_t{0}; });
-    e.hook(0x0026a448, [=](ee::Cpu& c) { return ps2CombatSingleTargetSkill_0026A448(a(c, 0)); });
+    e.hookUs(0x00269448, [=](ee::Cpu& c) { ps2CombatAddRewards_00269448(a(c, 0)); return uint64_t{0}; });
+    e.hookUs(0x0026a448, [=](ee::Cpu& c) { return ps2CombatSingleTargetSkill_0026A448(a(c, 0)); });
     e.interpret(0x0026a4b0, 0x0026a684);   // nbGetMakaBaramaki (Hardtype patches it)
-    e.hook(0x00267e50, [=](ee::Cpu& c) { nbSetHojoCounter(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
-    e.hook(0x00267e90, [=](ee::Cpu& c) { return nbGetHojoCounter(a(c, 0), a(c, 1)); });
-    e.hook(0x0026a2d8, [=](ee::Cpu& c) { return nbCheckKuisibariSkill(a(c, 0)); });
-    e.hook(0x0026a338, [=](ee::Cpu& c) { return nbCheckKuisibari2Skill(a(c, 0)); });
-    e.hook(0x0026a398, [=](ee::Cpu& c) { nbSetKuisibariStop(a(c, 0)); return uint64_t{0}; });
-    e.hook(0x00247ed8, [=](ee::Cpu& c) { nbPushAction(a(c, 0), a(c, 1), a(c, 2), a(c, 3)); return uint64_t{0}; });
+    e.hookUs(0x00267e50, [=](ee::Cpu& c) { nbSetHojoCounter(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
+    e.hookUs(0x00267e90, [=](ee::Cpu& c) { return nbGetHojoCounter(a(c, 0), a(c, 1)); });
+    e.hookUs(0x0026a2d8, [=](ee::Cpu& c) { return nbCheckKuisibariSkill(a(c, 0)); });
+    e.hookUs(0x0026a338, [=](ee::Cpu& c) { return nbCheckKuisibari2Skill(a(c, 0)); });
+    e.hookUs(0x0026a398, [=](ee::Cpu& c) { nbSetKuisibariStop(a(c, 0)); return uint64_t{0}; });
+    e.hookUs(0x00247ed8, [=](ee::Cpu& c) { nbPushAction(a(c, 0), a(c, 1), a(c, 2), a(c, 3)); return uint64_t{0}; });
     e.hook(0x00263918, [=](ee::Cpu& c) { return ps2BattleAction_00263918(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4)); });
     e.interpret(0x00267f58, 0x00268030);   // nbSetHojoAddCounter (through Hardtype's limits)
     e.hook(0x001e9998, [](ee::Cpu&) { return uint64_t{evtGetAgeOfMoon()}; });
     e.hook(0x00282200, [=](ee::Cpu& c) { ps2BattlePanelSetEnabled_00282200(a(c, 0)); return uint64_t{0}; });
     e.interpret(0x00269e98, 0x0026a110);   // nbCheckEscape (Hardtype patches it)
     e.interpret(0x00269170, 0x0026927c);   // nbCheckSkillCost (Hardtype patches it)
-    e.hook(0x0026a110, [=](ee::Cpu& c) { return nbGetEscapeSwitch(a(c, 0)); });
+    e.hookUs(0x0026a110, [=](ee::Cpu& c) { return nbGetEscapeSwitch(a(c, 0)); });
     e.interpret(0x002853d8, 0x00287d78);   // the enemy AI (nbAi*, nbRunAi)
     e.interpret(0x00258de8, 0x00259018);   // nbGetTargetTypeRuleArea
-    e.hook(0x0025dc00, [=](ee::Cpu& c) { return nbSetSelectOkMark(a(c, 0), a(c, 1), a(c, 2), a(c, 3)); });
-    e.hook(0x00246b68, [=](ee::Cpu& c) { return nbGetSelectBit(a(c, 0)); });
-    e.hook(0x0026a468, [=](ee::Cpu& c) { return nbCheckFormationPlayerSide(a(c, 0)); });
-    e.hook(0x002677b8, [=](ee::Cpu& c) { return ps2CombatCheckCurse_002677B8(a(c, 0)); });
+    e.hookUs(0x0025dc00, [=](ee::Cpu& c) { return nbSetSelectOkMark(a(c, 0), a(c, 1), a(c, 2), a(c, 3)); });
+    if (version::active())
+        e.interpret(0x0025da78, 0x0025dc00);   // CheckFormCursor, which nbSetSelectOkMark calls
+    e.hookUs(0x00246b68, [=](ee::Cpu& c) { return nbGetSelectBit(a(c, 0)); });
+    e.hookUs(0x0026a468, [=](ee::Cpu& c) { return nbCheckFormationPlayerSide(a(c, 0)); });
+    e.hookUs(0x002677b8, [=](ee::Cpu& c) { return ps2CombatCheckCurse_002677B8(a(c, 0)); });
     e.hook(0x002a9038, [=](ee::Cpu& c) { return uint64_t{ps2MemoryHandleAllocate(static_cast<int32_t>(a(c, 0)))}; });
     e.hook(0x002a9688, [=](ee::Cpu& c) { return uint64_t{ps2MemoryHandleAcquirePointer(static_cast<uint32_t>(a(c, 0)))}; });
     e.hook(0x002a9558, [=](ee::Cpu& c) { ps2MemoryHandleFree(static_cast<uint32_t>(a(c, 0))); return uint64_t{0}; });
@@ -446,7 +451,7 @@ ee::Interpreter makeOriginal()
     e.hook(0x001e0f10, [=](ee::Cpu& c) { evtBitOff(static_cast<int32_t>(a(c, 0))); return uint64_t{0}; });
     // sdfGetRandInt: as sdfGetRand above, with the registers sdfGetRand leaves.
     e.hook(0x002c0c60, [=](ee::Cpu& c) {
-        const uint32_t state = a(c, 0) ? static_cast<uint32_t>(a(c, 0)) : 0x00529bd8u;
+        const uint32_t state = a(c, 0) ? static_cast<uint32_t>(a(c, 0)) : version::dataOrDie(0x00529bd8);
         const uint32_t range = static_cast<uint32_t>(a(c, 1));
         c.r[5] = *nocturne::guest::table<uint32_t>(state + 8) >> 31;
         c.r[7] = *nocturne::guest::table<uint32_t>(state + 4);
@@ -503,7 +508,7 @@ ee::Interpreter makeOriginal()
     e.hook(0x00114770, [=](ee::Cpu& c) { return fw_basic_effect(a(c, 0), a(c, 1), a(c, 2)); });
     e.interpret(0x0026eb08, 0x00272718);   // group 6 (NbNegoFlowTwo) and its affinity checks
     for (const uint32_t mover : {0x00265130u, 0x00265298u, 0x002653a0u})
-        e.hook(mover, [=](ee::Cpu& c) { return fw_move_packets(mover, a(c, 0), a(c, 1), a(c, 2), a(c, 3)); });
+        e.hook(mover, [=](ee::Cpu& c) { return fw_move_packets(version::code(mover), a(c, 0), a(c, 1), a(c, 2), a(c, 3)); });
     e.hook(0x0024d980, [=](ee::Cpu& c) { nbReturnUnit(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
     e.hook(0x0024dd10, [=](ee::Cpu& c) { nbMoveTarget(a(c, 0), a(c, 1), static_cast<uint32_t>(c.f[12])); return uint64_t{0}; });
     e.hook(0x0024de40, [=](ee::Cpu& c) { nbMoveHome(a(c, 0), static_cast<uint32_t>(c.f[12])); return uint64_t{0}; });
@@ -527,6 +532,9 @@ ee::Interpreter makeOriginal()
     e.hook(0x002c20c8, [](ee::Cpu&) { ps2SoundVolumeHalfUp_002C20C8(); return uint64_t{0}; });
     e.hook(0x00777300, [=](ee::Cpu& c) { return fw_talk_step(a(c, 0)); });   // the tests' talk step
     e.interpret(0x0024cf70, 0x0024cff8);   // the demon's talking pose
+    e.interpret(0x0024bff0, 0x0024c1d0);   // GetAddExp, nbResultAddExp
+    e.interpret(0x0021f898, 0x0021f8d0);   // rstCalcExpFromLevel
+    e.interpret(0x0026a840, 0x0026a8a0);   // nbGetKakutokuExp, nbGetKakutokuMaka
     e.interpret(0x0026c390, 0x0026cd80);   // the talk process
     e.hook(0x00279c58, [](ee::Cpu&) { nbPanelAutoHide(); return uint64_t{0}; });
     e.hook(0x00281e28, [](ee::Cpu&) { ps2BattlePanelHideHookA(); return uint64_t{0}; });
@@ -720,19 +728,25 @@ uint32_t poolString(const char* s)
 
 uint32_t guestString(const char* s) { return poolString(s); }
 
-uint64_t orig(uint32_t entry, std::initializer_list<uint64_t> args) { return norm(call(entry, args)); }
+uint64_t orig(uint32_t entry, std::initializer_list<uint64_t> args) { return norm(call(version::codeOrDie(entry), args)); }
 uint64_t origVm(uint32_t entry, std::initializer_list<uint64_t> args, std::initializer_list<uint32_t> floatArgs)
 {
-    return norm(call(entry, args, true, floatArgs));
+    return norm(call(version::codeOrDie(entry), args, true, floatArgs));
 }
 uint64_t origVmVoid(uint32_t entry, std::initializer_list<uint64_t> args, std::initializer_list<uint32_t> floatArgs)
 {
-    call(entry, args, true, floatArgs);
+    call(version::codeOrDie(entry), args, true, floatArgs);
+    return 0;
+}
+uint64_t origVmAt(uint32_t entry, std::initializer_list<uint64_t> args) { return norm(call(entry, args, true)); }
+uint64_t origVmVoidAt(uint32_t entry, std::initializer_list<uint64_t> args)
+{
+    call(entry, args, true);
     return 0;
 }
 uint32_t origVmFloat() { return original().cpu.f[0]; }
 uint64_t interpretedCalls() { return ee::Interpreter::calls(); }
-uint64_t origVoid(uint32_t entry, std::initializer_list<uint64_t> args) { call(entry, args); return 0; }
+uint64_t origVoid(uint32_t entry, std::initializer_list<uint64_t> args) { call(version::codeOrDie(entry), args); return 0; }
 
 const std::vector<std::vector<uint8_t>>& messageTables() { return gTables; }
 const std::vector<std::vector<uint8_t>>& scriptFiles() { return gScripts; }
@@ -766,10 +780,11 @@ static void putTable(const std::vector<uint8_t>& t, bool relocate)
     }
 }
 
-void loadTable(Gen& g, bool relocate) { putTable(gTables[g.below(static_cast<uint32_t>(gTables.size()))], relocate); }
+void loadTable(Gen& g, bool relocate) { version::requireUsText(); putTable(gTables[g.below(static_cast<uint32_t>(gTables.size()))], relocate); }
 
 void fontWorld(Gen& g)
 {
+    version::requireUsText();
     // Fonts: style 1 shares style 0's file (as frLoadStyle does).
     for (int i = 0; i < 4; ++i)
         std::memcpy(fw_ram + FW_FONTS + kFontOffset[i], gFonts[i].data(), gFonts[i].size());
@@ -791,14 +806,14 @@ void fontWorld(Gen& g)
     s.space_width = g.range(0, 4);
     s.mode = static_cast<uint8_t>(g.chance(50) ? 0x16 : g.below(32));
     s.style = static_cast<uint8_t>(g.below(4));
-    at<uint8_t>(0x0054f430) = 0;                     // the empty string
+    at<uint8_t>(difftest::version::dataOrDie(0x0054f430)) = 0;                     // the empty string
 
     // Pools and counters (0x56BB74).
     std::memset(fw_ram + 0x0056bb74, 0, 0x0056bbc4 - 0x0056bb74);
-    at<uint32_t>(0x0056bb80) = fw_address_of(fr::PoolCreate(0x2c, 2000));
-    at<uint32_t>(0x0056bb84) = fw_address_of(fr::PoolCreate(0x30, 400));
-    at<int32_t>(0x0056bb90) = 0x200;
-    at<int32_t>(0x0056bba0) = 0x1a40 + static_cast<int32_t>(g.below(4));
+    at<uint32_t>(difftest::version::dataOrDie(0x0056bb80)) = fw_address_of(fr::PoolCreate(0x2c, 2000));
+    at<uint32_t>(difftest::version::dataOrDie(0x0056bb84)) = fw_address_of(fr::PoolCreate(0x30, 400));
+    at<int32_t>(difftest::version::dataOrDie(0x0056bb90)) = 0x200;
+    at<int32_t>(difftest::version::dataOrDie(0x0056bba0)) = 0x1a40 + static_cast<int32_t>(g.below(4));
 
     // Texture cells: a ring of 400 behind the anchor (cell 0), each with a glyph record.
     constexpr uint32_t kCells = 400;
@@ -815,16 +830,16 @@ void fontWorld(Gen& g)
         c.next.address = cells + 0x20 * (k == kCells ? 0 : k + 1);
         c.prev.address = cells + 0x20 * (k == 0 ? kCells : k - 1);
     }
-    fr::TextureCells& tc = at<fr::TextureCells>(0x0056b668);
+    fr::TextureCells& tc = at<fr::TextureCells>(difftest::version::dataOrDie(0x0056b668));
     std::memset(&tc, 0, sizeof tc);
     tc.free = kCells;
     tc.ring.address = cells;
     tc.count = kCells + 1;
 
-    at<uint32_t>(0x0056bbc4) = 0;
-    at<uint32_t>(0x0056bbc8) = 0;
-    at<int32_t>(0x00551b80) = static_cast<int32_t>(g.below(2));
-    at<uint16_t>(0x0054ea00) = static_cast<uint16_t>(g.chance(50) ? 'A' + g.below(26) : 0x8020 + g.below(0x40));
+    at<uint32_t>(difftest::version::dataOrDie(0x0056bbc4)) = 0;
+    at<uint32_t>(difftest::version::dataOrDie(0x0056bbc8)) = 0;
+    at<int32_t>(difftest::version::dataOrDie(0x00551b80)) = static_cast<int32_t>(g.below(2));
+    at<uint16_t>(difftest::version::dataOrDie(0x0054ea00)) = static_cast<uint16_t>(g.chance(50) ? 'A' + g.below(26) : 0x8020 + g.below(0x40));
 
     // {var n} strings.
     static const char* const strings[] = {"123", "Pixie", "B2F", "Jack Frost", "\x81\x40\x81\x41", "R"};
@@ -832,7 +847,7 @@ void fontWorld(Gen& g)
         at<uint32_t>(0x0056bbd0 + 4 * i) = g.chance(50) ? poolString(strings[g.below(6)]) : 0;
 
     // Entered names (save data at FW_GLOBAL): letter codes, bitmaps and lengths.
-    at<uint32_t>(0x0054ea20) = FW_GLOBAL;
+    at<uint32_t>(difftest::version::dataOrDie(0x0054ea20)) = FW_GLOBAL;
     for (uint32_t bank = 0; bank < 4; ++bank) {
         const uint32_t family = g.range(1, 6), given = g.range(1, 6);   // entered names have letters
         fw_ram[FW_GLOBAL + 0x657c + 2 * bank] = static_cast<uint8_t>(family);
@@ -884,6 +899,7 @@ fr::Request* chain(Gen& g, int32_t x, int32_t y)
 
 HelpWorld helpWorld(Gen& g, std::initializer_list<int32_t> needed)
 {
+    version::requireUsText();
     // A table with messages at the indexes the caller shows.
     auto fits = [&](const std::vector<uint8_t>& t) {
         const uint32_t count = *reinterpret_cast<const uint32_t*>(t.data() + 0x18);   // numtypeheader

@@ -7,6 +7,7 @@
 #include <cstring>
 
 #include "harness.hpp"
+#include "version_map.hpp"
 #include "interface_world.hpp"
 #include "nocturne/battle/action.hpp"
 #include "nocturne/battle/bad_ai.hpp"
@@ -107,8 +108,8 @@ void prepareAi(Gen& g)
     }
     // The press turn gauge's counts and Hardtype's byte at 0x1248F41, which
     // Hardtype's AI conditions read.
-    at<uint32_t>(0x00551fe0) = static_cast<uint32_t>(g.range(0, 8));
-    at<uint32_t>(0x00551fe4) = static_cast<uint32_t>(g.range(0, 8));
+    at<uint32_t>(difftest::version::dataOrDie(0x00551fe0)) = static_cast<uint32_t>(g.range(0, 8));
+    at<uint32_t>(difftest::version::dataOrDie(0x00551fe4)) = static_cast<uint32_t>(g.range(0, 8));
     at<uint8_t>(0x01248f41) = static_cast<uint8_t>(g.range(0, 15));   // (Hardtype reads the moon phase here)
     main.summonallowed = g.chance(70) ? 1 : 0;
     main.turn = static_cast<uint8_t>(g.range(0, 10));
@@ -138,9 +139,9 @@ void prepareAi(Gen& g)
             unit.id = static_cast<uint16_t>(g.range(1, 383));
     // Every devil has AI level 0 in the shipped data; patch the actor's
     // record so the dormant levels 1..3 are exercised too.
-    // Hardtype's records are all level 0, and the effect estimates higher
-    // levels reach aren't ported for it yet.
-    const uint16_t level = static_cast<uint16_t>(!kPackedAi && g.chance(50) ? g.range(1, 3) : 0);
+    // (Hardtype's own records are all level 0; the higher levels still run
+    // its effect estimates.)
+    const uint16_t level = static_cast<uint16_t>(g.chance(50) ? g.range(1, 3) : 0);
     if constexpr (kPackedAi)
         at<uint16_t>(packedRecord(unit.id) + 0xa) = level;
     else
@@ -162,7 +163,7 @@ void prepareAi(Gen& g)
 
     scriptWork();
     for (int i = 0; i < 8; ++i) scriptParam(i, g.chance(80) ? g.range(0, 100) : g.range(0, 0x17f));   // negative ones make invalid conditions
-    at<int32_t>(0x005514e8) = g.range(-3, 20);   // the rotation counter (static, restored by the harness)
+    at<int32_t>(difftest::version::dataOrDie(0x005514e8)) = g.range(-3, 20);   // the rotation counter (static, restored by the harness)
 }
 
 // A condition word that tends to hold: valid types with fitting parameters.
@@ -398,14 +399,14 @@ void addAiTests(std::vector<TestCase>& t)
     bad("MakeRituList", [=](Gen&) { return badVoid(0x0028edc8, nb::buildAilmentWeights); });
     bad("GetBadAiAction", [](Gen& g) {
         nb::buildAilmentWeights(act());
-        auto* list = &at<nb::AilmentWeight>(0x00575490);
-        for (int i = 0; i < at<int32_t>(0x00551558); ++i)
+        auto* list = &at<nb::AilmentWeight>(difftest::version::dataOrDie(0x00575490));
+        for (int i = 0; i < at<int32_t>(difftest::version::dataOrDie(0x00551558)); ++i)
             if (g.chance(25))
                 list[i].weight = 0;
         return Pair{[] { return iface::origVm(0x0028ecc8, {}); }, [] { return norm(nb::chooseAilmentAction()); }};
     });
     bad("AddRituList", [](Gen& g) {
-        at<int32_t>(0x00551558) = g.range(0, 9);
+        at<int32_t>(difftest::version::dataOrDie(0x00551558)) = g.range(0, 9);
         const int32_t type = g.range(0, 9), ritu = g.range(0, 60);
         return Pair{[=] { return iface::origVmVoid(0x0028ed98, {sx(type), sx(ritu)}); },
                     [=] { nb::addAilmentWeight(type, ritu); return uint64_t{0}; }};
@@ -445,7 +446,7 @@ void addAiTests(std::vector<TestCase>& t)
             t.nameDelay = g.range(0, 3);
             t.time = g.range(0, 29);
             for (int i = 0; i < 8; ++i)   // the pad: nothing, a fresh press, a repeat
-                at<uint8_t>(0x002f5830 + static_cast<uint32_t>(i)) = static_cast<uint8_t>(g.pick<int32_t>({0, 0, 0, 0x80, 2, 0x82}));
+                at<uint8_t>(difftest::version::dataOrDie(0x002f5830) + static_cast<uint32_t>(i)) = static_cast<uint8_t>(g.pick<int32_t>({0, 0, 0, 0x80, 2, 0x82}));
             dat::globalWork().config = static_cast<uint32_t>(g.rng());
             mainData().stat = g.chance(30) ? (mainData().stat ^ 8u) : mainData().stat;
             mainData().stat = g.chance(10) ? (mainData().stat | 0x200000u) : (mainData().stat & ~0x200000u);
@@ -503,13 +504,13 @@ void addAiTests(std::vector<TestCase>& t)
     });
     tarsel("nbTarSelProcess1", [](Gen& g) {
         iface::helpWorld(g);
-        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(0x005442b8, 0x3f9, 1, 1, 0, 0, FW_TARSEL));
+        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(difftest::version::dataOrDie(0x005442b8), 0x3f9, 1, 1, 0, 0, FW_TARSEL));
         return Pair{[=] { return iface::origVm(0x0025e720, {process}); }, [=] { return norm(nb::runTargetCursor(process)); }};
     });
     tarsel("nbTarSelShutdown", [](Gen&) {
         const uint32_t data = ps2PoolAllocate(0x44);
         at<nb::TargetCursor>(data).data.address = FW_MAIN;
-        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(0x005442b8, 0x3f9, 1, 1, 0, 0, data));
+        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(difftest::version::dataOrDie(0x005442b8), 0x3f9, 1, 1, 0, 0, data));
         return Pair{[=] { return iface::origVmVoid(0x0025e7d8, {process}); }, [=] { nb::shutdownTargetCursor(process); return uint64_t{0}; }};
     });
     tarsel("InitTarSelProcessData", [](Gen&) {
@@ -624,7 +625,7 @@ void addAiTests(std::vector<TestCase>& t)
             if (g.chance(40)) {
                 if (unit.skillcnt > 0)
                     unit.skill[unit.skillcnt - 1] = 0xdf;
-                at<uint32_t>(0x00529bdc) = g.pick<uint32_t>({FW_MAIN, kAct, act().party.address, 0x10, 0});
+                at<uint32_t>(difftest::version::dataOrDie(0x00529bdc)) = g.pick<uint32_t>({FW_MAIN, kAct, act().party.address, 0x10, 0});
                 mainData().playerpcnt = static_cast<int16_t>(g.range(0, 4));
             }
         }
@@ -776,7 +777,7 @@ void addAiTests(std::vector<TestCase>& t)
     });
     add("nbInitCommSelProcess", [=](Gen& g) {
         commUnit(g);
-        mainData().MainProcessID = static_cast<uint32_t>(dds3StartProcess(0x00544350, g.range(1, 9), 0, 0, 0, 0, FW_MAIN));
+        mainData().MainProcessID = static_cast<uint32_t>(dds3StartProcess(difftest::version::dataOrDie(0x00544350), g.range(1, 9), 0, 0, 0, 0, FW_MAIN));
         const uint32_t my = act().party.address;
         return Pair{[=] { return iface::origVmVoid(0x0025d620, {FW_MAIN, my, kAct}); },
                     [=] { nb::startCommandMenu(mainData(), at<Party>(my), act()); return uint64_t{0}; }};
@@ -816,7 +817,7 @@ void addAiTests(std::vector<TestCase>& t)
         a.talkType = g.range(0, 6);
         at<nb::CommandMenu>(FW_COMMSEL).state = static_cast<int8_t>(g.chance(60) ? 3 : g.range(0, 4));
         at<nb::TargetCursor>(FW_TARSEL).stat = static_cast<uint8_t>(g.range(0, 3));
-        at<int32_t>(0x0054e824) = g.chance(20) ? 1 : 0;   // the debug pad shortcuts
+        at<int32_t>(difftest::version::dataOrDie(0x0054e824)) = g.chance(20) ? 1 : 0;   // the debug pad shortcuts
         for (int b : {3, 9, 11})
             if (g.chance(15))
                 at<uint8_t>(nb::pad::kAddress + static_cast<uint32_t>(b)) = 0x80;
@@ -838,7 +839,7 @@ void addAiTests(std::vector<TestCase>& t)
         for (int n = g.range(0, 4); n > 0; --n)
             nb::addPacket(at<nb::EffectQueue>(queue), 0, 10, 0).type =
                 static_cast<int8_t>(g.pick<int32_t>({nb::kFormOnOff, nb::kFormFlagOnOff, nb::kSe}));
-        mainData().EffectQueueProcessID = static_cast<uint32_t>(dds3StartProcess(0x00544350, 1, 0, 0, 0, 0, queue));
+        mainData().EffectQueueProcessID = static_cast<uint32_t>(dds3StartProcess(difftest::version::dataOrDie(0x00544350), 1, 0, 0, 0, 0, queue));
         mainData().stat = g.chance(30) ? (mainData().stat | 0x40u) : (mainData().stat & ~0x40u);
         return stateVoid(0x00253830, nb::enterCommand);
     });
@@ -879,7 +880,7 @@ void addAiTests(std::vector<TestCase>& t)
     });
     add("CheckAction_STKSEL", [=](Gen& g) {
         chooseWorld(g);
-        at<int32_t>(0x00551120) = g.chance(30) ? -1 : g.chance(30) ? -2 : g.range(0, 15);
+        at<int32_t>(difftest::version::dataOrDie(0x00551120)) = g.chance(30) ? -1 : g.chance(30) ? -2 : g.range(0, 15);
         return state(0x002543a0, nb::updateStockSelect);
     });
     add("nbSetPlayerSummonFormation", [=](Gen& g) {
@@ -972,7 +973,7 @@ void addAiTests(std::vector<TestCase>& t)
         return Pair{[] { return iface::origVm(0x00289940, {}); }, [] { return norm(static_cast<int32_t>(nb::newHelpLine())); }};
     });
     add("nbInitHelpProcess", [](Gen& g) {
-        mainData().MainProcessID = static_cast<uint32_t>(dds3StartProcess(0x00544350, g.range(1, 9), 0, 0, 0, 0, FW_MAIN));
+        mainData().MainProcessID = static_cast<uint32_t>(dds3StartProcess(difftest::version::dataOrDie(0x00544350), g.range(1, 9), 0, 0, 0, 0, FW_MAIN));
         return Pair{[] { return iface::origVmVoid(0x00289990, {FW_MAIN}); }, [] { nb::startHelpLine(mainData()); return uint64_t{0}; }};
     });
 

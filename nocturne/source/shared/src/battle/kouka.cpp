@@ -2,6 +2,7 @@
 // nbMakePacket). Rewritten from the original instructions.
 #include "nocturne/battle/kouka.hpp"
 
+#include "nocturne/address.hpp"
 #include "nocturne/battle/combatant.hpp"
 #include "nocturne/effect/boss.hpp"
 #include "nocturne/external.hpp"
@@ -68,7 +69,7 @@ EffectPacket* addSound(int32_t startframe, int32_t uniqueid, uint32_t se, Packet
 // nbGetKoukaProcessData @ 0x0025E8E0: the "nbKoukaProcess" process's data.
 EffectQueue& effectQueue()
 {
-    return *guest::table<EffectQueue>(dds3::GetProcessData(dds3::SearchProcessName(0x00544350)));
+    return *guest::table<EffectQueue>(dds3::GetProcessData(dds3::SearchProcessName(addr(0x00544350))));
 }
 
 // nbGetUniqueIdKoukaPacketCnt @ 0x0025E928: packets of one action.
@@ -365,12 +366,12 @@ EffectPacket& addUnitAlphaHomePacket(int32_t startframe, int32_t uniqueid, Forma
 EffectPacket& addDodgePacket(int32_t startframe, int32_t uniqueid, Formation& form)
 {
     EffectPacket& p = add(startframe, uniqueid, kDodge);
-    ee::Float step = form.r * *guest::table<ee::Float>(0x0054e510);   // 0.9
+    ee::Float step = form.r * *guest::table<ee::Float>(addr(0x0054e510));   // 0.9
     if (!(step <= ee::Float(100.0f)))
         step = 100.0f;
     p.form.address = guest::addressOf(&form);
     p.data1.setFloat(step);
-    p.data2.raw = *guest::table<uint32_t>(0x0054e514);                 // 0.3
+    p.data2.raw = *guest::table<uint32_t>(addr(0x0054e514));                 // 0.3
     addSoundPacket(startframe, uniqueid, 0x10010);
     return p;
 }

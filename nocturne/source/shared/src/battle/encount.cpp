@@ -4,6 +4,7 @@
 
 #include <cstddef>
 
+#include "nocturne/address.hpp"
 #include "nocturne/battle/process.hpp"
 #include "nocturne/data/records.hpp"
 #include "nocturne/data/tables.hpp"
@@ -15,8 +16,8 @@ namespace nocturne::nb {
 
 namespace {
 
-constexpr uint32_t kThreshold = 0x00551520;      // int32_t: the rolled count needed (HD: encmax)
-constexpr uint32_t kBaseThreshold = 0x0054ff1c;  // int32_t: 370
+constexpr uint32_t kThreshold = addr(0x00551520);      // int32_t: the rolled count needed (HD: encmax)
+constexpr uint32_t kBaseThreshold = addr(0x0054ff1c);  // int32_t: 370
 constexpr uint32_t kSkillEstoma = 1;             // GlobalWork::fieldskills
 constexpr uint32_t kSkillRiberama = 2;
 const ee::Float kStepLength = ee::Float::fromBits(0x42c80000);   // 100.0
