@@ -1117,6 +1117,25 @@ void hitOrder(ActionProcessData& a, HitOrderEntry* list, uint32_t select, int32_
 
 namespace {
 
+// SetAction_SKILL: what a target's result was, named in a debug print (JP
+// Maniax's only; the hits and misses aren't named).
+void printResultKind([[maybe_unused]] int32_t kind)
+{
+#if NOCTURNE_JAPANESE && !NOCTURNE_CHRONICLE
+    switch (kind) {
+    case 6: diag::print(diag::Message::SummonKind); break;
+    case 7: diag::print(diag::Message::AnalyzeKind); break;
+    case 8: diag::print(diag::Message::EscapeKind); break;
+    case 9: diag::print(diag::Message::MaccaKind); break;
+    case 10: diag::print(diag::Message::EnemyEscapeKind); break;
+    case 12: diag::print(diag::Message::AuroraKind); break;
+    case 13: diag::print(diag::Message::ExtraPressKind); break;
+    case 14: diag::print(diag::Message::FlareChargeKind); break;
+    default: break;
+    }
+#endif
+}
+
 // SetAllPacket's press result, named in a debug print (JP Maniax's only;
 // a result against the unit's own side isn't named).
 void printPressResult([[maybe_unused]] int32_t type)
@@ -1141,6 +1160,8 @@ void printPressResult([[maybe_unused]] int32_t type)
 // damage or healing, the ailment inflicted or cured, deaths (Endure and
 // Never Yield leave 1 HP), HP and MP drained, the buff shown, a counter,
 // and the press turns it costs.
+//  - The event boss's skills 0x106..0x108 (Dante's; Raidou's in the
+//    Chronicle Edition, with their own lengths) start the result later.
 //  - Repel (1): the result hits the user instead, who may null or resist
 //    the ailment; Drain (2): the target heals what it would have lost;
 //    Null (3): nothing happens. Each is one hit.
@@ -1173,11 +1194,11 @@ void queueHitResult(ActionProcessData& a, int32_t koukatype, int32_t nskill, int
     switch (koukatype) {
     case 2: {   // drained
         if (nskill == 0x106)
-            frame += 8;
+            frame += kBuild.chronicle ? 0x35 : 8;
         if (nskill == 0x107)
-            frame += 0x3c;
+            frame += kBuild.chronicle ? 0x7d : 0x3c;
         if (nskill == 0x108)
-            frame += 0x5a;
+            frame += kBuild.chronicle ? 0x2d : 0x5a;
         if (target < 16)
             nb::AddHitEffPacket(frame, a, formAt(a, target), 2);
         setHitStopFrame(a, frame);
@@ -1195,7 +1216,7 @@ void queueHitResult(ActionProcessData& a, int32_t koukatype, int32_t nskill, int
             main.d31_repel107 = 1;
         }
         if (nskill == 0x108)
-            frame += 0x5a;
+            frame += kBuild.chronicle ? 0x2d : 0x5a;
         if (nskill == 0x113)
             main.d31_repel113 = 1;
         if (dformindex < 16)
@@ -1518,7 +1539,9 @@ void enterReady(ActionProcessData& a)
     ee::Float speed = ee::Float::fromInt(1), targetSpeed = ee::Float::fromInt(1);
     if (a.stat & 0x100) {
         targetSpeed = ee::Float::fromBits(0x3fc00000);   // 1.5
-        if (a.work->id != 0xc0)
+        // (Dante, devil 0xC0, keeps his own speed; the Chronicle Edition's
+        // Raidou in his place doesn't)
+        if (kBuild.chronicle || a.work->id != 0xc0)
             speed = ee::Float::fromInt(3);
     }
 
@@ -1566,7 +1589,8 @@ void enterReady(ActionProcessData& a)
     if (command == 1 || command == 5 || command == 6) {
         a.hBed = 0;
         if (hitEffectByte(skill, 3) != 0) {
-            diag::print(diag::Message::BedName, skill, eff::BTLBedName(skill));
+            if constexpr (diag::kept(diag::Message::BedName))   // (the Chronicle Edition has no such print)
+                diag::print(diag::Message::BedName, skill, eff::BTLBedName(skill));
             a.hBed = file::Request(eff::BTLBedName(skill));
         }
         a.hSkillSe = 0;
@@ -1967,6 +1991,7 @@ void enterSkill(ActionProcessData& a)
         case 14: queueFlareCharge(a, start); break;
         default: break;
         }
+        printResultKind(kind);
         // Against Ongyo-Ki's clones a hit on an enemy (but not attribute 14) shows them up.
         if (kind == 0 && (main.stat & 0x400) && target >= 4 && target < 14 &&
             static_cast<int32_t>(skillAttribute(skill)) != 14)

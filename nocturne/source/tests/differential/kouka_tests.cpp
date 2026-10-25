@@ -2846,7 +2846,7 @@ void addKoukaTests(std::vector<TestCase>& t)
             talk(name, [=](Gen& g) {
                 talkStepWorld(g);
                 at<TalkState>(FW_TALK).talkId = gr->group << 16 | static_cast<uint32_t>(i);
-                const uint32_t original = at<uint32_t>(gr->steps + 4u * static_cast<uint32_t>(i));
+                const uint32_t original = difftest::version::maniaxCodeOrDie(at<uint32_t>(gr->steps + 4u * static_cast<uint32_t>(i)));   // (the table holds the version's own addresses)
                 const TalkStep rewrite = gr->rewrite[i];
                 return Pair{[=] { return origVm(original, {FW_TALK}); }, [=] { return norm(rewrite(at<TalkState>(FW_TALK))); }};
             });

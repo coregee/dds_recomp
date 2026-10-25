@@ -2,3 +2,10 @@
 # US Maniax address, Chronicle address, name, how it was seen.
 001c87c8	001c8080	frAnalyzeTag	the only caller of AppendVariable and the name appenders; called by frAnalyzeMessage for F_ codes
 001c6b68	001c6720	ps2FontBindContext	the function frLoadStyle tail-calls; binds a style record to a font file
+0010b110	0010b110	scrCodeFunc_Minus	between Div and Not; the JP global work's variables sit 4 lower (0x3C) and its blocks are reordered
+00221550	00220908	ps2UnitMagatamaEquipHook_00221550	the empty stub datEquipHearts calls (the two stubs are alike)
+00221558	00220910	ps2UnitMagatamaUnequipHook_00221558	the empty stub the Magatama's removal calls
+00254488	00253880	SetAction_READY	between CheckAction_STKSEL and CheckAction_READY
+00255650	00254978	SetAction_SKILL	after CheckAction_READY (its prologue)
+00255260	00254600	CheckAction_READY	after SetAction_READY (its prologue)
+002538a0	00252cc8	CheckAction_COMM	after SetAction_COMM; a smaller stack frame

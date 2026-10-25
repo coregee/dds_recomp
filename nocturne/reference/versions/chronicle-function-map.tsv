@@ -372,7 +372,7 @@ maniax	chronicle	size	match	name
 0010b068	0010b068	56	exact	scrCodeFunc_Sub
 0010b0a0	0010b0a0	56	exact	scrCodeFunc_Mul
 0010b0d8	0010b0d8	56	exact	scrCodeFunc_Div
-0010b110		212	none	scrCodeFunc_Minus
+0010b110	0010b110	212	hand	scrCodeFunc_Minus
 0010b1f8	0010b1e8	160	masked	scrCodeFunc_Not
 0010b2a0	0010b290	56	exact	scrCodeFunc_Or
 0010b2d8	0010b2c8	56	exact	scrCodeFunc_And
@@ -5311,9 +5311,9 @@ maniax	chronicle	size	match	name
 002212c0	00220680	92	masked	FUN_002212c0
 00221320	002206e0	44	masked	FUN_00221320
 00221350	00220710	152	masked	FUN_00221350
-002213e8	00220908	356	gap	FUN_002213e8
-00221550	00220910	8	exact	ps2UnitMagatamaEquipHook_00221550
-00221558		8	ambiguous	ps2UnitMagatamaUnequipHook_00221558
+002213e8		356	none	FUN_002213e8
+00221550	00220908	8	hand	ps2UnitMagatamaEquipHook_00221550
+00221558	00220910	8	hand	ps2UnitMagatamaUnequipHook_00221558
 00221560	00220918	84	masked	FUN_00221560
 002215b8	00220970	8	exact	FUN_002215b8
 002215c0	00220978	284	masked	FUN_002215c0
@@ -6191,7 +6191,7 @@ maniax	chronicle	size	match	name
 00253488	002528b0	8	exact	nbActionSetNone
 00253490	002528b8	904	masked	ps2BattleActionChoice_00253490
 00253830	00252c58	104	masked	SetAction_COMM
-002538a0		852	none	CheckAction_COMM
+002538a0	00252cc8	852	hand	CheckAction_COMM
 00253bf8	00252ff0	36	masked	nbActionSetAi
 00253c20	00253018	32	ordered	nbActionCheckAi
 00253c40	00253038	72	masked	ps2BattleStartActorAi
@@ -6206,9 +6206,9 @@ maniax	chronicle	size	match	name
 00254190	00253588	444	masked	CheckAction_TARSEL
 00254360	00253758	60	masked	SetAction_STKSEL
 002543a0	00253798	228	masked	CheckAction_STKSEL
-00254488		3452	none	SetAction_READY
-00255260		960	none	CheckAction_READY
-00255650		5016	none	SetAction_SKILL
+00254488	00253880	3452	hand	SetAction_READY
+00255260	00254600	960	hand	CheckAction_READY
+00255650	00254978	5016	hand	SetAction_SKILL
 00256a78	00255d68	32	ordered	CheckAction_SKILL
 00256a98	00255d88	240	gap	SetAction_NEGO
 00256b88	00255e68	116	gap	CheckAction_NEGO

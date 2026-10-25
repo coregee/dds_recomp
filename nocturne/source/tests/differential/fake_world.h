@@ -87,6 +87,7 @@ int fw_print_arg_count(uint32_t format);
 /* The US Maniax address of one of the version's (version_map.cpp). */
 uint32_t fw_maniax_address(uint32_t address);
 int fw_other_version(void);   /* not US Maniax's addresses (version_map.cpp) */
+uint32_t fw_data(uint32_t maniax);   /* a US Maniax data address, as this version has it */
 
 /* A BREAK 7 trap: longjmps to the harness. */
 #ifdef __cplusplus

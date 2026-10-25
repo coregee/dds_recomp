@@ -12,8 +12,10 @@ the version builds (tools/sources.py) for them and maps each US one:
   reference/versions/<name>-function-map.tsv (tools/match_functions.py): a
   function's start, or a place inside a function matched instruction for
   instruction;
-- data: through reference/versions/<name>-data-map.tsv (tools/match_data.py):
-  exactly where the code was seen forming it, else by the delta its nearest
+- data: as reference/versions/<name>-data-pairs.tsv pairs it by hand (0: the
+  version has none), else through reference/versions/<name>-data-map.tsv
+  (tools/match_data.py): exactly where the code was seen forming it, else
+  by the delta its nearest
   mapped neighbours below and above agree on, else where the same bytes
   occur once between them.
 
@@ -165,6 +167,17 @@ def main():
         jp_known = {jp_map[a]: known[a] for a in jp_map if a in known and a >= FIRST_DATA}
     jp_keys = sorted(jp_known)
     jp_image = image(EXECUTABLES['maniax'])
+    # Data paired by reading the instructions (reference/versions/<name>-data-pairs.tsv:
+    # US Maniax's address, the version's or 0 for none, name, how it was seen),
+    # over what the maps and bytes say: a version can keep a string and drop
+    # the print that used it.
+    overrides = {}
+    pairs = os.path.join(ROOT, 'reference/versions/%s-data-pairs.tsv' % name)
+    if os.path.exists(pairs):
+        for line in open(pairs, encoding='utf-8').read().splitlines():
+            if line and not line.startswith('#'):
+                us_address, other_address = line.split('\t')[:2]
+                overrides[int(us_address, 16)] = int(other_address, 16)
     mapped, jp_mapped, unresolved = {}, {}, []
     for (key_kind, address), (kind, where) in sorted(used_addresses(name).items()):
         if key_kind == 'jp':
@@ -173,6 +186,9 @@ def main():
         elif address < FIRST_DATA:
             hit = map_code(address, starts, functions)
             mapped[address] = hit or 0
+        elif address in overrides:
+            hit = overrides[address]
+            mapped[address] = hit
         else:
             hit = map_data(address, known, keys, us, other)
             mapped[address] = hit or 0

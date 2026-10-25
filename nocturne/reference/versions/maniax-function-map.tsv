@@ -372,7 +372,7 @@ maniax	maniax	size	match	name
 0010b068	0010b068	56	exact	scrCodeFunc_Sub
 0010b0a0	0010b0a0	56	exact	scrCodeFunc_Mul
 0010b0d8	0010b0d8	56	exact	scrCodeFunc_Div
-0010b110		212	none	scrCodeFunc_Minus
+0010b110	0010b110	212	hand	scrCodeFunc_Minus
 0010b1f8	0010b1e8	160	masked	scrCodeFunc_Not
 0010b2a0	0010b290	56	exact	scrCodeFunc_Or
 0010b2d8	0010b2c8	56	exact	scrCodeFunc_And
@@ -3558,7 +3558,7 @@ maniax	maniax	size	match	name
 001c6858	001c63b8	148	called	frLoadStyle
 001c68f0	001c63f8	532	masked	FUN_001c68f0
 001c6b08	001c6610	92	masked	FUN_001c6b08
-001c6b68		260	none	ps2FontBindContext
+001c6b68	001c6670	260	hand	ps2FontBindContext
 001c6c70	001c6758	108	called	frDelFontStyle
 001c6ce0	001c67a8	80	masked	frLoadStyleAll
 001c6d30	001c67f8	92	masked	frDelStyleAll
@@ -3613,7 +3613,7 @@ maniax	maniax	size	match	name
 001c86a0	001c7f18	144	masked	frCreateNewHandle
 001c8730	001c7fa8	36	exact	ps2FontAdvanceMessageLine
 001c8758		112	none	ps2FontAppendSpecialCode
-001c87c8		1264	none	ps2FontParseMessageTag
+001c87c8	001c7fd0	1264	hand	ps2FontParseMessageTag
 001c8ce0		68	none	frControlCodeLength
 001c8d28		276	none	frCopyMessageLine
 001c8e48		184	none	frCountMessageLines
@@ -5311,9 +5311,9 @@ maniax	maniax	size	match	name
 002212c0	00220578	92	masked	FUN_002212c0
 00221320	002205d8	44	masked	FUN_00221320
 00221350	00220608	152	masked	FUN_00221350
-002213e8	00220800	356	gap	FUN_002213e8
-00221550	00220808	8	exact	ps2UnitMagatamaEquipHook_00221550
-00221558		8	ambiguous	ps2UnitMagatamaUnequipHook_00221558
+002213e8		356	none	FUN_002213e8
+00221550	00220800	8	hand	ps2UnitMagatamaEquipHook_00221550
+00221558	00220808	8	hand	ps2UnitMagatamaUnequipHook_00221558
 00221560	00220810	84	masked	FUN_00221560
 002215b8	00220868	8	exact	FUN_002215b8
 002215c0	00220870	284	masked	FUN_002215c0
@@ -6206,9 +6206,9 @@ maniax	maniax	size	match	name
 00254190	00253220	444	masked	CheckAction_TARSEL
 00254360	002533f0	60	masked	SetAction_STKSEL
 002543a0	00253430	228	masked	CheckAction_STKSEL
-00254488		3452	none	SetAction_READY
+00254488	00253518	3452	hand	SetAction_READY
 00255260	002542f0	960	masked	CheckAction_READY
-00255650		5016	none	SetAction_SKILL
+00255650	002546e0	5016	hand	SetAction_SKILL
 00256a78	00255b50	32	ordered	CheckAction_SKILL
 00256a98	00255b70	240	masked	SetAction_NEGO
 00256b88	00255c60	116	masked	CheckAction_NEGO

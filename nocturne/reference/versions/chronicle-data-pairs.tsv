@@ -1,0 +1,6 @@
+# Data paired by reading the instructions (tools/version_addresses.py):
+# US Maniax address, Chronicle address (0: none), name, how it was seen.
+00543d18	00000000	"load se or bed.."	CheckAction_READY: Chronicle dropped the printf and kept only the disabled diagnostic (0x1097E8), and the string with it
+00543d40	00000000	"se ok!! [%08X]"	the same
+00543d70	00000000	"bed ok!!"	the same
+00543d80	00000000	"load bed.."	the same

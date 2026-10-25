@@ -214,6 +214,14 @@ uint32_t maniax(uint32_t address)
     return between(gDataBack, address);
 }
 
+uint32_t maniaxCodeOrDie(uint32_t address)
+{
+    const uint32_t us = maniax(address);
+    if (!us)
+        throw NoCounterpart{address, true};
+    return us;
+}
+
 uint32_t codeOrDie(uint32_t maniax)
 {
     const uint32_t address = code(maniax);
@@ -234,3 +242,4 @@ uint32_t dataOrDie(uint32_t maniax)
 
 extern "C" uint32_t fw_maniax_address(uint32_t address) { return difftest::version::maniax(address); }
 extern "C" int fw_other_version(void) { return difftest::version::active() ? 1 : 0; }
+extern "C" uint32_t fw_data(uint32_t maniax) { return difftest::version::data(maniax); }

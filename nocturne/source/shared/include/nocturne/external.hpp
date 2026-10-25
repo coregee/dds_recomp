@@ -403,8 +403,19 @@ enum class Message : uint32_t {
     RepelHit         = jpAddr(0x00541998),       // "hansya hit!" (repelled)
     DrainHit         = jpAddr(0x005419a8),       // "kyusyu hit!" (drained)
     NullHit          = jpAddr(0x005419b8),       // "mukou hit!" (nulled)
+    SummonKind       = jpAddr(0x00542058),       // "summon!!" (SetAction_SKILL: what a target's result was)
+    AnalyzeKind      = jpAddr(0x00542068),       // "analyze!!"
+    EscapeKind       = jpAddr(0x00542078),       // "escape!!" (a Trafuri-like escape)
+    MaccaKind        = jpAddr(0x0054f068),       // "maka!!" (Macca thrown)
+    EnemyEscapeKind  = jpAddr(0x00542088),       // "enemy escape!!"
+    AuroraKind       = jpAddr(0x00542098),       // "aurora !!"
+    ExtraPressKind   = jpAddr(0x005420a8),       // "press kaifuku !!" (press turns given back)
+    FlareChargeKind  = jpAddr(0x005420c0),       // "flare charge !!"
 #endif
 };
+// Whether this build has the print (a version without it calls nothing for
+// its arguments either: test it first where they cost a call).
+constexpr bool kept(Message message) { return static_cast<uint32_t>(message) != 0; }
 // Integer arguments are passed sign-extended; %f arguments are ee::Double bits.
 void print(Message message, int64_t a = 0, int64_t b = 0, int64_t c = 0, int64_t d = 0, int64_t e = 0);
 } // namespace diag

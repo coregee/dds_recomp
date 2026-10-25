@@ -31,6 +31,10 @@ uint32_t data(uint32_t maniax);
 uint32_t functionSize(uint32_t maniax);   // a US Maniax function's size in bytes (0 if unknown)
 // ... and back: the US Maniax address for one of the version's (0 if none).
 uint32_t maniax(uint32_t address);
+// The same for a code address read from the version's own memory (a
+// function pointer), to hand to what takes US Maniax's addresses; throws
+// NoCounterpart (with the version's address) when there is none.
+uint32_t maniaxCodeOrDie(uint32_t address);
 
 // code() and data() that throw NoCounterpart when there is none: the test
 // counts as pending (main.cpp).

@@ -36,10 +36,12 @@ using iface::I;
 using iface::origVm;
 using iface::origVmVoid;
 
-constexpr uint32_t kCurrentWork = 0x00551c78;
-constexpr uint32_t kOperands = 0x00551c58;
-constexpr uint32_t kOpcodeTable = 0x002fa528;
-constexpr uint32_t kCommandTable = 0x0052e350;
+// The VM's state, by US Maniax's address (mapped for another version).
+uint32_t D(uint32_t maniax) { return difftest::version::dataOrDie(maniax); }
+uint32_t currentWork() { return D(0x00551c78); }
+uint32_t operands() { return D(0x00551c58); }
+uint32_t opcodeTable() { return D(0x002fa528); }
+uint32_t commandTable() { return D(0x0052e350); }
 
 // The command table's entries for the VM's own commands.
 // The commands of scrCommonCommand (the VM's own and the screen effects').
@@ -50,8 +52,11 @@ constexpr int16_t kVmCommands[] = {7,   8,   9,   10,  13,  14,  15,  16,  17,  
                                    // scrParameterCommand
                                    112, 290, 32,  313, 387, 28,  314, 374, 390, 225, 388, 335, 336, 346,
                                    337, 338, 344, 29,  348, 30,  369, 370, 386, 371, 372, 373, 368, 375};
-uint32_t commandEntry(int16_t index) { return at<uint32_t>(kCommandTable + 8u * static_cast<uint32_t>(index)); }
-int32_t commandArity(int16_t index) { return at<int32_t>(kCommandTable + 8u * static_cast<uint32_t>(index) + 4); }
+// A command's entry as the version's table holds it, and as US Maniax's
+// address (what the tests below name commands by; 0 for none).
+uint32_t ownCommandEntry(int16_t index) { return at<uint32_t>(commandTable() + 8u * static_cast<uint32_t>(index)); }
+uint32_t commandEntry(int16_t index) { return difftest::version::maniax(ownCommandEntry(index)); }
+int32_t commandArity(int16_t index) { return at<int32_t>(commandTable() + 8u * static_cast<uint32_t>(index) + 4); }
 
 constexpr int kProcedures = 4, kLabels = 64, kLocals = 16, kCodeWords = 512;
 
@@ -76,7 +81,8 @@ int32_t randomInt(Gen& g)
 }
 
 // A fake process, as dds3StartProcess makes one.
-uint32_t process(uint32_t data) { return static_cast<uint32_t>(dds3StartProcess(0x0052e270, 0x100, 1, 1, 0x0010a268, 0x0010a210, data)); }
+uint32_t process(uint32_t data) { return static_cast<uint32_t>(dds3StartProcess(D(0x0052e270), 0x100, 1, 1, difftest::version::code(0x0010a268),
+                                                                         difftest::version::code(0x0010a210), data)); }
 
 // A process argument: one that exists, one that ended, or nonsense.
 int32_t processArgument(Gen& g)
@@ -102,22 +108,22 @@ void randomBytes(Gen& g, uint32_t address, uint32_t size)
 void effectWorld(Gen& g)
 {
     dds3::dds3DrawFlag() = static_cast<uint32_t>(g.rng());
-    randomBytes(g, 0x0054e960, 6);              // the screen blur
-    randomBytes(g, 0x0054e97c, 8);              // refused settings
-    randomBytes(g, 0x00551bac, 12);             // the screen blur's fade
-    randomBytes(g, 0x00551c10, 0x48);           // the effects' fades
-    randomBytes(g, 0x005572c0, 0x1f0);          // their settings
+    randomBytes(g, D(0x0054e960), 6);              // the screen blur
+    randomBytes(g, D(0x0054e97c), 8);              // refused settings
+    randomBytes(g, D(0x00551bac), 12);             // the screen blur's fade
+    randomBytes(g, D(0x00551c10), 0x48);           // the effects' fades
+    randomBytes(g, D(0x005572c0), 0x1f0);          // their settings
     for (uint32_t i = 0; i < 6; ++i)
-        fw_ram[0x0054f278 + i] = static_cast<uint8_t>(g.below(2));
-    randomBytes(g, 0x003201d0, 0x28);           // Eve_Blur's and Eve_Filter's settings
-    randomBytes(g, 0x00320258, 0x18);
+        fw_ram[D(0x0054f278) + i] = static_cast<uint8_t>(g.below(2));
+    randomBytes(g, D(0x003201d0), 0x28);           // Eve_Blur's and Eve_Filter's settings
+    randomBytes(g, D(0x00320258), 0x18);
     for (uint32_t i = 0; i < 4; ++i) {          // the partial effects' objects
         const uint32_t object = alloc(0x30);
         randomBytes(g, object, 0x30);
-        at<uint32_t>(0x00551de8 + 4 * i) = object;
+        at<uint32_t>(D(0x00551de8) + 4 * i) = object;
     }
-    randomBytes(g, 0x002f59bc, 4);              // the field of view
-    randomBytes(g, 0x002f5b40, 0x34);           // lights, ambient, fog
+    randomBytes(g, D(0x002f59bc), 4);              // the field of view
+    randomBytes(g, D(0x002f5b40), 0x34);           // lights, ambient, fog
     for (uint32_t i = 0; i < 4; ++i) {          // lights (sdf3DLight_t), some missing
         uint32_t light = 0;
         if (g.chance(80)) {
@@ -125,13 +131,13 @@ void effectWorld(Gen& g)
             for (uint32_t k = 0; k < 12; ++k)
                 at<uint32_t>(light + 4 * k) = randomFloat(g);
         }
-        at<uint32_t>(0x002f5b40 + 4 * i) = light;
+        at<uint32_t>(D(0x002f5b40) + 4 * i) = light;
     }
     for (uint32_t i = 0; i < 4; ++i)
-        at<uint32_t>(0x002f5b50 + 4 * i) = randomFloat(g);
-    randomBytes(g, 0x00551bc0, 0x50);           // the scene's fades
-    randomBytes(g, 0x00557220, 0x20);
-    randomBytes(g, 0x005572a0, 0x20);
+        at<uint32_t>(D(0x002f5b50) + 4 * i) = randomFloat(g);
+    randomBytes(g, D(0x00551bc0), 0x50);           // the scene's fades
+    randomBytes(g, D(0x00557220), 0x20);
+    randomBytes(g, D(0x005572a0), 0x20);
     at<uint32_t>(difftest::version::dataOrDie(0x005518a8)) = randomFloat(g);  // soften, bias
     at<uint32_t>(difftest::version::dataOrDie(0x005518ac)) = randomFloat(g);
 }
@@ -151,8 +157,8 @@ void baseWorld(Gen& g)
     }
     scriptList() = {};
     for (uint32_t i = 0; i < 0x20; i += 4)
-        at<uint32_t>(kOperands + i) = static_cast<uint32_t>(g.rng());
-    at<uint32_t>(kCurrentWork) = 0;
+        at<uint32_t>(operands() + i) = static_cast<uint32_t>(g.rng());
+    at<uint32_t>(currentWork()) = 0;
     effectWorld(g);
     randomStock(g);
     for (UnitWork& unit : at<GlobalWork>(FW_GLOBAL).units) {
@@ -164,7 +170,7 @@ void baseWorld(Gen& g)
             unit.uniqueid = static_cast<uint16_t>(g.range(0, 5));
     }
     for (uint32_t i = 0; i < 32; ++i)   // the pad's buttons
-        fw_ram[0x005298c8 + i] = static_cast<uint8_t>(g.chance(50) ? 0 : g.pick<int32_t>({0x80, 0x81, 0x01, 0x7f, 0xff}));
+        fw_ram[D(0x005298c8) + i] = static_cast<uint8_t>(g.chance(50) ? 0 : g.pick<int32_t>({0x80, 0x81, 0x01, 0x7f, 0xff}));
     dds3::quake() = {static_cast<uint16_t>(g.below(2)), static_cast<int16_t>(g.range(-1, 50)), static_cast<uint16_t>(g.below(500)),
                      static_cast<uint16_t>(g.below(500))};
 }
@@ -724,7 +730,7 @@ uint32_t commandWorld(Gen& g, int16_t command)
     if (w.SP < static_cast<int32_t>(args.size()))
         w.SP = static_cast<int32_t>(args.size());
     placeArguments(g, w, command, args);
-    at<uint32_t>(kCurrentWork) = addr(&w);
+    at<uint32_t>(currentWork()) = addr(&w);
     return addr(&w);
 }
 
@@ -907,7 +913,7 @@ void addScriptTests(std::vector<TestCase>& t)
             baseWorld(g);
             uint32_t w = synthetic(g);
             prepare(g, work(w), static_cast<Opcode>(op));
-            uint32_t handler = at<uint32_t>(kOpcodeTable + 4u * static_cast<uint32_t>(op));
+            uint32_t handler = difftest::version::maniaxCodeOrDie(at<uint32_t>(opcodeTable() + 4u * static_cast<uint32_t>(op)));
             return Pair{[=] { return origVm(handler, {w}); }, [=] { return norm(Execute(work(w), static_cast<Opcode>(op))); }};
         });
     }
@@ -964,7 +970,7 @@ void addScriptTests(std::vector<TestCase>& t)
         add(name, [=](Gen& g) {
             baseWorld(g);
             uint32_t w = synthetic(g);
-            at<uint32_t>(kCurrentWork) = w;
+            at<uint32_t>(currentWork()) = w;
             if (work(w).SP == 0)
                 work(w).SP = 1;
             int32_t index = g.range(0, work(w).SP - 1);
@@ -983,14 +989,14 @@ void addScriptTests(std::vector<TestCase>& t)
     add("scrGetLabelCodeAddress", [](Gen& g) {
         baseWorld(g);
         uint32_t w = synthetic(g);
-        at<uint32_t>(kCurrentWork) = w;
+        at<uint32_t>(currentWork()) = w;
         int32_t label = g.range(0, kLabels - 1);
         return Pair{[=] { return origVm(0x0010b7d8, {I(label)}); }, [=] { return norm(scrGetLabelCodeAddress(label)); }};
     });
     auto accessor = [&](const char* name, uint32_t entry, std::function<uint64_t()> rewrite) {
         add(name, [=](Gen& g) {
             baseWorld(g);
-            at<uint32_t>(kCurrentWork) = synthetic(g);
+            at<uint32_t>(currentWork()) = synthetic(g);
             return Pair{[=] { return origVm(entry, {}); }, [=] { return rewrite(); }};
         });
     };
@@ -1245,7 +1251,7 @@ void addScriptTests(std::vector<TestCase>& t)
     effect("dds3SetLightDir", [=](Gen& g) {
         const int32_t frame = frames(g);
         const uint32_t no = g.below(3), v = alloc(16);
-        const uint32_t light = at<uint32_t>(0x002f5b40 + 4 * no);
+        const uint32_t light = at<uint32_t>(D(0x002f5b40) + 4 * no);
         const uint32_t kind = g.below(5);
         for (uint32_t k = 0; k < 4; ++k) {
             const uint32_t own = light ? at<uint32_t>(light + 0x10 + 4 * k) : 0;
@@ -1308,10 +1314,10 @@ void addScriptTests(std::vector<TestCase>& t)
         labels.push_back("command " + std::to_string(command));
         add(labels.back().c_str(), [command](Gen& g) {
             commandWorld(g, command);
-            uint32_t entry = commandEntry(command);
+            const uint32_t entry = commandEntry(command), own = ownCommandEntry(command);
             if (entry < 0x0010b888 || entry >= 0x0010d728)   // not one of the VM's commands
                 std::abort();
-            return Pair{[=] { return origVm(entry, {}); }, [=] { return norm(CallCommand(entry)); }};
+            return Pair{[=] { return origVm(entry, {}); }, [=] { return norm(CallCommand(own)); }};
         });
     }
 }

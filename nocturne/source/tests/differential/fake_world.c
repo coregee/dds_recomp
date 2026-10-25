@@ -680,7 +680,7 @@ uint64_t ps2TextureQueueUpload(uint64_t record)
     return 0;
 }
 
-uint64_t ps2KernelGetFontContextIndex(void) { return (uint64_t)(int64_t)(int32_t)rd32(0x551b80); }
+uint64_t ps2KernelGetFontContextIndex(void) { return (uint64_t)(int64_t)(int32_t)rd32(fw_data(0x551b80)); }
 
 /* Files are already in RAM: a .bf path is the script at FW_MES_TABLE; a
  * font path picks one of FW_FONTS by its digit. */
@@ -730,7 +730,7 @@ uint64_t ps2BattleAction_00263C00(uint64_t startframe, uint64_t uniqueid, uint64
 void nbPanelAnalyzeStart(void) { fw_mes_log(36, 0, 0); }
 /* READY's SetAction / CheckAction (not rewritten): logged. */
 uint64_t nbPanelStockSelect(uint64_t data, uint64_t sw) { fw_mes_log(41, (uint32_t)data, (uint32_t)sw); return 0; }
-uint64_t ps2MovieCheckAdpcmFlag(void) { return (uint64_t)(int64_t)(int32_t)rd32(0x5519c8); }
+uint64_t ps2MovieCheckAdpcmFlag(void) { return (uint64_t)(int64_t)(int32_t)rd32(fw_data(0x5519c8)); }
 uint64_t ps2MovieStopAdpcm(void) { fw_mes_log(42, 0, 0); return 0; }
 /* Ongyo-Ki's effects: log the parameter words, hand out a handle. */
 static uint64_t fake_effect(uint32_t kind, uint64_t param, unsigned words)

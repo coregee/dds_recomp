@@ -189,16 +189,28 @@ Maniax shares instruction for instruction):
 - **Constants.** RunSeKouka stops music 0x1C04xxxx for the event boss's
   repelled skill 0x107 (Maniax 0x1C07xxxx: Dante's fight).
 
-The harness runs the same tests at Chronicle's addresses
+The harness runs the same tests at a JP build's addresses
 (`source/tests/differential/version_map.cpp`): hooks, interpreted ranges,
 entry points and the tests' static addresses are US Maniax's, mapped
-through `reference/versions/chronicle-*.tsv` when it starts; gp comes from
-the executable, and the fonts and message files from `game/chronicle/dds3/`
+through `reference/versions/<build>-*.tsv` when it starts; gp comes from
+the executable, and the fonts and message files from `game/<folder>/dds3/`
 (`tools/dds3_archive.py --ddt game/chronicle/DDS3.DDT ...`). Hooks that call
-US Maniax's legacy C run Chronicle's own instructions instead (`hookUs`).
-A test that reaches a function Chronicle has no counterpart for counts as
-pending, as do the script tests (their world writes US addresses) and
-those listed in `kJapanesePending` and `kChroniclePending` (`main.cpp`),
-with what each still differs by. Still to port: the action states READY
-and SKILL (rewritten in both JP builds), the talks' steps (their harness)
-and the AI script's start.
+US Maniax's legacy C run the build's own instructions instead (`hookUs`).
+A code address read from the build's memory (a step table's, the script
+command table's) is the build's own: the tests take it back to US Maniax's
+(`version::maniax`, `maniaxCodeOrDie`) before handing it to what maps
+addresses. Functions the matcher can't pair (alike stubs, a function the
+JP global work's shift reorders, the action states the JP builds changed)
+are paired by hand in `reference/versions/<build>-function-pairs.tsv`, and
+data in `<build>-data-pairs.tsv` (a debug print's format a build keeps as
+a string but no longer prints maps to 0 there). Where a print's arguments
+cost a call, the rewrite tests `diag::kept(message)` first: a build
+without the print makes no call for it either.
+
+A test that reaches a function the build has no counterpart for counts as
+pending, as do those listed in `kJapanesePending` and `kChroniclePending`
+(`main.cpp`), with what each still differs by (none at present). The JP
+builds' changes to the action states are ported: their debug prints (JP
+Maniax keeps more than the US release), Chronicle's speed for devil 0xC0
+(Raidou, where Maniax exempts Dante) and the frames of the event boss's
+skills 0x106..0x108 in `SetAllPacket`.

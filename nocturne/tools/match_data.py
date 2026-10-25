@@ -114,6 +114,19 @@ def main():
     for address, counts in weak.items():
         if address not in seen:
             seen[address] = counts
+    # A target two addresses claim belongs to the one seen forming it most
+    # (the others were seen where the version formed something else, as a
+    # debug print's format it removed); on a tie, to neither.
+    claims = defaultdict(list)
+    for address, counts in seen.items():
+        target, count = counts.most_common(1)[0]
+        claims[target].append((count, address))
+    for target, owners in claims.items():
+        if len(owners) > 1:
+            owners.sort(reverse=True)
+            losers = owners if owners[0][0] == owners[1][0] else owners[1:]
+            for _, address in losers:
+                del seen[address]
     out = os.path.join(mf.ROOT, 'reference/versions/%s-data-map.tsv' % name)
     mapped = 0
     with open(out, 'w', encoding='utf-8', newline='\n') as f:

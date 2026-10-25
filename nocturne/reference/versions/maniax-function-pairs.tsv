@@ -1,0 +1,9 @@
+# Functions paired by reading the instructions (tools/match_functions.py):
+# US Maniax address, JP Maniax address, name, how it was seen.
+001c87c8	001c7fd0	frAnalyzeTag	Chronicle's frAnalyzeTag (0x1C8080), instruction for instruction; follows ps2FontAdvanceMessageLine
+001c6b68	001c6670	ps2FontBindContext	Chronicle's (0x1C6720), instruction for instruction; follows FUN_001c6b08
+0010b110	0010b110	scrCodeFunc_Minus	between Div and Not; the JP global work's variables sit 4 lower (0x3C) and its blocks are reordered
+00221550	00220800	ps2UnitMagatamaEquipHook_00221550	the empty stub datEquipHearts calls (the two stubs are alike)
+00221558	00220808	ps2UnitMagatamaUnequipHook_00221558	the empty stub the Magatama's removal calls
+00254488	00253518	SetAction_READY	between CheckAction_STKSEL and CheckAction_READY; debug prints US Maniax removed
+00255650	002546e0	SetAction_SKILL	after CheckAction_READY; debug prints US Maniax removed (the results' kinds)

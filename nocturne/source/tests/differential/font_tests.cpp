@@ -362,7 +362,7 @@ void addFontTests(std::vector<TestCase>& t)
     add("frDestroyFontRequestAfter", [](Gen& g) {
         uint32_t r = g.chance(10) ? 0 : addr(iface::chain(g, 0, 0));
         if (g.chance(50))
-            at<uint32_t>(0x0056bbc4 + 4 * at<uint32_t>(difftest::version::dataOrDie(0x00551b80))) = addr(iface::chain(g, 0, 0));
+            at<uint32_t>(difftest::version::dataOrDie(0x0056bbc4) + 4 * at<uint32_t>(difftest::version::dataOrDie(0x00551b80))) = addr(iface::chain(g, 0, 0));
         return Pair{[=] { return origVoid(0x001c6ff8, {r}); }, [=] { frDestroyFontRequestAfter(P<Request>(r)); return uint64_t{0}; }};
     });
     add("frFadeOutText", [](Gen& g) {

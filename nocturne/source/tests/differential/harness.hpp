@@ -55,7 +55,6 @@ struct TestCase {
     const char* name;
     std::function<Pair(Gen&)> make;
     bool legacyC = false;   // its original side is US Maniax's legacy C (main.cpp marks them)
-    bool usWorld = false;   // its world writes US Maniax's addresses; pending on the JP builds (main.cpp)
 };
 
 int32_t interestingSkill(Gen& g);

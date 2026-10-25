@@ -440,7 +440,16 @@ std::string describe(const Outcome& a, const Outcome& b)
     if (a.trace.rng_count != b.trace.rng_count) { std::snprintf(buffer, sizeof buffer, "%u vs %u RNG draws", a.trace.rng_count, b.trace.rng_count); return buffer; }
     for (uint32_t i = 0; i < a.trace.rng_count && i < FW_MAX_TRACE; ++i)
         if (a.trace.rng_limit[i] != b.trace.rng_limit[i]) { std::snprintf(buffer, sizeof buffer, "RNG draw %u: limit %u vs %u", i, a.trace.rng_limit[i], b.trace.rng_limit[i]); return buffer; }
-    if (a.trace.print_count != b.trace.print_count) { std::snprintf(buffer, sizeof buffer, "%u vs %u prints", a.trace.print_count, b.trace.print_count); return buffer; }
+    if (a.trace.print_count != b.trace.print_count) {   // (and the first format where they part)
+        uint32_t k = 0;
+        while (k < a.trace.print_count && k < b.trace.print_count && k < FW_MAX_TRACE &&
+               a.trace.print_format[k] == b.trace.print_format[k])
+            ++k;
+        auto format = [&](const Outcome& o) { return k < o.trace.print_count && k < FW_MAX_TRACE ? o.trace.print_format[k] : 0u; };
+        std::snprintf(buffer, sizeof buffer, "%u vs %u prints (print %u: format %08x vs %08x)", a.trace.print_count,
+                      b.trace.print_count, k, format(a), format(b));
+        return buffer;
+    }
     for (uint32_t i = 0; i < a.trace.print_count && i < FW_MAX_TRACE; ++i) {
         if (a.trace.print_format[i] != b.trace.print_format[i]) { std::snprintf(buffer, sizeof buffer, "print %u: format %08x vs %08x", i, a.trace.print_format[i], b.trace.print_format[i]); return buffer; }
         for (int k = 0; k < fw_print_arg_count(a.trace.print_format[i]); ++k)
@@ -1103,10 +1112,7 @@ std::vector<TestCase> tests()
     addMessageTests(t);
     addFontTests(t);
     addPanelTests(t);
-    const size_t scriptTests = t.size();
     addScriptTests(t);
-    for (size_t i = scriptTests; i < t.size(); ++i)   // (their world isn't ported to the JP builds' addresses yet)
-        t[i].usWorld = true;
     addDataTests(t);
     addKoukaTests(t);
     addVariantTests(t);
@@ -1147,8 +1153,6 @@ int main(int argc, char** argv)
     // DIFF_PENDING: run them anyway.
 #pragma warning(suppress : 4996)
     volatile bool hardtype = nocturne::kVariant == nocturne::Variant::Hardtype && !std::getenv("DIFF_PENDING");
-    // Tests whose world writes US Maniax's addresses (the script VM's) are
-    // pending on the JP builds (docs/versions.md).
 #pragma warning(suppress : 4996)
     const bool runPending = std::getenv("DIFF_PENDING") != nullptr;
     volatile bool japanese =
@@ -1156,17 +1160,9 @@ int main(int argc, char** argv)
     // Tests of what the JP builds change that the port doesn't follow yet
     // (docs/versions.md).
     static const std::vector<const char*> kJapanesePending = {
-        "nbInitAiScript",         // the AI script's start opens a message window ...
-        "SetAction_AISCR",        // ... as do these two
-        "SetAction_DEADSCRIPT",
-        "nbActionProcess1",       // reaches READY and SKILL, rewritten in the JP builds
-        // The talks' steps call JP functions (Chronicle 0x26B018 ...) the test
-        // neither hooks nor interprets yet.
-        "Flow*",
     };
     // ... and of what the Chronicle Edition changes on top.
     static const std::vector<const char*> kChroniclePending = {
-        "SetAllPacket",           // its [version] wake step differs in Chronicle's RAM writes
     };
     volatile bool chronicle = nocturne::kVariant == nocturne::Variant::Chronicle && !runPending;
     auto listed = [](const std::vector<const char*>& list, const char* name) {
@@ -1178,7 +1174,7 @@ int main(int argc, char** argv)
         return false;
     };
     auto pending = [&](const TestCase& test) {
-        if (japanese && (test.usWorld || listed(kJapanesePending, test.name)))
+        if (japanese && listed(kJapanesePending, test.name))
             return true;
         return (hardtype && listed(kHardtypePending, test.name)) || (chronicle && listed(kChroniclePending, test.name));
     };
