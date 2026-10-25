@@ -592,3 +592,41 @@ The "nb_enc" process runs while a battle starts:
    is done. "Ready" means stat bit 2 is set and the unit's handle no longer
    has bit 0x10000. This check reads 32 slots, past the fourteen
    formations, into the parties' memory.
+
+## The result screen (`nbResultProcess`)
+
+When the battle is won, `nbInitResultProcess` starts the result process
+("nb_result") as the battle's child and keeps its ID in `ResultProcessID`.
+Its first frame (`nbResultProcess1`) prepares the screen and hands over to
+`nbResultProcess2`, which runs it:
+
+1. The battle's helper processes stop (`ShutdownProcess`, tentative: the
+   HD name in order): the auto command, camera, effect, unit, help and
+   panel processes, each killed with a one-frame delay and its ID cleared.
+2. The experience earned (`nbGetKakutokuExp`) is kept for the screen.
+3. The screen loads (`nbResultLoad`, not yet rewritten): its three
+   textures and four rows.
+4. Its counters start at zero.
+
+`nbResultFinWaitChk` holds the end while any row is still counting toward
+its value (the row's source's value plus its own extra), then counts
+frames up to 60.
+
+`nbResultProcess2` isn't rewritten yet. Read from its instructions
+(tentative), it counts the rows up, plays the level-up animations and lets
+the player skip. Once the wait reaches 15 frames and a short delay has
+passed, the spoils are granted (`nbResultAddExp`) and the music fades.
+Past a certain encounter, the next battle music is also picked.
+
+A level-up animation (`nbResultLvupAnmAdd`) takes the first free one of
+64 slots for 20 frames; with all 64 in use it is dropped.
+
+`ClearStage` (tentative) lets the battle's units go. For each of 32
+formation slots it frees a present unit's PAC request (formation +0xB4)
+and clears its state, which reaches past the fourteen formations. It marks
+fourteen parties gone (flag 0x28) and releases the stage. The first
+release frees the request as a plain file (`ps2ResourceRequestRelease`).
+
+On shutdown (`nbResultShutdown`) the ID is cleared, the three textures go
+back to the texture cache (`nbResultTexDel`), and what follows the battle
+begins.

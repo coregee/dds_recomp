@@ -377,6 +377,9 @@ const StaticRange kWrittenStatics[] = {
     // it (none in US Maniax).
     {0x002fdc20, nocturne::kVariant == nocturne::Variant::Hardtype ? 0x176cu : 0u},
     {0x00575450, 0x20},                                    // a unit's sound file name
+    {0x005510d8, 0x38},                                    // the result screen's counters and textures
+    {0x00574e80, 0xd0},                                    // ... its rows
+    {0x00574f50, 0x400},                                   // ... its level-up animations
 };
 
 // ... at the version's addresses (those it has; Hardtype's own state and
@@ -605,6 +608,68 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
             unit.skillcnt = static_cast<uint16_t>(std::max<int32_t>(unit.skillcnt, 8));
         }
         return Pair{[] { return iface::origVmVoid(0x0024c060, {}); }, [] { nb::grantSpoils(mainData()); return uint64_t{0}; }};
+    });
+    // ---- the result screen (nbResultProcess) ----
+    const auto resultStatics = [](Gen& g) {
+        for (uint32_t k = 0; k < 0x38; k += 4)
+            at<uint32_t>(difftest::version::dataOrDie(0x005510d8) + k) = g.chance(50) ? 0 : static_cast<uint32_t>(g.range(0, 80));
+    };
+    add("nbResultTexDel", [=](Gen& g) {
+        resultStatics(g);
+        for (uint32_t k = 0; k < 3; ++k)
+            at<uint32_t>(difftest::version::dataOrDie(0x00551104) + 4 * k) = g.chance(20) ? 0 : static_cast<uint32_t>(g.rng());
+        return Pair{[] { return iface::origVmVoid(0x0024a258, {}); }, [] { nb::releaseResultTextures(); return uint64_t{0}; }};
+    });
+    add("nbResultLvupAnmAdd", [](Gen& g) {
+        const uint32_t slots = difftest::version::dataOrDie(0x00574f50);
+        const bool full = g.chance(10);
+        for (uint32_t k = 0; k < 64; ++k) {
+            at<int32_t>(slots + 16 * k) = full || g.chance(70) ? 1 : 0;
+            at<int32_t>(slots + 16 * k + 12) = g.range(0, 20);
+        }
+        const int32_t a = g.range(-1, 20), b = g.range(-1, 100);
+        return Pair{[=] { return iface::origVmVoid(0x0024a298, {sx(a), sx(b)}); }, [=] { nb::addLevelUpAnimation(a, b); return uint64_t{0}; }};
+    });
+    add("nbResultFinWaitChk", [=](Gen& g) {
+        resultStatics(g);
+        const uint32_t rows = difftest::version::dataOrDie(0x00574e80);
+        for (uint32_t k = 0; k < 4; ++k) {
+            const uint32_t row = rows + 0x34 * k, source = FW_SCRATCH + 0x20 * k;
+            at<int32_t>(row) = g.chance(70) ? 1 : 0;
+            at<uint32_t>(source + 0x10) = static_cast<uint32_t>(g.range(0, 500));
+            at<uint32_t>(row + 0x2c) = static_cast<uint32_t>(g.range(0, 20));
+            at<uint32_t>(row + 4) = at<uint32_t>(source + 0x10) + at<uint32_t>(row + 0x2c) - (g.chance(50) ? 0 : g.range(0, 3));
+            at<uint32_t>(row + 0x14) = source;
+        }
+        return Pair{[] { return iface::origVm(0x0024afa0, {}); }, [] { return norm(nb::finishWait()); }};
+    });
+    add("ShutdownProcess (0x24BE88)", [](Gen& g) {
+        nb::MainProcessData& main = mainData();
+        for (uint32_t* id : {&main.AutoCommProcessID, &main.CameraProcessID, &main.EffectProcessID, &main.UnitProcessID,
+                             &main.HelpProcessID, &main.PanelProcessID})
+            *id = g.chance(40) ? 0 : static_cast<uint32_t>(g.range(1, 0x1000));
+        return Pair{[] { return iface::origVmVoid(0x0024be88, {}); }, [] { nb::stopBattleProcesses(); return uint64_t{0}; }};
+    });
+    add("ClearStage (0x24BF40)", [](Gen& g) {
+        for (int32_t i = 0; i < 14; ++i)
+            if (g.chance(50))
+                at<nb::Formation>(FW_FORMS + 0xf0u * static_cast<uint32_t>(i)).pacRequest = g.chance(30) ? 0 : static_cast<uint32_t>(g.range(1, 0x1000));
+        return Pair{[] { return iface::origVmVoid(0x0024bf40, {}); }, [] { nb::clearStage(); return uint64_t{0}; }};
+    });
+    add("nbResultProcess1", [=](Gen& g) {
+        resultStatics(g);
+        nb::MainProcessData& main = mainData();
+        main.AutoCommProcessID = g.chance(50) ? 0 : 7;
+        main.HelpProcessID = g.chance(50) ? 0 : 9;
+        return Pair{[] { return iface::origVm(0x0024c378, {0}); }, [] { return norm(static_cast<int32_t>(nb::firstResultStep(0))); }};
+    });
+    add("nbResultShutdown", [=](Gen& g) {
+        resultStatics(g);
+        mainData().ResultProcessID = static_cast<uint32_t>(g.range(0, 100));
+        return Pair{[] { return iface::origVmVoid(0x0024c3c8, {0}); }, [] { nb::shutdownResult(0); return uint64_t{0}; }};
+    });
+    add("nbInitResultProcess", [](Gen&) {
+        return Pair{[] { return iface::origVmVoid(0x0024c3f0, {FW_MAIN}); }, [] { nb::startResultProcess(mainData()); return uint64_t{0}; }};
     });
     // The shop: a work at FW_SHOP with random lists, one of the seven places.
     const auto openShop = [](Gen& g) {

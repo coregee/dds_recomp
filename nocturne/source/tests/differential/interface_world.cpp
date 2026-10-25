@@ -546,6 +546,15 @@ ee::Interpreter makeOriginal()
     e.hook(0x00777300, [=](ee::Cpu& c) { return fw_talk_step(a(c, 0)); });   // the tests' talk step
     e.interpret(0x0024cf70, 0x0024cff8);   // the demon's talking pose
     e.interpret(0x0024bff0, 0x0024c1d0);   // GetAddExp, nbResultAddExp
+    // The result screen (nbResultProcess): what is rewritten; its loading,
+    // what follows it and the stage's release logged.
+    e.interpret(0x0024a258, 0x0024a2e8);   // nbResultTexDel, nbResultLvupAnmAdd
+    e.interpret(0x0024afa0, 0x0024b010);   // nbResultFinWaitChk
+    e.interpret(0x0024be88, 0x0024bff0);   // ShutdownProcess, ClearStage
+    e.interpret(0x0024c378, 0x0024c458);   // nbResultProcess1, nbResultShutdown, nbInitResultProcess
+    e.hook(0x0024a060, [](ee::Cpu&) { fw_mes_log(144, 0, 0); return uint64_t{0}; });          // nbResultLoad
+    e.hook(0x0024cbb8, [=](ee::Cpu& c) { fw_mes_log(145, static_cast<uint32_t>(a(c, 0)), 0); return uint64_t{0}; });  // after the result
+    e.hook(0x001e1770, [](ee::Cpu&) { fw_mes_log(146, 0, 0); return uint64_t{0}; });          // the stage's release
     e.interpret(0x0021f898, 0x0021f8d0);   // rstCalcExpFromLevel
     e.interpret(0x0026a840, 0x0026a8a0);   // nbGetKakutokuExp, nbGetKakutokuMaka
     e.interpret(0x0026c390, 0x0026cd80);   // the talk process

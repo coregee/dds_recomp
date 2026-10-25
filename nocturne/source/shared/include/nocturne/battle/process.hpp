@@ -47,7 +47,9 @@ struct Formation {
     int16_t motionenddata;    // its data (nbGetMotionEndData): the fade's start
     uint8_t unknown_a8[6];
     int16_t motiontype;       // the motion type the action plays (SetAction_READY)
-    uint8_t unknown_b0[0xbc - 0xb0];
+    uint8_t unknown_b0[4];
+    uint32_t pacRequest;      // a PAC file request the unit holds, freed when the battle ends (ClearStage) (tentative)
+    uint8_t unknown_b8[4];
     // A dodge (type 2): how far it steps back and how fast (tentative names).
     ee::Float dodgeStep, dodgeSpeed, dodgeDistance, dodgeStartSpeed;
     uint8_t unknown_cc[0xf0 - 0xcc];

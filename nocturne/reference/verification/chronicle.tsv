@@ -257,6 +257,14 @@ nbGetMaxHpWazaPoint (instructions)	ok
 nbGetKoukaHp (instructions)	ok
 GetAddExp	ok
 nbResultAddExp	ok
+nbResultTexDel	ok
+nbResultLvupAnmAdd	ok
+nbResultFinWaitChk	ok
+ShutdownProcess (0x24BE88)	ok
+ClearStage (0x24BF40)	ok
+nbResultProcess1	ok
+nbResultShutdown	ok
+nbInitResultProcess	ok
 ps2ShopItemId	ok
 ps2ShopPackId	ok
 ps2ShopItemCount	ok
