@@ -4,3 +4,4 @@
 0054e800	0052dc80	the kernel's frame counter	FUN_001004c8 (masked) forms it twice
 00551bc0	00530dc0	the scene's fades (SceneFades)	the fields from +0x1E on map with one delta (dds3SetAmbientColor and the light updates, masked)
 005514e8	00000000	the AI's rotation counter	the rotation commands are Maniax's
+002fbf80	002e2130	the next area loader's state (AreaLoadState)	its poll and status (masked, ordered) form it

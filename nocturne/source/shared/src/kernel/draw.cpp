@@ -110,6 +110,17 @@ EffectFades& effectFades() { return *guest::table<EffectFades>(addr(0x00551c10))
 Effects& effects() { return *guest::table<Effects>(addr(0x005572c0)); }
 SceneFades& sceneFades() { return *guest::table<SceneFades>(addr(0x00551bc0)); }
 SceneTargets& sceneTargets() { return *guest::table<SceneTargets>(addr(0x00557220)); }
+
+// dds3GetActiveScene @ 0x0010E548: through the scene list (0x54E9C4) to its
+// current entry (+0x18) and that one's scene (+0x8) (tentative names).
+uint32_t dds3GetActiveScene()
+{
+    const uint32_t list = *guest::table<const uint32_t>(addr(0x0054e9c4));
+    if (list == 0)
+        return 0;
+    const uint32_t current = *guest::table<const uint32_t>(list + 0x18);
+    return *guest::table<const uint32_t>(current + 0x8);
+}
 Vector4& fogparabase() { return *guest::table<Vector4>(addr(0x005572a0)); }
 Vector4& fogparatarget() { return *guest::table<Vector4>(addr(0x005572b0)); }
 int32_t& distblurovercnt() { return *guest::table<int32_t>(addr(0x0054e97c)); }

@@ -46,6 +46,8 @@ void setDrawEndFrame(BattleCut& cut, uint32_t frame);
 
 // A frame of a system cut (effBTLSystemCut1Draw): drawn as any cut.
 void drawSystemCut(uint32_t cut);
+// effBTLEncountStart (0x1741A0): the encounter's effect (skill effect 0x200).
+void startEncounterEffect();
 
 // The battle camera takes the cut's camera state.
 void setCutCameraState(const BattleCut& cut);

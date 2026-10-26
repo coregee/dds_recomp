@@ -156,6 +156,9 @@ struct SceneTargets {
 };
 static_assert(sizeof(SceneTargets) == 0x80);
 SceneTargets& sceneTargets();
+
+// dds3GetActiveScene: the scene being shown (its handle), or 0 with none.
+uint32_t dds3GetActiveScene();
 Vector4& fogparabase();
 Vector4& fogparatarget();
 

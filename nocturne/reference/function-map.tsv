@@ -525,7 +525,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0010e3f0	256	FUN_0010e3f0	DEFAULT	unknown							
 0010e4f8	44	FUN_0010e4f8	DEFAULT	unknown							
 0010e528	28	FUN_0010e528	DEFAULT	unknown							
-0010e548	28	dds3GetActiveScene	USER_DEFINED	legacy		battle_reward_lifecycle_dependencies.c:body_0010e548;battle_reward_lifecycle_dependencies.c:ps2BattleRewardLifecycleDependency_0010E548;event_kuti.c:dds3GetActiveScene;field_movement_encounter_constructor.c:body_0010e548					
+0010e548	28	dds3GetActiveScene	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:dds3GetActiveScene	battle_reward_lifecycle_dependencies.c:body_0010e548;battle_reward_lifecycle_dependencies.c:ps2BattleRewardLifecycleDependency_0010E548;event_kuti.c:dds3GetActiveScene;field_movement_encounter_constructor.c:body_0010e548	ok	ok	ok	ok	ok
 0010e568	28	FUN_0010e568	DEFAULT	unknown							
 0010e588	28	dds3GetControlScene	USER_DEFINED	legacy		battle_reward_lifecycle_dependencies.c:body_0010e588;battle_reward_lifecycle_dependencies.c:ps2BattleRewardLifecycleDependency_0010E588;field_movement_encounter_constructor.c:body_0010e588;scene_lookup.c:dds3GetControlScene					
 0010e5a8	104	FUN_0010e5a8	DEFAULT	unknown							
@@ -937,25 +937,25 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00127230	212	FUN_00127230	DEFAULT	unknown							
 00127318	40	FUN_00127318	DEFAULT	unknown							
 00127340	40	FUN_00127340	DEFAULT	unknown							
-00127368	12	FUN_00127368	DEFAULT	legacy		battle_reward_lifecycle_native.c:body_00127368;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_00127368					
+00127368	12	FUN_00127368	DEFAULT	rewritten	shared/src/field/next_area.cpp:setNextArea	battle_reward_lifecycle_native.c:body_00127368;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_00127368	ok	ok	ok	ok	ok
 00127378	164	FUN_00127378	DEFAULT	legacy		battle_reward_lifecycle_native.c:body_00127378;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_00127378					
 00127420	232	FUN_00127420	DEFAULT	unknown							
-00127510	112	FUN_00127510	DEFAULT	legacy		battle_reward_lifecycle_native.c:body_00127510;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_00127510					
-00127580	76	FUN_00127580	DEFAULT	legacy		battle_reward_lifecycle_native.c:body_00127580;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_00127580					
-001275d0	12	ps2FieldNextLoadStatus_001275D0	USER_DEFINED	legacy		battle_reward_lifecycle_dependencies.c:body_001275d0;battle_reward_lifecycle_dependencies.c:ps2BattleRewardLifecycleDependency_001275D0;field_movement_encounter.c:body_001275d0;field_movement_encounter.c:ps2FieldNextLoadStatus_001275D0					
-001275e0	60	FUN_001275e0	DEFAULT	unknown							
-00127620	100	FUN_00127620	DEFAULT	unknown							
-00127688	120	FUN_00127688	DEFAULT	unknown							
-00127700	120	FUN_00127700	DEFAULT	unknown							
-00127778	120	FUN_00127778	DEFAULT	unknown							
-001277f0	440	FUN_001277f0	DEFAULT	unknown							
-001279b8	48	FUN_001279b8	DEFAULT	unknown							
+00127510	112	FUN_00127510	DEFAULT	rewritten	shared/src/field/next_area.cpp:releaseNextArea	battle_reward_lifecycle_native.c:body_00127510;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_00127510	ok	ok	ok	ok	ok
+00127580	76	FUN_00127580	DEFAULT	rewritten	shared/src/field/next_area.cpp:pollNextArea	battle_reward_lifecycle_native.c:body_00127580;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_00127580	ok	ok	ok	ok	ok
+001275d0	12	ps2FieldNextLoadStatus_001275D0	USER_DEFINED	legacy		battle_reward_lifecycle_dependencies.c:body_001275d0;battle_reward_lifecycle_dependencies.c:ps2BattleRewardLifecycleDependency_001275D0;field_movement_encounter.c:body_001275d0;field_movement_encounter.c:ps2FieldNextLoadStatus_001275D0	ok	ok	ok	ok	ok
+001275e0	60	FUN_001275e0	DEFAULT	rewritten	shared/src/field/next_area.cpp:nextAreaPending		ok	ok	ok	ok	ok
+00127620	100	FUN_00127620	DEFAULT	rewritten	shared/src/field/next_area.cpp:nextAreaPendingFor		ok	ok	ok	ok	ok
+00127688	120	FUN_00127688	DEFAULT	rewritten	shared/src/field/next_area.cpp:copyAreaPart		ok	ok	ok	ok	ok
+00127700	120	FUN_00127700	DEFAULT	unknown			ok	ok	ok	ok	ok
+00127778	120	FUN_00127778	DEFAULT	unknown			ok	ok	ok	ok	ok
+001277f0	440	FUN_001277f0	DEFAULT	rewritten	shared/src/field/next_area.cpp:areaPackName		ok	ok	ok	ok	ok
+001279b8	48	FUN_001279b8	DEFAULT	rewritten	shared/src/field/next_area.cpp:areaPackChanged		ok	ok	ok	ok	ok
 001279e8	388	FUN_001279e8	DEFAULT	unknown							
-00127b70	84	FUN_00127b70	DEFAULT	unknown							
+00127b70	84	FUN_00127b70	DEFAULT	rewritten	shared/src/field/next_area.cpp:releaseAreaPack		ok	ok	ok	ok	ok
 00127bc8	1200	FUN_00127bc8	DEFAULT	unknown							
 00128088	264	FUN_00128088	DEFAULT	unknown							
 00128190	632	FUN_00128190	DEFAULT	unknown							
-00128408	100	FUN_00128408	DEFAULT	legacy		battle_reward_lifecycle_native.c:body_00128408;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_00128408					
+00128408	100	FUN_00128408	DEFAULT	rewritten	shared/src/field/next_area.cpp:areaFolder	battle_reward_lifecycle_native.c:body_00128408;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_00128408	ok	ok	ok	ok	ok
 00128658	484	FUN_00128658	DEFAULT	unknown							
 00128840	8	FUN_00128840	DEFAULT	unknown							
 00128848	80	FUN_00128848	DEFAULT	unknown							
@@ -2178,7 +2178,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001740b8	124	effBTLSystemCutDelete	USER_DEFINED	named							
 00174138	8	FUN_00174138	DEFAULT	unknown							
 00174140	92	FUN_00174140	DEFAULT	unknown							
-001741a0	28	FUN_001741a0	DEFAULT	unknown							
+001741a0	28	FUN_001741a0	DEFAULT	rewritten	shared/src/effect/cut.cpp:startEncounterEffect		ok	ok	ok	ok	ok
 001741c0	20	FUN_001741c0	DEFAULT	unknown							
 001741d8	588	FUN_001741d8	DEFAULT	unknown							
 00174430	96	FUN_00174430	DEFAULT	unknown							
@@ -5267,7 +5267,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0021f750	56	FUN_0021f750	DEFAULT	unknown							
 0021f788	80	rstChkLevelUpTarget	USER_DEFINED	legacy		rst_event_cursor.c:rstChkLevelUpTarget					
 0021f7d8	96	rstChkResultEntry	USER_DEFINED	legacy		rst_event_cursor.c:rstChkResultEntry					
-0021f838	92	rstCalcLevelFromExp	USER_DEFINED	legacy		battle_reward_dependencies.c:body_0021f838;battle_reward_dependencies.c:ps2BattleRewardDependency_0021F838;battle_reward_levelup_dependencies.c:body_0021f838;battle_reward_levelup_dependencies.c:ps2BattleRewardLevelupDependency_0021F838;battle_reward_phase_dependencies.c:body_0021f838;battle_reward_phase_dependencies.c:ps2BattleRewardPhaseDependency_0021F838;rst_event_cursor.c:rstCalcLevelFromExp					
+0021f838	92	rstCalcLevelFromExp	USER_DEFINED	rewritten	shared/src/battle/result.cpp:levelAtExp	battle_reward_dependencies.c:body_0021f838;battle_reward_dependencies.c:ps2BattleRewardDependency_0021F838;battle_reward_levelup_dependencies.c:body_0021f838;battle_reward_levelup_dependencies.c:ps2BattleRewardLevelupDependency_0021F838;battle_reward_phase_dependencies.c:body_0021f838;battle_reward_phase_dependencies.c:ps2BattleRewardPhaseDependency_0021F838;rst_event_cursor.c:rstCalcLevelFromExp	ok	ok	ok	ok	ok
 0021f898	56	rstCalcExpFromLevel	USER_DEFINED	legacy		battle_reward_dependencies.c:body_0021f898;battle_reward_dependencies.c:ps2BattleRewardDependency_0021F898;battle_reward_levelup_dependencies.c:body_0021f898;battle_reward_levelup_dependencies.c:ps2BattleRewardLevelupDependency_0021F898;battle_reward_phase_dependencies.c:body_0021f898;battle_reward_phase_dependencies.c:ps2BattleRewardPhaseDependency_0021F898;rst_event_cursor.c:rstCalcExpFromLevel					
 0021f8d0	32	ps2ClearResultParamDeltas	USER_DEFINED	legacy		rst_level_chain.c:ps2ClearResultParamDeltas					
 0021f8f0	292	FUN_0021f8f0	DEFAULT	unknown							
@@ -6056,14 +6056,14 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 002497a0	176	FUN_002497a0	DEFAULT	unknown							
 00249850	420	FUN_00249850	DEFAULT	unknown							
 002499f8	64	FUN_002499f8	DEFAULT	unknown							
-00249a38	32	FUN_00249a38	DEFAULT	unknown							
-00249a58	48	FUN_00249a58	DEFAULT	unknown							
-00249a88	36	FUN_00249a88	DEFAULT	unknown							
-00249ab0	100	FUN_00249ab0	DEFAULT	unknown							
-00249b18	80	FUN_00249b18	DEFAULT	unknown							
-00249b68	56	FUN_00249b68	DEFAULT	unknown							
-00249ba0	32	FUN_00249ba0	DEFAULT	unknown							
-00249bc0	104	FUN_00249bc0	DEFAULT	unknown							
+00249a38	32	FUN_00249a38	DEFAULT	rewritten	shared/src/battle/opening.cpp:openingPlayMusic		ok	ok	ok	ok	ok
+00249a58	48	FUN_00249a58	DEFAULT	rewritten	shared/src/battle/opening.cpp:openingWaitMusic		ok	ok	ok	ok	ok
+00249a88	36	FUN_00249a88	DEFAULT	rewritten	shared/src/battle/opening.cpp:openingLoadMusic		ok	ok	ok	ok	ok
+00249ab0	100	FUN_00249ab0	DEFAULT	rewritten	shared/src/battle/opening.cpp:openingWaitPacks		ok	ok	ok	ok	ok
+00249b18	80	FUN_00249b18	DEFAULT	rewritten	shared/src/battle/opening.cpp:openingLoadPacks		ok	ok	ok	ok	ok
+00249b68	56	FUN_00249b68	DEFAULT	rewritten	shared/src/battle/opening.cpp:openingRequestStage		ok	ok	ok	ok	ok
+00249ba0	32	FUN_00249ba0	DEFAULT	rewritten	shared/src/battle/opening.cpp:endOpening		ok	ok	ok	ok	ok
+00249bc0	104	FUN_00249bc0	DEFAULT	rewritten	shared/src/battle/opening.cpp:startOpening		ok	ok	ok	ok	ok
 00249c28	204	FUN_00249c28	DEFAULT	unknown							
 00249d00	248	FUN_00249d00	DEFAULT	unknown							
 00249e00	88	FUN_00249e00	DEFAULT	unknown							
@@ -6071,19 +6071,19 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00249f78	32	FUN_00249f78	DEFAULT	unknown							
 00249f98	104	FUN_00249f98	DEFAULT	unknown							
 0024a000	92	FUN_0024a000	DEFAULT	unknown							
-0024a060	500	ps2BattleRewardNative_0024A060	USER_DEFINED	legacy		battle_reward_levelup_support.c:body_0024a060;battle_reward_levelup_support.c:ps2BattleRewardLevelupSupport_0024A060;battle_reward_native.c:body_0024a060;battle_reward_native.c:ps2BattleRewardNative_0024A060;battle_reward_phase_support.c:body_0024a060;battle_reward_phase_support.c:ps2BattleRewardPhaseSupport_0024A060					
+0024a060	500	ps2BattleRewardNative_0024A060	USER_DEFINED	rewritten	shared/src/battle/result.cpp:loadResult	battle_reward_levelup_support.c:body_0024a060;battle_reward_levelup_support.c:ps2BattleRewardLevelupSupport_0024A060;battle_reward_native.c:body_0024a060;battle_reward_native.c:ps2BattleRewardNative_0024A060;battle_reward_phase_support.c:body_0024a060;battle_reward_phase_support.c:ps2BattleRewardPhaseSupport_0024A060	ok	ok	ok	ok	ok
 0024a258	60	ps2BattleRewardNative_0024A258	USER_DEFINED	rewritten	shared/src/battle/result.cpp:releaseResultTextures	battle_reward_levelup_support.c:body_0024a258;battle_reward_levelup_support.c:ps2BattleRewardLevelupSupport_0024A258;battle_reward_native.c:body_0024a258;battle_reward_native.c:ps2BattleRewardNative_0024A258;battle_reward_phase_support.c:body_0024a258;battle_reward_phase_support.c:ps2BattleRewardPhaseSupport_0024A258	ok	ok	ok	ok	ok
 0024a298	76	ps2BattleRewardNative_0024A298	USER_DEFINED	rewritten	shared/src/battle/result.cpp:addLevelUpAnimation	battle_reward_levelup_support.c:body_0024a298;battle_reward_levelup_support.c:ps2BattleRewardLevelupSupport_0024A298;battle_reward_native.c:body_0024a298;battle_reward_native.c:ps2BattleRewardNative_0024A298;battle_reward_phase_support.c:body_0024a298;battle_reward_phase_support.c:ps2BattleRewardPhaseSupport_0024A298	ok	ok	ok	ok	ok
 0024a2e8	336	ps2BattleRewardLevelupNative_0024A2E8	USER_DEFINED	legacy		battle_reward_levelup_native.c:body_0024a2e8;battle_reward_levelup_native.c:ps2BattleRewardLevelupNative_0024A2E8;battle_reward_phase_rows.c:body_0024a2e8;battle_reward_phase_rows.c:ps2BattleRewardPhaseRows_0024A2E8					
 0024a440	2592	ps2BattleRewardLevelupNative_0024A440	USER_DEFINED	legacy		battle_reward_levelup_native.c:body_0024a440;battle_reward_levelup_native.c:ps2BattleRewardLevelupNative_0024A440;battle_reward_phase_rows.c:body_0024a440;battle_reward_phase_rows.c:ps2BattleRewardPhaseRows_0024A440					
-0024ae70	300	ps2BattleRewardNative_0024AE70	USER_DEFINED	legacy		battle_reward_levelup_support.c:body_0024ae70;battle_reward_levelup_support.c:ps2BattleRewardLevelupSupport_0024AE70;battle_reward_native.c:body_0024ae70;battle_reward_native.c:ps2BattleRewardNative_0024AE70;battle_reward_phase_support.c:body_0024ae70;battle_reward_phase_support.c:ps2BattleRewardPhaseSupport_0024AE70					
+0024ae70	300	ps2BattleRewardNative_0024AE70	USER_DEFINED	rewritten	shared/src/battle/result.cpp:skipResult	battle_reward_levelup_support.c:body_0024ae70;battle_reward_levelup_support.c:ps2BattleRewardLevelupSupport_0024AE70;battle_reward_native.c:body_0024ae70;battle_reward_native.c:ps2BattleRewardNative_0024AE70;battle_reward_phase_support.c:body_0024ae70;battle_reward_phase_support.c:ps2BattleRewardPhaseSupport_0024AE70	ok	ok	ok	ok	ok
 0024afa0	108	ps2BattleRewardNative_0024AFA0	USER_DEFINED	rewritten	shared/src/battle/result.cpp:finishWait	battle_reward_levelup_support.c:body_0024afa0;battle_reward_levelup_support.c:ps2BattleRewardLevelupSupport_0024AFA0;battle_reward_native.c:body_0024afa0;battle_reward_native.c:ps2BattleRewardNative_0024AFA0;battle_reward_phase_support.c:body_0024afa0;battle_reward_phase_support.c:ps2BattleRewardPhaseSupport_0024AFA0	ok	ok	ok	ok	ok
 0024b010	3704	ps2BattleRewardPhaseNative_0024B010	USER_DEFINED	legacy		battle_reward_phase_native.c:body_0024b010;battle_reward_phase_native.c:ps2BattleRewardPhaseNative_0024B010					
 0024be88	184	ps2BattleRewardNative_0024BE88	USER_DEFINED	rewritten	shared/src/battle/result.cpp:stopBattleProcesses	battle_reward_levelup_support.c:body_0024be88;battle_reward_levelup_support.c:ps2BattleRewardLevelupSupport_0024BE88;battle_reward_native.c:body_0024be88;battle_reward_native.c:ps2BattleRewardNative_0024BE88;battle_reward_phase_support.c:body_0024be88;battle_reward_phase_support.c:ps2BattleRewardPhaseSupport_0024BE88	ok	ok	ok	ok	ok
 0024bf40	172	FUN_0024bf40	DEFAULT	rewritten	shared/src/battle/result.cpp:clearStage	battle_reward_lifecycle_native.c:body_0024bf40;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_0024BF40	ok	ok	ok	ok	ok
 0024bff0	112	ps2BattleRewardNative_0024BFF0	USER_DEFINED	rewritten	shared/src/battle/result.cpp:cappedExp	battle_reward_levelup_support.c:body_0024bff0;battle_reward_levelup_support.c:ps2BattleRewardLevelupSupport_0024BFF0;battle_reward_native.c:body_0024bff0;battle_reward_native.c:ps2BattleRewardNative_0024BFF0;battle_reward_phase_support.c:body_0024bff0;battle_reward_phase_support.c:ps2BattleRewardPhaseSupport_0024BFF0	ok	ok	ok	ok	ok
 0024c060	368	ps2BattleRewardNative_0024C060	USER_DEFINED	rewritten	shared/src/battle/result.cpp:grantSpoils	battle_reward_levelup_support.c:body_0024c060;battle_reward_levelup_support.c:ps2BattleRewardLevelupSupport_0024C060;battle_reward_native.c:body_0024c060;battle_reward_native.c:ps2BattleRewardNative_0024C060;battle_reward_phase_support.c:body_0024c060;battle_reward_phase_support.c:ps2BattleRewardPhaseSupport_0024C060	ok	ok	ok	ok	ok
-0024c1d0	424	FUN_0024c1d0	DEFAULT	legacy		battle_reward_lifecycle_native.c:body_0024c1d0;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_0024C1D0					
+0024c1d0	424	FUN_0024c1d0	DEFAULT	rewritten	shared/src/battle/result.cpp:secondResultStep	battle_reward_lifecycle_native.c:body_0024c1d0;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_0024C1D0	ok	ok	ok	ok	ok
 0024c378	80	ps2BattleRewardNative_0024C378	USER_DEFINED	rewritten	shared/src/battle/result.cpp:firstResultStep	battle_reward_levelup_support.c:body_0024c378;battle_reward_levelup_support.c:ps2BattleRewardLevelupSupport_0024C378;battle_reward_native.c:body_0024c378;battle_reward_native.c:ps2BattleRewardNative_0024C378;battle_reward_phase_support.c:body_0024c378;battle_reward_phase_support.c:ps2BattleRewardPhaseSupport_0024C378	ok	ok	ok	ok	ok
 0024c3c8	40	FUN_0024c3c8	DEFAULT	rewritten	shared/src/battle/result.cpp:shutdownResult	battle_reward_lifecycle_native.c:body_0024c3c8;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_0024C3C8	ok	ok	ok	ok	ok
 0024c3f0	104	ps2BattleRewardNative_0024C3F0	USER_DEFINED	rewritten	shared/src/battle/result.cpp:startResultProcess	battle_reward_levelup_support.c:body_0024c3f0;battle_reward_levelup_support.c:ps2BattleRewardLevelupSupport_0024C3F0;battle_reward_native.c:body_0024c3f0;battle_reward_native.c:ps2BattleRewardNative_0024C3F0;battle_reward_phase_support.c:body_0024c3f0;battle_reward_phase_support.c:ps2BattleRewardPhaseSupport_0024C3F0	ok	ok	ok	ok	ok
@@ -6091,7 +6091,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0024c470	200	FUN_0024c470	DEFAULT	unknown							
 0024c538	196	FUN_0024c538	DEFAULT	unknown							
 0024c600	196	FUN_0024c600	DEFAULT	unknown							
-0024c6c8	40	FUN_0024c6c8	DEFAULT	unknown							
+0024c6c8	40	FUN_0024c6c8	DEFAULT	rewritten	shared/src/battle/opening.cpp:requestStage		ok	ok	ok	ok	ok
 0024c718	12	FUN_0024c718	DEFAULT	unknown							
 0024c728	64	FUN_0024c728	DEFAULT	unknown							
 0024c768	436	FUN_0024c768	DEFAULT	unknown							
@@ -7294,8 +7294,8 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00290568	520	nbCheckBattleSkillError2	USER_DEFINED	rewritten	shared/src/battle/skill_error.cpp:targetSkillError	battle_status_pairs.c:body_00290568;battle_status_pairs_native.c:body_00290568	ok	ok	ok	ok	ok
 00290780	388	nbCheckBattleSkillError3	USER_DEFINED	rewritten	shared/src/battle/skill_error.cpp:buffSkillError	battle_action_skill_support_frames.c:body_00290780;battle_action_skill_support_frames.c:ps2BattleActionSkill_00290780	ok	ok	ok	ok	ok
 00290908	512	nbCheckCampSkillError	USER_DEFINED	rewritten	shared/src/battle/skill_error.cpp:menuSkillError		ok	ok	ok	ok	ok
-00290b20	72	FUN_00290b20	DEFAULT	unknown							
-00290b68	96	FUN_00290b68	DEFAULT	unknown							
+00290b20	72	FUN_00290b20	DEFAULT	rewritten	shared/src/battle/opening.cpp:requestFlightPack		ok	ok	ok	ok	ok
+00290b68	96	FUN_00290b68	DEFAULT	rewritten	shared/src/battle/opening.cpp:flightPackLoaded		ok	ok	ok	ok	ok
 00290bc8	80	FUN_00290bc8	DEFAULT	unknown							
 00290c18	20	FUN_00290c18	DEFAULT	unknown							
 00290c30	80	FUN_00290c30	DEFAULT	unknown							

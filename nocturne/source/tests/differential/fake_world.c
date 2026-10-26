@@ -276,6 +276,7 @@ int fw_print_arg_count(uint32_t format)
     case 0x00543b58: return 1;
     case 0x00543b30: return 2;
     case 0x00543a08: return 1;                  /* skill no */
+    case 0x005435f8: return 0;                  /* pac1 done (the result screen) */
     case 0x00543880: case 0x005438c0: case 0x00543908: return 0;   /* counters, a failed escape's hit */
     case 0x005438d8: return 2;                  /* inoti party */
     case 0x005438f0: return 1;                  /* binjo party */
@@ -622,6 +623,17 @@ void nocturneInvokeMessageKutiCallback(uint32_t entry) { fw_mes_log(9, entry, 0)
 
 uint64_t ps2InterfaceLoadTexture(uint64_t name) { fw_mes_log(10, (uint32_t)name, 0); return 0x00123450; }
 void ps2TextureDeferredRelease(uint64_t texture) { fw_mes_log(11, (uint32_t)texture, 0); }
+uint64_t ps2ResourcePacCheckEnd(uint64_t request)
+{
+    fw_mes_log(153, (uint32_t)request, 0);
+    return fw_hash(153, (uint32_t)request, 0) % 2;
+}
+void ps2MemoryHandleDeferredRelease(uint64_t handle) { fw_mes_log(154, (uint32_t)handle, 0); }
+uint64_t ps2TextureTmxCopy(uint64_t header)
+{
+    fw_mes_log(147, (uint32_t)header, 0);
+    return fw_hash(147, (uint32_t)header, 0);
+}
 /* Processes: small records from the pool {name, ..., +0x20 priority,
  * +0x28 run time, +0x30 data, +0x34 alive marker}. */
 enum { PROCESS_ALIVE = 0x00a11fe0 };

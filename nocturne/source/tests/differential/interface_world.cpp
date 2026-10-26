@@ -58,6 +58,9 @@ void ps2PacRelocatePointers(uint64_t, uint64_t, uint64_t, uint64_t);
 void nocturneInvokeMessageKutiCallback(uint32_t);
 uint64_t ps2InterfaceLoadTexture(uint64_t);
 void ps2TextureDeferredRelease(uint64_t);
+uint64_t ps2TextureTmxCopy(uint64_t);
+uint64_t ps2ResourcePacCheckEnd(uint64_t);
+void ps2MemoryHandleDeferredRelease(uint64_t);
 uint64_t dds3StartProcess(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
 uint32_t ps2PoolAllocate(int32_t);
 uint64_t ps2TextureQueueUpload(uint64_t);
@@ -546,13 +549,37 @@ ee::Interpreter makeOriginal()
     e.hook(0x00777300, [=](ee::Cpu& c) { return fw_talk_step(a(c, 0)); });   // the tests' talk step
     e.interpret(0x0024cf70, 0x0024cff8);   // the demon's talking pose
     e.interpret(0x0024bff0, 0x0024c1d0);   // GetAddExp, nbResultAddExp
-    // The result screen (nbResultProcess): what is rewritten; its loading,
-    // what follows it and the stage's release logged.
-    e.interpret(0x0024a258, 0x0024a2e8);   // nbResultTexDel, nbResultLvupAnmAdd
-    e.interpret(0x0024afa0, 0x0024b010);   // nbResultFinWaitChk
+    // The result screen (nbResultProcess): what is rewritten; what follows
+    // it and the stage's release logged.
+    e.hook(0x002abe08, [=](ee::Cpu& c) { return ps2TextureTmxCopy(a(c, 0)); });
+    e.interpret(0x0024a060, 0x0024a2e8);   // nbResultLoad, nbResultTexDel, nbResultLvupAnmAdd
+    e.interpret(0x0024ae70, 0x0024b010);   // nbResultSkip, nbResultFinWaitChk
+    // The battle's opening (nb_mae, battle/opening.hpp).
+    e.interpret(0x00249a38, 0x00249c28);   // its steps, start and end
+    e.interpret(0x0024c6c8, 0x0024c6f0);   // the stage requested
+    e.interpret(0x001741a0, 0x001741bc);   // effBTLEncountStart
+    e.interpret(0x00290b20, 0x00290bc8);   // the flight model's pack
+    e.interpret(0x00101bf0, 0x00101c4c);   // a process's flags set and cleared
+    e.hook(0x00100f78, [=](ee::Cpu& c) {
+        fw_mes_log(155, static_cast<uint32_t>(a(c, 0)) ^ static_cast<uint32_t>(a(c, 3)) << 8, static_cast<uint32_t>(a(c, 1)) ^ static_cast<uint32_t>(a(c, 2)) << 20);
+        return uint64_t{0};
+    });
+    e.hook(0x00290c30, [=](ee::Cpu& c) { fw_mes_log(156, static_cast<uint32_t>(a(c, 0)), 0); return uint64_t{fw_hash(156, 0, 0) % 4 == 0 ? 0u : 0x1000u + fw_hash(157, 0, 0) % 0x100}; });
+    e.interpret(0x0021f838, 0x0021f898);   // rstCalcLevelFromExp
     e.interpret(0x0024be88, 0x0024bff0);   // ShutdownProcess, ClearStage
-    e.interpret(0x0024c378, 0x0024c458);   // nbResultProcess1, nbResultShutdown, nbInitResultProcess
-    e.hook(0x0024a060, [](ee::Cpu&) { fw_mes_log(144, 0, 0); return uint64_t{0}; });          // nbResultLoad
+    e.interpret(0x0024c1d0, 0x0024c458);   // nbResultProcess2, nbResultProcess1, nbResultShutdown, nbInitResultProcess
+    // ... its callees not yet rewritten: the active scene, the next field's
+    // pack loading (logged, with answers by hash), and its drawing.
+    e.hook(0x00127378, [](ee::Cpu&) { fw_mes_log(149, 0, 0); return uint64_t{fw_hash(149, 0, 0) % 3}; });
+    // The next area's loader (field/next_area.hpp) and the active scene.
+    e.interpret(0x0010e548, 0x0010e564);   // dds3GetActiveScene
+    e.interpret(0x00127368, 0x00127378);   // the area to load next
+    e.interpret(0x00127510, 0x001279e8);   // its release, poll, status, readiness, the three parts and the shared pack's name
+    e.interpret(0x00127b70, 0x00127bc8);   // the shared pack's release
+    e.interpret(0x00128408, 0x0012846c);   // the area's folder
+    e.hook(0x00296b08, [=](ee::Cpu& c) { return ps2ResourcePacCheckEnd(a(c, 0)); });
+    e.hook(0x002a9650, [=](ee::Cpu& c) { ps2MemoryHandleDeferredRelease(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x0024b010, [=](ee::Cpu& c) { fw_mes_log(152, static_cast<uint32_t>(a(c, 0)), 0); return uint64_t{0}; });
     e.hook(0x0024cbb8, [=](ee::Cpu& c) { fw_mes_log(145, static_cast<uint32_t>(a(c, 0)), 0); return uint64_t{0}; });  // after the result
     e.hook(0x001e1770, [](ee::Cpu&) { fw_mes_log(146, 0, 0); return uint64_t{0}; });          // the stage's release
     e.interpret(0x0021f898, 0x0021f8d0);   // rstCalcExpFromLevel
@@ -587,7 +614,6 @@ ee::Interpreter makeOriginal()
     e.hook(0x002c20f0, [=](ee::Cpu& c) { return ps2SoundSelectOutput_002C20F0(a(c, 0)); });
     e.hook(0x002c1e70, [=](ee::Cpu& c) { return ps2SoundSelectChannel_002C1E70(a(c, 0)); });
     e.hook(0x002a8fe8, [=](ee::Cpu& c) { return fw_handle_size(a(c, 0)); });
-    e.hook(0x001741a0, [](ee::Cpu&) { return fw_enc_effect(0); });
     e.hook(0x001741c0, [](ee::Cpu&) { return fw_enc_effect(1); });
     e.hook(0x001b33f8, [](ee::Cpu&) { return fw_enc_camera_done(); });
     e.hook(0x0024e1e0, [=](ee::Cpu& c) { return fw_load_unit_group(a(c, 0), a(c, 1), a(c, 2)); });
@@ -693,6 +719,10 @@ ee::Interpreter makeOriginal()
         const char* format = checked(c, a(c, 1));
         if (std::strcmp(format, "%d") == 0)
             return uint64_t(std::snprintf(checked(c, a(c, 0)), 16, "%d", static_cast<int32_t>(a(c, 2))));
+        if (std::strncmp(format, "/fld/", 5) == 0 && std::strcmp(format + 6, "/f%03d/") == 0)   // an area's folder
+            return uint64_t(std::snprintf(checked(c, a(c, 0)), 16, format, static_cast<int32_t>(a(c, 2))));
+        if (std::strncmp(format, "%sf%03d_", 8) == 0 && std::strcmp(format + std::strlen(format) - 3, ".LB") == 0)   // an area's pack
+            return uint64_t(std::snprintf(checked(c, a(c, 0)), 32, format, checked(c, a(c, 2)), static_cast<int32_t>(a(c, 3))));
         if (std::strcmp(format, "/sound/MIDI%04X.SMG") == 0)
             return uint64_t(std::snprintf(checked(c, a(c, 0)), 32, "/sound/MIDI%04X.SMG", static_cast<uint32_t>(a(c, 2))));
         std::abort();

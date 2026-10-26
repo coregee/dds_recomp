@@ -30,6 +30,11 @@
 #include "nocturne/battle/calc.hpp"
 #include "nocturne/battle/encount.hpp"
 #include "nocturne/battle/result.hpp"
+#include "nocturne/fusion/growth.hpp"
+#include "nocturne/field/next_area.hpp"
+#include "nocturne/battle/opening.hpp"
+#include "nocturne/effect/cut.hpp"
+#include "nocturne/kernel/draw.hpp"
 #include "nocturne/facility/shop.hpp"
 #include "nocturne/battle/combatant.hpp"
 #include "nocturne/battle/damage.hpp"
@@ -41,6 +46,7 @@
 #endif
 
 extern "C" {
+uint64_t dds3StartProcess(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
 #include "battle_affinity.h"
 #include "battle_effects.h"
 #include "battle_power.h"
@@ -377,9 +383,15 @@ const StaticRange kWrittenStatics[] = {
     // it (none in US Maniax).
     {0x002fdc20, nocturne::kVariant == nocturne::Variant::Hardtype ? 0x176cu : 0u},
     {0x00575450, 0x20},                                    // a unit's sound file name
-    {0x005510d8, 0x38},                                    // the result screen's counters and textures
+    {0x005510d0, 0x40},                                    // the result screen's counters and textures
     {0x00574e80, 0xd0},                                    // ... its rows
     {0x00574f50, 0x400},                                   // ... its level-up animations
+    {0x002fbf80, 0x90},                                    // the next area loader's state
+    {0x0054ebb8, 4},                                       // ... its pack
+    {0x0054ebf4, 8},                                       // ... the area to load next
+    {0x0054ebb0, 4}, {0x0054ebc8, 4},                      // the current area's shared pack and its memory
+    {0x0055dab8, 0x20},                                    // ... the name held
+    {0x00575350, 0x10},                                    // the stage requested (the battle's opening)
 };
 
 // ... at the version's addresses (those it has; Hardtype's own state and
@@ -611,9 +623,216 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
     });
     // ---- the result screen (nbResultProcess) ----
     const auto resultStatics = [](Gen& g) {
-        for (uint32_t k = 0; k < 0x38; k += 4)
-            at<uint32_t>(difftest::version::dataOrDie(0x005510d8) + k) = g.chance(50) ? 0 : static_cast<uint32_t>(g.range(0, 80));
+        for (uint32_t k = 0; k < 0x40; k += 4)
+            at<uint32_t>(difftest::version::dataOrDie(0x005510d0) + k) = g.chance(50) ? 0 : static_cast<uint32_t>(g.range(0, 80));
     };
+    add("nbResultLoad", [=](Gen& g) {
+        resultStatics(g);
+        for (uint32_t k = 0; k < 3; ++k)
+            at<uint32_t>(difftest::version::dataOrDie(0x00551fd0) + 4 * k) = static_cast<uint32_t>(g.rng());
+        GlobalWork& global = nocturne::dat::globalWork();
+        global.stock_count = g.range(0, 16);
+        for (int32_t i = 0; i < 16; ++i)
+            global.stock_list[i] = static_cast<uint8_t>(g.chance(70) ? i : g.below(16));
+        for (UnitWork& unit : global.units) {
+            unit.flag = (unit.flag & ~3u) | static_cast<uint32_t>(g.range(0, 3));
+            unit.exp = g.chance(20) ? g.range(0, 0x7fffffff) : g.range(0, 100000);
+            unit.level = static_cast<uint16_t>(g.range(1, 99));
+        }
+        at<int32_t>(difftest::version::dataOrDie(0x005510e8)) = g.chance(10) ? g.range(-50, 0) : g.range(0, 5000);   // the experience shown
+        return Pair{[] { return iface::origVmVoid(0x0024a060, {}); }, [] { nb::loadResult(); return uint64_t{0}; }};
+    });
+    // Rows of party members part-way through their counts.
+    const auto resultRows = [](Gen& g) {
+        const uint32_t rows = difftest::version::dataOrDie(0x00574e80);
+        GlobalWork& global = nocturne::dat::globalWork();
+        for (uint32_t k = 0; k < 4; ++k) {
+            const uint32_t row = rows + 0x34 * k;
+            const int32_t index = g.range(0, 15);
+            UnitWork& unit = global.units[index];
+            unit.level = static_cast<uint16_t>(g.range(1, 98));
+            unit.exp = static_cast<int32_t>(nocturne::cmb::expForLevel(unit, unit.level)) + g.range(0, 50);
+            at<int32_t>(row) = g.chance(80) ? 1 : 0;
+            at<uint32_t>(row + 0x10) = static_cast<uint32_t>(index);
+            at<uint32_t>(row + 0x14) = nocturne::guest::addressOf(&unit);
+            at<uint32_t>(row + 0x2c) = static_cast<uint32_t>(g.chance(30) ? g.range(0, 20) : g.range(0, 20000));
+            at<uint32_t>(row + 4) = static_cast<uint32_t>(unit.exp) + static_cast<uint32_t>(g.range(0, 10));
+        }
+    };
+    add("rstCalcLevelFromExp", [=](Gen& g) {
+        const int32_t index = g.range(0, 15);
+        UnitWork& unit = nocturne::dat::globalWork().units[index];
+        unit.level = static_cast<uint16_t>(g.range(1, 99));
+        unit.exp = static_cast<int32_t>(nocturne::cmb::expForLevel(unit, unit.level));
+        const int32_t exp = unit.exp + (g.chance(20) ? g.range(-100, 0) : g.range(0, 200000));
+        return Pair{[=] { return iface::origVm(0x0021f838, {sx(index), sx(exp)}); }, [=] { return norm(nb::levelAtExp(index, exp)); }};
+    });
+    add("nbResultSkip", [=](Gen& g) {
+        resultStatics(g);
+        resultRows(g);
+        return Pair{[] { return iface::origVmVoid(0x0024ae70, {}); }, [] { nb::skipResult(); return uint64_t{0}; }};
+    });
+    add("nbResultProcess2", [=](Gen& g) {
+        resultStatics(g);
+        resultRows(g);
+        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(0, 0x3f9, 0, 0, 0, 0, 0));
+        nocturne::guest::table<int32_t>(process)[10] = g.chance(60) ? g.pick<int32_t>({3, 0x10, 0x14, 0x15, 0x30}) : g.range(0, 40);   // its run time
+        at<int8_t>(difftest::version::dataOrDie(0x002f5830) + 1) = static_cast<int8_t>(g.chance(30) ? -1 : 0);
+        at<int8_t>(difftest::version::dataOrDie(0x002f5830) + 3) = static_cast<int8_t>(g.chance(20) ? 1 : 0);
+        at<int32_t>(difftest::version::dataOrDie(0x005510d8)) = g.chance(50) ? 0 : g.range(-1, 101);   // the end timer
+        at<int32_t>(difftest::version::dataOrDie(0x005510dc)) = g.chance(50) ? 60 : g.range(0, 20);    // the finish wait
+        mainData().battletime = static_cast<uint32_t>(g.chance(50) ? g.range(0x300, 0x400) : g.range(0, 2000));
+        return Pair{[=] { return iface::origVm(0x0024c1d0, {process}); }, [=] { return norm(static_cast<int32_t>(nb::secondResultStep(process))); }};
+    });
+    // ---- the battle's opening (battle/opening.hpp) ----
+    // The battle's encounter (sometimes the flight model's), its flight
+    // pack's state, and a stage process.
+    const auto openingWorld = [](Gen& g) {
+        nb::MainProcessData& main = mainData();
+        main.encno = g.chance(40) ? 0x14d : g.range(1, 0x400);
+        main.flyh = g.chance(40) ? 0 : FW_SCRATCH + 0x300;
+        main.flymem = static_cast<uint32_t>(g.rng());
+        at<uint32_t>(FW_SCRATCH + 0x300 + 0x60) = FW_SCRATCH + 0x380;
+        at<uint32_t>(FW_SCRATCH + 0x380 + 8) = static_cast<uint32_t>(g.rng());
+        main.StageProcessID = static_cast<uint32_t>(g.range(0, 0x1000));
+        main.press4_repel = static_cast<int16_t>(g.range(-1, 0xff));
+        main.press4_miss = static_cast<int16_t>(g.range(-1, 30));
+    };
+    add("FUN_0024c6c8", [](Gen& g) {
+        const int16_t major = static_cast<int16_t>(g.range(-5, 300)), minor = static_cast<int16_t>(g.range(-5, 30));
+        return Pair{[=] { return iface::origVmVoid(0x0024c6c8, {sx(major), sx(minor)}); }, [=] { nb::requestStage(major, minor); return uint64_t{0}; }};
+    });
+    add("effBTLEncountStart", [](Gen&) {
+        return Pair{[] { return iface::origVmVoid(0x001741a0, {}); }, [] { nocturne::eff::startEncounterEffect(); return uint64_t{0}; }};
+    });
+    add("FUN_00290b20", [=](Gen& g) {
+        openingWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x00290b20, {FW_MAIN}); }, [] { nb::requestFlightPack(mainData()); return uint64_t{0}; }};
+    });
+    add("FUN_00290b68", [=](Gen& g) {
+        openingWorld(g);
+        return Pair{[] { return iface::origVm(0x00290b68, {FW_MAIN}); }, [] { return norm(nb::flightPackLoaded(mainData())); }};
+    });
+    add("FUN_00249bc0", [](Gen&) {
+        return Pair{[] { return iface::origVmVoid(0x00249bc0, {FW_MAIN}); }, [] { nb::startOpening(mainData()); return uint64_t{0}; }};
+    });
+    add("FUN_00249ba0", [](Gen& g) {
+        mainData().BeforeProcessID = static_cast<uint32_t>(g.range(0, 100));
+        return Pair{[] { return iface::origVmVoid(0x00249ba0, {0}); }, [] { nb::endOpening(0); return uint64_t{0}; }};
+    });
+    // (its steps are in kouka_tests.cpp, with the event packs' and the music's worlds)
+
+    // ---- the next area's pack (field/next_area.hpp) ----
+    const auto areaWorld = [](Gen& g) {
+        const uint32_t state = difftest::version::dataOrDie(0x002fbf80);   // (AreaLoadState)
+        at<int32_t>(state + 0x84) = g.chance(50) ? 1 : g.range(0, 2);
+        at<int32_t>(state + 0x88) = g.range(0, 600);
+        at<int32_t>(state + 0x8c) = g.range(0, 20);
+        at<int32_t>(difftest::version::dataOrDie(0x0054ebf4)) = g.chance(30) ? 0 : g.range(1, 600);
+        at<int32_t>(difftest::version::dataOrDie(0x0054ebf8)) = g.chance(30) ? 0 : g.range(1, 20);
+        uint32_t pack = 0;
+        if (g.chance(70)) {   // a pack with a few handles in a list
+            pack = FW_SCRATCH;
+            uint32_t* next = &at<uint32_t>(pack + 0x60);
+            for (uint32_t k = 0, n = g.below(4); k < n; ++k) {
+                const uint32_t node = FW_SCRATCH + 0x80 + 0x10 * k;
+                *next = node;
+                at<uint32_t>(node + 8) = static_cast<uint32_t>(g.range(1, 0x1000));
+                next = &at<uint32_t>(node);
+            }
+            *next = 0;
+        }
+        at<uint32_t>(difftest::version::dataOrDie(0x0054ebb8)) = pack;
+    };
+    add("FUN_00128408", [](Gen& g) {   // the area's folder
+        const int32_t major = g.chance(50) ? g.pick<int32_t>({0, 199, 200, 499, 500}) : g.range(0, 999);
+        return Pair{[=] { return iface::origVmVoid(0x00128408, {FW_SCRATCH, sx(major), 1}); },
+                    [=] { nocturne::fld::areaFolder(FW_SCRATCH, major); return uint64_t{0}; }};
+    });
+    add("FUN_00127510", [=](Gen& g) {
+        areaWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x00127510, {}); }, [] { nocturne::fld::releaseNextArea(); return uint64_t{0}; }};
+    });
+    add("FUN_00127580", [=](Gen& g) {
+        areaWorld(g);
+        return Pair{[] { return iface::origVm(0x00127580, {}); }, [] { return norm(nocturne::fld::pollNextArea()); }};
+    });
+    add("ps2FieldNextLoadStatus_001275D0", [=](Gen& g) {
+        areaWorld(g);
+        return Pair{[] { return iface::origVm(0x001275d0, {}); }, [] { return norm(nocturne::fld::nextAreaLoading()); }};
+    });
+    add("FUN_00127368", [](Gen& g) {
+        const int32_t major = g.range(0, 600), minor = g.range(0, 20);
+        return Pair{[=] { return iface::origVmVoid(0x00127368, {sx(major), sx(minor)}); },
+                    [=] { nocturne::fld::setNextArea(major, minor); return uint64_t{0}; }};
+    });
+    add("FUN_001275e0", [=](Gen& g) {
+        areaWorld(g);
+        return Pair{[] { return iface::origVm(0x001275e0, {}); }, [] { return norm(nocturne::fld::nextAreaPending()); }};
+    });
+    add("FUN_00127620", [=](Gen& g) {
+        areaWorld(g);
+        const uint32_t state = difftest::version::dataOrDie(0x002fbf80);
+        const int32_t major = g.chance(60) ? at<int32_t>(state + 0x88) : g.range(0, 600);
+        const int32_t minor = g.chance(70) ? at<int32_t>(state + 0x8c) : g.range(0, 20);
+        return Pair{[=] { return iface::origVm(0x00127620, {sx(major), sx(minor)}); },
+                    [=] { return norm(nocturne::fld::nextAreaPendingFor(major, minor)); }};
+    });
+    for (int32_t part = 0; part < 3; ++part) {
+        static const char* const names[] = {"FUN_00127688", "FUN_00127700", "FUN_00127778"};
+        static const uint32_t entries[] = {0x00127688, 0x00127700, 0x00127778};
+        add(names[part], [=](Gen& g) {
+            areaWorld(g);
+            const uint32_t state = difftest::version::dataOrDie(0x002fbf80);
+            for (uint32_t k = 0; k < 3; ++k) {   // the parts: bytes in scratch, small sizes
+                at<uint32_t>(difftest::version::dataOrDie(0x0054ebdc) + 4 * k) = FW_SCRATCH + 0x200 + 0x40 * k;
+                at<int32_t>(difftest::version::dataOrDie(0x0054ebe8) + 4 * k) = g.range(0, 0x40);
+                for (uint32_t b = 0; b < 0x40; ++b)
+                    at<uint8_t>(FW_SCRATCH + 0x200 + 0x40 * k + b) = static_cast<uint8_t>(g.rng());
+            }
+            const int32_t major = g.chance(70) ? at<int32_t>(state + 0x88) : g.range(0, 600);
+            const int32_t minor = g.chance(80) ? at<int32_t>(state + 0x8c) : g.range(0, 20);
+            const uint32_t out = FW_SCRATCH + 0x1f0;
+            return Pair{[=] { return iface::origVm(entries[part], {out, sx(major), sx(minor)}); },
+                        [=] { return norm(static_cast<int32_t>(nocturne::fld::copyAreaPart(part, out, major, minor))); }};
+        });
+    }
+    // The current area (24, 25 and 34 have variants; the fake world's story
+    // flags vary by case).
+    const auto currentArea = [](Gen& g) {
+        const uint32_t state = difftest::version::dataOrDie(0x002fbf80);
+        at<int32_t>(state + 4) = g.chance(70) ? g.pick<int32_t>({24, 25, 34, 1, 150, 250, 600}) : g.range(0, 700);
+        // (the minor numbers each side of the variants' bounds: steps 4, 11, 17, 19, 26)
+        at<int32_t>(state + 8) = g.chance(60) ? g.pick<int32_t>({2, 3, 9, 10, 15, 16, 17, 18, 24, 25}) : g.range(0, 30);
+    };
+    add("FUN_001277f0", [=](Gen& g) {
+        currentArea(g);
+        return Pair{[] { return iface::origVmVoid(0x001277f0, {FW_SCRATCH}); }, [] { nocturne::fld::areaPackName(FW_SCRATCH); return uint64_t{0}; }};
+    });
+    add("FUN_001279b8", [=](Gen& g) {
+        currentArea(g);
+        // The name held: the same pack, another, or none.
+        const char* held = g.chance(40) ? "" : g.chance(50) ? "/fld/f/f024/f024_00b.LB" : "/fld/f/f034/f034_00d.LB";
+        std::memcpy(&at<char>(difftest::version::dataOrDie(0x0055dab8)), held, std::strlen(held) + 1);
+        if (g.chance(40))
+            nocturne::fld::areaPackName(difftest::version::dataOrDie(0x0055dab8));
+        return Pair{[] { return iface::origVm(0x001279b8, {}); }, [] { return norm(nocturne::fld::areaPackChanged()); }};
+    });
+    add("FUN_00127b70", [](Gen& g) {
+        at<uint32_t>(difftest::version::dataOrDie(0x0054ebb0)) = g.chance(30) ? 0 : static_cast<uint32_t>(g.range(1, 0x1000));
+        at<uint32_t>(difftest::version::dataOrDie(0x0054ebc8)) = g.chance(30) ? 0 : static_cast<uint32_t>(g.range(1, 0x1000));
+        at<char>(difftest::version::dataOrDie(0x0055dab8)) = 'f';
+        return Pair{[] { return iface::origVmVoid(0x00127b70, {}); }, [] { nocturne::fld::releaseAreaPack(); return uint64_t{0}; }};
+    });
+    add("dds3GetActiveScene", [](Gen& g) {
+        const uint32_t list = g.chance(20) ? 0 : FW_SCRATCH + 0x100;
+        at<uint32_t>(difftest::version::dataOrDie(0x0054e9c4)) = list;
+        if (list) {
+            at<uint32_t>(list + 0x18) = FW_SCRATCH + 0x140;
+            at<uint32_t>(FW_SCRATCH + 0x148) = g.chance(30) ? 0 : static_cast<uint32_t>(g.rng());
+        }
+        return Pair{[] { return iface::origVm(0x0010e548, {}); }, [] { return norm(static_cast<int32_t>(nocturne::dds3::dds3GetActiveScene())); }};
+    });
     add("nbResultTexDel", [=](Gen& g) {
         resultStatics(g);
         for (uint32_t k = 0; k < 3; ++k)

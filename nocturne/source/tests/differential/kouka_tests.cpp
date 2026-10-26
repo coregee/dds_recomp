@@ -20,6 +20,7 @@
 #include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/kouka.hpp"
 #include "nocturne/battle/kouka_process.hpp"
+#include "nocturne/battle/opening.hpp"
 #include "nocturne/battle/macca_window.hpp"
 #include "nocturne/battle/battle_panel.hpp"
 #include "nocturne/battle/enc_process.hpp"
@@ -2800,6 +2801,29 @@ void addKoukaTests(std::vector<TestCase>& t)
         add(m->name, [=](Gen& g) {
             musicWorld(g);
             return Pair{[=] { return origVmVoid(m->original, {}); }, [=] { m->rewrite(); return uint64_t{0}; }};
+        });
+    }
+    // The battle's opening (battle/opening.hpp): its steps, with the event
+    // packs, the music, and sometimes the flight model's encounter.
+    struct OpeningStep { const char* name; uint32_t original; uint32_t (*rewrite)(uint32_t); };
+    static const OpeningStep kBattleOpeningSteps[] = {
+        {"FUN_00249b68", 0x00249b68, nocturne::nb::openingRequestStage}, {"FUN_00249b18", 0x00249b18, nocturne::nb::openingLoadPacks},
+        {"FUN_00249ab0", 0x00249ab0, nocturne::nb::openingWaitPacks},    {"FUN_00249a88", 0x00249a88, nocturne::nb::openingLoadMusic},
+        {"FUN_00249a58", 0x00249a58, nocturne::nb::openingWaitMusic},    {"FUN_00249a38", 0x00249a38, nocturne::nb::openingPlayMusic},
+    };
+    for (const OpeningStep& step : kBattleOpeningSteps) {
+        const OpeningStep* o = &step;
+        add(o->name, [=](Gen& g) {
+            eventWorld(g);
+            musicWorld(g);
+            MainProcessData& main = at<MainProcessData>(FW_MAIN);
+            if (g.chance(30))
+                main.encno = 0x14d;   // the flight model's
+            main.flyh = g.chance(40) ? 0 : FW_SCRATCH + 0x300;
+            at<uint32_t>(FW_SCRATCH + 0x300 + 0x60) = FW_SCRATCH + 0x380;
+            at<uint32_t>(FW_SCRATCH + 0x380 + 8) = static_cast<uint32_t>(g.rng());
+            main.StageProcessID = static_cast<uint32_t>(g.range(0, 0x1000));
+            return Pair{[=] { return origVm(o->original, {0}); }, [=] { return norm(static_cast<int32_t>(o->rewrite(0))); }};
         });
     }
     // ---- the encounter's opening (nbEncProcess) ----

@@ -6,6 +6,7 @@
 #include "nocturne/battle/bad_ai.hpp"
 #include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/help.hpp"
+#include "nocturne/effect/cut.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
 
@@ -17,7 +18,6 @@ constexpr uint32_t kProcessName = addr(0x00551550);     // "nb_enc"
 constexpr uint32_t kFrameCount = addr(0x0054e800);      // int32_t: the kernel's frame counter (read by 0x100410)
 constexpr uint32_t kLoadStart = addr(0x00551548);       // int32_t: the frame the loading started
 constexpr uint32_t kLoadTime = addr(0x0055154c);        // int32_t: frames it took (0 until done)
-constexpr uint32_t kStartEffect = addr(0x001741a0);     // (no C yet) effBTLEncountStart
 constexpr uint32_t kEndEffect = addr(0x001741c0);       // (no C yet) effBTLEncountEnd
 constexpr uint32_t kCameraDone = addr(0x001b33f8);      // (no C yet) nbCameraState_Start_CheckEnd
 constexpr uint32_t kLoadGroup = addr(0x0024e1e0);       // (no C yet) nbLoadUnitGroup(group, a, b): 1 the enemies, 0 the party
@@ -56,7 +56,7 @@ bool present(const Party& party) { return (party.flag & 9) != 0; }
 uint32_t startEncounterLoad(uint32_t)
 {
     MainProcessData& main = *GetMainProcessData();
-    guest::callOriginal(kStartEffect);
+    eff::startEncounterEffect();
     *guest::table<int32_t>(kLoadStart) = frameCount();
     loadTime() = 0;
     guest::callOriginal(kLoadGroup, 1, 1, (main.stat & kStatFadeIn) ? 0 : 1);

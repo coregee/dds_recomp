@@ -79,6 +79,9 @@ void nocturneInvokeMessageKutiCallback(uint32_t entry);
 uint64_t dds3StartProcess(uint64_t name, uint64_t priority, uint64_t startdelay, uint64_t shutdowndelay,
                           uint64_t processfunc, uint64_t shutdownfunc, uint64_t data);
 void ps2TextureDeferredRelease(uint64_t texture);
+uint64_t ps2TextureTmxCopy(uint64_t header);
+uint64_t ps2ResourcePacCheckEnd(uint64_t request);
+void ps2MemoryHandleDeferredRelease(uint64_t handle);
 uint64_t ps2InterfaceLoadTexture(uint64_t name);   // 0x1CB0D8: no legacy C yet (the tests fake it)
 uint32_t ps2PoolAllocate(int32_t size);
 uint64_t ps2TextureQueueUpload(uint64_t record);
@@ -265,6 +268,7 @@ void pac::RelocatePointers(uint32_t destination, uint32_t base, uint32_t table, 
 void guest::callFunction(uint32_t entry) { nocturneInvokeMessageKutiCallback(entry); }
 uint32_t tex::Load(uint32_t name) { return static_cast<uint32_t>(ps2InterfaceLoadTexture(word(name))); }
 void tex::DeferredRelease(uint32_t texture) { ps2TextureDeferredRelease(word(texture)); }
+uint32_t tex::TmxCopy(uint32_t header) { return static_cast<uint32_t>(ps2TextureTmxCopy(word(header))); }
 
 // The record is staged on the guest stack, as the original passes its own.
 void tex::QueueUpload(const UploadRecord& record)
@@ -404,6 +408,8 @@ void snd::PlayMidi(int32_t midi) { ps2SoundPlayMidi_002C1670(signExtend(midi)); 
 void snd::FadeOutMidi(int32_t midi) { ps2SoundFadeOut_002C2070(signExtend(midi)); }
 void snd::EnsureBank(uint32_t bank) { ps2SoundEnsureBank(word(bank)); }
 void file::PacRequestFree(uint32_t request) { ps2ResourcePacRequestFree(word(request)); }
+bool file::PacCheckEnd(uint32_t request) { return ps2ResourcePacCheckEnd(word(request)) != 0; }
+void mem::HandleDeferredRelease(uint32_t handle) { ps2MemoryHandleDeferredRelease(word(handle)); }
 void file::WaitIdle() { ps2BattleActionRequest_00296B88(); }
 uint32_t fr::DrawFontEx2(Request& font, int32_t mode, int32_t ot)
 {

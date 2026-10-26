@@ -24,12 +24,20 @@ void startResultProcess(MainProcessData& data);
 // nbResultProcess1: its first frame: the battle's other processes stop, the
 // experience is counted and the screen loads; the next frame's step.
 uint32_t firstResultStep(uint32_t process);
+// nbResultProcess2: each frame of the screen (0 to go on, -1 at the end).
+uint32_t secondResultStep(uint32_t process);
 // nbResultShutdown
 void shutdownResult(uint32_t process);
 // ShutdownProcess (tentative): the battle's helper processes stopped.
 void stopBattleProcesses();
 // ClearStage (tentative): the units let go and the parties marked gone.
 void clearStage();
+// nbResultLoad: the screen's textures and rows.
+void loadResult();
+// rstCalcLevelFromExp: unit `index`'s level at `exp`.
+int32_t levelAtExp(int32_t index, int32_t exp);
+// nbResultSkip (tentative): the rows jump to their totals.
+void skipResult();
 // nbResultTexDel: the screen's three textures released.
 void releaseResultTextures();
 // nbResultLvupAnmAdd: a level-up animation (one of 64 slots).

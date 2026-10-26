@@ -593,6 +593,25 @@ The "nb_enc" process runs while a battle starts:
    has bit 0x10000. This check reads 32 slots, past the fourteen
    formations, into the parties' memory.
 
+## The battle's opening (`nb_mae`)
+
+The battle's "before" process ("nb_mae", BeforeProcessID) runs one step a
+frame, each naming the next:
+
+1. The stage is requested (main +0x7C, +0x7E; record at 0x575350), and
+   the encounter's effect starts (`effBTLEncountStart`, skill effect 0x200).
+2. The encounter's event packs are requested. For encounter 0x14D, the
+   flight model's file is requested too (flyh). The stage process is held
+   back (process flag 0x20).
+3. Once the packs are in, the flight model's memory is kept (flymem) and
+   the stage is shown.
+4. The music loads.
+5. The process waits for the music to load.
+6. The music plays, and the process ends.
+
+The first release loads the flight model as a plain file; the later ones
+load it as a PAC.
+
 ## The result screen (`nbResultProcess`)
 
 When the battle is won, `nbInitResultProcess` starts the result process
@@ -604,19 +623,33 @@ Its first frame (`nbResultProcess1`) prepares the screen and hands over to
    HD name in order): the auto command, camera, effect, unit, help and
    panel processes, each killed with a one-frame delay and its ID cleared.
 2. The experience earned (`nbGetKakutokuExp`) is kept for the screen.
-3. The screen loads (`nbResultLoad`, not yet rewritten): its three
-   textures and four rows.
+3. The screen loads (`nbResultLoad`). It gets three textures and gives a
+   row to each party member, at most four in stock order. Each row shows
+   the member's experience and level and the experience it gains
+   (`GetAddExp`), counting up a 45th of the gain a frame (rounded up, at
+   least 1).
 4. Its counters start at zero.
 
-`nbResultFinWaitChk` holds the end while any row is still counting toward
-its value (the row's source's value plus its own extra), then counts
-frames up to 60.
+`nbResultProcess2` runs each frame, timed by the process's run time:
 
-`nbResultProcess2` isn't rewritten yet. Read from its instructions
-(tentative), it counts the rows up, plays the level-up animations and lets
-the player skip. Once the wait reaches 15 frames and a short delay has
-passed, the spoils are granted (`nbResultAddExp`) and the music fades.
-Past a certain encounter, the next battle music is also picked.
+| Frame | What happens |
+|---|---|
+| 3 | The screen fades in. |
+| 16 on | Once a scene is active, the stage is let go (`ClearStage`). |
+| 20 | The next field's pack starts loading, polled until done ("pac1 done"). |
+| 21 on | Either of two buttons (pad bytes 1 and 3) skips the counting. |
+| every frame | The screen is drawn (0x24B010, not yet rewritten). |
+
+A skip (`nbResultSkip`, tentative) puts every row at its total. A row
+whose level rose (`rstCalcLevelFromExp`) is marked and gets a level-up
+animation, and one sound (0x11) plays for them all.
+
+`nbResultFinWaitChk` holds the end while any row is still counting, then
+counts frames up to 60. Once it reaches 15, a button press ends the screen.
+Sixteen frames later, with the pack in, the spoils are granted
+(`nbResultAddExp`), the music fades and the process ends. After a battle
+of 871 frames or more, the next battle's piece is also chosen
+(`nbBgmNext`); the first release chooses it after every battle.
 
 A level-up animation (`nbResultLvupAnmAdd`) takes the first free one of
 64 slots for 20 frames; with all 64 in use it is dropped.

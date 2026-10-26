@@ -67,6 +67,9 @@ void setDrawEndFrame(BattleCut& cut, uint32_t frame)
 // effBTLSystemCut1Draw @ 0x001740A0
 void drawSystemCut(uint32_t cut) { BTLCutDraw(cut); }
 
+// effBTLEncountStart @ 0x001741A0 (name as enc_process noted it, tentative)
+void startEncounterEffect() { BTLSkillStart(0x200, 0); }
+
 // effBTLCutSetCameraState @ 0x0016B090: not while the camera is held (0x1000).
 void setCutCameraState(const BattleCut& cut)
 {

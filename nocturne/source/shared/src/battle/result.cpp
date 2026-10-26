@@ -2,8 +2,14 @@
 // original instructions.
 #include "nocturne/battle/result.hpp"
 
+#include <cstddef>
+#include <cstring>
+
 #include "nocturne/address.hpp"
 #include "nocturne/battle/calc.hpp"
+#include "nocturne/battle/sound.hpp"
+#include "nocturne/field/next_area.hpp"
+#include "nocturne/kernel/draw.hpp"
 #include "nocturne/data/progression.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/types.hpp"
@@ -20,12 +26,18 @@ namespace {
 
 constexpr uint32_t kProcessName = addr(0x00543608);    // "nb_result"
 constexpr uint32_t kFirstStep = addr(0x0024c378), kSecondStep = addr(0x0024c1d0), kShutdown = addr(0x0024c3c8);
-constexpr uint32_t kLoad = addr(0x0024a060);           // nbResultLoad (no C yet): the screen's textures and rows
 constexpr uint32_t kAfterResult = addr(0x0024cbb8);    // (no C yet) what follows the result screen
 constexpr uint32_t kReleaseStage = addr(0x001e1770);   // (no C yet) the stage's resources let go (tentative)
+constexpr uint32_t kTextureHeaders = addr(0x00551fd0); // uint32[3]: the TMX files the screen's textures come from
 constexpr uint32_t kTextures = addr(0x00551104);       // uint32[3]: the screen's textures
+constexpr uint32_t kCounters = addr(0x005510d0);       // int32[3] (tentative: the screen's timers; the first set to 900 by a skip)
+constexpr uint32_t kLevelUpSound = addr(0x005510e4);   // int32: bit 2, a level-up to sound (cleared after)
 constexpr uint32_t kFinishWait = addr(0x005510dc);     // int32: frames since the rows finished
-constexpr uint32_t kSkipped = addr(0x005510e0);        // int32 (tentative)
+constexpr uint32_t kPackLoading = addr(0x005510e0);    // int32: the next field's pack is loading (0x127378's result)
+constexpr uint32_t kEndTimer = addr(0x005510d8);       // int32: frames since the player ended the screen (to 100)
+constexpr uint32_t kStartPackLoad = addr(0x00127378);  // (no C yet) the next area's pack starts loading (field/next_area.hpp)
+constexpr uint32_t kDraw = addr(0x0024b010);           // (no C yet) the screen drawn (tentative: nbResultDrawBG and the rows)
+constexpr uint32_t kPad = addr(0x002f5830);            // pad trigger bytes
 constexpr uint32_t kExpShown = addr(0x005510e8);       // int32: the experience the screen shows
 constexpr uint32_t kRowsFlag = addr(0x005510fc);       // int32 (tentative)
 constexpr uint32_t kLevelUps = addr(0x00574f50);       // LevelUpAnimation[64]
@@ -39,16 +51,21 @@ struct LevelUpAnimation {
 };
 static_assert(sizeof(LevelUpAnimation) == 16);
 
-// One of the screen's four rows: done once its count reaches its source's
-// value plus its own extra (tentative names).
+// One of the screen's four rows: a party member's experience counting up
+// by `step` a frame from what it had to that plus what it gains (typeNbResultWork,
+// tentative names).
 struct ResultRow {
     int32_t active;
-    uint32_t count;
-    uint8_t unknown_08[0xc];
-    uint32_t source;   // a record whose +0x10 holds the value counted to
-    uint8_t unknown_18[0x14];
-    uint32_t extra;
-    uint8_t unknown_30[4];
+    uint32_t shownExp;   // the experience shown, counting up
+    uint32_t level;      // the level shown
+    uint32_t levelledUp;   // set when the count passes a level
+    uint32_t unitIndex;  // in the global work
+    uint32_t unit;       // its UnitWork
+    uint8_t unknown_18[0xc];
+    uint32_t unknown_24; // 0xC0 at the start
+    uint32_t unknown_28;
+    uint32_t gainedExp;  // GetAddExp's share of what the battle gave
+    int32_t step;        // a 45th of it, rounded up, at least 1
 };
 static_assert(sizeof(ResultRow) == 0x34);
 
@@ -87,6 +104,83 @@ void grantSpoils(MainProcessData& main)
     }
 }
 
+// nbResultLoad @ 0x0024A060: the three textures, the counters and rows
+// cleared, a row for each party member (stock order, at most four) with its
+// experience, level and what it gains, and no level-up animations.
+void loadResult()
+{
+    uint32_t* textures = guest::table<uint32_t>(kTextures);
+    const uint32_t* headers = guest::table<const uint32_t>(kTextureHeaders);
+    for (int32_t i = 0; i < 3; ++i)
+        textures[i] = tex::TmxCopy(headers[i]);
+    for (int32_t i = 0; i < 3; ++i)
+        word(kCounters + 4 * static_cast<uint32_t>(i)) = 0;
+    ResultRow* rows = guest::table<ResultRow>(kRows);
+    for (int32_t i = 0; i < 4; ++i)
+        std::memset(&rows[i], 0, offsetof(ResultRow, gainedExp));
+    GlobalWork& global = dat::globalWork();
+    int32_t row = 0;
+    for (int32_t i = 0; i < global.stock_count && row < 4; ++i) {
+        const uint8_t index = global.stock_list[i];
+        UnitWork& unit = global.units[index];
+        if (!(unit.flag & UnitFlag::Valid) || !(unit.flag & UnitFlag::InParty))
+            continue;
+        ResultRow& r = rows[row++];
+        r.active = 1;
+        r.unit = guest::addressOf(&unit);
+        r.shownExp = static_cast<uint32_t>(unit.exp);
+        r.level = unit.level;
+        r.levelledUp = 0;
+        r.unitIndex = index;
+        std::memset(r.unknown_18, 0, sizeof r.unknown_18);
+        r.unknown_24 = 0xc0;
+        r.gainedExp = static_cast<uint32_t>(cappedExp(index, word(kExpShown)));
+        r.step = static_cast<int32_t>(r.gainedExp) / 45 + (static_cast<int32_t>(r.gainedExp) % 45 > 0 ? 1 : 0);
+        if (r.step <= 0)
+            r.step = 1;
+    }
+    LevelUpAnimation* slots = guest::table<LevelUpAnimation>(kLevelUps);
+    for (int32_t i = 0; i < 64; ++i)
+        slots[i] = {};
+}
+
+// rstCalcLevelFromExp @ 0x0021F838: unit `index`'s level at `exp` (the low
+// byte of its level, plus the levels that much more would bring).
+int32_t levelAtExp(int32_t index, int32_t exp)
+{
+    const UnitWork& unit = dat::globalWork().units[index & 0xff];
+    return (static_cast<uint8_t>(unit.level) + cmb::levelUpCount(unit, exp - unit.exp)) & 0xff;
+}
+
+// nbResultSkip @ 0x0024AE70 (tentative: the HD name in order): every row
+// jumps to its total; a row whose level rose is marked and gets a level-up
+// animation (0x13D at its height), and one sound plays for them all.
+void skipResult()
+{
+    word(kCounters) = 900;
+    int32_t& sound = word(kLevelUpSound);
+    sound = 0;
+    ResultRow* rows = guest::table<ResultRow>(kRows);
+    for (int32_t i = 0; i < 4; ++i) {
+        ResultRow& r = rows[i];
+        if (r.active == 0)
+            continue;
+        const uint8_t index = static_cast<uint8_t>(r.unitIndex);
+        const int32_t before = levelAtExp(index, static_cast<int32_t>(r.shownExp));
+        r.shownExp = static_cast<uint32_t>(guest::table<const UnitWork>(r.unit)->exp) + r.gainedExp;
+        const int32_t after = levelAtExp(index, static_cast<int32_t>(r.shownExp));
+        r.level = static_cast<uint32_t>(after);
+        if (before < after) {
+            r.levelledUp = 1;
+            sound |= 2;
+            addLevelUpAnimation(0x13d, 0xe3 + 0x28 * i);
+        }
+    }
+    if (sound & 2)
+        snd::Play(0x11, 0x7f, 0x3f);
+    sound = 0;
+}
+
 // nbResultTexDel @ 0x0024A258
 void releaseResultTextures()
 {
@@ -118,7 +212,7 @@ int32_t finishWait()
     bool counting = false;
     for (int32_t i = 0; i < 4; ++i) {
         const ResultRow& row = rows[i];
-        if (row.active != 0 && row.count < static_cast<uint32_t>(word(row.source + 0x10)) + row.extra)
+        if (row.active != 0 && row.shownExp < static_cast<uint32_t>(guest::table<const UnitWork>(row.unit)->exp) + row.gainedExp)
             counting = true;
     }
     int32_t& wait = word(kFinishWait);
@@ -171,11 +265,58 @@ uint32_t firstResultStep(uint32_t)
     MainProcessData& main = *GetMainProcessData();
     stopBattleProcesses();
     word(kExpShown) = earnedExp(main);
-    guest::callOriginal(kLoad);
+    loadResult();
     word(kRowsFlag) = 0;
     word(kFinishWait) = 0;
-    word(kSkipped) = 0;
+    word(kPackLoading) = 0;
     return kSecondStep;
+}
+
+// nbResultProcess2 @ 0x0024C1D0: each frame of the screen. At frame 3 the
+// screen fades in; from 16 the stage is let go once a scene is up; at 20
+// the next field's pack starts loading, polled until done. From frame 21
+// either of two buttons (pad bytes 1 and 3) skips the counting, and once
+// the rows have finished (15 frames' wait) ends the screen. Then it draws.
+// Sixteen frames after the end, with the pack in, the spoils are granted,
+// the music fades, and after a long battle (871 frames on; the first
+// release: any) the next battle's piece is chosen; the process ends (-1).
+uint32_t secondResultStep(uint32_t process)
+{
+    if (dds3::GetRunTime(process) == 3)
+        dds3::FadeIn2(10);
+    if (static_cast<uint32_t>(dds3::GetRunTime(process)) >= 0x10 && dds3::dds3GetActiveScene() != 0)
+        clearStage();
+    MainProcessData& main = *GetMainProcessData();
+    int32_t& loading = word(kPackLoading);
+    if (dds3::GetRunTime(process) == 0x14)
+        loading = static_cast<int32_t>(guest::callOriginal(kStartPackLoad));
+    if (loading != 0) {
+        fld::pollNextArea();
+        if (fld::nextAreaLoading() == 0) {
+            loading = 0;
+            diag::print(diag::Message::PackLoaded);
+        }
+    }
+    const int8_t* pad = guest::table<const int8_t>(kPad);
+    int32_t& ending = word(kEndTimer);
+    if (static_cast<uint32_t>(dds3::GetRunTime(process)) >= 0x15) {
+        if (pad[1] != 0 || pad[3] != 0)
+            skipResult();
+        if (finishWait() >= 15 && (pad[1] != 0 || pad[3] != 0) && ending == 0)
+            ending = 1;
+    }
+    guest::callOriginal(kDraw, guest::addressOf(&main));
+    if (ending <= 0)
+        return 0;
+    if (ending < 100)
+        ++ending;
+    if (ending < 16 || loading != 0)
+        return 0;
+    grantSpoils(main);
+    fadeOutMusic();
+    if (kBuild.vanilla || main.battletime >= 0x367)   // (the first release: after every battle)
+        nextMusic();
+    return static_cast<uint32_t>(-1);
 }
 
 // nbResultShutdown @ 0x0024C3C8

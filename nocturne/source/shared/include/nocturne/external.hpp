@@ -161,6 +161,7 @@ void AddToOrder(int32_t formindex);   // (0x258048) the turn order takes in a ne
 namespace tex {
 uint32_t Load(uint32_t name);              // (0x1CB0D8) load a .TMX file into a texture
 void DeferredRelease(uint32_t texture);    // ps2TextureDeferredRelease
+uint32_t TmxCopy(uint32_t header);         // ps2TextureTmxCopy: a texture from a loaded TMX (tentative)
 
 // A rectangle of pixels to send to video memory (ps2TextureQueueUpload).
 struct UploadRecord {
@@ -198,6 +199,7 @@ void PoolRelease(uint32_t block);         // ps2PoolRelease
 uint32_t HandleAllocate(int32_t size);
 uint32_t HandleAcquirePointer(uint32_t handle);
 void HandleFree(uint32_t handle);
+void HandleDeferredRelease(uint32_t handle);   // ps2MemoryHandleDeferredRelease
 } // namespace mem
 
 namespace file {
@@ -209,6 +211,7 @@ uint32_t GetMemHandle(uint32_t request);   // fileGetMemHandle
 int32_t GetLoadSize(uint32_t request);     // fileGetLoadSize
 void RequestRelease(uint32_t request);     // ps2ResourceRequestRelease
 void PacRequestFree(uint32_t request);     // ps2ResourcePacRequestFree
+bool PacCheckEnd(uint32_t request);        // ps2ResourcePacCheckEnd: loaded
 void WaitIdle();                           // (0x296B88) the loader pumped until no request is pending
 } // namespace file
 
@@ -335,6 +338,7 @@ enum class Message : uint32_t {
     HitCount         = optionalAddr(0x005437f8), // 攻撃回数=%d, select = 0x%08X (hits; EUC-JP)
     BedName          = optionalAddr(0x00543b30), // "name [%d]:%s" (a skill's effect file)
     MidiName         = optionalAddr(0x00543b58), // "MIDI :%s" (its sound file)
+    PackLoaded       = optionalAddr(0x005435f8), // "pac1 done" (the result screen's loading)
     ActTime          = optionalAddr(0x00543b68), // "acttime = %d" (frames to the hit)
     SelectBits       = optionalAddr(0x00543b78), // "select %d -> %08X"
     MotionSoundWait        = optionalAddr(0x00543ce0), // "mot se wait(1).."
