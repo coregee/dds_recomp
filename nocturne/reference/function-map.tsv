@@ -1844,7 +1844,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0016c4b8	40	FUN_0016c4b8	DEFAULT	named								nbEffectProcess
 0016c4e0	32	FUN_0016c4e0	DEFAULT	named								nbEffectDraw
 0016c500	40	FUN_0016c500	DEFAULT	named								nbEffectShutdown
-0016c528	188	FUN_0016c528	DEFAULT	named								nbInitEffectProcess
+0016c528	188	FUN_0016c528	DEFAULT	rewritten	shared/src/effect/battle_process.cpp:startEffectProcess		ok	ok	ok	ok	ok	nbInitEffectProcess
 0016c5e8	100	effBTLModelGetSphereCenter	USER_DEFINED	legacy		battle_presentation.c:effBTLModelGetSphereCenter						effBTLModelGetSphereCenter
 0016c650	36	FUN_0016c650	DEFAULT	named								effBTLModelGetRadius
 0016c678	72	FUN_0016c678	DEFAULT	named								effBTLModelGetDirection
@@ -6949,13 +6949,13 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0027aa40	204	ps2BattleDrawEmptyPartyRow	USER_DEFINED	legacy		battle_panel_color_prerequisites.c:body_0027aa40;battle_panel_renderer_prerequisites.c:body_0027aa40;battle_stock_renderer.c:ps2BattleDrawEmptyPartyRow						nbPanelDrawPP0
 0027ab10	3220	nbPanelDrawPP1	USER_DEFINED	legacy		battle_panel_color_callers.c:body_0027ab10;battle_stock_renderer.c:nbPanelDrawPP1						nbPanelDrawPP1
 0027b7a8	2672	nbPanelDrawPP	USER_DEFINED	legacy		battle_panel_color_callers.c:body_0027b7a8;battle_stock_renderer.c:nbPanelDrawPP						nbPanelDrawPP
-0027c230	56	nbPanelPressGaugeInit	USER_DEFINED	legacy		battle_panel_next.c:body_0027c230;battle_panel_next.c:nbPanelPressGaugeInit						nbPanelPressGaugeInit
+0027c230	56	nbPanelPressGaugeInit	USER_DEFINED	rewritten	shared/src/battle/battle_panel.cpp:initPressGauge	battle_panel_next.c:body_0027c230;battle_panel_next.c:nbPanelPressGaugeInit	ok	ok	ok	ok	ok	nbPanelPressGaugeInit
 0027c268	36	FUN_0027c268	DEFAULT	rewritten	shared/src/battle/battle_panel.cpp:startPressGauge		ok	ok	ok	ok	ok	nbPanelPressGaugeStart
 0027c290	48	FUN_0027c290	DEFAULT	named								nbPanelPressGaugeReset
 0027c2c0	120	nbPanelPressGaugeShow	USER_DEFINED	legacy		battle_status_pairs.c:body_0027c2c0;battle_status_pairs_native.c:body_0027c2c0						nbPanelPressGaugeShow
 0027c340	16	FUN_0027c340	DEFAULT	rewritten	shared/src/battle/battle_panel.cpp:hidePressGaugeForEncounter		ok	ok	ok	ok	ok	nbPanelPressGaugeEncountHide
 0027c350	5360	nbPanelPressGauge	USER_DEFINED	legacy		battle_panel_next.c:body_0027c350;battle_panel_next.c:nbPanelPressGauge						nbPanelPressGauge
-0027d868	32	FUN_0027d868	DEFAULT	named								nbPanelPressTurnInit
+0027d868	32	FUN_0027d868	DEFAULT	rewritten	shared/src/battle/battle_panel.cpp:initPressPanel		ok	ok	ok	ok	ok	nbPanelPressTurnInit
 0027d888	72	nbPanelPressTurnRun	USER_DEFINED	legacy		battle_panel_owner.c:body_0027d888;battle_panel_owner.c:nbPanelPressTurnRun						nbPanelPressTurnRun
 0027d8d0	12	nbPanelPressTurnGaugeRun	USER_DEFINED	legacy		battle_panel_next.c:body_0027d8d0;battle_panel_next.c:nbPanelPressTurnGaugeRun						nbPanelPressTurnGaugeRun
 0027d8e0	12	FUN_0027d8e0	DEFAULT	rewritten	shared/src/battle/battle_panel.cpp:skipNextPressPanel		ok	ok	ok	ok	ok	nbPanelPressTurnOmit
@@ -6987,7 +6987,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00282270	1348	nbPanelPartyDraw	USER_DEFINED	legacy		battle_panel_color_prerequisites.c:body_00282270;battle_panel_renderer_prerequisites.c:body_00282270;battle_stock_renderer.c:nbPanelPartyDraw						nbPanelPartyDraw
 002827c0	260	FUN_002827c0	DEFAULT	named								nbPanelDrawProcess
 002828c8	52	FUN_002828c8	DEFAULT	named								nbPanelShutdown
-00282900	296	FUN_00282900	DEFAULT	named								nbInitPanelProcess
+00282900	296	FUN_00282900	DEFAULT	rewritten	shared/src/battle/battle_panel.cpp:startPanelProcess		ok	ok	ok	ok	ok	nbInitPanelProcess
 00282a28	68	FUN_00282a28	DEFAULT	named								nbPanelFlashInit
 00282a70	128	FUN_00282a70	DEFAULT	named								nbPanelFlashRGBAMulti
 00282af0	2868	FUN_00282af0	DEFAULT	named								nbPanelFlashDraw

@@ -36,6 +36,7 @@
 #include "nocturne/battle/closing.hpp"
 #include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/main_process.hpp"
+#include "nocturne/effect/battle_process.hpp"
 #include "nocturne/battle/auto_command.hpp"
 #include "nocturne/battle/unit_process.hpp"
 #include "nocturne/battle/battle_panel.hpp"
@@ -409,6 +410,8 @@ const StaticRange kWrittenStatics[] = {
     {0x0054f394, 8}, {0x00551e54, 4},                      // the press turn camera: running, skip, frame
     {0x00325960, 0x50},                                    // ... the camera shots it colours
     {0x00551190, 0x6c},                                    // the press turn panel
+    {0x0055116c, 8}, {0x00551180, 8},                      // the panel: drawn, its time, its base colours
+    {0x005753a0, 0x60},                                    // ... its layout
     {0x0054f38c, 4},                                       // the camera's request for the party's formation
     {0x00320e68, 0x10},                                    // the camera's states
 };
@@ -1080,6 +1083,28 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
     add("nbInitCameraProcess (0x1B20B8)", [=](Gen& g) {
         processStartWorld(g);
         return Pair{[] { return iface::origVmVoid(0x001b20b8, {FW_MAIN}); }, [] { nb::startCameraProcess(mainData()); return uint64_t{0}; }};
+    });
+    add("nbInitEffectProcess (0x16C528)", [=](Gen& g) {
+        processStartWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x0016c528, {FW_MAIN}); }, [] { nb::startEffectProcess(mainData()); return uint64_t{0}; }};
+    });
+    add("nbInitPanelProcess (0x282900)", [=](Gen& g) {
+        processStartWorld(g);
+        for (uint32_t k = 0; k < 0x6c; ++k)
+            at<uint8_t>(difftest::version::dataOrDie(0x00551190) + k) = static_cast<uint8_t>(g.rng());
+        for (uint32_t k = 0; k < 0x60; k += 4)
+            at<uint32_t>(difftest::version::dataOrDie(0x005753a0) + k) = static_cast<uint32_t>(g.rng());
+        return Pair{[] { return iface::origVmVoid(0x00282900, {FW_MAIN}); }, [] { nb::startPanelProcess(mainData()); return uint64_t{0}; }};
+    });
+    add("nbPanelPressTurnInit (0x27D868)", [=](Gen& g) {
+        for (uint32_t k = 0; k < 0x6c; ++k)
+            at<uint8_t>(difftest::version::dataOrDie(0x00551190) + k) = static_cast<uint8_t>(g.rng());
+        return Pair{[] { return iface::origVmVoid(0x0027d868, {}); }, [] { nb::initPressPanel(); return uint64_t{0}; }};
+    });
+    add("nbPanelPressGaugeInit (0x27C230)", [=](Gen& g) {
+        for (uint32_t k = 0; k < 0x6c; ++k)
+            at<uint8_t>(difftest::version::dataOrDie(0x00551190) + k) = static_cast<uint8_t>(g.rng());
+        return Pair{[] { return iface::origVmVoid(0x0027c230, {}); }, [] { nb::initPressGauge(); return uint64_t{0}; }};
     });
     add("nbCameraInit (0x1B1BD8)", [=](Gen& g) {
         processStartWorld(g);

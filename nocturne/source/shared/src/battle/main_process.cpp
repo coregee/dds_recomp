@@ -33,6 +33,7 @@
 #include "nocturne/data/progression.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/unit.hpp"
+#include "nocturne/effect/battle_process.hpp"
 #include "nocturne/event/state.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
@@ -57,8 +58,6 @@ constexpr int32_t kNoGameOverFlag = 0xc0c;       // debug event bit: no game ove
 
 // Not rewritten yet (names from the HD remaster where it has them).
 constexpr uint32_t kSetPlayerStartData = addr(0x00259908);    // nbSetPlayerStartData
-constexpr uint32_t kInitEffectProcess = addr(0x0016c528);     // nbInitEffectProcess
-constexpr uint32_t kInitPanelProcess = addr(0x00282900);      // nbInitPanelProcess
 constexpr uint32_t kSetFormation = addr(0x00259740);          // the encounter's formation placed (main, encno)
 constexpr uint32_t kInitActionProcess = addr(0x00257fa8);     // nbInitActionProcess (main, type, from, to, data)
 constexpr uint32_t kCheckResultEntry = addr(0x0021f7d8);      // rstChkResultEntry: someone levelled up
@@ -325,9 +324,9 @@ void enterStart(MainProcessData& main)
     startEffectQueue(main);
     startTargetCursorProcess(main);
     startOpening(main);
-    guest::callOriginal(kInitEffectProcess, addressOf(main));
+    startEffectProcess(main);
     startCameraProcess(main);
-    guest::callOriginal(kInitPanelProcess, addressOf(main));
+    startPanelProcess(main);
     startHelpLine(main);
     startAutoCommandProcess(main);
     startMaccaWindow(main.MainProcessID);

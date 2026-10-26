@@ -305,6 +305,10 @@ nbInitAutoCommProcess (0x289AC8)	ok
 nbInitUnitProcess (0x24F388)	ok
 nbInitStageProcess (0x24CAC8)	ok
 nbInitCameraProcess (0x1B20B8)	ok
+nbInitEffectProcess (0x16C528)	ok
+nbInitPanelProcess (0x282900)	ok
+nbPanelPressTurnInit (0x27D868)	ok
+nbPanelPressGaugeInit (0x27C230)	ok
 nbCameraInit (0x1B1BD8)	ok
 nbPanelPressTurnOmit (0x27D8E0)	ok
 nbPanelPressTurnStart (0x27D8F0)	ok

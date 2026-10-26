@@ -4,6 +4,7 @@
 
 #include <cstdint>
 
+#include "nocturne/battle/process.hpp"
 #include "nocturne/ee/float.hpp"
 
 namespace nocturne::nb {
@@ -25,7 +26,7 @@ struct PressPanel {
     uint8_t gaugeShown;            // (HD: nbPanelPGShow)
     uint8_t gaugeEncounter;        // hidden for the encounter's opening (HD: nbPanelPGEncount)
     uint8_t unknown_17;
-    uint32_t unknown_18;
+    uint32_t gaugeColour;          // 0x80808080 from the gauge's set-up
     int8_t skipNextStart;          // the next turn's start animations skipped (HD: nbPanelPTOmit)
     uint8_t unknown_1d[3];
     int32_t turn1Running, turn1Frame;    // three animation tracks (HD: nbPanelPT_1_Process, _Frame)
@@ -43,6 +44,12 @@ struct PressPanel {
 };
 PressPanel& pressPanel();
 
+void initPressPanel();             // nbPanelPressTurnInit (0x27D868): the animations stopped
+void initPressGauge();             // nbPanelPressGaugeInit (0x27C230)
+// nbInitPanelProcess (0x282900): the panel's process ("nb_panel") under the
+// battle's and its drawing under it; its textures, layout and parts set up,
+// and all shown.
+void startPanelProcess(MainProcessData& main);
 void skipNextPressPanel();         // nbPanelPressTurnOmit (0x27D8E0)
 void startPressPanel();            // nbPanelPressTurnStart (0x27D8F0): the turn's start animations
 void startPressGauge();            // nbPanelPressGaugeStart (0x27C268)
