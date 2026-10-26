@@ -102,6 +102,7 @@ uint64_t fw_hash(uint64_t a, uint64_t b, uint64_t c);
 
 /* Message-manager fakes: append to the log in FW_MES_STATE. */
 void fw_mes_log(uint32_t kind, uint32_t a, uint32_t b);
+uint32_t fw_stack_top(void);   /* FW_STACK_TOP, less what host code has staged on the guest stack */
 
 #ifdef __cplusplus
 }

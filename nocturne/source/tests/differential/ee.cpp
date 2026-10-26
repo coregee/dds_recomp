@@ -78,11 +78,11 @@ uint64_t Interpreter::call(uint32_t entry, std::initializer_list<uint64_t> args,
         if (i < 8)
             cpu.r[i < 4 ? 4 + i : 8 + i - 4] = a;
         else   // the rest on the stack, in 8-byte slots from sp
-            store<uint64_t>(FW_STACK_TOP + 8u * static_cast<uint32_t>(i - 8), a);
+            store<uint64_t>(fw_stack_top() + 8u * static_cast<uint32_t>(i - 8), a);
         ++i;
     }
     cpu.r[28] = version::globalPointer();
-    cpu.r[29] = FW_STACK_TOP;
+    cpu.r[29] = fw_stack_top();
     cpu.r[31] = kReturn;
     pc_ = entry;
     npc_ = entry + 4;

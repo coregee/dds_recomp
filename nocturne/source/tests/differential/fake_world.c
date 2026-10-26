@@ -277,6 +277,11 @@ int fw_print_arg_count(uint32_t format)
     case 0x00543b30: return 2;
     case 0x00543a08: return 1;                  /* skill no */
     case 0x005435f8: return 0;                  /* pac1 done (the result screen) */
+    case 0x00543510: case 0x00543520: case 0x00543530: case 0x00543540:
+    case 0x00543550: return 1;   /* the battle's encounter (SetFlag, nbInitMainProcess) */
+    case 0x00543448: return 0;   /* an action still queued (nbCheckActionStack) */
+    case 0x00543438: return 0;   /* backattack!! (CheckSenseiOrBackAttack) */
+    case 0x00543458: case 0x00543468: case 0x00543478: return 0;   /* no one can act, game over, level up (the phases) */
     case 0x00543880: case 0x005438c0: case 0x00543908: return 0;   /* counters, a failed escape's hit */
     case 0x005438d8: return 2;                  /* inoti party */
     case 0x005438f0: return 1;                  /* binjo party */
@@ -440,6 +445,12 @@ uint64_t dds3SearchProcessName(uint64_t name)
     }
 }
 
+/* A process at a priority: there or not, by the case. */
+uint64_t dds3SearchProcessPriority(uint64_t priority)
+{
+    return (fw_hash(159, priority, 0) & 1) ? 0x00777700u + ((uint32_t)priority & 0xff) : 0;
+}
+
 uint32_t evtGetAgeOfMoon16(void) { return case_moon * 2u + (uint32_t)(fw_hash(13, 0, 0) & 1); }
 
 /* The flowscript VM (scrGetIntPara ...) is the rewrite's: script_bridge.cpp. */
@@ -521,6 +532,9 @@ void nocturneCompendiumRestoreSetStackPointer(uint32_t address) { guest_sp = add
 uint32_t nocturneFusionCoreStackPointer(void) { return guest_sp; }
 void nocturneFusionCoreSetStackPointer(uint32_t address) { guest_sp = address; }
 void nocturneFusionCoreFpuCondition(uint32_t condition) { (void)condition; }
+
+/* The interpreter's stack starts below what is staged here. */
+uint32_t fw_stack_top(void) { return guest_sp; }
 
 static uint32_t guest_sp_reserve(uint32_t bytes) { guest_sp -= (bytes + 15u) & ~15u; return guest_sp; }
 static void guest_sp_release(uint32_t bytes) { guest_sp += (bytes + 15u) & ~15u; }

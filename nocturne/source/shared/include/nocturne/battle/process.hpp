@@ -90,20 +90,31 @@ namespace PartyFlag {
 inline constexpr uint16_t Active     = 0x001;
 inline constexpr uint16_t EnemySide  = 0x002;
 inline constexpr uint16_t Inactive   = 0x004; // tentative
+inline constexpr uint16_t Left       = 0x020; // the unit has left the battle (nbMakeReturnPacket)
 inline constexpr uint16_t AlwaysCrit = 0x100; // tentative: forces critical hits
 inline constexpr uint16_t EndureFired = 0x200; // Endure / Never Yield saved this unit
 inline constexpr uint16_t EndureSpent = 0x400; // ... and cannot again this battle
 inline constexpr uint16_t ThrewMacca  = 0x800; // an ailment made the unit throw Macca (BadMaka)
 } // namespace PartyFlag
 
+// An action waiting on the battle's stack (nbPushAction): what kind (see
+// battle/action_events.cpp: 4 a counter, 5 a death script, ...), who acts,
+// on whom, and a value of its own.
+struct QueuedAction {
+    int32_t type;
+    int32_t from, to;   // party indexes
+    int32_t data;
+};
+static_assert(sizeof(QueuedAction) == 16);
+
 // nbMainProcessData: the battle as a whole.
 struct MainProcessData {
-    Ptr32<Formation> form;    // [kFormationCount]
-    uint32_t unknown_04;
+    Ptr32<Formation> form;    // [kFormationCount] (32 allocated)
+    uint32_t formHandle;      // its memory handle
     Ptr32<UnitWork> enemyunit;   // [10] the enemies' units (nbAppendEnemyDevilWork)
-    uint32_t unknown_0c;
+    uint32_t enemyunitHandle;
     Ptr32<Party> party;       // [kFormationCount]
-    uint32_t unknown_14;
+    uint32_t partyHandle;
     int16_t playerpcnt;       // tentative
     int16_t enemypcnt;        // tentative: enemy combatant count
     int16_t activeunit;
@@ -134,7 +145,9 @@ struct MainProcessData {
     ee::Float press3;
     int16_t press4_p;         // press turns: full icons left
     int16_t press4_ten;       // ... and blinking (half) ones
-    int16_t press4_repel, press4_miss;   // (HD: press4_hansya)
+    // The battle's stage (nbInitMainProcess's arguments; the opening loads it).
+    // HD order puts press4_hansya / press4_miss here.
+    int16_t stageMajor, stageMinor;
     int16_t StageMajor, StageMinor;
     int32_t summonallowed;    // nonzero: enemies may call allies (tentative; HD order suggests nakamayobi)
     int32_t eventno;          // the event to run when the action ends: a death's (RunDeadEventKouka), a script's (BTL_EVENT), AI command 0xExxx with action 9
@@ -184,12 +197,18 @@ static_assert(offsetof(MainProcessData, piercedResistance) == 0x14c);
 
 namespace BattleStat {
 inline constexpr uint32_t BossBattle          = 0x00000001; // tentative: Stinger ("DANTE SUTING BOSS NG") and the Melody instant kills fail
-inline constexpr uint32_t InitiativeRolled    = 0x00000008;
+inline constexpr uint32_t EnemyTurn           = 0x00000008; // the enemies' turn (from the start when they go first)
 inline constexpr uint32_t BackAttack          = 0x00000010;
 inline constexpr uint32_t EnemiesFirst        = 0x00000080;
-inline constexpr uint32_t Unknown400          = 0x00000400;
+inline constexpr uint32_t Unknown400          = 0x00000400; // encounter 0xC7's (SetFlag): Ongyo-Ki's clones' battle (tentative)
+inline constexpr uint32_t Unknown800          = 0x00000800; // the encounter's flag 8 (SetFlag)
+inline constexpr uint32_t NoDebugDisplay      = 0x00200000; // tentative: the debug pad's displays off
+inline constexpr uint32_t DebugMenu           = 0x01000000; // tentative: pad button 10 may open the debug menu
+inline constexpr uint32_t KeepOrder           = 0x00040000; // tentative: a turn's press icons don't move the order on (nbSetChkTurnPhase)
+inline constexpr uint32_t ForceEnemiesFirst   = 0x00008000; // tentative: CheckSenseiOrBackAttack makes the enemies go first
 inline constexpr uint32_t DebugAlwaysHit      = 0x08000000; // debug event bit 0xC07
 inline constexpr uint32_t DebugAlwaysRepel    = 0x40000000; // debug event bit 0xC0D
+inline constexpr uint32_t ForceBackAttack     = 0x80000000; // tentative: ... and from behind
 } // namespace BattleStat
 
 // nbActionProcessData: one unit's action in progress. Also the enemy AI's

@@ -26,12 +26,11 @@ constexpr int32_t kTalkCounter = 0x10;      // buff counter 16: the enemy has al
 
 Formation& formAt(ActionProcessData& a, int32_t formindex) { return a.data->form[formindex]; }
 
-// Talks need a battle whose press-turn reflection field isn't 0xF0..0xF6
-// (tentative: special battles; the first release has no such check), a
-// moon that isn't full, and so on.
+// Talks need a battle not on stages 0xF0..0xF6 (tentative: bosses' stages;
+// the first release has no such check), a moon that isn't full, and so on.
 bool talkableBattle(const MainProcessData& main)
 {
-    const bool special = !kBuild.vanilla && static_cast<uint16_t>(static_cast<uint16_t>(main.press4_repel) - 0xf0) <= 6;
+    const bool special = !kBuild.vanilla && static_cast<uint16_t>(static_cast<uint16_t>(main.stageMajor) - 0xf0) <= 6;
     return !special && !(main.stat & BattleStat::BossBattle);
 }
 

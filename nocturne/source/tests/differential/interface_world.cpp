@@ -73,6 +73,7 @@ uint32_t sdfGetRandInt(uint32_t*, uint32_t);
 uint32_t sdfGetRand(uint32_t*);
 float sdfGetRandFloat(uint32_t*);
 uint64_t dds3KillProcess(uint64_t, uint64_t);
+uint64_t dds3SearchProcessPriority(uint64_t);
 uint64_t dds3ExistProcess(uint64_t);
 uint64_t ps2ProcessGetRunTime(uint64_t);
 void dds3SetProcessData(uint64_t, uint64_t);
@@ -474,6 +475,7 @@ ee::Interpreter makeOriginal()
         return uint64_t{sdfGetRandInt(nullptr, range)};
     });
     e.hook(0x00101738, [=](ee::Cpu& c) { return dds3KillProcess(a(c, 0), a(c, 1)); });
+    e.hook(0x00101978, [=](ee::Cpu& c) { return dds3SearchProcessPriority(a(c, 0)); });
     e.hook(0x00101a08, [=](ee::Cpu& c) { return dds3ExistProcess(a(c, 0)); });
     e.hook(0x00101aa0, [=](ee::Cpu& c) { return ps2ProcessGetRunTime(a(c, 0)); });
     e.hook(0x00101aa8, [=](ee::Cpu& c) { dds3SetProcessData(a(c, 0), a(c, 1)); return uint64_t{0}; });
@@ -554,9 +556,68 @@ ee::Interpreter makeOriginal()
     e.hook(0x002abe08, [=](ee::Cpu& c) { return ps2TextureTmxCopy(a(c, 0)); });
     e.interpret(0x0024a060, 0x0024a2e8);   // nbResultLoad, nbResultTexDel, nbResultLvupAnmAdd
     e.interpret(0x0024ae70, 0x0024b010);   // nbResultSkip, nbResultFinWaitChk
+    // The battle's close (nb_ato, battle/closing.hpp) and its callees.
+    e.interpret(0x00249c28, 0x0024a000);   // its endings, step, start and end
+    e.interpret(0x001ddb78, 0x001ddb84);   // mdlGetMinorNum
+    e.interpret(0x001221f0, 0x0012221c);   // the field's work let go
+    e.interpret(0x00245f68, 0x00246034);   // datBossRashUpdRec
+    e.interpret(0x00289e68, 0x00289ecc);   // nbSingleFormExceptedDispOff
+    e.interpret(0x00289310, 0x00289448);   // nbDispMsgHelp
+    e.interpret(0x0028dda8, 0x0028ddcc);   // nbBgmFadeOut
+    e.hook(0x001e3cc0, [=](ee::Cpu& c) {   // a unit's motion (not rewritten yet)
+        fw_mes_log(158, static_cast<uint32_t>(a(c, 0)) ^ static_cast<uint32_t>(a(c, 1)) << 24, static_cast<uint32_t>(a(c, 2)) ^ static_cast<uint32_t>(a(c, 3)) << 8 ^ static_cast<uint32_t>(a(c, 4)) << 16);
+        return uint64_t{0};
+    });
     // The battle's opening (nb_mae, battle/opening.hpp).
     e.interpret(0x00249a38, 0x00249c28);   // its steps, start and end
     e.interpret(0x0024c6c8, 0x0024c6f0);   // the stage requested
+    e.interpret(0x0024c718, 0x0024c728);   // nbGetStageData
+    e.interpret(0x002497a0, 0x00249850);   // SetFlag
+    e.interpret(0x00249640, 0x002497a0);   // nbInitMainProcessData
+    e.interpret(0x00249850, 0x00249a38);   // nbInitMainProcess and the battle's end
+    e.interpret(0x00246998, 0x002469a0);   // (empty)
+    e.interpret(0x00249258, 0x00249320);   // the passive skills' effect, ClearLocalBit
+    e.interpret(0x001e9528, 0x001e95a0);   // the moon's texture
+    e.interpret(0x00249320, 0x002493a8);   // the main process's end
+    e.interpret(0x00247d60, 0x00247ed8);   // the checks at the start and between actions
+    e.interpret(0x00247f70, 0x002481e8);   // the action stack
+    e.interpret(0x00248c88, 0x00248cb0);   // nbSetNextPhase
+    e.interpret(0x002481e8, 0x00248c88);   // the phases' entries
+    e.interpret(0x00248cb0, 0x00249258);   // nbSetPhase, nbMainProcess1
+    // What the phases call that isn't rewritten yet: each call logged with
+    // its arguments, as many as it takes (rstChkResultEntry's answer is the
+    // case's).
+    const std::pair<uint32_t, int> notRewritten[] = {
+        {0x00259908, 1}, {0x0024f388, 1}, {0x0016c528, 1}, {0x001b20b8, 1}, {0x00282900, 1}, {0x00289ac8, 1}, {0x0024cac8, 1},
+        {0x0027c340, 0}, {0x0027c268, 0}, {0x00259740, 2}, {0x0028b388, 1}, {0x00257fa8, 5}, {0x001ba1e8, 0}, {0x001ba7d8, 0},
+        {0x002583d8, 0}, {0x00258418, 0}, {0x00259bd0, 1}, {0x00285368, 1}, {0x001ba818, 0}, {0x0027d8e0, 0},
+        {0x0027d8f0, 0}, {0x00246bf8, 1}, {0x00246f10, 1}, {0x00247980, 1}, {0x00246d08, 1}};
+    for (const auto& [entry, count] : notRewritten) {
+        e.hook(entry, [=](ee::Cpu& c) {
+            uint32_t args[5] = {};
+            for (int i = 0; i < count; ++i)
+                args[i] = static_cast<uint32_t>(a(c, i));
+            fw_mes_log(159, entry ^ args[0] << 24, args[1] ^ args[2] << 8 ^ args[3] << 16 ^ args[4] << 24);
+            return uint64_t{0};
+        });
+    }
+    e.hook(0x0021f7d8, [](ee::Cpu&) { return uint64_t{fw_hash(160, 0, 0) & 1}; });
+    // The press turn camera: running or not, and its frame (nbCameraPressProcessCheckRun, GetFrame).
+    e.hook(0x001ba808, [](ee::Cpu&) { return uint64_t{fw_hash(162, 0, 0) & 1}; });
+    e.hook(0x001ba810, [](ee::Cpu&) { return uint64_t{8 + fw_hash(163, 0, 0) % 4}; });   // (around frame 10, which the step waits for)
+    e.hook(0x00102848, [=](ee::Cpu& c) {   // dds3AdminiCallSequence: the sequence, its flag and its data's first word
+        const uint32_t data = static_cast<uint32_t>(a(c, 1));
+        fw_mes_log(161, static_cast<uint32_t>(a(c, 0)) ^ static_cast<uint32_t>(a(c, 3)) << 16 ^ static_cast<uint32_t>(a(c, 2)) << 24,
+                   data ? *nocturne::guest::table<uint32_t>(data) : 0xffffffffu);
+        return uint64_t{0};
+    });
+    e.interpret(0x0028d778, 0x0028d8b0);   // nbFreeSound1, nbFreeSound
+    e.interpret(0x001cdb38, 0x001cdb7c);   // itfMesMngRelease
+    e.interpret(0x00290bc8, 0x00290c18);   // the flight model's release
+    e.interpret(0x0028b0b8, 0x0028b198);   // a formation set up (its delay slot one past Ghidra's size)
+    e.interpret(0x0028d8b0, 0x0028d918);   // nbInitSound
+    e.interpret(0x002493a8, 0x00249640);   // nbMainProcess_SetDebugFlag (to the next function)
+    e.interpret(0x001cda40, 0x001cdb34);   // itfMesMngInitialize
     e.interpret(0x001741a0, 0x001741bc);   // effBTLEncountStart
     e.interpret(0x00290b20, 0x00290bc8);   // the flight model's pack
     e.interpret(0x00101bf0, 0x00101c4c);   // a process's flags set and cleared
@@ -739,10 +800,17 @@ ee::Interpreter& original()
 
 // The guest stack starts zeroed, as the rewrite's local buffers are: the
 // original copies a few bytes past a string's end from its stack buffer.
+// The interpreter's stack, cleared (below anything host code has staged there).
+void clearStack()
+{
+    const uint32_t top = fw_stack_top();
+    std::memset(fw_ram + top - 0x2000, 0, 0x2000 + (top == FW_STACK_TOP ? 0x40u : 0u));
+}
+
 uint64_t call(uint32_t entry, std::initializer_list<uint64_t> args, bool /*vm*/ = false,
               std::initializer_list<uint32_t> floatArgs = {})
 {
-    std::memset(fw_ram + FW_STACK_TOP - 0x2000, 0, 0x2000 + 0x40);
+    clearStack();
     return original().call(entry, args, floatArgs);
 }
 
@@ -798,7 +866,7 @@ uint64_t origVmVoidAt(uint32_t entry, std::initializer_list<uint64_t> args)
 }
 uint64_t origOwn(uint32_t entry, std::initializer_list<uint64_t> args, std::initializer_list<uint32_t> callees)
 {
-    std::memset(fw_ram + FW_STACK_TOP - 0x2000, 0, 0x2000 + 0x40);
+    clearStack();
     std::vector<uint32_t> own{version::codeOrDie(entry)};
     for (uint32_t callee : callees)
         own.push_back(version::codeOrDie(callee));
@@ -1014,19 +1082,29 @@ fr::Request* chain(Gen& g, int32_t x, int32_t y)
                               static_cast<uint8_t>(g.below(3)), static_cast<uint8_t>(g.below(140)), someText(g), nullptr);
 }
 
+// Whether table `t` has messages at the indexes the caller shows.
+bool tableFits(const std::vector<uint8_t>& t, std::initializer_list<int32_t> needed)
+{
+    const uint32_t count = *reinterpret_cast<const uint32_t*>(t.data() + 0x18);   // numtypeheader
+    for (int32_t n : needed)
+        if (static_cast<uint32_t>(n) >= count || *reinterpret_cast<const uint32_t*>(t.data() + 0x20 + 8 * n) != 0)
+            return false;
+    return true;
+}
+
+bool messageTableHas(std::initializer_list<int32_t> needed)
+{
+    for (const std::vector<uint8_t>& t : gTables)
+        if (tableFits(t, needed))
+            return true;
+    return false;
+}
+
 HelpWorld helpWorld(Gen& g, std::initializer_list<int32_t> needed)
 {
-    // A table with messages at the indexes the caller shows.
-    auto fits = [&](const std::vector<uint8_t>& t) {
-        const uint32_t count = *reinterpret_cast<const uint32_t*>(t.data() + 0x18);   // numtypeheader
-        for (int32_t n : needed)
-            if (static_cast<uint32_t>(n) >= count || *reinterpret_cast<const uint32_t*>(t.data() + 0x20 + 8 * n) != 0)
-                return false;
-        return true;
-    };
     std::vector<const std::vector<uint8_t>*> tables;
     for (const std::vector<uint8_t>& t : gTables)
-        if (fits(t))
+        if (tableFits(t, needed))
             tables.push_back(&t);
     if (tables.empty()) {
         std::fprintf(stderr, "no message table has messages at the indexes asked for\n");

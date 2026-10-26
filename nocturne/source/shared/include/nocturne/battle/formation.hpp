@@ -15,6 +15,7 @@ void showSide(int32_t side);                  // nbGroupFormDispOn
 void hideAllFormations();                     // (no original name)
 void showAllFormations();                     // nbAllFormDispOn
 void showOnly(const Formation& form);         // nbSingleFormExceptedDispOff
+void initFormation(MainProcessData& main, int32_t index);   // (0x28B0B8) slot `index` cleared and set up
 void showOnly(const Formation& form, const Formation& other);   // (no original name)
 
 void setFormationPosition(Formation& form, const Vec4& pos);    // nbSetFormPos

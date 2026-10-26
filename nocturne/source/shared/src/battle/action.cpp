@@ -662,7 +662,7 @@ int32_t updateAilment(ActionProcessData& a)
         }
         return 1;
     }
-    if (a.data->stat & BattleStat::InitiativeRolled)
+    if (a.data->stat & BattleStat::EnemyTurn)
         setCameraState(kCameraEnemyBad);
     setTimeList(a, a.form->formindex, 0, 30, 30);
     setNextState(a, kActionAftermath);
@@ -1096,7 +1096,7 @@ void hitOrder(ActionProcessData& a, HitOrderEntry* list, uint32_t select, int32_
     }
 
     uint32_t kind = hitEffectByte(nskill, 1);
-    if ((main.stat & BattleStat::InitiativeRolled) && nskill == 0xcc && kind - 4 <= 7)
+    if ((main.stat & BattleStat::EnemyTurn) && nskill == 0xcc && kind - 4 <= 7)
         kind = 11;
     if (kind >= 16)
         return;
@@ -1761,7 +1761,7 @@ void enterReady(ActionProcessData& a)
     }
     nb::PanelAllShow();
     nb::PanelPressGaugeShow();
-    if (command == 3 && (main.stat & BattleStat::InitiativeRolled))
+    if (command == 3 && (main.stat & BattleStat::EnemyTurn))
         setCameraState(kCameraEnemyBad);
 
     // The help line.
@@ -2231,7 +2231,7 @@ int32_t updateSkill(ActionProcessData& a)
 void enterAilmentWait(ActionProcessData& a)
 {
     a.stat |= 0x20;
-    setCameraState((a.data->stat & BattleStat::InitiativeRolled) ? kCameraEnemyBad : kCameraCommandBad);
+    setCameraState((a.data->stat & BattleStat::EnemyTurn) ? kCameraEnemyBad : kCameraCommandBad);
 }
 
 // CheckAction_BADWAIT @ 0x00254058: shows the ailment AI's status line at
@@ -2490,7 +2490,7 @@ int32_t updateEscape(ActionProcessData& a)
 void enterReturn(ActionProcessData& a)
 {
     diag::print(diag::Message::Returning);
-    if (a.data->stat & BattleStat::InitiativeRolled)
+    if (a.data->stat & BattleStat::EnemyTurn)
         setCameraState(kCameraEnemySide);
     const int32_t uniqueid = static_cast<int32_t>(guest::addressOf(&a));
     makeReturnPackets(0, uniqueid, *a.party);

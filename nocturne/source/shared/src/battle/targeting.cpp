@@ -63,7 +63,7 @@ void targetTypeRuleArea(const ActionProcessData& act, const UnitWork& unit, int3
         break;
     case 6: {
         const MainProcessData& main = *act.data;
-        if (!(main.stat & BattleStat::InitiativeRolled)) {
+        if (!(main.stat & BattleStat::EnemyTurn)) {
             r = summonRule(unit, main);
             a = 1;
         }
@@ -89,7 +89,7 @@ bool canTarget(int32_t self, int32_t type, int32_t rule, int32_t area, int32_t t
 {
     const MainProcessData& main = *targetSelectData().data;
     const Formation& candidate = slot(main, target);
-    bool swapped = (main.stat & BattleStat::InitiativeRolled) != 0;
+    bool swapped = (main.stat & BattleStat::EnemyTurn) != 0;
     bool enemySlot = static_cast<uint32_t>(target - 4) < 10;
     bool playerSlot = target < 4;
     if (type != 2 && (area & 3) != 3) {
@@ -134,7 +134,7 @@ bool markTargetable(int32_t partyIndex, int32_t type, int32_t rule, int32_t area
             continue;
         form.stat |= FormationStat::Selectable;
         if (candidate < 14) {
-            bool own = (candidate < 4) == !(main.stat & BattleStat::InitiativeRolled);
+            bool own = (candidate < 4) == !(main.stat & BattleStat::EnemyTurn);
             if (own)
                 select.friendno[select.friendcnt++] = static_cast<int8_t>(candidate);
             else

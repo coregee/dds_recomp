@@ -33,6 +33,11 @@
 #include "nocturne/fusion/growth.hpp"
 #include "nocturne/field/next_area.hpp"
 #include "nocturne/battle/opening.hpp"
+#include "nocturne/battle/closing.hpp"
+#include "nocturne/battle/formation.hpp"
+#include "nocturne/battle/main_process.hpp"
+#include "nocturne/event/state.hpp"
+#include "nocturne/kernel/model.hpp"
 #include "nocturne/effect/cut.hpp"
 #include "nocturne/kernel/draw.hpp"
 #include "nocturne/facility/shop.hpp"
@@ -46,6 +51,7 @@
 #endif
 
 extern "C" {
+uint32_t ps2PoolAllocate(int32_t);
 uint64_t dds3StartProcess(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
 #include "battle_affinity.h"
 #include "battle_effects.h"
@@ -392,6 +398,8 @@ const StaticRange kWrittenStatics[] = {
     {0x0054ebb0, 4}, {0x0054ebc8, 4},                      // the current area's shared pack and its memory
     {0x0055dab8, 0x20},                                    // ... the name held
     {0x00575350, 0x10},                                    // the stage requested (the battle's opening)
+    {0x0054eb00, 4},                                       // the field's work memory
+    {0x0054f758, 8},                                       // the moon's texture and fade
 };
 
 // ... at the version's addresses (those it has; Hardtype's own state and
@@ -695,9 +703,27 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         at<uint32_t>(FW_SCRATCH + 0x300 + 0x60) = FW_SCRATCH + 0x380;
         at<uint32_t>(FW_SCRATCH + 0x380 + 8) = static_cast<uint32_t>(g.rng());
         main.StageProcessID = static_cast<uint32_t>(g.range(0, 0x1000));
-        main.press4_repel = static_cast<int16_t>(g.range(-1, 0xff));
-        main.press4_miss = static_cast<int16_t>(g.range(-1, 30));
+        main.stageMajor = static_cast<int16_t>(g.range(-1, 0xff));
+        main.stageMinor = static_cast<int16_t>(g.range(-1, 30));
     };
+    add("SetFlag (0x2497A0)", [](Gen& g) {
+        nb::MainProcessData& main = mainData();
+        main.encno = g.chance(30) ? 0xc7 : g.range(0, 0x3ff);
+        main.encpackno = g.range(-1, 50);
+        main.packno = g.range(-1, 20);
+        main.packindex = g.range(-1, 20);
+        main.stat = static_cast<uint32_t>(g.rng());
+        return Pair{[] { return iface::origVmVoid(0x002497a0, {FW_MAIN}); }, [] { nb::setBattleFlags(mainData()); return uint64_t{0}; }};
+    });
+    add("FUN_0028b0b8", [](Gen& g) {   // a formation set up
+        const int32_t index = g.range(0, 31);
+        return Pair{[=] { return iface::origVmVoid(0x0028b0b8, {FW_MAIN, sx(index)}); },
+                    [=] { nb::initFormation(mainData(), index); return uint64_t{0}; }};
+    });
+    add("FUN_00249640", [](Gen& g) {   // nbInitMainProcessData (with the message manager up, for its table)
+        iface::helpWorld(g);
+        return Pair{[] { return iface::origVm(0x00249640, {}); }, [] { return norm(static_cast<int32_t>(nb::initMainProcessData())); }};
+    });
     add("FUN_0024c6c8", [](Gen& g) {
         const int16_t major = static_cast<int16_t>(g.range(-5, 300)), minor = static_cast<int16_t>(g.range(-5, 30));
         return Pair{[=] { return iface::origVmVoid(0x0024c6c8, {sx(major), sx(minor)}); }, [=] { nb::requestStage(major, minor); return uint64_t{0}; }};
@@ -721,6 +747,343 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         return Pair{[] { return iface::origVmVoid(0x00249ba0, {0}); }, [] { nb::endOpening(0); return uint64_t{0}; }};
     });
     // (its steps are in kouka_tests.cpp, with the event packs' and the music's worlds)
+
+    // ---- the main process's start and end (battle/main_process.hpp) ----
+    add("FUN_00249850", [](Gen& g) {   // nbInitMainProcess: an encounter (the two moon ones often)
+        iface::helpWorld(g);
+        const int32_t encno = g.chance(15) ? 0x1d9 : g.chance(15) ? 0x1c3 : g.range(0, 1269);
+        const int32_t pack = g.range(0, 255), packno = g.range(0, 3), index = g.range(0, 11);
+        const int16_t major = static_cast<int16_t>(g.range(-1, 0xff)), minor = static_cast<int16_t>(g.range(-1, 30));
+        return Pair{[=] { return iface::origVmVoid(0x00249850, {sx(pack), sx(packno), sx(index), sx(encno), sx(major), sx(minor)}); },
+                    [=] { nb::startMainProcess(pack, packno, index, encno, major, minor); return uint64_t{0}; }};
+    });
+    add("FUN_002499f8", [](Gen& g) {   // the battle's end, with a moon texture or none
+        mainData().MainProcessID = static_cast<uint32_t>(g.range(0, 100));
+        if (const uint32_t texture = difftest::version::data(0x0054f758))   // (none in the first release)
+            at<uint32_t>(texture) = g.chance(50) ? 0 : static_cast<uint32_t>(g.range(1, 0x1000));
+        return Pair{[] { return iface::origVmVoid(0x002499f8, {}); }, [] { nb::endMainProcess(); return uint64_t{0}; }};
+    });
+    add("FUN_00249320", [](Gen& g) {   // the main process's end: a whole record (sometimes none)
+        iface::helpWorld(g);
+        const uint32_t address = g.chance(10) ? 0 : nb::initMainProcessData();
+        if (address != 0) {
+            nb::MainProcessData& main = at<nb::MainProcessData>(address);
+            main.flyh = g.chance(70) ? 0 : static_cast<uint32_t>(g.range(1, 0x1000));
+            main.flymem = g.chance(50) ? 0 : static_cast<uint32_t>(g.range(1, 0x1000));
+            main.PassiveEffect = static_cast<uint32_t>(g.range(0, 0x1000));
+        }
+        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(0, 0x3fa, 0, 0, 0, 0, address));
+        return Pair{[=] { return iface::origVmVoid(0x00249320, {process}); }, [=] { nb::shutdownMainProcess(process); return uint64_t{0}; }};
+    });
+    add("FUN_002492b0", [](Gen& g) {
+        mainData().PassiveEffect = static_cast<uint32_t>(g.range(0, 0x1000));
+        return Pair{[] { return iface::origVmVoid(0x002492b0, {FW_MAIN}); }, [] { nb::releasePassiveEffect(mainData()); return uint64_t{0}; }};
+    });
+    add("FUN_00290bc8", [](Gen& g) {   // the flight model's request and memory, each there or not
+        mainData().flyh = g.chance(50) ? 0 : static_cast<uint32_t>(g.range(1, 0x1000));
+        mainData().flymem = g.chance(50) ? 0 : static_cast<uint32_t>(g.range(1, 0x1000));
+        return Pair{[] { return iface::origVmVoid(0x00290bc8, {FW_MAIN}); }, [] { nb::releaseFlightModel(mainData()); return uint64_t{0}; }};
+    });
+    // The action stack: up to eight queued actions of every type, their
+    // targets in or out of the battle (or gone), their attackers with every
+    // ailment, the battle sometimes over.
+    const auto actionStackWorld = [](Gen& g) {
+        nb::MainProcessData& main = mainData();
+        main.actionstack = FW_SCRATCH;
+        main.actionstackp = g.range(0, 8);
+        main.endtype = g.chance(70) ? 0 : static_cast<uint32_t>(g.range(1, 8));
+        auto someUnitSlot = [&] {
+            int32_t f = g.range(0, 13);
+            while (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)))
+                f = g.range(0, 13);
+            return f;
+        };
+        for (int32_t i = 0; i < 8; ++i) {
+            nb::QueuedAction& action = at<nb::QueuedAction>(FW_SCRATCH + 16u * static_cast<uint32_t>(i));
+            action.type = g.chance(60) ? g.pick<int32_t>({4, 5}) : g.range(0, 7);
+            action.from = someUnitSlot();
+            action.to = g.range(0, 13);
+            action.data = g.range(0, 100);
+            nb::Party& target = at<nb::Party>(FW_PARTY + 128u * static_cast<uint32_t>(action.to));
+            target.flag = static_cast<int16_t>((g.chance(80) ? 1 : 0) | (g.chance(20) ? 0x20 : 0) | g.range(0, 0xffff) & 0xffde);
+            UnitWork& attacker = at<UnitWork>(at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(action.from)));
+            attacker.badstat = static_cast<uint16_t>((g.range(0, 15) << 12) |
+                (g.chance(80) ? g.pick<int32_t>({0, 1, 2, 4, 8, 0x10, 0x20, 0x40, 0x80, 0x100, 0x200, 0x400, 0x800}) : g.range(0, 0xfff)));
+        }
+    };
+    add("CheckErrorActionStack (0x247F70)", [=](Gen& g) {
+        actionStackWorld(g);
+        const int32_t index = g.range(0, 7);
+        return Pair{[=] { return iface::origVm(0x00247f70, {FW_MAIN, sx(index)}); }, [=] { return norm(nb::actionInvalid(mainData(), index)); }};
+    });
+    add("nbPopAction (0x248088)", [=](Gen& g) {
+        actionStackWorld(g);
+        const uint32_t out = FW_SCRATCH + 0x100;
+        return Pair{[=] { return iface::origVm(0x00248088, {out}); }, [=] { return norm(nb::popAction(at<nb::QueuedAction>(out))); }};
+    });
+    add("nbCheckActionStack (0x248138)", [=](Gen& g) {
+        actionStackWorld(g);
+        return Pair{[] { return iface::origVm(0x00248138, {}); }, [] { return norm(nb::hasValidAction()); }};
+    });
+    add("nbClearActionStack (0x2481C8)", [=](Gen& g) {
+        actionStackWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x002481c8, {}); }, [] { nb::clearActionStack(); return uint64_t{0}; }};
+    });
+    // The phases: a battle at any point (the action stack's world, press
+    // icons, an event, the turn, the processes, the Demi-fiend's HP).
+    const auto phaseWorld = [=](Gen& g) {
+        actionStackWorld(g);
+        nb::MainProcessData& main = mainData();
+        main.stat = static_cast<uint32_t>(g.rng()) & (g.chance(60) ? 0x7fff7fffu : ~0u);
+        main.eventno = g.chance(70) ? 0 : g.range(-1, 5);
+        main.press4_p = static_cast<int16_t>(g.chance(50) ? 0 : g.range(-1, 4));
+        main.press4_ten = static_cast<int16_t>(g.chance(50) ? 0 : g.range(-1, 4));
+        main.turn = static_cast<uint8_t>(g.chance(10) ? g.range(97, 255) : g.range(0, 20));
+        main.enemypcnt = static_cast<int16_t>(g.chance(20) ? 0 : g.range(1, 10));
+        main.orderindex = static_cast<int8_t>(g.range(0, 11));
+        for (int8_t& unit : main.order)
+            unit = static_cast<int8_t>(g.range(0, 13));
+        main.NowActionProcess = g.range(0, 3);
+        for (uint32_t& process : main.ActionProcessID)
+            process = g.chance(50) ? 0 : static_cast<uint32_t>(g.range(1, 100));
+        main.CommandMenuProcessID = g.chance(50) ? 0 : static_cast<uint32_t>(g.range(1, 100));
+        for (int32_t f = 0; f < 16; ++f) {
+            nb::Formation& form = at<nb::Formation>(FW_FORMS + 0xf0u * static_cast<uint32_t>(f));
+            form.ailmentEffect = g.chance(50) ? 0 : static_cast<uint32_t>(g.range(1, 0x1000));
+        }
+        UnitWork& demifiend = nocturne::dat::globalWork().units[0];
+        demifiend.hp = static_cast<uint16_t>(g.chance(20) ? 0 : g.range(1, 999));
+        if (g.chance(20))
+            demifiend.badstat = 0x800;
+    };
+    add("nbSetMaePhase (0x2481E8)", [=](Gen& g) {
+        iface::helpWorld(g);
+        phaseWorld(g);
+        nb::MainProcessData& data = mainData();   // (an area entry as nbCheckSensei's test makes)
+        for (int tries = 0; tries < 64 && nb::encounterEntry(data.encpackno, data.packno, data.packindex).firstStrike >= 6; ++tries) {
+            data.packno = g.range(0, 3);
+            data.packindex = g.range(0, 11);
+        }
+        return Pair{[] { return iface::origVmVoid(0x002481e8, {FW_MAIN}); }, [] { nb::enterStart(mainData()); return uint64_t{0}; }};
+    });
+    add("FUN_00248278", [=](Gen& g) {   // the encounter's phase
+        phaseWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x00248278, {FW_MAIN}); }, [] { nb::enterEncounter(mainData()); return uint64_t{0}; }};
+    });
+    add("FUN_002482c0", [=](Gen& g) {   // the event's phase
+        phaseWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x002482c0, {FW_MAIN}); }, [] { nb::enterEvent(mainData()); return uint64_t{0}; }};
+    });
+    add("nbSetPressMaePhase (0x248420)", [=](Gen& g) {
+        phaseWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x00248420, {FW_MAIN}); }, [] { nb::setPressTurns(mainData()); return uint64_t{0}; }};
+    });
+    add("nbSetActionMaePhase (0x2485F0)", [=](Gen& g) {
+        phaseWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x002485f0, {FW_MAIN}); }, [] { nb::enterActionStart(mainData()); return uint64_t{0}; }};
+    });
+    add("FUN_00248640", [=](Gen& g) {   // the action's phase: the top queued action valid
+        phaseWorld(g);
+        nb::MainProcessData& main = mainData();
+        main.endtype = 0;
+        main.actionstackp = g.range(1, 8);
+        nb::QueuedAction& top = at<nb::QueuedAction>(FW_SCRATCH + 16u * static_cast<uint32_t>(main.actionstackp - 1));
+        top.type = g.pick<int32_t>({0, 1, 2, 3, 5});
+        at<nb::Party>(FW_PARTY + 128u * static_cast<uint32_t>(top.to)).flag = 1;
+        return Pair{[] { return iface::origVmVoid(0x00248640, {FW_MAIN}); }, [] { nb::enterAction(mainData()); return uint64_t{0}; }};
+    });
+    add("nbSetChkEndPhase (0x248690)", [=](Gen& g) {
+        phaseWorld(g);
+        mainData().endtype = g.chance(60) ? 0 : static_cast<uint32_t>(g.range(1, 9));
+        if (g.chance(30)) {   // the party all stone (or empty slots)
+            for (uint32_t f = 0; f < 4; ++f)
+                if (const uint32_t unit = at<uint32_t>(FW_FORM_UNITS + 4u * f))
+                    at<UnitWork>(unit).badstat = static_cast<uint16_t>((at<UnitWork>(unit).badstat & 0xf000) | 0x400);
+        }
+        return Pair{[] { return iface::origVmVoid(0x00248690, {FW_MAIN}); }, [] { nb::checkBattleEnd(mainData()); return uint64_t{0}; }};
+    });
+    add("nbSetChkTurnPhase (0x2487D0)", [=](Gen& g) {
+        phaseWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x002487d0, {FW_MAIN}); }, [] { nb::checkTurnEnd(mainData()); return uint64_t{0}; }};
+    });
+    add("nbSetAtoPhase (0x2482F0)", [=](Gen& g) {
+        phaseWorld(g);
+        mainData().endtype = static_cast<uint32_t>(g.range(0, 9));
+        for (uint32_t f = 0; f < 4; ++f) {   // the party's recovery skills (0x15A..0x15C), each or not
+            if (const uint32_t address = at<uint32_t>(FW_FORM_UNITS + 4u * f)) {
+                UnitWork& unit = at<UnitWork>(address);
+                unit.skillcnt = 3;
+                for (uint16_t k = 0; k < 3; ++k)
+                    unit.skill[k] = static_cast<uint16_t>(g.chance(60) ? 0x15a + k : g.range(1, 0x150));
+            }
+        }
+        return Pair{[] { return iface::origVmVoid(0x002482f0, {FW_MAIN}); }, [] { nb::enterClose(mainData()); return uint64_t{0}; }};
+    });
+    add("nbSetResultPhase (0x248A40)", [=](Gen& g) {
+        phaseWorld(g);
+        nb::MainProcessData& main = mainData();
+        main.endtype = static_cast<uint32_t>(g.chance(60) ? g.pick<int32_t>({1, 4, 9}) : g.range(0, 10));
+        for (int tries = 0; tries < 64 && (main.encno <= 0 || !nocturne::dat::encount(main.encno).item); ++tries)
+            main.encno = g.range(1, 1269);   // (an encounter with an item)
+        return Pair{[] { return iface::origVmVoid(0x00248a40, {FW_MAIN}); }, [] { nb::enterResult(mainData()); return uint64_t{0}; }};
+    });
+    add("nbSetEndPhase (0x248B40)", [=](Gen& g) {
+        phaseWorld(g);
+        mainData().endtype = static_cast<uint32_t>(g.chance(60) ? g.pick<int32_t>({2, 6}) : g.range(0, 9));
+        return Pair{[] { return iface::origVmVoid(0x00248b40, {FW_MAIN}); }, [] { nb::enterEnd(mainData()); return uint64_t{0}; }};
+    });
+    add("FUN_00248c28", [=](Gen& g) {   // the debug phase
+        phaseWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x00248c28, {FW_MAIN}); }, [] { nb::enterDebug(mainData()); return uint64_t{0}; }};
+    });
+    add("nbMainProcess1 (0x248E38)", [=](Gen& g) {   // the battle's step, in every phase
+        // The status line for a consecutive encounter (phase 15) needs a
+        // table with its messages; a build whose tables here have none
+        // leaves that phase out.
+        const bool statusLines = iface::messageTableHas({0x48, 0x49});
+        const int32_t table = statusLines ? iface::helpWorld(g, {0x48, 0x49}).id : iface::helpWorld(g).id;
+        phaseWorld(g);
+        nb::MainProcessData& main = mainData();
+        main.statusMessageTable = table;
+        main.phase = static_cast<int8_t>(g.chance(90) ? g.range(0, statusLines ? 15 : 14) : g.pick<int32_t>({-1, 16, 0x70}));
+        main.phasetime = static_cast<uint16_t>(g.chance(15) ? g.range(0xfffd, 0xffff) : g.range(0, 12));
+        main.endtype = g.chance(40) ? 0 : static_cast<uint32_t>(g.pick<int32_t>({1, 2, 3, 5, 7, 8}));
+        main.debug = static_cast<uint16_t>(g.range(0, 2));
+        for (uint32_t* id : {&main.EncProcessID, &main.EventProcessID, &main.AfterProcessID, &main.ResultProcessID, &main.DebugProcessID})
+            *id = g.chance(60) ? 0 : static_cast<uint32_t>(g.range(1, 100));
+        for (uint32_t& action : main.ActionProcessID) {   // action processes at every state
+            action = 0;
+            if (g.chance(60)) {
+                const uint32_t data = ps2PoolAllocate(static_cast<int32_t>(sizeof(nb::ActionProcessData)));
+                at<nb::ActionProcessData>(data).seq = static_cast<int8_t>(g.chance(50) ? g.pick<int32_t>({1, 0x14}) : g.range(-1, 22));
+                action = static_cast<uint32_t>(dds3StartProcess(0, 1, 0, 0, 0, 0, data));
+            }
+        }
+        at<uint8_t>(difftest::version::dataOrDie(0x00575350) + 1) = static_cast<uint8_t>(g.chance(50) ? 1 : g.range(0, 3));   // the stage's state
+        at<int8_t>(difftest::version::dataOrDie(0x002f5830) + 10) = static_cast<int8_t>(g.chance(40) ? -0x80 : 0);   // pad button 10
+        at<int32_t>(difftest::version::dataOrDie(0x0054e824)) = g.chance(30) ? 1 : 0;   // the debug pad
+        if (g.chance(30))
+            main.stat |= 0x01000000;
+        if (g.chance(30))   // (the boundaries: phase 9's wait, the phase time's cap)
+            main.phasetime = static_cast<uint16_t>(g.pick<int32_t>({7, 8, 0xfffe}));
+        if (main.phase == 9 && g.chance(60))   // (its wait: 8 frames)
+            main.phasetime = static_cast<uint16_t>(g.range(6, 9));
+        if (main.phase == 11 && g.chance(70))   // (the close waits for every action process)
+            for (uint32_t& action : main.ActionProcessID)
+                action = 0;
+        if (main.phase == 6) {   // (phase 7 starts the top queued action, which the game always has: a death script here)
+            main.actionstackp = g.range(1, 8);
+            nb::QueuedAction& top = at<nb::QueuedAction>(FW_SCRATCH + 16u * static_cast<uint32_t>(main.actionstackp - 1));
+            top.type = 5;
+            at<nb::Party>(FW_PARTY + 128u * static_cast<uint32_t>(top.to)).flag = 1;
+        }
+        for (int tries = 0; tries < 64 && nb::encounterEntry(main.encpackno, main.packno, main.packindex).firstStrike >= 6; ++tries) {
+            main.packno = g.range(0, 3);   // (phase 1 rolls first strike: an area entry as nbCheckSensei's test makes)
+            main.packindex = g.range(0, 11);
+        }
+        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(0, 0x3fa, 0, 0, 0, 0, FW_MAIN));
+        return Pair{[=] { return iface::origVm(0x00248e38, {process}); }, [=] { return norm(nb::mainProcessStep(process)); }};
+    });
+    add("nbSetPhase (0x248CB0)", [=](Gen& g) {   // the phases without a world of their own
+        phaseWorld(g);
+        const int32_t phase = g.pick<int32_t>({-1, 0, 2, 3, 4, 5, 6, 8, 9, 10, 13, 14, 15, 16, 0x105});
+        return Pair{[=] { return iface::origVmVoid(0x00248cb0, {sx(phase)}); }, [=] { nb::setPhase(phase); return uint64_t{0}; }};
+    });
+    add("CheckActionProcessEnd (0x247D60)", [](Gen& g) {
+        for (uint32_t& process : mainData().ActionProcessID)
+            process = g.chance(70) ? 0 : static_cast<uint32_t>(g.range(1, 100));
+        return Pair{[] { return iface::origVm(0x00247d60, {FW_MAIN}); }, [] { return norm(nb::actionProcessesDone(mainData())); }};
+    });
+    add("CheckSenseiOrBackAttack (0x247DA0)", [](Gen& g) {   // (an area entry as nbCheckSensei's test makes)
+        nb::MainProcessData& data = mainData();
+        for (int tries = 0; tries < 64 && nb::encounterEntry(data.encpackno, data.packno, data.packindex).firstStrike >= 6; ++tries) {
+            data.packno = g.range(0, 3);
+            data.packindex = g.range(0, 11);
+        }
+        data.stat = static_cast<uint32_t>(g.rng()) & (g.chance(50) ? 0x7fff7fffu : 0xffffffffu);
+        return Pair{[] { return iface::origVmVoid(0x00247da0, {FW_MAIN}); }, [] { nb::rollInitiative(mainData()); return uint64_t{0}; }};
+    });
+    add("CheckActionRun (0x247E48)", [](Gen& g) {
+        for (int32_t f = 0; f < 16; ++f) {
+            nb::Formation& form = at<nb::Formation>(FW_FORMS + 0xf0u * static_cast<uint32_t>(f));
+            form.stat = static_cast<uint32_t>(g.rng()) & (g.chance(50) ? ~1u : ~0u);
+            form.flag = static_cast<uint32_t>(g.rng()) & (g.chance(85) ? ~7u : ~0u);
+        }
+        return Pair{[] { return iface::origVm(0x00247e48, {FW_MAIN}); }, [] { return norm(nb::formationsIdle(mainData())); }};
+    });
+    add("SetBattleFlag (0x247E90)", [](Gen& g) {
+        mainData().encno = g.range(0, 1269);
+        return Pair{[] { return iface::origVmVoid(0x00247e90, {FW_MAIN}); }, [] { nb::setBossFlag(mainData()); return uint64_t{0}; }};
+    });
+    add("nbSetNextPhase (0x248C88)", [](Gen& g) {
+        const int32_t phase = g.range(-2, 20);
+        return Pair{[=] { return iface::origVmVoid(0x00248c88, {sx(phase)}); }, [=] { nb::setNextPhase(phase); return uint64_t{0}; }};
+    });
+    add("FUN_00246998", [](Gen&) {
+        return Pair{[] { return iface::origVmVoid(0x00246998, {FW_MAIN}); }, [] { nb::prepareMainProcess(mainData()); return uint64_t{0}; }};
+    });
+    add("FUN_00249258", [](Gen&) {
+        return Pair{[] { return iface::origVmVoid(0x00249258, {FW_MAIN}); }, [] { nb::loadPassiveEffect(mainData()); return uint64_t{0}; }};
+    });
+    add("nbMainProcess_ClearLocalBit", [](Gen&) {
+        return Pair{[] { return iface::origVmVoid(0x002492e0, {}); }, [] { nb::clearLocalFlags(); return uint64_t{0}; }};
+    });
+    add("FUN_001e9528", [](Gen&) {
+        return Pair{[] { return iface::origVmVoid(0x001e9528, {}); }, [] { evt::loadMoonTexture(); return uint64_t{0}; }};
+    });
+    add("FUN_001e9570", [](Gen& g) {
+        if (const uint32_t texture = difftest::version::data(0x0054f758))   // (none in the first release)
+            at<uint32_t>(texture) = g.chance(50) ? 0 : static_cast<uint32_t>(g.range(1, 0x1000));
+        return Pair{[] { return iface::origVmVoid(0x001e9570, {}); }, [] { evt::releaseMoonTexture(); return uint64_t{0}; }};
+    });
+
+    // ---- the battle's close (battle/closing.hpp) ----
+    // How the battle ended, the Demi-fiend's unit and model (its minor
+    // number), a process at a frame the endings act on, and the help line.
+    const auto closingWorld = [](Gen& g) {
+        nb::MainProcessData& main = mainData();
+        main.endtype = static_cast<uint32_t>(g.chance(70) ? g.pick<int32_t>({1, 2, 3, 6}) : g.range(0, 10));
+        main.encno = g.range(0, 0x400);
+        main.d31_press_total = static_cast<uint32_t>(g.range(0, 200));
+        const uint32_t unit = FW_SCRATCH + 0x400, model = FW_SCRATCH + 0x480, data = FW_SCRATCH + 0x4c0;
+        at<nb::Formation>(FW_FORMS).hunit = unit;
+        at<uint32_t>(unit + 0x8c) = model;
+        at<uint32_t>(model + 0xc) = data;
+        at<uint32_t>(model + 0x1c) = FW_SCRATCH + 0x500;
+        at<uint16_t>(data + 0xa) = static_cast<uint16_t>(g.chance(50) ? 0 : g.range(1, 5));
+        main.statusMessageTable = iface::helpWorld(g, {0x3a}).id;
+        const uint32_t process = static_cast<uint32_t>(dds3StartProcess(0, 0x3f9, 0, 0, 0, 0, 0));
+        nocturne::guest::table<int32_t>(process)[10] = g.chance(70) ? g.pick<int32_t>({0, 1, 10, 30, 40, 50, 70, 80, 100}) : g.range(0, 120);
+        return process;
+    };
+    add("FUN_00249f98", [](Gen&) {
+        return Pair{[] { return iface::origVmVoid(0x00249f98, {FW_MAIN}); }, [] { nb::startClosing(mainData()); return uint64_t{0}; }};
+    });
+    add("FUN_00249f78", [](Gen& g) {
+        mainData().AfterProcessID = static_cast<uint32_t>(g.range(0, 100));
+        return Pair{[] { return iface::origVmVoid(0x00249f78, {0}); }, [] { nb::endClosing(0); return uint64_t{0}; }};
+    });
+    struct ClosingStep { const char* name; uint32_t original; uint32_t (*rewrite)(uint32_t); };
+    static const ClosingStep kClosingSteps[] = {
+        {"FUN_00249e58", 0x00249e58, nb::closingStep}, {"FUN_00249e00", 0x00249e00, nb::closingWhiteOut},
+        {"FUN_00249d00", 0x00249d00, nb::closingDemifiendAlone}, {"FUN_00249c28", 0x00249c28, nb::closingWithMessage},
+    };
+    for (const ClosingStep& step : kClosingSteps) {
+        const ClosingStep* c = &step;
+        add(c->name, [=](Gen& g) {
+            const uint32_t process = closingWorld(g);
+            return Pair{[=] { return iface::origVm(c->original, {process}); }, [=] { return norm(static_cast<int32_t>(c->rewrite(process))); }};
+        });
+    }
+    add("mdlGetMinorNum", [=](Gen& g) {
+        closingWorld(g);
+        const uint32_t model = FW_SCRATCH + 0x480;
+        return Pair{[=] { return iface::origVm(0x001ddb78, {model}); }, [=] { return norm(static_cast<int32_t>(nocturne::mdl::GetMinorNum(model))); }};
+    });
+    add("FUN_001221f0", [](Gen& g) {
+        at<uint32_t>(difftest::version::dataOrDie(0x0054eb00)) = g.chance(30) ? 0 : static_cast<uint32_t>(g.range(1, 0x1000));
+        return Pair{[] { return iface::origVmVoid(0x001221f0, {}); }, [] { nocturne::fld::releaseFieldWork(); return uint64_t{0}; }};
+    });
 
     // ---- the next area's pack (field/next_area.hpp) ----
     const auto areaWorld = [](Gen& g) {

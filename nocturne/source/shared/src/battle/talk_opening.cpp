@@ -36,11 +36,10 @@ int32_t flowWindow(const TalkState& n) { return n.flowmsg[n.ekucyo]; }
 
 void showFlowMessage(TalkState& n, int32_t message) { showTalkMessage(n, flowWindow(n), message, false); }
 
-// The value 0xF0..0xF6 here marks a boss's talk (the field's HD name is
-// press4_hansya); the first release has no such talks.
+// Stages 0xF0..0xF6 mark a boss's talk; the first release has no such talks.
 bool bossTalk(const TalkState& n)
 {
-    return !kBuild.vanilla && static_cast<uint16_t>(n.data->press4_repel - 0xf0) < 7;
+    return !kBuild.vanilla && static_cast<uint16_t>(n.data->stageMajor - 0xf0) < 7;
 }
 
 // An enemy slot (4..13) present and able to act, not the demon talked to.

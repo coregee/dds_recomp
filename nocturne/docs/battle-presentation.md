@@ -593,6 +593,59 @@ The "nb_enc" process runs while a battle starts:
    has bit 0x10000. This check reads 32 slots, past the fourteen
    formations, into the parties' memory.
 
+## The battle's start and end (`nb_main`)
+
+`nbInitMainProcess` (0x249850) starts a battle from its encounter: where it
+came from (encpackno, packno, packindex), its number (encno) and its stage
+(major and minor, at main +0x7C and +0x7E). Like this:
+
+1. A new record (`nbInitMainProcessData`) gets those values and the
+   encounter's formation type, and the five are printed.
+2. Encounter 0x1D9 sets the moon to new (phase 0).
+3. The passive skills' effect (/efftool/bed/HATUDOU.BED) is loaded.
+4. The battle's flags are set (`SetFlag`), and event flags 0xBF0..0xBFF,
+   the battle's local ones, are cleared.
+5. The "nb_main" process starts at priority 0x3FA (MainProcessID), and the
+   moon is shown.
+6. Encounter 0x1C3 loads the moon's texture (/fld/f/bin/moon_07.tmx) and
+   sets phase 1.
+
+The end (0x2499F8) kills that process if it is running, hides the moon and
+releases its texture. Which battles 0x1C3 and 0x1D9 are is not known yet.
+
+## The battle's phases (`nbMainProcess1`)
+
+The "nb_main" process steps the battle through phases (main +0x69). Each
+frame the current phase waits for what its entry started, then names the
+next one (`nbSetNextPhase`), which is entered at the frame's end
+(`nbSetPhase`, which runs the phase's entry). The phase time counts frames
+in the phase (+0x6C, stopping at 0xFFFF), and the battle time counts all of
+them (+0x70).
+
+| Phase | Entry | The step waits for, then |
+|---|---|---|
+| 0 | | goes to 1 |
+| 1 the start (`nbSetMaePhase`) | every battle process started; first strike and ambush rolled | the stage (`nbGetStageData` = 1), then 2 |
+| 2 the encounter (`nbStartBattlePhase`) | the formation placed, the camera, the encounter's opening | the encounter's process; the first turn skips the press turn camera and panel; 3 |
+| 3 an event (`nbSetEventPhase`) | the event, if one is due | the event process; 11 for end types 1 and 8, else 5 |
+| 4 the press turn camera | | the camera to stop; 6 |
+| 5 the press panel (`nbSetPressNiidaPhase`) | the press icons counted (the side's units in the battle, two for a devil that acts twice; Hardtype: an enemy's AI record may set its count; one more for the party with event bit 0x8C0, not in the first release); the camera | the panel's start at the phase's first frame, the camera's frame 10; 4 |
+| 6 an action's start (`nbSetActionMaePhase`) | the next unit in the order queued, unless something is queued | every combatant still; 7 |
+| 7 the action (`nbSetActionPhase`) | the top queued action's process | the action: done or none goes to 8; with the debug pad, button 10 opens the debug menu (14); end type 7 waits out its packets |
+| 8 | | 9 |
+| 9 the battle's end check (`nbSetChkEndPhase`) | won (no enemy left), lost (the Demi-fiend down or gone: 2; no one can act: 6), a consecutive encounter (5) | 8 frames (none when fighting on auto with nothing queued); queued actions or none: 10; 5: 15; 7: stays; others: 11 |
+| 10 the turn's end check (`nbSetChkTurnPhase`) | queued actions first (6), then an event (3); with press icons left the order moves on (6); else ailments may wear off, the other side's turn starts (3), and after the enemies' a new round (the turn count, to 99) with the moon advancing | 10 enters its next at once |
+| 11 the close (`nbSetAtoPhase`) | the stock's ailments cured; Life Aid, Mana Aid and Victory Cry for the party standing; the "after" process | the action processes, the "after" process and any streamed voice; 12 |
+| 12 the result (`nbSetResultPhase`) | the moon hidden, ailment effects let go, the encounter's item (1, 9), the result screen (1, 4, 9) or the music fading | the result process; 13 |
+| 13 the end (`nbSetEndPhase`) | the encounter count restarts, a fallen Demi-fiend stands again; a lost battle is the game over (field sequence 7; 6 in the first release), a level-up opens its screen (0xE; 0xD) | the step returns -1: the battle is over |
+| 14 the debug menu (`nbSetDebugPhase`) | the command menu and action stopped | the debug process; 6 |
+| 15 a consecutive encounter (`RENZOKU`) | | the action processes; the status line, a new first turn: 2 |
+
+The queued actions (main +0x3C, +0x40; `nbPushAction`) are taken from the
+top (`nbPopAction`). An action is dropped when its target is no longer in
+the battle, when the battle has ended (death scripts still run), or when a
+counter's attacker can't act (`CheckErrorActionStack`).
+
 ## The battle's opening (`nb_mae`)
 
 The battle's "before" process ("nb_mae", BeforeProcessID) runs one step a
@@ -611,6 +664,18 @@ frame, each naming the next:
 
 The first release loads the flight model as a plain file; the later ones
 load it as a PAC.
+
+## The battle's close (`nb_ato`)
+
+The "after" process ("nb_ato", AfterProcessID) acts on how the battle
+ended (`endtype`; the meanings are tentative):
+
+| End type | What happens |
+|---|---|
+| 1 (won) | The boss rush's press record is updated (`datBossRashUpdRec`; not in the first release). The process ends after a frame. |
+| 2 | The panels go off, the music fades and the field's work memory is let go. If the Demi-fiend's model has a minor number, the screen just fades to white (frame 10, end at 40). Otherwise he is shown alone in motion 0x17 with the camera on him (frame 1), then the white fade comes at 50 and the end at 80. |
+| 6 | As for 2, then the camera turns (frame 10), message 0x3A names the Demi-fiend (30), the screen fades to white (70) and the process ends (100). |
+| others | The process ends after a frame. |
 
 ## The result screen (`nbResultProcess`)
 

@@ -42,6 +42,8 @@ public:
     uint16_t level() const { return half(base() + 0xa); }
     int32_t checks() const { return byte(base() + 1); }
     int32_t tables() const { return byte(base() + 2); }
+    // The devil's press icons as an enemy, when not 0 (nbSetPressMaePhase).
+    uint8_t pressIcons() const { return static_cast<uint8_t>(byte(base())); }
     uint32_t condition(int32_t check, int32_t k) const { return word(checkAt(check) + 4u * static_cast<uint32_t>(k)); }
     uint32_t table(int32_t check) const { return word(checkAt(check) + 0xc); }
     uint32_t firstTable() const { return checkAt(checks()); }

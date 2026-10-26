@@ -4,6 +4,7 @@
 
 #include "nocturne/address.hpp"
 #include "nocturne/build.hpp"
+#include "nocturne/data/tables.hpp"
 #include "nocturne/battle/event_process.hpp"
 #include "nocturne/battle/sound.hpp"
 #include "nocturne/effect/cut.hpp"
@@ -30,6 +31,19 @@ void clearProcessFlags(uint32_t process, uint32_t flags) { guest::callOriginal(k
 
 } // namespace
 
+// SetFlag @ 0x002497A0 (tentative: the HD name in order)
+void setBattleFlags(MainProcessData& data)
+{
+    diag::print(diag::Message::EncPackNo, data.encpackno);
+    diag::print(diag::Message::PackNo, data.packno);
+    diag::print(diag::Message::PackIndex, data.packindex);
+    diag::print(diag::Message::EncNo, data.encno);
+    if (data.encno == 0xc7)
+        data.stat |= BattleStat::Unknown400;
+    if (dat::encount(data.encno).flag & EncountFlag::Unknown8)
+        data.stat |= BattleStat::Unknown800;
+}
+
 // 0x0024C6C8 (no original name)
 void requestStage(int16_t major, int16_t minor)
 {
@@ -40,6 +54,9 @@ void requestStage(int16_t major, int16_t minor)
     record[1] = 2;
     record[0] = 0;
 }
+
+// nbGetStageData @ 0x0024C718
+uint8_t stageState() { return guest::table<const uint8_t>(kStageRequest)[1]; }
 
 // 0x00290B20 (no original name)
 void requestFlightPack(MainProcessData& data)
@@ -68,6 +85,22 @@ bool flightPackLoaded(MainProcessData& data)
     return true;
 }
 
+// 0x00290BC8 (no original name)
+void releaseFlightModel(MainProcessData& data)
+{
+    if (data.flyh != 0) {
+        if (kBuild.vanilla)
+            file::RequestRelease(data.flyh);
+        else
+            file::PacRequestFree(data.flyh);
+        data.flyh = 0;
+    }
+    if (data.flymem != 0) {
+        mem::HandleFree(data.flymem);
+        data.flymem = 0;
+    }
+}
+
 // 0x00249BC0 (no original name)
 void startOpening(MainProcessData& data)
 {
@@ -79,11 +112,11 @@ void startOpening(MainProcessData& data)
 // 0x00249BA0 (no original name)
 void endOpening(uint32_t) { GetMainProcessData()->BeforeProcessID = 0; }
 
-// 0x00249B68 (no original name): the stage (from +0x7C, +0x7E) and the effect.
+// 0x00249B68 (no original name): the stage and the effect.
 uint32_t openingRequestStage(uint32_t)
 {
     const MainProcessData& main = *GetMainProcessData();
-    requestStage(main.press4_repel, main.press4_miss);
+    requestStage(main.stageMajor, main.stageMinor);
     eff::startEncounterEffect();
     return kLoadPacks;
 }

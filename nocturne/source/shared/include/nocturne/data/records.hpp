@@ -165,6 +165,7 @@ static_assert(sizeof(DevilFormat) == 60);
 
 // DevilFormat::flag bits.
 namespace DevilFlag {
+inline constexpr uint32_t TwoPressTurns  = 0x010; // two press turn icons a turn (nbSetPressMaePhase)
 inline constexpr uint32_t AlignmentPlus  = 0x040; // datGet3Zokusei +1
 inline constexpr uint32_t AlignmentMinus = 0x080; // datGet3Zokusei -1
 inline constexpr uint32_t NoHpCost       = 0x200; // HP-cost skills are free
@@ -193,10 +194,12 @@ static_assert(offsetof(Encount, devil) == 6);
 static_assert(offsetof(Encount, flag) == 0x20);
 
 namespace EncountFlag {
+inline constexpr uint16_t Boss               = 0x01; // sets BattleStat::BossBattle (SetBattleFlag)
 inline constexpr uint16_t EnemiesAlwaysFirst = 0x02; // nbCheckSensei
 inline constexpr uint16_t PlayerAlwaysFirst  = 0x04;
 inline constexpr uint16_t ForcedFollowUp    = 0x10; // nbCheckRenzokuEncount
 inline constexpr uint16_t AlwaysEscapable   = 0x20;
+inline constexpr uint16_t Unknown8          = 0x08; // sets BattleStat::Unknown800 (SetFlag)
 } // namespace EncountFlag
 
 // datEncountRitu: one weighted entry of an area's random-encounter table.

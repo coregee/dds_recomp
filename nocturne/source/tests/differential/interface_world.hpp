@@ -70,5 +70,7 @@ struct HelpWorld {
     std::vector<int32_t> messages;   // the table's messages (not selections)
 };
 HelpWorld helpWorld(Gen& g, std::initializer_list<int32_t> needed = {});
+// Whether some message table helpWorld can choose has messages at all these indexes.
+bool messageTableHas(std::initializer_list<int32_t> needed);
 
 } // namespace difftest::iface

@@ -3,6 +3,8 @@
 // marked).
 #include "nocturne/battle/formation.hpp"
 
+#include <cstring>
+
 #include "nocturne/address.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
@@ -96,6 +98,27 @@ void showAllFormations()
 {
     for (int32_t i = 0; i < 16; ++i)
         showFormationModel(i);
+}
+
+// 0x0028B0B8 (no original name): slot `index` cleared; its radii 100 and
+// scale 1, its index, its side (players 0..3, enemies 4..13, beyond: 0x400)
+// and its place and turn the defaults (0x526420, 0x526430), as found and
+// as now.
+void initFormation(MainProcessData& main, int32_t index)
+{
+    Formation& form = guest::table<Formation>(main.form.address)[index];
+    std::memset(&form, 0, sizeof form);
+    form.cr = ee::Float::fromBits(0x42c80000);   // 100
+    form.scl = ee::Float::fromBits(0x3f800000);  // 1
+    form.r = ee::Float::fromBits(0x42c80000);
+    form.formindex = static_cast<int16_t>(index);
+    form.stat |= index < 4 ? 0x100u : index < 14 ? 0x200u : 0x400u;
+    const Vec4& place = *guest::table<const Vec4>(addr(0x00526420));
+    const Vec4& turn = *guest::table<const Vec4>(addr(0x00526430));
+    form.pos = place;
+    form.orgpos = place;
+    form.rot = turn;
+    form.orgrot = turn;
 }
 
 // nbSingleFormExceptedDispOff @ 0x00289E68: only `form` shown.

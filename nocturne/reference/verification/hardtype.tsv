@@ -261,12 +261,56 @@ nbResultLoad	ok
 rstCalcLevelFromExp	ok
 nbResultSkip	ok
 nbResultProcess2	ok
+SetFlag (0x2497A0)	ok
+FUN_0028b0b8	ok
+FUN_00249640	ok
 FUN_0024c6c8	ok
 effBTLEncountStart	ok
 FUN_00290b20	ok
 FUN_00290b68	ok
 FUN_00249bc0	ok
 FUN_00249ba0	ok
+FUN_00249850	ok
+FUN_002499f8	ok
+FUN_00249320	ok
+FUN_002492b0	ok
+FUN_00290bc8	ok
+CheckErrorActionStack (0x247F70)	ok
+nbPopAction (0x248088)	ok
+nbCheckActionStack (0x248138)	ok
+nbClearActionStack (0x2481C8)	ok
+nbSetMaePhase (0x2481E8)	ok
+FUN_00248278	ok
+FUN_002482c0	ok
+nbSetPressMaePhase (0x248420)	ok
+nbSetActionMaePhase (0x2485F0)	ok
+FUN_00248640	ok
+nbSetChkEndPhase (0x248690)	ok
+nbSetChkTurnPhase (0x2487D0)	ok
+nbSetAtoPhase (0x2482F0)	ok
+nbSetResultPhase (0x248A40)	ok
+nbSetEndPhase (0x248B40)	ok
+FUN_00248c28	ok
+nbMainProcess1 (0x248E38)	ok
+nbSetPhase (0x248CB0)	ok
+CheckActionProcessEnd (0x247D60)	ok
+CheckSenseiOrBackAttack (0x247DA0)	ok
+CheckActionRun (0x247E48)	ok
+SetBattleFlag (0x247E90)	ok
+nbSetNextPhase (0x248C88)	ok
+FUN_00246998	ok
+FUN_00249258	ok
+nbMainProcess_ClearLocalBit	ok
+FUN_001e9528	ok
+FUN_001e9570	ok
+FUN_00249f98	ok
+FUN_00249f78	ok
+FUN_00249e58	ok
+FUN_00249e00	ok
+FUN_00249d00	ok
+FUN_00249c28	ok
+mdlGetMinorNum	ok
+FUN_001221f0	ok
 FUN_00128408	ok
 FUN_00127510	ok
 FUN_00127580	ok

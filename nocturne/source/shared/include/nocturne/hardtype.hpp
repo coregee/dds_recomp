@@ -24,7 +24,9 @@ inline constexpr uint32_t kMoonPhase = kGlobalWork + 0xa41;    // GlobalWork::mo
 inline constexpr uint32_t kMoonMoveBits = kGlobalWork + 0xa44; // GlobalWork::moon_move_bits (bit 1: accuracy, evasion)
 inline constexpr uint32_t kHeart24 = kGlobalWork + 0x1d13;     // GlobalWork::hearts_owned[24]
 inline constexpr uint32_t kDemiFiend = kGlobalWork + 0xa54;    // GlobalWork::units[0]
-inline constexpr uint32_t kOptions = 0x002ff388;               // a byte no code writes (Hardtype's optional patches, presumably)
+// Bits 0..1: the encounter's flag bits 6..7, set by SetBattleFlag (what reads
+// them is not known yet).
+inline constexpr uint32_t kOptions = 0x002ff388;
 
 inline uint8_t byteAt(uint32_t address) { return *guest::table<uint8_t>(address); }
 
@@ -35,6 +37,8 @@ uint32_t pressGaugeRegister();                         // what types 60 and 61 l
 
 // Hardtype's own state, kept among its added code (0x2FDC20..0x2FF388).
 inline uint16_t& hpBeforeChange() { return *guest::table<uint16_t>(0x002fe1d8); }   // the HP datAddHp last started from
+inline uint16_t& turnPressIcons() { return *guest::table<uint16_t>(0x002fdf80); }   // the press icons the turn started with
+inline uint8_t& options() { return *guest::table<uint8_t>(kOptions); }
 // Stand-ins: a skill Hardtype adds or changes can be shown as another
 // (0x2FE3E0: pairs of skill and stand-in, up to a 0). The action's READY
 // state notes the pair it uses: the acting skill, which its costs and checks

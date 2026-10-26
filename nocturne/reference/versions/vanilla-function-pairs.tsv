@@ -37,3 +37,7 @@
 001ca0d0	001ba3e0	ps2FontLinkLetters	JP Maniax's at 0x1C95B0, instruction for instruction
 001ca258	001ba5c8	ps2FontLinkSpacedLetters	JP Maniax's at 0x1C9798, instruction for instruction
 001c7080	001b7970	ps2FontGetGlyphStorageSize	JP Maniax's at 0x1C6B40 (the shadow offset), instruction for instruction
+00249850	002398a0	nbInitMainProcess	calls nbInitMainProcessData and SetFlag, same prints (no moon texture)
+002499f8	00239a00	(the battle main process end)	kills priority 0x3FA and hides the moon (no moon texture)
+001e9528	0	(the moon texture load)	the first release has no moon texture
+001e9570	0	(the moon texture release)	the first release has no moon texture

@@ -40,6 +40,9 @@ bool nextAreaPendingFor(int32_t major, int32_t minor);
 // at *out), or 0 for another area.
 uint32_t copyAreaPart(int32_t part, uint32_t out, int32_t major, int32_t minor);
 
+// (0x1221F0) the field's work memory (0x54EB00) let go (tentative).
+void releaseFieldWork();
+
 // ---- the current area's shared pack ----
 // (0x1277F0) its file name, into `out`: f<area>_000.LB, but for areas 24,
 // 25 and 34 a variant (_00b, _00c, _00d) by story flags or the area's

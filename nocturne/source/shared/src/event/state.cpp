@@ -4,6 +4,7 @@
 #include "nocturne/data/records.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/ee/float.hpp"
+#include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
 
 namespace nocturne::evt {
@@ -11,6 +12,9 @@ namespace nocturne::evt {
 namespace {
 
 constexpr uint32_t kMoonFade = addr(0x0054f75c);   // float (gp-relative): the moon's draw alpha
+// The moon's own texture (not in the first release).
+constexpr uint32_t kMoonTexture = optionalAddr(0x0054f758);   // uint32 (gp-relative): its texture, or 0
+constexpr uint32_t kMoonTexturePath = optionalAddr(0x0053b040);   // "/fld/f/bin/moon_07.tmx"
 
 // Kagutsuchi's flags in the global work.
 constexpr uint8_t kMoonCycles = 1;   // the phase advances
@@ -85,5 +89,23 @@ void showMoonKeepFade() { work().moon_flags |= kMoonDrawn; }
 
 // evtDisableMoonDraw2 @ 0x001E9A68
 void hideMoonKeepFade() { work().moon_flags &= static_cast<uint8_t>(~kMoonDrawn); }
+
+// 0x001E9528 (no original name)
+void loadMoonTexture()
+{
+    uint32_t data = 0;
+    const uint32_t handle = file::Load(kMoonTexturePath, &data);
+    *guest::table<uint32_t>(kMoonTexture) = tex::TmxCopy(data);
+    mem::HandleFree(handle);
+}
+
+// 0x001E9570 (no original name)
+void releaseMoonTexture()
+{
+    uint32_t& texture = *guest::table<uint32_t>(kMoonTexture);
+    if (texture != 0)
+        tex::DeferredRelease(texture);
+    texture = 0;
+}
 
 } // namespace nocturne::evt

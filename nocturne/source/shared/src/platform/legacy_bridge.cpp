@@ -7,7 +7,9 @@
 // Link with the legacy objects (or, in tests, with the fake world). Also
 // requires a platform implementation of nocturne::guest::resolve/addressOf.
 #include <cstdint>
+#include <vector>
 
+#include "nocturne/address.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
 
@@ -67,6 +69,7 @@ uint64_t ps2LibcPrintf(uint64_t format, ...);
 void evtBitOn(int32_t no);
 uint32_t evtGetAgeOfMoon16(void);
 uint64_t dds3SearchProcessName(uint64_t name);
+uint64_t dds3SearchProcessPriority(uint64_t priority);
 uint64_t dds3GetProcessData(uint64_t process);
 void evtBitOff(int32_t no);
 [[noreturn]] void nocturneCompilerArithmeticTrap(uint32_t code);
@@ -127,7 +130,7 @@ void NegoDebugSelectDraw(uint64_t talk);   // 0x26C0D8
 uint64_t NegoDebug(uint64_t talk);         // 0x26C2D8
 uint64_t nocturneInvokeBattleTalkStep(uint32_t entry, uint64_t talk);
 uint64_t frDrawFontEx2(uint64_t font, uint64_t mode, uint64_t ot);
-uint64_t nocturneInvokeOriginal(uint32_t entry, uint64_t a0, uint64_t a1, uint64_t a2, uint64_t a3);
+uint64_t nocturneInvokeOriginal(uint32_t entry, uint64_t a0, uint64_t a1, uint64_t a2, uint64_t a3, uint64_t t0);
 uint64_t ps2SoundPlayMidi_002C1670(uint64_t midi);
 uint64_t ps2SoundFadeOut_002C2070(uint64_t midi);
 uint64_t ps2SoundSelectOutput_002C20F0(uint64_t value);
@@ -248,6 +251,19 @@ int32_t evt::GetAgeOfMoon16() { return static_cast<int32_t>(evtGetAgeOfMoon16())
 // ---- scr / dds3 ---------------------------------------------------------------
 
 uint32_t dds3::SearchProcessName(uint32_t name) { return static_cast<uint32_t>(dds3SearchProcessName(name)); }
+void dds3::CallSequence(int32_t sequence, const void* data, uint32_t size, int32_t flag)
+{
+    constexpr uint32_t entry = addr(0x00102848);   // dds3AdminiCallSequence
+    if (data == nullptr) {
+        nocturneInvokeOriginal(entry, signExtend(sequence), 0, size, signExtend(flag), 0);
+        return;
+    }
+    std::vector<uint8_t> copy(static_cast<const uint8_t*>(data), static_cast<const uint8_t*>(data) + size);
+    const uint32_t address = nocturneLibcStreamLocalAddress(copy.data(), size);
+    nocturneInvokeOriginal(entry, signExtend(sequence), signExtend(static_cast<int32_t>(address)), size, signExtend(flag), 0);
+    nocturneLibcStreamEndLocal();
+}
+uint32_t dds3::SearchProcessPriority(int32_t priority) { return static_cast<uint32_t>(dds3SearchProcessPriority(signExtend(priority))); }
 uint32_t dds3::GetProcessData(uint32_t process) { return static_cast<uint32_t>(dds3GetProcessData(signExtend(static_cast<int32_t>(process)))); }
 
 // ---- fr / itf / snd / mem / pac --------------------------------------------------
@@ -400,9 +416,9 @@ void nb::SetFormRot(Formation& form, const Vec4& rot) { nbSetFormRot(word(guest:
 void nb::TalkDebugDraw(uint32_t talk) { NegoDebugDraw(word(talk)); }
 void nb::TalkDebugSelectDraw(uint32_t talk) { NegoDebugSelectDraw(word(talk)); }
 int32_t nb::TalkDebug(uint32_t talk) { return static_cast<int32_t>(NegoDebug(word(talk))); }
-uint32_t guest::callOriginal(uint32_t entry, uint32_t a0, uint32_t a1, uint32_t a2, uint32_t a3)
+uint32_t guest::callOriginal(uint32_t entry, uint32_t a0, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t t0)
 {
-    return static_cast<uint32_t>(nocturneInvokeOriginal(entry, word(a0), word(a1), word(a2), word(a3)));
+    return static_cast<uint32_t>(nocturneInvokeOriginal(entry, word(a0), word(a1), word(a2), word(a3), word(t0)));
 }
 void snd::PlayMidi(int32_t midi) { ps2SoundPlayMidi_002C1670(signExtend(midi)); }
 void snd::FadeOutMidi(int32_t midi) { ps2SoundFadeOut_002C2070(signExtend(midi)); }

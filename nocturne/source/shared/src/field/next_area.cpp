@@ -109,6 +109,16 @@ int32_t pollNextArea()
 // ps2FieldNextLoadStatus_001275D0
 int32_t nextAreaLoading() { return areaLoadState().loading; }
 
+// 0x001221F0 (no original name)
+void releaseFieldWork()
+{
+    int32_t& work = word(addr(0x0054eb00));
+    if (work != 0) {
+        mem::HandleFree(static_cast<uint32_t>(work));
+        work = 0;
+    }
+}
+
 // 0x001277F0 (no original name)
 void areaPackName(uint32_t out)
 {

@@ -234,9 +234,9 @@ int32_t callActionCheck(uint32_t entry, uint32_t action);
 void callEffectPlayer(uint32_t entry, uint32_t queue, uint32_t packet);
 // A talk step's flow function not rewritten yet, by address: its result.
 int32_t callTalkStep(uint32_t entry, uint32_t talk);
-// Original code not rewritten yet, by address, with up to four arguments:
+// Original code not rewritten yet, by address, with up to five arguments:
 // its result.
-uint32_t callOriginal(uint32_t entry, uint32_t a0 = 0, uint32_t a1 = 0, uint32_t a2 = 0, uint32_t a3 = 0);
+uint32_t callOriginal(uint32_t entry, uint32_t a0 = 0, uint32_t a1 = 0, uint32_t a2 = 0, uint32_t a3 = 0, uint32_t t0 = 0);
 // A packet maker not rewritten yet (it moves a unit with VU0 vector math),
 // by address: (startframe, uniqueid, the formation, the one it faces).
 int32_t callMovePackets(uint32_t entry, int32_t startframe, int32_t uniqueid, uint32_t form, uint32_t target);
@@ -251,6 +251,10 @@ struct ProcessID {
     int32_t priority;
 };
 uint32_t SearchProcessName(uint32_t name);   // name: address of a C string
+uint32_t SearchProcessPriority(int32_t priority);   // dds3SearchProcessPriority: a process at that priority, or 0
+// dds3AdminiCallSequence (0x102848): a field sequence queued, with a copy of
+// `size` bytes of `data` (none if null).
+void CallSequence(int32_t sequence, const void* data, uint32_t size, int32_t flag);
 uint32_t GetProcessData(uint32_t process);   // the process's data, as an address
 // Starts a process: `processfunc` runs every frame, `shutdownfunc` at its
 // end (both original code addresses).
@@ -339,6 +343,16 @@ enum class Message : uint32_t {
     BedName          = optionalAddr(0x00543b30), // "name [%d]:%s" (a skill's effect file)
     MidiName         = optionalAddr(0x00543b58), // "MIDI :%s" (its sound file)
     PackLoaded       = optionalAddr(0x005435f8), // "pac1 done" (the result screen's loading)
+    EncPackNo        = optionalAddr(0x00543510), // "encpackno = %d" (the battle's encounter)
+    PackNo           = optionalAddr(0x00543520), // "packno = %d"
+    PackIndex        = optionalAddr(0x00543530), // "packindex = %d"
+    EncNo            = optionalAddr(0x00543540), // "encno = %d"
+    FormationType    = optionalAddr(0x00543550), // "formationtype = %d"
+    BackAttacked     = optionalAddr(0x00543438), // "backattack!!"
+    NoOneCanAct      = optionalAddr(0x00543458), // 全員行動不能!! ("no one can act!!": a lost battle)
+    GameOver         = optionalAddr(0x00543468), // "game over !!"
+    LevelUp          = optionalAddr(0x00543478), // "level up !!"
+    ActionsQueued    = optionalAddr(0x00543448), // ありますよ!! ("there are some!!": an action is still queued)
     ActTime          = optionalAddr(0x00543b68), // "acttime = %d" (frames to the hit)
     SelectBits       = optionalAddr(0x00543b78), // "select %d -> %08X"
     MotionSoundWait        = optionalAddr(0x00543ce0), // "mot se wait(1).."

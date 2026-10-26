@@ -372,7 +372,7 @@ int32_t runAilmentAi(ActionProcessData& a)
 // the sides are swapped (BattleStat 8).
 int32_t statusMessage(const MainProcessData& data, int32_t jyokyomes)
 {
-    return (data.stat & BattleStat::InitiativeRolled) ? jyokyomes + 1 : jyokyomes;
+    return (data.stat & BattleStat::EnemyTurn) ? jyokyomes + 1 : jyokyomes;
 }
 
 // nbSetJyokyoMes @ 0x002592B0

@@ -137,7 +137,7 @@ bool startTargetCursor(ActionProcessData& act, int32_t partyindex, int32_t ctype
 // the actor's side (0..3, or 4..13 when the sides are swapped) or the other.
 bool onActorSide(const TargetCursor& t, int32_t formindex)
 {
-    if (!(t.data->stat & BattleStat::InitiativeRolled))
+    if (!(t.data->stat & BattleStat::EnemyTurn))
         return formindex <= 3;
     return static_cast<uint32_t>(formindex - 4) < 10;
 }
@@ -145,7 +145,7 @@ bool onActorSide(const TargetCursor& t, int32_t formindex)
 // CheckEnemy @ 0x0025E0B8
 bool onOtherSide(const TargetCursor& t, int32_t formindex)
 {
-    if (!(t.data->stat & BattleStat::InitiativeRolled))
+    if (!(t.data->stat & BattleStat::EnemyTurn))
         return static_cast<uint32_t>(formindex - 4) < 10;
     return formindex < 4;
 }

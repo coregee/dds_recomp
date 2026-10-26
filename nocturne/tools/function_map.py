@@ -8,7 +8,7 @@ rest recomputed. For each function the map records:
 
   status        rewritten  - has a readable implementation under source/
                 legacy     - only the instruction-faithful C under legacy/src
-                named      - named in Ghidra, no C yet
+                named      - named (in Ghidra, or by smt3-decomp), no C yet
                 unknown    - not yet identified
   rewrite       the source/ function, found by its "@ 0x<address>" comment
   legacy        the legacy/src definition(s)
@@ -21,6 +21,10 @@ rest recomputed. For each function the map records:
                 legacy   only tested against US Maniax's legacy C, which
                          says nothing about that build
                 (empty)  no test of it by name, or the build has no results
+  smt3_decomp   smt3-decomp's name for it, a second source
+                (reference/ps2/identification/smt3-decomp-names.tsv,
+                tools/smt3_decomp_names.py); where the two differ,
+                smt3-decomp-conflicts.tsv lists it for review
 """
 import re
 import sys
@@ -41,6 +45,21 @@ def read_functions(path):
             address, size, name, source = line.rstrip("\n").split("\t")
             functions[address.lower()] = (int(size), name, source)
     return functions
+
+
+def read_smt3_decomp():
+    """{address: name}: smt3-decomp's function names, placeholders left out."""
+    names = {}
+    path = ROOT / "reference" / "ps2" / "identification" / "smt3-decomp-names.tsv"
+    if path.exists():
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                if line.startswith(("#", "address\t")):
+                    continue
+                address, name, kind = line.rstrip("\n").split("\t")
+                if kind == "function" and not re.match(r"(FUN|func|sub|D|code)_", name):
+                    names[address] = name
+    return names
 
 
 def read_map():
@@ -180,10 +199,12 @@ def main():
     legacy = legacy_definitions(functions)
     rewritten = rewrites()
     verified = verification(functions, TAGGED, rewritten)
+    smt3 = read_smt3_decomp()
     counts = {}
+    only_smt3 = 0
     out = ROOT / "reference" / "function-map.tsv"
     with open(out, "w", encoding="utf-8", newline="\n") as f:
-        f.write("address\tsize\tname\tname_source\tstatus\trewrite\tlegacy\t" + "\t".join(BUILDS) + "\n")
+        f.write("address\tsize\tname\tname_source\tstatus\trewrite\tlegacy\t" + "\t".join(BUILDS) + "\tsmt3_decomp\n")
         for address in sorted(functions):
             size, name, source = functions[address]
             if address in rewritten:
@@ -192,16 +213,21 @@ def main():
                 status = "legacy"
             elif not name.startswith("FUN_"):
                 status = "named"
+            elif address in smt3:
+                status = "named"
+                only_smt3 += 1
             else:
                 status = "unknown"
             counts[status] = counts.get(status, 0) + 1
             f.write(f"{address}\t{size}\t{name}\t{source}\t{status}\t{rewritten.get(address, '')}\t"
                     f"{';'.join(sorted(legacy.get(address, ())))}\t"
-                    + "\t".join(verified.get(build, {}).get(address, "") for build in BUILDS) + "\n")
+                    + "\t".join(verified.get(build, {}).get(address, "") for build in BUILDS)
+                    + f"\t{smt3.get(address, '')}\n")
     total = len(functions)
     print(f"{out.relative_to(ROOT)}: {total} functions")
     for status in ("rewritten", "legacy", "named", "unknown"):
-        print(f"  {status:<10}{counts.get(status, 0):>6}  ({100 * counts.get(status, 0) / total:.1f}%)")
+        print(f"  {status:<10}{counts.get(status, 0):>6}  ({100 * counts.get(status, 0) / total:.1f}%)"
+              + (f"  ({only_smt3} only by smt3-decomp)" if status == "named" else ""))
     for build, outcomes in verified.items():
         tally = {o: sum(1 for v in outcomes.values() if v == o) for o in RANK}
         print(f"  {build:<10} " + ", ".join(f"{n} {o}" for o, n in tally.items() if n))

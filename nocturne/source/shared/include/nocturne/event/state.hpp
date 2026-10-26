@@ -32,4 +32,9 @@ void hideMoon();               // evtDisableMoonDraw
 void showMoonKeepFade();       // evtEnableMoonDraw2
 void hideMoonKeepFade();       // evtDisableMoonDraw2
 
+// The moon's own texture ("/fld/f/bin/moon_07.tmx"), for a battle that shows it
+// (not in the first release).
+void loadMoonTexture();        // (0x1E9528, no original name)
+void releaseMoonTexture();     // (0x1E9570, no original name)
+
 } // namespace nocturne::evt

@@ -56,9 +56,9 @@ extern "C" uint64_t nocturneInvokeBattleActionUpdate(uint32_t target, uint64_t c
     return difftest::iface::origVmAt(target, {context});
 }
 // ... and so do the kouka process's players not rewritten yet.
-extern "C" uint64_t nocturneInvokeOriginal(uint32_t entry, uint64_t a0, uint64_t a1, uint64_t a2, uint64_t a3)
+extern "C" uint64_t nocturneInvokeOriginal(uint32_t entry, uint64_t a0, uint64_t a1, uint64_t a2, uint64_t a3, uint64_t t0)
 {
-    return difftest::iface::origVmAt(entry, {a0, a1, a2, a3});
+    return difftest::iface::origVmAt(entry, {a0, a1, a2, a3, t0});
 }
 extern "C" uint64_t nocturneInvokeBattleMovePackets(uint32_t entry, uint64_t startframe, uint64_t uniqueid, uint64_t form,
                                                     uint64_t target)
@@ -1127,7 +1127,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         }
         std::memset(&forms[14], 0, 2 * sizeof(Formation));
         MainProcessData& main = at<MainProcessData>(FW_MAIN);
-        main.press4_repel = static_cast<int16_t>(g.chance(15) ? g.range(0xf0, 0xf6) : g.range(0, 3));
+        main.stageMajor = static_cast<int16_t>(g.chance(15) ? g.range(0xf0, 0xf6) : g.range(0, 3));
         main.stat &= ~(0x1u | 0x10u | 0x80u | 0x100u | 0x2000000u);
         for (uint32_t bit : {0x1u, 0x10u, 0x80u, 0x100u, 0x2000000u})
             if (g.chance(bit == 0x80u ? 50 : 15))
@@ -1266,7 +1266,7 @@ void addKoukaTests(std::vector<TestCase>& t)
             act().get().work->badstat = 0;
             nocturne::dat::globalWork().units[0].badstat = 0;
             main.stat = (main.stat & ~(0x1u | 0x10u | 0x100u)) | 0x80u;
-            main.press4_repel = 0;
+            main.stageMajor = 0;
             main.enemypcnt = static_cast<int16_t>(g.chance(70) ? 1 : g.range(2, 4));
         }
         if constexpr (nocturne::kVariant == nocturne::Variant::Hardtype)   // its option byte
@@ -2282,7 +2282,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         n.flag1_6 = g.range(0, 1);
         n.flag1_39 = g.range(0, 1);
         MainProcessData& battle = at<MainProcessData>(FW_MAIN);
-        battle.press4_repel = static_cast<int16_t>(g.chance(20) ? g.range(0xef, 0xf7) : g.range(0, 8));
+        battle.stageMajor = static_cast<int16_t>(g.chance(20) ? g.range(0xef, 0xf7) : g.range(0, 8));
         battle.enemypcnt = static_cast<int16_t>(g.range(1, 6));
         battle.stat ^= (g.chance(30) ? 1u : 0u) | (g.chance(50) ? 0x800000u : 0u);
         for (int32_t slot = 4; slot < 14; ++slot)

@@ -21,6 +21,7 @@ enum Button {
     kRight = 5,
     kUp = 6,
     kDown = 7,
+    kDebugMenu = 10,   // with the debug pad: the battle's debug menu
     kHelpToggle = 13,  // the command menu's help panel on / off (event bit 0xC0E)
 };
 
