@@ -1084,6 +1084,16 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         processStartWorld(g);
         return Pair{[] { return iface::origVmVoid(0x001b20b8, {FW_MAIN}); }, [] { nb::startCameraProcess(mainData()); return uint64_t{0}; }};
     });
+    add("nbSetPlayerStartData (0x259908)", [=](Gen& g) {   // the stock in any order, its units valid, in the party or not
+        GlobalWork& work = nocturne::dat::globalWork();
+        work.stock_count = g.chance(90) ? g.range(0, 16) : g.range(-2, 20) % 17;
+        for (uint8_t& slot : work.stock_list)
+            slot = static_cast<uint8_t>(g.range(0, 15));
+        for (UnitWork& unit : work.units)
+            unit.flag = (unit.flag & ~3u) | (g.chance(70) ? 1u : 0u) | (g.chance(60) ? 2u : 0u);
+        mainData().stat = static_cast<uint32_t>(g.rng());
+        return Pair{[] { return iface::origVmVoid(0x00259908, {FW_MAIN}); }, [] { nb::bringPartyIn(mainData()); return uint64_t{0}; }};
+    });
     add("nbInitEffectProcess (0x16C528)", [=](Gen& g) {
         processStartWorld(g);
         return Pair{[] { return iface::origVmVoid(0x0016c528, {FW_MAIN}); }, [] { nb::startEffectProcess(mainData()); return uint64_t{0}; }};

@@ -6266,7 +6266,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00259658	120	nbSetEncounterAndReset	USER_DEFINED	rewritten	shared/src/battle/calc.cpp:setEncounter	combat_calculation.c:ps2CombatSetEncounter_00259658	legacy	legacy	legacy	ok	legacy	nbSetMainPhase
 002596d0	112	nbClearCommandMemeoyRenzoku	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:forgetChainTargets		ok	ok	ok	ok	ok	nbCountActiveUnits
 00259740	456	ps2BattleFormation_00259740	USER_DEFINED	legacy		battle_formation.c:body_00259740;battle_formation.c:ps2BattleFormation_00259740						nbSetupBattleUnits
-00259908	288	FUN_00259908	DEFAULT	named								nbSetPlayerStartData
+00259908	288	FUN_00259908	DEFAULT	rewritten	shared/src/battle/main_process.cpp:bringPartyIn		ok	ok	ok	ok	ok	nbSetPlayerStartData
 00259a30	44	nbGetUnitID	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:unitModelId	battle_action_packet_frames.c:body_00259a30;battle_action_packet_frames.c:ps2BattleActionPacket_00259A30;battle_action_status.c:nbGetUnitID	legacy	legacy	legacy	ok	legacy	nbGetUnitID
 00259a60	80	nbGetUnitVisual	USER_DEFINED	rewritten	shared/src/battle/calc.cpp:unitVisual	battle_action_skill_registered_frames.c:body_00259a60;combat_calculation.c:ps2CombatModelScaleDescriptor_00259A60	legacy	legacy	legacy	ok	legacy	nbGetUnitVisual
 00259ab0	96	nbCheckEventDead	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:diesByEvent	battle_action_packet_frames.c:body_00259ab0;battle_action_packet_frames.c:ps2BattleActionPacket_00259AB0;battle_action_status.c:nbCheckEventDead	ok	ok	ok	ok	ok	nbCheckEventDead

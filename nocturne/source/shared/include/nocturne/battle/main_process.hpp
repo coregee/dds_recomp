@@ -61,6 +61,7 @@ int32_t mainProcessStep(uint32_t process);
 void setNextPhase(int32_t phase);     // nbSetNextPhase (0x248C88)
 void setPhase(int32_t phase);         // nbSetPhase (0x248CB0)
 void enterStart(MainProcessData& main);        // nbSetMaePhase (0x2481E8)
+void bringPartyIn(MainProcessData& main);      // nbSetPlayerStartData (0x259908): the party into the first slots
 void enterEncounter(MainProcessData& main);    // (0x248278)
 void enterEvent(MainProcessData& main);        // (0x2482C0)
 void setPressTurns(MainProcessData& main);     // nbSetPressMaePhase (0x248420)

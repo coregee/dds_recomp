@@ -57,7 +57,7 @@ constexpr int32_t kExtraPressFlag = 0x8c0;       // event bit: the party gets an
 constexpr int32_t kNoGameOverFlag = 0xc0c;       // debug event bit: no game over
 
 // Not rewritten yet (names from the HD remaster where it has them).
-constexpr uint32_t kSetPlayerStartData = addr(0x00259908);    // nbSetPlayerStartData
+constexpr uint32_t kAddUnitStock = addr(0x0024d550);         // nbAddUnitStock: a stock unit into a formation slot (no C here yet)
 constexpr uint32_t kSetFormation = addr(0x00259740);          // the encounter's formation placed (main, encno)
 constexpr uint32_t kInitActionProcess = addr(0x00257fa8);     // nbInitActionProcess (main, type, from, to, data)
 constexpr uint32_t kCheckResultEntry = addr(0x0021f7d8);      // rstChkResultEntry: someone levelled up
@@ -314,12 +314,37 @@ bool inBattle(const Party& party) { return (party.flag & PartyFlag::Active) && !
 // nbSetNextPhase @ 0x00248C88
 void setNextPhase(int32_t phase) { GetMainProcessData()->nextphase = static_cast<int8_t>(phase); }
 
+// nbSetPlayerStartData @ 0x00259908: the party's units, in the stock's order,
+// take the first four slots (every valid unit forgets its last target). In
+// an ambush their formations are marked (FormationStat 0x2000, which makes
+// enemy criticals near-certain on Hard).
+void bringPartyIn(MainProcessData& main)
+{
+    GlobalWork& work = dat::globalWork();
+    int32_t placed = 0;
+    for (int32_t i = 0; i < work.stock_count && placed < 4; ++i) {
+        const uint8_t index = work.stock_list[i];
+        UnitWork& unit = work.units[index];
+        if (!(unit.flag & UnitFlag::Valid))
+            continue;
+        unit.prevtform = -1;
+        unit.prevtarea = -1;
+        if (!(unit.flag & UnitFlag::InParty))
+            continue;
+        guest::callOriginal(kAddUnitStock, addressOf(main), 0, index, static_cast<uint32_t>(placed));
+        if (main.stat & BattleStat::BackAttack)
+            main.form[placed].stat |= FormationStat::Unknown2000;
+        ++placed;
+    }
+    setPlayerFormation(main, 0);
+}
+
 // nbSetMaePhase @ 0x002481E8: the battle's processes, in this order.
 void enterStart(MainProcessData& main)
 {
     setBossFlag(main);
     rollInitiative(main);
-    guest::callOriginal(kSetPlayerStartData, addressOf(main));
+    bringPartyIn(main);
     startUnitProcess(main);
     startEffectQueue(main);
     startTargetCursorProcess(main);
