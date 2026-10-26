@@ -19,6 +19,7 @@
 namespace nocturne {
 
 namespace eff {
+uint32_t ColorBlend(uint32_t from, uint32_t to, ee::Float rate);   // (0x1ABBD0) effColorBlend: from `from` (0) to `to` (1), by channel
 void BTLDelete(uint32_t handle);                             // effBTLDelete: frees a battle effect
 void BTLCutDelete(uint32_t cut);                             // effBTLCutDelete
 void BTLCutDraw(uint32_t cut);                               // effBTLCutDraw (0x16B0F0): a frame of the cut
@@ -92,7 +93,6 @@ void PanelPressGaugeShow();     // (0x27C2C0)
 void PanelStockSelectInit();    // (0x27FA98) the stock list for choosing a demon
 void PanelStockEnd();           // (0x27FA78)
 // (0x2584C8) the turn order after an action
-void UpdateOrder();
 // (0x27FD18) the stock panel's selection (sw 0: keep it as it is)
 uint32_t PanelStockSelect(MainProcessData& data, int32_t sw);
 } // namespace nb
@@ -153,7 +153,6 @@ void SetBadstatMotion(Formation& form, int32_t type, ee::Float range);
 void SetBadstatMotion2(Formation& form);
 // nbSummonUnit (0x24D8C0): a summoned devil appears: side 0 the player's, from stock `stockno`
 void SummonUnit(int32_t side, int32_t stockno, int32_t formindex);
-void AddToOrder(int32_t formindex);   // (0x258048) the turn order takes in a new unit
 } // namespace nb
 
 // The script VM (flowscript), as seen by script commands.

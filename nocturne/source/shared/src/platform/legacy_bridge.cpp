@@ -6,6 +6,7 @@
 //
 // Link with the legacy objects (or, in tests, with the fake world). Also
 // requires a platform implementation of nocturne::guest::resolve/addressOf.
+#include <bit>
 #include <cstdint>
 #include <vector>
 
@@ -20,6 +21,7 @@ uint64_t nbGetPartyFromFormindex(uint64_t formindex);
 uint64_t nbGetUnitWorkPointer(uint64_t main_data, uint64_t party);
 int32_t cmpRemoveDevilEx(uint16_t devil);
 void effBTLDelete(uint64_t handle);
+uint64_t ps2EffectBlendColor(uint64_t first, uint64_t second, float amount);   // 0x1ABBD0
 void effBTLCutDelete(uint64_t cut);
 uint64_t effBTLCutCreate(uint64_t effect, uint64_t cut, uint64_t form, uint64_t state);
 void effBTLCutDraw(uint64_t cut);   // 0x16B0F0: no legacy C yet
@@ -104,7 +106,6 @@ uint64_t ps2BattleAction_00263C00(uint64_t startframe, uint64_t uniqueid, uint64
 void nbPanelAnalyzeStart(void);
 uint64_t nbPanelStockSelect(uint64_t data, uint64_t sw);
 void nbPanelAnalyzeEnd(void);
-void nbUpdateOrder(void);
 uint64_t ps2MovieCheckAdpcmFlag(void);
 uint64_t ps2MovieStopAdpcm(void);
 void nocturneInvokeBattleActionEntry(uint32_t entry, uint64_t context);
@@ -164,7 +165,6 @@ void nbSetBadstatMotion2(uint64_t form);                                // 0x24E
 void ps2BattleFormation_0028A340(uint64_t data, uint64_t group);   // nbSetPartyFormation
 void ps2BattleFormation_0028A758(uint64_t data);                   // nbSetEnemyFormation
 void ps2BattleFormation_0024D8C0(uint64_t side, uint64_t stockno, uint64_t formindex);
-void ps2BattleOrder_00258048(uint64_t formindex);
 void ps2SoundStopEffectMidi_002C1730(uint64_t sound);
 void ps2SoundVolumeHalfDown_002C20A0(void);
 void ps2SoundVolumeHalfUp_002C20C8(void);
@@ -194,6 +194,10 @@ uint64_t signExtend(int32_t value) { return static_cast<uint64_t>(static_cast<in
 // ---- dat ---------------------------------------------------------------------
 
 void eff::BTLDelete(uint32_t handle) { effBTLDelete(handle); }
+uint32_t eff::ColorBlend(uint32_t from, uint32_t to, ee::Float rate)
+{
+    return static_cast<uint32_t>(ps2EffectBlendColor(from, to, std::bit_cast<float>(rate.bits())));
+}
 void eff::BTLCutDelete(uint32_t cut) { effBTLCutDelete(cut); }
 void eff::BTLCutDraw(uint32_t cut) { effBTLCutDraw(signExtend(static_cast<int32_t>(cut))); }
 uint32_t eff::BTLCutCreate(uint32_t effect, uint16_t cutNo, nb::Formation* form, uint32_t stat)
@@ -324,7 +328,6 @@ void nb::MakeDamagePackets(int32_t startframe, int32_t uniqueid, Formation* form
 }
 void nb::PanelAnalyzeStart() { nbPanelAnalyzeStart(); }
 void nb::PanelAnalyzeEnd() { nbPanelAnalyzeEnd(); }
-void nb::UpdateOrder() { nbUpdateOrder(); }
 void nb::PanelAllShow() { nbPanelAllShow(); }
 void eff::BTLSkillStart(int32_t skill, int32_t arg) { effBTLSkillStart(signExtend(skill), signExtend(arg)); }
 void eff::BTLSkillEnd() { effBTLSkillEnd(); }
@@ -495,7 +498,6 @@ void nb::SummonUnit(int32_t side, int32_t stockno, int32_t formindex)
 {
     ps2BattleFormation_0024D8C0(signExtend(side), signExtend(stockno), signExtend(formindex));
 }
-void nb::AddToOrder(int32_t formindex) { ps2BattleOrder_00258048(signExtend(formindex)); }
 void snd::VolumeHalfDown() { ps2SoundVolumeHalfDown_002C20A0(); }
 void snd::VolumeHalfUp() { ps2SoundVolumeHalfUp_002C20C8(); }
 void snd::StopEffectMidi(uint32_t sound) { ps2SoundStopEffectMidi_002C1730(word(sound)); }

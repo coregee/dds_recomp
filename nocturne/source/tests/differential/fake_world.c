@@ -823,7 +823,6 @@ void ps2BattleFormation_0024D8C0(uint64_t side, uint64_t stockno, uint64_t formi
 {
     fw_mes_log(106, (uint32_t)side ^ (uint32_t)stockno << 16, (uint32_t)formindex);
 }
-void ps2BattleOrder_00258048(uint64_t formindex) { fw_mes_log(107, (uint32_t)formindex, 0); }
 void ps2SoundStopEffectMidi_002C1730(uint64_t sound) { fw_mes_log(108, (uint32_t)sound, 0); }
 void dds3FadeOut(uint64_t r, uint64_t g, uint64_t b, uint64_t frames) { fw_mes_log(22, (uint32_t)r ^ (uint32_t)g << 8 ^ (uint32_t)b << 16, (uint32_t)frames); }
 void ps2PoolRelease(uint32_t slot) { fw_mes_log(23, slot, 0); }

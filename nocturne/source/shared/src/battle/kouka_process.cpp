@@ -1,21 +1,21 @@
 // The kouka process (original unit: nbKoukaProcess): plays the presentation
 // queue. Rewritten from the original instructions; the players not
 // rewritten yet run as original code.
-#include "nocturne/battle/kouka_process.hpp"
-
-#include <algorithm>
 
 #include "nocturne/address.hpp"
-#include "nocturne/build.hpp"
 #include "nocturne/battle/buffs.hpp"
-#include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/calc.hpp"
+#include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/help.hpp"
+#include "nocturne/battle/kouka_process.hpp"
+#include "nocturne/battle/order.hpp"
+#include "nocturne/build.hpp"
 #include "nocturne/effect/cut.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
 #include "nocturne/kernel/main_loop.hpp"
 #include "nocturne/script/vm.hpp"
+#include <algorithm>
 
 namespace nocturne::nb {
 
@@ -383,7 +383,7 @@ void setPlayerFormation(MainProcessData& data, int32_t) { SetPartyFormation(data
 // own side's turn the turn order takes it in.
 void playSummon(EffectQueue& k, EffectPacket& p)
 {
-    UpdateOrder();
+    updateOrder();
     const int16_t side = static_cast<int16_t>(p.data1.raw);
     const int16_t formindex = static_cast<int16_t>(p.data2.raw);
     SummonUnit(side, static_cast<int16_t>(p.data1.raw >> 16), formindex);
@@ -391,11 +391,11 @@ void playSummon(EffectQueue& k, EffectPacket& p)
     if (side == 0) {
         setPlayerFormation(main, 0);
         if (!(main.stat & 8))
-            AddToOrder(formindex);
+            addToOrder(formindex);
     } else if (side == 1) {
         SetEnemyFormation(main);
         if (main.stat & 8)
-            AddToOrder(formindex);
+            addToOrder(formindex);
     }
 }
 

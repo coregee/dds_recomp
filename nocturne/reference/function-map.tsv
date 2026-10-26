@@ -3398,11 +3398,11 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001ba398	128	FUN_001ba398	DEFAULT	named								nbCameraState_CommandRoot_Calc
 001ba418	280	FUN_001ba418	DEFAULT	named								nbCameraState_CommandTargetSel_Init
 001ba540	416	FUN_001ba540	DEFAULT	named								nbCameraState_Command_KORONZCheck
-001ba6e0	232	FUN_001ba6e0	DEFAULT	named								nbCameraPressProcessRun
-001ba7d8	44	FUN_001ba7d8	DEFAULT	named								nbCameraPressProcessInit
-001ba808	8	FUN_001ba808	DEFAULT	named								nbCameraPressProcessCheckRun
-001ba810	8	FUN_001ba810	DEFAULT	named								nbCameraPressProcessGetFrame
-001ba818	12	FUN_001ba818	DEFAULT	named								nbCameraPressProcessThrough
+001ba6e0	232	FUN_001ba6e0	DEFAULT	rewritten	shared/src/battle/press_camera.cpp:runPressCamera		ok	ok	ok	ok	ok	nbCameraPressProcessRun
+001ba7d8	44	FUN_001ba7d8	DEFAULT	rewritten	shared/src/battle/press_camera.cpp:startPressCamera		ok	ok	ok	ok	ok	nbCameraPressProcessInit
+001ba808	8	FUN_001ba808	DEFAULT	rewritten	shared/src/battle/press_camera.cpp:pressCameraRunning		ok	ok	ok	ok	ok	nbCameraPressProcessCheckRun
+001ba810	8	FUN_001ba810	DEFAULT	rewritten	shared/src/battle/press_camera.cpp:pressCameraFrame		ok	ok	ok	ok	ok	nbCameraPressProcessGetFrame
+001ba818	12	FUN_001ba818	DEFAULT	rewritten	shared/src/battle/press_camera.cpp:skipNextPressCamera		ok	ok	ok	ok	ok	nbCameraPressProcessThrough
 001ba828	664	FUN_001ba828	DEFAULT	named								nbCameraBoss_InvokeTarget_Set
 001baac0	652	FUN_001baac0	DEFAULT	named								nbCameraBoss_TargetInvoke_Set
 001bad50	504	FUN_001bad50	DEFAULT	named								nbCameraBoss_Foru_SIMON_Set
@@ -6238,12 +6238,12 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00257e30	124	ps2BattleActionChoice_00257E30	USER_DEFINED	legacy		battle_action_choice.c:body_00257e30;battle_action_choice.c:ps2BattleActionChoice_00257E30						nbActionShutdown
 00257eb0	248	ps2BattleActionChoice_00257EB0	USER_DEFINED	legacy		battle_action_choice.c:body_00257eb0;battle_action_choice.c:ps2BattleActionChoice_00257EB0						InitActionProcessData
 00257fa8	160	ps2BattleActionChoice_00257FA8	USER_DEFINED	legacy		battle_action_choice.c:body_00257fa8;battle_action_choice.c:ps2BattleActionChoice_00257FA8						nbInitActionProcess
-00258048	156	ps2BattleOrder_00258048	USER_DEFINED	legacy		battle_order.c:body_00258048;battle_order.c:ps2BattleOrder_00258048						nbAddOrder
-002580e8	404	ps2BattleRoster_002580E8	USER_DEFINED	legacy		battle_roster.c:body_002580e8;battle_roster.c:ps2BattleRoster_002580E8						nbSortOrder
-00258280	344	ps2BattleOrder_00258280	USER_DEFINED	legacy		battle_order.c:body_00258280;battle_order.c:ps2BattleOrder_00258280						nbSetOrderSide
-002583d8	60	ps2BattleOrder_002583D8	USER_DEFINED	legacy		battle_order.c:body_002583d8;battle_order.c:ps2BattleOrder_002583D8						nbSetOrder
-00258418	172	ps2BattleOrder_00258418	USER_DEFINED	legacy		battle_order.c:body_00258418;battle_order.c:ps2BattleOrder_00258418						nbSetNextOrder
-002584c8	108	nbUpdateOrder	USER_DEFINED	legacy		battle_action_status.c:nbUpdateOrder						nbUpdateOrder
+00258048	156	ps2BattleOrder_00258048	USER_DEFINED	rewritten	shared/src/battle/order.cpp:addToOrder	battle_order.c:body_00258048;battle_order.c:ps2BattleOrder_00258048	ok	ok	ok	ok	ok	nbAddOrder
+002580e8	404	ps2BattleRoster_002580E8	USER_DEFINED	rewritten	shared/src/battle/order.cpp:sortOrder	battle_roster.c:body_002580e8;battle_roster.c:ps2BattleRoster_002580E8	ok	ok	ok	ok	ok	nbSortOrder
+00258280	344	ps2BattleOrder_00258280	USER_DEFINED	rewritten	shared/src/battle/order.cpp:buildOrder	battle_order.c:body_00258280;battle_order.c:ps2BattleOrder_00258280	ok	ok	ok	ok	ok	nbSetOrderSide
+002583d8	60	ps2BattleOrder_002583D8	USER_DEFINED	rewritten	shared/src/battle/order.cpp:resetOrder	battle_order.c:body_002583d8;battle_order.c:ps2BattleOrder_002583D8	ok	ok	ok	ok	ok	nbSetOrder
+00258418	172	ps2BattleOrder_00258418	USER_DEFINED	rewritten	shared/src/battle/order.cpp:advanceOrder	battle_order.c:body_00258418;battle_order.c:ps2BattleOrder_00258418	ok	ok	ok	ok	ok	nbSetNextOrder
+002584c8	108	nbUpdateOrder	USER_DEFINED	rewritten	shared/src/battle/order.cpp:updateOrder	battle_action_status.c:nbUpdateOrder	ok	ok	ok	ok	ok	nbUpdateOrder
 00258538	408	FUN_00258538	DEFAULT	named								nbClipEffectNum
 002586d0	84	FUN_002586d0	DEFAULT	named								nbLoadKoukaPos
 00258728	96	FUN_00258728	DEFAULT	named								nbGetKoukaMarkPos

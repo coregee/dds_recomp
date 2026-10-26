@@ -1,8 +1,5 @@
 // The battle's main process (original unit: nbMainProcess). Rewritten from
 // the original instructions.
-#include "nocturne/battle/main_process.hpp"
-
-#include <cstring>
 
 #include "nocturne/address.hpp"
 #include "nocturne/battle/action.hpp"
@@ -19,8 +16,11 @@
 #include "nocturne/battle/kouka.hpp"
 #include "nocturne/battle/kouka_process.hpp"
 #include "nocturne/battle/macca_window.hpp"
+#include "nocturne/battle/main_process.hpp"
 #include "nocturne/battle/opening.hpp"
+#include "nocturne/battle/order.hpp"
 #include "nocturne/battle/pad.hpp"
+#include "nocturne/battle/press_camera.hpp"
 #include "nocturne/battle/result.hpp"
 #include "nocturne/battle/sound.hpp"
 #include "nocturne/battle/target_select.hpp"
@@ -35,6 +35,7 @@
 #include "nocturne/guest.hpp"
 #include "nocturne/hardtype.hpp"
 #include "nocturne/interface/message.hpp"
+#include <cstring>
 
 namespace nocturne::nb {
 
@@ -65,15 +66,9 @@ constexpr uint32_t kSetFormation = addr(0x00259740);          // the encounter's
 constexpr uint32_t kPackEmptyFormation = addr(0x0028b388);    // nbPackEmptyFormation
 constexpr uint32_t kInitActionProcess = addr(0x00257fa8);     // nbInitActionProcess (main, type, from, to, data)
 constexpr uint32_t kCameraPlayerForm = addr(0x001ba1e8);      // nbCameraCRSetPlayerFormRequest (tentative)
-constexpr uint32_t kCameraPressInit = addr(0x001ba7d8);       // nbCameraPressProcessInit
-constexpr uint32_t kSortOrder = addr(0x002583d8);             // nbSortOrder
-constexpr uint32_t kSetOrder = addr(0x00258418);              // nbSetOrder: the order moves on
 constexpr uint32_t kTurnOver = addr(0x00259bd0);              // after both sides' turns (tentative)
 constexpr uint32_t kCheckResultEntry = addr(0x0021f7d8);      // rstChkResultEntry: someone levelled up
 constexpr uint32_t kInitDebugProcess = addr(0x00285368);      // nbInitDebugProcess
-constexpr uint32_t kPressCameraThrough = addr(0x001ba818);    // nbCameraPressProcessThrough: the next press camera skipped
-constexpr uint32_t kPressCameraRunning = addr(0x001ba808);    // nbCameraPressProcessCheckRun
-constexpr uint32_t kPressCameraFrame = addr(0x001ba810);      // nbCameraPressProcessGetFrame
 constexpr uint32_t kPressPanelOmit = addr(0x0027d8e0);        // nbPanelPressTurnOmit: the next panel start skipped
 constexpr uint32_t kPressPanelStart = addr(0x0027d8f0);       // nbPanelPressTurnStart
 constexpr uint32_t kDebugSelect = addr(0x00246bf8);           // nbDebugSelect (the debug pad's displays)
@@ -406,7 +401,7 @@ void setPressTurns(MainProcessData& main)
         setBuffCounter(i, 0xd, 0);
     }
     main.endtype = 0;
-    guest::callOriginal(kSortOrder);
+    resetOrder();
 }
 
 // nbSetActionMaePhase @ 0x002485F0: with nothing queued, the next unit in
@@ -472,7 +467,7 @@ void checkTurnEnd(MainProcessData& main)
     }
     if (main.press4_p > 0 || main.press4_ten > 0) {
         if (!(main.stat & BattleStat::KeepOrder))
-            guest::callOriginal(kSetOrder);
+            advanceOrder();
         setNextPhase(6);
         return;
     }
@@ -607,7 +602,7 @@ void setPhase(int32_t phase)
     case 3: enterEvent(main); break;
     case 5:
         setPressTurns(main);
-        guest::callOriginal(kCameraPressInit);
+        startPressCamera();
         break;
     case 6: enterActionStart(main); break;
     case 7: enterAction(main); break;
@@ -644,7 +639,7 @@ int32_t mainProcessStep(uint32_t process)
         break;
     case 2:   // the encounter's opening; the first turn skips the press turn intros
         if (main.EncProcessID == 0) {
-            guest::callOriginal(kPressCameraThrough);
+            skipNextPressCamera();
             guest::callOriginal(kPressPanelOmit);
             next(3);
         }
@@ -654,13 +649,13 @@ int32_t mainProcessStep(uint32_t process)
             next(main.endtype == kEndWon || main.endtype == kEndShowResult ? 11 : 5);
         break;
     case 4:   // the press turn camera
-        if (static_cast<int8_t>(guest::callOriginal(kPressCameraRunning)) == 0)
+        if (!pressCameraRunning())
             next(6);
         break;
     case 5:   // the press turn panel
         if (main.phasetime == 0)
             guest::callOriginal(kPressPanelStart);
-        if (static_cast<int32_t>(guest::callOriginal(kPressCameraFrame)) >= 10)
+        if (pressCameraFrame() >= 10)
             next(4);
         break;
     case 6:

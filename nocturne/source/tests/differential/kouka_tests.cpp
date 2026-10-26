@@ -1,6 +1,7 @@
 // The battle's presentation queue (nbKoukaProcess, nbMakePacket): the
 // rewrite against the original instructions, run by the EE interpreter, in a
 // random battle with some packets already queued.
+#include <bit>
 #include <algorithm>
 #include <cstring>
 #include <deque>
@@ -56,6 +57,11 @@ extern "C" uint64_t nocturneInvokeBattleActionUpdate(uint32_t target, uint64_t c
     return difftest::iface::origVmAt(target, {context});
 }
 // ... and so do the kouka process's players not rewritten yet.
+// The colour blend is VU0 code not rewritten yet: both sides run its instructions.
+extern "C" uint64_t ps2EffectBlendColor(uint64_t first, uint64_t second, float amount)
+{
+    return difftest::iface::origVm(0x001abbd0, {first, second}, {std::bit_cast<uint32_t>(amount)});
+}
 extern "C" uint64_t nocturneInvokeOriginal(uint32_t entry, uint64_t a0, uint64_t a1, uint64_t a2, uint64_t a3, uint64_t t0)
 {
     return difftest::iface::origVmAt(entry, {a0, a1, a2, a3, t0});

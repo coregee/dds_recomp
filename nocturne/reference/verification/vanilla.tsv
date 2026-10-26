@@ -288,6 +288,17 @@ nbSetAtoPhase (0x2482F0)	ok
 nbSetResultPhase (0x248A40)	ok
 nbSetEndPhase (0x248B40)	ok
 FUN_00248c28	ok
+nbAddOrder (0x258048)	ok
+nbSortOrder (0x2580E8)	ok
+nbSetOrderSide (0x258280)	ok
+nbSetOrder (0x2583D8)	ok
+nbSetNextOrder (0x258418)	ok
+nbUpdateOrder (0x2584C8)	ok
+nbCameraPressProcessRun (0x1BA6E0)	ok
+nbCameraPressProcessInit (0x1BA7D8)	ok
+nbCameraPressProcessCheckRun (0x1BA808)	ok
+nbCameraPressProcessGetFrame (0x1BA810)	ok
+nbCameraPressProcessThrough (0x1BA818)	ok
 nbMainProcess1 (0x248E38)	ok
 nbSetPhase (0x248CB0)	ok
 CheckActionProcessEnd (0x247D60)	ok

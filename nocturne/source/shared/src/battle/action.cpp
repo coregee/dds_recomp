@@ -1,12 +1,8 @@
 // One unit's action as a process (original unit: nbActionProcess).
 // Rewritten from the original instructions.
-#include "nocturne/battle/action.hpp"
-
-#include <algorithm>
-#include <cstdio>
-#include <utility>
 
 #include "nocturne/address.hpp"
+#include "nocturne/battle/action.hpp"
 #include "nocturne/battle/affinity.hpp"
 #include "nocturne/battle/ai.hpp"
 #include "nocturne/battle/ai_script.hpp"
@@ -14,28 +10,32 @@
 #include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/calc.hpp"
 #include "nocturne/battle/camera.hpp"
-#include "nocturne/battle/comm_select.hpp"
-#include "nocturne/battle/help.hpp"
 #include "nocturne/battle/combatant.hpp"
+#include "nocturne/battle/comm_select.hpp"
 #include "nocturne/battle/damage.hpp"
+#include "nocturne/battle/help.hpp"
 #include "nocturne/battle/kouka.hpp"
+#include "nocturne/battle/order.hpp"
 #include "nocturne/battle/pad.hpp"
 #include "nocturne/battle/skill_error.hpp"
 #include "nocturne/battle/sound.hpp"
 #include "nocturne/battle/target_select.hpp"
 #include "nocturne/battle/targeting.hpp"
+#include "nocturne/build.hpp"
 #include "nocturne/data/devil_ai.hpp"
 #include "nocturne/data/progression.hpp"
+#include "nocturne/data/tables.hpp"
 #include "nocturne/data/unit.hpp"
+#include "nocturne/ee/double.hpp"
 #include "nocturne/effect/boss.hpp"
 #include "nocturne/effect/cut.hpp"
-#include "nocturne/ee/double.hpp"
-#include "nocturne/data/tables.hpp"
 #include "nocturne/external.hpp"
-#include "nocturne/interface/font.hpp"
-#include "nocturne/build.hpp"
 #include "nocturne/guest.hpp"
 #include "nocturne/hardtype.hpp"
+#include "nocturne/interface/font.hpp"
+#include <algorithm>
+#include <cstdio>
+#include <utility>
 
 namespace nocturne::nb {
 
@@ -2337,7 +2337,7 @@ int32_t updateAftermath(ActionProcessData& a)
         --a.packettime;
         return 0;
     }
-    nb::UpdateOrder();
+    nb::updateOrder();
     if (!timeListDead(a, a.form->formindex))
         checkBegForLife(a);
     if (!timeListDead(a, a.form->formindex))

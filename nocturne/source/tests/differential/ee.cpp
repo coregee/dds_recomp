@@ -600,6 +600,26 @@ void Interpreter::step()
             }
             break;
         }
+        if ((op & 63) == 0x08 && (sa == 0x16 || sa == 0x1a)) {
+            // PEXTLH / PEXTLB: the low halves of rt and rs interleaved, rt's
+            // element first (halfwords for PEXTLH, bytes for PEXTLB).
+            const int bits = sa == 0x16 ? 16 : 8, count = 64 / bits;
+            const uint64_t mask = (uint64_t{1} << bits) - 1;
+            uint64_t out[2] = {0, 0};
+            for (int i = 0; i < count; ++i) {
+                const int k = 2 * i;   // the result's element for rt's; rs's is k + 1
+                const uint64_t from[2] = {t >> (bits * i) & mask, s >> (bits * i) & mask};
+                for (int j = 0; j < 2; ++j) {
+                    const int e = k + j;
+                    out[e / count] |= from[j] << (bits * (e % count));
+                }
+            }
+            if (rd) {
+                cpu.r[rd] = out[0];
+                cpu.upper[rd] = out[1];
+            }
+            break;
+        }
         if ((op & 63) == 0x09 && (sa == 0x1e || sa == 0x1f)) {                  // PEXEW, PROT3W
             const uint32_t w[4] = {static_cast<uint32_t>(t), static_cast<uint32_t>(t >> 32),
                                    rt ? static_cast<uint32_t>(cpu.upper[rt]) : 0u, rt ? static_cast<uint32_t>(cpu.upper[rt] >> 32) : 0u};

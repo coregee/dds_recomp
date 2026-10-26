@@ -23,7 +23,6 @@ uint64_t nbPanelStockSelect(uint64_t, uint64_t);
 void nbPanelAnalyzeEnd(void);   // legacy
 uint64_t nbGetHojoCounterMax(uint64_t);   // legacy
 uint64_t nbGetHojoCounterMin(uint64_t);   // legacy
-void nbUpdateOrder(void);       // legacy
 uint64_t ps2MovieStopAdpcm(void);
 uint64_t ps2BattleActionSkill_00198200(uint64_t);
 uint64_t ps2BattleActionSkill_00198868(uint64_t);
@@ -143,7 +142,6 @@ void ps2BattleOutcome_001E3B78(uint64_t, uint64_t, uint64_t);
 void ps2BattleFormation_0028A340(uint64_t, uint64_t);
 void ps2BattleFormation_0028A758(uint64_t);
 void ps2BattleFormation_0024D8C0(uint64_t, uint64_t, uint64_t);
-void ps2BattleOrder_00258048(uint64_t);
 void ps2SoundStopEffectMidi_002C1730(uint64_t);
 void nbUnitSetAlpha(uint64_t, uint64_t, uint64_t);
 uint32_t evtGetAgeOfMoon16(void);
@@ -415,7 +413,7 @@ ee::Interpreter makeOriginal()
     e.hookUs(0x00280528, [](ee::Cpu&) { nbPanelAnalyzeEnd(); return uint64_t{0}; });
     e.interpret(0x00267ec8, 0x00267f14);   // nbGetHojoCounterMax (Hardtype patches it)
     e.interpret(0x00267f18, 0x00267f54);   // nbGetHojoCounterMin (Hardtype patches it)
-    e.hookUs(0x002584c8, [](ee::Cpu&) { nbUpdateOrder(); return uint64_t{0}; });
+    e.interpret(0x00258048, 0x00258534);   // the turn order (nbAddOrder .. nbUpdateOrder)
     e.hook(0x002c2180, [](ee::Cpu&) { return ps2MovieStopAdpcm(); });
     e.hook(0x00198200, [=](ee::Cpu& c) { return ps2BattleActionSkill_00198200(a(c, 0)); });
     e.hook(0x00198868, [=](ee::Cpu& c) { return ps2BattleActionSkill_00198868(a(c, 0)); });
@@ -536,7 +534,6 @@ ee::Interpreter makeOriginal()
     e.hook(0x0028a340, [=](ee::Cpu& c) { ps2BattleFormation_0028A340(a(c, 0), a(c, 1)); return uint64_t{0}; });
     e.hook(0x0028a758, [=](ee::Cpu& c) { ps2BattleFormation_0028A758(a(c, 0)); return uint64_t{0}; });
     e.hook(0x0024d8c0, [=](ee::Cpu& c) { ps2BattleFormation_0024D8C0(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
-    e.hook(0x00258048, [=](ee::Cpu& c) { ps2BattleOrder_00258048(a(c, 0)); return uint64_t{0}; });
     e.hook(0x002c1730, [=](ee::Cpu& c) { ps2SoundStopEffectMidi_002C1730(a(c, 0)); return uint64_t{0}; });
     e.interpret(0x0028b0a0, 0x0028b0b8);   // nbSetPlayerFormation
     e.hook(0x0024df78, [=](ee::Cpu& c) { nbSetDamage(a(c, 0), a(c, 1), static_cast<uint32_t>(c.f[12])); return uint64_t{0}; });
@@ -572,6 +569,7 @@ ee::Interpreter makeOriginal()
     e.interpret(0x00249a38, 0x00249c28);   // its steps, start and end
     e.interpret(0x0024c6c8, 0x0024c6f0);   // the stage requested
     e.interpret(0x0024c718, 0x0024c728);   // nbGetStageData
+    e.interpret(0x001abbd0, 0x001abc88);   // effColorBlend
     e.interpret(0x002497a0, 0x00249850);   // SetFlag
     e.interpret(0x00249640, 0x002497a0);   // nbInitMainProcessData
     e.interpret(0x00249850, 0x00249a38);   // nbInitMainProcess and the battle's end
@@ -589,8 +587,8 @@ ee::Interpreter makeOriginal()
     // case's).
     const std::pair<uint32_t, int> notRewritten[] = {
         {0x00259908, 1}, {0x0024f388, 1}, {0x0016c528, 1}, {0x001b20b8, 1}, {0x00282900, 1}, {0x00289ac8, 1}, {0x0024cac8, 1},
-        {0x0027c340, 0}, {0x0027c268, 0}, {0x00259740, 2}, {0x0028b388, 1}, {0x00257fa8, 5}, {0x001ba1e8, 0}, {0x001ba7d8, 0},
-        {0x002583d8, 0}, {0x00258418, 0}, {0x00259bd0, 1}, {0x00285368, 1}, {0x001ba818, 0}, {0x0027d8e0, 0},
+        {0x0027c340, 0}, {0x0027c268, 0}, {0x00259740, 2}, {0x0028b388, 1}, {0x00257fa8, 5}, {0x001ba1e8, 0},
+        {0x00259bd0, 1}, {0x00285368, 1}, {0x0027d8e0, 0},
         {0x0027d8f0, 0}, {0x00246bf8, 1}, {0x00246f10, 1}, {0x00247980, 1}, {0x00246d08, 1}};
     for (const auto& [entry, count] : notRewritten) {
         e.hook(entry, [=](ee::Cpu& c) {
@@ -602,9 +600,7 @@ ee::Interpreter makeOriginal()
         });
     }
     e.hook(0x0021f7d8, [](ee::Cpu&) { return uint64_t{fw_hash(160, 0, 0) & 1}; });
-    // The press turn camera: running or not, and its frame (nbCameraPressProcessCheckRun, GetFrame).
-    e.hook(0x001ba808, [](ee::Cpu&) { return uint64_t{fw_hash(162, 0, 0) & 1}; });
-    e.hook(0x001ba810, [](ee::Cpu&) { return uint64_t{8 + fw_hash(163, 0, 0) % 4}; });   // (around frame 10, which the step waits for)
+    e.interpret(0x001ba6e0, 0x001ba828);   // the press turn camera (nbCameraPress)
     e.hook(0x00102848, [=](ee::Cpu& c) {   // dds3AdminiCallSequence: the sequence, its flag and its data's first word
         const uint32_t data = static_cast<uint32_t>(a(c, 1));
         fw_mes_log(161, static_cast<uint32_t>(a(c, 0)) ^ static_cast<uint32_t>(a(c, 3)) << 16 ^ static_cast<uint32_t>(a(c, 2)) << 24,

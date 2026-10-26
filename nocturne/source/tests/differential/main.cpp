@@ -36,6 +36,8 @@
 #include "nocturne/battle/closing.hpp"
 #include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/main_process.hpp"
+#include "nocturne/battle/order.hpp"
+#include "nocturne/battle/press_camera.hpp"
 #include "nocturne/event/state.hpp"
 #include "nocturne/kernel/model.hpp"
 #include "nocturne/effect/cut.hpp"
@@ -400,6 +402,8 @@ const StaticRange kWrittenStatics[] = {
     {0x00575350, 0x10},                                    // the stage requested (the battle's opening)
     {0x0054eb00, 4},                                       // the field's work memory
     {0x0054f758, 8},                                       // the moon's texture and fade
+    {0x0054f394, 8}, {0x00551e54, 4},                      // the press turn camera: running, skip, frame
+    {0x00325960, 0x50},                                    // ... the camera shots it colours
 };
 
 // ... at the version's addresses (those it has; Hardtype's own state and
@@ -936,6 +940,91 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         phaseWorld(g);
         return Pair{[] { return iface::origVmVoid(0x00248c28, {FW_MAIN}); }, [] { nb::enterDebug(mainData()); return uint64_t{0}; }};
     });
+    // The turn order: slots holding units (each with a unit, as in the game)
+    // or -1, the one acting anywhere, units in or out of the battle, and
+    // Agility often tied.
+    const auto orderWorld = [](Gen& g) {
+        nb::MainProcessData& main = mainData();
+        std::vector<int8_t> withUnits;
+        for (int8_t f = 0; f < 14; ++f)
+            if (at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)))
+                withUnits.push_back(f);
+        for (int8_t& slot : main.order)
+            slot = g.chance(60) && !withUnits.empty() ? withUnits[g.below(static_cast<uint32_t>(withUnits.size()))] : -1;
+        main.orderindex = static_cast<int8_t>(g.chance(90) ? g.range(-1, 11) : g.pick<int32_t>({12, 126, 127}));
+        for (int8_t f : withUnits) {
+            nb::Party& party = at<nb::Party>(FW_PARTY + 128u * static_cast<uint32_t>(f));
+            party.flag = static_cast<int16_t>((g.chance(80) ? 1 : 0) | (g.chance(15) ? 0x20 : 0) | (g.range(0, 0xffff) & 0xffde));
+            party.formindex = static_cast<int16_t>(g.chance(50) ? f : g.range(0, 15));
+            at<UnitWork>(at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f))).param[4] = static_cast<int8_t>(g.range(1, 4));
+        }
+        for (int32_t f = 0; f < 16; ++f) {   // the parties outside the world's units: in the battle or not (no unit read)
+            if (f < 14 && at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)))
+                continue;
+            if (f < 14)
+                at<nb::Party>(FW_PARTY + 128u * static_cast<uint32_t>(f)).flag = 0;
+        }
+        return withUnits;
+    };
+    add("nbAddOrder (0x258048)", [=](Gen& g) {
+        const std::vector<int8_t> withUnits = orderWorld(g);
+        nb::MainProcessData& main = mainData();
+        main.orderindex = static_cast<int8_t>(g.range(-1, 11));
+        const int32_t formindex = g.range(0, 15);
+        nb::Formation& form = at<nb::Formation>(FW_FORMS + 0xf0u * static_cast<uint32_t>(formindex));
+        form.stat = static_cast<uint32_t>(g.rng()) | (g.chance(70) ? 0x41u : 0u);
+        form.partyindex = withUnits.empty() ? 0 : withUnits[g.below(static_cast<uint32_t>(withUnits.size()))];
+        return Pair{[=] { return iface::origVmVoid(0x00258048, {sx(formindex)}); }, [=] { nb::addToOrder(formindex); return uint64_t{0}; }};
+    });
+    add("nbSortOrder (0x2580E8)", [=](Gen& g) {
+        orderWorld(g);
+        const int32_t start = g.range(0, 12);
+        return Pair{[=] { return iface::origVmVoid(0x002580e8, {sx(start)}); }, [=] { nb::sortOrder(start); return uint64_t{0}; }};
+    });
+    add("nbSetOrderSide (0x258280)", [=](Gen& g) {
+        orderWorld(g);
+        const int32_t side = g.range(0, 1);
+        return Pair{[=] { return iface::origVmVoid(0x00258280, {sx(side)}); }, [=] { nb::buildOrder(side); return uint64_t{0}; }};
+    });
+    add("nbSetOrder (0x2583D8)", [=](Gen& g) {
+        orderWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x002583d8, {}); }, [] { nb::resetOrder(); return uint64_t{0}; }};
+    });
+    add("nbSetNextOrder (0x258418)", [=](Gen& g) {
+        orderWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x00258418, {}); }, [] { nb::advanceOrder(); return uint64_t{0}; }};
+    });
+    add("nbUpdateOrder (0x2584C8)", [=](Gen& g) {
+        orderWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x002584c8, {}); }, [] { nb::updateOrder(); return uint64_t{0}; }};
+    });
+    // The press turn camera: running or not, a skip asked for or not, its
+    // frame around the fades' ends.
+    const auto pressCameraWorld = [](Gen& g) {
+        at<int8_t>(difftest::version::dataOrDie(0x0054f394)) = static_cast<int8_t>(g.chance(60) ? 1 : g.chance(50) ? 0 : g.range(-128, 127));
+        at<uint32_t>(difftest::version::dataOrDie(0x0054f398)) = g.chance(70) ? 0 : static_cast<uint32_t>(g.range(1, 3));
+        at<uint32_t>(difftest::version::dataOrDie(0x00551e54)) = static_cast<uint32_t>(g.chance(85) ? g.range(0, 22) : g.range(-3, 200));
+    };
+    add("nbCameraPressProcessRun (0x1BA6E0)", [=](Gen& g) {
+        pressCameraWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x001ba6e0, {}); }, [] { nb::runPressCamera(); return uint64_t{0}; }};
+    });
+    add("nbCameraPressProcessInit (0x1BA7D8)", [=](Gen& g) {
+        pressCameraWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x001ba7d8, {}); }, [] { nb::startPressCamera(); return uint64_t{0}; }};
+    });
+    add("nbCameraPressProcessCheckRun (0x1BA808)", [=](Gen& g) {
+        pressCameraWorld(g);
+        return Pair{[] { return iface::origVm(0x001ba808, {}) != 0; }, [] { return uint64_t{nb::pressCameraRunning()}; }};
+    });
+    add("nbCameraPressProcessGetFrame (0x1BA810)", [=](Gen& g) {
+        pressCameraWorld(g);
+        return Pair{[] { return iface::origVm(0x001ba810, {}); }, [] { return norm(nb::pressCameraFrame()); }};
+    });
+    add("nbCameraPressProcessThrough (0x1BA818)", [=](Gen& g) {
+        pressCameraWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x001ba818, {}); }, [] { nb::skipNextPressCamera(); return uint64_t{0}; }};
+    });
     add("nbMainProcess1 (0x248E38)", [=](Gen& g) {   // the battle's step, in every phase
         // The status line for a consecutive encounter (phase 15) needs a
         // table with its messages; a build whose tables here have none
@@ -962,6 +1051,7 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         at<uint8_t>(difftest::version::dataOrDie(0x00575350) + 1) = static_cast<uint8_t>(g.chance(50) ? 1 : g.range(0, 3));   // the stage's state
         at<int8_t>(difftest::version::dataOrDie(0x002f5830) + 10) = static_cast<int8_t>(g.chance(40) ? -0x80 : 0);   // pad button 10
         at<int32_t>(difftest::version::dataOrDie(0x0054e824)) = g.chance(30) ? 1 : 0;   // the debug pad
+        pressCameraWorld(g);
         if (g.chance(30))
             main.stat |= 0x01000000;
         if (g.chance(30))   // (the boundaries: phase 9's wait, the phase time's cap)
