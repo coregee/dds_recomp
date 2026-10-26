@@ -19,6 +19,7 @@ struct Camera {
     ee::Float distance, fovy;            // tentative
     uint32_t state_change;               // the state asked for
     uint32_t state;                      // the state's progress (0: starting)
+    uint32_t previousState, previousState2;   // tentative (HD: state_old, state_old2)
 };
 static_assert(offsetof(Camera, state_change) == 0x28 && offsetof(Camera, state) == 0x2c);
 
@@ -42,6 +43,10 @@ enum CameraState : uint16_t {
 };
 
 void setCameraState(uint16_t state);
+// nbInitCameraProcess (0x1B20B8): the camera's process ("nb_camera") and its
+// drawing ("nb_camera_draw"), and the camera reset (nbCameraInit, 0x1B1BD8).
+void startCameraProcess(MainProcessData& main);
+void initCamera();
 void requestPlayerFormCamera();   // nbCameraCRSetPlayerFormRequest (0x1BA1E8): the camera asked to show the party's formation (tentative)
 void cameraOnPair(const Formation& from, const Formation& to);
 // The talks' camera, from the unit acting (the skill's invoker) toward:

@@ -20,6 +20,10 @@ constexpr uint32_t kRequestStage = addr(0x00249b68), kLoadPacks = addr(0x00249b1
                    kLoadMusic = addr(0x00249a88), kWaitMusic = addr(0x00249a58), kPlayMusic = addr(0x00249a38),
                    kEnd = addr(0x00249ba0);
 constexpr uint32_t kStageRequest = addr(0x00575350);   // the stage to show (tentative)
+constexpr uint32_t kStageProcessName = addr(0x00543688);   // "nb_stage"
+constexpr uint32_t kStageDrawName = addr(0x00543698);      // "nb_draw_stage"
+constexpr uint32_t kStageStep = addr(0x0024c968), kStageShutdown = addr(0x0024ca50), kStageDraw = addr(0x0024ca80);   // (no C here yet)
+constexpr uint32_t kEncounterOn = addr(0x0012c148);        // nbGetEncountOn: an encounter's opening is on (the field's; no C here yet)
 constexpr uint32_t kProcessFlags = addr(0x00100f78);   // (no C yet) a process's flags set (1) or cleared (0), by scope
 constexpr uint32_t kFlightPackRequest = addr(0x00290c30);   // (no C yet) the flight model's pack requested
 constexpr int32_t kFlightEncounter = 0x14d;
@@ -53,6 +57,23 @@ void requestStage(int16_t major, int16_t minor)
     *reinterpret_cast<int16_t*>(record + 6) = minor;
     record[1] = 2;
     record[0] = 0;
+}
+
+// nbInitStageProcess @ 0x0024CAC8
+void startStageProcess(MainProcessData& main)
+{
+    uint8_t* record = guest::table<uint8_t>(kStageRequest);
+    *reinterpret_cast<int16_t*>(record + 6) = 0;
+    record[0] = 0;
+    record[1] = 0;
+    record[2] = 0;
+    *reinterpret_cast<int16_t*>(record + 4) = 0;
+    const uint32_t process = dds3::StartProcess(kStageProcessName, 0x3f9, 1, 1, kStageStep, kStageShutdown, 0);
+    dds3::LinkProcess(main.MainProcessID, process);
+    main.StageProcessID = process;
+    dds3::LinkProcess(process, dds3::StartProcess(kStageDrawName, 0x2b0e, 1, 1, kStageDraw, 0, 0));
+    if (guest::callOriginal(kEncounterOn) == 0)
+        dds3::FadeOut(0, 0, 0, 0);
 }
 
 // nbGetStageData @ 0x0024C718

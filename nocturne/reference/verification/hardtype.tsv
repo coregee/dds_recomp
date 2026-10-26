@@ -301,6 +301,11 @@ nbSetOrderSide (0x258280)	ok
 nbSetOrder (0x2583D8)	ok
 nbSetNextOrder (0x258418)	ok
 nbUpdateOrder (0x2584C8)	ok
+nbInitAutoCommProcess (0x289AC8)	ok
+nbInitUnitProcess (0x24F388)	ok
+nbInitStageProcess (0x24CAC8)	ok
+nbInitCameraProcess (0x1B20B8)	ok
+nbCameraInit (0x1B1BD8)	ok
 nbPanelPressTurnOmit (0x27D8E0)	ok
 nbPanelPressTurnStart (0x27D8F0)	ok
 nbPanelPressGaugeStart (0x27C268)	ok

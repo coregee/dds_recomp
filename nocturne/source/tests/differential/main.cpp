@@ -36,6 +36,8 @@
 #include "nocturne/battle/closing.hpp"
 #include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/main_process.hpp"
+#include "nocturne/battle/auto_command.hpp"
+#include "nocturne/battle/unit_process.hpp"
 #include "nocturne/battle/battle_panel.hpp"
 #include "nocturne/battle/camera.hpp"
 #include "nocturne/battle/order.hpp"
@@ -408,6 +410,7 @@ const StaticRange kWrittenStatics[] = {
     {0x00325960, 0x50},                                    // ... the camera shots it colours
     {0x00551190, 0x6c},                                    // the press turn panel
     {0x0054f38c, 4},                                       // the camera's request for the party's formation
+    {0x00320e68, 0x10},                                    // the camera's states
 };
 
 // ... at the version's addresses (those it has; Hardtype's own state and
@@ -1052,6 +1055,35 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
     add("nbUpdateOrder (0x2584C8)", [=](Gen& g) {
         orderWorld(g);
         return Pair{[] { return iface::origVmVoid(0x002584c8, {}); }, [] { nb::updateOrder(); return uint64_t{0}; }};
+    });
+    // The battle's process starts: under any battle process, an encounter's
+    // opening on or not, the camera in any state.
+    const auto processStartWorld = [](Gen& g) {
+        mainData().MainProcessID = static_cast<uint32_t>(g.range(0, 100));
+        for (uint32_t k = 0; k < 0x10; k += 4)
+            at<uint32_t>(difftest::version::dataOrDie(0x00320e68) + k) = static_cast<uint32_t>(g.rng());
+    };
+    add("nbInitAutoCommProcess (0x289AC8)", [=](Gen& g) {
+        processStartWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x00289ac8, {FW_MAIN}); }, [] { nb::startAutoCommandProcess(mainData()); return uint64_t{0}; }};
+    });
+    add("nbInitUnitProcess (0x24F388)", [=](Gen& g) {
+        processStartWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x0024f388, {FW_MAIN}); }, [] { nb::startUnitProcess(mainData()); return uint64_t{0}; }};
+    });
+    add("nbInitStageProcess (0x24CAC8)", [=](Gen& g) {
+        processStartWorld(g);
+        for (uint32_t k = 0; k < 8; ++k)
+            at<uint8_t>(difftest::version::dataOrDie(0x00575350) + k) = static_cast<uint8_t>(g.rng());
+        return Pair{[] { return iface::origVmVoid(0x0024cac8, {FW_MAIN}); }, [] { nb::startStageProcess(mainData()); return uint64_t{0}; }};
+    });
+    add("nbInitCameraProcess (0x1B20B8)", [=](Gen& g) {
+        processStartWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x001b20b8, {FW_MAIN}); }, [] { nb::startCameraProcess(mainData()); return uint64_t{0}; }};
+    });
+    add("nbCameraInit (0x1B1BD8)", [=](Gen& g) {
+        processStartWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x001b1bd8, {}); }, [] { nb::initCamera(); return uint64_t{0}; }};
     });
     // The press turn panel: its turns, the skip, every track at any state.
     const auto pressPanelWorld = [](Gen& g) {

@@ -22,8 +22,8 @@ constexpr uint32_t kEndEffect = addr(0x001741c0);       // (no C yet) effBTLEnco
 constexpr uint32_t kCameraDone = addr(0x001b33f8);      // (no C yet) nbCameraState_Start_CheckEnd
 constexpr uint32_t kLoadGroup = addr(0x0024e1e0);       // (no C yet) nbLoadUnitGroup(group, a, b): 1 the enemies, 0 the party
 constexpr uint32_t kGroupLoading = addr(0x0024e2e0);    // (no C yet) nbCheckLoadGroup: still loading
-constexpr uint32_t kFadeQuery = addr(0x0012c148);       // (unidentified) ...
-constexpr uint32_t kFadeSet = addr(0x0012c150);         // (unidentified) ... and its follow-up
+constexpr uint32_t kEncounterOn = addr(0x0012c148);     // nbGetEncountOn (name from smt3-decomp): an encounter's opening is on
+constexpr uint32_t kSetEncounterMode = addr(0x0012c150); // nbSetEncountMode (name from smt3-decomp)
 constexpr uint32_t kRunEncounter = addr(0x0028e2c8);
 constexpr uint32_t kShutdownEncounter = addr(0x0028e340);
 
@@ -124,8 +124,8 @@ uint32_t setUpEncounterScene(uint32_t)
     if (main.stat & kStatFadeIn) {
         showSide(1);
         dds3::FadeIn2(0);
-        if (guest::callOriginal(kFadeQuery) != 0)
-            guest::callOriginal(kFadeSet, 1);
+        if (guest::callOriginal(kEncounterOn) != 0)
+            guest::callOriginal(kSetEncounterMode, 1);
     }
     if (main.stat & kStatBackAttack)
         showHelpMessage(main.statusMessageTable, statusMessage(main, 6), 1);

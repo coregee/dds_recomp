@@ -3320,12 +3320,12 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001b18c8	92	nbCameraScriptSet1Shot	USER_DEFINED	legacy		battle_presentation.c:nbCameraScriptSet1Shot						nbCameraScriptSet1Shot
 001b1928	528	nbCameraScriptSetBougai	USER_DEFINED	legacy		battle_presentation.c:nbCameraScriptSetBougai						nbCameraScriptSetBougai
 001b1b38	160	nbCameraScriptSet	USER_DEFINED	legacy		battle_presentation.c:nbCameraScriptSet						nbCameraScriptSet
-001b1bd8	60	FUN_001b1bd8	DEFAULT	named								nbCameraInit
+001b1bd8	60	FUN_001b1bd8	DEFAULT	rewritten	shared/src/battle/camera.cpp:initCamera		ok	ok	ok	ok	ok	nbCameraInit
 001b1c18	64	FUN_001b1c18	DEFAULT	named								nbCameraCheckNiidaCamera
 001b1c58	284	FUN_001b1c58	DEFAULT	named								nbCameraCheckStateChange
 001b1d78	792	FUN_001b1d78	DEFAULT	named								nbCameraProcess_nbCameraProcess
 001b2098	32	FUN_001b2098	DEFAULT	named								nbCameraShutdown
-001b20b8	156	FUN_001b20b8	DEFAULT	named								nbInitCameraProcess
+001b20b8	156	FUN_001b20b8	DEFAULT	rewritten	shared/src/battle/camera.cpp:startCameraProcess		ok	ok	ok	ok	ok	nbInitCameraProcess
 001b2158	276	FUN_001b2158	DEFAULT	unknown								
 001b2270	204	FUN_001b2270	DEFAULT	unknown								
 001b2340	56	FUN_001b2340	DEFAULT	named								nb_1B2340
@@ -6099,7 +6099,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0024c968	232	FUN_0024c968	DEFAULT	named								nbStageProcess1
 0024ca50	44	FUN_0024ca50	DEFAULT	named								nbStageShutdown
 0024ca80	72	FUN_0024ca80	DEFAULT	named								nbStageDrawProcess1
-0024cac8	232	FUN_0024cac8	DEFAULT	named								nbInitStageProcess
+0024cac8	232	FUN_0024cac8	DEFAULT	rewritten	shared/src/battle/opening.cpp:startStageProcess		ok	ok	ok	ok	ok	nbInitStageProcess
 0024cbb8	20	FUN_0024cbb8	DEFAULT	legacy		battle_reward_lifecycle_native.c:body_0024cbb8;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_0024CBB8						nbStageFilterAlp
 0024cbe0	652	FUN_0024cbe0	DEFAULT	named								nbStageSp
 0024ce78	244	ps2BattleOutcome_0024CE78	USER_DEFINED	legacy		battle_outcome.c:body_0024ce78;battle_outcome.c:ps2BattleOutcome_0024CE78						GetDyingBadWaitMotion
@@ -6140,7 +6140,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0024ee78	568	FUN_0024ee78	DEFAULT	named								RunLoad
 0024f0b0	668	FUN_0024f0b0	DEFAULT	named								nbUnitProcess2
 0024f368	32	FUN_0024f368	DEFAULT	named								nbUnitShutdown
-0024f388	152	FUN_0024f388	DEFAULT	named								nbInitUnitProcess
+0024f388	152	FUN_0024f388	DEFAULT	rewritten	shared/src/battle/unit_process.cpp:startUnitProcess		ok	ok	ok	ok	ok	nbInitUnitProcess
 0024f420	88	ps2BattleAction_0024F420	USER_DEFINED	rewritten	shared/src/battle/action.cpp:fadeInHiddenUnit	battle_action_consumer.c:body_0024f420;battle_action_consumer.c:ps2BattleAction_0024F420	ok	ok	ok	ok	ok	nbCheckPacketState
 0024f478	208	ps2BattleAction_0024F478	USER_DEFINED	rewritten	shared/src/battle/action.cpp:queueDeath	battle_action_consumer.c:body_0024f478;battle_action_consumer.c:ps2BattleAction_0024F478	ok	ok	ok	ok	ok	SetDeadPacket
 0024f548	96	ps2BattleAction_0024F548	USER_DEFINED	rewritten	shared/src/battle/action.cpp:setPressCost	battle_action_consumer.c:body_0024f548;battle_action_consumer.c:ps2BattleAction_0024F548	ok	ok	ok	ok	ok	SetPress
@@ -7150,7 +7150,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00289940	76	InitHelpProcessData	USER_DEFINED	rewritten	shared/src/battle/help.cpp:newHelpLine		ok	ok	ok	ok	ok	nbAllocHelpWork
 00289990	108	nbInitHelpProcess	USER_DEFINED	rewritten	shared/src/battle/help.cpp:startHelpLine		ok	ok	ok	ok	ok	nbInitHelpProcess
 00289a00	192	FUN_00289a00	DEFAULT	named								nbAutoCommProcess1
-00289ac8	100	FUN_00289ac8	DEFAULT	named								nbInitAutoCommProcess
+00289ac8	100	FUN_00289ac8	DEFAULT	rewritten	shared/src/battle/auto_command.cpp:startAutoCommandProcess		ok	ok	ok	ok	ok	nbInitAutoCommProcess
 00289b30	132	nbFormDispOff	USER_DEFINED	rewritten	shared/src/battle/formation.cpp:hideFormationModel	battle_presentation.c:nbFormDispOff	ok	ok	ok	ok	ok	nbFormDispOff
 00289bb8	24	nbFormDispOff2	USER_DEFINED	rewritten	shared/src/battle/formation.cpp:hideFormation		ok	ok	ok	ok	ok	nbFormDispOff2
 00289bd0	136	nbFormDispOn	USER_DEFINED	rewritten	shared/src/battle/formation.cpp:showFormationModel	battle_presentation.c:nbFormDispOn	ok	ok	ok	ok	ok	nbFormDispOn

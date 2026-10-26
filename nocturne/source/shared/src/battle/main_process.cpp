@@ -3,6 +3,7 @@
 
 #include "nocturne/address.hpp"
 #include "nocturne/battle/action.hpp"
+#include "nocturne/battle/auto_command.hpp"
 #include "nocturne/battle/bad_ai.hpp"
 #include "nocturne/battle/battle_panel.hpp"
 #include "nocturne/battle/buffs.hpp"
@@ -25,6 +26,7 @@
 #include "nocturne/battle/result.hpp"
 #include "nocturne/battle/sound.hpp"
 #include "nocturne/battle/target_select.hpp"
+#include "nocturne/battle/unit_process.hpp"
 #include "nocturne/build.hpp"
 #include "nocturne/data/devil_ai.hpp"
 #include "nocturne/data/ids.hpp"
@@ -55,12 +57,8 @@ constexpr int32_t kNoGameOverFlag = 0xc0c;       // debug event bit: no game ove
 
 // Not rewritten yet (names from the HD remaster where it has them).
 constexpr uint32_t kSetPlayerStartData = addr(0x00259908);    // nbSetPlayerStartData
-constexpr uint32_t kInitStageProcess = addr(0x0024f388);      // nbInitStageProcess
 constexpr uint32_t kInitEffectProcess = addr(0x0016c528);     // nbInitEffectProcess
-constexpr uint32_t kInitCameraProcess = addr(0x001b20b8);     // nbInitCameraProcess
 constexpr uint32_t kInitPanelProcess = addr(0x00282900);      // nbInitPanelProcess
-constexpr uint32_t kInitAutoCommProcess = addr(0x00289ac8);   // nbInitAutoCommProcess
-constexpr uint32_t kInitUnitProcess = addr(0x0024cac8);       // nbInitUnitProcess
 constexpr uint32_t kSetFormation = addr(0x00259740);          // the encounter's formation placed (main, encno)
 constexpr uint32_t kInitActionProcess = addr(0x00257fa8);     // nbInitActionProcess (main, type, from, to, data)
 constexpr uint32_t kCheckResultEntry = addr(0x0021f7d8);      // rstChkResultEntry: someone levelled up
@@ -323,17 +321,17 @@ void enterStart(MainProcessData& main)
     setBossFlag(main);
     rollInitiative(main);
     guest::callOriginal(kSetPlayerStartData, addressOf(main));
-    guest::callOriginal(kInitStageProcess, addressOf(main));
+    startUnitProcess(main);
     startEffectQueue(main);
     startTargetCursorProcess(main);
     startOpening(main);
     guest::callOriginal(kInitEffectProcess, addressOf(main));
-    guest::callOriginal(kInitCameraProcess, addressOf(main));
+    startCameraProcess(main);
     guest::callOriginal(kInitPanelProcess, addressOf(main));
     startHelpLine(main);
-    guest::callOriginal(kInitAutoCommProcess, addressOf(main));
+    startAutoCommandProcess(main);
     startMaccaWindow(main.MainProcessID);
-    guest::callOriginal(kInitUnitProcess, addressOf(main));
+    startStageProcess(main);
     hidePressGaugeForEncounter();
 }
 

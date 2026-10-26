@@ -15,6 +15,13 @@ namespace address {
 constexpr uint32_t CameraCurrent = addr(0x00320e40);      // Camera
 constexpr uint32_t CameraStateTable = addr(0x00320c50);   // CameraStateTable[]
 constexpr uint32_t PlayerFormRequest = addr(0x0054f38c);  // uint8 (gp-relative)
+constexpr uint32_t ProcessName = addr(0x005345c8);        // "nb_camera"
+constexpr uint32_t DrawProcessName = addr(0x005345d8);    // "nb_camera_draw"
+constexpr uint32_t Step = addr(0x001b1d78), Shutdown = addr(0x001b2098);   // (no C here yet)
+// nbCameraDraw (0x1B2090, returns 0): the 8 bytes before nbCameraShutdown in every
+// build (not in the function list, so placed by its neighbour).
+constexpr uint32_t DrawStep = Shutdown - 8;
+constexpr uint32_t SetAllShot = addr(0x001b6a00);         // nbCameraShot_All_Set (no C here yet)
 } // namespace address
 
 } // namespace
@@ -27,6 +34,27 @@ void setCameraState(uint16_t state)
     camera.state_change = state;
     if (static_cast<int8_t>(guest::table<CameraStateTable>(address::CameraStateTable)[state].rep))
         camera.state = 0;
+}
+
+// nbInitCameraProcess @ 0x001B20B8
+void startCameraProcess(MainProcessData& main)
+{
+    const uint32_t process = dds3::StartProcess(address::ProcessName, 0x3fb, 2, 1, address::Step, address::Shutdown, 0);
+    dds3::LinkProcess(main.MainProcessID, process);
+    main.CameraProcessID = process;
+    dds3::LinkProcess(process, dds3::StartProcess(address::DrawProcessName, 0x2b0e, 1, 1, address::DrawStep, 0, 0));
+    initCamera();
+}
+
+// nbCameraInit @ 0x001B1BD8: every shot set up, and no state.
+void initCamera()
+{
+    guest::callOriginal(address::SetAllShot, address::CameraCurrent);
+    Camera& camera = *guest::table<Camera>(address::CameraCurrent);
+    camera.state_change = 0;
+    camera.state = 0;
+    camera.previousState2 = 0;
+    camera.previousState = 0;
 }
 
 // nbCameraCRSetPlayerFormRequest @ 0x001BA1E8 (name from smt3-decomp)

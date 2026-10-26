@@ -29,6 +29,10 @@ void requestStage(int16_t major, int16_t minor);
 // nbGetStageData (0x24C718): its state byte (2 once requested; the battle
 // waits for 1, tentatively the stage shown).
 uint8_t stageState();
+// nbInitStageProcess (0x24CAC8): the stage record cleared, the stage's process
+// ("nb_stage") and its drawing ("nb_draw_stage"); the screen black unless an
+// encounter's opening is on.
+void startStageProcess(MainProcessData& main);
 
 // Encounter 0x14D's flight model (flyh, flymem): (0x290B20) its pack
 // requested; (0x290B68) once in, its first part kept and the request let
