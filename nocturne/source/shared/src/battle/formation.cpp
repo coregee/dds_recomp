@@ -121,6 +121,54 @@ void initFormation(MainProcessData& main, int32_t index)
     form.orgrot = turn;
 }
 
+// nbCopyFormation @ 0x0028B198: the unit in slot `from` copied to slot `to`.
+// Its ailment effect is let go and made again on the new slot, and its party
+// entry follows it.
+void copyFormation(MainProcessData& main, int32_t from, int32_t to)
+{
+    if (from == to)
+        return;
+    Formation& source = main.form[from];
+    Formation& destination = main.form[to];
+    int32_t effect = -1;
+    if (source.ailmentEffect != 0) {
+        effect = *guest::table<const int32_t>(source.ailmentEffect);   // effBTLSystemGetID: the part's effect
+        eff::BTLPartDelete(source.ailmentEffect);
+        source.ailmentEffect = 0;
+    }
+    if (source.stat & FormationStat::CheckParty)
+        main.party[source.partyindex].formindex = static_cast<int16_t>(to);
+    std::memcpy(&destination, &source, sizeof destination);
+    destination.formindex = static_cast<int16_t>(to);
+    if (effect >= 0)
+        destination.ailmentEffect = eff::BTLPartCreate(&destination, effect);
+}
+
+// nbMoveFormation @ 0x0028B330: ... and slot `from` cleared.
+void moveFormation(MainProcessData& main, int32_t from, int32_t to)
+{
+    if (from == to)
+        return;
+    copyFormation(main, from, to);
+    initFormation(main, from);
+}
+
+// nbUpdateFormation @ 0x0028B388: the party's units moved forward into empty
+// slots, so slots 0..3 have no gaps.
+void closePartyGaps(MainProcessData& main)
+{
+    for (int32_t i = 0; i < 3; ++i) {
+        if (main.form[i].stat & FormationStat::Present)
+            continue;
+        for (int32_t j = i + 1; j < 4; ++j) {
+            if (main.form[j].stat & FormationStat::Present) {
+                moveFormation(main, j, i);
+                break;
+            }
+        }
+    }
+}
+
 // nbSingleFormExceptedDispOff @ 0x00289E68: only `form` shown.
 void showOnly(const Formation& form)
 {

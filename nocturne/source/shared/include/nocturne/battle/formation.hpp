@@ -16,6 +16,9 @@ void hideAllFormations();                     // (no original name)
 void showAllFormations();                     // nbAllFormDispOn
 void showOnly(const Formation& form);         // nbSingleFormExceptedDispOff
 void initFormation(MainProcessData& main, int32_t index);   // (0x28B0B8) slot `index` cleared and set up
+void copyFormation(MainProcessData& main, int32_t from, int32_t to);   // nbCopyFormation: a unit into another slot
+void moveFormation(MainProcessData& main, int32_t from, int32_t to);   // nbMoveFormation: ... and its old slot cleared
+void closePartyGaps(MainProcessData& main);   // nbUpdateFormation: the party's units moved forward into empty slots
 void showOnly(const Formation& form, const Formation& other);   // (no original name)
 
 void setFormationPosition(Formation& form, const Vec4& pos);    // nbSetFormPos

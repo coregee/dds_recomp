@@ -68,6 +68,7 @@ void enterActionStart(MainProcessData& main);  // nbSetActionMaePhase (0x2485F0)
 void enterAction(MainProcessData& main);       // (0x248640)
 void checkBattleEnd(MainProcessData& main);    // nbSetChkEndPhase (0x248690)
 void checkTurnEnd(MainProcessData& main);      // nbSetChkTurnPhase (0x2487D0)
+void advanceKagutsuchiMoon();                  // nbAddKagututiMoon (0x259BD0): a round's end in the battle with Kagutsuchi
 void enterClose(MainProcessData& main);        // nbSetAtoPhase (0x2482F0)
 void enterResult(MainProcessData& main);       // nbSetResultPhase (0x248A40)
 void enterEnd(MainProcessData& main);          // nbSetEndPhase (0x248B40)

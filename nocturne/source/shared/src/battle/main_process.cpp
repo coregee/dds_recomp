@@ -63,10 +63,8 @@ constexpr uint32_t kInitUnitProcess = addr(0x0024cac8);       // nbInitUnitProce
 constexpr uint32_t kHidePressGauge = addr(0x0027c340);        // nbPanelPressGaugeEncountHide (tentative)
 constexpr uint32_t kShowPressGauge = addr(0x0027c268);        // (the encounter's press gauge, tentative)
 constexpr uint32_t kSetFormation = addr(0x00259740);          // the encounter's formation placed (main, encno)
-constexpr uint32_t kPackEmptyFormation = addr(0x0028b388);    // nbPackEmptyFormation
 constexpr uint32_t kInitActionProcess = addr(0x00257fa8);     // nbInitActionProcess (main, type, from, to, data)
 constexpr uint32_t kCameraPlayerForm = addr(0x001ba1e8);      // nbCameraCRSetPlayerFormRequest (tentative)
-constexpr uint32_t kTurnOver = addr(0x00259bd0);              // after both sides' turns (tentative)
 constexpr uint32_t kCheckResultEntry = addr(0x0021f7d8);      // rstChkResultEntry: someone levelled up
 constexpr uint32_t kInitDebugProcess = addr(0x00285368);      // nbInitDebugProcess
 constexpr uint32_t kPressPanelOmit = addr(0x0027d8e0);        // nbPanelPressTurnOmit: the next panel start skipped
@@ -417,7 +415,7 @@ void enterAction(MainProcessData& main)
 {
     QueuedAction action{};
     popAction(action);
-    guest::callOriginal(kPackEmptyFormation, addressOf(main));
+    closePartyGaps(main);
     guest::callOriginal(kInitActionProcess, addressOf(main), static_cast<uint32_t>(action.type), static_cast<uint32_t>(action.from),
                         static_cast<uint32_t>(action.to), static_cast<uint32_t>(action.data));
     guest::callOriginal(kCameraPlayerForm);
@@ -447,6 +445,19 @@ void checkBattleEnd(MainProcessData& main)
     }
     if (!hasValidAction() && main.endtype == kEndWon && rollConsecutiveEncounter(main))
         main.endtype = kEndConsecutive;
+}
+
+// nbAddKagututiMoon @ 0x00259BD0: in the battle with Kagutsuchi (its first
+// form, the event's unit) the moon waxes two sixteenths a round.
+void advanceKagutsuchiMoon()
+{
+    const Formation* form = eventForm();
+    if (form == nullptr)
+        return;
+    const UnitWork* unit = GetUnitWorkFromFormindex(form->formindex);
+    if (unit == nullptr || unit->id != devil::Kagutsuchi1stFormBoss)
+        return;
+    evt::SetAgeOfMoon((evt::GetAgeOfMoon16() + 2) % 16);
 }
 
 // nbSetChkTurnPhase @ 0x002487D0: queued actions run first, then an event.
@@ -500,7 +511,7 @@ void checkTurnEnd(MainProcessData& main)
     const uint8_t turn = static_cast<uint8_t>(main.turn + 1);
     main.turn = turn < 100 ? turn : 99;
     setNextPhase(3);
-    guest::callOriginal(kTurnOver, addressOf(main));
+    advanceKagutsuchiMoon();
 }
 
 // nbSetAtoPhase @ 0x002482F0: the stock's ailments cured (the 0x200 one

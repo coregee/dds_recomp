@@ -6272,7 +6272,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00259ab0	96	nbCheckEventDead	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:diesByEvent	battle_action_packet_frames.c:body_00259ab0;battle_action_packet_frames.c:ps2BattleActionPacket_00259AB0;battle_action_status.c:nbCheckEventDead	ok	ok	ok	ok	ok	nbCheckEventDead
 00259b10	92	nbCheckDeadScript	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:hasDeathScript	battle_action_status.c:nbCheckDeadScript	ok	ok	ok	ok	ok	nbCheckDeadScript
 00259b70	92	nbCheckDeadEvent	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:hasDeathEvent	battle_action_packet_frames.c:body_00259b70;battle_action_packet_frames.c:ps2BattleActionPacket_00259B70;battle_action_status.c:nbCheckDeadEvent	ok	ok	ok	ok	ok	nbCheckDeadEvent
-00259bd0	116	FUN_00259bd0	DEFAULT	named								nbAddKagututiMoon
+00259bd0	116	FUN_00259bd0	DEFAULT	rewritten	shared/src/battle/main_process.cpp:advanceKagutsuchiMoon		ok	ok	ok	ok	ok	nbAddKagututiMoon
 00259c48	72	nbGetItemSkillNo	USER_DEFINED	rewritten	shared/src/battle/targeting.cpp:itemSkillFor	battle_action_skill_registered_frames.c:body_00259c48;battle_panel_renderer_remaining.c:body_00259c48;battle_targeting.c:nbGetItemSkillNo	legacy	legacy	legacy	ok	legacy	nbGetItemSkillNo
 00259c90	96	GetCommListCnt	USER_DEFINED	rewritten	shared/src/battle/comm_select.cpp:visibleRows	battle_status_pairs.c:body_00259c90;battle_status_pairs_native.c:body_00259c90	ok	ok	ok	ok	ok	GetCommListCnt
 00259cf8	36	GetCommSelProcessData	USER_DEFINED	rewritten	shared/src/battle/comm_select.cpp:commandMenu	battle_status_pairs.c:body_00259cf8;battle_status_pairs_native.c:body_00259cf8	ok	ok	ok	ok	ok	GetCommSelProcessData
@@ -7177,9 +7177,9 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0028a758	2300	ps2BattleFormation_0028A758	USER_DEFINED	legacy		battle_formation.c:body_0028a758;battle_formation.c:ps2BattleFormation_0028A758						nbSetEnemyFormation
 0028b0a0	24	nbSetPlayerFormation	USER_DEFINED	rewritten	shared/src/battle/kouka_process.cpp:setPlayerFormation		ok	ok	ok	ok	ok	nbSetPlayerFormation
 0028b0b8	216	FUN_0028b0b8	DEFAULT	rewritten	shared/src/battle/formation.cpp:initFormation		ok	ok	ok	ok	ok	nbFormatFormation
-0028b198	404	FUN_0028b198	DEFAULT	named								nbCopyFormation
-0028b330	84	FUN_0028b330	DEFAULT	named								nbMoveFormation
-0028b388	180	FUN_0028b388	DEFAULT	named								nbUpdateFormation
+0028b198	404	FUN_0028b198	DEFAULT	rewritten	shared/src/battle/formation.cpp:copyFormation		ok	ok	ok	ok	ok	nbCopyFormation
+0028b330	84	FUN_0028b330	DEFAULT	rewritten	shared/src/battle/formation.cpp:moveFormation		ok	ok	ok	ok	ok	nbMoveFormation
+0028b388	180	FUN_0028b388	DEFAULT	rewritten	shared/src/battle/formation.cpp:closePartyGaps		ok	ok	ok	ok	ok	nbUpdateFormation
 0028b448	220	nbSetPlayerSummonFormation	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:prepareAllySummonSlot		ok	ok	ok	ok	ok	nbClearActionFlags
 0028b528	256	nbSetEnemySummonFormation	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:prepareSummonSlots	battle_ai_estimates.c:nbSetEnemySummonFormation	legacy	legacy	legacy	ok	legacy	nbSetActionCommand
 0028b628	2708	FUN_0028b628	DEFAULT	named								SetBossDummy

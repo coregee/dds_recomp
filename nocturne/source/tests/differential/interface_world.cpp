@@ -587,8 +587,8 @@ ee::Interpreter makeOriginal()
     // case's).
     const std::pair<uint32_t, int> notRewritten[] = {
         {0x00259908, 1}, {0x0024f388, 1}, {0x0016c528, 1}, {0x001b20b8, 1}, {0x00282900, 1}, {0x00289ac8, 1}, {0x0024cac8, 1},
-        {0x0027c340, 0}, {0x0027c268, 0}, {0x00259740, 2}, {0x0028b388, 1}, {0x00257fa8, 5}, {0x001ba1e8, 0},
-        {0x00259bd0, 1}, {0x00285368, 1}, {0x0027d8e0, 0},
+        {0x0027c340, 0}, {0x0027c268, 0}, {0x00259740, 2}, {0x00257fa8, 5}, {0x001ba1e8, 0},
+        {0x00285368, 1}, {0x0027d8e0, 0},
         {0x0027d8f0, 0}, {0x00246bf8, 1}, {0x00246f10, 1}, {0x00247980, 1}, {0x00246d08, 1}};
     for (const auto& [entry, count] : notRewritten) {
         e.hook(entry, [=](ee::Cpu& c) {
@@ -611,6 +611,9 @@ ee::Interpreter makeOriginal()
     e.interpret(0x001cdb38, 0x001cdb7c);   // itfMesMngRelease
     e.interpret(0x00290bc8, 0x00290c18);   // the flight model's release
     e.interpret(0x0028b0b8, 0x0028b198);   // a formation set up (its delay slot one past Ghidra's size)
+    e.interpret(0x0028b198, 0x0028b448);   // nbCopyFormation, nbMoveFormation, nbUpdateFormation (to its return)
+    e.interpret(0x00173f40, 0x00173f48);   // effBTLSystemGetID
+    e.interpret(0x00259bd0, 0x00259c44);   // nbAddKagututiMoon
     e.interpret(0x0028d8b0, 0x0028d918);   // nbInitSound
     e.interpret(0x002493a8, 0x00249640);   // nbMainProcess_SetDebugFlag (to the next function)
     e.interpret(0x001cda40, 0x001cdb34);   // itfMesMngInitialize

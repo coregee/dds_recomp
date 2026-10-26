@@ -291,6 +291,10 @@ nbSetAtoPhase (0x2482F0)	ok
 nbSetResultPhase (0x248A40)	ok
 nbSetEndPhase (0x248B40)	ok
 FUN_00248c28	ok
+nbCopyFormation (0x28B198)	ok
+nbMoveFormation (0x28B330)	ok
+nbUpdateFormation (0x28B388)	ok
+nbAddKagututiMoon (0x259BD0)	ok
 nbAddOrder (0x258048)	ok
 nbSortOrder (0x2580E8)	ok
 nbSetOrderSide (0x258280)	ok

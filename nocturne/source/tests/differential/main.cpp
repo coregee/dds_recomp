@@ -940,6 +940,57 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         phaseWorld(g);
         return Pair{[] { return iface::origVmVoid(0x00248c28, {FW_MAIN}); }, [] { nb::enterDebug(mainData()); return uint64_t{0}; }};
     });
+    // Formation slots to move between: units present or not, their party
+    // entries followed or not, an ailment effect (its effect number, maybe
+    // none) or none.
+    const auto slotWorld = [](Gen& g) {
+        for (uint32_t f = 0; f < 16; ++f) {
+            nb::Formation& form = at<nb::Formation>(FW_FORMS + 0xf0u * f);
+            form.stat = static_cast<uint32_t>(g.rng()) & (g.chance(50) ? ~1u : ~0u);
+            form.partyindex = static_cast<int16_t>(g.range(0, 13));
+            form.ailmentEffect = 0;
+            if (g.chance(40)) {
+                form.ailmentEffect = FW_SCRATCH + 0x300 + 4 * f;
+                at<int32_t>(form.ailmentEffect) = g.chance(80) ? g.range(0, 20) : -1;
+            }
+        }
+    };
+    add("nbCopyFormation (0x28B198)", [=](Gen& g) {
+        slotWorld(g);
+        const int32_t from = g.range(0, 15), to = g.chance(10) ? from : g.range(0, 15);
+        return Pair{[=] { return iface::origVmVoid(0x0028b198, {FW_MAIN, sx(from), sx(to)}); },
+                    [=] { nb::copyFormation(mainData(), from, to); return uint64_t{0}; }};
+    });
+    add("nbMoveFormation (0x28B330)", [=](Gen& g) {
+        slotWorld(g);
+        const int32_t from = g.range(0, 15), to = g.chance(10) ? from : g.range(0, 15);
+        return Pair{[=] { return iface::origVmVoid(0x0028b330, {FW_MAIN, sx(from), sx(to)}); },
+                    [=] { nb::moveFormation(mainData(), from, to); return uint64_t{0}; }};
+    });
+    add("nbUpdateFormation (0x28B388)", [=](Gen& g) {
+        slotWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x0028b388, {FW_MAIN}); }, [] { nb::closePartyGaps(mainData()); return uint64_t{0}; }};
+    });
+    add("nbAddKagututiMoon (0x259BD0)", [](Gen& g) {   // the first enemy present often Kagutsuchi
+        if (g.chance(85)) {   // (an enemy present, from a random slot on)
+            const uint32_t first = static_cast<uint32_t>(g.range(4, 13));
+            for (uint32_t f = 4; f < first; ++f)
+                at<nb::Formation>(FW_FORMS + 0xf0u * f).stat &= ~1u;
+            at<nb::Formation>(FW_FORMS + 0xf0u * first).stat |= 1;
+        }
+        for (uint32_t f = 4; f < 14; ++f) {   // (its unit is the one its formindex names)
+            nb::Formation& form = at<nb::Formation>(FW_FORMS + 0xf0u * f);
+            if (!(form.stat & 1))
+                continue;
+            if (g.chance(60))
+                form.formindex = static_cast<int16_t>(f);
+            if (form.formindex >= 0 && form.formindex < 16)
+                if (const uint32_t unit = at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(form.formindex)); unit != 0 && g.chance(70))
+                    at<UnitWork>(unit).id = 0x125;
+            break;
+        }
+        return Pair{[] { return iface::origVmVoid(0x00259bd0, {FW_MAIN}); }, [] { nb::advanceKagutsuchiMoon(); return uint64_t{0}; }};
+    });
     // The turn order: slots holding units (each with a unit, as in the game)
     // or -1, the one acting anywhere, units in or out of the battle, and
     // Agility often tied.
