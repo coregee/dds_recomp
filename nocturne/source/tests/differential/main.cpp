@@ -36,6 +36,8 @@
 #include "nocturne/battle/closing.hpp"
 #include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/main_process.hpp"
+#include "nocturne/battle/battle_panel.hpp"
+#include "nocturne/battle/camera.hpp"
 #include "nocturne/battle/order.hpp"
 #include "nocturne/battle/press_camera.hpp"
 #include "nocturne/event/state.hpp"
@@ -404,6 +406,8 @@ const StaticRange kWrittenStatics[] = {
     {0x0054f758, 8},                                       // the moon's texture and fade
     {0x0054f394, 8}, {0x00551e54, 4},                      // the press turn camera: running, skip, frame
     {0x00325960, 0x50},                                    // ... the camera shots it colours
+    {0x00551190, 0x6c},                                    // the press turn panel
+    {0x0054f38c, 4},                                       // the camera's request for the party's formation
 };
 
 // ... at the version's addresses (those it has; Hardtype's own state and
@@ -1049,6 +1053,35 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         orderWorld(g);
         return Pair{[] { return iface::origVmVoid(0x002584c8, {}); }, [] { nb::updateOrder(); return uint64_t{0}; }};
     });
+    // The press turn panel: its turns, the skip, every track at any state.
+    const auto pressPanelWorld = [](Gen& g) {
+        nb::PressPanel& p = at<nb::PressPanel>(difftest::version::dataOrDie(0x00551190));
+        for (uint32_t k = 0; k < sizeof p; ++k)
+            reinterpret_cast<uint8_t*>(&p)[k] = static_cast<uint8_t>(g.rng());
+        p.skipNextStart = static_cast<int8_t>(g.chance(60) ? 0 : g.chance(50) ? 1 : g.range(-128, 127));
+        p.gaugeTurn = g.range(-1, 3);
+        p.gaugeTurnShown = g.chance(40) ? p.gaugeTurn : g.range(-1, 3);
+    };
+    add("nbPanelPressTurnOmit (0x27D8E0)", [=](Gen& g) {
+        pressPanelWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x0027d8e0, {}); }, [] { nb::skipNextPressPanel(); return uint64_t{0}; }};
+    });
+    add("nbPanelPressTurnStart (0x27D8F0)", [=](Gen& g) {
+        pressPanelWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x0027d8f0, {}); }, [] { nb::startPressPanel(); return uint64_t{0}; }};
+    });
+    add("nbPanelPressGaugeStart (0x27C268)", [=](Gen& g) {
+        pressPanelWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x0027c268, {}); }, [] { nb::startPressGauge(); return uint64_t{0}; }};
+    });
+    add("nbPanelPressGaugeEncountHide (0x27C340)", [=](Gen& g) {
+        pressPanelWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x0027c340, {}); }, [] { nb::hidePressGaugeForEncounter(); return uint64_t{0}; }};
+    });
+    add("nbCameraCRSetPlayerFormRequest (0x1BA1E8)", [](Gen& g) {
+        at<uint32_t>(difftest::version::dataOrDie(0x0054f38c)) = static_cast<uint32_t>(g.rng());
+        return Pair{[] { return iface::origVmVoid(0x001ba1e8, {}); }, [] { nb::requestPlayerFormCamera(); return uint64_t{0}; }};
+    });
     // The press turn camera: running or not, a skip asked for or not, its
     // frame around the fades' ends.
     const auto pressCameraWorld = [](Gen& g) {
@@ -1103,6 +1136,7 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         at<int8_t>(difftest::version::dataOrDie(0x002f5830) + 10) = static_cast<int8_t>(g.chance(40) ? -0x80 : 0);   // pad button 10
         at<int32_t>(difftest::version::dataOrDie(0x0054e824)) = g.chance(30) ? 1 : 0;   // the debug pad
         pressCameraWorld(g);
+        pressPanelWorld(g);
         if (g.chance(30))
             main.stat |= 0x01000000;
         if (g.chance(30))   // (the boundaries: phase 9's wait, the phase time's cap)

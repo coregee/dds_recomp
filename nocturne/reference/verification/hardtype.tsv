@@ -301,6 +301,11 @@ nbSetOrderSide (0x258280)	ok
 nbSetOrder (0x2583D8)	ok
 nbSetNextOrder (0x258418)	ok
 nbUpdateOrder (0x2584C8)	ok
+nbPanelPressTurnOmit (0x27D8E0)	ok
+nbPanelPressTurnStart (0x27D8F0)	ok
+nbPanelPressGaugeStart (0x27C268)	ok
+nbPanelPressGaugeEncountHide (0x27C340)	ok
+nbCameraCRSetPlayerFormRequest (0x1BA1E8)	ok
 nbCameraPressProcessRun (0x1BA6E0)	ok
 nbCameraPressProcessInit (0x1BA7D8)	ok
 nbCameraPressProcessCheckRun (0x1BA808)	ok

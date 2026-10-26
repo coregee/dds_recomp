@@ -42,6 +42,7 @@ enum CameraState : uint16_t {
 };
 
 void setCameraState(uint16_t state);
+void requestPlayerFormCamera();   // nbCameraCRSetPlayerFormRequest (0x1BA1E8): the camera asked to show the party's formation (tentative)
 void cameraOnPair(const Formation& from, const Formation& to);
 // The talks' camera, from the unit acting (the skill's invoker) toward:
 void cameraOnObstructor(const Formation& target);    // nbCameraSetBougai: one who breaks in (NEGO_BOUGAI)

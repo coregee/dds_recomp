@@ -3392,7 +3392,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001b9c00	996	FUN_001b9c00	DEFAULT	named								nbCameraShot_AllParty_Set
 001b9fe8	216	FUN_001b9fe8	DEFAULT	named								nbCameraShot_FriendParty_Set
 001ba0c0	292	FUN_001ba0c0	DEFAULT	named								nbCameraShot_Summon_Set
-001ba1e8	12	FUN_001ba1e8	DEFAULT	named								nbCameraCRSetPlayerFormRequest
+001ba1e8	12	FUN_001ba1e8	DEFAULT	rewritten	shared/src/battle/camera.cpp:requestPlayerFormCamera		ok	ok	ok	ok	ok	nbCameraCRSetPlayerFormRequest
 001ba1f8	208	FUN_001ba1f8	DEFAULT	named								nbCameraCommand_GroundCollision
 001ba2c8	204	FUN_001ba2c8	DEFAULT	named								nbCameraState_CommandRoot_Init
 001ba398	128	FUN_001ba398	DEFAULT	named								nbCameraState_CommandRoot_Calc
@@ -6950,16 +6950,16 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0027ab10	3220	nbPanelDrawPP1	USER_DEFINED	legacy		battle_panel_color_callers.c:body_0027ab10;battle_stock_renderer.c:nbPanelDrawPP1						nbPanelDrawPP1
 0027b7a8	2672	nbPanelDrawPP	USER_DEFINED	legacy		battle_panel_color_callers.c:body_0027b7a8;battle_stock_renderer.c:nbPanelDrawPP						nbPanelDrawPP
 0027c230	56	nbPanelPressGaugeInit	USER_DEFINED	legacy		battle_panel_next.c:body_0027c230;battle_panel_next.c:nbPanelPressGaugeInit						nbPanelPressGaugeInit
-0027c268	36	FUN_0027c268	DEFAULT	named								nbPanelPressGaugeStart
+0027c268	36	FUN_0027c268	DEFAULT	rewritten	shared/src/battle/battle_panel.cpp:startPressGauge		ok	ok	ok	ok	ok	nbPanelPressGaugeStart
 0027c290	48	FUN_0027c290	DEFAULT	named								nbPanelPressGaugeReset
 0027c2c0	120	nbPanelPressGaugeShow	USER_DEFINED	legacy		battle_status_pairs.c:body_0027c2c0;battle_status_pairs_native.c:body_0027c2c0						nbPanelPressGaugeShow
-0027c340	16	FUN_0027c340	DEFAULT	named								nbPanelPressGaugeEncountHide
+0027c340	16	FUN_0027c340	DEFAULT	rewritten	shared/src/battle/battle_panel.cpp:hidePressGaugeForEncounter		ok	ok	ok	ok	ok	nbPanelPressGaugeEncountHide
 0027c350	5360	nbPanelPressGauge	USER_DEFINED	legacy		battle_panel_next.c:body_0027c350;battle_panel_next.c:nbPanelPressGauge						nbPanelPressGauge
 0027d868	32	FUN_0027d868	DEFAULT	named								nbPanelPressTurnInit
 0027d888	72	nbPanelPressTurnRun	USER_DEFINED	legacy		battle_panel_owner.c:body_0027d888;battle_panel_owner.c:nbPanelPressTurnRun						nbPanelPressTurnRun
 0027d8d0	12	nbPanelPressTurnGaugeRun	USER_DEFINED	legacy		battle_panel_next.c:body_0027d8d0;battle_panel_next.c:nbPanelPressTurnGaugeRun						nbPanelPressTurnGaugeRun
-0027d8e0	12	FUN_0027d8e0	DEFAULT	named								nbPanelPressTurnOmit
-0027d8f0	140	FUN_0027d8f0	DEFAULT	named								nbPanelPressTurnStart
+0027d8e0	12	FUN_0027d8e0	DEFAULT	rewritten	shared/src/battle/battle_panel.cpp:skipNextPressPanel		ok	ok	ok	ok	ok	nbPanelPressTurnOmit
+0027d8f0	140	FUN_0027d8f0	DEFAULT	rewritten	shared/src/battle/battle_panel.cpp:startPressPanel		ok	ok	ok	ok	ok	nbPanelPressTurnStart
 0027d980	32	ps2BattlePanelStartPTAOnly_0027D980	USER_DEFINED	legacy		battle_panel_next.c:body_0027d980;battle_panel_next.c:ps2BattlePanelStartPTAOnly_0027D980						nbPanelPressTurnGaugeAnimStart
 0027d9a0	52	FUN_0027d9a0	DEFAULT	named								nbPanelPressTurnGaugeAnimStart2
 0027d9d8	7484	nbPanelPressTurn	USER_DEFINED	legacy		battle_panel_owner.c:body_0027d9d8;battle_panel_owner.c:nbPanelPressTurn						nbPanelPressTurn

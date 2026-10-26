@@ -281,6 +281,7 @@ int fw_print_arg_count(uint32_t format)
     case 0x00543550: return 1;   /* the battle's encounter (SetFlag, nbInitMainProcess) */
     case 0x00543448: return 0;   /* an action still queued (nbCheckActionStack) */
     case 0x00543438: return 0;   /* backattack!! (CheckSenseiOrBackAttack) */
+    case 0x005453b8: return 0;   /* nbPanelPressTurnStart */
     case 0x00543458: case 0x00543468: case 0x00543478: return 0;   /* no one can act, game over, level up (the phases) */
     case 0x00543880: case 0x005438c0: case 0x00543908: return 0;   /* counters, a failed escape's hit */
     case 0x005438d8: return 2;                  /* inoti party */

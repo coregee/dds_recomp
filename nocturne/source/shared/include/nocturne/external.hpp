@@ -351,6 +351,7 @@ enum class Message : uint32_t {
     NoOneCanAct      = optionalAddr(0x00543458), // 全員行動不能!! ("no one can act!!": a lost battle)
     GameOver         = optionalAddr(0x00543468), // "game over !!"
     LevelUp          = optionalAddr(0x00543478), // "level up !!"
+    PressTurnStart   = optionalAddr(0x005453b8), // "nbPanelPressTurnStart" (its own name)
     ActionsQueued    = optionalAddr(0x00543448), // ありますよ!! ("there are some!!": an action is still queued)
     ActTime          = optionalAddr(0x00543b68), // "acttime = %d" (frames to the hit)
     SelectBits       = optionalAddr(0x00543b78), // "select %d -> %08X"

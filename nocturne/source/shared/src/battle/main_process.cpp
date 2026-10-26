@@ -4,6 +4,7 @@
 #include "nocturne/address.hpp"
 #include "nocturne/battle/action.hpp"
 #include "nocturne/battle/bad_ai.hpp"
+#include "nocturne/battle/battle_panel.hpp"
 #include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/calc.hpp"
 #include "nocturne/battle/camera.hpp"
@@ -60,15 +61,10 @@ constexpr uint32_t kInitCameraProcess = addr(0x001b20b8);     // nbInitCameraPro
 constexpr uint32_t kInitPanelProcess = addr(0x00282900);      // nbInitPanelProcess
 constexpr uint32_t kInitAutoCommProcess = addr(0x00289ac8);   // nbInitAutoCommProcess
 constexpr uint32_t kInitUnitProcess = addr(0x0024cac8);       // nbInitUnitProcess
-constexpr uint32_t kHidePressGauge = addr(0x0027c340);        // nbPanelPressGaugeEncountHide (tentative)
-constexpr uint32_t kShowPressGauge = addr(0x0027c268);        // (the encounter's press gauge, tentative)
 constexpr uint32_t kSetFormation = addr(0x00259740);          // the encounter's formation placed (main, encno)
 constexpr uint32_t kInitActionProcess = addr(0x00257fa8);     // nbInitActionProcess (main, type, from, to, data)
-constexpr uint32_t kCameraPlayerForm = addr(0x001ba1e8);      // nbCameraCRSetPlayerFormRequest (tentative)
 constexpr uint32_t kCheckResultEntry = addr(0x0021f7d8);      // rstChkResultEntry: someone levelled up
 constexpr uint32_t kInitDebugProcess = addr(0x00285368);      // nbInitDebugProcess
-constexpr uint32_t kPressPanelOmit = addr(0x0027d8e0);        // nbPanelPressTurnOmit: the next panel start skipped
-constexpr uint32_t kPressPanelStart = addr(0x0027d8f0);       // nbPanelPressTurnStart
 constexpr uint32_t kDebugSelect = addr(0x00246bf8);           // nbDebugSelect (the debug pad's displays)
 constexpr uint32_t kDebugMainProcess = addr(0x00246f10);      // nbDebugMainProcess
 constexpr uint32_t kDebugDisplay2 = addr(0x00247980);         // DebugDisp2
@@ -338,7 +334,7 @@ void enterStart(MainProcessData& main)
     guest::callOriginal(kInitAutoCommProcess, addressOf(main));
     startMaccaWindow(main.MainProcessID);
     guest::callOriginal(kInitUnitProcess, addressOf(main));
-    guest::callOriginal(kHidePressGauge);
+    hidePressGaugeForEncounter();
 }
 
 // 0x00248278 (no original name)
@@ -349,7 +345,7 @@ void enterEncounter(MainProcessData& main)
     setCameraState(1);
     hideSide(0);
     startEncounter(main);
-    guest::callOriginal(kShowPressGauge);
+    startPressGauge();
 }
 
 // 0x002482C0 (no original name)
@@ -418,7 +414,7 @@ void enterAction(MainProcessData& main)
     closePartyGaps(main);
     guest::callOriginal(kInitActionProcess, addressOf(main), static_cast<uint32_t>(action.type), static_cast<uint32_t>(action.from),
                         static_cast<uint32_t>(action.to), static_cast<uint32_t>(action.data));
-    guest::callOriginal(kCameraPlayerForm);
+    requestPlayerFormCamera();
 }
 
 // nbSetChkEndPhase @ 0x00248690: won when no enemy is left; lost when the
@@ -651,7 +647,7 @@ int32_t mainProcessStep(uint32_t process)
     case 2:   // the encounter's opening; the first turn skips the press turn intros
         if (main.EncProcessID == 0) {
             skipNextPressCamera();
-            guest::callOriginal(kPressPanelOmit);
+            skipNextPressPanel();
             next(3);
         }
         break;
@@ -665,7 +661,7 @@ int32_t mainProcessStep(uint32_t process)
         break;
     case 5:   // the press turn panel
         if (main.phasetime == 0)
-            guest::callOriginal(kPressPanelStart);
+            startPressPanel();
         if (pressCameraFrame() >= 10)
             next(4);
         break;

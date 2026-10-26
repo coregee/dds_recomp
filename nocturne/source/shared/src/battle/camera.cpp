@@ -14,6 +14,7 @@ namespace {
 namespace address {
 constexpr uint32_t CameraCurrent = addr(0x00320e40);      // Camera
 constexpr uint32_t CameraStateTable = addr(0x00320c50);   // CameraStateTable[]
+constexpr uint32_t PlayerFormRequest = addr(0x0054f38c);  // uint8 (gp-relative)
 } // namespace address
 
 } // namespace
@@ -27,6 +28,9 @@ void setCameraState(uint16_t state)
     if (static_cast<int8_t>(guest::table<CameraStateTable>(address::CameraStateTable)[state].rep))
         camera.state = 0;
 }
+
+// nbCameraCRSetPlayerFormRequest @ 0x001BA1E8 (name from smt3-decomp)
+void requestPlayerFormCamera() { *guest::table<uint8_t>(address::PlayerFormRequest) = 1; }
 
 // nbCameraSetTaizi @ 0x001B17E0: the talks' camera (state NEGO_TAIZI) on
 // two slots facing each other.
