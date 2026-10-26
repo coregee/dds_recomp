@@ -588,7 +588,7 @@ ee::Interpreter makeOriginal()
     const std::pair<uint32_t, int> notRewritten[] = {
         {0x0024d550, 4}, {0x001b6a00, 1}, {0x0016b770, 0}, {0x0016ba78, 0}, {0x0016f490, 0}, {0x0016de10, 0}, {0x00174490, 0},
         {0x00279708, 1}, {0x0027fa48, 0}, {0x00280508, 0}, {0x00281e38, 0},
-        {0x00259740, 2}, {0x00257fa8, 5},
+        {0x00259740, 2},
         {0x00285368, 1}, {0x00246bf8, 1}, {0x00246f10, 1}, {0x00247980, 1}, {0x00246d08, 1}};
     for (const auto& [entry, count] : notRewritten) {
         e.hook(entry, [=](ee::Cpu& c) {
@@ -625,6 +625,7 @@ ee::Interpreter makeOriginal()
     e.interpret(0x001b1bd8, 0x001b1c14);   // nbCameraInit
     e.interpret(0x0016c528, 0x0016c5e4);   // nbInitEffectProcess
     e.interpret(0x00259908, 0x00259a30);   // nbSetPlayerStartData
+    e.interpret(0x00257eb0, 0x00258048);   // InitActionProcessData, nbInitActionProcess
     e.interpret(0x00282900, 0x00282a28);   // nbInitPanelProcess
     e.interpret(0x0027d868, 0x0027d888);   // nbPanelPressTurnInit
     e.interpret(0x0027c230, 0x0027c268);   // nbPanelPressGaugeInit

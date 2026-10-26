@@ -59,7 +59,6 @@ constexpr int32_t kNoGameOverFlag = 0xc0c;       // debug event bit: no game ove
 // Not rewritten yet (names from the HD remaster where it has them).
 constexpr uint32_t kAddUnitStock = addr(0x0024d550);         // nbAddUnitStock: a stock unit into a formation slot (no C here yet)
 constexpr uint32_t kSetFormation = addr(0x00259740);          // the encounter's formation placed (main, encno)
-constexpr uint32_t kInitActionProcess = addr(0x00257fa8);     // nbInitActionProcess (main, type, from, to, data)
 constexpr uint32_t kCheckResultEntry = addr(0x0021f7d8);      // rstChkResultEntry: someone levelled up
 constexpr uint32_t kInitDebugProcess = addr(0x00285368);      // nbInitDebugProcess
 constexpr uint32_t kDebugSelect = addr(0x00246bf8);           // nbDebugSelect (the debug pad's displays)
@@ -434,8 +433,7 @@ void enterAction(MainProcessData& main)
     QueuedAction action{};
     popAction(action);
     closePartyGaps(main);
-    guest::callOriginal(kInitActionProcess, addressOf(main), static_cast<uint32_t>(action.type), static_cast<uint32_t>(action.from),
-                        static_cast<uint32_t>(action.to), static_cast<uint32_t>(action.data));
+    startAction(main, action.type, action.from, action.to, action.data);
     requestPlayerFormCamera();
 }
 

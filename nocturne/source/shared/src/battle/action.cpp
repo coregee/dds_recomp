@@ -1,6 +1,8 @@
 // One unit's action as a process (original unit: nbActionProcess).
 // Rewritten from the original instructions.
 
+#include <cstring>
+
 #include "nocturne/address.hpp"
 #include "nocturne/battle/action.hpp"
 #include "nocturne/battle/affinity.hpp"
@@ -467,6 +469,10 @@ int32_t previousActionState()
 
 namespace {
 
+constexpr uint32_t kActionProcessName = addr(0x00544120);   // "nb_action"
+constexpr uint32_t kActionStep = addr(0x00257cd0);          // nbActionProcess1 (runActionProcess's original)
+constexpr uint32_t kActionShutdown = addr(0x00257e30);      // (no C here yet)
+
 // The state table (0x3FA7C0): each state's SetAction_* and CheckAction_*.
 // The rewrite runs the rewritten ones itself and calls the others' original
 // code by address.
@@ -534,6 +540,41 @@ void enterState(ActionProcessData& a, int32_t seq)
     a.seqcnt = 0;
     a.seqtime = 0;
     callEnter(a, static_cast<int8_t>(seq));
+}
+
+// InitActionProcessData @ 0x00257EB0: a new action's record (its address):
+// who acts (a party entry; one sitting the turn out has no formation), the
+// action's kind, its target and value, no press icon spent yet.
+uint32_t newActionData(MainProcessData& main, int32_t type, int32_t from, int32_t to, int32_t data)
+{
+    const uint32_t address = mem::PoolAllocate(sizeof(ActionProcessData));
+    std::memset(guest::table<ActionProcessData>(address), 0, sizeof(ActionProcessData));
+    ActionProcessData& a = *guest::table<ActionProcessData>(address);
+    a.seq = 0;
+    a.data.address = guest::addressOf(&main);
+    Party& party = main.party[from];
+    a.party.address = guest::addressOf(&party);
+    a.form.address = (party.flag & 0x8) ? 0 : guest::addressOf(&main.form[party.formindex]);   // (Party flag 8: sitting the turn out)
+    a.work.address = guest::addressOf(GetUnitWorkPointer(main, party));
+    a.partyindex = from;
+    a.type = type;
+    a.target = to;
+    a.adata = data;
+    a.press = ee::Float::fromBits(0xbf800000);   // -1
+    a.newpresstype = 0;
+    clearTimeList(a);
+    return address;
+}
+
+// nbInitActionProcess @ 0x00257FA8: the next of the four action processes
+// ("nb_action") runs the action, under the battle's process.
+void startAction(MainProcessData& main, int32_t type, int32_t from, int32_t to, int32_t data)
+{
+    main.NowActionProcess = (main.NowActionProcess + 1) % 4;
+    const uint32_t record = newActionData(main, type, from, to, data);
+    const uint32_t process = dds3::StartProcess(kActionProcessName, 0x3f8, 1, 1, kActionStep, kActionShutdown, record);
+    dds3::LinkProcess(main.MainProcessID, process);
+    main.ActionProcessID[main.NowActionProcess] = process;
 }
 
 // nbActionProcess1 @ 0x00257CD0: each frame, the state's check runs until

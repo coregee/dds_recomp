@@ -36,6 +36,7 @@
 #include "nocturne/battle/closing.hpp"
 #include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/main_process.hpp"
+#include "nocturne/battle/action.hpp"
 #include "nocturne/effect/battle_process.hpp"
 #include "nocturne/battle/auto_command.hpp"
 #include "nocturne/battle/unit_process.hpp"
@@ -1083,6 +1084,29 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
     add("nbInitCameraProcess (0x1B20B8)", [=](Gen& g) {
         processStartWorld(g);
         return Pair{[] { return iface::origVmVoid(0x001b20b8, {FW_MAIN}); }, [] { nb::startCameraProcess(mainData()); return uint64_t{0}; }};
+    });
+    // A new action: by any party entry (one sitting the turn out or not),
+    // of any kind, the ring of action processes anywhere.
+    const auto newActionWorld = [](Gen& g) {
+        nb::MainProcessData& main = mainData();
+        main.NowActionProcess = g.range(0, 3);
+        main.MainProcessID = static_cast<uint32_t>(g.range(0, 100));
+        struct Args { int32_t type, from, to, data; };
+        Args args{g.range(0, 6), g.range(0, 13), g.range(-1, 15), g.range(0, 0x200)};
+        nb::Party& party = at<nb::Party>(FW_PARTY + 128u * static_cast<uint32_t>(args.from));
+        party.flag = static_cast<int16_t>((party.flag & ~8) | (g.chance(20) ? 8 : 0));
+        party.formindex = static_cast<int16_t>(g.range(0, 15));
+        return args;
+    };
+    add("InitActionProcessData (0x257EB0)", [=](Gen& g) {
+        const auto args = newActionWorld(g);
+        return Pair{[=] { return iface::origVm(0x00257eb0, {FW_MAIN, sx(args.type), sx(args.from), sx(args.to), sx(args.data)}); },
+                    [=] { return norm(static_cast<int32_t>(nb::newActionData(mainData(), args.type, args.from, args.to, args.data))); }};
+    });
+    add("nbInitActionProcess (0x257FA8)", [=](Gen& g) {
+        const auto args = newActionWorld(g);
+        return Pair{[=] { return iface::origVmVoid(0x00257fa8, {FW_MAIN, sx(args.type), sx(args.from), sx(args.to), sx(args.data)}); },
+                    [=] { nb::startAction(mainData(), args.type, args.from, args.to, args.data); return uint64_t{0}; }};
     });
     add("nbSetPlayerStartData (0x259908)", [=](Gen& g) {   // the stock in any order, its units valid, in the party or not
         GlobalWork& work = nocturne::dat::globalWork();

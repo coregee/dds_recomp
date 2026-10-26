@@ -88,6 +88,8 @@ int32_t previousActionState();              // of the action before the current 
 void setNextState(ActionProcessData& a, int32_t nextseq);
 void enterState(ActionProcessData& a, int32_t seq);     // enters a state
 int32_t runActionProcess(uint32_t process);               // the action process, each frame
+uint32_t newActionData(MainProcessData& main, int32_t type, int32_t from, int32_t to, int32_t data);   // InitActionProcessData: a new action's record
+void startAction(MainProcessData& main, int32_t type, int32_t from, int32_t to, int32_t data);        // nbInitActionProcess: its process, the next in the ring
 
 void enterNone(ActionProcessData& a);
 int32_t updateNone(ActionProcessData& a);
