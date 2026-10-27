@@ -334,14 +334,14 @@ void setEnemyFormation(MainProcessData& main)
     if (type >= types)
         return;
     diag::print(static_cast<diag::Message>(kFormationNames[type]));
-    SetPartyFormation(main, 0x200);
+    setPartyFormation(main, FormationStat::EnemySlot);
     Formation& first = main.form[4];
     switch (static_cast<EncounterFormation>(type)) {
     case EncounterFormation::Arsiel:
         moveEnemiesBack(main, bits(0x43960000));   // 300
         break;
     case EncounterFormation::Mara:
-        SetPartyFormation(main, 0x200);
+        setPartyFormation(main, FormationStat::EnemySlot);
         moveEnemiesBack(main, bits(0x43d20000));   // 420
         break;
     case EncounterFormation::Fates: {
@@ -459,6 +459,92 @@ void setEnemyFormation(MainProcessData& main)
     }
     default:   // Normal, Girimehkala, the angels, Beelzebub: the party's formation only
         break;
+    }
+}
+
+// nbSetPartyFormation @ 0x0028A340: a group's slots (stat bits `group`: 0x100
+// the party, 0x200 the enemies) laid on an arc of radius 1200 about a point
+// 1200 out, each its width (radius x scale x 2) apart plus a gap: the room
+// left over 1200 shared out, kept within 50..100 (none for a single unit),
+// and kept as the group's interval. The party faces the camera, the enemies
+// face back (a half turn about y). The playable Albion stands a little
+// closer, outside the encounters whose bosses have their own places. Out of
+// an ambush every slot loses FormationStat 0x2000.
+void setPartyFormation(MainProcessData& main, uint32_t group)
+{
+    const ee::Float kArc = ee::Float::fromBits(0x44960000);   // 1200
+    // The slots: present ones, and empty slots marked for a summons (0x808).
+    int32_t slots[32];
+    int32_t count = 0;
+    ee::Float width = ee::Float::fromBits(0);
+    for (int32_t i = 0; i < 32; ++i) {
+        const Formation& form = main.form[i];
+        if (!(form.stat & group))
+            continue;
+        if (!(form.stat & FormationStat::Present) && (form.stat & 0x808) != 0x808)
+            continue;
+        slots[count++] = i;
+        const ee::Float size = form.r * form.scl;
+        width = width + (size + size);
+    }
+    if (count == 0)
+        return;
+    ee::Float gap = ee::Float::fromBits(0);
+    const ee::Float least = ee::Float::fromBits(0x42480000), most = ee::Float::fromBits(0x42c80000);   // 50, 100
+    if (count >= 2) {
+        gap = least;   // (when they fill the arc already)
+        if (!(kArc < width)) {
+            gap = (kArc - width) / ee::Float::fromInt(count - 1);
+            if (gap < least)
+                gap = least;
+            else if (most < gap)
+                gap = most;
+        }
+    }
+    const bool party = (group & FormationStat::PartySlot) != 0;
+    *guest::table<ee::Float>(party ? addr(0x005514f8) : addr(0x005514fc)) = gap;   // the party's or the enemies' interval
+
+    // The angle the arc spans: each unit's and each gap's (at radius 1200).
+    const ee::Float gapAngle = sdf::arctangent(gap / kArc);
+    ee::Float angle = ee::Float::fromBits(gapAngle.bits() ^ 0x80000000u);
+    for (int32_t k = 0; k < count; ++k) {
+        const Formation& form = main.form[slots[k]];
+        const ee::Float size = form.r * form.scl;
+        angle = angle + sdf::arctangent((size + size) / kArc);
+        angle = angle + gapAngle;
+    }
+    ee::Float depth = width;   // (always 800, as the original clamps it)
+    const ee::Float eightHundred = ee::Float::fromBits(0x44480000);
+    if (depth < eightHundred)
+        depth = eightHundred;
+    else if (eightHundred < depth)
+        depth = eightHundred;
+    const ee::Float half = ee::Float::fromBits(0x3f000000);
+    depth = depth * half;
+    angle = ee::Float::fromBits(angle.bits() ^ 0x80000000u) * half;   // from the arc's start
+    const ee::Float centre = kArc - depth;
+    const ee::Float side = party ? ee::Float::fromBits(0x3f800000) : ee::Float::fromBits(0xbf800000);   // which way z runs
+    const Vec4 facing = *guest::table<const Vec4>(party ? addr(0x00526400) : addr(0x00526410));
+    const int32_t type = main.formationtype;
+    const bool bossPlaces = type < 11 && !(type < 8);   // Noah, Ahriman, Kagutsuchi
+
+    for (int32_t k = 0; k < count; ++k) {
+        Formation& form = main.form[slots[k]];
+        const ee::Float halfAngle = sdf::arctangent((form.r * form.scl) / kArc);
+        angle = angle + halfAngle;
+        Vec4 pos{sdf::sine(angle) * kArc, ee::Float::fromBits(0), (centre - sdf::cosine(angle) * kArc) * side,
+                 ee::Float::fromBits(0)};   // (w: the original's unset local; 0, as in the test interpreter)
+        if ((form.stat & FormationStat::PartySlot) && formationModelId(&form) == devil::Albion && !bossPlaces) {
+            diag::print(diag::Message::PartyAlbion);
+            pos.z = pos.z - ((form.r * form.scl) * *guest::table<const ee::Float>(addr(0x0054e648))) * side;   // x 0.85
+        }
+        placeAt(form, pos);
+        setFormationRotation(form, facing);
+        form.orgrot = facing;
+        angle = angle + halfAngle;
+        if (!(main.stat & BattleStat::BackAttack) && (form.stat & FormationStat::Unknown2000))
+            form.stat &= ~FormationStat::Unknown2000;
+        angle = angle + gapAngle;
     }
 }
 

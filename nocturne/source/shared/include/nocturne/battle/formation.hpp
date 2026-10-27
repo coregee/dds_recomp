@@ -38,6 +38,7 @@ enum class EncounterFormation : uint32_t {
     Normal, Arsiel, Girimehkala, Mara, Fates, Albion, Angels, Baal, Noah, Ahriman, Kagutsuchi, Ahriman2, Beelzebub, Lucifer,
 };
 void setEnemyFormation(MainProcessData& main);       // nbSetEnemyFormation (0x28A758)
+void setPartyFormation(MainProcessData& main, uint32_t group);   // nbSetPartyFormation (0x28A340): a group's slots on an arc
 int32_t formationModelId(const Formation* form);     // effBTLModelGetID (0x16E560): the devil a slot shows
 
 } // namespace nocturne::nb

@@ -141,7 +141,6 @@ void UnitSetColor(uint32_t unit, int32_t frames, uint32_t color);
 void UnitSetAlpha(uint32_t unit, int32_t frames, uint32_t alpha);
 // (0x1E3B78) a unit model's two motion words at +0xBA, +0xBC (meaning unknown)
 void UnitSetMotionWords(uint32_t unit, int16_t a, int16_t b);
-void SetPartyFormation(MainProcessData& data, uint32_t group);   // nbSetPartyFormation (0x28A340)
 // The damage motions: nbSetDamage (0x24DF78; week: the hit was on a
 // weakness), nbSetDamage2 (0x24E020, a light one), nbSetBadstatMotion
 // (0x24E040, an ailment's), nbSetBadstatMotion2 (0x24E0E8).
@@ -351,6 +350,7 @@ enum class Message : uint32_t {
     GameOver         = optionalAddr(0x00543468), // "game over !!"
     LevelUp          = optionalAddr(0x00543478), // "level up !!"
     PressTurnStart   = optionalAddr(0x005453b8), // "nbPanelPressTurnStart" (its own name)
+    PartyAlbion      = optionalAddr(0x005458c0), // "nbSetPartyFormation : DV_ALBION"
     ActionsQueued    = optionalAddr(0x00543448), // ありますよ!! ("there are some!!": an action is still queued)
     ActTime          = optionalAddr(0x00543b68), // "acttime = %d" (frames to the hit)
     SelectBits       = optionalAddr(0x00543b78), // "select %d -> %08X"

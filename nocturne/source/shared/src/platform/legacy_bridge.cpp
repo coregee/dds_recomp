@@ -162,7 +162,6 @@ void nbSetDamage(uint64_t form, uint64_t week, uint32_t range);          // 0x24
 void nbSetDamage2(uint64_t form, uint32_t range);                       // 0x24E020: float in f12; no legacy C
 void nbSetBadstatMotion(uint64_t form, uint64_t type, uint32_t range);   // 0x24E040: float in f12; no legacy C
 void nbSetBadstatMotion2(uint64_t form);                                // 0x24E0E8: no legacy C
-void ps2BattleFormation_0028A340(uint64_t data, uint64_t group);   // nbSetPartyFormation
 void ps2BattleFormation_0024D8C0(uint64_t side, uint64_t stockno, uint64_t formindex);
 void ps2SoundStopEffectMidi_002C1730(uint64_t sound);
 void ps2SoundVolumeHalfDown_002C20A0(void);
@@ -497,7 +496,6 @@ void nb::SetBadstatMotion(Formation& form, int32_t type, ee::Float range)
 }
 void nb::SetBadstatMotion2(Formation& form) { nbSetBadstatMotion2(word(guest::addressOf(&form))); }
 void nb::UnitSetMotionWords(uint32_t unit, int16_t a, int16_t b) { ps2BattleOutcome_001E3B78(word(unit), signExtend(a), signExtend(b)); }
-void nb::SetPartyFormation(MainProcessData& data, uint32_t group) { ps2BattleFormation_0028A340(word(guest::addressOf(&data)), group); }
 void nb::SummonUnit(int32_t side, int32_t stockno, int32_t formindex)
 {
     ps2BattleFormation_0024D8C0(signExtend(side), signExtend(stockno), signExtend(formindex));

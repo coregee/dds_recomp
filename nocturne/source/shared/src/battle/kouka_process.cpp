@@ -376,7 +376,7 @@ void playReturn(EffectQueue& k, EffectPacket& p)
 }
 
 // nbSetPlayerFormation @ 0x0028B0A0 (`empty` unused)
-void setPlayerFormation(MainProcessData& data, int32_t) { SetPartyFormation(data, 0x100); }
+void setPlayerFormation(MainProcessData& data, int32_t) { setPartyFormation(data, FormationStat::PartySlot); }
 
 // RunSummonKouka @ 0x0025F9A8: a summoned devil appears (data1: side and
 // stock index, data2: its slot); its side is laid out again, and on its

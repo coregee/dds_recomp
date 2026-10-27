@@ -419,6 +419,7 @@ const StaticRange kWrittenStatics[] = {
     {0x0054f38c, 4},                                       // the camera's request for the party's formation
     {0x00320e68, 0x10},                                    // the camera's states
     {0x00575440, 0x10},                                    // the pose a formation's turn sets (nbSetFormRot)
+    {0x005514f8, 8},                                       // the party's and the enemies' intervals
 };
 
 // ... at the version's addresses (those it has; Hardtype's own state and
@@ -1168,6 +1169,28 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
             }
         }
     };
+    add("nbSetPartyFormation (0x28A340)", [](Gen& g) {   // either group: slots present or marked for summons, any size
+        nb::MainProcessData& main = mainData();
+        main.formationtype = g.range(0, 13);
+        main.stat = static_cast<uint32_t>(g.rng());
+        for (uint32_t f = 0; f < 32; ++f) {
+            nb::Formation& form = at<nb::Formation>(FW_FORMS + 0xf0u * f);
+            if (f >= 16) {   // (the slots past the sixteen, as the original reads them: none in a group)
+                form.stat &= ~0x300u;
+                continue;
+            }
+            const uint32_t side = f < 4 ? 0x100u : f < 14 ? 0x200u : 0x400u;
+            form.stat = side | (g.chance(60) ? 1u : 0u) | (g.chance(20) ? 0x808u : 0u) | (g.chance(30) ? 0x2000u : 0u) | (g.chance(30) ? 2u : 0u);
+            form.r = ee::Float::fromInt(g.chance(80) ? g.range(60, 160) : g.range(10, 600));
+            form.scl = ee::Float(static_cast<float>(g.range(5, 20)) / 10.0f);
+            form.formindex = static_cast<int16_t>(f);
+            if (f < 4)
+                if (const uint32_t unit = at<uint32_t>(FW_FORM_UNITS + 4u * f); unit != 0 && g.chance(30))
+                    at<UnitWork>(unit).id = 0x9b;   // Albion
+        }
+        const uint32_t group = g.chance(50) ? 0x100u : 0x200u;
+        return Pair{[=] { return iface::origVmVoid(0x0028a340, {FW_MAIN, group}); }, [=] { nb::setPartyFormation(mainData(), group); return uint64_t{0}; }};
+    });
     add("nbSetFormRot (0x28A158)", [](Gen& g) {   // a slot shown or not, with a model or not, any turn
         const uint32_t f = static_cast<uint32_t>(g.range(0, 15));
         nb::Formation& form = at<nb::Formation>(FW_FORMS + 0xf0u * f);
