@@ -63,6 +63,7 @@ void setPhase(int32_t phase);         // nbSetPhase (0x248CB0)
 void enterStart(MainProcessData& main);        // nbSetMaePhase (0x2481E8)
 void bringPartyIn(MainProcessData& main);      // nbSetPlayerStartData (0x259908): the party into the first slots
 void enterEncounter(MainProcessData& main);    // (0x248278)
+void setUpEnemies(MainProcessData& main, int32_t encno);   // nbSetupBattleUnits (0x259740): the encounter's enemies into slots 4..
 void enterEvent(MainProcessData& main);        // (0x2482C0)
 void setPressTurns(MainProcessData& main);     // nbSetPressMaePhase (0x248420)
 void enterActionStart(MainProcessData& main);  // nbSetActionMaePhase (0x2485F0)

@@ -243,6 +243,7 @@ void randomWorld(Gen& g)
     nb::MainProcessData& data = at<nb::MainProcessData>(FW_MAIN);
     data.form.address = FW_FORMS;
     data.party.address = FW_PARTY;
+    data.enemyunit.address = FW_ENEMIES;   // (the enemies' units, as the formations' units above)
     data.encpackno = g.chance(15) ? 0 : g.range(1, 39);
     data.packno = g.range(0, 3);
     data.packindex = g.range(0, 11);
@@ -1107,6 +1108,14 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         const auto args = newActionWorld(g);
         return Pair{[=] { return iface::origVmVoid(0x00257fa8, {FW_MAIN, sx(args.type), sx(args.from), sx(args.to), sx(args.data)}); },
                     [=] { nb::startAction(mainData(), args.type, args.from, args.to, args.data); return uint64_t{0}; }};
+    });
+    add("nbSetupBattleUnits (0x259740)", [](Gen& g) {   // any encounter (often one that limits calls)
+        int32_t encno = g.range(1, 1269);
+        for (int tries = 0; tries < 32 && g.chance(50) && nocturne::dat::encount(encno).maxcall == 0; ++tries)
+            encno = g.range(1, 1269);
+        if (g.chance(30))   // (0x74, 0x10A, 0x149 hold the only devils whose formats' HP or MP differ from the maximum)
+            encno = g.pick<int32_t>({0x74, 0x10a, 0x149});
+        return Pair{[=] { return iface::origVmVoid(0x00259740, {FW_MAIN, sx(encno)}); }, [=] { nb::setUpEnemies(mainData(), encno); return uint64_t{0}; }};
     });
     add("nbSetPlayerStartData (0x259908)", [=](Gen& g) {   // the stock in any order, its units valid, in the party or not
         GlobalWork& work = nocturne::dat::globalWork();

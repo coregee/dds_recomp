@@ -112,7 +112,7 @@ void initFormation(MainProcessData& main, int32_t index)
     form.scl = ee::Float::fromBits(0x3f800000);  // 1
     form.r = ee::Float::fromBits(0x42c80000);
     form.formindex = static_cast<int16_t>(index);
-    form.stat |= index < 4 ? 0x100u : index < 14 ? 0x200u : 0x400u;
+    form.stat |= index < 4 ? FormationStat::PartySlot : index < 14 ? FormationStat::EnemySlot : FormationStat::ExtraSlot;
     const Vec4& place = *guest::table<const Vec4>(addr(0x00526420));
     const Vec4& turn = *guest::table<const Vec4>(addr(0x00526430));
     form.pos = place;

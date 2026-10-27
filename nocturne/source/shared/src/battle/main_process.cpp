@@ -58,7 +58,7 @@ constexpr int32_t kNoGameOverFlag = 0xc0c;       // debug event bit: no game ove
 
 // Not rewritten yet (names from the HD remaster where it has them).
 constexpr uint32_t kAddUnitStock = addr(0x0024d550);         // nbAddUnitStock: a stock unit into a formation slot (no C here yet)
-constexpr uint32_t kSetFormation = addr(0x00259740);          // the encounter's formation placed (main, encno)
+constexpr uint32_t kSetEnemyFormation = addr(0x0028a758);     // nbSetEnemyFormation: the enemies placed (no C here yet)
 constexpr uint32_t kCheckResultEntry = addr(0x0021f7d8);      // rstChkResultEntry: someone levelled up
 constexpr uint32_t kInitDebugProcess = addr(0x00285368);      // nbInitDebugProcess
 constexpr uint32_t kDebugSelect = addr(0x00246bf8);           // nbDebugSelect (the debug pad's displays)
@@ -358,11 +358,42 @@ void enterStart(MainProcessData& main)
     hidePressGaugeForEncounter();
 }
 
+// nbSetupBattleUnits @ 0x00259740: the encounter's devils (up to ten) made
+// into the enemies' units, at their formats' HP and MP, in slots 4.. by their
+// place in the encounter; their formation placed; and how many allies the
+// enemies may call (the encounter's maxcall, else no limit: -1).
+void setUpEnemies(MainProcessData& main, int32_t encno)
+{
+    for (int32_t i = 0; i < 10; ++i) {
+        main.form[4 + i].stat = FormationStat::EnemySlot;
+        main.party[4 + i].flag = 0;
+    }
+    const Encount& encounter = dat::encount(encno);
+    int32_t made = 0;
+    for (int32_t i = 0; i < 10; ++i) {
+        const uint16_t devil = encounter.devil[i];
+        if (devil == 0)
+            continue;
+        UnitWork& unit = main.enemyunit[made];
+        dat::initDevil(devil, unit);
+        unit.flag |= UnitFlag::InParty;
+        const DevilFormat& format = dat::devilFormat(devil);
+        unit.maxhp = format.maxhp;
+        unit.hp = format.hp;
+        unit.maxmp = format.maxmp;
+        unit.mp = format.mp;
+        guest::callOriginal(kAddUnitStock, addressOf(main), 1, static_cast<uint32_t>(made), static_cast<uint32_t>(4 + i));
+        ++made;
+    }
+    guest::callOriginal(kSetEnemyFormation, addressOf(main));
+    main.summonallowed = encounter.maxcall != 0 ? encounter.maxcall : -1;
+}
+
 // 0x00248278 (no original name)
 void enterEncounter(MainProcessData& main)
 {
     clearActionStack();
-    guest::callOriginal(kSetFormation, addressOf(main), static_cast<uint32_t>(main.encno));
+    setUpEnemies(main, main.encno);
     setCameraState(1);
     hideSide(0);
     startEncounter(main);
