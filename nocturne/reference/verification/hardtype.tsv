@@ -307,6 +307,8 @@ nbInitStageProcess (0x24CAC8)	ok
 nbInitCameraProcess (0x1B20B8)	ok
 InitActionProcessData (0x257EB0)	ok
 nbInitActionProcess (0x257FA8)	ok
+rstChkLevelUpTarget (0x21F788)	ok
+rstChkResultEntry (0x21F7D8)	ok
 nbSetupBattleUnits (0x259740)	ok
 nbSetPlayerStartData (0x259908)	ok
 nbInitEffectProcess (0x16C528)	ok

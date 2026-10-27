@@ -39,6 +39,7 @@
 #include "nocturne/guest.hpp"
 #include "nocturne/hardtype.hpp"
 #include "nocturne/interface/message.hpp"
+#include "nocturne/result/level_up.hpp"
 #include <cstring>
 
 namespace nocturne::nb {
@@ -59,7 +60,6 @@ constexpr int32_t kNoGameOverFlag = 0xc0c;       // debug event bit: no game ove
 // Not rewritten yet (names from the HD remaster where it has them).
 constexpr uint32_t kAddUnitStock = addr(0x0024d550);         // nbAddUnitStock: a stock unit into a formation slot (no C here yet)
 constexpr uint32_t kSetEnemyFormation = addr(0x0028a758);     // nbSetEnemyFormation: the enemies placed (no C here yet)
-constexpr uint32_t kCheckResultEntry = addr(0x0021f7d8);      // rstChkResultEntry: someone levelled up
 constexpr uint32_t kInitDebugProcess = addr(0x00285368);      // nbInitDebugProcess
 constexpr uint32_t kDebugSelect = addr(0x00246bf8);           // nbDebugSelect (the debug pad's displays)
 constexpr uint32_t kDebugMainProcess = addr(0x00246f10);      // nbDebugMainProcess
@@ -629,7 +629,7 @@ void enterEnd(MainProcessData& main)
         diag::print(diag::Message::GameOver);
         const int32_t data = kGameOverData;
         dds3::CallSequence(kGameOverSequence, &data, sizeof data, 0);
-    } else if (guest::callOriginal(kCheckResultEntry) & 0xff) {
+    } else if (rst::anyLevelUpDue()) {
         diag::print(diag::Message::LevelUp);
         dds3::CallSequence(kLevelUpSequence, nullptr, 0, 1);
     }

@@ -598,7 +598,7 @@ ee::Interpreter makeOriginal()
             return uint64_t{0};
         });
     }
-    e.hook(0x0021f7d8, [](ee::Cpu&) { return uint64_t{fw_hash(160, 0, 0) & 1}; });
+    e.interpret(0x0021f788, 0x0021f838);   // rstChkLevelUpTarget, rstChkResultEntry
     e.interpret(0x001ba6e0, 0x001ba828);   // the press turn camera (nbCameraPress)
     e.hook(0x00102848, [=](ee::Cpu& c) {   // dds3AdminiCallSequence: the sequence, its flag and its data's first word
         const uint32_t data = static_cast<uint32_t>(a(c, 1));

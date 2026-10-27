@@ -5265,8 +5265,8 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0021f6e0	72	FUN_0021f6e0	DEFAULT	named								rstChkEvoAct
 0021f728	36	FUN_0021f728	DEFAULT	named								rstKillEvoAct
 0021f750	56	FUN_0021f750	DEFAULT	named								rstSetTestParam
-0021f788	80	rstChkLevelUpTarget	USER_DEFINED	legacy		rst_event_cursor.c:rstChkLevelUpTarget						rstChkLevelUpTarget
-0021f7d8	96	rstChkResultEntry	USER_DEFINED	legacy		rst_event_cursor.c:rstChkResultEntry						rstChkResultEntry
+0021f788	80	rstChkLevelUpTarget	USER_DEFINED	rewritten	shared/src/result/level_up.cpp:levelUpDue	rst_event_cursor.c:rstChkLevelUpTarget	ok	ok	ok	ok	ok	rstChkLevelUpTarget
+0021f7d8	96	rstChkResultEntry	USER_DEFINED	rewritten	shared/src/result/level_up.cpp:anyLevelUpDue	rst_event_cursor.c:rstChkResultEntry	ok	ok	ok	ok	ok	rstChkResultEntry
 0021f838	92	rstCalcLevelFromExp	USER_DEFINED	rewritten	shared/src/battle/result.cpp:levelAtExp	battle_reward_dependencies.c:body_0021f838;battle_reward_dependencies.c:ps2BattleRewardDependency_0021F838;battle_reward_levelup_dependencies.c:body_0021f838;battle_reward_levelup_dependencies.c:ps2BattleRewardLevelupDependency_0021F838;battle_reward_phase_dependencies.c:body_0021f838;battle_reward_phase_dependencies.c:ps2BattleRewardPhaseDependency_0021F838;rst_event_cursor.c:rstCalcLevelFromExp	ok	ok	ok	ok	ok	rstCalcLevelFromExp
 0021f898	56	rstCalcExpFromLevel	USER_DEFINED	legacy		battle_reward_dependencies.c:body_0021f898;battle_reward_dependencies.c:ps2BattleRewardDependency_0021F898;battle_reward_levelup_dependencies.c:body_0021f898;battle_reward_levelup_dependencies.c:ps2BattleRewardLevelupDependency_0021F898;battle_reward_phase_dependencies.c:body_0021f898;battle_reward_phase_dependencies.c:ps2BattleRewardPhaseDependency_0021F898;rst_event_cursor.c:rstCalcExpFromLevel						rstCalcExpFromLevel
 0021f8d0	32	ps2ClearResultParamDeltas	USER_DEFINED	legacy		rst_level_chain.c:ps2ClearResultParamDeltas						rstChkResult2Process

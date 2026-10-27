@@ -36,6 +36,7 @@
 #include "nocturne/battle/closing.hpp"
 #include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/main_process.hpp"
+#include "nocturne/result/level_up.hpp"
 #include "nocturne/battle/action.hpp"
 #include "nocturne/effect/battle_process.hpp"
 #include "nocturne/battle/auto_command.hpp"
@@ -1108,6 +1109,26 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         const auto args = newActionWorld(g);
         return Pair{[=] { return iface::origVmVoid(0x00257fa8, {FW_MAIN, sx(args.type), sx(args.from), sx(args.to), sx(args.data)}); },
                     [=] { nb::startAction(mainData(), args.type, args.from, args.to, args.data); return uint64_t{0}; }};
+    });
+    // The stock's units: valid or not, dead or not, often with EXP for a
+    // level or more.
+    const auto levelUpWorld = [](Gen& g) {
+        for (UnitWork& unit : nocturne::dat::globalWork().units) {
+            unit.flag = (unit.flag & ~1u) | (g.chance(80) ? 1u : 0u);
+            unit.badstat = static_cast<uint16_t>(g.chance(15) ? 0x800 : g.range(0, 0x7ff));
+            if (g.chance(30))
+                unit.exp = static_cast<int32_t>(nocturne::cmb::expForNextLevel(unit)) + g.range(-2, 2);
+        }
+    };
+    add("rstChkLevelUpTarget (0x21F788)", [=](Gen& g) {
+        levelUpWorld(g);
+        const int32_t index = g.range(0, 15);
+        const uint32_t unit = FW_GLOBAL + static_cast<uint32_t>(offsetof(nocturne::GlobalWork, units)) + 0xecu * static_cast<uint32_t>(index);
+        return Pair{[=] { return iface::origVm(0x0021f788, {unit}); }, [=] { return norm(nocturne::rst::levelUpDue(at<UnitWork>(unit))); }};
+    });
+    add("rstChkResultEntry (0x21F7D8)", [=](Gen& g) {
+        levelUpWorld(g);
+        return Pair{[] { return iface::origVm(0x0021f7d8, {}) & 0xff; }, [] { return uint64_t{nocturne::rst::anyLevelUpDue()}; }};
     });
     add("nbSetupBattleUnits (0x259740)", [](Gen& g) {   // any encounter (often one that limits calls)
         int32_t encno = g.range(1, 1269);
