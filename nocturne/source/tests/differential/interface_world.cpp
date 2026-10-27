@@ -592,7 +592,7 @@ ee::Interpreter makeOriginal()
     const std::pair<uint32_t, int> notRewritten[] = {
         {0x001b6a00, 1}, {0x0016b770, 0}, {0x0016ba78, 0}, {0x0016f490, 0}, {0x0016de10, 0}, {0x00174490, 0},
         {0x00279708, 1}, {0x0027fa48, 0}, {0x00280508, 0}, {0x00281e38, 0},
-        {0x00285368, 1}, {0x00246bf8, 1}, {0x00246f10, 1}, {0x00247980, 1}, {0x00246d08, 1}};
+        {0x00246f10, 1}, {0x00247980, 1}, {0x00246d08, 1}};
     for (const auto& [entry, count] : notRewritten) {
         e.hook(entry, [=](ee::Cpu& c) {
             uint32_t args[5] = {};
@@ -604,6 +604,8 @@ ee::Interpreter makeOriginal()
     }
     e.interpret(0x0021f788, 0x0021f838);   // rstChkLevelUpTarget, rstChkResultEntry
     e.interpret(0x0024d550, 0x0024d8c0);   // nbAddUnitStock
+    e.interpret(0x002852c0, 0x002853d8);   // nbDebugShutdown, InitDebugProcessData, nbInitDebugProcess
+    e.interpret(0x00246bf8, 0x00246d08);   // nbDebugSelect
     e.interpret(0x00220000, 0x00220020);   // rstGetEquipHeartsAisyo
     e.interpret(0x00222290, 0x002222c0);   // cmbGetHeartsAisyo
     e.interpret(0x001ba6e0, 0x001ba828);   // the press turn camera (nbCameraPress)

@@ -205,6 +205,7 @@ inline constexpr uint32_t BackAttack          = 0x00000010;
 inline constexpr uint32_t EnemiesFirst        = 0x00000080;
 inline constexpr uint32_t Unknown400          = 0x00000400; // encounter 0xC7's (SetFlag): Ongyo-Ki's clones' battle (tentative)
 inline constexpr uint32_t Unknown800          = 0x00000800; // the encounter's flag 8 (SetFlag)
+inline constexpr uint32_t DebugToggle         = 0x00100000; // toggled by the debug pad's button 8 (nbDebugSelect); its use unknown
 inline constexpr uint32_t NoDebugDisplay      = 0x00200000; // tentative: the debug pad's displays off
 inline constexpr uint32_t DebugMenu           = 0x01000000; // tentative: pad button 10 may open the debug menu
 inline constexpr uint32_t KeepOrder           = 0x00040000; // tentative: a turn's press icons don't move the order on (nbSetChkTurnPhase)

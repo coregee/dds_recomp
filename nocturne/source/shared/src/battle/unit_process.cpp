@@ -4,7 +4,6 @@
 
 #include "nocturne/address.hpp"
 #include "nocturne/battle/calc.hpp"
-#include "nocturne/battle/combatant.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/unit.hpp"
 #include "nocturne/result/level_up.hpp"
@@ -42,25 +41,21 @@ void startUnitProcess(MainProcessData& main)
 // nbAddUnitStock @ 0x0024D550
 int32_t addUnitToSlot(MainProcessData& main, int32_t side, int32_t stockno, int32_t formindex)
 {
-    int32_t entry;
-    UnitWork* unit;
+    const bool playerSide = side == 0;
+    const int32_t entry = playerSide ? freeEntry(main, 0, 4) : freeEntry(main, 4, 14);
+    UnitWork* unit = playerSide ? &dat::globalWork().units[stockno] : &main.enemyunit[stockno];
+    // (Its record as the unit stood before it was marked an enemy below.)
+    const UnitVisual& visual = unitVisual(*unit);
     int16_t flag;
-    if (side == 0) {
-        entry = freeEntry(main, 0, 4);
-        unit = &dat::globalWork().units[stockno];
-        unitModelId(*unit);   // (its result unused)
+    if (playerSide) {
         flag = PartyFlag::Active;
         ++main.playerpcnt;
         unit->flag |= UnitFlag::InParty;
     } else {
-        entry = freeEntry(main, 4, 14);
-        unit = &main.enemyunit[stockno];
-        unitModelId(*unit);
         flag = PartyFlag::Active | PartyFlag::EnemySide;
         ++main.enemypcnt;
         unit->flag |= UnitFlag::InParty | UnitFlag::Enemy;
     }
-    const UnitVisual& visual = unitVisual(*unit);
     Party& party = main.party[entry];
     party.flag = flag;
     party.statindex = static_cast<int16_t>(stockno);

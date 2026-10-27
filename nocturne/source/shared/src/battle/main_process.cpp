@@ -11,6 +11,7 @@
 #include "nocturne/battle/camera.hpp"
 #include "nocturne/battle/closing.hpp"
 #include "nocturne/battle/combatant.hpp"
+#include "nocturne/battle/debug.hpp"
 #include "nocturne/battle/enc_process.hpp"
 #include "nocturne/battle/event_process.hpp"
 #include "nocturne/battle/formation.hpp"
@@ -58,8 +59,6 @@ constexpr int32_t kExtraPressFlag = 0x8c0;       // event bit: the party gets an
 constexpr int32_t kNoGameOverFlag = 0xc0c;       // debug event bit: no game over
 
 // Not rewritten yet (names from the HD remaster where it has them).
-constexpr uint32_t kInitDebugProcess = addr(0x00285368);      // nbInitDebugProcess
-constexpr uint32_t kDebugSelect = addr(0x00246bf8);           // nbDebugSelect (the debug pad's displays)
 constexpr uint32_t kDebugMainProcess = addr(0x00246f10);      // nbDebugMainProcess
 constexpr uint32_t kDebugDisplay2 = addr(0x00247980);         // DebugDisp2
 constexpr uint32_t kDebugCamera = addr(0x00246d08);           // nbDebugCamera
@@ -642,7 +641,7 @@ void enterDebug(MainProcessData& main)
     if (const uint32_t action = main.ActionProcessID[main.NowActionProcess]; action != 0)
         dds3::KillProcess(action, 1);
     main.NowActionProcess = 0;
-    guest::callOriginal(kInitDebugProcess, addressOf(main));
+    startDebugProcess(main);
 }
 
 // nbSetPhase @ 0x00248CB0
@@ -793,7 +792,7 @@ int32_t mainProcessStep(uint32_t process)
     if (enter)
         setPhase(main.nextphase);
     if (!(main.stat & BattleStat::NoDebugDisplay) && debugPad()) {
-        guest::callOriginal(kDebugSelect, addressOf(main));
+        debugPadToggles(main);
         guest::callOriginal(kDebugMainProcess, addressOf(main));
         if (main.debug == 1)
             guest::callOriginal(kDebugDisplay2, addressOf(main));

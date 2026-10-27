@@ -6018,7 +6018,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00246ab8	164	nbGetUnitWorkFromFormindex	USER_DEFINED	legacy		battle_action_scale_lookup_frames.c:ps2BattleActionScaleLookup_00246AB8;battle_panel_renderer_remaining.c:body_00246ab8;battle_work_access.c:nbGetUnitWorkFromFormindex						nbGetUnitWorkFromFormindex
 00246b68	68	nbGetSelectBit	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectedBits	battle_ai_actions.c:nbGetSelectBit;battle_panel_renderer_remaining.c:body_00246b68	legacy	legacy	legacy	ok	legacy	nbGetSelectBit
 00246bb0	64	FUN_00246bb0	DEFAULT	named								nbSetFormationSideFlag
-00246bf8	268	FUN_00246bf8	DEFAULT	named								nbDebugSelect
+00246bf8	268	FUN_00246bf8	DEFAULT	rewritten	shared/src/battle/debug.cpp:debugPadToggles		ok	ok	ok	ok	ok	nbDebugSelect
 00246d08	508	FUN_00246d08	DEFAULT	named								nbDebugCamera
 00246f10	2616	FUN_00246f10	DEFAULT	named								nbDebugMainProcess
 00247980	988	FUN_00247980	DEFAULT	named								DebugDisp2
@@ -7008,9 +7008,9 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00284f58	68	FUN_00284f58	DEFAULT	named								BackUpHpMpBad
 00284fa0	104	FUN_00284fa0	DEFAULT	named								SetNextSeq
 00285018	660	FUN_00285018	DEFAULT	named								nbDebugProcess1
-002852c0	68	FUN_002852c0	DEFAULT	named								nbDebugShutdown
-00285308	92	FUN_00285308	DEFAULT	named								InitDebugProcessData
-00285368	108	FUN_00285368	DEFAULT	named								nbInitDebugProcess
+002852c0	68	FUN_002852c0	DEFAULT	rewritten	shared/src/battle/debug.cpp:shutdownDebugProcess		ok	ok	ok	ok	ok	nbDebugShutdown
+00285308	92	FUN_00285308	DEFAULT	rewritten	shared/src/battle/debug.cpp:newDebugData							InitDebugProcessData
+00285368	108	FUN_00285368	DEFAULT	rewritten	shared/src/battle/debug.cpp:startDebugProcess							nbInitDebugProcess
 002853d8	96	nbAiChkMyHp	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:ownHpAtMost	battle_ai_conditions.c:nbAiChkMyHp	legacy	legacy	legacy	ok	legacy	Chk_MYHP
 00285438	56	nbAiChkMyMp	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:ownMpAtMost	battle_ai_conditions.c:nbAiChkMyMp	legacy	legacy	legacy	ok	legacy	Chk_MYMP
 00285470	264	nbAiChkFrHp	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:allyHpAtMost	battle_ai_conditions.c:nbAiChkFrHp	legacy	legacy	legacy	ok	legacy	Chk_FRHP

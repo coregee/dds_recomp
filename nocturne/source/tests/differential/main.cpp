@@ -28,6 +28,7 @@
 #include "nocturne/battle/affinity.hpp"
 #include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/calc.hpp"
+#include "nocturne/battle/debug.hpp"
 #include "nocturne/battle/encount.hpp"
 #include "nocturne/battle/result.hpp"
 #include "nocturne/fusion/growth.hpp"
@@ -370,6 +371,7 @@ const StaticRange kWrittenStatics[] = {
     {0x00551b80, 4},                                       // the display buffer being built
     {0x0056bc50, 0x110},                                   // entered names' glyphs and references
     {0x002f5830, 0x20},                                    // pad triggers
+    {0x005512d8, 4},                                       // the debug menu's cursor (menucur)
     {0x0054ea20, 4},                                       // pointer to the entered names
     {0x0056c880, 0x40},                                    // BuildCharacterName's buffer
     {0x0054e994, 0xc},                                     // the running scripts
@@ -1279,6 +1281,30 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         const uint32_t m = FW_MAIN;
         return Pair{[=] { return iface::origVm(0x0024d550, {m, sx(side), sx(stockno), sx(formindex)}); },
                     [=] { return norm(nb::addUnitToSlot(mainData(), side, stockno, formindex)); }};
+    });
+    add("nbInitDebugProcess (0x285368), nbDebugShutdown (0x2852C0)", [](Gen& g) {   // started, and sometimes ended again
+        *nocturne::guest::table<int32_t>(difftest::version::dataOrDie(0x005512d8)) = g.range(-1, 9);
+        const bool end = g.chance(50);
+        return Pair{[=] {
+                        iface::origVmVoid(0x00285368, {FW_MAIN});
+                        if (end)
+                            iface::origVmVoid(0x002852c0, {mainData().DebugProcessID});
+                        return uint64_t{0};
+                    },
+                    [=] {
+                        nb::startDebugProcess(mainData());
+                        if (end)
+                            nb::shutdownDebugProcess(mainData().DebugProcessID);
+                        return uint64_t{0};
+                    }};
+    });
+    add("nbDebugSelect (0x246BF8)", [](Gen& g) {   // either toggle pressed or not, either side's turn
+        for (const uint32_t button : {0x28u, 0x33u})
+            at<int8_t>(difftest::version::dataOrDie(0x002f5810) + button) = static_cast<int8_t>(g.pick<int32_t>({0, 1, 0x7f, -1, -128}));
+        nb::MainProcessData& main = mainData();
+        main.stat = static_cast<uint32_t>(g.rng());
+        main.debug = static_cast<uint16_t>(g.chance(80) ? g.range(0, 1) : g.range(0, 0xffff));
+        return Pair{[] { return iface::origVmVoid(0x00246bf8, {FW_MAIN}); }, [] { nb::debugPadToggles(mainData()); return uint64_t{0}; }};
     });
     add("nbSetPlayerStartData (0x259908)", [=](Gen& g) {   // the stock in any order, its units valid, in the party or not
         GlobalWork& work = nocturne::dat::globalWork();

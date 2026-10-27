@@ -319,6 +319,8 @@ sdfCos (0x2C0160)	ok
 sdfAtan (0x2C0228)	ok
 nbSetupBattleUnits (0x259740)	ok
 nbAddUnitStock (0x24D550)	ok
+nbInitDebugProcess (0x285368), nbDebugShutdown (0x2852C0)	ok
+nbDebugSelect (0x246BF8)	ok
 nbSetPlayerStartData (0x259908)	ok
 nbInitEffectProcess (0x16C528)	ok
 nbInitPanelProcess (0x282900)	ok
