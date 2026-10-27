@@ -36,6 +36,7 @@
 #include "nocturne/battle/closing.hpp"
 #include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/main_process.hpp"
+#include "nocturne/kernel/math.hpp"
 #include "nocturne/result/level_up.hpp"
 #include "nocturne/battle/action.hpp"
 #include "nocturne/effect/battle_process.hpp"
@@ -417,6 +418,7 @@ const StaticRange kWrittenStatics[] = {
     {0x005753a0, 0x60},                                    // ... its layout
     {0x0054f38c, 4},                                       // the camera's request for the party's formation
     {0x00320e68, 0x10},                                    // the camera's states
+    {0x00575440, 0x10},                                    // the pose a formation's turn sets (nbSetFormRot)
 };
 
 // ... at the version's addresses (those it has; Hardtype's own state and
@@ -1166,6 +1168,19 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
             }
         }
     };
+    add("nbSetFormRot (0x28A158)", [](Gen& g) {   // a slot shown or not, with a model or not, any turn
+        const uint32_t f = static_cast<uint32_t>(g.range(0, 15));
+        nb::Formation& form = at<nb::Formation>(FW_FORMS + 0xf0u * f);
+        form.stat = (form.stat & ~3u) | (g.chance(80) ? 1u : 0u) | (g.chance(80) ? 2u : 0u);
+        if (g.chance(15))
+            form.basic = 0;
+        const uint32_t rot = FW_SCRATCH + 0x700;
+        for (uint32_t k = 0; k < 4; ++k)
+            at<uint32_t>(rot + 4 * k) = ee::Float(static_cast<float>(g.range(-300, 300)) / 300.0f).bits();
+        const uint32_t address = FW_FORMS + 0xf0u * f;
+        return Pair{[=] { return iface::origVmVoid(0x0028a158, {address, rot}); },
+                    [=] { nb::setFormationRotation(at<nb::Formation>(address), at<nb::Vec4>(rot)); return uint64_t{0}; }};
+    });
     add("nbSetEnemyFormation (0x28A758)", [=](Gen& g) {
         enemyFormationWorld(g);
         return Pair{[] { return iface::origVmVoid(0x0028a758, {FW_MAIN}); }, [] { nb::setEnemyFormation(mainData()); return uint64_t{0}; }};
@@ -1175,6 +1190,29 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         const uint32_t form = g.chance(5) ? 0 : FW_FORMS + 0xf0u * static_cast<uint32_t>(g.range(4, 13));
         return Pair{[=] { return iface::origVm(0x0016e560, {form}); },
                     [=] { return norm(nb::formationModelId(form ? &at<nb::Formation>(form) : nullptr)); }};
+    });
+    // The engine's trigonometry, on angles of every size and sign (and
+    // the odd non-number).
+    const auto someAngle = [](Gen& g) {
+        if (g.chance(5))
+            return ee::Float::fromBits(static_cast<uint32_t>(g.rng()));
+        const double radians = (g.chance(70) ? g.range(-7000, 7000) : g.range(-700000, 700000)) / 1000.0;
+        return ee::Float(static_cast<float>(radians));
+    };
+    add("sdfSin (0x2C0060)", [=](Gen& g) {
+        const ee::Float a = someAngle(g);
+        return Pair{[=] { iface::origVm(0x002c0060, {}, {a.bits()}); return uint64_t{iface::origVmFloat()}; },
+                    [=] { return uint64_t{nocturne::sdf::sine(a).bits()}; }};
+    });
+    add("sdfCos (0x2C0160)", [=](Gen& g) {
+        const ee::Float a = someAngle(g);
+        return Pair{[=] { iface::origVm(0x002c0160, {}, {a.bits()}); return uint64_t{iface::origVmFloat()}; },
+                    [=] { return uint64_t{nocturne::sdf::cosine(a).bits()}; }};
+    });
+    add("sdfAtan (0x2C0228)", [=](Gen& g) {
+        const ee::Float a = g.chance(80) ? ee::Float(static_cast<float>(g.range(-3000, 3000) / 1000.0)) : someAngle(g);
+        return Pair{[=] { iface::origVm(0x002c0228, {}, {a.bits()}); return uint64_t{iface::origVmFloat()}; },
+                    [=] { return uint64_t{nocturne::sdf::arctangent(a).bits()}; }};
     });
     add("nbSetupBattleUnits (0x259740)", [](Gen& g) {   // any encounter (often one that limits calls)
         int32_t encno = g.range(1, 1269);

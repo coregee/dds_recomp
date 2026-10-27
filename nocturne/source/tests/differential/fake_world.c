@@ -926,7 +926,7 @@ uint64_t fw_move_packets(uint64_t entry, uint64_t startframe, uint64_t uniqueid,
     fw_mes_log(125, (uint32_t)entry ^ (uint32_t)startframe << 24, (uint32_t)uniqueid ^ (uint32_t)form ^ (uint32_t)target << 8);
     return 1;
 }
-void nbSetFormRot(uint64_t form, uint64_t rot) { fw_mes_log(124, (uint32_t)form, rd32((uint32_t)rot) ^ rd32((uint32_t)rot + 4)); }
+void dds3SetRotPoseSet(uint64_t basic, uint64_t rot) { fw_mes_log(124, (uint32_t)basic, rd32((uint32_t)rot) ^ rd32((uint32_t)rot + 4) ^ rd32((uint32_t)rot + 8) ^ rd32((uint32_t)rot + 12)); }
 void nbReturnUnit(uint64_t partyindex, uint64_t arg, uint64_t dead)
 {
     fw_mes_log(96, (uint32_t)partyindex ^ (uint32_t)arg << 16, (uint32_t)dead);

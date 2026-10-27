@@ -7163,7 +7163,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00289ed0	124	FUN_00289ed0	DEFAULT	rewritten	shared/src/battle/formation.cpp:showOnly		ok	ok	ok	ok	ok	nbDoubleFormExceptedDispOff
 00289f50	404	FUN_00289f50	DEFAULT	named								nbRestartMotion
 0028a0e8	108	nbSetFormPos	USER_DEFINED	rewritten	shared/src/battle/formation.cpp:setFormationPosition	battle_presentation.c:nbSetFormPos	ok	ok	ok	ok	ok	nbSetFormPos
-0028a158	164	nbSetFormRot	USER_DEFINED	legacy		battle_presentation.c:nbSetFormRot						nbSetFormRot
+0028a158	164	nbSetFormRot	USER_DEFINED	rewritten	shared/src/battle/formation.cpp:setFormationRotation	battle_presentation.c:nbSetFormRot	ok	ok	ok	ok	ok	nbSetFormRot
 0028a200	56	FUN_0028a200	DEFAULT	rewritten	shared/src/battle/formation.cpp:setFormationPlace		ok	ok	ok	ok	ok	nbSetFormPosRot
 0028a238	80	nbResetFormPosRot	USER_DEFINED	rewritten	shared/src/battle/formation.cpp:resetFormationPlace		ok	ok	ok	ok	ok	nbResetFormPosRot
 0028a288	88	FUN_0028a288	DEFAULT	rewritten	shared/src/battle/formation.cpp:resetAllFormationPlaces		ok	ok	ok	ok	ok	nbResetAllFormPosRot
@@ -8343,13 +8343,13 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 002bfee8	44	ps2ArrayFree	USER_DEFINED	legacy		array_lists.c:ps2ArrayFree;battle_action_model_frames.c:body_002bfee8;battle_action_model_frames.c:ps2BattleActionModel_002BFEE8						sdfItemArrayFree
 002bff18	124	ps2ArrayGrow	USER_DEFINED	legacy		array_lists.c:ps2ArrayGrow						sdfItemArrayGrow
 002bff98	192	ps2ArrayResize	USER_DEFINED	legacy		array_lists.c:ps2ArrayResize						
-002c0060	252	sdfSinBits	USER_DEFINED	legacy		battle_panel_auto.c:body_002c0060;battle_panel_support.c:sdfSinBits						sdfSin
-002c0160	28	sdfCosBits	USER_DEFINED	legacy		model_motion_sampling.c:sdfCosBits						sdfCos
+002c0060	252	sdfSinBits	USER_DEFINED	rewritten	shared/src/kernel/math.cpp:sine	battle_panel_auto.c:body_002c0060;battle_panel_support.c:sdfSinBits	ok	ok	ok	ok	ok	sdfSin
+002c0160	28	sdfCosBits	USER_DEFINED	rewritten	shared/src/kernel/math.cpp:cosine	model_motion_sampling.c:sdfCosBits	ok	ok	ok	ok	ok	sdfCos
 002c0180	160	FUN_002c0180	DEFAULT	named								sdfTableInterpolation
-002c0228	48	sdfAtanBits	USER_DEFINED	legacy		battle_presentation.c:sdfAtanBits;field_movement_encounter_constructor.c:body_002c0228						sdfAtan
+002c0228	48	sdfAtanBits	USER_DEFINED	rewritten	shared/src/kernel/math.cpp:arctangent	battle_presentation.c:sdfAtanBits;field_movement_encounter_constructor.c:body_002c0228	ok	ok	ok	ok	ok	sdfAtan
 002c0258	176	ps2FieldDoorAtan2Bits_002C0258	USER_DEFINED	legacy		field_door_motion.c:ps2FieldDoorAtan2Bits_002C0258;field_movement_encounter_constructor.c:body_002c0258						sdfAtan2
 002c0388	128	FUN_002c0388	DEFAULT	named								sdfAcos
-002c0488	44	sdfQuatMult	USER_DEFINED	legacy		basic_pose.c:sdfQuatMult						Mult
+002c0488	44	sdfQuatMult	USER_DEFINED	rewritten	shared/src/kernel/math.cpp:quaternionMultiply	basic_pose.c:sdfQuatMult	ok	ok	ok	ok	ok	Mult
 002c04e8	36	ps2QuaternionNormalize	USER_DEFINED	rewritten	shared/src/kernel/draw.cpp:ps2QuaternionNormalize	path_rotation.c:ps2QuaternionNormalize	ok	ok	ok	ok	ok	Normalize
 002c0560	80	ps2FieldInfControllerNative_002C0560	USER_DEFINED	legacy		field_inf_controller_native.c:body_002c0560;field_inf_controller_native.c:ps2FieldInfControllerNative_002C0560						FromRotation
 002c05b0	80	FUN_002c05b0	DEFAULT	named								FromRotation_B

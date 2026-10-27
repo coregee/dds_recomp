@@ -10,6 +10,7 @@
 #include "harness.hpp"
 #include "version_map.hpp"
 #include "interface_world.hpp"
+#include "nocturne/kernel/math.hpp"
 #include "nocturne/interface/message.hpp"
 #include "nocturne/effect/event.hpp"
 #include "nocturne/kernel/draw.hpp"
@@ -1336,6 +1337,21 @@ void addScriptTests(std::vector<TestCase>& t)
                         return keep(out, iface::origVmVector(0x002c04e8, x, y));
                     },
                     [=] { return keep(out, lanesOf(dds3::ps2QuaternionNormalize(v))); }};
+    });
+    effect("Mult (0x2C0488)", [=](Gen& g) {   // the quaternion product, of any two
+        uint32_t a[4], b[4];
+        for (uint32_t* q : {a, b})
+            for (int k = 0; k < 4; ++k)
+                q[k] = static_cast<uint32_t>(floatBits(static_cast<float>(g.range(-300, 300)) / 64.0f));
+        const uint32_t out = alloc(16);
+        const dds3::Vector4 va{ee::Float::fromBits(a[0]), ee::Float::fromBits(a[1]), ee::Float::fromBits(a[2]), ee::Float::fromBits(a[3])};
+        const dds3::Vector4 vb{ee::Float::fromBits(b[0]), ee::Float::fromBits(b[1]), ee::Float::fromBits(b[2]), ee::Float::fromBits(b[3])};
+        const std::array<uint32_t, 4> la{a[0], a[1], a[2], a[3]}, lb{b[0], b[1], b[2], b[3]};
+        return Pair{[=] {
+                        uint32_t x[4] = {la[0], la[1], la[2], la[3]}, y[4] = {lb[0], lb[1], lb[2], lb[3]};
+                        return keep(out, iface::origVmVector(0x002c0488, x, y));
+                    },
+                    [=] { return keep(out, lanesOf(nocturne::sdf::quaternionMultiply(va, vb))); }};
     });
     effect("dds3SetAmbientColor", [=](Gen& g) {
         const int32_t frame = frames(g);

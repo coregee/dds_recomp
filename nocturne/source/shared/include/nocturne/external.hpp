@@ -120,7 +120,6 @@ void PanelDrawTexturedRect(int32_t x, int32_t y, int32_t w, int32_t h, int32_t u
                            uint32_t color, uint32_t texture);   // (0x279A88)
 // (0x280538) the panel's Analyze page shows this unit
 void PanelSetAnalyzeUnit(UnitWork* unit);
-void SetFormRot(Formation& form, const Vec4& rot);   // nbSetFormRot
 void PanelAutoHide();                  // nbPanelAutoHide (0x279C58)
 void PanelHide();                      // (0x281E28) tentative name
 void CameraScriptSet1Shot(Formation* form);    // nbCameraScriptSet1Shot
@@ -270,6 +269,7 @@ void FadeIn2(int32_t frames);    // dds3FadeIn2: back from the last fade's color
 void ObjectBaseOnFlag(uint32_t basic, uint32_t flag);    // dds3ObjectBaseOnFlag: an object's control flags set
 void ObjectBaseOffFlag(uint32_t basic, uint32_t flag);   // dds3ObjectBaseOffFlag: ... cleared
 void SetPosPoseSet(uint32_t basic, const nb::Vec4& pos); // dds3SetPosPoseSet: an object placed (a copy of `pos` in guest memory)
+void SetRotPoseSet(uint32_t basic, uint32_t rot);        // dds3SetRotPoseSet: ... turned (a quaternion's address)
 void PadAct(uint32_t mode, uint8_t pow, uint32_t frame);         // dds3PadAct: the pad's vibration
 } // namespace dds3
 

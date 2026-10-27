@@ -12,6 +12,7 @@
 #include "nocturne/data/records.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
+#include "nocturne/kernel/math.hpp"
 
 namespace nocturne::nb {
 
@@ -205,11 +206,27 @@ void setFormationPosition(Formation& form, const Vec4& pos)
     }
 }
 
+// nbSetFormRot @ 0x0028A158: the turn kept; a shown model is turned by it
+// times the quaternion at 0x5458B0 (a half turn about y), made at 0x575440.
+void setFormationRotation(Formation& form, const Vec4& rot)
+{
+    form.rot = rot;
+    if (!(form.stat & FormationStat::Present) || !(form.stat & 2) || form.basic == 0)
+        return;
+    const dds3::Vector4 turn{rot.x, rot.y, rot.z, rot.w};
+    const dds3::Vector4 halfTurn = *guest::table<const dds3::Vector4>(addr(0x005458b0));
+    const dds3::Vector4 pose = sdf::quaternionMultiply(turn, halfTurn);
+    constexpr uint32_t kPose = addr(0x00575440);
+    *guest::table<dds3::Vector4>(kPose) = pose;
+    dds3::SetRotPoseSet(form.basic, kPose);
+    form.rot = rot;
+}
+
 // nbSetFormPosRot @ 0x0028A200
 void setFormationPlace(Formation& form, const Vec4& pos, const Vec4& rot)
 {
     setFormationPosition(form, pos);
-    SetFormRot(form, rot);
+    setFormationRotation(form, rot);
 }
 
 // nbResetFormPosRot @ 0x0028A238 (tentative name): a present formation
@@ -218,7 +235,7 @@ void resetFormationPlace(Formation& form)
 {
     if (form.stat & 1) {
         setFormationPosition(form, form.orgpos);
-        SetFormRot(form, form.orgrot);
+        setFormationRotation(form, form.orgrot);
     }
 }
 

@@ -454,6 +454,7 @@ inline constexpr AddressPair kVersionAddresses[] = {
     {0x00545830, 0x00543db0},
     {0x00545840, 0x00543dc0},
     {0x005458a0, 0x00543e20},
+    {0x005458b0, 0x00543e30},
     {0x005458e8, 0x00543e68},
     {0x00545918, 0x00543e98},
     {0x00545948, 0x00543ec8},
@@ -488,6 +489,7 @@ inline constexpr AddressPair kVersionAddresses[] = {
     {0x0054e514, 0x0054cb14},
     {0x0054e5a0, 0x0054cba0},
     {0x0054e5b4, 0x0054cbb4},
+    {0x0054e758, 0x0054cd58},
     {0x0054e800, 0x0054ce00},
     {0x0054e804, 0x0054ce04},
     {0x0054e80c, 0x0054ce0c},
@@ -592,6 +594,7 @@ inline constexpr AddressPair kVersionAddresses[] = {
     {0x00575350, 0x00573350},
     {0x00575360, 0x00573360},
     {0x005753a0, 0x005733a0},
+    {0x00575440, 0x00573440},
     {0x00575450, 0x00573450},
     {0x00575490, 0x00573490},
 };

@@ -22,6 +22,7 @@ void closePartyGaps(MainProcessData& main);   // nbUpdateFormation: the party's 
 void showOnly(const Formation& form, const Formation& other);   // (no original name)
 
 void setFormationPosition(Formation& form, const Vec4& pos);    // nbSetFormPos
+void setFormationRotation(Formation& form, const Vec4& rot);    // nbSetFormRot
 void setFormationPlace(Formation& form, const Vec4& pos, const Vec4& rot);   // nbSetFormPosRot
 void resetFormationPlace(Formation& form);    // nbResetFormPosRot: back to its place, if present
 void resetAllFormationPlaces();               // nbResetAllFormPosRot

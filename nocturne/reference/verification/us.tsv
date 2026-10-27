@@ -309,8 +309,12 @@ InitActionProcessData (0x257EB0)	ok
 nbInitActionProcess (0x257FA8)	ok
 rstChkLevelUpTarget (0x21F788)	ok
 rstChkResultEntry (0x21F7D8)	ok
+nbSetFormRot (0x28A158)	ok
 nbSetEnemyFormation (0x28A758)	ok
 effBTLModelGetID (0x16E560)	ok
+sdfSin (0x2C0060)	ok
+sdfCos (0x2C0160)	ok
+sdfAtan (0x2C0228)	ok
 nbSetupBattleUnits (0x259740)	ok
 nbSetPlayerStartData (0x259908)	ok
 nbInitEffectProcess (0x16C528)	ok
@@ -943,6 +947,7 @@ dds3SetLightColor	ok
 dds3SetLightDir	ok
 dds3RotationArc	ok
 ps2QuaternionNormalize	ok
+Mult (0x2C0488)	ok
 dds3SetAmbientColor	ok
 dds3SetFogColor	ok
 dds3SetFogPara	ok

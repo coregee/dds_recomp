@@ -72,6 +72,7 @@ void evtBitOn(int32_t no);
 uint32_t evtGetAgeOfMoon16(void);
 uint64_t dds3SearchProcessName(uint64_t name);
 uint64_t dds3SearchProcessPriority(uint64_t priority);
+void dds3SetRotPoseSet(uint64_t basic, uint64_t rot);
 uint64_t dds3GetProcessData(uint64_t process);
 void evtBitOff(int32_t no);
 [[noreturn]] void nocturneCompilerArithmeticTrap(uint32_t code);
@@ -125,7 +126,6 @@ void ps2BattlePanelSetAnalyzeUnit_00280538(uint64_t unit);
 void dds3ObjectBaseOnFlag(uint64_t basic, uint64_t flag);
 void dds3ObjectBaseOffFlag(uint64_t basic, uint64_t flag);
 void dds3SetPosPoseSet(uint64_t basic, uint64_t pos);
-void nbSetFormRot(uint64_t form, uint64_t rot);
 void NegoDebugDraw(uint64_t talk);         // 0x26BF00: no legacy C yet
 void NegoDebugSelectDraw(uint64_t talk);   // 0x26C0D8
 uint64_t NegoDebug(uint64_t talk);         // 0x26C2D8
@@ -413,6 +413,7 @@ void nb::PanelSetEnabled(bool enabled) { ps2BattlePanelSetEnabled_00282200(enabl
 void nb::PanelSetAnalyzeUnit(UnitWork* unit) { ps2BattlePanelSetAnalyzeUnit_00280538(word(guest::addressOf(unit))); }
 void dds3::ObjectBaseOnFlag(uint32_t basic, uint32_t flag) { dds3ObjectBaseOnFlag(word(basic), word(flag)); }
 void dds3::ObjectBaseOffFlag(uint32_t basic, uint32_t flag) { dds3ObjectBaseOffFlag(word(basic), word(flag)); }
+void dds3::SetRotPoseSet(uint32_t basic, uint32_t rot) { dds3SetRotPoseSet(word(basic), word(rot)); }
 void dds3::SetPosPoseSet(uint32_t basic, const nb::Vec4& pos)
 {
     nb::Vec4 copy = pos;
@@ -420,7 +421,6 @@ void dds3::SetPosPoseSet(uint32_t basic, const nb::Vec4& pos)
     dds3SetPosPoseSet(word(basic), word(address));
     nocturneLibcStreamEndLocal();
 }
-void nb::SetFormRot(Formation& form, const Vec4& rot) { nbSetFormRot(word(guest::addressOf(&form)), word(guest::addressOf(&rot))); }
 void nb::TalkDebugDraw(uint32_t talk) { NegoDebugDraw(word(talk)); }
 void nb::TalkDebugSelectDraw(uint32_t talk) { NegoDebugSelectDraw(word(talk)); }
 int32_t nb::TalkDebug(uint32_t talk) { return static_cast<int32_t>(NegoDebug(word(talk))); }

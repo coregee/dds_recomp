@@ -114,7 +114,7 @@ void ps2BattleActionRequest_00296B88(void);
 uint64_t fw_event_pack_load(uint64_t);
 uint64_t fw_event_pack_state(uint64_t);
 uint64_t fw_basic_effect(uint64_t, uint64_t, uint64_t);
-void nbSetFormRot(uint64_t, uint64_t);
+void dds3SetRotPoseSet(uint64_t, uint64_t);
 void nbReturnUnit(uint64_t, uint64_t, uint64_t);
 void nbMoveTarget(uint64_t, uint64_t, uint32_t);
 void nbMoveHome(uint64_t, uint32_t);
@@ -492,7 +492,8 @@ ee::Interpreter makeOriginal()
     e.hook(0x00173d28, [=](ee::Cpu& c) { effBTLPartEnd(a(c, 0)); return uint64_t{0}; });
     e.hook(0x00173dc8, [=](ee::Cpu& c) { effBTLPartDraw(a(c, 0)); return uint64_t{0}; });
     e.hook(0x00280538, [=](ee::Cpu& c) { ps2BattlePanelSetAnalyzeUnit_00280538(a(c, 0)); return uint64_t{0}; });
-    e.hook(0x0028a158, [=](ee::Cpu& c) { nbSetFormRot(a(c, 0), a(c, 1)); return uint64_t{0}; });
+    e.interpret(0x0028a158, 0x0028a200);   // nbSetFormRot
+    e.hook(0x0010ded8, [=](ee::Cpu& c) { dds3SetRotPoseSet(a(c, 0), a(c, 1)); return uint64_t{0}; });
     e.interpret(0x0028f218, 0x0028f7e8);   // nbMakaProcess (the Macca window)
     e.interpret(0x001ca508, 0x001ca5dc);   // the font's short string request
     e.hook(0x002797b0, [=](ee::Cpu& c) { ps2BattlePanelSetOrderingOffset_002797B0(a(c, 0)); return uint64_t{0}; });
@@ -534,6 +535,9 @@ ee::Interpreter makeOriginal()
     e.interpret(0x0028a758, 0x0028b0a0);   // nbSetEnemyFormation
     e.interpret(0x0028a2e0, 0x0028a2f0);   // nbLoadUnitPos
     e.interpret(0x0016e560, 0x0016e5ac);   // effBTLModelGetID
+    e.interpret(0x002c0060, 0x002c017c);   // sdfSin, sdfCos
+    e.interpret(0x002c0228, 0x002c0258);   // sdfAtan
+    e.interpret(0x002c0488, 0x002c04b8);   // Mult (the quaternion product)
     e.hook(0x0024d8c0, [=](ee::Cpu& c) { ps2BattleFormation_0024D8C0(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
     e.hook(0x002c1730, [=](ee::Cpu& c) { ps2SoundStopEffectMidi_002C1730(a(c, 0)); return uint64_t{0}; });
     e.interpret(0x0028b0a0, 0x0028b0b8);   // nbSetPlayerFormation
