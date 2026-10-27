@@ -1130,6 +1130,52 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         levelUpWorld(g);
         return Pair{[] { return iface::origVm(0x0021f7d8, {}) & 0xff; }, [] { return uint64_t{nocturne::rst::anyLevelUpDue()}; }};
     });
+    // The enemies' placement: every formation type, its enemies present or
+    // not, their units the devils each type looks for, any model scale.
+    const auto enemyFormationWorld = [](Gen& g) {
+        nb::MainProcessData& main = mainData();
+        main.formationtype = g.chance(40) ? g.range(8, 11) : g.chance(90) ? g.range(0, 13) : g.range(14, 20);   // (often a boss's)
+        static const uint16_t kDevils[] = {0x116, 0x117, 0x118, 0x119, 0x11a, 0x103, 0x124, 0x123, 0x102, 0x156, 0x108, 0x125, 0x50};
+        for (uint32_t f = 4; f < 14; ++f) {
+            nb::Formation& form = at<nb::Formation>(FW_FORMS + 0xf0u * f);
+            form.stat = (form.stat & ~1u) | (g.chance(75) ? 1u : 0u);
+            form.formindex = static_cast<int16_t>(g.chance(85) ? f : g.range(0, 13));
+            form.pos = nb::Vec4{ee::Float::fromInt(g.range(-500, 500)), ee::Float::fromInt(g.range(-100, 100)),
+                                ee::Float::fromInt(g.range(-500, 1500)), ee::Float::fromInt(g.range(0, 1))};
+            form.scl = g.chance(10) ? ee::Float::fromBits(0) : ee::Float::fromInt(g.range(1, 3));
+            if (const uint32_t unit = at<uint32_t>(FW_FORM_UNITS + 4u * f)) {
+                at<UnitWork>(unit).id = g.pick(kDevils);
+                at<UnitWork>(unit).flag = (at<UnitWork>(unit).flag & ~4u) | (g.chance(10) ? 4u : 0u);
+            }
+        }
+        if (g.chance(70)) {   // (the first enemy present, as the boss its type expects, often at scale 0)
+            nb::Formation& first = at<nb::Formation>(FW_FORMS + 0xf0u * 4);
+            first.stat |= 1;
+            first.formindex = 4;
+            if (g.chance(30))
+                first.scl = ee::Float::fromBits(0);
+            if (const uint32_t unit = at<uint32_t>(FW_FORM_UNITS + 16u)) {
+                UnitWork& boss = at<UnitWork>(unit);
+                boss.flag &= ~4u;
+                switch (main.formationtype) {
+                case 8: boss.id = g.pick<uint16_t>({0x103, 0x124}); break;
+                case 9: case 11: boss.id = g.pick<uint16_t>({0x123, 0x102, 0x156}); break;
+                case 10: boss.id = g.pick<uint16_t>({0x108, 0x125}); break;
+                default: break;
+                }
+            }
+        }
+    };
+    add("nbSetEnemyFormation (0x28A758)", [=](Gen& g) {
+        enemyFormationWorld(g);
+        return Pair{[] { return iface::origVmVoid(0x0028a758, {FW_MAIN}); }, [] { nb::setEnemyFormation(mainData()); return uint64_t{0}; }};
+    });
+    add("effBTLModelGetID (0x16E560)", [=](Gen& g) {
+        enemyFormationWorld(g);
+        const uint32_t form = g.chance(5) ? 0 : FW_FORMS + 0xf0u * static_cast<uint32_t>(g.range(4, 13));
+        return Pair{[=] { return iface::origVm(0x0016e560, {form}); },
+                    [=] { return norm(nb::formationModelId(form ? &at<nb::Formation>(form) : nullptr)); }};
+    });
     add("nbSetupBattleUnits (0x259740)", [](Gen& g) {   // any encounter (often one that limits calls)
         int32_t encno = g.range(1, 1269);
         for (int tries = 0; tries < 32 && g.chance(50) && nocturne::dat::encount(encno).maxcall == 0; ++tries)

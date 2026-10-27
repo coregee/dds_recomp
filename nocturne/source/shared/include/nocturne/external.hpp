@@ -143,7 +143,6 @@ void UnitSetAlpha(uint32_t unit, int32_t frames, uint32_t alpha);
 // (0x1E3B78) a unit model's two motion words at +0xBA, +0xBC (meaning unknown)
 void UnitSetMotionWords(uint32_t unit, int16_t a, int16_t b);
 void SetPartyFormation(MainProcessData& data, uint32_t group);   // nbSetPartyFormation (0x28A340)
-void SetEnemyFormation(MainProcessData& data);                   // nbSetEnemyFormation (0x28A758)
 // The damage motions: nbSetDamage (0x24DF78; week: the hit was on a
 // weakness), nbSetDamage2 (0x24E020, a light one), nbSetBadstatMotion
 // (0x24E040, an ailment's), nbSetBadstatMotion2 (0x24E0E8).
@@ -270,7 +269,7 @@ void FadeOut(int32_t r, int32_t g, int32_t b, int32_t frames);   // to the color
 void FadeIn2(int32_t frames);    // dds3FadeIn2: back from the last fade's color
 void ObjectBaseOnFlag(uint32_t basic, uint32_t flag);    // dds3ObjectBaseOnFlag: an object's control flags set
 void ObjectBaseOffFlag(uint32_t basic, uint32_t flag);   // dds3ObjectBaseOffFlag: ... cleared
-void SetPosPoseSet(uint32_t basic, uint32_t pos);        // dds3SetPosPoseSet: an object placed
+void SetPosPoseSet(uint32_t basic, const nb::Vec4& pos); // dds3SetPosPoseSet: an object placed (a copy of `pos` in guest memory)
 void PadAct(uint32_t mode, uint8_t pow, uint32_t frame);         // dds3PadAct: the pad's vibration
 } // namespace dds3
 

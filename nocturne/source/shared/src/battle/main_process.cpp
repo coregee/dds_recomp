@@ -59,7 +59,6 @@ constexpr int32_t kNoGameOverFlag = 0xc0c;       // debug event bit: no game ove
 
 // Not rewritten yet (names from the HD remaster where it has them).
 constexpr uint32_t kAddUnitStock = addr(0x0024d550);         // nbAddUnitStock: a stock unit into a formation slot (no C here yet)
-constexpr uint32_t kSetEnemyFormation = addr(0x0028a758);     // nbSetEnemyFormation: the enemies placed (no C here yet)
 constexpr uint32_t kInitDebugProcess = addr(0x00285368);      // nbInitDebugProcess
 constexpr uint32_t kDebugSelect = addr(0x00246bf8);           // nbDebugSelect (the debug pad's displays)
 constexpr uint32_t kDebugMainProcess = addr(0x00246f10);      // nbDebugMainProcess
@@ -385,7 +384,7 @@ void setUpEnemies(MainProcessData& main, int32_t encno)
         guest::callOriginal(kAddUnitStock, addressOf(main), 1, static_cast<uint32_t>(made), static_cast<uint32_t>(4 + i));
         ++made;
     }
-    guest::callOriginal(kSetEnemyFormation, addressOf(main));
+    setEnemyFormation(main);
     main.summonallowed = encounter.maxcall != 0 ? encounter.maxcall : -1;
 }
 

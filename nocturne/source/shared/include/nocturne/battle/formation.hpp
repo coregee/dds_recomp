@@ -31,4 +31,12 @@ ee::Float summonInterval();                   // nbGetSummonInterval: 50
 ee::Float defaultRadius();                    // nbFormationGetRadiusDef: 100
 ee::Float enemyInterval();                    // nbGetEnemyInterval
 
+// The encounter's formation type (Encount::formationtype), named after the
+// debug prints (ENC_FORMATION_*): the bosses whose enemies stand apart.
+enum class EncounterFormation : uint32_t {
+    Normal, Arsiel, Girimehkala, Mara, Fates, Albion, Angels, Baal, Noah, Ahriman, Kagutsuchi, Ahriman2, Beelzebub, Lucifer,
+};
+void setEnemyFormation(MainProcessData& main);       // nbSetEnemyFormation (0x28A758)
+int32_t formationModelId(const Formation* form);     // effBTLModelGetID (0x16E560): the devil a slot shows
+
 } // namespace nocturne::nb

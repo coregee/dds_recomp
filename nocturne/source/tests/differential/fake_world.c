@@ -282,6 +282,8 @@ int fw_print_arg_count(uint32_t format)
     case 0x00543448: return 0;   /* an action still queued (nbCheckActionStack) */
     case 0x00543438: return 0;   /* backattack!! (CheckSenseiOrBackAttack) */
     case 0x005453b8: return 0;   /* nbPanelPressTurnStart */
+    case 0x005458e8: case 0x00545918: case 0x00545948: case 0x00545978: case 0x005459a0: case 0x005459d0: case 0x00545a00:
+    case 0x00545a30: case 0x00545a58: case 0x00545a80: case 0x00545aa8: case 0x00545ad0: case 0x00545af8: return 0;   /* nbSetEnemyFormation:ENC_FORMATION_* */
     case 0x00543458: case 0x00543468: case 0x00543478: return 0;   /* no one can act, game over, level up (the phases) */
     case 0x00543880: case 0x005438c0: case 0x00543908: return 0;   /* counters, a failed escape's hit */
     case 0x005438d8: return 2;                  /* inoti party */
@@ -819,7 +821,6 @@ void effBTLCutDraw(uint64_t cut) { fw_mes_log(109, (uint32_t)cut, 0); }
 void dds3FadeIn2(uint64_t frames) { fw_mes_log(102, (uint32_t)frames, 0); }
 void ps2BattleOutcome_001E3B78(uint64_t unit, uint64_t a, uint64_t b) { fw_mes_log(103, (uint32_t)unit, (uint32_t)a ^ (uint32_t)b << 16); }
 void ps2BattleFormation_0028A340(uint64_t data, uint64_t group) { fw_mes_log(104, (uint32_t)data, (uint32_t)group); }
-void ps2BattleFormation_0028A758(uint64_t data) { fw_mes_log(105, (uint32_t)data, 0); }
 void ps2BattleFormation_0024D8C0(uint64_t side, uint64_t stockno, uint64_t formindex)
 {
     fw_mes_log(106, (uint32_t)side ^ (uint32_t)stockno << 16, (uint32_t)formindex);

@@ -393,7 +393,7 @@ void playSummon(EffectQueue& k, EffectPacket& p)
         if (!(main.stat & 8))
             addToOrder(formindex);
     } else if (side == 1) {
-        SetEnemyFormation(main);
+        setEnemyFormation(main);
         if (main.stat & 8)
             addToOrder(formindex);
     }

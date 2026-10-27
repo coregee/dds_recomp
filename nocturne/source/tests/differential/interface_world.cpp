@@ -140,7 +140,6 @@ void nbSetBadstatMotion(uint64_t, uint64_t, uint32_t);
 void nbSetBadstatMotion2(uint64_t);
 void ps2BattleOutcome_001E3B78(uint64_t, uint64_t, uint64_t);
 void ps2BattleFormation_0028A340(uint64_t, uint64_t);
-void ps2BattleFormation_0028A758(uint64_t);
 void ps2BattleFormation_0024D8C0(uint64_t, uint64_t, uint64_t);
 void ps2SoundStopEffectMidi_002C1730(uint64_t);
 void nbUnitSetAlpha(uint64_t, uint64_t, uint64_t);
@@ -532,7 +531,9 @@ ee::Interpreter makeOriginal()
     e.hook(0x001e99d0, [=](ee::Cpu& c) { evtSetAgeOfMoon(static_cast<int32_t>(a(c, 0))); return uint64_t{0}; });
     e.hook(0x001e3b78, [=](ee::Cpu& c) { ps2BattleOutcome_001E3B78(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
     e.hook(0x0028a340, [=](ee::Cpu& c) { ps2BattleFormation_0028A340(a(c, 0), a(c, 1)); return uint64_t{0}; });
-    e.hook(0x0028a758, [=](ee::Cpu& c) { ps2BattleFormation_0028A758(a(c, 0)); return uint64_t{0}; });
+    e.interpret(0x0028a758, 0x0028b0a0);   // nbSetEnemyFormation
+    e.interpret(0x0028a2e0, 0x0028a2f0);   // nbLoadUnitPos
+    e.interpret(0x0016e560, 0x0016e5ac);   // effBTLModelGetID
     e.hook(0x0024d8c0, [=](ee::Cpu& c) { ps2BattleFormation_0024D8C0(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
     e.hook(0x002c1730, [=](ee::Cpu& c) { ps2SoundStopEffectMidi_002C1730(a(c, 0)); return uint64_t{0}; });
     e.interpret(0x0028b0a0, 0x0028b0b8);   // nbSetPlayerFormation

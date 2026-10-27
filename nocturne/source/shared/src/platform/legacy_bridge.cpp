@@ -163,7 +163,6 @@ void nbSetDamage2(uint64_t form, uint32_t range);                       // 0x24E
 void nbSetBadstatMotion(uint64_t form, uint64_t type, uint32_t range);   // 0x24E040: float in f12; no legacy C
 void nbSetBadstatMotion2(uint64_t form);                                // 0x24E0E8: no legacy C
 void ps2BattleFormation_0028A340(uint64_t data, uint64_t group);   // nbSetPartyFormation
-void ps2BattleFormation_0028A758(uint64_t data);                   // nbSetEnemyFormation
 void ps2BattleFormation_0024D8C0(uint64_t side, uint64_t stockno, uint64_t formindex);
 void ps2SoundStopEffectMidi_002C1730(uint64_t sound);
 void ps2SoundVolumeHalfDown_002C20A0(void);
@@ -414,7 +413,13 @@ void nb::PanelSetEnabled(bool enabled) { ps2BattlePanelSetEnabled_00282200(enabl
 void nb::PanelSetAnalyzeUnit(UnitWork* unit) { ps2BattlePanelSetAnalyzeUnit_00280538(word(guest::addressOf(unit))); }
 void dds3::ObjectBaseOnFlag(uint32_t basic, uint32_t flag) { dds3ObjectBaseOnFlag(word(basic), word(flag)); }
 void dds3::ObjectBaseOffFlag(uint32_t basic, uint32_t flag) { dds3ObjectBaseOffFlag(word(basic), word(flag)); }
-void dds3::SetPosPoseSet(uint32_t basic, uint32_t pos) { dds3SetPosPoseSet(word(basic), word(pos)); }
+void dds3::SetPosPoseSet(uint32_t basic, const nb::Vec4& pos)
+{
+    nb::Vec4 copy = pos;
+    const uint32_t address = nocturneLibcStreamLocalAddress(&copy, sizeof copy);
+    dds3SetPosPoseSet(word(basic), word(address));
+    nocturneLibcStreamEndLocal();
+}
 void nb::SetFormRot(Formation& form, const Vec4& rot) { nbSetFormRot(word(guest::addressOf(&form)), word(guest::addressOf(&rot))); }
 void nb::TalkDebugDraw(uint32_t talk) { NegoDebugDraw(word(talk)); }
 void nb::TalkDebugSelectDraw(uint32_t talk) { NegoDebugSelectDraw(word(talk)); }
@@ -493,7 +498,6 @@ void nb::SetBadstatMotion(Formation& form, int32_t type, ee::Float range)
 void nb::SetBadstatMotion2(Formation& form) { nbSetBadstatMotion2(word(guest::addressOf(&form))); }
 void nb::UnitSetMotionWords(uint32_t unit, int16_t a, int16_t b) { ps2BattleOutcome_001E3B78(word(unit), signExtend(a), signExtend(b)); }
 void nb::SetPartyFormation(MainProcessData& data, uint32_t group) { ps2BattleFormation_0028A340(word(guest::addressOf(&data)), group); }
-void nb::SetEnemyFormation(MainProcessData& data) { ps2BattleFormation_0028A758(word(guest::addressOf(&data))); }
 void nb::SummonUnit(int32_t side, int32_t stockno, int32_t formindex)
 {
     ps2BattleFormation_0024D8C0(signExtend(side), signExtend(stockno), signExtend(formindex));

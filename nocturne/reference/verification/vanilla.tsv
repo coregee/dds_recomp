@@ -306,6 +306,8 @@ InitActionProcessData (0x257EB0)	ok
 nbInitActionProcess (0x257FA8)	ok
 rstChkLevelUpTarget (0x21F788)	ok
 rstChkResultEntry (0x21F7D8)	ok
+nbSetEnemyFormation (0x28A758)	ok
+effBTLModelGetID (0x16E560)	ok
 nbSetupBattleUnits (0x259740)	ok
 nbSetPlayerStartData (0x259908)	ok
 nbInitEffectProcess (0x16C528)	ok

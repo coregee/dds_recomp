@@ -1901,7 +1901,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0016e408	116	FUN_0016e408	DEFAULT	named								effBTLModelTargetPartyHide
 0016e480	112	FUN_0016e480	DEFAULT	named								effBTLModelGetInvokeGroupNumber
 0016e4f0	112	FUN_0016e4f0	DEFAULT	named								effBTLModelGetTargetGroupNumber
-0016e560	76	effBTLModelGetID	USER_DEFINED	legacy		battle_action_scale_lookup_frames.c:ps2BattleActionScaleLookup_0016E560;battle_effect_copy.c:effBTLModelGetID						effBTLModelGetID
+0016e560	76	effBTLModelGetID	USER_DEFINED	rewritten	shared/src/battle/formation.cpp:formationModelId	battle_action_scale_lookup_frames.c:ps2BattleActionScaleLookup_0016E560;battle_effect_copy.c:effBTLModelGetID	ok	ok	ok	ok	ok	effBTLModelGetID
 0016e5b0	76	FUN_0016e5b0	DEFAULT	named								effBTLModelCheckBossID
 0016e600	32	FUN_0016e600	DEFAULT	named								effBTLModelGetBadStatus
 0016e620	24	FUN_0016e620	DEFAULT	named								effBTLPartGetScalePtrSub
@@ -7174,7 +7174,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0028a320	16	FUN_0028a320	DEFAULT	rewritten	shared/src/battle/formation.cpp:defaultRadius		ok	ok	ok	ok	ok	nbCameraGetSummonFar
 0028a338	8	FUN_0028a338	DEFAULT	rewritten	shared/src/battle/formation.cpp:enemyInterval		ok	ok	ok	ok	ok	nbGetEnemyInterval
 0028a340	1048	ps2BattleFormation_0028A340	USER_DEFINED	legacy		battle_formation.c:body_0028a340;battle_formation.c:ps2BattleFormation_0028A340						nbSetPartyFormation
-0028a758	2300	ps2BattleFormation_0028A758	USER_DEFINED	legacy		battle_formation.c:body_0028a758;battle_formation.c:ps2BattleFormation_0028A758						nbSetEnemyFormation
+0028a758	2300	ps2BattleFormation_0028A758	USER_DEFINED	rewritten	shared/src/battle/formation.cpp:setEnemyFormation	battle_formation.c:body_0028a758;battle_formation.c:ps2BattleFormation_0028A758	ok	ok	ok	ok	ok	nbSetEnemyFormation
 0028b0a0	24	nbSetPlayerFormation	USER_DEFINED	rewritten	shared/src/battle/kouka_process.cpp:setPlayerFormation		ok	ok	ok	ok	ok	nbSetPlayerFormation
 0028b0b8	216	FUN_0028b0b8	DEFAULT	rewritten	shared/src/battle/formation.cpp:initFormation		ok	ok	ok	ok	ok	nbFormatFormation
 0028b198	404	FUN_0028b198	DEFAULT	rewritten	shared/src/battle/formation.cpp:copyFormation		ok	ok	ok	ok	ok	nbCopyFormation
