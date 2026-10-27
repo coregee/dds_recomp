@@ -5284,7 +5284,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0021ff38	16	rstCancelMotionReq	USER_DEFINED	legacy		rst_motion_leaves.c:rstCancelMotionReq						rstSetEvoState
 0021ff48	112	rstSetMotionReqFromTbl	USER_DEFINED	legacy		rst_motion_leaves.c:rstSetMotionReqFromTbl						rstSetMotionReqFromTbl
 0021ffb8	72	rstChkAddSkill	USER_DEFINED	legacy		rst_level_chain.c:rstChkAddSkill						rstChkAddSkill
-00220000	32	rstGetEquipHeartsAisyo	USER_DEFINED	legacy		rst_level_chain.c:rstGetEquipHeartsAisyo						rstGetEquipHeartsAisyo
+00220000	32	rstGetEquipHeartsAisyo	USER_DEFINED	rewritten	shared/src/result/level_up.cpp:equippedHeartsAffinity	rst_level_chain.c:rstGetEquipHeartsAisyo	ok	ok	ok	ok	ok	rstGetEquipHeartsAisyo
 00220020	380	rstSetDestroySkillMaxHpMp	USER_DEFINED	legacy		rst_level_chain.c:rstSetDestroySkillMaxHpMp						rstSetDestroySkillMaxHpMp
 002201a0	228	rstSetMaxHpMp	USER_DEFINED	legacy		rst_rng_frontier.c:rstSetMaxHpMp						rstSetMaxHpMp
 00220288	112	rstChkParamLimitAll	USER_DEFINED	legacy		rst_level_chain.c:rstChkParamLimitAll						rstChkParamLimitAll
@@ -6111,7 +6111,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0024d3a0	136	nbGetMotionActframe	USER_DEFINED	legacy		battle_action_skill_core_frames.c:body_0024d3a0;battle_action_skill_core_frames.c:ps2BattleActionSkill_0024D3A0						nbGetMotionActframe
 0024d428	100	ps2BattleOutcome_0024D428	USER_DEFINED	legacy		battle_action_skill_core_frames.c:body_0024d428;battle_action_skill_core_frames.c:ps2BattleActionSkill_0024D428;battle_outcome.c:body_0024d428;battle_outcome.c:ps2BattleOutcome_0024D428						nbGetMotionSpeed
 0024d490	188	ps2BattleFormation_0024D490	USER_DEFINED	legacy		battle_formation.c:body_0024d490;battle_formation.c:ps2BattleFormation_0024D490						nbGetMotionNo
-0024d550	864	ps2BattleFormation_0024D550	USER_DEFINED	legacy		battle_formation.c:body_0024d550;battle_formation.c:ps2BattleFormation_0024D550						nbAddUnitStock
+0024d550	864	ps2BattleFormation_0024D550	USER_DEFINED	rewritten	shared/src/battle/unit_process.cpp:addUnitToSlot	battle_formation.c:body_0024d550;battle_formation.c:ps2BattleFormation_0024D550	ok	ok	ok	ok	ok	nbAddUnitStock
 0024d8c0	120	ps2BattleFormation_0024D8C0	USER_DEFINED	legacy		battle_formation.c:body_0024d8c0;battle_formation.c:ps2BattleFormation_0024D8C0						nbSummonUnit
 0024d938	68	FUN_0024d938	DEFAULT	unknown								
 0024d980	612	nbReturnUnit	USER_DEFINED	named								nbReturnUnit

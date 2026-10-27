@@ -1129,6 +1129,10 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         const uint32_t unit = FW_GLOBAL + static_cast<uint32_t>(offsetof(nocturne::GlobalWork, units)) + 0xecu * static_cast<uint32_t>(index);
         return Pair{[=] { return iface::origVm(0x0021f788, {unit}); }, [=] { return norm(nocturne::rst::levelUpDue(at<UnitWork>(unit))); }};
     });
+    add("rstGetEquipHeartsAisyo (0x220000)", [](Gen& g) {
+        nocturne::dat::globalWork().hearts_equipped = static_cast<uint8_t>(g.chance(80) ? g.range(0, 25) : g.range(0, 255));
+        return Pair{[] { return iface::origVm(0x00220000, {}) & 0xffff; }, [] { return uint64_t{static_cast<uint16_t>(nocturne::rst::equippedHeartsAffinity())}; }};
+    });
     add("rstChkResultEntry (0x21F7D8)", [=](Gen& g) {
         levelUpWorld(g);
         return Pair{[] { return iface::origVm(0x0021f7d8, {}) & 0xff; }, [] { return uint64_t{nocturne::rst::anyLevelUpDue()}; }};
@@ -1244,6 +1248,37 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         if (g.chance(30))   // (0x74, 0x10A, 0x149 hold the only devils whose formats' HP or MP differ from the maximum)
             encno = g.pick<int32_t>({0x74, 0x10a, 0x149});
         return Pair{[=] { return iface::origVmVoid(0x00259740, {FW_MAIN, sx(encno)}); }, [=] { nb::setUpEnemies(mainData(), encno); return uint64_t{0}; }};
+    });
+    add("nbAddUnitStock (0x24D550)", [](Gen& g) {   // either side, the entries partly in use, the Demi-fiend or not
+        nb::MainProcessData& main = mainData();
+        GlobalWork& work = nocturne::dat::globalWork();
+        work.hearts_equipped = static_cast<uint8_t>(g.chance(70) ? g.range(1, 25) : 0);
+        for (int32_t i = 0; i < 14; ++i)
+            main.party[i].flag = static_cast<int16_t>(g.chance(55) ? g.range(1, 0xfff) | 1 : g.range(0, 0xfff) & ~1);
+        if (g.chance(30)) {   // (often only the side's last entry free, or none)
+            for (int32_t i = 0; i < 14; ++i)
+                main.party[i].flag |= 1;
+            if (g.chance(70))
+                main.party[g.pick<int32_t>({3, 13})].flag &= ~1;
+        }
+        const int32_t side = g.range(0, 1);
+        const int32_t stockno = side == 0 ? g.range(0, 15) : g.range(0, 9);
+        UnitWork& unit = side == 0 ? work.units[stockno] : main.enemyunit[stockno];
+        unit.flag = static_cast<uint32_t>(g.rng()) & ~4u | (g.chance(40) ? 4u : 0u);
+        if (g.chance(80))
+            unit.id = static_cast<uint16_t>(g.range(0, 360));
+        if (g.chance(15) && !(unit.flag & 4))   // (one model's record sets the slot's 0x80)
+            for (uint16_t id = 1; id < 398; ++id) {
+                unit.id = id;
+                if (nb::unitVisual(unit).setupFlag() == 1)
+                    break;
+            }
+        main.playerpcnt = static_cast<int16_t>(g.range(0, 4));
+        main.enemypcnt = static_cast<int16_t>(g.range(0, 10));
+        const int32_t formindex = g.chance(90) ? g.range(0, 15) : g.range(16, 31);
+        const uint32_t m = FW_MAIN;
+        return Pair{[=] { return iface::origVm(0x0024d550, {m, sx(side), sx(stockno), sx(formindex)}); },
+                    [=] { return norm(nb::addUnitToSlot(mainData(), side, stockno, formindex)); }};
     });
     add("nbSetPlayerStartData (0x259908)", [=](Gen& g) {   // the stock in any order, its units valid, in the party or not
         GlobalWork& work = nocturne::dat::globalWork();

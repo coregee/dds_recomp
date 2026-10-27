@@ -305,6 +305,7 @@ nbInitCameraProcess (0x1B20B8)	ok
 InitActionProcessData (0x257EB0)	ok
 nbInitActionProcess (0x257FA8)	ok
 rstChkLevelUpTarget (0x21F788)	ok
+rstGetEquipHeartsAisyo (0x220000)	ok
 rstChkResultEntry (0x21F7D8)	ok
 nbSetPartyFormation (0x28A340)	ok
 nbSetFormRot (0x28A158)	ok
@@ -314,6 +315,7 @@ sdfSin (0x2C0060)	ok
 sdfCos (0x2C0160)	ok
 sdfAtan (0x2C0228)	ok
 nbSetupBattleUnits (0x259740)	ok
+nbAddUnitStock (0x24D550)	ok
 nbSetPlayerStartData (0x259908)	ok
 nbInitEffectProcess (0x16C528)	ok
 nbInitPanelProcess (0x282900)	ok

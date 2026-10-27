@@ -58,7 +58,6 @@ constexpr int32_t kExtraPressFlag = 0x8c0;       // event bit: the party gets an
 constexpr int32_t kNoGameOverFlag = 0xc0c;       // debug event bit: no game over
 
 // Not rewritten yet (names from the HD remaster where it has them).
-constexpr uint32_t kAddUnitStock = addr(0x0024d550);         // nbAddUnitStock: a stock unit into a formation slot (no C here yet)
 constexpr uint32_t kInitDebugProcess = addr(0x00285368);      // nbInitDebugProcess
 constexpr uint32_t kDebugSelect = addr(0x00246bf8);           // nbDebugSelect (the debug pad's displays)
 constexpr uint32_t kDebugMainProcess = addr(0x00246f10);      // nbDebugMainProcess
@@ -329,7 +328,7 @@ void bringPartyIn(MainProcessData& main)
         unit.prevtarea = -1;
         if (!(unit.flag & UnitFlag::InParty))
             continue;
-        guest::callOriginal(kAddUnitStock, addressOf(main), 0, index, static_cast<uint32_t>(placed));
+        addUnitToSlot(main, 0, index, placed);
         if (main.stat & BattleStat::BackAttack)
             main.form[placed].stat |= FormationStat::Unknown2000;
         ++placed;
@@ -381,7 +380,7 @@ void setUpEnemies(MainProcessData& main, int32_t encno)
         unit.hp = format.hp;
         unit.maxmp = format.maxmp;
         unit.mp = format.mp;
-        guest::callOriginal(kAddUnitStock, addressOf(main), 1, static_cast<uint32_t>(made), static_cast<uint32_t>(4 + i));
+        addUnitToSlot(main, 1, made, 4 + i);
         ++made;
     }
     setEnemyFormation(main);

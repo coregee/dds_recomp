@@ -8,6 +8,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <cstring>
 
 #include "nocturne/data/types.hpp"
 #include "nocturne/build.hpp"
@@ -368,11 +369,25 @@ struct UnitMotion {
 static_assert(sizeof(UnitMotion) == 0x1c);
 
 struct UnitVisual {
-    uint8_t unknown_00[0x10];
-    ee::Float size;           // with scale: a called ally's slot radius (tentative)
-    uint8_t unknown_14[4];
+    ee::Float center[4];      // the box the camera targets the unit by: its centre (Formation::center)
+    ee::Float size;           // ... its radius (with scale: a called ally's slot radius)
+    ee::Float height;
     ee::Float scale;
+    // Motion 0 is none: its first bytes hold the rest of the unit's set-up
+    // (nbAddUnitStock), read through the accessors below.
     UnitMotion motion[27];
+
+    ee::Float oneShotRadius() const { return fieldAt<ee::Float>(0x1c); }   // (Formation::oneshotr)
+    ee::Float allShotRadius() const { return fieldAt<ee::Float>(0x20); }   // (Formation::allshotr)
+    uint16_t setupFlag() const { return fieldAt<uint16_t>(0x2a); }         // 1: FormationStat 0x80 (tentative)
+
+private:
+    template <class T> T fieldAt(size_t offset) const
+    {
+        T value;
+        std::memcpy(&value, reinterpret_cast<const uint8_t*>(this) + offset, sizeof value);
+        return value;
+    }
 };
 static_assert(sizeof(UnitVisual) == 0x310);
 

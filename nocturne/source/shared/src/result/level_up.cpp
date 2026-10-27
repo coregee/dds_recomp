@@ -2,6 +2,7 @@
 // the original instructions.
 #include "nocturne/result/level_up.hpp"
 
+#include "nocturne/data/magatama.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/types.hpp"
 #include "nocturne/fusion/growth.hpp"
@@ -24,5 +25,8 @@ bool anyLevelUpDue()
             return true;
     return false;
 }
+
+// rstGetEquipHeartsAisyo @ 0x00220000
+int16_t equippedHeartsAffinity() { return magatama::affinityRow(dat::globalWork().hearts_equipped); }
 
 } // namespace nocturne::rst

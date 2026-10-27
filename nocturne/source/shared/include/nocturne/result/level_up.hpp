@@ -13,4 +13,8 @@ bool levelUpDue(const UnitWork& unit);
 // the stock's order).
 bool anyLevelUpDue();
 
+// rstGetEquipHeartsAisyo (0x220000, original unit rstcalc): the affinity row
+// of the Magatama the Demi-fiend has on (0 for none).
+int16_t equippedHeartsAffinity();
+
 } // namespace nocturne::rst
