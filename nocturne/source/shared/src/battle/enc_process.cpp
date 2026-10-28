@@ -6,6 +6,7 @@
 #include "nocturne/battle/bad_ai.hpp"
 #include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/help.hpp"
+#include "nocturne/battle/kouka.hpp"
 #include "nocturne/effect/cut.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
@@ -100,7 +101,7 @@ uint32_t showEnemies(uint32_t process)
         Formation& form = partyForm(main, parties[i]);
         if (form.flag & kFlagHidden) {
             form.flag &= ~kFlagHidden;
-            AddHitEffPacket(1, 0, form, 4);
+            addHitEffectPacket(1, 0, form, 4);
             return 0;
         }
     }

@@ -41,7 +41,6 @@ uint64_t fileGetLoadSize(uint64_t request);
 void ps2ResourceRequestRelease(uint64_t request);
 void nbMakeSkillEffectPacket(uint64_t start, uint64_t timer, uint64_t act, uint64_t form, uint64_t hiteff,
                              uint64_t motiontype, uint64_t skill);              // 0x2617A8
-void nbAddHitEffPacket(uint64_t start, uint64_t act, uint64_t form, uint64_t kind);   // 0x262480
 void nbMakeTargetPacket(uint64_t start, uint64_t act, uint64_t form, uint64_t targets, uint64_t kind,
                         uint32_t speed);                                        // 0x2648C0: float in f12           // 0x279C30: no named legacy C yet (the tests fake it)
 void nbPanelPressGaugeShow(void);    // 0x27C2C0: no named legacy C yet
@@ -114,6 +113,7 @@ void effPCPBossONGY2Draw(uint64_t handle);       // 0x198930
 void effPCPBossBUNSINDraw(uint64_t handle);      // 0x199600
 void effPCPBossBUNSIN2Draw(uint64_t handle);     // 0x199C08
 uint64_t ps2BattleAction_00173CB0(uint64_t form, uint64_t kind);   // effBTLPartCreate
+uint64_t ps2BattleAction_00173EF0(uint64_t handle);                // effBTLSystemGetLength
 void effBTLPartEnd(uint64_t part);               // 0x173D28: no legacy C yet
 void effBTLPartDraw(uint64_t part);              // 0x173DC8: no legacy C yet
 void ps2BattlePanelSetAnalyzeUnit_00280538(uint64_t unit);
@@ -339,14 +339,6 @@ void nb::MakeSkillEffectPacket(int32_t startframe, int32_t timer, ActionProcessD
     nbMakeSkillEffectPacket(signExtend(startframe), signExtend(timer), word(guest::addressOf(&a)), word(guest::addressOf(&form)),
                             signExtend(hiteff), signExtend(motiontype), signExtend(skill));
 }
-void nb::AddHitEffPacket(int32_t startframe, ActionProcessData& a, Formation& form, int32_t kind)
-{
-    nbAddHitEffPacket(signExtend(startframe), word(guest::addressOf(&a)), word(guest::addressOf(&form)), signExtend(kind));
-}
-void nb::AddHitEffPacket(int32_t startframe, int32_t uniqueid, Formation& form, int32_t kind)
-{
-    nbAddHitEffPacket(signExtend(startframe), signExtend(uniqueid), word(guest::addressOf(&form)), signExtend(kind));
-}
 void nb::MakeTargetPacket(ee::Float speed, int32_t start, ActionProcessData& a, Formation& form, uint32_t targets, int32_t kind)
 {
     nbMakeTargetPacket(signExtend(start), word(guest::addressOf(&a)), word(guest::addressOf(&form)), word(targets),
@@ -443,6 +435,7 @@ uint32_t eff::BTLPartCreate(nb::Formation* form, int32_t kind)
     return static_cast<uint32_t>(ps2BattleAction_00173CB0(word(guest::addressOf(form)), signExtend(kind)));
 }
 void eff::BTLPartEnd(uint32_t part) { effBTLPartEnd(word(part)); }
+uint32_t eff::BTLSystemGetLength(uint32_t handle) { return static_cast<uint32_t>(ps2BattleAction_00173EF0(word(handle))); }
 void eff::BTLPartDraw(uint32_t part) { effBTLPartDraw(word(part)); }
 void evt::SetAgeOfMoon(int32_t age) { evtSetAgeOfMoon(age); }
 void guest::callEffectPlayer(uint32_t entry, uint32_t queue, uint32_t packet)

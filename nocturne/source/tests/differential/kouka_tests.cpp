@@ -384,6 +384,17 @@ void addKoukaTests(std::vector<TestCase>& t)
         const uint32_t f = someForm(g), bad = 1u << g.range(0, 12);
         return Pair{[=] { return origVm(0x00262260, {I(s), I(id), f, bad}); }, [=] { return R(&addAilmentMotionPacket(s, id, F(f), bad)); }};
     });
+    // A hit effect: every kind (and some past them), the slot empty or not,
+    // the effect's length any word.
+    add("nbAddHitEffKoukaPacket", [](Gen& g) {
+        const int32_t s = frame(g), id = uid(g);
+        const uint32_t f = formAddress(g.range(0, 13));
+        at<Formation>(f).stat ^= g.chance(20) ? 1u : 0u;
+        const uint32_t kind = g.chance(85) ? static_cast<uint32_t>(g.range(0, 10)) : static_cast<uint32_t>(g.range(-1, 14));
+        for (uint32_t part = 0; part < 0x1e; ++part)
+            at<uint32_t>(0x00779400u + part * 0x10u) = g.chance(70) ? static_cast<uint32_t>(g.range(0, 90)) : static_cast<uint32_t>(g.rng());
+        return Pair{[=] { return origVm(0x00262480, {I(s), I(id), f, kind}); }, [=] { return R(addHitEffectPacket(s, id, at<Formation>(f), kind)); }};
+    });
     add("nbAddBadEffKoukaPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g);
         const uint32_t f = someForm(g), bad = g.chance(80) ? 1u << g.range(0, 12) : g.below(0x1000);

@@ -296,7 +296,7 @@ int32_t heals(TalkState& n)
     closeTalkWindow(n);
     PanelSetEnabled(true);
     MakeHealPackets(0, 0, n.pform.get(), 0, n.pwork->maxhp, -1, 0);
-    AddHitEffPacket(0, 0, *n.pform, 8);
+    addHitEffectPacket(0, 0, *n.pform, 8);
     n.waitframe = 0;
     return 0;
 }
@@ -416,15 +416,15 @@ int32_t deathPactStrike(TalkState& n)
     case 2: {
         const uint32_t flags = dat::affinityFlags(*n.ework, Attribute::Death);
         if (flags & Affinity::Repel) {
-            AddHitEffPacket(0, 0, *n.eform, 1);
+            addHitEffectPacket(0, 0, *n.eform, 1);
         } else if (flags & Affinity::Drain) {
-            AddHitEffPacket(0, 0, *n.eform, 2);
+            addHitEffectPacket(0, 0, *n.eform, 2);
         } else if (flags & (Affinity::Null | Affinity::Unknown100000)) {   // (0x100000 never alone on Death)
-            AddHitEffPacket(0, 0, *n.eform, 3);
+            addHitEffectPacket(0, 0, *n.eform, 3);
             addWordPacket(0, 0x2d, 0, n.eform.get(), 4);
         } else {
             makeAilmentPackets(0, 0, n.eform.get(), 0x400);
-            AddHitEffPacket(0, 0, *n.eform, 10);
+            addHitEffectPacket(0, 0, *n.eform, 10);
         }
         break;
     }

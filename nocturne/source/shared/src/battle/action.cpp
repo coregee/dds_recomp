@@ -1248,7 +1248,7 @@ void queueHitResult(ActionProcessData& a, int32_t koukatype, int32_t nskill, int
                 frame += kBuild.chronicle ? 0x2d : 0x5a;
         }
         if (target < 16)
-            nb::AddHitEffPacket(frame, a, formAt(a, target), 2);
+            addHitEffectPacket(frame, uniqueOf(a), formAt(a, target), 2);
         setHitStopFrame(a, frame);
         setTimeList(a, target, frame, 15, 30);
         frame += 13;
@@ -1270,7 +1270,7 @@ void queueHitResult(ActionProcessData& a, int32_t koukatype, int32_t nskill, int
                 main.d31_repel113 = 1;
         }
         if (dformindex < 16)
-            nb::AddHitEffPacket(frame, a, formAt(a, dformindex), 1);
+            addHitEffectPacket(frame, uniqueOf(a), formAt(a, dformindex), 1);
         setHitStopFrame(a, frame);
         target = sformindex;
         setTimeList(a, dformindex, frame, 15, 30);
@@ -1746,7 +1746,7 @@ void enterReady(ActionProcessData& a)
         nb::MakeSkillEffectPacket(0, static_cast<int32_t>(a.timer), a, *a.form, hitEffectByte(effectSkill(skill), 2), a.form->motiontype, skill);
         break;
     case 7:
-        nb::AddHitEffPacket(0, a, *a.form, 5);
+        addHitEffectPacket(0, uniqueOf(a), *a.form, 5);
         break;
     default: break;
     }
@@ -1787,7 +1787,7 @@ void enterReady(ActionProcessData& a)
             nb::MakeTargetPacket(ee::Float::fromInt(1), 0, a, target, 1u << (a.form->formindex & 31), 1);
         } else if (a.work->nowcommand == 6 && (target.stat & 0x41) == 0x41) {   // a summon slot taken
             makeReturnPackets(0, uniqueOf(a), main.party[target.partyindex]);
-            nb::AddHitEffPacket(0, a, target, 5);
+            addHitEffectPacket(0, uniqueOf(a), target, 5);
         }
     }
 

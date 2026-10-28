@@ -71,7 +71,7 @@ int32_t drains(TalkState& n)
     const int32_t healed = demon.hp + n.requestdata <= demon.maxhp ? n.requestdata : demon.maxhp - demon.hp;
     addTimeListHpAt(*n.actdata, n.eformindex, healed);
     MakeHealPackets(0, 0, n.eform.get(), 0, n.requestdata, -1, 0);
-    AddHitEffPacket(0, 0, *n.eform, 9);
+    addHitEffectPacket(0, 0, *n.eform, 9);
     int32_t damage = n.requestdata;
     const int32_t saver = checkEndure(n.pformindex) ? skill::Endure : checkNeverYield(n.pformindex) ? skill::NeverYield : 0;
     if (saver != 0 && damage > 0 && damage >= n.pwork->hp) {

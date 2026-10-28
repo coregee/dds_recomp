@@ -118,6 +118,9 @@ EffectPacket& addSkillColorPacket(int32_t startframe, int32_t uniqueid, int32_t 
 EffectPacket& addSkillColorOffPacket(int32_t startframe, int32_t uniqueid);
 EffectPacket& addAilmentCureEffectPacket(int32_t startframe, int32_t uniqueid, Formation* form);
 EffectPacket& addAilmentEffectPacket(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t bad);
+// nbAddHitEffKoukaPacket (0x262480): a hit's effect on `form` (kinds below),
+// as long as the effect plays, with its sound; none on an empty slot.
+EffectPacket* addHitEffectPacket(int32_t startframe, int32_t uniqueid, Formation& form, uint32_t kind);
 void addNumberPacket(int32_t startframe, int32_t frame, int32_t uniqueid, Formation* form, int32_t n, int32_t n2,
                             int32_t type);
 void addWordPacket(int32_t startframe, int32_t frame, int32_t uniqueid, Formation* form, int32_t type);

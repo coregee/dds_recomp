@@ -480,6 +480,35 @@ EffectPacket& addAilmentCureEffectPacket(int32_t startframe, int32_t uniqueid, F
     return addFor(startframe, uniqueid, form, kAilmentCureEff);
 }
 
+// nbAddHitEffKoukaPacket @ 0x00262480: each kind's part effect and sound
+// (0 none). Kind 3 has no effect; kinds past 10 neither.
+EffectPacket* addHitEffectPacket(int32_t startframe, int32_t uniqueid, Formation& form, uint32_t kind)
+{
+    struct HitEffect { int32_t part; uint32_t sound; };
+    static constexpr HitEffect kHitEffects[11] = {
+        {0x18, 0}, {0x11, 0x10008}, {0x12, 0x10009}, {0, 0}, {0x1a, 0x10001}, {0x14, 0x10000},
+        {0x0e, 0}, {0x19, 0}, {0x1b, 0x10005}, {0x1c, 0x10007}, {0x1d, 0x10006}};
+    constexpr uint32_t kNoEffect = 3;
+    if (!(form.stat & FormationStat::Present))
+        return nullptr;
+    EffectPacket& p = add(startframe, uniqueid, kHitEff);
+    p.form.address = guest::addressOf(&form);
+    p.data1.raw = kind;
+    if (kind >= 11)
+        return &p;
+    if (kind == kNoEffect) {
+        p.framelength = 0;
+        return &p;
+    }
+    const HitEffect& effect = kHitEffects[kind];
+    p.data2.raw = eff::BTLPartCreate(&form, effect.part);
+    p.framelength = static_cast<int16_t>(eff::BTLSystemGetLength(p.data2.raw));
+    diag::print(diag::Message::HitEffectLength, p.framelength);
+    if (effect.sound != 0)
+        addSoundPacket(startframe, uniqueid, effect.sound);
+    return &p;
+}
+
 // nbAddBadEffKoukaPacket @ 0x00262670: an ailment's effect, numbered
 // 1..11 for Shock .. Stone (0 for anything else).
 EffectPacket& addAilmentEffectPacket(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t bad)

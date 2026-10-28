@@ -1119,6 +1119,7 @@ nbAddMotionKoukaPacket	ok
 nbAddFormOnOffPacket	ok
 nbAddDeadEventKoukaPacket	ok
 nbAddBadMotKoukaPacket	ok
+nbAddHitEffKoukaPacket	ok
 nbAddBadEffKoukaPacket	ok
 nbAddUnitColKoukaPacket	ok
 nbAddUnitAKoukaPacket	ok

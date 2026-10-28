@@ -49,6 +49,7 @@ void OngyokiCloneEffect2Draw(uint32_t handle);               // (0x199C08)
 // kind's create, end and draw functions, from the table at 0x31BF00.
 uint32_t BTLPartCreate(nb::Formation* form, int32_t kind);  // (0x173CB0) effBTLPartCreate
 void BTLPartEnd(uint32_t part);                              // (0x173D28)
+uint32_t BTLSystemGetLength(uint32_t handle);                // (0x173EF0) effBTLSystemGetLength: a system effect's frames
 void BTLPartDraw(uint32_t part);                             // (0x173DC8)
 } // namespace eff
 
@@ -77,8 +78,6 @@ void StartTalkProcess(ActionProcessData& a, int32_t pformindex, int32_t eformind
 // Packets READY builds (nbMakePacket; tentative names).
 void MakeSkillEffectPacket(int32_t startframe, int32_t timer, ActionProcessData& a, Formation& form, int32_t hiteff,
                            int32_t motiontype, int32_t skill);                          // (0x2617A8)
-void AddHitEffPacket(int32_t startframe, ActionProcessData& a, Formation& form, int32_t kind);   // (0x262480)
-void AddHitEffPacket(int32_t startframe, int32_t uniqueid, Formation& form, int32_t kind);       // ... by the packets' owner
 void MakeTargetPacket(ee::Float speed, int32_t start, ActionProcessData& a, Formation& form, uint32_t targets,
                       int32_t kind);                                                    // (0x2648C0)
 // The battle panel (nbPanelProcess); names by the HD remaster's order, tentative.
@@ -336,6 +335,7 @@ enum class Message : uint32_t {
     BackAttacked     = optionalAddr(0x00543438), // "backattack!!"
     NoOneCanAct      = optionalAddr(0x00543458), // 全員行動不能!! ("no one can act!!": a lost battle)
     GameOver         = optionalAddr(0x00543468), // "game over !!"
+    HitEffectLength  = optionalAddr(0x00544900), // "length = %d" (nbAddHitEffKoukaPacket)
     LevelUp          = optionalAddr(0x00543478), // "level up !!"
     PressTurnStart   = optionalAddr(0x005453b8), // "nbPanelPressTurnStart" (its own name)
     PartyAlbion      = optionalAddr(0x005458c0), // "nbSetPartyFormation : DV_ALBION"

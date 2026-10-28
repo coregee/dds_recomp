@@ -6,6 +6,7 @@
 // help tables.
 #include "nocturne/battle/talk_flow.hpp"
 
+#include "nocturne/battle/kouka.hpp"
 #include "nocturne/data/ids.hpp"
 #include "nocturne/data/progression.hpp"
 #include "nocturne/external.hpp"
@@ -129,7 +130,7 @@ int32_t heals(TalkState& n)
     closeTalkWindow(n);
     PanelSetEnabled(true);
     MakeHealPackets(0, 0, n.pform.get(), 0, n.pwork->maxhp, -1, 0);
-    AddHitEffPacket(0, 0, *n.pform, 8);
+    addHitEffectPacket(0, 0, *n.pform, 8);
     n.waitframe = 0;
     return 0;
 }

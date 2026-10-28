@@ -279,6 +279,7 @@ int fw_print_arg_count(uint32_t format)
     case 0x005435f8: return 0;                  /* pac1 done (the result screen) */
     case 0x00543510: case 0x00543520: case 0x00543530: case 0x00543540:
     case 0x00543550: return 1;   /* the battle's encounter (SetFlag, nbInitMainProcess) */
+    case 0x00544900: return 1;   /* length = %d (nbAddHitEffKoukaPacket) */
     case 0x00543448: return 0;   /* an action still queued (nbCheckActionStack) */
     case 0x00543438: return 0;   /* backattack!! (CheckSenseiOrBackAttack) */
     case 0x005453b8: return 0;   /* nbPanelPressTurnStart */
@@ -860,6 +861,8 @@ uint64_t ps2BattleAction_00173CB0(uint64_t form, uint64_t kind)
     return 0x00779400u + ((uint32_t)kind & 0xff) * 0x10u;
 }
 void effBTLPartEnd(uint64_t part) { fw_mes_log(93, (uint32_t)part, 0); }
+/* effBTLSystemGetLength: the word at the handle (the fake parts above). */
+uint64_t ps2BattleAction_00173EF0(uint64_t handle) { return r32((uint32_t)handle); }
 void effBTLPartDraw(uint64_t part) { fw_mes_log(93, (uint32_t)part, 1); }
 void ps2BattlePanelSetAnalyzeUnit_00280538(uint64_t unit) { fw_mes_log(94, (uint32_t)unit, 0); }
 /* The VU0 packet makers a helper's coming and going uses (0x265130,
