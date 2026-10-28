@@ -1,5 +1,6 @@
 // Talks with a demon (original unit: nbNegoProcess): the talk's helpers.
 // Rewritten from the original instructions.
+#include "nocturne/battle/combatant.hpp"
 #include "nocturne/battle/talk.hpp"
 #include "nocturne/address.hpp"
 #include "nocturne/battle/sound.hpp"
@@ -536,8 +537,8 @@ void takeTalkPose(Formation& form)
     const uint16_t bad = unit->badstat & 0xfff;
     if (bad == 8 || bad == (bad < 9 ? 4 : 0x200))
         return;
-    SetWaitMotion(form, 0xd, ee::Float::fromInt(1));
-    SetUnitMotion(form, 0xd, 0, ee::Float::fromInt(1));
+    setWaitMotion(form, 0xd, ee::Float::fromInt(1));
+    startMotion(form, 0xd, 0, ee::Float::fromInt(1));
 }
 
 // InitNegoProcessData @ 0x0026C8F0: the talk's first step by its type (0, 6

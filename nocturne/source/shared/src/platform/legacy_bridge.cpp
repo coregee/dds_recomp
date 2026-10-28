@@ -27,8 +27,6 @@ uint64_t effBTLCutCreate(uint64_t effect, uint64_t cut, uint64_t form, uint64_t 
 void effBTLCutDraw(uint64_t cut);   // 0x16B0F0: no legacy C yet
 void effBTLSkillSetFormationInfo(uint64_t formindex, uint64_t targets);
 void nbInitNegoProcess(uint64_t act, uint64_t pformindex, uint64_t eformindex, uint64_t negotype, uint64_t skill);   // 0x26CCF0: no legacy C yet
-void nbSetWaitMotion(uint64_t form, uint64_t motion, uint32_t speed);                   // 0x24D238: float in f12; no plain legacy C
-void nbSetUnitMotion(uint64_t form, uint64_t motion, uint64_t loop, uint32_t speed);    // 0x24CFF8: float in f12; no plain legacy C
 void nbPanelAllShow(void);
 void effBTLSkillStart(uint64_t skill, uint64_t arg);      // 0x16B7A8: no named legacy C yet (the tests fake it)
 void effBTLSkillEnd(void);                                // 0x16B850: no named legacy C yet
@@ -154,7 +152,6 @@ uint64_t ps2ProcessGetRunTime(uint64_t process);
 void dds3FadeIn(uint64_t r, uint64_t g, uint64_t b, uint64_t frames);
 void dds3FadeIn2(uint64_t frames);
 void nbUnitSetColor(uint64_t unit, uint64_t frames, uint64_t color);   // 0x1E3700: no legacy C yet
-void ps2BattleOutcome_001E3B78(uint64_t unit, uint64_t a, uint64_t b);
 void nbSetDamage(uint64_t form, uint64_t week, uint32_t range);          // 0x24DF78: float in f12; no legacy C
 void nbSetDamage2(uint64_t form, uint32_t range);                       // 0x24E020: float in f12; no legacy C
 void nbSetBadstatMotion(uint64_t form, uint64_t type, uint32_t range);   // 0x24E040: float in f12; no legacy C
@@ -362,14 +359,6 @@ void nb::StartTalkProcess(ActionProcessData& a, int32_t pformindex, int32_t efor
 {
     nbInitNegoProcess(word(guest::addressOf(&a)), signExtend(pformindex), signExtend(eformindex), signExtend(negotype), signExtend(skill));
 }
-void nb::SetWaitMotion(Formation& form, int32_t motion, ee::Float speed)
-{
-    nbSetWaitMotion(word(guest::addressOf(&form)), signExtend(motion), speed.bits());
-}
-void nb::SetUnitMotion(Formation& form, int32_t motion, int32_t loop, ee::Float speed)
-{
-    nbSetUnitMotion(word(guest::addressOf(&form)), signExtend(motion), signExtend(loop), speed.bits());
-}
 void nb::PanelPressGaugeShow() { nbPanelPressGaugeShow(); }
 void nb::PanelStockSelectInit() { nbPanelStockSelectInit(); }
 void nb::PanelStockEnd() { nbPanelStockEnd(); }
@@ -480,7 +469,6 @@ void nb::SetBadstatMotion(Formation& form, int32_t type, ee::Float range)
     nbSetBadstatMotion(word(guest::addressOf(&form)), signExtend(type), range.bits());
 }
 void nb::SetBadstatMotion2(Formation& form) { nbSetBadstatMotion2(word(guest::addressOf(&form))); }
-void nb::UnitSetMotionWords(uint32_t unit, int16_t a, int16_t b) { ps2BattleOutcome_001E3B78(word(unit), signExtend(a), signExtend(b)); }
 void nb::SummonUnit(int32_t side, int32_t stockno, int32_t formindex)
 {
     ps2BattleFormation_0024D8C0(signExtend(side), signExtend(stockno), signExtend(formindex));

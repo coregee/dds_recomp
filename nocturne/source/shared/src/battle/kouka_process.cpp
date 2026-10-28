@@ -5,12 +5,14 @@
 #include "nocturne/address.hpp"
 #include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/calc.hpp"
+#include "nocturne/battle/combatant.hpp"
 #include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/help.hpp"
 #include "nocturne/battle/kouka_process.hpp"
 #include "nocturne/battle/order.hpp"
 #include "nocturne/build.hpp"
 #include "nocturne/effect/cut.hpp"
+#include "nocturne/event/units.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
 #include "nocturne/kernel/main_loop.hpp"
@@ -282,20 +284,20 @@ void playMotion(EffectQueue&, EffectPacket& p)
     Formation& form = *p.form;
     if (p.type == kMotion) {
         if (p.data1.i() != 0x17)
-            SetUnitMotion(form, p.data1.i(), 0, ee::Float::fromInt(1));
+            startMotion(form, p.data1.i(), 0, ee::Float::fromInt(1));
         else
-            SetUnitMotion(form, 0x17, 2, ee::Float::fromInt(1));
+            startMotion(form, 0x17, 2, ee::Float::fromInt(1));
     } else if (p.type == kSkillMotion) {
         const int16_t motion = static_cast<int16_t>(p.data1.raw);
         const int16_t ending = static_cast<int16_t>(p.data1.raw >> 16);
         const ee::Float speed = ee::Float::fromBits(p.data2.raw);
         if (ending == 1) {
-            SetUnitMotion(form, motion, 3, speed);
+            startMotion(form, motion, 3, speed);
         } else if (ending == 0) {
-            SetUnitMotion(form, motion, 0, speed);
+            startMotion(form, motion, 0, speed);
         } else if (ending == 2 || ending == 3) {
-            SetUnitMotion(form, motion, 3, speed);
-            UnitSetMotionWords(form.hunit, 0, 0);
+            startMotion(form, motion, 3, speed);
+            evt::setWaitBlend(*guest::table<evt::EventUnit>(form.hunit), 0, 0);
         }
     }
 }
@@ -326,10 +328,10 @@ void playDamageMotion(EffectQueue&, EffectPacket& p)
         return;
     case -1:   // none: standing again
         SetDamage2(form, range);
-        SetUnitMotion(form, 2, 0, ee::Float::fromInt(1));
+        startMotion(form, 2, 0, ee::Float::fromInt(1));
         form.anime &= ~0x80u;
-        SetWaitMotion(form, 2, ee::Float::fromInt(1));
-        UnitSetMotionWords(form.hunit, 0, 0);
+        setWaitMotion(form, 2, ee::Float::fromInt(1));
+        evt::setWaitBlend(*guest::table<evt::EventUnit>(form.hunit), 0, 0);
         return;
     case 4: case 8: case 0x20: case 0x40: case 0x80: case 0x100: case 0x200:
         if (withHit) {
@@ -338,7 +340,7 @@ void playDamageMotion(EffectQueue&, EffectPacket& p)
                 word(word(word(form.hunit + kUnitModelMotion) + 0x1c) + 0x20) = form.motionSpeed.bits();
         }
         form.anime &= ~0x80u;
-        SetWaitMotion(form, 2, bad == 0x100 ? ee::Float::fromBits(0x3f000000) : ee::Float::fromInt(1));
+        setWaitMotion(form, 2, bad == 0x100 ? ee::Float::fromBits(0x3f000000) : ee::Float::fromInt(1));
         return;
     default:
         SetBadstatMotion(form, bad, range);
@@ -553,8 +555,8 @@ void playAilmentMotionCure(EffectQueue&, EffectPacket& p)
 {
     Formation& form = *p.form;
     word(word(word(form.hunit + kUnitModelMotion) + 0x1c) + 0x20) = form.motionSpeed.bits();
-    SetWaitMotion(form, 0, ee::Float::fromInt(1));
-    SetUnitMotion(form, 0, 1, ee::Float::fromInt(1));
+    setWaitMotion(form, 0, ee::Float::fromInt(1));
+    startMotion(form, 0, 1, ee::Float::fromInt(1));
     form.time = 0;
     form.type = 0;
     form.anime &= ~0x80u;

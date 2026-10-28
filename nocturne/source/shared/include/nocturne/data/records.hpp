@@ -364,7 +364,8 @@ struct UnitMotion {
     ee::Float speed;
     ee::Float radius;         // the slot's radius while it plays, before scale (Formation::cr)
     ee::Float movey, movez;   // (Formation::movey, movez)
-    uint8_t unknown_18[4];
+    uint16_t blendStart;      // the frames it blends in over (tentative; Formation::blendStart)
+    uint16_t blendEnd;
 };
 static_assert(sizeof(UnitMotion) == 0x1c);
 

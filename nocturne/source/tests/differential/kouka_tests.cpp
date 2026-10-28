@@ -32,6 +32,7 @@
 #include "nocturne/effect/boss.hpp"
 #include "nocturne/effect/cut.hpp"
 #include "nocturne/data/tables.hpp"
+#include "nocturne/event/units.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/facility/compendium.hpp"
 #include "nocturne/interface/message.hpp"
@@ -1804,6 +1805,86 @@ void addKoukaTests(std::vector<TestCase>& t)
         return Pair{[=] { return origVm(0x0024d490, {form, I(motion)}); },
                     [=] { return norm(prepareMotion(at<Formation>(form), motion)); }};
     });
+    // A slot's unit posed: any ailment (often one with a pose), sometimes
+    // dying, its model with or without the slump; the battle's stat bit.
+    const auto poseWorld = [=](Gen& g, int f) {
+        UnitWork& unit = at<UnitWork>(at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)));
+        unit.badstat = static_cast<uint16_t>(g.chance(60) ? g.pick<int32_t>({4, 8, 0x20, 0x40, 0x80, 0x100, 1, 2, 0x10, 0x200, 0x800})
+                                                          : g.range(0, 0xffff));
+        if (g.chance(40))
+            unit.hp = static_cast<uint16_t>(g.range(0, 5));
+        at<MainProcessData>(FW_MAIN).stat ^= g.chance(20) ? 0x1000u : 0u;
+        Formation& form = at<Formation>(formAddress(f));
+        form.formindex = static_cast<int16_t>(f);
+        form.partyindex = static_cast<int16_t>(f);   // (the fake world finds the unit by its party entry's index)
+        at<uint32_t>(at<uint32_t>(form.hunit + 0x8c) + 4) = static_cast<uint32_t>(g.range(0x14, 0x1a));
+        form.anime = g.chance(20) ? 0x80u : 0u;
+        form.blendStart = static_cast<int16_t>(g.range(0, 20));
+        form.blendEnd = static_cast<int16_t>(g.range(0, 20));
+        form.waitMotion = static_cast<int16_t>(g.range(0, 25));
+        at<int16_t>(at<uint32_t>(form.hunit + 0x8c) + 0x12) = static_cast<int16_t>(g.range(0, 3));
+        return std::ref(form);
+    };
+    script("GetDyingBadWaitMotion", [=](Gen& g) {
+        const int f = unitSlot(g);
+        poseWorld(g, f);
+        const int32_t motion = g.chance(60) ? 0 : g.range(0, 25);
+        const uint32_t form = formAddress(f), unit = at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f));
+        return Pair{[=] { return origVm(0x0024ce78, {form, I(motion), unit}); },
+                    [=] { return norm(posedMotion(at<Formation>(form), motion, at<UnitWork>(unit))); }};
+    });
+    script("nbSetUnitMotion", [=](Gen& g) {
+        const int f = unitSlot(g);
+        poseWorld(g, f);
+        int f2; int32_t motion; uint32_t rate;
+        motionCase(g, f2, motion, rate);
+        (void)f2;
+        if (g.chance(40))
+            motion = g.pick<int32_t>({0, 1, 2, 0xd, 0xe, 0xf, 0x16, 0x17});
+        const int32_t mode = g.range(0, 4);
+        const uint32_t form = formAddress(f);
+        if (g.chance(40) && motion >= 0 && motion < 26) {   // (sometimes the motion's animation is already playing)
+            Formation& fm = at<Formation>(form);
+            const int32_t posed = g.chance(50) ? motion : 0x16;   // (the slump a dying unit takes)
+            at<int16_t>(at<uint32_t>(fm.hunit + 0x8c) + 0x12) = static_cast<int16_t>(prepareMotion(fm, posed));
+        }
+        return Pair{[=] { return origVmVoid(0x0024cff8, {form, I(motion), I(mode)}, {rate}); },
+                    [=] { startMotion(at<Formation>(form), motion, mode, ee::Float::fromBits(rate)); return uint64_t{0}; }};
+    });
+    script("nbSetWaitMotion", [=](Gen& g) {
+        const int f = unitSlot(g);
+        poseWorld(g, f);
+        const int32_t motion = g.chance(60) ? 0 : g.range(0, 25);
+        const uint32_t rate = g.chance(40) ? 0x3f800000u : ee::Float(static_cast<float>(g.range(1, 300) / 100.0)).bits();
+        const uint32_t form = formAddress(f);
+        return Pair{[=] { return origVmVoid(0x0024d238, {form, I(motion)}, {rate}); },
+                    [=] { setWaitMotion(at<Formation>(form), motion, ee::Float::fromBits(rate)); return uint64_t{0}; }};
+    });
+    script("evtSetUnitMotion", [=](Gen& g) {
+        const uint32_t unit = at<Formation>(formAddress(g.range(0, 13))).hunit;
+        at<uint32_t>(unit + 0xa4) = static_cast<uint32_t>(g.rng());
+        at<uint32_t>(unit + 0x94) = static_cast<uint32_t>(g.rng());
+        const int32_t motion = g.range(-2, 0x40), start = g.range(-2, 30), end = g.range(-2, 30), mode = g.range(-1, 5);
+        return Pair{[=] { return origVmVoid(0x001e3cc0, {unit, I(motion), I(start), I(end), I(mode)}); },
+                    [=] { nocturne::evt::setUnitMotion(at<nocturne::evt::EventUnit>(unit), motion, start, end, mode); return uint64_t{0}; }};
+    });
+    script("evtSetWaitMotion, Speed, HokanFrame", [=](Gen& g) {
+        const uint32_t unit = at<Formation>(formAddress(g.range(0, 13))).hunit;
+        const int32_t motion = g.range(-2, 0x40), start = g.range(-2, 30), end = g.range(-2, 30);
+        const uint32_t speed = static_cast<uint32_t>(g.rng());
+        return Pair{[=] {
+                        origVmVoid(0x001e3b68, {unit, I(motion)});
+                        origVmVoid(0x001e3b70, {unit}, {speed});
+                        return origVmVoid(0x001e3b78, {unit, I(start), I(end)});
+                    },
+                    [=] {
+                        nocturne::evt::EventUnit& u = at<nocturne::evt::EventUnit>(unit);
+                        nocturne::evt::setWaitMotion(u, motion);
+                        nocturne::evt::setWaitSpeed(u, ee::Float::fromBits(speed));
+                        nocturne::evt::setWaitBlend(u, start, end);
+                        return uint64_t{0};
+                    }};
+    });
     script("nbCameraSetTaizi", [=](Gen& g) {
         const uint32_t from = formAddress(g.range(0, 13)), to = formAddress(g.range(0, 15));
         return Pair{[=] { return origVmVoid(0x001b17e0, {from, to}); },
@@ -3185,11 +3266,15 @@ void addKoukaTests(std::vector<TestCase>& t)
         form.homeColor = static_cast<uint32_t>(g.rng());
         form.time = static_cast<uint32_t>(g.range(0, 30));
         form.type = g.range(0, 3);
-        // A unit model: its flags and the playing motion's speed.
-        const uint32_t model = ps2PoolAllocate(0xb0), motion = ps2PoolAllocate(0x40), playing = ps2PoolAllocate(0x40);
+        // An event unit and its model: the unit's flags; the model's
+        // animation count (+4, for the fake mdlGetNumOfCut), the animation
+        // playing and its speed.
+        const uint32_t model = ps2PoolAllocate(0xd0), motion = ps2PoolAllocate(0x40), playing = ps2PoolAllocate(0x40);
         form.hunit = model;
         at<uint32_t>(model + 0x8c) = motion;
         at<uint32_t>(model + 0xa4) = static_cast<uint32_t>(g.rng());
+        at<uint32_t>(motion + 4) = static_cast<uint32_t>(g.range(0x10, 0x20));
+        at<int16_t>(motion + 0x12) = static_cast<int16_t>(g.range(0, 3));
         at<uint32_t>(motion + 0x1c) = playing;
         at<uint32_t>(playing + 0x20) = someFloat(g);
         MainProcessData& main = at<MainProcessData>(FW_MAIN);
@@ -3244,6 +3329,12 @@ void addKoukaTests(std::vector<TestCase>& t)
         add(pl->name, [=](Gen& g) {
             const uint32_t p = pickPacket(g, pl->types);
             EffectPacket& packet = at<EffectPacket>(p);
+            if (pl->rewrite == playMotion || pl->rewrite == playDamageMotion || pl->rewrite == playAilmentMotionCure) {
+                // (A unit's motions need its unit: the slot gets one.)
+                uint32_t& unit = at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(packet.form->formindex));
+                if (unit == 0)
+                    unit = FW_ENEMIES;
+            }
             if (pl->original == 0x0025fb58)   // a hit effect's kind
                 packet.data1.setInt(g.range(-1, 11));
             if (pl->original == 0x00260a58)   // the stat bits to change

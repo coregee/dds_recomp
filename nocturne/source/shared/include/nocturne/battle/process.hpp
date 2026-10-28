@@ -45,7 +45,9 @@ struct Formation {
     int16_t motionend;        // how the skill motion ends (nbGetMotionEndType): 2 fades the unit out,
                               // which UnitKyoseiDisp fades back in; 3 ...  (tentative name)
     int16_t motionenddata;    // its data (nbGetMotionEndData): the fade's start
-    uint8_t unknown_a8[6];
+    int16_t blendEnd;         // the playing motion's blend frames (UnitMotion::blendStart, blendEnd; tentative)
+    int16_t blendStart;
+    int16_t waitMotion;       // the wait motion set (nbSetWaitMotion)
     int16_t motiontype;       // the motion type the action plays (SetAction_READY)
     uint8_t unknown_b0[4];
     uint32_t pacRequest;      // a PAC file request the unit holds, freed when the battle ends (ClearStage) (tentative)
@@ -205,6 +207,7 @@ inline constexpr uint32_t BackAttack          = 0x00000010;
 inline constexpr uint32_t EnemiesFirst        = 0x00000080;
 inline constexpr uint32_t Unknown400          = 0x00000400; // encounter 0xC7's (SetFlag): Ongyo-Ki's clones' battle (tentative)
 inline constexpr uint32_t Unknown800          = 0x00000800; // the encounter's flag 8 (SetFlag)
+inline constexpr uint32_t FixedPoses          = 0x00001000; // tentative: the units play the motions asked for, no dying or ailment poses
 inline constexpr uint32_t DebugToggle         = 0x00100000; // toggled by the debug pad's button 8 (nbDebugSelect); its use unknown
 inline constexpr uint32_t NoDebugDisplay      = 0x00200000; // tentative: the debug pad's displays off
 inline constexpr uint32_t DebugMenu           = 0x01000000; // tentative: pad button 10 may open the debug menu

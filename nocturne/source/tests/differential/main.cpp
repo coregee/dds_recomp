@@ -231,16 +231,22 @@ void randomWorld(Gen& g)
         party[f].formindex = static_cast<int16_t>(f);
         randomParty(g, party[f]);
     }
-    // Each formation's model object (+0x1C its control block) and unit handle
-    // (+0x8C its draw flags' address, +0xA4 bit 0x10000 while it loads).
+    // Each formation's model object (+0x1C its control block) and event unit
+    // (+0x8C its model, +0xA4 bit 0x10000 while it loads). The unit's model
+    // (+0x100): its draw flags, its animation count (+4, which the fake
+    // mdlGetNumOfCut answers), the animation playing (+0x12) and its motion
+    // control (+0x1C, at +0x180: +0x20 the speed).
     for (int f = 0; f < 16; ++f) {
-        const uint32_t object = FW_MODELS + 0x20u * f, handle = FW_MODELS + 0x200u + 0x20u * f - 0x8c;
+        const uint32_t object = FW_MODELS + 0x20u * f, handle = FW_UNIT_HANDLES + 0x200u * f, model = handle + 0x100;
         forms[f].basic = g.chance(85) ? object : 0;
         at<uint32_t>(object + 0x1c) = FW_MODELS + 0x440u + 0x10u * f - 0xc4;
         forms[f].hunit = handle;
-        at<uint32_t>(handle + 0x8c) = FW_MODELS + 0x400u + 4u * f;
-        at<uint32_t>(FW_MODELS + 0x400u + 4u * f) = static_cast<uint32_t>(g.rng());
+        at<uint32_t>(handle + 0x8c) = model;
         at<uint32_t>(handle + 0xa4) = g.chance(10) ? 0x10000u : 0;
+        at<uint32_t>(model) = static_cast<uint32_t>(g.rng());
+        at<uint32_t>(model + 4) = static_cast<uint32_t>(g.range(0x10, 0x20));
+        at<int16_t>(model + 0x12) = static_cast<int16_t>(g.chance(50) ? g.range(0, 3) : g.range(0, 0x40));
+        at<uint32_t>(model + 0x1c) = handle + 0x180;
     }
 
     nb::MainProcessData& data = at<nb::MainProcessData>(FW_MAIN);

@@ -6,6 +6,7 @@
 #include "nocturne/data/devil_ai.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/unit.hpp"
+#include "nocturne/event/units.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/facility/compendium.hpp"
 #include "nocturne/interface/message.hpp"
@@ -17,6 +18,21 @@ namespace nocturne::nb {
 namespace {
 constexpr uint32_t kDemiFiendAnimation = addr(0x003493a0);   // uint8 per motion: the Demi-fiend model's animation
 constexpr uint32_t kDevilAnimation = addr(0x0034f1c0);       // ... a devil model's
+constexpr uint32_t kAnimationCount = addr(0x001ddba8);       // mdlGetNumOfCut: a model's animations (no C here yet)
+
+constexpr int32_t kStand = 0, kAilingPose = 2, kTalkPose = 0xd, kSlump = 0x16, kSlumpAnimations = 0x17;
+
+int32_t animationOf(const UnitWork& unit, int32_t motion)
+{
+    return guest::table<const uint8_t>(unitModelId(unit) == 0 ? kDemiFiendAnimation : kDevilAnimation)[motion];
+}
+
+evt::EventUnit& eventUnit(const Formation& form) { return *guest::table<evt::EventUnit>(form.hunit); }
+
+// The model's motion control: +0x12 the animation playing, +0x1C its
+// controller (+0x20 the speed).
+int16_t playingAnimation(uint32_t model) { return *guest::table<const int16_t>(model + 0x12); }
+ee::Float& playingSpeed(uint32_t model) { return *guest::table<ee::Float>(*guest::table<const uint32_t>(model + 0x1c) + 0x20); }
 } // namespace
 
 // nbGetBadStat @ 0x00267788
@@ -278,13 +294,84 @@ int32_t motionActFrame(const Formation& form, int32_t motion, ee::Float rate)
 int32_t prepareMotion(Formation& form, int32_t motion)
 {
     const UnitWork& unit = *GetUnitWorkFromFormindex(form.formindex);
-    const bool demiFiend = unitModelId(unit) == 0;
     const UnitMotion& m = unitVisual(unit).motion[motion];
     form.cr = m.radius * form.scl;
     form.movey = m.movey;
     form.movez = m.movez;
-    // Each motion's animation in the model: the Demi-fiend's, and every devil's.
-    return guest::table<const uint8_t>(demiFiend ? kDemiFiendAnimation : kDevilAnimation)[motion];
+    return animationOf(unit, motion);   // (the Demi-fiend's model numbers them its own way)
+}
+
+// GetDyingBadWaitMotion @ 0x0024CE78
+int32_t posedMotion(const Formation& form, int32_t motion, const UnitWork& unit)
+{
+    if (GetMainProcessData()->stat & BattleStat::FixedPoses)
+        return motion;
+    if (dat::isDying(unit) && motion == kStand &&
+        static_cast<int32_t>(guest::callOriginal(kAnimationCount, eventUnit(form).model, 0)) >= kSlumpAnimations)
+        return kSlump;
+    if (motion != kStand)
+        return motion;
+    switch (unit.badstat & 0xfff) {
+    case ailment::Sleep:
+    case ailment::Panic:
+    case ailment::Mute:
+    case ailment::Poison:
+    case ailment::Charm:
+    case ailment::Stun: return kAilingPose;
+    default: return motion;
+    }
+}
+
+// nbSetUnitMotion @ 0x0024CFF8
+void startMotion(Formation& form, int32_t motion, int32_t mode, ee::Float rate)
+{
+    MainProcessData& main = *GetMainProcessData();
+    const UnitWork& unit = *GetUnitWorkPointer(main, main.party[form.partyindex]);
+    evt::EventUnit& handle = eventUnit(form);
+    if (form.anime & 0x80)
+        return;
+    const UnitVisual& visual = unitVisual(unit);
+    motion = posedMotion(form, motion, unit);
+    const ee::Float speed = motionSpeed(form, motion, rate);
+    const int32_t animation = prepareMotion(form, motion);
+
+    // Blending in: the standing, ailing, talking, slumped and two other
+    // motions from the frames left by the last; motion 1 over a frame, 0xE and
+    // 0xF over 15 frames, the rest none.
+    int32_t blendStart = 0, blendEnd = 0;
+    switch (motion) {
+    case 0: case 2: case 0xd: case 0x16: case 0x17:
+        blendStart = form.blendStart;
+        blendEnd = form.blendEnd;
+        break;
+    case 1: blendEnd = 1; break;
+    case 0xe: case 0xf: blendEnd = 0xf; break;
+    default: break;
+    }
+    const bool restartable = !(motion == kStand || motion == kAilingPose || motion == kTalkPose || motion == kSlump);
+    if (restartable || playingAnimation(handle.model) != animation)
+        evt::setUnitMotion(handle, animation, blendStart, blendEnd, mode);
+    playingSpeed(handle.model) = speed;
+    form.motionSpeed = speed;
+    form.blendEnd = static_cast<int16_t>(visual.motion[motion].blendEnd);
+    form.blendStart = static_cast<int16_t>(visual.motion[motion].blendStart);
+    if (mode == 0 || mode == 3) {
+        evt::setWaitBlend(handle, form.blendStart, form.blendEnd);
+        form.blendEnd = static_cast<int16_t>(visual.motion[form.waitMotion].blendEnd);
+        form.blendStart = static_cast<int16_t>(visual.motion[form.waitMotion].blendStart);
+    }
+}
+
+// nbSetWaitMotion @ 0x0024D238
+void setWaitMotion(Formation& form, int32_t motion, ee::Float rate)
+{
+    const UnitWork& unit = *GetUnitWorkFromFormindex(form.formindex);
+    motion = posedMotion(form, motion, unit);
+    const int32_t animation = animationOf(unit, motion);
+    const ee::Float speed = unitVisual(unit).motion[motion].speed * rate;
+    evt::setWaitMotion(eventUnit(form), animation);
+    evt::setWaitSpeed(eventUnit(form), speed);
+    form.waitMotion = static_cast<int16_t>(motion);
 }
 
 } // namespace nocturne::nb

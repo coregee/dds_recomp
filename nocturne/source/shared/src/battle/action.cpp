@@ -2675,8 +2675,8 @@ void enterTalkResult(ActionProcessData& a)
     Formation& enemy = guest::table<Formation>(main.form.address)[main.talkEnemySlot];
     if (motion) {
         GetUnitWorkFromFormindex(main.talkEnemySlot);
-        nb::SetWaitMotion(enemy, 0, ee::Float::fromInt(1));
-        nb::SetUnitMotion(enemy, 0, 1, ee::Float::fromInt(1));
+        setWaitMotion(enemy, 0, ee::Float::fromInt(1));
+        startMotion(enemy, 0, 1, ee::Float::fromInt(1));
     }
     if (camera && a.talkType == 0 && (a.form->stat & 0x10))
         cameraOnPair(*a.form, enemy);

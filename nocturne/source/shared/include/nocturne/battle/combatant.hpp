@@ -39,6 +39,18 @@ int32_t motionActFrame(const Formation& form, int32_t motion, ee::Float rate);
 // nbGetMotionNo (0x24D490): the slot's radius and movement set for it, and
 // the model's animation for it (the Demi-fiend's numbering or a devil's).
 int32_t prepareMotion(Formation& form, int32_t motion);
+// GetDyingBadWaitMotion (0x24CE78): the motion a unit plays for `motion`
+// when standing (0): a dying unit's slump (0x16, when its model has the
+// animations), else an ailment's pose (2: asleep, panicked, muted, poisoned,
+// charmed or stunned). Under BattleStat::FixedPoses, `motion` itself.
+int32_t posedMotion(const Formation& form, int32_t motion, const UnitWork& unit);
+// nbSetUnitMotion (0x24CFF8): the slot's unit plays the motion (as posed) at
+// its speed times `rate`; `mode` as evt::setUnitMotion's. A standing, ailing,
+// talking or slumped motion already playing isn't restarted. Modes 0 and 3
+// also blend back to the wait motion. Not while Formation::anime bit 0x80.
+void startMotion(Formation& form, int32_t motion, int32_t mode, ee::Float rate);
+// nbSetWaitMotion (0x24D238): the motion (as posed) the unit returns to.
+void setWaitMotion(Formation& form, int32_t motion, ee::Float rate);
 
 // Can the combatant use this skill now?
 enum class SkillCheck : int32_t { Ok = 0, NotEnoughHp = 1, NotEnoughMp = 2, Muted = 3 };

@@ -48,11 +48,12 @@ enum {
     FW_MAKA_PROCESS = 0x00777400, /* the "nb_maka" process (only its data is real) */
     FW_MODELS     = 0x011b27c0,   /* the formations' model objects and unit handles (0x540 bytes) */
     FW_SHOP       = 0x011b2d00,   /* the shop's work (fclShopWork, 0x2290 bytes) */
-    FW_DYNAMIC_END   = 0x011b5000,
+    FW_UNIT_HANDLES = 0x011b5000, /* the formations' event units (evtUnit_t), each with its model, 0x200 apart */
+    FW_DYNAMIC_END   = 0x011b7000,
     /* The JP builds' four fonts (0x8A000 bytes, more than FW_FONTS holds),
      * compared with the rest in those builds only (main.cpp dynamicEnd). */
-    FW_JP_FONTS      = 0x011b5000,
-    FW_JP_DYNAMIC_END = 0x01245000,
+    FW_JP_FONTS      = 0x011b7000,
+    FW_JP_DYNAMIC_END = 0x01247000,
     /* Guest stack for legacy code that allocates on it (not compared). */
     FW_STACK_TOP     = 0x01300000,
 };

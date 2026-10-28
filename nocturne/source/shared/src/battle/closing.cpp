@@ -12,6 +12,7 @@
 #include "nocturne/data/progression.hpp"
 #include "nocturne/data/records.hpp"
 #include "nocturne/data/tables.hpp"
+#include "nocturne/event/units.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/field/next_area.hpp"
 #include "nocturne/guest.hpp"
@@ -24,7 +25,6 @@ namespace {
 constexpr uint32_t kProcessName = addr(0x005510c8);   // "nb_ato"
 constexpr uint32_t kStep = addr(0x00249e58), kEnd = addr(0x00249f78);
 constexpr uint32_t kWhiteOut = addr(0x00249e00), kDemifiendAlone = addr(0x00249d00), kWithMessage = addr(0x00249c28);
-constexpr uint32_t kMotion = addr(0x001e3cc0);    // (no C yet) a unit's motion set (tentative)
 constexpr uint32_t kUnitModelMotion = 0x8c;       // a unit handle's model (as kouka_process.cpp)
 
 // The end types (MainProcessData::endtype) the close tells apart (tentative).
@@ -99,7 +99,7 @@ uint32_t closingDemifiendAlone(uint32_t process)
         UnitSetAlpha(form.hunit, 0, 0x80808080);
         const uint32_t model = *guest::table<const uint32_t>(form.hunit + kUnitModelMotion);
         *guest::table<uint32_t>(*guest::table<const uint32_t>(model + 0x1c) + 0x20) = 0x3f800000;   // its motion speed 1.0
-        guest::callOriginal(kMotion, form.hunit, 0x17, 0, 0, 2);
+        evt::setUnitMotion(*guest::table<evt::EventUnit>(form.hunit), 0x17, 0, 0, 2);
         cameraOnObstructor(form);
         return 0;
     }

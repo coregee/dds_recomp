@@ -138,7 +138,6 @@ void nbSetDamage(uint64_t, uint64_t, uint32_t);
 void nbSetDamage2(uint64_t, uint32_t);
 void nbSetBadstatMotion(uint64_t, uint64_t, uint32_t);
 void nbSetBadstatMotion2(uint64_t);
-void ps2BattleOutcome_001E3B78(uint64_t, uint64_t, uint64_t);
 void ps2BattleFormation_0024D8C0(uint64_t, uint64_t, uint64_t);
 void ps2SoundStopEffectMidi_002C1730(uint64_t);
 void nbUnitSetAlpha(uint64_t, uint64_t, uint64_t);
@@ -179,8 +178,6 @@ void nbAddHitEffPacket(uint64_t, uint64_t, uint64_t, uint64_t);
 void nbMakeTargetPacket(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint32_t);
 void effBTLSkillSetFormationInfo(uint64_t, uint64_t);
 void nbInitNegoProcess(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
-void nbSetWaitMotion(uint64_t, uint64_t, uint32_t);
-void nbSetUnitMotion(uint64_t, uint64_t, uint64_t, uint32_t);
 void nbPanelPressGaugeShow(void);
 void nbPanelStockSelectInit(void);
 void nbPanelStockEnd(void);
@@ -526,7 +523,6 @@ ee::Interpreter makeOriginal()
     e.hook(0x0024de40, [=](ee::Cpu& c) { nbMoveHome(a(c, 0), static_cast<uint32_t>(c.f[12])); return uint64_t{0}; });
     e.hook(0x001e99c0, [](ee::Cpu&) { return static_cast<uint64_t>(static_cast<int64_t>(static_cast<int32_t>(evtGetAgeOfMoon16()))); });
     e.hook(0x001e99d0, [=](ee::Cpu& c) { evtSetAgeOfMoon(static_cast<int32_t>(a(c, 0))); return uint64_t{0}; });
-    e.hook(0x001e3b78, [=](ee::Cpu& c) { ps2BattleOutcome_001E3B78(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
     e.interpret(0x0028a340, 0x0028a758);   // nbSetPartyFormation
     e.interpret(0x0028a758, 0x0028b0a0);   // nbSetEnemyFormation
     e.interpret(0x0028a2e0, 0x0028a2f0);   // nbLoadUnitPos
@@ -562,9 +558,12 @@ ee::Interpreter makeOriginal()
     e.interpret(0x00289e68, 0x00289ecc);   // nbSingleFormExceptedDispOff
     e.interpret(0x00289310, 0x00289448);   // nbDispMsgHelp
     e.interpret(0x0028dda8, 0x0028ddcc);   // nbBgmFadeOut
-    e.hook(0x001e3cc0, [=](ee::Cpu& c) {   // a unit's motion (not rewritten yet)
-        fw_mes_log(158, static_cast<uint32_t>(a(c, 0)) ^ static_cast<uint32_t>(a(c, 1)) << 24, static_cast<uint32_t>(a(c, 2)) ^ static_cast<uint32_t>(a(c, 3)) << 8 ^ static_cast<uint32_t>(a(c, 4)) << 16);
-        return uint64_t{0};
+    e.interpret(0x001e3cc0, 0x001e3d80);   // evtSetUnitMotion
+    e.interpret(0x001e3b68, 0x001e3b88);   // evtSetWaitMotion, evtSetWaitMotionSpeed, evtSetWaitHokanFrame
+    e.interpret(0x0024ce78, 0x0024cf70);   // GetDyingBadWaitMotion
+    e.interpret(0x0024cff8, 0x0024d310);   // nbSetUnitMotion, nbSetWaitMotion
+    e.hook(0x001ddba8, [=](ee::Cpu& c) {   // mdlGetNumOfCut: the fake model's animation count (its +4)
+        return uint64_t{*nocturne::guest::table<const uint32_t>(static_cast<uint32_t>(a(c, 0)) + 4)};
     });
     // The battle's opening (nb_mae, battle/opening.hpp).
     e.interpret(0x00249a38, 0x00249c28);   // its steps, start and end
@@ -721,8 +720,6 @@ ee::Interpreter makeOriginal()
     e.hook(0x002648c0, [=](ee::Cpu& c) { nbMakeTargetPacket(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), c.f[12]); return uint64_t{0}; });
     e.hook(0x0016b8a8, [=](ee::Cpu& c) { effBTLSkillSetFormationInfo(a(c, 0), a(c, 1)); return uint64_t{0}; });
     e.hook(0x0026ccf0, [=](ee::Cpu& c) { nbInitNegoProcess(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4)); return uint64_t{0}; });
-    e.hook(0x0024d238, [=](ee::Cpu& c) { nbSetWaitMotion(a(c, 0), a(c, 1), static_cast<uint32_t>(c.f[12])); return uint64_t{0}; });
-    e.hook(0x0024cff8, [=](ee::Cpu& c) { nbSetUnitMotion(a(c, 0), a(c, 1), a(c, 2), static_cast<uint32_t>(c.f[12])); return uint64_t{0}; });
     e.hook(0x0027c2c0, [](ee::Cpu&) { nbPanelPressGaugeShow(); return uint64_t{0}; });
     e.hook(0x0027fa98, [](ee::Cpu&) { nbPanelStockSelectInit(); return uint64_t{0}; });
     e.hook(0x0027fa78, [](ee::Cpu&) { nbPanelStockEnd(); return uint64_t{0}; });

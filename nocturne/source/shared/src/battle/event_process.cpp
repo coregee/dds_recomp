@@ -1,5 +1,6 @@
 // The battle's events (original unit: nbEventProcess). Rewritten from the
 // original instructions.
+#include "nocturne/battle/combatant.hpp"
 #include "nocturne/battle/event_process.hpp"
 
 #include <cstddef>
@@ -128,7 +129,7 @@ void resetWaitMotions(EventProcessData& ed)
     for (int32_t i = 0; i < 14; ++i) {
         Formation& form = formAt(*ed.data, i);
         if ((form.stat & 1) && (form.stat & 2))
-            SetWaitMotion(form, 0, ee::Float::fromBits(0x3f800000));
+            setWaitMotion(form, 0, ee::Float::fromBits(0x3f800000));
     }
 }
 
@@ -138,8 +139,8 @@ void setWaitMotions(EventProcessData& ed)
     for (int32_t i = 0; i < 14; ++i) {
         Formation& form = formAt(*ed.data, i);
         if ((form.stat & 1) && (form.stat & 2)) {
-            SetWaitMotion(form, 0, ee::Float::fromBits(0x3f800000));
-            SetUnitMotion(form, 0, 0, ee::Float::fromBits(0x3f800000));
+            setWaitMotion(form, 0, ee::Float::fromBits(0x3f800000));
+            startMotion(form, 0, 0, ee::Float::fromBits(0x3f800000));
         }
     }
 }

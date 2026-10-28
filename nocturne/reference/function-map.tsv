@@ -4169,14 +4169,14 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001e39e8	260	ps2FieldUnitLifetimeNative_001E39E8	USER_DEFINED	legacy		field_unit_lifetime_native.c:body_001e39e8;field_unit_lifetime_native.c:ps2FieldUnitLifetimeNative_001E39E8						evtCreateUnitHandle
 001e3af0	112	evtDeleteUnitHandle	USER_DEFINED	legacy		model_cleanup.c:evtDeleteUnitHandle						evtDeleteUnitHandle
 001e3b60	8	FUN_001e3b60	DEFAULT	named								evtGetUnitStat
-001e3b68	8	ps2BattleOutcome_001E3B68	USER_DEFINED	legacy		battle_outcome.c:body_001e3b68;battle_outcome.c:ps2BattleOutcome_001E3B68						evtSetWaitMotion
-001e3b70	8	ps2BattleOutcome_001E3B70	USER_DEFINED	legacy		battle_outcome.c:body_001e3b70;battle_outcome.c:ps2BattleOutcome_001E3B70						evtSetWaitMotionSpeed
-001e3b78	12	ps2BattleOutcome_001E3B78	USER_DEFINED	legacy		battle_outcome.c:body_001e3b78;battle_outcome.c:ps2BattleOutcome_001E3B78						evtSetWaitHokanFrame
+001e3b68	8	ps2BattleOutcome_001E3B68	USER_DEFINED	rewritten	shared/src/event/units.cpp:setWaitMotion	battle_outcome.c:body_001e3b68;battle_outcome.c:ps2BattleOutcome_001E3B68						evtSetWaitMotion
+001e3b70	8	ps2BattleOutcome_001E3B70	USER_DEFINED	rewritten	shared/src/event/units.cpp:setWaitSpeed	battle_outcome.c:body_001e3b70;battle_outcome.c:ps2BattleOutcome_001E3B70						evtSetWaitMotionSpeed
+001e3b78	12	ps2BattleOutcome_001E3B78	USER_DEFINED	rewritten	shared/src/event/units.cpp:setWaitBlend	battle_outcome.c:body_001e3b78;battle_outcome.c:ps2BattleOutcome_001E3B78						evtSetWaitHokanFrame
 001e3b88	100	FUN_001e3b88	DEFAULT	named								evtCheckUnitWait
 001e3bf0	12	evtSetUnitKutiMotion	USER_DEFINED	legacy		event_kuti.c:evtSetUnitKutiMotion						evtSetUnitKutiMotion
 001e3c00	44	evtRunUnitKutiMotion	USER_DEFINED	legacy		event_kuti.c:evtRunUnitKutiMotion						evtRunUnitKutiMotion
 001e3c30	136	evtSetUnitExMotion	USER_DEFINED	legacy		event_kuti.c:evtSetUnitExMotion						
-001e3cc0	184	ps2BattleOutcome_001E3CC0	USER_DEFINED	legacy		battle_outcome.c:body_001e3cc0;battle_outcome.c:ps2BattleOutcome_001E3CC0						evtSetUnitMotion
+001e3cc0	184	ps2BattleOutcome_001E3CC0	USER_DEFINED	rewritten	shared/src/event/units.cpp:setUnitMotion	battle_outcome.c:body_001e3cc0;battle_outcome.c:ps2BattleOutcome_001E3CC0	ok	ok	ok	ok	ok	evtSetUnitMotion
 001e3d80	396	FUN_001e3d80	DEFAULT	named								evtUnitRotationTarget
 001e3f10	168	FUN_001e3f10	DEFAULT	named								evtUnitRotationQuat
 001e3fb8	200	FUN_001e3fb8	DEFAULT	named								evtUnitMoveType0
@@ -6102,10 +6102,10 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0024cac8	232	FUN_0024cac8	DEFAULT	rewritten	shared/src/battle/opening.cpp:startStageProcess		ok	ok	ok	ok	ok	nbInitStageProcess
 0024cbb8	20	FUN_0024cbb8	DEFAULT	legacy		battle_reward_lifecycle_native.c:body_0024cbb8;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_0024CBB8						nbStageFilterAlp
 0024cbe0	652	FUN_0024cbe0	DEFAULT	named								nbStageSp
-0024ce78	244	ps2BattleOutcome_0024CE78	USER_DEFINED	legacy		battle_outcome.c:body_0024ce78;battle_outcome.c:ps2BattleOutcome_0024CE78						GetDyingBadWaitMotion
+0024ce78	244	ps2BattleOutcome_0024CE78	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:posedMotion	battle_outcome.c:body_0024ce78;battle_outcome.c:ps2BattleOutcome_0024CE78	ok	ok	ok	ok	ok	GetDyingBadWaitMotion
 0024cf70	132	nbSetNegoPose	USER_DEFINED	rewritten	shared/src/battle/talk.cpp:takeTalkPose		ok	ok	ok	ok	ok	nbSetNegoWaitMotion
-0024cff8	556	ps2BattleOutcome_0024CFF8	USER_DEFINED	legacy		battle_outcome.c:body_0024cff8;battle_outcome.c:ps2BattleOutcome_0024CFF8						nbSetUnitMotion
-0024d238	212	ps2BattleOutcome_0024D238	USER_DEFINED	legacy		battle_outcome.c:body_0024d238;battle_outcome.c:ps2BattleOutcome_0024D238						nbSetWaitMotion
+0024cff8	556	ps2BattleOutcome_0024CFF8	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:startMotion	battle_outcome.c:body_0024cff8;battle_outcome.c:ps2BattleOutcome_0024CFF8	ok	ok	ok	ok	ok	nbSetUnitMotion
+0024d238	212	ps2BattleOutcome_0024D238	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:setWaitMotion	battle_outcome.c:body_0024d238;battle_outcome.c:ps2BattleOutcome_0024D238	ok	ok	ok	ok	ok	nbSetWaitMotion
 0024d310	68	nbGetMotionEndType	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:motionEndType		ok	ok	ok	ok	ok	nbCalcUnitVisual
 0024d358	68	nbGetMotionEndData	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:motionEndData		ok	ok	ok	ok	ok	nbCalcUnitVisual2
 0024d3a0	136	nbGetMotionActframe	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:motionActFrame	battle_action_skill_core_frames.c:body_0024d3a0;battle_action_skill_core_frames.c:ps2BattleActionSkill_0024D3A0	ok	ok	ok	ok	ok	nbGetMotionActframe

@@ -1256,6 +1256,11 @@ nbGetMotionEndData	ok
 nbGetMotionSpeed	ok
 nbGetMotionActframe	ok
 nbGetMotionNo	ok
+GetDyingBadWaitMotion	ok
+nbSetUnitMotion	ok
+nbSetWaitMotion	ok
+evtSetUnitMotion	ok
+evtSetWaitMotion, Speed, HokanFrame	ok
 nbCameraSetTaizi	ok
 nbAppendEnemyDevilWork	ok
 nbGetRandamStock	ok

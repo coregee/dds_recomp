@@ -81,8 +81,6 @@ void AddHitEffPacket(int32_t startframe, ActionProcessData& a, Formation& form, 
 void AddHitEffPacket(int32_t startframe, int32_t uniqueid, Formation& form, int32_t kind);       // ... by the packets' owner
 void MakeTargetPacket(ee::Float speed, int32_t start, ActionProcessData& a, Formation& form, uint32_t targets,
                       int32_t kind);                                                    // (0x2648C0)
-void SetWaitMotion(Formation& form, int32_t motion, ee::Float speed);               // (0x24D238)
-void SetUnitMotion(Formation& form, int32_t motion, int32_t loop, ee::Float speed); // (0x24CFF8)
 // The battle panel (nbPanelProcess); names by the HD remaster's order, tentative.
 void PanelAllShow();            // (0x279C30) the panel, its press gauge and auto marker
 void PanelPressGaugeShow();     // (0x27C2C0)
@@ -135,8 +133,6 @@ void MoveHome(ee::Float speed, int32_t partyno);
 // `frames` (0: at once); tentative names
 void UnitSetColor(uint32_t unit, int32_t frames, uint32_t color);
 void UnitSetAlpha(uint32_t unit, int32_t frames, uint32_t alpha);
-// (0x1E3B78) a unit model's two motion words at +0xBA, +0xBC (meaning unknown)
-void UnitSetMotionWords(uint32_t unit, int16_t a, int16_t b);
 // The damage motions: nbSetDamage (0x24DF78; week: the hit was on a
 // weakness), nbSetDamage2 (0x24E020, a light one), nbSetBadstatMotion
 // (0x24E040, an ailment's), nbSetBadstatMotion2 (0x24E0E8).
