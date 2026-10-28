@@ -10,6 +10,7 @@
 #include "nocturne/battle/help.hpp"
 #include "nocturne/battle/kouka_process.hpp"
 #include "nocturne/battle/order.hpp"
+#include "nocturne/battle/unit_process.hpp"
 #include "nocturne/build.hpp"
 #include "nocturne/effect/cut.hpp"
 #include "nocturne/event/units.hpp"
@@ -388,7 +389,7 @@ void playSummon(EffectQueue& k, EffectPacket& p)
     updateOrder();
     const int16_t side = static_cast<int16_t>(p.data1.raw);
     const int16_t formindex = static_cast<int16_t>(p.data2.raw);
-    SummonUnit(side, static_cast<int16_t>(p.data1.raw >> 16), formindex);
+    summonUnit(side, static_cast<int16_t>(p.data1.raw >> 16), formindex);
     MainProcessData& main = battle(k);
     if (side == 0) {
         setPlayerFormation(main, 0);

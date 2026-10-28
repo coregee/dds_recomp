@@ -821,10 +821,6 @@ void nbCameraScriptSetBougai(uint64_t form) { fw_mes_log(117, (uint32_t)form, 1)
 void effBTLCutDraw(uint64_t cut) { fw_mes_log(109, (uint32_t)cut, 0); }
 void dds3FadeIn2(uint64_t frames) { fw_mes_log(102, (uint32_t)frames, 0); }
 void ps2BattleOutcome_001E3B78(uint64_t unit, uint64_t a, uint64_t b) { fw_mes_log(103, (uint32_t)unit, (uint32_t)a ^ (uint32_t)b << 16); }
-void ps2BattleFormation_0024D8C0(uint64_t side, uint64_t stockno, uint64_t formindex)
-{
-    fw_mes_log(106, (uint32_t)side ^ (uint32_t)stockno << 16, (uint32_t)formindex);
-}
 void ps2SoundStopEffectMidi_002C1730(uint64_t sound) { fw_mes_log(108, (uint32_t)sound, 0); }
 void dds3FadeOut(uint64_t r, uint64_t g, uint64_t b, uint64_t frames) { fw_mes_log(22, (uint32_t)r ^ (uint32_t)g << 8 ^ (uint32_t)b << 16, (uint32_t)frames); }
 void ps2PoolRelease(uint32_t slot) { fw_mes_log(23, slot, 0); }

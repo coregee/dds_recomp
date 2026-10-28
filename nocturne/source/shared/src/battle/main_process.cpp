@@ -288,6 +288,18 @@ bool hasValidAction()
     return false;
 }
 
+// nbPushAction @ 0x00247ED8
+void pushAction(int32_t type, int32_t from, int32_t to, int32_t data)
+{
+    MainProcessData& main = *GetMainProcessData();
+    QueuedAction& action = guest::table<QueuedAction>(main.actionstack)[main.actionstackp];
+    action.type = type;
+    action.from = from;
+    action.to = to;
+    action.data = data;
+    ++main.actionstackp;
+}
+
 // nbClearActionStack @ 0x002481C8
 void clearActionStack() { GetMainProcessData()->actionstackp = 0; }
 
@@ -452,7 +464,7 @@ void setPressTurns(MainProcessData& main)
 void enterActionStart(MainProcessData& main)
 {
     if (!hasValidAction())
-        PushAction(0, main.order[main.orderindex], 0, 0);
+        pushAction(0, main.order[main.orderindex], 0, 0);
 }
 
 // 0x00248640 (no original name): the queued action's process.

@@ -6026,7 +6026,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00247da0	164	FUN_00247da0	DEFAULT	rewritten	shared/src/battle/main_process.cpp:rollInitiative		ok	ok	ok	ok	ok	CheckSenseiOrBackAttack
 00247e48	68	FUN_00247e48	DEFAULT	rewritten	shared/src/battle/main_process.cpp:formationsIdle		ok	ok	ok	ok	ok	CheckActionRun
 00247e90	68	FUN_00247e90	DEFAULT	rewritten	shared/src/battle/main_process.cpp:setBossFlag		ok	ok	ok	ok	ok	SetBattleFlag
-00247ed8	152	nbPushAction	USER_DEFINED	legacy		battle_action_packet_frames.c:body_00247ed8;battle_action_packet_frames.c:ps2BattleActionPacket_00247ED8;battle_action_status.c:nbPushAction						nbPushAction
+00247ed8	152	nbPushAction	USER_DEFINED	rewritten	shared/src/battle/main_process.cpp:pushAction	battle_action_packet_frames.c:body_00247ed8;battle_action_packet_frames.c:ps2BattleActionPacket_00247ED8;battle_action_status.c:nbPushAction	ok	ok	ok	ok	ok	nbPushAction
 00247f70	276	FUN_00247f70	DEFAULT	rewritten	shared/src/battle/main_process.cpp:actionInvalid		ok	ok	ok	ok	ok	CheckErrorActionStack
 00248088	176	FUN_00248088	DEFAULT	rewritten	shared/src/battle/main_process.cpp:popAction		ok	ok	ok	ok	ok	nbPopAction
 00248138	140	FUN_00248138	DEFAULT	rewritten	shared/src/battle/main_process.cpp:hasValidAction		ok	ok	ok	ok	ok	nbCheckActionStack
@@ -6112,7 +6112,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0024d428	100	ps2BattleOutcome_0024D428	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:motionSpeed	battle_action_skill_core_frames.c:body_0024d428;battle_action_skill_core_frames.c:ps2BattleActionSkill_0024D428;battle_outcome.c:body_0024d428;battle_outcome.c:ps2BattleOutcome_0024D428	ok	ok	ok	ok	ok	nbGetMotionSpeed
 0024d490	188	ps2BattleFormation_0024D490	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:prepareMotion	battle_formation.c:body_0024d490;battle_formation.c:ps2BattleFormation_0024D490	ok	ok	ok	ok	ok	nbGetMotionNo
 0024d550	864	ps2BattleFormation_0024D550	USER_DEFINED	rewritten	shared/src/battle/unit_process.cpp:addUnitToSlot	battle_formation.c:body_0024d550;battle_formation.c:ps2BattleFormation_0024D550	ok	ok	ok	ok	ok	nbAddUnitStock
-0024d8c0	120	ps2BattleFormation_0024D8C0	USER_DEFINED	legacy		battle_formation.c:body_0024d8c0;battle_formation.c:ps2BattleFormation_0024D8C0						nbSummonUnit
+0024d8c0	120	ps2BattleFormation_0024D8C0	USER_DEFINED	rewritten	shared/src/battle/unit_process.cpp:summonUnit	battle_formation.c:body_0024d8c0;battle_formation.c:ps2BattleFormation_0024D8C0	ok	ok	ok	ok	ok	nbSummonUnit
 0024d938	68	FUN_0024d938	DEFAULT	unknown								
 0024d980	612	nbReturnUnit	USER_DEFINED	named								nbReturnUnit
 0024dbf0	140	FUN_0024dbf0	DEFAULT	named								nb_24DBF0
@@ -6124,7 +6124,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0024e020	32	nbSetDamage2	USER_DEFINED	named								nbSetDamage2
 0024e040	168	nbSetBadstatMotion	USER_DEFINED	named								nbSetBadstatMotion
 0024e0e8	140	nbSetBadstatMotion2	USER_DEFINED	named								nbSetBadstatMotion2
-0024e178	104	ps2BattleFormation_0024E178	USER_DEFINED	legacy		battle_formation.c:body_0024e178;battle_formation.c:ps2BattleFormation_0024E178						nbInitUnitEffect
+0024e178	104	ps2BattleFormation_0024E178	USER_DEFINED	rewritten	shared/src/battle/unit_process.cpp:startAppearing	battle_formation.c:body_0024e178;battle_formation.c:ps2BattleFormation_0024E178	ok	ok	ok	ok	ok	nbInitUnitEffect
 0024e1e0	200	FUN_0024e1e0	DEFAULT	named								nbLoadUnitGroup
 0024e2a8	56	FUN_0024e2a8	DEFAULT	named								nbCheckLoad
 0024e2e0	204	FUN_0024e2e0	DEFAULT	named								nbCheckLoadGroup

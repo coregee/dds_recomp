@@ -278,6 +278,7 @@ FUN_00290bc8	ok
 CheckErrorActionStack (0x247F70)	ok
 nbPopAction (0x248088)	ok
 nbCheckActionStack (0x248138)	ok
+nbPushAction (0x247ED8)	ok
 nbClearActionStack (0x2481C8)	ok
 nbSetMaePhase (0x2481E8)	ok
 FUN_00248278	ok
@@ -319,6 +320,8 @@ sdfCos (0x2C0160)	ok
 sdfAtan (0x2C0228)	ok
 nbSetupBattleUnits (0x259740)	ok
 nbAddUnitStock (0x24D550)	ok
+nbSummonUnit (0x24D8C0)	ok
+nbInitUnitEffect (0x24E178)	ok
 nbInitDebugProcess (0x285368), nbDebugShutdown (0x2852C0)	ok
 nbDebugSelect (0x246BF8)	ok
 nbSetPlayerStartData (0x259908)	ok

@@ -19,6 +19,11 @@ constexpr uint32_t kDrawName = addr(0x00543768);      // "nb_unitdraw"
 constexpr uint32_t kStep = addr(0x0024f0b0), kShutdown = addr(0x0024f368);   // nbUnitProcess2, nbUnitShutdown (no C here yet)
 constexpr uint32_t kDraw = addr(0x0024e670);          // nbUnitDrawProcess1 (no C here yet)
 
+constexpr int32_t kAppearing = 4;           // Formation::type: the unit appearing (tentative)
+constexpr uint32_t kFlagMoving = 1;         // Formation::flag: still moving (CheckActionRun's bits 0..2)
+constexpr uint32_t kFlagHidden = 8;         // ... not yet appeared
+constexpr uint32_t kAnimeAppearEffect = 0x200;   // Formation::anime (tentative)
+
 // The first party entry from `first` to before `last` not in use, or -1.
 int32_t freeEntry(MainProcessData& main, int32_t first, int32_t last)
 {
@@ -83,6 +88,30 @@ int32_t addUnitToSlot(MainProcessData& main, int32_t side, int32_t stockno, int3
     form.ailmentEffect = 0;
     form.allshotr = visual.allShotRadius;
     return prepareMotion(form, 0);
+}
+
+// nbInitUnitEffect @ 0x0024E178
+void startAppearing(Formation& form, bool hidden, bool noEffect)
+{
+    if (!(form.stat & FormationStat::Present) || !(form.stat & FormationStat::CheckParty) ||
+        (form.stat & FormationStat::Shadow))
+        return;
+    const uint32_t flag = form.flag & ~6u;
+    form.type = kAppearing;
+    form.time = 0;
+    form.flag = flag | kFlagMoving;
+    if (hidden)
+        form.flag = flag | kFlagMoving | kFlagHidden;
+    if (!noEffect)
+        form.anime |= kAnimeAppearEffect;
+}
+
+// nbSummonUnit @ 0x0024D8C0
+void summonUnit(int32_t side, int32_t stockno, int32_t formindex)
+{
+    MainProcessData& main = *GetMainProcessData();
+    addUnitToSlot(main, side, stockno, formindex);
+    startAppearing(main.form[formindex], false, true);
 }
 
 } // namespace nocturne::nb

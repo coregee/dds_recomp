@@ -10,6 +10,7 @@
 #include "nocturne/battle/buffs.hpp"
 #include "nocturne/battle/combatant.hpp"
 #include "nocturne/battle/kouka.hpp"
+#include "nocturne/battle/main_process.hpp"
 #include "nocturne/battle/target_select.hpp"
 #include "nocturne/battle/targeting.hpp"
 #include "nocturne/data/progression.hpp"
@@ -115,7 +116,7 @@ bool checkAhrimanCounter(ActionProcessData& a)
             counter = true;
     if (!counter)
         return false;
-    nb::PushAction(4, enemy.partyindex, a.partyindex, 0xf3);
+    pushAction(4, enemy.partyindex, a.partyindex, 0xf3);
     diag::print(diag::Message::AhrimanCounter);
     return true;
 }
@@ -149,7 +150,7 @@ bool checkCounter(ActionProcessData& a, int32_t from, int32_t to)
     }
     if (counter == 0)
         return false;
-    nb::PushAction(4, formAt(a, from).partyindex, formAt(a, to).partyindex, counter);
+    pushAction(4, formAt(a, from).partyindex, formAt(a, to).partyindex, counter);
     diag::print(diag::Message::Counter);
     return true;
 }
@@ -242,7 +243,7 @@ bool checkBegForLife(ActionProcessData& a)
         if (!dat::canTalk(enemy) || (!(main.stat & kForceNego) && enemy.level > dat::globalWork().units[0].level))
             continue;
         if (sdf::GetRandInt(100) < chance(main, 6)) {
-            nb::PushAction(1, form.partyindex, a.partyindex, 0);
+            pushAction(1, form.partyindex, a.partyindex, 0);
             diag::print(diag::Message::BegForLifeSide, form.partyindex, enemy.id);
             return true;
         }
@@ -278,7 +279,7 @@ bool checkAskToJoin(ActionProcessData& a)
             continue;
         if (sdf::GetRandInt(100) < chance(main, 2)) {
             party.flag = static_cast<int16_t>(party.flag | 0x40);
-            nb::PushAction(2, form.partyindex, a.partyindex, 0);
+            pushAction(2, form.partyindex, a.partyindex, 0);
             diag::print(diag::Message::AskToJoinSide, form.partyindex);
             return true;
         }
@@ -297,7 +298,7 @@ void checkDeathScripts(ActionProcessData& a)
         if (!(form.stat & FormationStat::Present) || !timeListDead(a, f))
             continue;
         if (const int32_t script = hasDeathScript(form))
-            nb::PushAction(5, form.partyindex, 0, script);
+            pushAction(5, form.partyindex, 0, script);
     }
 }
 
@@ -330,7 +331,7 @@ bool checkFreeActionAfterEscape(ActionProcessData& a)
     if (count == 0)
         return false;
     const int8_t chosen = static_cast<int8_t>(candidates[sdf::GetRandInt(static_cast<int32_t>(count))]);
-    nb::PushAction(3, chosen, a.partyindex, 0);
+    pushAction(3, chosen, a.partyindex, 0);
     diag::print(diag::Message::EscapeErrParty);
     return true;
 }

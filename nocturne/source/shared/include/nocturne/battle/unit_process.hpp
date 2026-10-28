@@ -18,4 +18,13 @@ void startUnitProcess(MainProcessData& main);
 // its standing motion (nbGetMotionNo). Other sides aren't used.
 int32_t addUnitToSlot(MainProcessData& main, int32_t side, int32_t stockno, int32_t formindex);
 
+// nbInitUnitEffect (0x24E178): a present unit (not a clone) whose party
+// entry is checked starts appearing (type 4): moving (flag bit 1), hidden
+// until then (bit 8) if `hidden`, and unless `noEffect` anime bit 0x200.
+// (Parameter names after smt3-decomp's kage, noeffect.)
+void startAppearing(Formation& form, bool hidden, bool noEffect);
+// nbSummonUnit (0x24D8C0): a summoned unit into slot `formindex`
+// (addUnitToSlot), appearing without the effect.
+void summonUnit(int32_t side, int32_t stockno, int32_t formindex);
+
 } // namespace nocturne::nb

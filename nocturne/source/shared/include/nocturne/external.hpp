@@ -98,8 +98,6 @@ void StopAdpcm();        // (0x2C2180)
 } // namespace movie
 
 namespace nb {
-// (0x247ED8) queues an action to run next (counters, talks, death scripts)
-void PushAction(int32_t type, int32_t from, int32_t to, int32_t data);
 // (0x263918) a death's visuals, through the effect library
 void MakeDeathVisualPackets(int32_t startframe, int32_t uniqueid, Formation* form, int32_t deadtype, int32_t deadpcm);
 // (0x282200) the battle panel's input on or off
@@ -140,8 +138,6 @@ void SetDamage(Formation& form, ee::Float range, int32_t week);
 void SetDamage2(Formation& form, ee::Float range);
 void SetBadstatMotion(Formation& form, int32_t type, ee::Float range);
 void SetBadstatMotion2(Formation& form);
-// nbSummonUnit (0x24D8C0): a summoned devil appears: side 0 the player's, from stock `stockno`
-void SummonUnit(int32_t side, int32_t stockno, int32_t formindex);
 } // namespace nb
 
 // The script VM (flowscript), as seen by script commands.

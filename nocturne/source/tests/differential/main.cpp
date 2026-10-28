@@ -861,6 +861,13 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         actionStackWorld(g);
         return Pair{[] { return iface::origVm(0x00248138, {}); }, [] { return norm(nb::hasValidAction()); }};
     });
+    add("nbPushAction (0x247ED8)", [=](Gen& g) {
+        actionStackWorld(g);
+        mainData().actionstackp = g.range(0, 7);
+        const int32_t type = g.range(-1, 7), from = g.range(-1, 15), to = g.range(-1, 15), data = static_cast<int32_t>(g.rng());
+        return Pair{[=] { return iface::origVmVoid(0x00247ed8, {sx(type), sx(from), sx(to), sx(data)}); },
+                    [=] { nb::pushAction(type, from, to, data); return uint64_t{0}; }};
+    });
     add("nbClearActionStack (0x2481C8)", [=](Gen& g) {
         actionStackWorld(g);
         return Pair{[] { return iface::origVmVoid(0x002481c8, {}); }, [] { nb::clearActionStack(); return uint64_t{0}; }};
@@ -1267,7 +1274,10 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
             encno = g.pick<int32_t>({0x74, 0x10a, 0x149});
         return Pair{[=] { return iface::origVmVoid(0x00259740, {FW_MAIN, sx(encno)}); }, [=] { nb::setUpEnemies(mainData(), encno); return uint64_t{0}; }};
     });
-    add("nbAddUnitStock (0x24D550)", [](Gen& g) {   // either side, the entries partly in use, the Demi-fiend or not
+    // A unit joining a slot: either side, the entries partly in use, the
+    // Demi-fiend or not.
+    struct UnitStockCase { int32_t side, stockno, formindex; };
+    const auto unitStockWorld = [](Gen& g) {
         everySlotHasUnit();
         nb::MainProcessData& main = mainData();
         GlobalWork& work = nocturne::dat::globalWork();
@@ -1294,10 +1304,33 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
             }
         main.playerpcnt = static_cast<int16_t>(g.range(0, 4));
         main.enemypcnt = static_cast<int16_t>(g.range(0, 10));
-        const int32_t formindex = g.range(0, 15);
+        return UnitStockCase{side, stockno, g.range(0, 15)};
+    };
+    add("nbAddUnitStock (0x24D550)", [=](Gen& g) {
+        const auto [side, stockno, formindex] = unitStockWorld(g);
         const uint32_t m = FW_MAIN;
         return Pair{[=] { return iface::origVm(0x0024d550, {m, sx(side), sx(stockno), sx(formindex)}); },
                     [=] { return norm(nb::addUnitToSlot(mainData(), side, stockno, formindex)); }};
+    });
+    add("nbSummonUnit (0x24D8C0)", [=](Gen& g) {   // the slot's own flags as they were
+        const auto [side, stockno, formindex] = unitStockWorld(g);
+        nb::Formation& form = mainData().form[formindex];
+        form.flag = static_cast<uint32_t>(g.rng());
+        form.anime = static_cast<uint32_t>(g.rng());
+        return Pair{[=] { return iface::origVmVoid(0x0024d8c0, {sx(side), sx(stockno), sx(formindex)}); },
+                    [=] { nb::summonUnit(side, stockno, formindex); return uint64_t{0}; }};
+    });
+    add("nbInitUnitEffect (0x24E178)", [](Gen& g) {   // present, checked or a clone in any mix; hidden, without the effect
+        nb::Formation& form = mainData().form[g.range(0, 15)];
+        form.stat = static_cast<uint32_t>(g.rng()) & ~0x43u | (g.chance(70) ? 1u : 0u) | (g.chance(70) ? 0x40u : 0u) | (g.chance(25) ? 2u : 0u);
+        form.flag = static_cast<uint32_t>(g.rng());
+        form.anime = static_cast<uint32_t>(g.rng());
+        form.type = g.range(0, 6);
+        form.time = static_cast<uint32_t>(g.rng());
+        const int32_t hidden = g.chance(50) ? 0 : g.range(1, 3), noEffect = g.chance(50) ? 0 : g.range(1, 3);
+        const uint32_t f = nocturne::guest::addressOf(&form);
+        return Pair{[=] { return iface::origVmVoid(0x0024e178, {f, sx(hidden), sx(noEffect)}); },
+                    [=] { nb::startAppearing(at<nb::Formation>(f), hidden != 0, noEffect != 0); return uint64_t{0}; }};
     });
     add("nbInitDebugProcess (0x285368), nbDebugShutdown (0x2852C0)", [](Gen& g) {   // started, and sometimes ended again
         *nocturne::guest::table<int32_t>(difftest::version::dataOrDie(0x005512d8)) = g.range(-1, 9);

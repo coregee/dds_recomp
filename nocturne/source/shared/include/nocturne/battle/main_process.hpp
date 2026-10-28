@@ -32,6 +32,7 @@ void setBossFlag(MainProcessData& main);      // SetBattleFlag (0x247E90): the e
 
 // The queue of actions waiting to run (main.actionstack, actionstackp
 // entries), taken from the top.
+void pushAction(int32_t type, int32_t from, int32_t to, int32_t data);   // nbPushAction (0x247ED8)
 bool actionInvalid(MainProcessData& main, int32_t index);   // CheckErrorActionStack (0x247F70)
 bool popAction(QueuedAction& out);    // nbPopAction (0x248088): the next valid one, dropping invalid ones
 bool hasValidAction();                // nbCheckActionStack (0x248138)

@@ -37,7 +37,6 @@ uint64_t nbGetHojoCounter(uint64_t, uint64_t);
 uint64_t nbCheckKuisibariSkill(uint64_t);
 uint64_t nbCheckKuisibari2Skill(uint64_t);
 void nbSetKuisibariStop(uint64_t);
-void nbPushAction(uint64_t, uint64_t, uint64_t, uint64_t);   // legacy, tested against the rewrite
 uint64_t ps2BattleAction_00263918(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
 uint64_t nbSetHojoAddCounter(uint64_t, uint64_t, uint64_t, uint64_t);   // legacy, tested against the rewrite
 uint32_t evtGetAgeOfMoon(void);
@@ -138,7 +137,6 @@ void nbSetDamage(uint64_t, uint64_t, uint32_t);
 void nbSetDamage2(uint64_t, uint32_t);
 void nbSetBadstatMotion(uint64_t, uint64_t, uint32_t);
 void nbSetBadstatMotion2(uint64_t);
-void ps2BattleFormation_0024D8C0(uint64_t, uint64_t, uint64_t);
 void ps2SoundStopEffectMidi_002C1730(uint64_t);
 void nbUnitSetAlpha(uint64_t, uint64_t, uint64_t);
 uint32_t evtGetAgeOfMoon16(void);
@@ -419,7 +417,6 @@ ee::Interpreter makeOriginal()
     e.hookUs(0x0026a2d8, [=](ee::Cpu& c) { return nbCheckKuisibariSkill(a(c, 0)); });
     e.hookUs(0x0026a338, [=](ee::Cpu& c) { return nbCheckKuisibari2Skill(a(c, 0)); });
     e.hookUs(0x0026a398, [=](ee::Cpu& c) { nbSetKuisibariStop(a(c, 0)); return uint64_t{0}; });
-    e.hookUs(0x00247ed8, [=](ee::Cpu& c) { nbPushAction(a(c, 0), a(c, 1), a(c, 2), a(c, 3)); return uint64_t{0}; });
     e.hook(0x00263918, [=](ee::Cpu& c) { return ps2BattleAction_00263918(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4)); });
     e.interpret(0x00267f58, 0x00268030);   // nbSetHojoAddCounter (through Hardtype's limits)
     e.hook(0x001e9998, [](ee::Cpu&) { return uint64_t{evtGetAgeOfMoon()}; });
@@ -530,7 +527,6 @@ ee::Interpreter makeOriginal()
     e.interpret(0x002c0060, 0x002c017c);   // sdfSin, sdfCos
     e.interpret(0x002c0228, 0x002c0258);   // sdfAtan
     e.interpret(0x002c0488, 0x002c04b8);   // Mult (the quaternion product)
-    e.hook(0x0024d8c0, [=](ee::Cpu& c) { ps2BattleFormation_0024D8C0(a(c, 0), a(c, 1), a(c, 2)); return uint64_t{0}; });
     e.hook(0x002c1730, [=](ee::Cpu& c) { ps2SoundStopEffectMidi_002C1730(a(c, 0)); return uint64_t{0}; });
     e.interpret(0x0028b0a0, 0x0028b0b8);   // nbSetPlayerFormation
     e.hook(0x0024df78, [=](ee::Cpu& c) { nbSetDamage(a(c, 0), a(c, 1), static_cast<uint32_t>(c.f[12])); return uint64_t{0}; });
@@ -577,8 +573,7 @@ ee::Interpreter makeOriginal()
     e.interpret(0x00249258, 0x00249320);   // the passive skills' effect, ClearLocalBit
     e.interpret(0x001e9528, 0x001e95a0);   // the moon's texture
     e.interpret(0x00249320, 0x002493a8);   // the main process's end
-    e.interpret(0x00247d60, 0x00247ed8);   // the checks at the start and between actions
-    e.interpret(0x00247f70, 0x002481e8);   // the action stack
+    e.interpret(0x00247d60, 0x002481e8);   // the checks at the start and between actions, the action stack
     e.interpret(0x00248c88, 0x00248cb0);   // nbSetNextPhase
     e.interpret(0x002481e8, 0x00248c88);   // the phases' entries
     e.interpret(0x00248cb0, 0x00249258);   // nbSetPhase, nbMainProcess1
@@ -599,7 +594,8 @@ ee::Interpreter makeOriginal()
         });
     }
     e.interpret(0x0021f788, 0x0021f838);   // rstChkLevelUpTarget, rstChkResultEntry
-    e.interpret(0x0024d550, 0x0024d8c0);   // nbAddUnitStock
+    e.interpret(0x0024d550, 0x0024d938);   // nbAddUnitStock, nbSummonUnit
+    e.interpret(0x0024e178, 0x0024e1e0);   // nbInitUnitEffect
     e.interpret(0x002852c0, 0x002853d8);   // nbDebugShutdown, InitDebugProcessData, nbInitDebugProcess
     e.interpret(0x00246bf8, 0x00246d08);   // nbDebugSelect
     e.interpret(0x00220000, 0x00220020);   // rstGetEquipHeartsAisyo

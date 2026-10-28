@@ -3320,6 +3320,17 @@ void addKoukaTests(std::vector<TestCase>& t)
         {"RunStockPanelFadeOutKouka", 0x00260f08, playStockPanelFadeOut, {kPanelStockFadeOut}},
         {"RunStockPanelEndKouka", 0x00260f20, playStockPanelEnd, {kPanelStockEnd}},
     };
+    // A summon: side 0 or 1 (the only ones used), the stock index (an
+    // enemy's of ten), the slot; every slot with a unit, as its motion looks
+    // the unit up by its slot.
+    const auto summonPacket = [](Gen& g, EffectPacket& packet) {
+        const int16_t side = static_cast<int16_t>(g.range(0, 1));
+        packet.data1.setHalves(side, static_cast<int16_t>(side == 1 ? g.range(0, 9) : g.range(0, 11)));
+        packet.data2.setInt(g.range(0, 13));
+        for (uint32_t f = 0; f < 16; ++f)
+            if (at<uint32_t>(FW_FORM_UNITS + 4u * f) == 0)
+                at<uint32_t>(FW_FORM_UNITS + 4u * f) = FW_ENEMIES;
+    };
     auto pickPacket = [=](Gen& g, const std::vector<int32_t>& types) {
         const int32_t type = types[g.below(static_cast<uint32_t>(types.size()))];
         return playPacket(g, {type});
@@ -3361,9 +3372,8 @@ void addKoukaTests(std::vector<TestCase>& t)
                 packet.data2.setInt(g.chance(80) ? g.pick<int32_t>({-1, 0, 1, 2, 4, 8, 0x10, 0x20, 0x40, 0x80, 0x100, 0x200, 0x400})
                                                  : g.range(-3, 0x800));
             }
-            if (pl->original == 0x0025f9a8) {   // side and stock index; the slot; whose turn
-                packet.data1.setHalves(static_cast<int16_t>(g.range(-1, 2)), static_cast<int16_t>(g.range(0, 11)));
-                packet.data2.setInt(g.range(0, 13));
+            if (pl->original == 0x0025f9a8) {   // the summon; whose turn
+                summonPacket(g, packet);
                 at<MainProcessData>(FW_MAIN).stat ^= g.chance(50) ? 8u : 0u;
             }
             if (pl->original == 0x0025f4f0) {   // a motion (0x17 loops); a skill motion's ending
@@ -3427,8 +3437,11 @@ void addKoukaTests(std::vector<TestCase>& t)
     add("nbKoukaProcess1", [=](Gen& g) {
         std::memset(&queue(), 0, sizeof(EffectQueue));
         queue().data.address = FW_MAIN;
-        for (int n = g.range(0, 8); n > 0; --n)
-            pickPacket(g, kPlayable);
+        for (int n = g.range(0, 8); n > 0; --n) {
+            EffectPacket& packet = at<EffectPacket>(pickPacket(g, kPlayable));
+            if (packet.type == kSummon)
+                summonPacket(g, packet);
+        }
         return Pair{[=] { return origVm(0x00260f38, {1}); }, [=] { return norm(runEffectQueue(1)); }};
     });
     add("nbDelUnEventKoukaPacket", [=](Gen& g) {
