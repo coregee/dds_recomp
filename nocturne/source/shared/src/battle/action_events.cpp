@@ -354,7 +354,7 @@ void debugWinBattle(ActionProcessData& a)
     for (int32_t f = kFirstEnemyFormation; f < kFormationCount; ++f) {
         Formation& form = formAt(a, f);
         if ((form.stat & FormationStat::Present) && (form.stat & FormationStat::CheckParty)) {
-            nb::MakeDeathVisualPackets(0, static_cast<int32_t>(guest::addressOf(&a)), &form, 0, 1);
+            makeDeathVisualPackets(0, static_cast<int32_t>(guest::addressOf(&a)), form, 0, 1);
             setTimeList(a, f, 0, 30, 30);
             queueDeath(a, f);
         }

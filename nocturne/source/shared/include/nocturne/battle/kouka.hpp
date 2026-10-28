@@ -164,6 +164,15 @@ int32_t makeFadeInPackets(int32_t startframe, int32_t uniqueid, Formation* form,
 int32_t makeFadeOutPackets(int32_t startframe, int32_t uniqueid, Formation* form, uint32_t col, int32_t delay,
                                 int32_t colframe, int32_t aframe);
 int32_t makeDeathPackets(int32_t startframe, int32_t uniqueid, Formation& form, int32_t deadchk);
+// nbMakeDeadVisualPacket (0x263918): how a unit dies (deadtype; 2 for a unit
+// whose death runs a script or event), its cry if `deadpcm`, and the pad's
+// shock for the party's (stronger for the Demi-fiend). Returns 1.
+int32_t makeDeathVisualPackets(int32_t startframe, int32_t uniqueid, Formation& form, int32_t deadtype, int32_t deadpcm);
+// nbMakeDamagePacket (0x263C00): a hit's death, ailment or reaction and
+// effect on a unit's slot, then its HP and MP loss (negative: none), shown as
+// numbers and words `animeoff` frames later if `numbers`. Returns 1.
+int32_t makeDamagePackets(int32_t startframe, int32_t uniqueid, Formation& form, int32_t type, int32_t hp, int32_t mp,
+                          uint32_t bad, bool hiteff, bool dead, int32_t deadtype, bool numbers, int32_t animeoff);
 int32_t makePressPackets(int32_t startframe, int32_t uniqueid, ee::Float press);
 // `callerSkill`: what a version may read of its caller (Hardtype: the skill
 // SetAction_SKILL leaves in s6; the other callers never leave 0xFF there).

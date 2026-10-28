@@ -3,7 +3,9 @@
 #include "nocturne/battle/kouka.hpp"
 
 #include "nocturne/address.hpp"
+#include "nocturne/battle/calc.hpp"
 #include "nocturne/battle/combatant.hpp"
+#include "nocturne/battle/event_process.hpp"
 #include "nocturne/effect/boss.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/build.hpp"
@@ -809,6 +811,136 @@ int32_t makeFadeOutPackets(int32_t startframe, int32_t uniqueid, Formation* form
 {
     addUnitColorPacket(startframe, uniqueid, form, col, colframe);
     addUnitAlphaPacket(startframe + delay, uniqueid, form, 0, aframe);
+    return 1;
+}
+
+// nbMakeDeadVisualPacket @ 0x00263918. The death types:
+//   0 the unit reels (an ailment damage motion) and fades out over 10 frames
+//   1 it fades out at once in a flash (hit effect 6)
+//   2 a death with its own script or event: the ailment cured, the unit
+//     slumps (models with a slump, 0x18 animations or more) or reels; an
+//     event fades the screen out (and in again) and starts.
+// Each but 1 sounds 0x10000 (1: 0x10004), with the cry, 7 frames on.
+int32_t makeDeathVisualPackets(int32_t startframe, int32_t uniqueid, Formation& form, int32_t deadtype, int32_t deadpcm)
+{
+    constexpr int32_t kSlumpModels = 0x18;   // animations a model with the slump has
+    if (diesByEvent(form))
+        deadtype = 2;
+    uint32_t sound = 0;
+    switch (deadtype) {
+    case 1:
+        makeFadeOutPackets(startframe, uniqueid, &form, 0, 2, 2, 2);
+        sound = 0x10004;
+        addHitEffectPacket(startframe + 1, uniqueid, form, 6);
+        break;
+    case 0:
+        addAilmentDamageMotionPacket(startframe, uniqueid, &form, ee::Float(17.0f), 0);
+        sound = 0x10000;
+        makeFadeOutPackets(startframe + 7, uniqueid, &form, 0, 10, 10, 10);
+        break;
+    case 2: {
+        makeAilmentCurePackets(startframe, uniqueid, form);
+        if (animationCount(form) < kSlumpModels)
+            addAilmentDamageMotionPacket(startframe, uniqueid, &form, ee::Float(30.0f), ~0u);
+        else
+            addMotionPacket(startframe, uniqueid, &form, 1);
+        sound = 0x10000;
+        if (const int32_t eventno = hasDeathEvent(form)) {
+            const int32_t fadeTime = deadEventFadeTime(eventno);
+            const int32_t fadeOut = deadEventFadeOutFrame(eventno);
+            const int32_t fadeStop = deadEventFadeStopFrame(eventno);
+            const int32_t fadeIn = deadEventFadeInFrame(eventno);
+            const int32_t fadeStart = startframe + fadeTime;
+            addFadeOutPacket(fadeStart, uniqueid, fadeOut, 1);
+            if (fadeIn > 0)
+                addFadeInPacket(startframe + fadeStop + fadeOut + 2 + fadeTime, uniqueid, fadeIn, 1);
+            addDeathEventPacket(fadeStart + fadeOut + fadeStop - 3, uniqueid, &form, eventno);
+        }
+        break;
+    }
+    default:
+        break;
+    }
+    if (deadpcm != 0) {
+        addDeathVoicePacket(startframe + 7, uniqueid, form);
+        if (sound != 0)
+            addSoundPacket(startframe + 7, uniqueid, sound);
+    }
+    if (form.stat & FormationStat::PartySlot) {
+        if (GetUnitWorkFromFormindex(form.formindex)->flag & UnitFlag::PlayerCharacter)
+            addPadShockPacket(startframe, uniqueid, 1, 0xfa, 0x1e);
+        else
+            addPadShockPacket(startframe, uniqueid, 1, 0x96, 0x14);
+    }
+    return 1;
+}
+
+// nbMakeDamagePacket @ 0x00263C00: a hit on `form`. On a unit's slot: its
+// death if `dead`, else the ailment it takes or its hit reaction (type: a
+// HitType, 3 for a light hit), and the hit's effect if `hiteff`. Then the HP
+// and MP it loses (a negative amount: no change), shown as numbers if
+// `numbers`, with the critical's or weakness's word; the numbers and words
+// come `animeoff` frames after the hit.
+int32_t makeDamagePackets(int32_t startframe, int32_t uniqueid, Formation& form, int32_t type, int32_t hp, int32_t mp,
+                          uint32_t bad, bool hiteff, bool dead, int32_t deadtype, bool numbers, int32_t animeoff)
+{
+    constexpr int32_t kShownFrames = 0x2d;
+    constexpr int32_t kLightHit = 3;
+    enum : int32_t { kHpNumber = 0, kMpNumber = 1, kBothNumbers = 4 };
+    enum : int32_t { kWeakWord = 1, kCriticalWord = 2 };
+    const bool unitSlot = form.formindex < 16;
+    if (unitSlot) {
+        if (dead) {
+            makeDeathVisualPackets(startframe, uniqueid, form, deadtype, 1);
+        } else {
+            switch (static_cast<Ailment>(bad)) {
+            case Ailment::Shock: case Ailment::Freeze: case Ailment::Sleep: case Ailment::Panic:
+            case Ailment::Bind: case Ailment::Mute: case Ailment::Poison: case Ailment::Charm:
+            case Ailment::Stun: case Ailment::Stone: case Ailment::Dead:
+                makeAilmentPackets(startframe, uniqueid, &form, bad);
+                break;
+            case Ailment::Fly:
+                makeFlyAilmentPackets(startframe, uniqueid, &form);
+                break;
+            default:
+                if (type >= 0 && type < kLightHit) {
+                    addDamageMotionPacket(startframe, uniqueid, &form, ee::Float(17.0f), 1);
+                } else if (type == kLightHit) {
+                    addLightDamageMotionPacket(startframe, uniqueid, &form, ee::Float(10.0f));
+                    addSoundPacket(startframe, uniqueid, 0x10002);
+                }
+                break;
+            }
+        }
+        if (hiteff) {
+            if (type == static_cast<int32_t>(HitType::Critical))
+                addHitEffectPacket(startframe, uniqueid, form, 7);
+            else if (type == static_cast<int32_t>(HitType::Normal) || type == static_cast<int32_t>(HitType::Weakness))
+                addHitEffectPacket(startframe, uniqueid, form, 0);
+        }
+    }
+    const int32_t frame = startframe + animeoff + 1;
+    const bool shown = unitSlot && numbers;
+    if (hp >= 0 && mp >= 0) {
+        if (shown)
+            addNumberPacket(frame, kShownFrames, uniqueid, &form, hp, mp, kBothNumbers);
+        addHpMpPacket(startframe, uniqueid, &form, -hp, 0);
+        addHpMpPacket(startframe, uniqueid, &form, -mp, 1);
+    } else if (mp >= 0) {
+        if (shown)
+            addNumberPacket(frame, kShownFrames, uniqueid, &form, mp, 0, kMpNumber);
+        addHpMpPacket(startframe, uniqueid, &form, -mp, 1);
+    } else if (hp >= 0) {
+        if (shown)
+            addNumberPacket(frame, kShownFrames, uniqueid, &form, hp, 0, kHpNumber);
+        addHpMpPacket(startframe, uniqueid, &form, -hp, 0);
+    }
+    if (numbers) {
+        if (type == static_cast<int32_t>(HitType::Critical))
+            addWordPacket(frame, kShownFrames, uniqueid, &form, kCriticalWord);
+        else if (type == static_cast<int32_t>(HitType::Weakness))
+            addWordPacket(frame, kShownFrames, uniqueid, &form, kWeakWord);
+    }
     return 1;
 }
 

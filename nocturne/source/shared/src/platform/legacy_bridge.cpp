@@ -95,9 +95,6 @@ void dds3LinkProcess(uint64_t parent, uint64_t process);
 // No named legacy C yet (the tests fake them):
 void nbMakeKaifukuPacket(uint64_t startframe, uint64_t uniqueid, uint64_t form, uint64_t type, uint64_t hp, uint64_t mp,
                          uint64_t badstat);   // 0x264010
-uint64_t ps2BattleAction_00263C00(uint64_t startframe, uint64_t uniqueid, uint64_t form, uint64_t type, uint64_t hp,
-                                  uint64_t mp, uint64_t badstat, uint64_t hiteff, uint64_t dead, uint64_t deadtype,
-                                  uint64_t moji, uint64_t animeoff);   // nbMakeDamagePacket
 void nbPanelAnalyzeStart(void);
 uint64_t nbPanelStockSelect(uint64_t data, uint64_t sw);
 void nbPanelAnalyzeEnd(void);
@@ -105,8 +102,6 @@ uint64_t ps2MovieCheckAdpcmFlag(void);
 uint64_t ps2MovieStopAdpcm(void);
 void nocturneInvokeBattleActionEntry(uint32_t entry, uint64_t context);
 uint64_t nocturneInvokeBattleActionUpdate(uint32_t target, uint64_t context);
-uint64_t ps2BattleAction_00263918(uint64_t startframe, uint64_t uniqueid, uint64_t form, uint64_t deadtype,
-                                  uint64_t deadpcm);   // nbMakeDeadVisualPacket
 void ps2BattlePanelSetEnabled_00282200(uint64_t enabled);
 void effPCPBossONGYDraw(uint64_t handle);        // 0x1982C8: no legacy C yet
 void effPCPBossONGY2Draw(uint64_t handle);       // 0x198930
@@ -309,13 +304,6 @@ void nb::MakeHealPackets(int32_t startframe, int32_t uniqueid, Formation* form, 
     nbMakeKaifukuPacket(signExtend(startframe), signExtend(uniqueid), word(guest::addressOf(form)), signExtend(type),
                         signExtend(hp), signExtend(mp), word(badstat));
 }
-void nb::MakeDamagePackets(int32_t startframe, int32_t uniqueid, Formation* form, int32_t type, int32_t hp, int32_t mp,
-                          int32_t badstat, int32_t hiteff, int32_t dead, int32_t deadtype, int32_t moji, int32_t animeoff)
-{
-    ps2BattleAction_00263C00(signExtend(startframe), signExtend(uniqueid), word(guest::addressOf(form)), signExtend(type),
-                             signExtend(hp), signExtend(mp), signExtend(badstat), signExtend(hiteff), signExtend(dead),
-                             signExtend(deadtype), signExtend(moji), signExtend(animeoff));
-}
 void nb::PanelAnalyzeStart() { nbPanelAnalyzeStart(); }
 void nb::PanelAnalyzeEnd() { nbPanelAnalyzeEnd(); }
 void nb::PanelAllShow() { nbPanelAllShow(); }
@@ -362,11 +350,6 @@ void guest::callActionSet(uint32_t entry, uint32_t action) { nocturneInvokeBattl
 int32_t guest::callActionCheck(uint32_t entry, uint32_t action)
 {
     return static_cast<int32_t>(nocturneInvokeBattleActionUpdate(entry, word(action)));
-}
-void nb::MakeDeathVisualPackets(int32_t startframe, int32_t uniqueid, Formation* form, int32_t deadtype, int32_t deadpcm)
-{
-    ps2BattleAction_00263918(signExtend(startframe), signExtend(uniqueid), word(guest::addressOf(form)),
-                             signExtend(deadtype), signExtend(deadpcm));
 }
 void nb::PanelSetEnabled(bool enabled) { ps2BattlePanelSetEnabled_00282200(enabled ? 1 : 0); }
 void nb::PanelSetAnalyzeUnit(UnitWork* unit) { ps2BattlePanelSetAnalyzeUnit_00280538(word(guest::addressOf(unit))); }

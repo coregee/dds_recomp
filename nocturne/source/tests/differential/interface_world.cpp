@@ -16,8 +16,6 @@ uint64_t scrGetIntPara(uint64_t);
 uint64_t ps2SoundPlay(uint64_t, uint64_t, uint64_t);
 void dds3LinkProcess(uint64_t, uint64_t);
 void nbMakeKaifukuPacket(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
-uint64_t ps2BattleAction_00263C00(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t,
-                                  uint64_t, uint64_t, uint64_t, uint64_t);
 void nbPanelAnalyzeStart(void);
 uint64_t nbPanelStockSelect(uint64_t, uint64_t);
 void nbPanelAnalyzeEnd(void);   // legacy
@@ -37,7 +35,6 @@ uint64_t nbGetHojoCounter(uint64_t, uint64_t);
 uint64_t nbCheckKuisibariSkill(uint64_t);
 uint64_t nbCheckKuisibari2Skill(uint64_t);
 void nbSetKuisibariStop(uint64_t);
-uint64_t ps2BattleAction_00263918(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
 uint64_t nbSetHojoAddCounter(uint64_t, uint64_t, uint64_t, uint64_t);   // legacy, tested against the rewrite
 uint32_t evtGetAgeOfMoon(void);
 void ps2BattlePanelSetEnabled_00282200(uint64_t);
@@ -393,11 +390,6 @@ ee::Interpreter makeOriginal()
         nbMakeKaifukuPacket(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5), a(c, 6));
         return uint64_t{0};
     });
-    e.hook(0x00263c00, [=](ee::Cpu& c) {   // nbMakeDamagePacket: arguments 9..12 in 8-byte stack slots
-        auto stack = [&](uint32_t slot) { return sx(at<int32_t>(static_cast<uint32_t>(c.r[29]) + 8 * slot)); };
-        return ps2BattleAction_00263C00(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5), a(c, 6), a(c, 7),
-                                        stack(0), stack(1), stack(2), stack(3));
-    });
     e.hook(0x00280518, [](ee::Cpu&) { nbPanelAnalyzeStart(); return uint64_t{0}; });
     e.hook(0x0027fd18, [=](ee::Cpu& c) { return nbPanelStockSelect(a(c, 0), a(c, 1)); });
     e.hookUs(0x00280528, [](ee::Cpu&) { nbPanelAnalyzeEnd(); return uint64_t{0}; });
@@ -417,7 +409,6 @@ ee::Interpreter makeOriginal()
     e.hookUs(0x0026a2d8, [=](ee::Cpu& c) { return nbCheckKuisibariSkill(a(c, 0)); });
     e.hookUs(0x0026a338, [=](ee::Cpu& c) { return nbCheckKuisibari2Skill(a(c, 0)); });
     e.hookUs(0x0026a398, [=](ee::Cpu& c) { nbSetKuisibariStop(a(c, 0)); return uint64_t{0}; });
-    e.hook(0x00263918, [=](ee::Cpu& c) { return ps2BattleAction_00263918(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4)); });
     e.interpret(0x00267f58, 0x00268030);   // nbSetHojoAddCounter (through Hardtype's limits)
     e.hook(0x001e9998, [](ee::Cpu&) { return uint64_t{evtGetAgeOfMoon()}; });
     e.hook(0x00282200, [=](ee::Cpu& c) { ps2BattlePanelSetEnabled_00282200(a(c, 0)); return uint64_t{0}; });

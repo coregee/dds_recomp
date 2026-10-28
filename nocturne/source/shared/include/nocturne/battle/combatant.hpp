@@ -20,6 +20,8 @@ int32_t unitModelId(const UnitWork& unit);               // nbGetUnitID: model t
 bool diesByEvent(const Formation& form);                // it runs a script or starts an event
 int32_t hasDeathScript(const Formation& form);           // the script to run, or 0
 int32_t hasDeathEvent(const Formation& form);            // the event to start, or 0
+// The slot's model's animations (mdlGetNumOfCut, through its event unit).
+int32_t animationCount(const Formation& form);
 
 // The stock and the enemies' units (nbMisc).
 bool recruitDevil(const UnitWork& s);                    // a devil talked into joining enters the stock

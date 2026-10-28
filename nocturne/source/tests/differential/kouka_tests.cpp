@@ -29,6 +29,7 @@
 #include "nocturne/battle/sound.hpp"
 #include "nocturne/battle/talk.hpp"
 #include "nocturne/battle/talk_flow.hpp"
+#include "nocturne/data/devil_ai.hpp"
 #include "nocturne/effect/boss.hpp"
 #include "nocturne/effect/cut.hpp"
 #include "nocturne/data/tables.hpp"
@@ -1878,6 +1879,58 @@ void addKoukaTests(std::vector<TestCase>& t)
         const int32_t motion = g.range(-2, 0x40), start = g.range(-2, 30), end = g.range(-2, 30), mode = g.range(-1, 5);
         return Pair{[=] { return origVmVoid(0x001e3cc0, {unit, I(motion), I(start), I(end), I(mode)}); },
                     [=] { nocturne::evt::setUnitMotion(at<nocturne::evt::EventUnit>(unit), motion, start, end, mode); return uint64_t{0}; }};
+    });
+    // A death: every type, its cry or not, a party slot or not (the
+    // Demi-fiend or not); the unit posed, often one whose death runs a
+    // script or starts an event.
+    script("nbMakeDeadVisualPacket", [=](Gen& g) {
+        const int f = unitSlot(g);
+        Formation& form = poseWorld(g, f);
+        UnitWork& unit = at<UnitWork>(at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)));
+        const int32_t last = lastDevilWithAi();
+        unit.id = static_cast<uint16_t>(g.range(1, last));
+        if (g.chance(40))
+            for (uint16_t id = static_cast<uint16_t>(g.range(1, last)); id <= last; ++id) {
+                unit.id = id;
+                if (nocturne::dat::aiRecord(id).deathEvent() != 0 || (g.chance(20) && nocturne::dat::aiRecord(id).deathScript() != 0))
+                    break;
+            }
+        form.stat ^= g.chance(50) ? 0x100u : 0u;
+        unit.flag ^= g.chance(50) ? 4u : 0u;
+        const int32_t s = g.range(-3, 30), id = static_cast<int32_t>(g.rng()), type = g.range(-1, 3), pcm = g.chance(70) ? 1 : 0;
+        const uint32_t fa = formAddress(f);
+        return Pair{[=] { return origVm(0x00263918, {I(s), I(id), fa, I(type), I(pcm)}); },
+                    [=] { return norm(makeDeathVisualPackets(s, id, at<Formation>(fa), type, pcm)); }};
+    });
+    // A hit: every hit type, each ailment or a random stat, death or not,
+    // HP and MP lost or not (negative), numbers shown or not; sometimes on a
+    // slot past the units' (no reactions or numbers there).
+    script("nbMakeDamagePacket", [=](Gen& g) {
+        const int f = unitSlot(g);
+        Formation& form = poseWorld(g, f);
+        UnitWork& unit = at<UnitWork>(at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)));
+        unit.id = static_cast<uint16_t>(g.range(1, lastDevilWithAi()));
+        const int32_t s = g.range(-3, 30), id = static_cast<int32_t>(g.rng()), type = g.range(-1, 4);
+        const int32_t hp = g.chance(30) ? g.range(-3, -1) : g.range(0, 999), mp = g.chance(50) ? -1 : g.range(0, 99);
+        const uint32_t bad = g.chance(50) ? 0u
+                           : g.chance(80) ? g.pick<uint32_t>({1, 2, 4, 8, 0x10, 0x20, 0x40, 0x80, 0x100, 0x200, 0x400, 0x800})
+                                          : static_cast<uint32_t>(g.rng());
+        const int32_t hiteff = g.chance(50) ? 0 : g.range(1, 3), deadtype = g.range(-1, 3);
+        int32_t dead = g.chance(20) ? 1 : 0;
+        if (g.chance(20)) {   // past the units' slots (14, 15: still a unit's, but no unit to die)
+            form.formindex = static_cast<int16_t>(g.range(14, 20));
+            dead = form.formindex < 16 ? 0 : dead;
+        }
+        const int32_t numbers = g.chance(70) ? 1 : 0, animeoff = g.range(-2, 10);
+        const uint32_t fa = formAddress(f);
+        return Pair{[=] {
+                        return origVm(0x00263c00, {I(s), I(id), fa, I(type), I(hp), I(mp), bad, I(hiteff), I(dead),
+                                                   I(deadtype), I(numbers), I(animeoff)});
+                    },
+                    [=] {
+                        return norm(makeDamagePackets(s, id, at<Formation>(fa), type, hp, mp, bad, hiteff != 0, dead != 0,
+                                                      deadtype, numbers != 0, animeoff));
+                    }};
     });
     script("evtSetWaitMotion, Speed, HokanFrame", [=](Gen& g) {
         const uint32_t unit = at<Formation>(formAddress(g.range(0, 13))).hunit;

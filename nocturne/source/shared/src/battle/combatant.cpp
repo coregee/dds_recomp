@@ -264,6 +264,11 @@ int32_t hasDeathEvent(const Formation& form)
     return id == 0 ? 0 : dat::aiRecord(id).deathEvent();
 }
 
+int32_t animationCount(const Formation& form)
+{
+    return static_cast<int32_t>(guest::callOriginal(kAnimationCount, eventUnit(form).model, 0));
+}
+
 // nbGetMotionEndType @ 0x0024D310: how one of the slot's unit's motions ends.
 int32_t motionEndType(const Formation& form, int32_t motion)
 {
@@ -307,7 +312,7 @@ int32_t posedMotion(const Formation& form, int32_t motion, const UnitWork& unit)
     if (GetMainProcessData()->stat & BattleStat::FixedPoses)
         return motion;
     if (dat::isDying(unit) && motion == kStand &&
-        static_cast<int32_t>(guest::callOriginal(kAnimationCount, eventUnit(form).model, 0)) >= kSlumpAnimations)
+        animationCount(form) >= kSlumpAnimations)
         return kSlump;
     if (motion != kStand)
         return motion;

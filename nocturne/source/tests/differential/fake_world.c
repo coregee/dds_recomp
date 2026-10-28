@@ -749,15 +749,6 @@ void nbMakeKaifukuPacket(uint64_t startframe, uint64_t uniqueid, uint64_t form, 
     fw_mes_log(28, (uint32_t)startframe ^ (uint32_t)type << 16, (uint32_t)uniqueid ^ (uint32_t)form);
     fw_mes_log(29, (uint32_t)hp, (uint32_t)mp ^ (uint32_t)badstat << 16);
 }
-uint64_t ps2BattleAction_00263C00(uint64_t startframe, uint64_t uniqueid, uint64_t form, uint64_t type, uint64_t hp,
-                                  uint64_t mp, uint64_t badstat, uint64_t hiteff, uint64_t dead, uint64_t deadtype,
-                                  uint64_t moji, uint64_t animeoff)
-{
-    fw_mes_log(31, (uint32_t)startframe ^ (uint32_t)type << 20, (uint32_t)uniqueid ^ (uint32_t)form);
-    fw_mes_log(34, (uint32_t)hp, (uint32_t)mp ^ (uint32_t)badstat << 8 ^ (uint32_t)hiteff << 16);
-    fw_mes_log(35, (uint32_t)dead | (uint32_t)deadtype << 8 | (uint32_t)moji << 16 | (uint32_t)animeoff << 24, 0);
-    return 0;
-}
 void nbPanelAnalyzeStart(void) { fw_mes_log(36, 0, 0); }
 /* READY's SetAction / CheckAction (not rewritten): logged. */
 uint64_t nbPanelStockSelect(uint64_t data, uint64_t sw) { fw_mes_log(41, (uint32_t)data, (uint32_t)sw); return 0; }
@@ -778,12 +769,6 @@ uint64_t ps2BattleActionSkill_00198200(uint64_t param) { return fake_effect(37, 
 uint64_t ps2BattleActionSkill_00198868(uint64_t param) { return fake_effect(38, param, 1); }
 uint64_t effPCPBossBUNSINCreate(uint64_t param) { return fake_effect(39, param, 2); }
 uint64_t effPCPBossBUNSIN2Create(uint64_t param) { return fake_effect(40, param, 4); }
-uint64_t ps2BattleAction_00263918(uint64_t startframe, uint64_t uniqueid, uint64_t form, uint64_t deadtype,
-                                  uint64_t deadpcm)
-{
-    fw_mes_log(32, (uint32_t)startframe ^ (uint32_t)deadtype << 16 ^ (uint32_t)deadpcm << 24, (uint32_t)uniqueid ^ (uint32_t)form);
-    return 1;
-}
 void ps2BattlePanelSetEnabled_00282200(uint64_t enabled) { fw_mes_log(33, (uint32_t)enabled, 0); }
 uint64_t ps2ProcessGetRunTime(uint64_t process) { return (uint64_t)(int64_t)(int32_t)rd32((uint32_t)process + 0x28); }
 void dds3FadeIn(uint64_t r, uint64_t g, uint64_t b, uint64_t frames) { fw_mes_log(21, (uint32_t)r ^ (uint32_t)g << 8 ^ (uint32_t)b << 16, (uint32_t)frames); }

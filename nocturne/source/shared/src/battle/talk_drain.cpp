@@ -62,7 +62,7 @@ int32_t drains(TalkState& n)
     diag::print(diag::Message::TalkDrain, n.requestdata);
     if (n.requesthpmp != 0) {
         MakeHealPackets(0xf, uniqueid(n), n.eform.get(), 0, -1, n.requestdata, 0);
-        MakeDamagePackets(0x2d, uniqueid(n), n.pform.get(), 3, -1, n.requestdata, 0, 0, 0, 0, 1, 0);
+        makeDamagePackets(0x2d, uniqueid(n), *n.pform, 3, -1, n.requestdata, 0, false, false, 0, true, 0);
         n.requestdata = n.requestdata < 1 ? 100 : n.pwork->mp * 100 / n.requestdata;
         n.waitframe = 20;
         return 0;
@@ -82,7 +82,7 @@ int32_t drains(TalkState& n)
     const int32_t hp = n.pwork->hp;
     addTimeListHpAt(*n.actdata, n.pformindex, -std::min(damage, hp));
     const bool dies = hp <= damage;
-    MakeDamagePackets(0x2d, uniqueid(n), n.pform.get(), 3, damage, -1, 0, 0, dies ? 1 : 0, 0, 1, 0);
+    makeDamagePackets(0x2d, uniqueid(n), *n.pform, 3, damage, -1, 0, false, dies, 0, true, 0);
     if (dies)
         makeDeathPackets(0x4b, uniqueid(n), *n.pform, 0);
     n.waitframe = 20;

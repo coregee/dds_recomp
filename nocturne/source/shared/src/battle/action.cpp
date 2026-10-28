@@ -438,7 +438,7 @@ void queueDamage(ActionProcessData& a, int32_t hp)
     }
     addTimeListHpAt(a, self, -hp);
     const bool dead = timeListDead(a, self);
-    nb::MakeDamagePackets(start, uniqueOf(a), a.form.get(), 3, hp, -1, 0, 0, dead ? 1 : 0, 0, 1, 0);
+    makeDamagePackets(start, uniqueOf(a), *a.form, 3, hp, -1, 0, false, dead, 0, true, 0);
     setTimeList(a, self, start, 30, 30);
     if (dead) {
         queueDeath(a, self);
@@ -1434,8 +1434,8 @@ void queueHitResult(ActionProcessData& a, int32_t koukatype, int32_t nskill, int
                 dead = false;
             if (devilFormatFlag(target) & 0x100)
                 dead = false;   // can't die
-            nb::MakeDamagePackets(frame, uniqueOf(a), &formAt(a, target), hittype, hp, mp, static_cast<int32_t>(outbad), hiteff ? 1 : 0,
-                                 dead ? 1 : 0, deadtype, 1, koukatype == 1 ? 2 : 0);
+            makeDamagePackets(frame, uniqueOf(a), formAt(a, target), hittype, hp, mp, outbad, hiteff, dead, deadtype, true,
+                              koukatype == 1 ? 2 : 0);
             if (koukatype == 1) {
                 addSoundPacket(frame, uniqueOf(a), 0x10002);
             } else if (koukatype != 2 && (nskill == 0 || (nskill >= 0xa4 && nskill <= 0xa6))) {   // attacks
@@ -2157,7 +2157,7 @@ void enterSkill(ActionProcessData& a)
     const int32_t end = lastDoneFrame(a);
     overwriteTimeList(a, self, 0, (ee::Float::fromInt(end) * ee::Float::fromBits(0x3f4ccccc)).toInt(), -1);   // x0.8
     if (timeListDead(a, self) && !(a.party->flag & kPartyGone)) {   // the skill killed its user
-        nb::MakeDeathVisualPackets(start, uid, a.form.get(), 0, 1);
+        makeDeathVisualPackets(start, uid, *a.form, 0, 1);
         setTimeList(a, self, start, 0x1e, 0x1e);
         queueDeath(a, self);
     }
@@ -2319,7 +2319,7 @@ void enterAftermath(ActionProcessData& a)
         if (a.data->party[form.partyindex].flag & 0x20)
             continue;
         diag::print(diag::Message::DeadFormindex, f);
-        nb::MakeDeathVisualPackets(free, uniqueOf(a), &form, 0, 1);
+        makeDeathVisualPackets(free, uniqueOf(a), form, 0, 1);
         setTimeList(a, f, free, 30, 30);
         queueDeath(a, f);
         setTimeList(a, f, free, 20, 20);

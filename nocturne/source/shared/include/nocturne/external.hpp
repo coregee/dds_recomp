@@ -65,9 +65,6 @@ UnitWork* GetUnitWorkPointer(MainProcessData& data, Party& party);
 // (0x264010) healing's numbers and effects, through the effect library
 void MakeHealPackets(int32_t startframe, int32_t uniqueid, Formation* form, int32_t type, int32_t hp, int32_t mp,
                        uint32_t badstat);
-// (0x263C00) damage's numbers and effects, through the effect library
-void MakeDamagePackets(int32_t startframe, int32_t uniqueid, Formation* form, int32_t type, int32_t hp, int32_t mp,
-                      int32_t badstat, int32_t hiteff, int32_t dead, int32_t deadtype, int32_t moji, int32_t animeoff);
 // (0x280518) the battle panel shows the analysed unit
 void PanelAnalyzeStart();
 // (0x280528) the battle panel stops showing the analysed unit
@@ -97,8 +94,6 @@ void StopAdpcm();        // (0x2C2180)
 } // namespace movie
 
 namespace nb {
-// (0x263918) a death's visuals, through the effect library
-void MakeDeathVisualPackets(int32_t startframe, int32_t uniqueid, Formation* form, int32_t deadtype, int32_t deadpcm);
 // (0x282200) the battle panel's input on or off
 void PanelSetEnabled(bool enabled);
 // The panel's drawing (nbPanelProcess; tentative names): where in the
