@@ -6106,11 +6106,11 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0024cf70	132	nbSetNegoPose	USER_DEFINED	rewritten	shared/src/battle/talk.cpp:takeTalkPose		ok	ok	ok	ok	ok	nbSetNegoWaitMotion
 0024cff8	556	ps2BattleOutcome_0024CFF8	USER_DEFINED	legacy		battle_outcome.c:body_0024cff8;battle_outcome.c:ps2BattleOutcome_0024CFF8						nbSetUnitMotion
 0024d238	212	ps2BattleOutcome_0024D238	USER_DEFINED	legacy		battle_outcome.c:body_0024d238;battle_outcome.c:ps2BattleOutcome_0024D238						nbSetWaitMotion
-0024d310	68	nbGetMotionEndType	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:motionEndType		legacy	legacy	legacy	ok	legacy	nbCalcUnitVisual
-0024d358	68	nbGetMotionEndData	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:motionEndData		legacy	legacy	legacy	ok	legacy	nbCalcUnitVisual2
-0024d3a0	136	nbGetMotionActframe	USER_DEFINED	legacy		battle_action_skill_core_frames.c:body_0024d3a0;battle_action_skill_core_frames.c:ps2BattleActionSkill_0024D3A0						nbGetMotionActframe
-0024d428	100	ps2BattleOutcome_0024D428	USER_DEFINED	legacy		battle_action_skill_core_frames.c:body_0024d428;battle_action_skill_core_frames.c:ps2BattleActionSkill_0024D428;battle_outcome.c:body_0024d428;battle_outcome.c:ps2BattleOutcome_0024D428						nbGetMotionSpeed
-0024d490	188	ps2BattleFormation_0024D490	USER_DEFINED	legacy		battle_formation.c:body_0024d490;battle_formation.c:ps2BattleFormation_0024D490						nbGetMotionNo
+0024d310	68	nbGetMotionEndType	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:motionEndType		ok	ok	ok	ok	ok	nbCalcUnitVisual
+0024d358	68	nbGetMotionEndData	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:motionEndData		ok	ok	ok	ok	ok	nbCalcUnitVisual2
+0024d3a0	136	nbGetMotionActframe	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:motionActFrame	battle_action_skill_core_frames.c:body_0024d3a0;battle_action_skill_core_frames.c:ps2BattleActionSkill_0024D3A0	ok	ok	ok	ok	ok	nbGetMotionActframe
+0024d428	100	ps2BattleOutcome_0024D428	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:motionSpeed	battle_action_skill_core_frames.c:body_0024d428;battle_action_skill_core_frames.c:ps2BattleActionSkill_0024D428;battle_outcome.c:body_0024d428;battle_outcome.c:ps2BattleOutcome_0024D428	ok	ok	ok	ok	ok	nbGetMotionSpeed
+0024d490	188	ps2BattleFormation_0024D490	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:prepareMotion	battle_formation.c:body_0024d490;battle_formation.c:ps2BattleFormation_0024D490	ok	ok	ok	ok	ok	nbGetMotionNo
 0024d550	864	ps2BattleFormation_0024D550	USER_DEFINED	rewritten	shared/src/battle/unit_process.cpp:addUnitToSlot	battle_formation.c:body_0024d550;battle_formation.c:ps2BattleFormation_0024D550	ok	ok	ok	ok	ok	nbAddUnitStock
 0024d8c0	120	ps2BattleFormation_0024D8C0	USER_DEFINED	legacy		battle_formation.c:body_0024d8c0;battle_formation.c:ps2BattleFormation_0024D8C0						nbSummonUnit
 0024d938	68	FUN_0024d938	DEFAULT	unknown								

@@ -14,6 +14,11 @@
 
 namespace nocturne::nb {
 
+namespace {
+constexpr uint32_t kDemiFiendAnimation = addr(0x003493a0);   // uint8 per motion: the Demi-fiend model's animation
+constexpr uint32_t kDevilAnimation = addr(0x0034f1c0);       // ... a devil model's
+} // namespace
+
 // nbGetBadStat @ 0x00267788
 uint32_t badStat(int32_t formindex)
 {
@@ -253,6 +258,33 @@ int32_t motionEndType(const Formation& form, int32_t motion)
 int32_t motionEndData(const Formation& form, int32_t motion)
 {
     return unitVisual(*GetUnitWorkFromFormindex(form.formindex)).motion[motion].enddata;
+}
+
+// nbGetMotionSpeed @ 0x0024D428
+ee::Float motionSpeed(const Formation& form, int32_t motion, ee::Float rate)
+{
+    const ee::Float speed = unitVisual(*GetUnitWorkFromFormindex(form.formindex)).motion[motion].speed;
+    return rate == ee::Float::fromInt(1) ? speed : speed * rate;
+}
+
+// nbGetMotionActframe @ 0x0024D3A0
+int32_t motionActFrame(const Formation& form, int32_t motion, ee::Float rate)
+{
+    const int32_t frame = unitVisual(*GetUnitWorkFromFormindex(form.formindex)).motion[motion].actframe;
+    return (ee::Float::fromInt(frame) / motionSpeed(form, motion, rate)).toInt();
+}
+
+// nbGetMotionNo @ 0x0024D490
+int32_t prepareMotion(Formation& form, int32_t motion)
+{
+    const UnitWork& unit = *GetUnitWorkFromFormindex(form.formindex);
+    const bool demiFiend = unitModelId(unit) == 0;
+    const UnitMotion& m = unitVisual(unit).motion[motion];
+    form.cr = m.radius * form.scl;
+    form.movey = m.movey;
+    form.movez = m.movez;
+    // Each motion's animation in the model: the Demi-fiend's, and every devil's.
+    return guest::table<const uint8_t>(demiFiend ? kDemiFiendAnimation : kDevilAnimation)[motion];
 }
 
 } // namespace nocturne::nb

@@ -171,9 +171,6 @@ uint64_t fileCheckEnd(uint64_t);
 uint64_t fileGetMemHandle(uint64_t);
 uint64_t fileGetLoadSize(uint64_t);
 void ps2ResourceRequestRelease(uint64_t);
-uint64_t nbGetMotionActframe(uint64_t, uint64_t, uint32_t);
-uint32_t nbGetMotionSpeed(uint64_t, uint64_t, uint32_t);
-uint64_t nbGetMotionNo(uint64_t, uint64_t);
 void nbStopMotionSe(void);
 uint64_t nbGetMotionSeNo(uint64_t, uint64_t);
 uint64_t nbMemoryLoadMotionSe(uint64_t, uint64_t);
@@ -255,7 +252,7 @@ ee::Interpreter makeOriginal()
     e.interpret(0x002518c8, 0x00251ef0);   // GetKoukaList
     e.interpret(0x0024ff60, 0x00251428);   // SetAllPacket
     e.interpret(0x002654b8, 0x0026a840);   // nbCalc (its hooks still win)
-    e.interpret(0x0024d310, 0x0024d3a0);   // nbGetMotionEndType, nbGetMotionEndData
+    e.interpret(0x0024d310, 0x0024d550);   // nbGetMotionEndType, EndData, Actframe, Speed, No
     e.interpret(0x00259a60, 0x00259ab0);   // nbGetUnitVisual
     e.interpret(0x00269280, 0x00269314);   // nbCheckSkillUse
     e.interpret(0x0026a688, 0x0026a6d8);   // nbCheckBadPanicAction
@@ -716,9 +713,6 @@ ee::Interpreter makeOriginal()
     e.hook(0x00296aa8, [=](ee::Cpu& c) { return fileGetMemHandle(a(c, 0)); });
     e.hook(0x00296ab8, [=](ee::Cpu& c) { return fileGetLoadSize(a(c, 0)); });
     e.hook(0x002966c0, [=](ee::Cpu& c) { ps2ResourceRequestRelease(a(c, 0)); return uint64_t{0}; });
-    e.hook(0x0024d3a0, [=](ee::Cpu& c) { return nbGetMotionActframe(a(c, 0), a(c, 1), c.f[12]); });
-    e.hook(0x0024d428, [=](ee::Cpu& c) { c.f[0] = nbGetMotionSpeed(a(c, 0), a(c, 1), c.f[12]); return uint64_t{0}; });
-    e.hook(0x0024d490, [=](ee::Cpu& c) { return nbGetMotionNo(a(c, 0), a(c, 1)); });
     e.hook(0x002617a8, [=](ee::Cpu& c) {
         nbMakeSkillEffectPacket(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5), a(c, 6));
         return uint64_t{0};

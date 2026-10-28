@@ -1251,8 +1251,11 @@ SetAllPacket	ok
 SetAction_SKILL	ok
 CheckAction_SKILL	ok
 GetKoukaList	ok
-nbGetMotionEndType	legacy
-nbGetMotionEndData	legacy
+nbGetMotionEndType	ok
+nbGetMotionEndData	ok
+nbGetMotionSpeed	ok
+nbGetMotionActframe	ok
+nbGetMotionNo	ok
 nbCameraSetTaizi	ok
 nbAppendEnemyDevilWork	ok
 nbGetRandamStock	ok

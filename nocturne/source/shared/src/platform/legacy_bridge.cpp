@@ -41,9 +41,6 @@ uint64_t fileCheckEnd(uint64_t request);
 uint64_t fileGetMemHandle(uint64_t request);
 uint64_t fileGetLoadSize(uint64_t request);
 void ps2ResourceRequestRelease(uint64_t request);
-uint64_t nbGetMotionActframe(uint64_t form, uint64_t motion, uint32_t speed);   // 0x24D3A0: float in f12
-uint32_t nbGetMotionSpeed(uint64_t form, uint64_t motion, uint32_t speed);      // 0x24D428: float in f12 and f0
-uint64_t nbGetMotionNo(uint64_t form, uint64_t motion);                         // 0x24D490
 void nbMakeSkillEffectPacket(uint64_t start, uint64_t timer, uint64_t act, uint64_t form, uint64_t hiteff,
                              uint64_t motiontype, uint64_t skill);              // 0x2617A8
 void nbAddHitEffPacket(uint64_t start, uint64_t act, uint64_t form, uint64_t kind);   // 0x262480
@@ -341,18 +338,6 @@ bool file::CheckEnd(uint32_t request) { return fileCheckEnd(word(request)) != 0;
 uint32_t file::GetMemHandle(uint32_t request) { return static_cast<uint32_t>(fileGetMemHandle(word(request))); }
 int32_t file::GetLoadSize(uint32_t request) { return static_cast<int32_t>(fileGetLoadSize(word(request))); }
 void file::RequestRelease(uint32_t request) { ps2ResourceRequestRelease(word(request)); }
-int32_t nb::GetMotionActframe(ee::Float speed, Formation& form, int32_t motion)
-{
-    return static_cast<int32_t>(nbGetMotionActframe(word(guest::addressOf(&form)), signExtend(motion), speed.bits()));
-}
-ee::Float nb::GetMotionSpeed(ee::Float speed, Formation& form, int32_t motion)
-{
-    return ee::Float::fromBits(nbGetMotionSpeed(word(guest::addressOf(&form)), signExtend(motion), speed.bits()));
-}
-int32_t nb::GetMotionNo(Formation& form, int32_t motion)
-{
-    return static_cast<int32_t>(nbGetMotionNo(word(guest::addressOf(&form)), signExtend(motion)));
-}
 void nb::MakeSkillEffectPacket(int32_t startframe, int32_t timer, ActionProcessData& a, Formation& form, int32_t hiteff,
                                int32_t motiontype, int32_t skill)
 {

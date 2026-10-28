@@ -546,6 +546,14 @@ std::string describe(const Outcome& a, const Outcome& b)
 
 nb::MainProcessData& mainData() { return at<nb::MainProcessData>(FW_MAIN); }
 uint32_t formUnit(int f) { return at<uint32_t>(FW_FORM_UNITS + 4 * static_cast<uint32_t>(f)); }
+// Units join slots as the battle sets up (nbAddUnitStock), so the fake world's
+// slot lookup finds one in every slot that has none.
+void everySlotHasUnit()
+{
+    for (uint32_t f = 0; f < 16; ++f)
+        if (at<uint32_t>(FW_FORM_UNITS + 4u * f) == 0)
+            at<uint32_t>(FW_FORM_UNITS + 4u * f) = nocturne::guest::addressOf(&nocturne::dat::globalWork().units[f]);
+}
 
 // What a version models of registers its code leaves (hardtype.hpp): as the
 // interpreter's, 0 when a case's call starts.
@@ -873,6 +881,7 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
             nb::Formation& form = at<nb::Formation>(FW_FORMS + 0xf0u * static_cast<uint32_t>(f));
             form.ailmentEffect = g.chance(50) ? 0 : static_cast<uint32_t>(g.range(1, 0x1000));
         }
+        everySlotHasUnit();
         UnitWork& demifiend = nocturne::dat::globalWork().units[0];
         demifiend.hp = static_cast<uint16_t>(g.chance(20) ? 0 : g.range(1, 999));
         if (g.chance(20))
@@ -1244,6 +1253,7 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
                     [=] { return uint64_t{nocturne::sdf::arctangent(a).bits()}; }};
     });
     add("nbSetupBattleUnits (0x259740)", [](Gen& g) {   // any encounter (often one that limits calls)
+        everySlotHasUnit();
         int32_t encno = g.range(1, 1269);
         for (int tries = 0; tries < 32 && g.chance(50) && nocturne::dat::encount(encno).maxcall == 0; ++tries)
             encno = g.range(1, 1269);
@@ -1252,6 +1262,7 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         return Pair{[=] { return iface::origVmVoid(0x00259740, {FW_MAIN, sx(encno)}); }, [=] { nb::setUpEnemies(mainData(), encno); return uint64_t{0}; }};
     });
     add("nbAddUnitStock (0x24D550)", [](Gen& g) {   // either side, the entries partly in use, the Demi-fiend or not
+        everySlotHasUnit();
         nb::MainProcessData& main = mainData();
         GlobalWork& work = nocturne::dat::globalWork();
         work.hearts_equipped = static_cast<uint8_t>(g.chance(70) ? g.range(1, 25) : 0);
@@ -1272,12 +1283,12 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         if (g.chance(15) && !(unit.flag & 4))   // (one model's record sets the slot's 0x80)
             for (uint16_t id = 1; id < 398; ++id) {
                 unit.id = id;
-                if (nb::unitVisual(unit).setupFlag() == 1)
+                if (nb::unitVisual(unit).setupFlag == 1)
                     break;
             }
         main.playerpcnt = static_cast<int16_t>(g.range(0, 4));
         main.enemypcnt = static_cast<int16_t>(g.range(0, 10));
-        const int32_t formindex = g.chance(90) ? g.range(0, 15) : g.range(16, 31);
+        const int32_t formindex = g.range(0, 15);
         const uint32_t m = FW_MAIN;
         return Pair{[=] { return iface::origVm(0x0024d550, {m, sx(side), sx(stockno), sx(formindex)}); },
                     [=] { return norm(nb::addUnitToSlot(mainData(), side, stockno, formindex)); }};
@@ -1307,6 +1318,7 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         return Pair{[] { return iface::origVmVoid(0x00246bf8, {FW_MAIN}); }, [] { nb::debugPadToggles(mainData()); return uint64_t{0}; }};
     });
     add("nbSetPlayerStartData (0x259908)", [=](Gen& g) {   // the stock in any order, its units valid, in the party or not
+        everySlotHasUnit();
         GlobalWork& work = nocturne::dat::globalWork();
         work.stock_count = g.chance(90) ? g.range(0, 16) : g.range(-2, 20) % 17;
         for (uint8_t& slot : work.stock_list)

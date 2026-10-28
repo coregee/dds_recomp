@@ -1670,10 +1670,10 @@ void enterReady(ActionProcessData& a)
         a.form->stat &= ~0x4000u;
         a.form->motionend = static_cast<int16_t>(motionEndType(*a.form, motionType));
         a.form->motionenddata = static_cast<int16_t>(motionEndData(*a.form, motionType));
-        motion = nb::GetMotionNo(*a.form, motionType);
+        motion = prepareMotion(*a.form, motionType);
         addSkillMotionPacket(0, uniqueOf(a), a.form.get(), static_cast<int16_t>(motionType), a.form->motionend, speed);
         if (a.form->motionend == 2 && a.form->motionenddata >= 0) {   // the unit fades out at the end
-            const ee::Float rate = nb::GetMotionSpeed(speed, *a.form, motionType);
+            const ee::Float rate = motionSpeed(*a.form, motionType, speed);
             makeFadeOutPackets((ee::Float::fromInt(a.form->motionenddata) / rate).toInt(), uniqueOf(a), a.form.get(), 0, 2,
                                     4, 4);
         }
@@ -1690,7 +1690,7 @@ void enterReady(ActionProcessData& a)
     case 1:
     case 5:
     case 6:
-        a.timer = static_cast<uint32_t>(nb::GetMotionActframe(speed, *a.form, motionType));
+        a.timer = static_cast<uint32_t>(motionActFrame(*a.form, motionType, speed));
         targeting = visual.motion[motionType].targeting;
         if (command == 1 && skill == 0x73)
             targeting = 2;
@@ -1976,9 +1976,9 @@ void enterSkill(ActionProcessData& a)
     }
     // A motion that ends by holding: the user is busy until it ends.
     if (a.form->motionend == 2 && a.form->motiontype >= 0 && a.form->motionenddata >= 0) {
-        const ee::Float motionSpeed = nb::GetMotionSpeed(speed, *a.form, a.form->motiontype);
-        const int32_t actframe = nb::GetMotionActframe(speed, *a.form, a.form->motiontype);
-        const int32_t busy = (ee::Float::fromInt(a.form->motionenddata) / motionSpeed).toInt() - actframe + wait10;
+        const ee::Float rate = motionSpeed(*a.form, a.form->motiontype, speed);
+        const int32_t actframe = motionActFrame(*a.form, a.form->motiontype, speed);
+        const int32_t busy = (ee::Float::fromInt(a.form->motionenddata) / rate).toInt() - actframe + wait10;
         overwriteTimeList(a, self, 0, busy, busy);
     }
 

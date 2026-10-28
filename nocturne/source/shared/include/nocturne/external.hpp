@@ -73,10 +73,6 @@ void PanelAnalyzeStart();
 void PanelAnalyzeEnd();
 // (0x26CCF0) nbInitNegoProcess: the talks' process between the two slots
 void StartTalkProcess(ActionProcessData& a, int32_t pformindex, int32_t eformindex, int32_t negotype, int32_t skill);
-// A unit's motions (nbUnitProcess; names by the HD remaster's order, tentative).
-int32_t GetMotionActframe(ee::Float speed, Formation& form, int32_t motion);   // (0x24D3A0) frames to the hit
-ee::Float GetMotionSpeed(ee::Float speed, Formation& form, int32_t motion);    // (0x24D428)
-int32_t GetMotionNo(Formation& form, int32_t motion);                           // (0x24D490)
 // The motions' sounds (nbSound; tentative names).
 // Packets READY builds (nbMakePacket; tentative names).
 void MakeSkillEffectPacket(int32_t startframe, int32_t timer, ActionProcessData& a, Formation& form, int32_t hiteff,

@@ -11,6 +11,7 @@
 #include "nocturne/battle/talk_flow.hpp"
 
 #include "nocturne/battle/camera.hpp"
+#include "nocturne/battle/combatant.hpp"
 #include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/kouka.hpp"
 #include "nocturne/battle/sound.hpp"
@@ -496,11 +497,11 @@ int32_t introduction(TalkState& n)
         Formation* focus = nullptr;
         switch (n.talkType) {
         case 0: case 6:
-            GetMotionNo(*n.pform, 0);
+            prepareMotion(*n.pform, 0);
             focus = n.pform.get();
             break;
         case 1: case 2: case 3: case 4:
-            GetMotionNo(*n.eform, 0);
+            prepareMotion(*n.eform, 0);
             focus = n.eform.get();
             break;
         default:

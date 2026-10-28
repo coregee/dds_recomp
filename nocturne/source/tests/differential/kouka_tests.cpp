@@ -1750,25 +1750,59 @@ void addKoukaTests(std::vector<TestCase>& t)
                         return uint64_t{0};
                     }};
     });
+    // A slot (0..13) whose unit the fake world finds (one is given a unit if none has).
+    const auto unitSlot = [](Gen& g) {
+        int f = g.range(0, 13);
+        for (int tries = 0; tries < 14 && !at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)); ++tries)
+            f = (f + 1) % 14;
+        if (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)))
+            at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)) = nocturne::guest::addressOf(&nocturne::dat::globalWork().units[0]);
+        return f;
+    };
     script("nbGetMotionEndType", [=](Gen& g) {
-        const int f = g.range(0, 13);
-        const int32_t motion = g.range(0, 26);
+        const int f = unitSlot(g);
+        const int32_t motion = g.range(0, 25);
         const uint32_t form = formAddress(f);
         at<Formation>(form).formindex = static_cast<int16_t>(f);
-        if (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)))
-            return Pair{[] { return uint64_t{0}; }, [] { return uint64_t{0}; }};
         return Pair{[=] { return origVm(0x0024d310, {form, I(motion)}); },
                     [=] { return norm(motionEndType(at<Formation>(form), motion)); }};
     });
     script("nbGetMotionEndData", [=](Gen& g) {
-        const int f = g.range(0, 13);
-        const int32_t motion = g.range(0, 26);
+        const int f = unitSlot(g);
+        const int32_t motion = g.range(0, 25);
         const uint32_t form = formAddress(f);
         at<Formation>(form).formindex = static_cast<int16_t>(f);
-        if (!at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)))
-            return Pair{[] { return uint64_t{0}; }, [] { return uint64_t{0}; }};
         return Pair{[=] { return origVm(0x0024d358, {form, I(motion)}); },
                     [=] { return norm(motionEndData(at<Formation>(form), motion)); }};
+    });
+    // A slot with a unit, one of its motions and a speed rate (often 1).
+    const auto motionCase = [=](Gen& g, int& f, int32_t& motion, uint32_t& rate) {
+        f = unitSlot(g);
+        motion = g.range(0, 25);
+        at<Formation>(formAddress(f)).formindex = static_cast<int16_t>(f);
+        at<Formation>(formAddress(f)).scl = ee::Float(static_cast<float>(g.range(50, 200) / 100.0));
+        rate = g.chance(40) ? 0x3f800000u : ee::Float(static_cast<float>(g.range(1, 300) / 100.0)).bits();
+    };
+    script("nbGetMotionSpeed", [=](Gen& g) {
+        int f; int32_t motion; uint32_t rate;
+        motionCase(g, f, motion, rate);
+        const uint32_t form = formAddress(f);
+        return Pair{[=] { origVm(0x0024d428, {form, I(motion)}, {rate}); return uint64_t{difftest::iface::origVmFloat()}; },
+                    [=] { return uint64_t{motionSpeed(at<Formation>(form), motion, ee::Float::fromBits(rate)).bits()}; }};
+    });
+    script("nbGetMotionActframe", [=](Gen& g) {
+        int f; int32_t motion; uint32_t rate;
+        motionCase(g, f, motion, rate);
+        const uint32_t form = formAddress(f);
+        return Pair{[=] { return origVm(0x0024d3a0, {form, I(motion)}, {rate}); },
+                    [=] { return norm(motionActFrame(at<Formation>(form), motion, ee::Float::fromBits(rate))); }};
+    });
+    script("nbGetMotionNo", [=](Gen& g) {
+        int f; int32_t motion; uint32_t rate;
+        motionCase(g, f, motion, rate);
+        const uint32_t form = formAddress(f);
+        return Pair{[=] { return origVm(0x0024d490, {form, I(motion)}); },
+                    [=] { return norm(prepareMotion(at<Formation>(form), motion)); }};
     });
     script("nbCameraSetTaizi", [=](Gen& g) {
         const uint32_t from = formAddress(g.range(0, 13)), to = formAddress(g.range(0, 15));

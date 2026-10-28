@@ -27,9 +27,18 @@ void setDevilNameVariable(int32_t hmsg, int32_t no, const UnitWork& work);   // 
 int32_t addEnemyUnit(MainProcessData& data, int32_t id);             // a called enemy's unit: its index, or -1
 int32_t randomSummonableStock();                          // a random devil in the stock that can be summoned, or -1
 bool summonableStock(const UnitWork& unit);                // ... its test, for the first 16 units
-void forgetChainTargets();
-int32_t motionEndType(const Formation& form, int32_t motion);        // Formation::motionend
-int32_t motionEndData(const Formation& form, int32_t motion);                            // forget the party's last targets on the other side
+void forgetChainTargets();                                // forget the party's last targets on the other side
+
+// One of the slot's unit's motions (nbUnitProcess), from its visual record.
+int32_t motionEndType(const Formation& form, int32_t motion);   // Formation::motionend
+int32_t motionEndData(const Formation& form, int32_t motion);
+// nbGetMotionSpeed (0x24D428): its speed, times `rate` (1 leaves it as it is).
+ee::Float motionSpeed(const Formation& form, int32_t motion, ee::Float rate);
+// nbGetMotionActframe (0x24D3A0): the frames until it lands, at that speed.
+int32_t motionActFrame(const Formation& form, int32_t motion, ee::Float rate);
+// nbGetMotionNo (0x24D490): the slot's radius and movement set for it, and
+// the model's animation for it (the Demi-fiend's numbering or a devil's).
+int32_t prepareMotion(Formation& form, int32_t motion);
 
 // Can the combatant use this skill now?
 enum class SkillCheck : int32_t { Ok = 0, NotEnoughHp = 1, NotEnoughMp = 2, Muted = 3 };

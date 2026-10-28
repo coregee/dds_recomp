@@ -8,7 +8,6 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <cstring>
 
 #include "nocturne/data/types.hpp"
 #include "nocturne/build.hpp"
@@ -354,42 +353,36 @@ static_assert(sizeof(SpiritParamUp) == 8);
 static_assert(sizeof(SacrificeDevilRacePattern) == 6);
 static_assert(sizeof(EventDevil) == 8);
 
-// Per-devil model record (0x310 bytes; table at 0x34F1E0, fallback record at
-// 0x3494B0). Only the battle model scale is identified so far.
 // A motion of a unit's model (0x1C bytes; the field names are tentative).
 struct UnitMotion {
-    uint8_t unknown_00[0x10];
     int16_t targeting;        // the target packet's kind for this motion (nbMakeTargetPacket)
-    uint8_t unknown_12[3];
+    uint16_t actframe;        // the frame it lands on, at speed 1 (nbGetMotionActframe)
+    uint8_t unknown_04;
     int8_t sound;             // its piece in the unit's motion banks (-1 none; nbGetMotionSeNo)
     uint8_t endtype;          // how it ends (Formation::motionend)
     int8_t enddata;
     ee::Float speed;
+    ee::Float radius;         // the slot's radius while it plays, before scale (Formation::cr)
+    ee::Float movey, movez;   // (Formation::movey, movez)
+    uint8_t unknown_18[4];
 };
 static_assert(sizeof(UnitMotion) == 0x1c);
 
+// Per-devil model record (0x310 bytes; table at 0x34F1E0, fallback record at
+// 0x3494B0): the unit's slot, then its motions.
 struct UnitVisual {
     ee::Float center[4];      // the box the camera targets the unit by: its centre (Formation::center)
     ee::Float size;           // ... its radius (with scale: a called ally's slot radius)
     ee::Float height;
     ee::Float scale;
-    // Motion 0 is none: its first bytes hold the rest of the unit's set-up
-    // (nbAddUnitStock), read through the accessors below.
-    UnitMotion motion[27];
-
-    ee::Float oneShotRadius() const { return fieldAt<ee::Float>(0x1c); }   // (Formation::oneshotr)
-    ee::Float allShotRadius() const { return fieldAt<ee::Float>(0x20); }   // (Formation::allshotr)
-    uint16_t setupFlag() const { return fieldAt<uint16_t>(0x2a); }         // 1: FormationStat 0x80 (tentative)
-
-private:
-    template <class T> T fieldAt(size_t offset) const
-    {
-        T value;
-        std::memcpy(&value, reinterpret_cast<const uint8_t*>(this) + offset, sizeof value);
-        return value;
-    }
+    ee::Float oneShotRadius;  // (Formation::oneshotr)
+    ee::Float allShotRadius;  // (Formation::allshotr)
+    uint8_t unknown_24[6];
+    uint16_t setupFlag;       // 1: FormationStat 0x80 (tentative; one model has it)
+    UnitMotion motion[26];
+    uint8_t unknown_304[0xc];
 };
-static_assert(sizeof(UnitVisual) == 0x310);
+static_assert(sizeof(UnitVisual) == 0x310 && offsetof(UnitVisual, motion) == 0x2c);
 
 // datDevilAI_t: how an enemy devil chooses its actions (battle/ai.hpp).
 struct AiCheck {               // datDevilAIChk_s

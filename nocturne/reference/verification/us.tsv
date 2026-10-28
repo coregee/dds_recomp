@@ -1265,6 +1265,9 @@ CheckAction_SKILL	ok
 GetKoukaList	ok
 nbGetMotionEndType	ok
 nbGetMotionEndData	ok
+nbGetMotionSpeed	ok
+nbGetMotionActframe	ok
+nbGetMotionNo	ok
 nbCameraSetTaizi	ok
 nbAppendEnemyDevilWork	ok
 nbGetRandamStock	ok

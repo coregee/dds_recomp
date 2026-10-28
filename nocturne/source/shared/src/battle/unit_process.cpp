@@ -4,6 +4,7 @@
 
 #include "nocturne/address.hpp"
 #include "nocturne/battle/calc.hpp"
+#include "nocturne/battle/combatant.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/data/unit.hpp"
 #include "nocturne/result/level_up.hpp"
@@ -69,7 +70,7 @@ int32_t addUnitToSlot(MainProcessData& main, int32_t side, int32_t stockno, int3
     Formation& form = main.form[formindex];
     form.stat = FormationStat::Present | FormationStat::CheckParty |
                 (formindex < 4 ? FormationStat::PartySlot : formindex < 14 ? FormationStat::EnemySlot : FormationStat::ExtraSlot);
-    if (visual.setupFlag() == 1)
+    if (visual.setupFlag == 1)
         form.stat |= 0x80;
     form.partyindex = static_cast<int16_t>(entry);
     form.formindex = static_cast<int16_t>(formindex);
@@ -78,10 +79,10 @@ int32_t addUnitToSlot(MainProcessData& main, int32_t side, int32_t stockno, int3
     form.center = Vec4{visual.center[0], visual.center[1], visual.center[2], visual.center[3]};
     form.scl = visual.scale;
     form.h = visual.height;
-    form.oneshotr = visual.oneShotRadius();
+    form.oneshotr = visual.oneShotRadius;
     form.ailmentEffect = 0;
-    form.allshotr = visual.allShotRadius();
-    return GetMotionNo(form, 0);
+    form.allshotr = visual.allShotRadius;
+    return prepareMotion(form, 0);
 }
 
 } // namespace nocturne::nb
