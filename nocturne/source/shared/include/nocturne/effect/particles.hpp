@@ -82,4 +82,41 @@ void setMultiFilterExpArea(uint32_t effect, ee::Float area);
 void setIceScale(uint32_t effect, ee::Float scale);
 void setIceRotation(uint32_t effect, const Matrix& rotation);
 
+// Deleting them (particle_release.cpp): what each holds, then its work.
+void deleteThunderSpherePoly(uint32_t effect);
+void deleteThunderPoly(uint32_t effect);
+void deleteThunderPolyLow(uint32_t effect);
+void deleteThunderRadiatePoly(uint32_t effect);
+void deleteFlashPolyList(uint32_t effect);
+void deleteFlashPolySphere2(uint32_t effect);
+void deleteFlashPolySphere(uint32_t effect);
+void deleteFlashPolyRing(uint32_t effect);
+void deleteFlashPolyPipe(uint32_t effect);
+void deleteFlashPolyRingExp(uint32_t effect);
+void deleteFlashPolySphereExp(uint32_t effect);
+void releaseTextureResource(uint32_t effect);
+void deleteScatterPolyList(uint32_t effect);
+void deleteWhirlwindPolyList(uint32_t effect);
+void deleteWhirlwindPoly(uint32_t effect);
+void deleteWhirlwindSpherePoly(uint32_t effect);
+void deleteNeedleVertexList(uint32_t effect);
+void deleteNeedleModel(uint32_t effect);
+void deleteNeedleSpiral(uint32_t effect);
+void deleteSparkleSphere(uint32_t effect);
+void deleteZiodyne(uint32_t effect);
+void deleteZiodyne03(uint32_t effect);
+void deleteMaziodyne02(uint32_t effect);
+void deleteSphereEffect(uint32_t effect);
+void deleteThunderSphereExp(uint32_t effect);
+void deleteEyeThunder(uint32_t effect);
+void deleteWork(uint32_t effect);
+void deleteBlinkMultiBlur(uint32_t effect);
+void deleteMultiBlurExp(uint32_t effect);
+void deleteMultiFilterExp(uint32_t effect);
+void deleteScreenBlur(uint32_t effect);
+void deleteScreenBlurExp(uint32_t effect);
+void deleteBufuLight(uint32_t effect);
+void deleteRingPolyExpList(uint32_t effect);
+void deleteRingPolyExp(uint32_t effect);
+
 } // namespace nocturne::eff

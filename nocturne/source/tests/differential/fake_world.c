@@ -280,6 +280,7 @@ int fw_print_arg_count(uint32_t format)
     case 0x00543510: case 0x00543520: case 0x00543530: case 0x00543540:
     case 0x00543550: return 1;   /* the battle's encounter (SetFlag, nbInitMainProcess) */
     case 0x00544900: return 1;   /* length = %d (nbAddHitEffKoukaPacket) */
+    case 0x00533c90: return 1;   /* dds3NeedleModelVNCListDelete[%p] **** */
     case 0x00543448: return 0;   /* an action still queued (nbCheckActionStack) */
     case 0x00543438: return 0;   /* backattack!! (CheckSenseiOrBackAttack) */
     case 0x005453b8: return 0;   /* nbPanelPressTurnStart */
@@ -642,6 +643,9 @@ void nocturneInvokeMessageKutiCallback(uint32_t entry) { fw_mes_log(9, entry, 0)
 
 uint64_t ps2InterfaceLoadTexture(uint64_t name) { fw_mes_log(10, (uint32_t)name, 0); return 0x00123450; }
 void ps2TextureDeferredRelease(uint64_t texture) { fw_mes_log(11, (uint32_t)texture, 0); }
+void ps2MaterialDeferredRelease(uint64_t material) { fw_mes_log(160, (uint32_t)material, 0); }
+void dds3TrackPolyDelete(uint64_t poly) { fw_mes_log(161, (uint32_t)poly, 0); }
+void dds3BillboardDelete(uint64_t billboard) { fw_mes_log(162, (uint32_t)billboard, 0); }
 uint64_t ps2ResourcePacCheckEnd(uint64_t request)
 {
     fw_mes_log(153, (uint32_t)request, 0);

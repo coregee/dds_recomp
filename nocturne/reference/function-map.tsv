@@ -2258,7 +2258,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001762f8	444	ps2PcpType0Create	USER_DEFINED	legacy		battle_action_polygon_frames.c:ps2BattleActionPcpType0Create_001762F8;pcp_construction.c:ps2PcpType0Create						effPCPThunderSpherePolyCreate
 001764b8	32	FUN_001764b8	DEFAULT	named								effPCPThunderSpherePolyCreatePCF
 001764d8	20	FUN_001764d8	DEFAULT	named								effPCPThunderSpherePolyCopy
-001764f0	44	ps2EffectRelease_001764f0	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_001764f0						effPCPThunderSpherePolyDelete
+001764f0	44	ps2EffectRelease_001764f0	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteThunderSpherePoly	effect_leaf_release.c:ps2EffectRelease_001764f0	ok	ok	ok	ok	ok	effPCPThunderSpherePolyDelete
 00176520	16	ps2PcpType0SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_controls.c:ps2PcpType0SetPosition	ok	ok	ok	ok	ok	effPCPThunderSpherePolySetPosition
 00176530	8	ps2PcpType0SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setThunderSpherePolyColor	model_memory_parts.c:ps2PcpType0SetColor	ok	ok	ok	ok	ok	effPCPThunderSpherePolySetColor
 00176538	28	ps2EffectPCPScale_00176538	USER_DEFINED	legacy		battle_effect_copy.c:ps2EffectPCPScale_00176538						effPCPThunderSpherePolySetScale
@@ -2284,7 +2284,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00177bc0	1384	FUN_00177bc0	DEFAULT	unknown								
 00178128	764	FUN_00178128	DEFAULT	named								eff_178128
 00178430	440	ps2PcpType1Create	USER_DEFINED	legacy		battle_action_polygon_frames.c:ps2BattleActionPcpType1Create_00178430;pcp_construction.c:ps2PcpType1Create						effPCP_ThunderPolyCreate
-001785e8	44	ps2EffectRelease_001785e8	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_001785e8						effPCP_ThunderPolyDelete
+001785e8	44	ps2EffectRelease_001785e8	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteThunderPoly	effect_leaf_release.c:ps2EffectRelease_001785e8	ok	ok	ok	ok	ok	effPCP_ThunderPolyDelete
 00178618	44	ps2PcpType1SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setThunderPolyPosition	pcp_controls.c:ps2PcpType1SetPosition	ok	ok	ok	ok	ok	effPCP_ThunderPolySetPosition
 00178648	8	ps2PcpType1SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setThunderPolyColor	model_memory_parts.c:ps2PcpType1SetColor	ok	ok	ok	ok	ok	effPCP_ThunderPolySetColor
 00178650	8	FUN_00178650	DEFAULT	named								effPCP_ThunderPolyGetParam
@@ -2295,14 +2295,14 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00178770	1568	ps2EffectPcpAdvance_00178770	USER_DEFINED	named								effPCP_ThunderPolyPartRefresh
 00178d98	328	ps2EffectPcpLimitedPolygonUpdate_00178D98	USER_DEFINED	named								effPCP_ThunderPolyDraw
 00178ee8	500	FUN_00178ee8	DEFAULT	named								effPCP_ThunderPolyLowCreate
-001790e0	52	ps2EffectRelease_001790e0	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_001790e0						effPCP_ThunderPolyLowDelete
+001790e0	52	ps2EffectRelease_001790e0	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteThunderPolyLow	effect_leaf_release.c:ps2EffectRelease_001790e0	ok	ok	ok	ok	ok	effPCP_ThunderPolyLowDelete
 00179118	44	ps2PcpType8SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setThunderPolyPosition	pcp_field_controls.c:ps2PcpType8SetPosition	ok	ok	ok	ok	ok	effPCP_ThunderPolyLowSetPosition
 00179148	8	ps2PcpType8SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setThunderPolyLowColor	pcp_field_controls.c:ps2PcpType8SetColor	ok	ok	ok	ok	ok	effPCP_ThunderPolyLowSetColor
 00179150	156	FUN_00179150	DEFAULT	named								effPCP_ThunderPolyLowDrawOff
 001791f0	1588	FUN_001791f0	DEFAULT	named								effPCP_ThunderPolyLowPartRefresh
 00179828	332	FUN_00179828	DEFAULT	named								effPCP_ThunderPolyLowDraw
 00179978	400	ps2PcpType2Create	USER_DEFINED	legacy		pcp_construction.c:ps2PcpType2Create						effPCP_ThunderRadiatePolyCreate
-00179b08	44	ps2EffectRelease_00179b08	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_00179b08						effPCP_ThunderRadiatePolyDelete
+00179b08	44	ps2EffectRelease_00179b08	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteThunderRadiatePoly	effect_leaf_release.c:ps2EffectRelease_00179b08	ok	ok	ok	ok	ok	effPCP_ThunderRadiatePolyDelete
 00179b38	16	ps2PcpType2SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_controls.c:ps2PcpType2SetPosition	ok	ok	ok	ok	ok	effPCP_ThunderRadiatePolySetPosition
 00179b48	8	ps2PcpType2SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setThunderRadiatePolyColor	model_memory_parts.c:ps2PcpType2SetColor	ok	ok	ok	ok	ok	effPCP_ThunderRadiatePolySetColor
 00179b50	220	ps2PcpType2InitializeRecord	USER_DEFINED	legacy		pcp_construction.c:ps2PcpType2InitializeRecord						effPCP_ThunderRadiatePolyDrawOff
@@ -2325,7 +2325,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0017d0a0	288	ps2BattleAction_0017D0A0	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0017D0A0						effPCPFlashPolySphere2Create
 0017d1c0	32	ps2BattleAction_0017D1C0	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0017D1C0						effPCPFlashPolySphere2CreatePCF
 0017d1e0	20	ps2BattleAction_0017D1E0	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0017D1E0						effPCPFlashPolySphere2Copy
-0017d1f8	44	ps2EffectRelease_0017d1f8	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0017d1f8						effPCPFlashPolySphere2Delete
+0017d1f8	44	ps2EffectRelease_0017d1f8	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteFlashPolySphere2	effect_leaf_release.c:ps2EffectRelease_0017d1f8	ok	ok	ok	ok	ok	effPCPFlashPolySphere2Delete
 0017d228	16	ps2PcpType18SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType18SetPosition	ok	ok	ok	ok	ok	effPCPFlashPolySphere2SetPosition
 0017d238	8	ps2PcpType18SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setFlashPolySphere2Color	pcp_field_controls.c:ps2PcpType18SetColor	ok	ok	ok	ok	ok	effPCPFlashPolySphere2SetColor
 0017d240	8	ps2PcpType18SetScale	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setFlashPolySphere2Scale	pcp_field_controls.c:ps2PcpType18SetScale	ok	ok	ok	ok	ok	effPCPFlashPolySphere2SetScale
@@ -2335,7 +2335,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0017d6d8	408	FUN_0017d6d8	DEFAULT	named								effPCPFlashPolySphereCreate
 0017d870	32	FUN_0017d870	DEFAULT	named								effPCPFlashPolySphereCreatePCF
 0017d890	20	FUN_0017d890	DEFAULT	named								effPCPFlashPolySphereCopy
-0017d8a8	44	ps2EffectRelease_0017d8a8	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0017d8a8						effPCPFlashPolySphereDelete
+0017d8a8	44	ps2EffectRelease_0017d8a8	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteFlashPolySphere	effect_leaf_release.c:ps2EffectRelease_0017d8a8	ok	ok	ok	ok	ok	effPCPFlashPolySphereDelete
 0017d8d8	16	ps2PcpType14SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType14SetPosition	ok	ok	ok	ok	ok	effPCPFlashPolySphereSetPosition
 0017d8e8	8	ps2PcpType14SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setFlashPolySphereColor	pcp_field_controls.c:ps2PcpType14SetColor	ok	ok	ok	ok	ok	effPCPFlashPolySphereSetColor
 0017d8f0	8	ps2PcpType14SetScale	USER_DEFINED	legacy		battle_action_pcp_scale_frames.c:ps2BattleActionPcpScale_0017D8F0;pcp_field_controls.c:ps2PcpType14SetScale						effPCPFlashPolySphereSetScale
@@ -2347,7 +2347,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0017e008	544	ps2BattleAction_0017E008	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0017E008						effPCPFlashPolyRingCreate
 0017e228	32	ps2BattleAction_0017E228	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0017E228						effPCPFlashPolyRingCreatePCF
 0017e248	20	ps2BattleAction_0017E248	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0017E248						effPCPFlashPolyRingCopy
-0017e260	44	ps2EffectRelease_0017e260	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0017e260						effPCPFlashPolyRingDelete
+0017e260	44	ps2EffectRelease_0017e260	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteFlashPolyRing	effect_leaf_release.c:ps2EffectRelease_0017e260	ok	ok	ok	ok	ok	effPCPFlashPolyRingDelete
 0017e290	16	ps2PcpType16SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType16SetPosition	ok	ok	ok	ok	ok	effPCPFlashPolyRingSetPosition
 0017e2a0	8	ps2PcpType16SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setFlashPolyRingColor	pcp_field_controls.c:ps2PcpType16SetColor	ok	ok	ok	ok	ok	effPCPFlashPolyRingSetColor
 0017e2a8	8	ps2PcpType16SetScale	USER_DEFINED	legacy		battle_action_pcp_scale_frames.c:ps2BattleActionPcpScale_0017E2A8;pcp_field_controls.c:ps2PcpType16SetScale						effPCPFlashPolyRingSetScale
@@ -2358,7 +2358,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0017e818	564	ps2BattleAction_0017E818	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0017E818						effPCPFlashPolyPipeCreate
 0017ea50	32	ps2BattleAction_0017EA50	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0017EA50						effPCPFlashPolyPipeCreatePCF
 0017ea70	20	ps2BattleAction_0017EA70	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0017EA70						effPCPFlashPolyPipeCopy
-0017ea88	44	ps2EffectRelease_0017ea88	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0017ea88						effPCPFlashPolyPipeDelete
+0017ea88	44	ps2EffectRelease_0017ea88	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteFlashPolyPipe	effect_leaf_release.c:ps2EffectRelease_0017ea88	ok	ok	ok	ok	ok	effPCPFlashPolyPipeDelete
 0017eab8	16	ps2PcpType17SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType17SetPosition	ok	ok	ok	ok	ok	effPCPFlashPolyPipeSetPosition
 0017eac8	8	ps2PcpType17SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setFlashPolyPipeColor	pcp_field_controls.c:ps2PcpType17SetColor	ok	ok	ok	ok	ok	effPCPFlashPolyPipeSetColor
 0017ead0	8	ps2PcpType17SetScale	USER_DEFINED	legacy		battle_action_pcp_scale_frames.c:ps2BattleActionPcpScale_0017EAD0;pcp_field_controls.c:ps2PcpType17SetScale						effPCPFlashPolyPipeSetScale
@@ -2369,7 +2369,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0017f100	584	ps2BattleAction_0017F100	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0017F100						effPCPFlashPolyRingExpCreate
 0017f350	32	ps2BattleAction_0017F350	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0017F350						effPCPFlashPolyRingExpCreatePCF
 0017f370	20	ps2BattleAction_0017F370	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0017F370						effPCPFlashPolyRingExpCopy
-0017f388	44	ps2EffectRelease_0017f388	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0017f388						effPCPFlashPolyRingExpDelete
+0017f388	44	ps2EffectRelease_0017f388	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteFlashPolyRingExp	effect_leaf_release.c:ps2EffectRelease_0017f388	ok	ok	ok	ok	ok	effPCPFlashPolyRingExpDelete
 0017f3b8	16	ps2PcpType19SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType19SetPosition	ok	ok	ok	ok	ok	effPCPFlashPolyRingExpSetPosition
 0017f3c8	8	ps2PcpType19SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setFlashPolyRingExpColor	pcp_field_controls.c:ps2PcpType19SetColor	ok	ok	ok	ok	ok	effPCPFlashPolyRingExpSetColor
 0017f3d0	8	ps2PcpType19SetScale	USER_DEFINED	legacy		battle_action_pcp_scale_frames.c:ps2BattleActionPcpScale_0017F3D0;pcp_field_controls.c:ps2PcpType19SetScale						effPCPFlashPolyRingExpSetScale
@@ -2380,7 +2380,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0017fa08	444	ps2BattleAction_0017FA08	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0017FA08						effPCPFlashPolySphereExpCreate
 0017fbc8	32	ps2BattleAction_0017FBC8	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0017FBC8						effPCPFlashPolySphereExpCreatePCF
 0017fbe8	20	ps2BattleAction_0017FBE8	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0017FBE8						effPCPFlashPolySphereExpCopy
-0017fc00	44	ps2EffectRelease_0017fc00	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0017fc00						effPCPFlashPolySphereExpDelete
+0017fc00	44	ps2EffectRelease_0017fc00	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteFlashPolySphereExp	effect_leaf_release.c:ps2EffectRelease_0017fc00	ok	ok	ok	ok	ok	effPCPFlashPolySphereExpDelete
 0017fc30	16	FUN_0017fc30	DEFAULT	named								effPCPFlashPolySphereExpSetPosition
 0017fc48	8	FUN_0017fc48	DEFAULT	legacy		battle_action_scale_frames.c:ps2BattleActionPcpScale_0017FC48						effPCPFlashPolySphereExpSetScale
 0017fc50	240	FUN_0017fc50	DEFAULT	named								effPCPFlashPolySphereExpPartSetVC
@@ -2440,19 +2440,19 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001827a8	32	FUN_001827a8	DEFAULT	named								effPCPFlashPolyRingExpHPartRotate
 001827c8	840	FUN_001827c8	DEFAULT	named								effPCPFlashPolyRingExpHDraw
 00182b20	280	ps2BattleAction_00182B20	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_00182B20						dds3FlashPolyListCreate
-00182c40	44	ps2EffectRelease_00182c40	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_00182c40						dds3FlashPolyListDelete
+00182c40	44	ps2EffectRelease_00182c40	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteFlashPolyList	effect_leaf_release.c:ps2EffectRelease_00182c40	ok	ok	ok	ok	ok	dds3FlashPolyListDelete
 00182c70	680	FUN_00182c70	DEFAULT	named								dds3FlashPolyListDraw
 00182f20	24	FUN_00182f20	DEFAULT	named								dds3FlashPolyListGetVertex
 00182f38	24	FUN_00182f38	DEFAULT	named								dds3FlashPolyListGetVC
 00182f50	8	FUN_00182f50	DEFAULT	named								dds3FlashPolyListSetBlend
 00182f58	8	FUN_00182f58	DEFAULT	named								dds3FlashPolyListSetABGR
 00182f68	248	ps2BattleAction_00182F68	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_00182F68						dds3FlashPolyList2Create
-00183060	44	ps2EffectRelease_00183060	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_00183060						dds3FlashPolyList2Delete
+00183060	44	ps2EffectRelease_00183060	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteFlashPolyList	effect_leaf_release.c:ps2EffectRelease_00183060	ok	ok	ok	ok	ok	dds3FlashPolyList2Delete
 00183090	424	FUN_00183090	DEFAULT	named								dds3FlashPolyList2Draw
 00183238	24	FUN_00183238	DEFAULT	named								dds3FlashPolyList2GetVertex
 00183250	24	FUN_00183250	DEFAULT	named								dds3FlashPolyList2GetVC
 00183268	256	ps2BattleAction_00183268	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_00183268						dds3FlashPolyList3Create
-00183368	44	ps2EffectRelease_00183368	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_00183368						dds3FlashPolyList3Delete
+00183368	44	ps2EffectRelease_00183368	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteFlashPolyList	effect_leaf_release.c:ps2EffectRelease_00183368	ok	ok	ok	ok	ok	dds3FlashPolyList3Delete
 00183398	436	FUN_00183398	DEFAULT	named								dds3FlashPolyList3Draw
 00183550	16	FUN_00183550	DEFAULT	named								dds3FlashPolyList3GetVertex
 00183560	16	FUN_00183560	DEFAULT	named								dds3FlashPolyList3GetVC
@@ -2485,19 +2485,19 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00185608	248	FUN_00185608	DEFAULT	named								effPCPHamaCardScatterPartInit
 00185700	1356	FUN_00185700	DEFAULT	named								effPCPHamaCardScatterDraw
 00185c80	264	FUN_00185c80	DEFAULT	named								dds3ScatterPolyListCreate
-00185d88	64	ps2EffectRelease_00185d88	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_00185d88						dds3ScatterPolyListDelete
+00185d88	64	ps2EffectRelease_00185d88	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteScatterPolyList	effect_leaf_release.c:ps2EffectRelease_00185d88						dds3ScatterPolyListDelete
 00185dc8	464	FUN_00185dc8	DEFAULT	named								dds3ScatterPolyListDraw
 00185fa0	44	FUN_00185fa0	DEFAULT	named								dds3ScatterPolyListSetTex
 00185fd0	44	FUN_00185fd0	DEFAULT	named								dds3ScatterPolyListCopyTex
 00186000	24	FUN_00186000	DEFAULT	named								dds3ScatterPolyListGetVertex
 00186018	24	FUN_00186018	DEFAULT	named								dds3ScatterPolyListGetVC
 00186030	76	FUN_00186030	DEFAULT	named								dds3ScatterPolyListTexResourceCreate
-00186080	76	dds3ScatterPolyListTexResourceDelete	USER_DEFINED	legacy		effect_leaf_release.c:dds3ScatterPolyListTexResourceDelete						dds3ScatterPolyListTexResourceDelete
+00186080	76	dds3ScatterPolyListTexResourceDelete	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:releaseTextureResource	effect_leaf_release.c:dds3ScatterPolyListTexResourceDelete	ok	ok	ok	ok	ok	dds3ScatterPolyListTexResourceDelete
 001860d0	20	FUN_001860d0	DEFAULT	named								dds3ScatterPolyListTexResourceCopy
 001860e8	536	FUN_001860e8	DEFAULT	named								effPCPWhirlwindPolyCreate
 00186300	72	FUN_00186300	DEFAULT	named								effPCPWhirlwindPolyCreatePCF
 00186348	72	FUN_00186348	DEFAULT	named								effPCPWhirlwindPolyCopy
-00186390	44	ps2EffectRelease_00186390	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_00186390						effPCPWhirlwindPolyDelete
+00186390	44	ps2EffectRelease_00186390	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteWhirlwindPoly	effect_leaf_release.c:ps2EffectRelease_00186390	ok	ok	ok	ok	ok	effPCPWhirlwindPolyDelete
 001863c0	892	FUN_001863c0	DEFAULT	named								effPCPWhirlwindPolyPartInit
 00186750	400	FUN_00186750	DEFAULT	named								effPCPWhirlwindPolyPartMove
 001868e0	500	FUN_001868e0	DEFAULT	named								effPCPWhirlwindPolyDraw
@@ -2530,7 +2530,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00188248	496	FUN_00188248	DEFAULT	named								effPCPWwSpherePolyCreate
 00188438	72	FUN_00188438	DEFAULT	named								effPCPWwSpherePolyCreatePCF
 00188480	72	FUN_00188480	DEFAULT	named								effPCPWwSpherePolyCopy
-001884c8	44	ps2EffectRelease_001884c8	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_001884c8						effPCPWwSpherePolyDelete
+001884c8	44	ps2EffectRelease_001884c8	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteWhirlwindSpherePoly	effect_leaf_release.c:ps2EffectRelease_001884c8	ok	ok	ok	ok	ok	effPCPWwSpherePolyDelete
 001884f8	664	FUN_001884f8	DEFAULT	named								effPCPWwSpherePolyPartInit
 00188798	392	FUN_00188798	DEFAULT	named								effPCPWwSpherePolyPartMove
 00188920	500	FUN_00188920	DEFAULT	named								effPCPWwSpherePolyDraw
@@ -2539,7 +2539,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00188b38	8	FUN_00188b38	DEFAULT	named								effPCPWwSpherePolySetColor
 00188b40	40	FUN_00188b40	DEFAULT	named								effPCPWwSpherePolySetRotateMatrix
 00188b68	564	FUN_00188b68	DEFAULT	named								dds3WhirlwindPolyListCreate
-00188da0	72	dds3ScatterPolyListDelete	USER_DEFINED	legacy		effect_leaf_release.c:dds3ScatterPolyListDelete						dds3WhirlwindPolyListDelete
+00188da0	72	dds3ScatterPolyListDelete	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteWhirlwindPolyList	effect_leaf_release.c:dds3ScatterPolyListDelete	ok	ok	ok	ok	ok	dds3WhirlwindPolyListDelete
 00188de8	588	FUN_00188de8	DEFAULT	named								dds3WhirlwindPolyListDraw
 00189038	44	FUN_00189038	DEFAULT	named								dds3WhirlwindPolyListSetTex
 00189068	44	FUN_00189068	DEFAULT	named								dds3WhirlwindPolyListCopyTex
@@ -2548,17 +2548,17 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001890c8	20	FUN_001890c8	DEFAULT	named								dds3WhirlwindPolyListGetABGR
 001890e0	44	FUN_001890e0	DEFAULT	named								dds3WhirlwindPolyListSetRotateMatrix
 00189110	700	FUN_00189110	DEFAULT	named								effPCPNeedleSpiralCreate
-001893d0	52	ps2EffectRelease_001893d0	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_001893d0						effPCPNeedleSpiralDelete
+001893d0	52	ps2EffectRelease_001893d0	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteNeedleSpiral	effect_leaf_release.c:ps2EffectRelease_001893d0	ok	ok	ok	ok	ok	effPCPNeedleSpiralDelete
 00189428	20	FUN_00189428	DEFAULT	named								effPCPNeedleSpiralCopy
 00189a28	24	FUN_00189a28	DEFAULT	named								effPCPNeedleSpiralSetRotateMatrix
 00189a48	284	FUN_00189a48	DEFAULT	named								dds3NeedleModelCreate
-00189b68	52	ps2EffectRelease_00189b68	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_00189b68						dds3NeedleModelDelete
+00189b68	52	ps2EffectRelease_00189b68	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteNeedleModel	effect_leaf_release.c:ps2EffectRelease_00189b68	ok	ok	ok	ok	ok	dds3NeedleModelDelete
 00189e38	568	FUN_00189e38	DEFAULT	named								dds3NeedleModelVNCListCreate
-0018a070	76	dds3NeedleModelVNCListDelete	USER_DEFINED	legacy		effect_leaf_release.c:dds3NeedleModelVNCListDelete						dds3NeedleModelVNCListDelete
+0018a070	76	dds3NeedleModelVNCListDelete	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteNeedleVertexList	effect_leaf_release.c:dds3NeedleModelVNCListDelete	ok	ok	ok	ok	ok	dds3NeedleModelVNCListDelete
 0018a120	28	FUN_0018a120	DEFAULT	named								dds3NeedleModelSetColor
 0018a140	40	FUN_0018a140	DEFAULT	named								dds3NeedleModelSetMatrix
 0018a168	112	FUN_0018a168	DEFAULT	named								effPCPSparkleSphereCreate
-0018a1d8	44	ps2EffectRelease_0018a1d8	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018a1d8						effPCPSparkleSphereDelete
+0018a1d8	44	ps2EffectRelease_0018a1d8	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteSparkleSphere	effect_leaf_release.c:ps2EffectRelease_0018a1d8	ok	ok	ok	ok	ok	effPCPSparkleSphereDelete
 0018a208	308	FUN_0018a208	DEFAULT	named								effPCPSparkleSphereDraw
 0018a340	16	ps2PcpType13SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType13SetPosition	ok	ok	ok	ok	ok	effPCPSparkleSphereSetPosition
 0018a350	8	ps2PcpType13SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setSparkleSphereColor	pcp_field_controls.c:ps2PcpType13SetColor	ok	ok	ok	ok	ok	effPCPSparkleSphereSetColor
@@ -2610,75 +2610,75 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0018bd00	8	ps2PcpType7SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setHwave01Color	pcp_field_controls.c:ps2PcpType7SetColor	ok	ok	ok	ok	ok	effPCPHwave01SetColor
 0018bd08	704	FUN_0018bd08	DEFAULT	named								effPCPZiodin01Init
 0018bfc8	52	FUN_0018bfc8	DEFAULT	named								effPCPZiodin01Create
-0018c000	88	ps2EffectRelease_0018c000	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018c000						effPCPZiodin01Delete
+0018c000	88	ps2EffectRelease_0018c000	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteZiodyne	effect_leaf_release.c:ps2EffectRelease_0018c000	ok	ok	ok	ok	ok	effPCPZiodin01Delete
 0018c058	52	FUN_0018c058	DEFAULT	named								effPCPZiodin01Copy
 0018c090	240	FUN_0018c090	DEFAULT	named								effPCPZiodin01Draw
 0018c180	16	ps2PcpType9SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType9SetPosition	ok	ok	ok	ok	ok	effPCPZiodin01SetPosition
 0018c198	8	ps2PcpType9SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setZiodyne01Color	pcp_field_controls.c:ps2PcpType9SetColor	ok	ok	ok	ok	ok	effPCPZiodin01SetColor
 0018c1a0	668	FUN_0018c1a0	DEFAULT	named								effPCPZiodin02Init
 0018c440	52	FUN_0018c440	DEFAULT	named								effPCPZiodin02Create
-0018c478	88	ps2EffectRelease_0018c478	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018c478						effPCPZiodin02Delete
+0018c478	88	ps2EffectRelease_0018c478	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteZiodyne	effect_leaf_release.c:ps2EffectRelease_0018c478	ok	ok	ok	ok	ok	effPCPZiodin02Delete
 0018c4d0	52	FUN_0018c4d0	DEFAULT	named								effPCPZiodin02Copy
 0018c508	240	FUN_0018c508	DEFAULT	named								effPCPZiodin02Draw
 0018c5f8	16	ps2PcpType21SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType21SetPosition	ok	ok	ok	ok	ok	effPCPZiodin02SetPosition
 0018c610	8	ps2PcpType21SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setZiodyne02Color	pcp_field_controls.c:ps2PcpType21SetColor	ok	ok	ok	ok	ok	effPCPZiodin02SetColor
 0018c618	700	FUN_0018c618	DEFAULT	named								effPCPZiodin03Init
 0018c8d8	52	FUN_0018c8d8	DEFAULT	named								effPCPZiodin03Create
-0018c910	88	ps2EffectRelease_0018c910	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018c910						effPCPZiodin03Delete
+0018c910	88	ps2EffectRelease_0018c910	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteZiodyne03	effect_leaf_release.c:ps2EffectRelease_0018c910	ok	ok	ok	ok	ok	effPCPZiodin03Delete
 0018c968	52	FUN_0018c968	DEFAULT	named								effPCPZiodin03Copy
 0018c9a0	240	FUN_0018c9a0	DEFAULT	named								effPCPZiodin03Draw
 0018ca90	16	ps2PcpType22SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType22SetPosition	ok	ok	ok	ok	ok	effPCPZiodin03SetPosition
 0018caa8	8	ps2PcpType22SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setZiodyne03Color	pcp_field_controls.c:ps2PcpType22SetColor	ok	ok	ok	ok	ok	effPCPZiodin03SetColor
 0018cab0	668	FUN_0018cab0	DEFAULT	named								effPCPZiodin04Init
 0018cd50	52	FUN_0018cd50	DEFAULT	named								effPCPZiodin04Create
-0018cd88	88	ps2EffectRelease_0018cd88	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018cd88						effPCPZiodin04Delete
+0018cd88	88	ps2EffectRelease_0018cd88	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteZiodyne	effect_leaf_release.c:ps2EffectRelease_0018cd88	ok	ok	ok	ok	ok	effPCPZiodin04Delete
 0018cde0	52	FUN_0018cde0	DEFAULT	named								effPCPZiodin04Copy
 0018ce18	240	FUN_0018ce18	DEFAULT	named								effPCPZiodin04Draw
 0018cf08	16	ps2PcpType23SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType23SetPosition	ok	ok	ok	ok	ok	effPCPZiodin04SetPosition
 0018cf20	8	ps2PcpType23SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setZiodyne04Color	pcp_field_controls.c:ps2PcpType23SetColor	ok	ok	ok	ok	ok	effPCPZiodin04SetColor
 0018cf28	404	FUN_0018cf28	DEFAULT	named								effPCPMZiodin01Init
 0018d0c0	52	FUN_0018d0c0	DEFAULT	named								effPCPMZiodin01Create
-0018d0f8	88	ps2EffectRelease_0018d0f8	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018d0f8						effPCPMZiodin01Delete
+0018d0f8	88	ps2EffectRelease_0018d0f8	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteZiodyne	effect_leaf_release.c:ps2EffectRelease_0018d0f8	ok	ok	ok	ok	ok	effPCPMZiodin01Delete
 0018d150	52	FUN_0018d150	DEFAULT	named								effPCPMZiodin01Copy
 0018d188	240	FUN_0018d188	DEFAULT	named								effPCPMZiodin01Draw
 0018d278	16	ps2PcpType12SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType12SetPosition	ok	ok	ok	ok	ok	effPCPMZiodin01SetPosition
 0018d290	8	ps2PcpType12SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setMaziodyne01Color	pcp_field_controls.c:ps2PcpType12SetColor	ok	ok	ok	ok	ok	effPCPMZiodin01SetColor
 0018d298	404	FUN_0018d298	DEFAULT	named								effPCPMZiodin02Init
 0018d430	52	FUN_0018d430	DEFAULT	named								effPCPMZiodin02Create
-0018d468	88	ps2EffectRelease_0018d468	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018d468						effPCPMZiodin02Delete
+0018d468	88	ps2EffectRelease_0018d468	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteMaziodyne02	effect_leaf_release.c:ps2EffectRelease_0018d468	ok	ok	ok	ok	ok	effPCPMZiodin02Delete
 0018d4c0	52	FUN_0018d4c0	DEFAULT	named								effPCPMZiodin02Copy
 0018d4f8	240	FUN_0018d4f8	DEFAULT	named								effPCPMZiodin02Draw
 0018d5e8	16	ps2PcpType20SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType20SetPosition	ok	ok	ok	ok	ok	effPCPMZiodin02SetPosition
 0018d600	8	ps2PcpType20SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setMaziodyne02Color	pcp_field_controls.c:ps2PcpType20SetColor	ok	ok	ok	ok	ok	effPCPMZiodin02SetColor
 0018d608	52	FUN_0018d608	DEFAULT	named								effPCPShockWave01Init
 0018d640	52	FUN_0018d640	DEFAULT	named								effPCPShockWave01Create
-0018d678	44	ps2EffectRelease_0018d678	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018d678						effPCPShockWave01Delete
+0018d678	44	ps2EffectRelease_0018d678	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteSphereEffect	effect_leaf_release.c:ps2EffectRelease_0018d678	ok	ok	ok	ok	ok	effPCPShockWave01Delete
 0018d6a8	52	FUN_0018d6a8	DEFAULT	named								effPCPShockWave01Copy
 0018d6e0	328	FUN_0018d6e0	DEFAULT	named								effPCPShockWave01Draw
 0018d838	16	ps2PcpType24SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType24SetPosition	ok	ok	ok	ok	ok	effPCPShockWave01SetPosition
 0018d850	8	ps2PcpType24SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setShockWave01Color	pcp_field_controls.c:ps2PcpType24SetColor	ok	ok	ok	ok	ok	effPCPShockWave01SetColor
 0018d858	700	FUN_0018d858	DEFAULT	named								effPCPShockWave02Init
 0018db18	52	FUN_0018db18	DEFAULT	named								effPCPShockWave02Create
-0018db50	88	ps2EffectRelease_0018db50	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018db50						effPCPShockWave02Delete
+0018db50	88	ps2EffectRelease_0018db50	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteZiodyne03	effect_leaf_release.c:ps2EffectRelease_0018db50	ok	ok	ok	ok	ok	effPCPShockWave02Delete
 0018dba8	52	FUN_0018dba8	DEFAULT	named								effPCPShockWave02Copy
 0018dbe0	240	FUN_0018dbe0	DEFAULT	named								effPCPShockWave02Draw
 0018dcd0	16	ps2PcpType29SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType29SetPosition	ok	ok	ok	ok	ok	effPCPShockWave02SetPosition
 0018dce8	8	ps2PcpType29SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setShockWave02Color	pcp_field_controls.c:ps2PcpType29SetColor	ok	ok	ok	ok	ok	effPCPShockWave02SetColor
 0018dcf0	52	FUN_0018dcf0	DEFAULT	named								effPCPHouden01Init
 0018dd28	52	FUN_0018dd28	DEFAULT	named								effPCPHouden01Create
-0018dd60	44	ps2EffectRelease_0018dd60	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018dd60						effPCPHouden01Delete
+0018dd60	44	ps2EffectRelease_0018dd60	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteSphereEffect	effect_leaf_release.c:ps2EffectRelease_0018dd60	ok	ok	ok	ok	ok	effPCPHouden01Delete
 0018dd90	52	FUN_0018dd90	DEFAULT	named								effPCPHouden01Copy
 0018ddc8	324	FUN_0018ddc8	DEFAULT	named								effPCPHouden01Draw
 0018df18	16	ps2PcpType25SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType25SetPosition	ok	ok	ok	ok	ok	effPCPHouden01SetPosition
 0018df30	8	ps2PcpType25SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setDischarge01Color	pcp_field_controls.c:ps2PcpType25SetColor	ok	ok	ok	ok	ok	effPCPHouden01SetColor
 0018df38	200	FUN_0018df38	DEFAULT	named								effPCPBlinkMultiBlurCreate
-0018e000	72	ps2SharedNeedleInstanceDelete	USER_DEFINED	legacy		effect_leaf_release.c:ps2SharedNeedleInstanceDelete						effPCPBlinkMultiBlurDelete
+0018e000	72	ps2SharedNeedleInstanceDelete	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteBlinkMultiBlur	effect_leaf_release.c:ps2SharedNeedleInstanceDelete	ok	ok	ok	ok	ok	effPCPBlinkMultiBlurDelete
 0018e050	312	FUN_0018e050	DEFAULT	named								effPCPBlinkMultiBlurDraw
 0018e190	20	ps2PcpType27SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setBlinkMultiBlurPosition	pcp_field_controls.c:ps2PcpType27SetPosition	ok	ok	ok	ok	ok	effPCPBlinkMultiBlurSetPosition
 0018e1a8	12	ps2PcpType27SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setBlinkMultiBlurColor	pcp_field_controls.c:ps2PcpType27SetColor	ok	ok	ok	ok	ok	effPCPBlinkMultiBlurSetColor
 0018e1b8	12	ps2PcpSharedSetArea	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setBlinkMultiBlurArea	pcp_controls.c:ps2PcpSharedSetArea	ok	ok	ok	ok	ok	effPCPBlinkMultiBlurSetArea
 0018e1c8	148	ps2EffectCreate_0018e1c8	USER_DEFINED	legacy		battle_effect_copy.c:ps2EffectCreate_0018e1c8						effPCPMultiBlurExpCreate
-0018e260	44	ps2EffectRelease_0018e260	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018e260						effPCPMultiBlurExpDelete
+0018e260	44	ps2EffectRelease_0018e260	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteMultiBlurExp	effect_leaf_release.c:ps2EffectRelease_0018e260	ok	ok	ok	ok	ok	effPCPMultiBlurExpDelete
 0018e290	224	FUN_0018e290	DEFAULT	named								effPCPMultiBlurExpDraw
 0018e370	16	ps2PcpType10SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType10SetPosition	ok	ok	ok	ok	ok	effPCPMultiBlurExpSetPosition
 0018e380	8	ps2PcpType10SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setMultiBlurExpColor	pcp_field_controls.c:ps2PcpType10SetColor	ok	ok	ok	ok	ok	effPCPMultiBlurExpSetColor
@@ -2686,7 +2686,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0018e390	140	ps2BattleAction_0018E390	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0018E390						effPCPMultiFilterExpCreate
 0018e420	32	ps2BattleAction_0018E420	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0018E420						effPCPMultiFilterExpCreatePCF
 0018e440	156	ps2BattleAction_0018E440	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0018E440						effPCPMultiFilterExpCopy
-0018e4e0	44	ps2EffectRelease_0018e4e0	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018e4e0						effPCPMultiFilterExpDelete
+0018e4e0	44	ps2EffectRelease_0018e4e0	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteMultiFilterExp	effect_leaf_release.c:ps2EffectRelease_0018e4e0	ok	ok	ok	ok	ok	effPCPMultiFilterExpDelete
 0018e510	420	FUN_0018e510	DEFAULT	named								effPCPMultiFilterExpDraw
 0018e6b8	16	ps2PcpType26SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType26SetPosition	ok	ok	ok	ok	ok	effPCPMultiFilterExpSetPosition
 0018e6c8	8	ps2PcpType26SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setMultiFilterExpColor	pcp_field_controls.c:ps2PcpType26SetColor	ok	ok	ok	ok	ok	effPCPMultiFilterExpSetColor
@@ -2694,43 +2694,43 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0018e6d8	140	ps2BattleAction_0018E6D8	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0018E6D8						effPCPMultiBlurExp2Create
 0018e768	32	ps2BattleAction_0018E768	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0018E768						effPCPMultiBlurExp2CreatePCF
 0018e788	172	ps2BattleAction_0018E788	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0018E788						effPCPMultiBlurExp2Copy
-0018e838	44	ps2EffectRelease_0018e838	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018e838						effPCPMultiBlurExp2Delete
+0018e838	44	ps2EffectRelease_0018e838	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteMultiFilterExp	effect_leaf_release.c:ps2EffectRelease_0018e838	ok	ok	ok	ok	ok	effPCPMultiBlurExp2Delete
 0018e868	420	FUN_0018e868	DEFAULT	named								effPCPMultiBlurExp2Draw
 0018ea10	16	ps2PcpType33SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType33SetPosition	ok	ok	ok	ok	ok	effPCPMultiBlurExp2SetPosition
 0018ea20	8	ps2PcpType33SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setMultiBlurExp2Color	pcp_field_controls.c:ps2PcpType33SetColor	ok	ok	ok	ok	ok	effPCPMultiBlurExp2SetColor
 0018ea30	140	ps2BattleAction_0018EA30	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0018EA30						effPCPFilterExpCreate
 0018eac0	32	ps2BattleAction_0018EAC0	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0018EAC0						effPCPFilterExpCreatePCF
 0018eae0	20	ps2BattleAction_0018EAE0	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0018EAE0						effPCPFilterExpCopy
-0018eaf8	20	ps2EffectRelease_0018eaf8	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018eaf8						effPCPFilterExpDelete
+0018eaf8	20	ps2EffectRelease_0018eaf8	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteWork	effect_leaf_release.c:ps2EffectRelease_0018eaf8	ok	ok	ok	ok	ok	effPCPFilterExpDelete
 0018eb10	264	FUN_0018eb10	DEFAULT	named								effPCPFilterExpDraw
 0018ec20	8	ps2PcpType30SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setFilterExpColor	pcp_field_controls.c:ps2PcpType30SetColor	ok	ok	ok	ok	ok	effPCPFilterExpSetColor
 0018ec28	172	ps2BattleAction_0018EC28	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0018EC28						effPCPBlurExpCreate
 0018ecd8	32	ps2BattleAction_0018ECD8	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0018ECD8						effPCPBlurExpCreatePCF
 0018ecf8	20	ps2BattleAction_0018ECF8	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_0018ECF8						effPCPBlurExpCopy
-0018ed10	20	ps2EffectRelease_0018ed10	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018ed10						effPCPBlurExpDelete
+0018ed10	20	ps2EffectRelease_0018ed10	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteWork	effect_leaf_release.c:ps2EffectRelease_0018ed10	ok	ok	ok	ok	ok	effPCPBlurExpDelete
 0018ed28	272	FUN_0018ed28	DEFAULT	named								effPCPBlurExpDraw
 0018ee40	8	ps2PcpType31SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setBlurExpColor	pcp_field_controls.c:ps2PcpType31SetColor	ok	ok	ok	ok	ok	effPCPBlurExpSetColor
 0018ee48	140	FUN_0018ee48	DEFAULT	named								effPCPDistortionBlurExpCreate
 0018eed8	32	FUN_0018eed8	DEFAULT	named								effPCPDistortionBlurExpCreatePCF
 0018eef8	172	FUN_0018eef8	DEFAULT	named								effPCPDistortionBlurExpCopy
-0018efa8	44	ps2EffectRelease_0018efa8	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018efa8						effPCPDistortionBlurExpDelete
+0018efa8	44	ps2EffectRelease_0018efa8	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteScreenBlurExp	effect_leaf_release.c:ps2EffectRelease_0018efa8	ok	ok	ok	ok	ok	effPCPDistortionBlurExpDelete
 0018efd8	448	FUN_0018efd8	DEFAULT	named								effPCPDistortionBlurExpDraw
 0018f1a0	16	ps2PcpType32SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType32SetPosition	ok	ok	ok	ok	ok	effPCPDistortionBlurExpSetPosition
 0018f1b0	8	ps2PcpType32SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setDistortionBlurExpColor	pcp_field_controls.c:ps2PcpType32SetColor	ok	ok	ok	ok	ok	effPCPDistortionBlurExpSetColor
 0018f1b8	140	ps2BattleAction_0018F1B8	USER_DEFINED	legacy		battle_action_resources.c:ps2BattleAction_0018F1B8						effPCPRippleBlurExpCreate
 0018f248	32	ps2BattleAction_0018F248	USER_DEFINED	legacy		battle_action_resources.c:ps2BattleAction_0018F248						effPCPRippleBlurExpCreatePCF
 0018f268	172	ps2BattleAction_0018F268	USER_DEFINED	legacy		battle_action_resources.c:ps2BattleAction_0018F268						effPCPRippleBlurExpCopy
-0018f318	44	ps2EffectRelease_0018f318	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018f318						effPCPRippleBlurExpDelete
+0018f318	44	ps2EffectRelease_0018f318	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteScreenBlurExp	effect_leaf_release.c:ps2EffectRelease_0018f318	ok	ok	ok	ok	ok	effPCPRippleBlurExpDelete
 0018f550	52	FUN_0018f550	DEFAULT	named								effPCPMegidora01Init
 0018f588	52	FUN_0018f588	DEFAULT	named								effPCPMegidora01Create
-0018f5c0	44	ps2EffectRelease_0018f5c0	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018f5c0						effPCPMegidora01Delete
+0018f5c0	44	ps2EffectRelease_0018f5c0	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteSphereEffect	effect_leaf_release.c:ps2EffectRelease_0018f5c0	ok	ok	ok	ok	ok	effPCPMegidora01Delete
 0018f5f0	52	FUN_0018f5f0	DEFAULT	named								effPCPMegidora01Copy
 0018f628	424	FUN_0018f628	DEFAULT	named								effPCPMegidora01Draw
 0018f7e0	16	ps2PcpType34SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType34SetPosition	ok	ok	ok	ok	ok	effPCPMegidora01SetPosition
 0018f7f8	8	ps2PcpType34SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setMegidola01Color	pcp_field_controls.c:ps2PcpType34SetColor	ok	ok	ok	ok	ok	effPCPMegidora01SetColor
 0018f800	52	FUN_0018f800	DEFAULT	named								effPCPMegidoraon01Init
 0018f838	52	FUN_0018f838	DEFAULT	named								effPCPMegidoraon01Create
-0018f870	44	ps2EffectRelease_0018f870	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_0018f870						effPCPMegidoraon01Delete
+0018f870	44	ps2EffectRelease_0018f870	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteSphereEffect	effect_leaf_release.c:ps2EffectRelease_0018f870	ok	ok	ok	ok	ok	effPCPMegidoraon01Delete
 0018f8a0	52	FUN_0018f8a0	DEFAULT	named								effPCPMegidoraon01Copy
 0018f8d8	416	FUN_0018f8d8	DEFAULT	named								effPCPMegidoraon01Draw
 0018fa88	16	ps2PcpType35SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_field_controls.c:ps2PcpType35SetPosition	ok	ok	ok	ok	ok	effPCPMegidoraon01SetPosition
@@ -2796,7 +2796,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00192a40	44	ps2PcpType42SetMatrix	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setIceRotation	pcp_field_controls.c:ps2PcpType42SetMatrix	ok	ok	ok	ok	ok	effPCPBufudnIceSetRotateMatrix
 00192a70	16	ps2EffectPCP43Create	USER_DEFINED	legacy		battle_effect_copy.c:ps2EffectPCP43Create						effPCPBufuLightCreate
 00192a80	16	ps2EffectPCP43Copy	USER_DEFINED	legacy		battle_effect_copy.c:ps2EffectPCP43Copy						effPCPBufuLightCopy
-00192a90	8	ps2EffectRelease_00192a90	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_00192a90						effPCPBufuLightDelete
+00192a90	8	ps2EffectRelease_00192a90	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteBufuLight	effect_leaf_release.c:ps2EffectRelease_00192a90	ok	ok	ok	ok	ok	effPCPBufuLightDelete
 00192a98	68	FUN_00192a98	DEFAULT	named								effPCPBufuLightDraw
 00192ae0	72	FUN_00192ae0	DEFAULT	named								effPCPEyeThunderCreate00_0
 00192b28	24	FUN_00192b28	DEFAULT	named								effPCPEyeThunderCopy00_0
@@ -2822,23 +2822,23 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00192f10	24	FUN_00192f10	DEFAULT	named								effPCPEyeThunderCopy05_0
 00192f28	80	FUN_00192f28	DEFAULT	named								effPCPEyeThunderCreate05_1
 00192f78	24	FUN_00192f78	DEFAULT	named								effPCPEyeThunderCopy05_1
-00192f90	44	ps2EffectRelease_00192f90	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_00192f90						effPCPEyeThunderDelete
+00192f90	44	ps2EffectRelease_00192f90	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteEyeThunder	effect_leaf_release.c:ps2EffectRelease_00192f90	ok	ok	ok	ok	ok	effPCPEyeThunderDelete
 001930e0	188	ps2BattleAction_001930E0	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_001930E0						effPCPThunderSphereExpCreate
 001931a0	32	ps2BattleAction_001931A0	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_001931A0						effPCPThunderSphereExpCreatePCF
 001931c0	284	ps2BattleAction_001931C0	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_001931C0						effPCPThunderSphereExpCopy
-001932e0	44	ps2EffectRelease_001932e0	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_001932e0						effPCPThunderSphereExpDelete
+001932e0	44	ps2EffectRelease_001932e0	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteThunderSphereExp	effect_leaf_release.c:ps2EffectRelease_001932e0	ok	ok	ok	ok	ok	effPCPThunderSphereExpDelete
 00193310	336	FUN_00193310	DEFAULT	named								effPCPThunderSphereExpDraw
 00193468	16	FUN_00193468	DEFAULT	named								effPCPThunderSphereExpSetPosition
 00193480	8	FUN_00193480	DEFAULT	legacy		battle_action_scale_frames.c:ps2BattleActionPcpScale_00193480						effPCPThunderSphereExpSetScale
 00193488	320	ps2BattleAction_00193488	USER_DEFINED	legacy		battle_action_resources.c:ps2BattleAction_00193488						dds3RingPolyExpListCreate
-001935c8	52	ps2EffectRelease_001935c8	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_001935c8						dds3RingPolyExpListDelete
+001935c8	52	ps2EffectRelease_001935c8	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteRingPolyExpList	effect_leaf_release.c:ps2EffectRelease_001935c8	ok	ok	ok	ok	ok	dds3RingPolyExpListDelete
 00193600	460	FUN_00193600	DEFAULT	named								dds3RingPolyExpListDraw
 001937d0	388	ps2BattleAction_001937D0	USER_DEFINED	legacy		battle_action_resources.c:ps2BattleAction_001937D0						effPCPRingPolyExpSetVertex
 00193958	44	ps2BattleAction_00193958	USER_DEFINED	legacy		battle_action_resources.c:ps2BattleAction_00193958						effPCPRingPolyExpInit
 00193988	404	ps2BattleAction_00193988	USER_DEFINED	legacy		battle_action_resources.c:ps2BattleAction_00193988						effPCPRingPolyExpCreate
 00193b20	32	ps2BattleAction_00193B20	USER_DEFINED	legacy		battle_action_resources.c:ps2BattleAction_00193B20						effPCPRingPolyExpCreatePCF
 00193b40	20	ps2BattleAction_00193B40	USER_DEFINED	legacy		battle_action_resources.c:ps2BattleAction_00193B40						effPCPRingPolyExpCopy
-00193b58	44	ps2EffectRelease_00193b58	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_00193b58						effPCPRingPolyExpDelete
+00193b58	44	ps2EffectRelease_00193b58	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteRingPolyExp	effect_leaf_release.c:ps2EffectRelease_00193b58	ok	ok	ok	ok	ok	effPCPRingPolyExpDelete
 00193b88	544	FUN_00193b88	DEFAULT	named								effPCPRingPolyExpDraw
 00193db0	16	FUN_00193db0	DEFAULT	named								effPCPRingPolyExpSetPosition
 00193dc0	12	ps2BattleAction_00193DC0	USER_DEFINED	legacy		battle_action_resources.c:ps2BattleAction_00193DC0						effPCPRingPolyExpSetScale
@@ -3046,25 +3046,25 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001a1f18	140	FUN_001a1f18	DEFAULT	named								dds3EffectBlurDraw
 001a1fa8	80	FUN_001a1fa8	DEFAULT	named								dds3EffectBlurSetRect
 001a1ff8	156	ps2EffectCopy_001a1ff8	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleActionCopyRecord_001A1FF8;battle_effect_copy.c:ps2EffectCopy_001a1ff8						dds3EffectPartialMultiBlurCreate
-001a2098	20	ps2EffectRelease_001a2098	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_001a2098						dds3EffectPartialMultiBlurDelete
+001a2098	20	ps2EffectRelease_001a2098	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteWork	effect_leaf_release.c:ps2EffectRelease_001a2098	ok	ok	ok	ok	ok	dds3EffectPartialMultiBlurDelete
 001a20b0	116	FUN_001a20b0	DEFAULT	named								dds3EffectPartialMultiBlurDraw
 001a2128	92	FUN_001a2128	DEFAULT	named								dds3EffectPartialMultiBlurSetParam
 001a2190	44	FUN_001a2190	DEFAULT	named								dds3EffectPartialMultiBlurSetTexDef
 001a21c0	304	ps2DistBlurInitializeParticle_001A21C0	USER_DEFINED	legacy		script_distortion_owner.c:ps2DistBlurInitializeParticle_001A21C0						dds3EffectDistBlurPartInit
 001a22f0	236	ps2DistBlurCreate_001A22F0	USER_DEFINED	legacy		script_distortion_owner.c:ps2DistBlurCreate_001A22F0						dds3EffectDistortionBlurCreate
-001a23e0	24	ps2EffectRelease_001a23e0	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_001a23e0						dds3EffectDistortionBlurDelete
+001a23e0	24	ps2EffectRelease_001a23e0	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteScreenBlur	effect_leaf_release.c:ps2EffectRelease_001a23e0	ok	ok	ok	ok	ok	dds3EffectDistortionBlurDelete
 001a23f8	516	FUN_001a23f8	DEFAULT	named								dds3EffectDistortionBlurDraw
 001a2670	44	FUN_001a2670	DEFAULT	named								dds3EffectDistortionBlurSetTex
 001a26a0	76	FUN_001a26a0	DEFAULT	named								dds3EffectRipBlurPartAreaSet
 001a26f0	56	ps2BattleAction_001A26F0	USER_DEFINED	legacy		battle_action_resources.c:ps2BattleAction_001A26F0						dds3EffectRipBlurPartInit
 001a2728	128	FUN_001a2728	DEFAULT	named								dds3EffectRippleBlurReset
 001a27a8	288	ps2BattleAction_001A27A8	USER_DEFINED	legacy		battle_action_resources.c:ps2BattleAction_001A27A8						dds3EffectRippleBlurCreate
-001a28c8	24	ps2EffectRelease_001a28c8	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_001a28c8						dds3EffectRippleBlurDelete
+001a28c8	24	ps2EffectRelease_001a28c8	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteScreenBlur	effect_leaf_release.c:ps2EffectRelease_001a28c8	ok	ok	ok	ok	ok	dds3EffectRippleBlurDelete
 001a28e0	488	FUN_001a28e0	DEFAULT	named								dds3EffectRippleBlurDraw
 001a2ac8	420	FUN_001a2ac8	DEFAULT	named								dds3EffectFilter
 001a2c70	440	FUN_001a2c70	DEFAULT	named								dds3EffectFilterDrawTexQuad
 001a2e28	140	ps2BattleAction_001A2E28	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_001A2E28						dds3EffectPartialMultiFilterCreate
-001a2eb8	20	ps2EffectRelease_001a2eb8	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_001a2eb8						dds3EffectPartialMultiFilterDelete
+001a2eb8	20	ps2EffectRelease_001a2eb8	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteWork	effect_leaf_release.c:ps2EffectRelease_001a2eb8	ok	ok	ok	ok	ok	dds3EffectPartialMultiFilterDelete
 001a2ed0	104	FUN_001a2ed0	DEFAULT	named								dds3EffectPartialMultiFilterDraw
 001a2f38	452	ps2ModelTrackPolyCreate	USER_DEFINED	legacy		model_track_creation.c:ps2ModelTrackPolyCreate						Eff_ModelTrackPolyCreate
 001a3118	84	Eff_ModelTrackPolyDelete	USER_DEFINED	legacy		effect_release.c:Eff_ModelTrackPolyDelete						Eff_ModelTrackPolyDelete

@@ -1646,15 +1646,21 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
             add(s.name, [s](Gen& g) {
                 at<uint32_t>(difftest::version::dataOrDie(0x0054ea20)) = FW_GLOBAL;
                 nocturne::dat::globalWork().fieldskills = g.chance(70) ? g.below(16) : static_cast<uint32_t>(g.rng());
-                nocturne::fld::areaLoadState().spellEffects = g.chance(70) ? g.below(16) : static_cast<uint32_t>(g.rng());
-                at<int32_t>(difftest::version::dataOrDie(0x0054eafc)) = g.chance(50) ? 0 : g.range(-2, 5);
+                const uint32_t shown = g.chance(70) ? g.below(16) : static_cast<uint32_t>(g.rng());
+                const int32_t area = g.chance(50) ? 0 : g.range(-2, 5);
+                // (static RAM: each side starts from the same state and reads it back)
+                auto start = [=] {
+                    nocturne::fld::areaLoadState().spellEffects = shown;
+                    at<int32_t>(difftest::version::dataOrDie(0x0054eafc)) = area;
+                };
                 auto effects = [] { return uint64_t{nocturne::fld::areaLoadState().spellEffects} << 32; };
                 const bool returns = std::string_view(s.name).ends_with("Chk");
                 return Pair{[=] {
+                                start();
                                 const uint64_t r = returns ? iface::origVm(s.entry, {}) : iface::origVmVoid(s.entry, {});
                                 return (r & 0xffffffffu) | effects();
                             },
-                            [=] { const uint64_t r = s.rewrite(); return (r & 0xffffffffu) | effects(); }};
+                            [=] { start(); const uint64_t r = s.rewrite(); return (r & 0xffffffffu) | effects(); }};
             });
     }
     // The field's sequence and process flags: any flags, any word (read
@@ -1672,14 +1678,19 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         for (const Flags& f : flags)
             add(f.name, [f](Gen& g) {
                 const uint32_t word = difftest::version::dataOrDie(f.word);
-                at<uint32_t>(word) = static_cast<uint32_t>(g.rng());
+                const uint32_t before = static_cast<uint32_t>(g.rng());
                 const uint32_t bits = g.chance(50) ? 1u << g.below(32) : static_cast<uint32_t>(g.rng());
                 const bool returns = std::string_view(f.name).ends_with("CheckFlag");
-                return Pair{[=] {
+                return Pair{[=] {   // (static RAM: each side starts from the same flags)
+                                at<uint32_t>(word) = before;
                                 const uint64_t r = returns ? iface::origVm(f.entry, {bits}) : iface::origVmVoid(f.entry, {bits});
                                 return (r & 0xffffffffu) | uint64_t{at<uint32_t>(word)} << 32;
                             },
-                            [=] { const uint64_t r = f.rewrite(bits); return (r & 0xffffffffu) | uint64_t{at<uint32_t>(word)} << 32; }};
+                            [=] {
+                                at<uint32_t>(word) = before;
+                                const uint64_t r = f.rewrite(bits);
+                                return (r & 0xffffffffu) | uint64_t{at<uint32_t>(word)} << 32;
+                            }};
             });
     }
     // The RNG's seeding: a state in compared RAM, or the default one (read

@@ -79,6 +79,9 @@ void nocturneInvokeMessageKutiCallback(uint32_t entry);
 uint64_t dds3StartProcess(uint64_t name, uint64_t priority, uint64_t startdelay, uint64_t shutdowndelay,
                           uint64_t processfunc, uint64_t shutdownfunc, uint64_t data);
 void ps2TextureDeferredRelease(uint64_t texture);
+void ps2MaterialDeferredRelease(uint64_t material);
+void dds3TrackPolyDelete(uint64_t poly);
+void dds3BillboardDelete(uint64_t billboard);
 uint64_t ps2TextureTmxCopy(uint64_t header);
 uint64_t ps2ResourcePacCheckEnd(uint64_t request);
 void ps2MemoryHandleDeferredRelease(uint64_t handle);
@@ -270,6 +273,7 @@ void pac::RelocatePointers(uint32_t destination, uint32_t base, uint32_t table, 
 void guest::callFunction(uint32_t entry) { nocturneInvokeMessageKutiCallback(entry); }
 uint32_t tex::Load(uint32_t name) { return static_cast<uint32_t>(ps2InterfaceLoadTexture(word(name))); }
 void tex::DeferredRelease(uint32_t texture) { ps2TextureDeferredRelease(word(texture)); }
+void tex::MaterialDeferredRelease(uint32_t material) { ps2MaterialDeferredRelease(word(material)); }
 uint32_t tex::TmxCopy(uint32_t header) { return static_cast<uint32_t>(ps2TextureTmxCopy(word(header))); }
 
 // The record is staged on the guest stack, as the original passes its own.
@@ -409,6 +413,8 @@ uint32_t eff::BTLPartCreate(nb::Formation* form, int32_t kind)
     return static_cast<uint32_t>(ps2BattleAction_00173CB0(word(guest::addressOf(form)), signExtend(kind)));
 }
 void eff::BTLPartEnd(uint32_t part) { effBTLPartEnd(word(part)); }
+void eff::TrackPolyDelete(uint32_t poly) { dds3TrackPolyDelete(word(poly)); }
+void eff::BillboardDelete(uint32_t billboard) { dds3BillboardDelete(word(billboard)); }
 void eff::BTLPartDraw(uint32_t part) { effBTLPartDraw(word(part)); }
 void evt::SetAgeOfMoon(int32_t age) { evtSetAgeOfMoon(age); }
 void guest::callEffectPlayer(uint32_t entry, uint32_t queue, uint32_t packet)

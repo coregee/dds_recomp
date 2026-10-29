@@ -53,6 +53,9 @@ void ps2PacRelocatePointers(uint64_t, uint64_t, uint64_t, uint64_t);
 void nocturneInvokeMessageKutiCallback(uint32_t);
 uint64_t ps2InterfaceLoadTexture(uint64_t);
 void ps2TextureDeferredRelease(uint64_t);
+void ps2MaterialDeferredRelease(uint64_t);
+void dds3TrackPolyDelete(uint64_t);
+void dds3BillboardDelete(uint64_t);
 uint64_t ps2TextureTmxCopy(uint64_t);
 uint64_t ps2ResourcePacCheckEnd(uint64_t);
 void ps2MemoryHandleDeferredRelease(uint64_t);
@@ -431,6 +434,9 @@ ee::Interpreter makeOriginal()
     });
     e.hook(0x001cb0d8, [=](ee::Cpu& c) { return ps2InterfaceLoadTexture(a(c, 0)); });
     e.hook(0x002ab8f0, [=](ee::Cpu& c) { ps2TextureDeferredRelease(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x002b3520, [=](ee::Cpu& c) { ps2MaterialDeferredRelease(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x001660d0, [=](ee::Cpu& c) { dds3TrackPolyDelete(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x0015cf40, [=](ee::Cpu& c) { dds3BillboardDelete(a(c, 0)); return uint64_t{0}; });
     e.hook(0x001015b0, [=](ee::Cpu& c) { return dds3StartProcess(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5), a(c, 6)); });
     e.hook(0x002a8af8, [=](ee::Cpu& c) { return uint64_t{ps2PoolAllocate(static_cast<int32_t>(a(c, 0)))}; });
     e.hook(0x002aa9e0, [=](ee::Cpu& c) { return ps2TextureQueueUpload(a(c, 0)); });
@@ -599,6 +605,19 @@ ee::Interpreter makeOriginal()
     e.interpret(0x0028b0b8, 0x0028b198);   // a formation set up (its delay slot one past Ghidra's size)
     e.interpret(0x0028b198, 0x0028b448);   // nbCopyFormation, nbMoveFormation, nbUpdateFormation (to its return)
     e.interpret(0x00173f40, 0x00173f48);   // effBTLSystemGetID
+    // The particle effects' deletion (effPCP*Delete, dds3*Delete).
+    for (const auto& [entry, size] : std::initializer_list<std::pair<uint32_t, uint32_t>>{
+             {0x001764f0u, 44u}, {0x001785e8u, 44u}, {0x001790e0u, 52u}, {0x00179b08u, 44u}, {0x00182c40u, 44u},
+             {0x00183060u, 44u}, {0x00183368u, 44u}, {0x0017d1f8u, 44u}, {0x0017d8a8u, 44u}, {0x0017e260u, 44u},
+             {0x0017ea88u, 44u}, {0x0017f388u, 44u}, {0x0017fc00u, 44u}, {0x00186080u, 80u}, {0x00185d88u, 64u},
+             {0x00188da0u, 72u}, {0x00186390u, 44u}, {0x001884c8u, 44u}, {0x0018a070u, 80u}, {0x00189b68u, 52u},
+             {0x001893d0u, 52u}, {0x0018a1d8u, 44u}, {0x0018c000u, 88u}, {0x0018c478u, 88u}, {0x0018cd88u, 88u},
+             {0x0018d0f8u, 88u}, {0x0018c910u, 88u}, {0x0018db50u, 88u}, {0x0018d468u, 88u}, {0x0018d678u, 44u},
+             {0x0018dd60u, 44u}, {0x0018f5c0u, 44u}, {0x0018f870u, 44u}, {0x001932e0u, 44u}, {0x00192f90u, 44u},
+             {0x0018eaf8u, 20u}, {0x0018ed10u, 20u}, {0x001a2098u, 20u}, {0x001a2eb8u, 20u}, {0x0018e000u, 76u},
+             {0x0018e260u, 44u}, {0x0018e4e0u, 44u}, {0x0018e838u, 44u}, {0x001a23e0u, 24u}, {0x001a28c8u, 24u},
+             {0x0018efa8u, 44u}, {0x0018f318u, 44u}, {0x00192a90u, 8u}, {0x001935c8u, 52u}, {0x00193b58u, 44u}})
+        e.interpret(entry, entry + size);
     // The particle effects' setters (effPCP*Set*).
     for (const auto& [entry, size] : std::initializer_list<std::pair<uint32_t, uint32_t>>{
              {0x00179118u, 44u}, {0x00179148u, 8u}, {0x0017d228u, 16u}, {0x0017d238u, 8u}, {0x0017d240u, 8u},

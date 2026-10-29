@@ -535,6 +535,78 @@ void addKoukaTests(std::vector<TestCase>& t)
                             [=] { s.rewrite(effect, value); return uint64_t{0}; }};
             });
     }
+    // The particle effects' deletion: an effect's work whose words are
+    // mostly addresses of more of it (what each holds), some small counts
+    // (a texture resource's users); the blink effect shared or not.
+    {
+        struct Release { const char* name; uint32_t entry; void (*rewrite)(uint32_t effect); };
+        static const Release releases[] = {
+            {"effPCPThunderSpherePolyDelete", 0x001764f0, nocturne::eff::deleteThunderSpherePoly},
+            {"effPCP_ThunderPolyDelete", 0x001785e8, nocturne::eff::deleteThunderPoly},
+            {"effPCP_ThunderPolyLowDelete", 0x001790e0, nocturne::eff::deleteThunderPolyLow},
+            {"effPCP_ThunderRadiatePolyDelete", 0x00179b08, nocturne::eff::deleteThunderRadiatePoly},
+            {"dds3FlashPolyListDelete", 0x00182c40, nocturne::eff::deleteFlashPolyList},
+            {"dds3FlashPolyList2Delete", 0x00183060, nocturne::eff::deleteFlashPolyList},
+            {"dds3FlashPolyList3Delete", 0x00183368, nocturne::eff::deleteFlashPolyList},
+            {"effPCPFlashPolySphere2Delete", 0x0017d1f8, nocturne::eff::deleteFlashPolySphere2},
+            {"effPCPFlashPolySphereDelete", 0x0017d8a8, nocturne::eff::deleteFlashPolySphere},
+            {"effPCPFlashPolyRingDelete", 0x0017e260, nocturne::eff::deleteFlashPolyRing},
+            {"effPCPFlashPolyPipeDelete", 0x0017ea88, nocturne::eff::deleteFlashPolyPipe},
+            {"effPCPFlashPolyRingExpDelete", 0x0017f388, nocturne::eff::deleteFlashPolyRingExp},
+            {"effPCPFlashPolySphereExpDelete", 0x0017fc00, nocturne::eff::deleteFlashPolySphereExp},
+            {"dds3ScatterPolyListTexResourceDelete", 0x00186080, nocturne::eff::releaseTextureResource},
+            {"dds3ScatterPolyListDelete", 0x00185d88, nocturne::eff::deleteScatterPolyList},
+            {"dds3WhirlwindPolyListDelete", 0x00188da0, nocturne::eff::deleteWhirlwindPolyList},
+            {"effPCPWhirlwindPolyDelete", 0x00186390, nocturne::eff::deleteWhirlwindPoly},
+            {"effPCPWwSpherePolyDelete", 0x001884c8, nocturne::eff::deleteWhirlwindSpherePoly},
+            {"dds3NeedleModelVNCListDelete", 0x0018a070, nocturne::eff::deleteNeedleVertexList},
+            {"dds3NeedleModelDelete", 0x00189b68, nocturne::eff::deleteNeedleModel},
+            {"effPCPNeedleSpiralDelete", 0x001893d0, nocturne::eff::deleteNeedleSpiral},
+            {"effPCPSparkleSphereDelete", 0x0018a1d8, nocturne::eff::deleteSparkleSphere},
+            {"effPCPZiodin01Delete", 0x0018c000, nocturne::eff::deleteZiodyne},
+            {"effPCPZiodin02Delete", 0x0018c478, nocturne::eff::deleteZiodyne},
+            {"effPCPZiodin04Delete", 0x0018cd88, nocturne::eff::deleteZiodyne},
+            {"effPCPMZiodin01Delete", 0x0018d0f8, nocturne::eff::deleteZiodyne},
+            {"effPCPZiodin03Delete", 0x0018c910, nocturne::eff::deleteZiodyne03},
+            {"effPCPShockWave02Delete", 0x0018db50, nocturne::eff::deleteZiodyne03},
+            {"effPCPMZiodin02Delete", 0x0018d468, nocturne::eff::deleteMaziodyne02},
+            {"effPCPShockWave01Delete", 0x0018d678, nocturne::eff::deleteSphereEffect},
+            {"effPCPHouden01Delete", 0x0018dd60, nocturne::eff::deleteSphereEffect},
+            {"effPCPMegidora01Delete", 0x0018f5c0, nocturne::eff::deleteSphereEffect},
+            {"effPCPMegidoraon01Delete", 0x0018f870, nocturne::eff::deleteSphereEffect},
+            {"effPCPThunderSphereExpDelete", 0x001932e0, nocturne::eff::deleteThunderSphereExp},
+            {"effPCPEyeThunderDelete", 0x00192f90, nocturne::eff::deleteEyeThunder},
+            {"effPCPFilterExpDelete", 0x0018eaf8, nocturne::eff::deleteWork},
+            {"effPCPBlurExpDelete", 0x0018ed10, nocturne::eff::deleteWork},
+            {"dds3EffectPartialMultiBlurDelete", 0x001a2098, nocturne::eff::deleteWork},
+            {"dds3EffectPartialMultiFilterDelete", 0x001a2eb8, nocturne::eff::deleteWork},
+            {"effPCPBlinkMultiBlurDelete", 0x0018e000, nocturne::eff::deleteBlinkMultiBlur},
+            {"effPCPMultiBlurExpDelete", 0x0018e260, nocturne::eff::deleteMultiBlurExp},
+            {"effPCPMultiFilterExpDelete", 0x0018e4e0, nocturne::eff::deleteMultiFilterExp},
+            {"effPCPMultiBlurExp2Delete", 0x0018e838, nocturne::eff::deleteMultiFilterExp},
+            {"dds3EffectDistortionBlurDelete", 0x001a23e0, nocturne::eff::deleteScreenBlur},
+            {"dds3EffectRippleBlurDelete", 0x001a28c8, nocturne::eff::deleteScreenBlur},
+            {"effPCPDistortionBlurExpDelete", 0x0018efa8, nocturne::eff::deleteScreenBlurExp},
+            {"effPCPRippleBlurExpDelete", 0x0018f318, nocturne::eff::deleteScreenBlurExp},
+            {"effPCPBufuLightDelete", 0x00192a90, nocturne::eff::deleteBufuLight},
+            {"dds3RingPolyExpListDelete", 0x001935c8, nocturne::eff::deleteRingPolyExpList},
+            {"effPCPRingPolyExpDelete", 0x00193b58, nocturne::eff::deleteRingPolyExp},
+        };
+        for (const Release& r : releases)
+            add(r.name, [r](Gen& g) {
+                constexpr uint32_t kWork = FW_SCRATCH, kBlink = 0x00551dd0u, kBlinkUsers = 0x0054f1e8u;
+                for (uint32_t k = 0; k < 0xc00; k += 4)
+                    at<uint32_t>(kWork + k) = g.chance(80) ? kWork + 4u * g.below(0x200) : static_cast<uint32_t>(g.range(1, 3));
+                at<uint32_t>(nocturne::addr(kBlink)) = kWork + 4u * g.below(0x200);
+                const int32_t users = g.range(0, 3);
+                const uint32_t effect = kWork + 4u * g.below(0x200);
+                // (static RAM: each side starts from the same count and reads it back)
+                auto start = [=] { at<int32_t>(nocturne::addr(kBlinkUsers)) = users; };
+                auto left = [] { return uint64_t{at<uint32_t>(nocturne::addr(kBlinkUsers))}; };
+                return Pair{[=] { start(); iface::origVmVoid(r.entry, {effect}); return left(); },
+                            [=] { start(); r.rewrite(effect); return left(); }};
+            });
+    }
     add("effBTLSystemGetLength", [](Gen& g) {
         constexpr uint32_t handle = 0x0077cf00u;
         systemEffectWorld(g, handle);

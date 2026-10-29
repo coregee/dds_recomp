@@ -50,6 +50,8 @@ void OngyokiCloneEffect2Draw(uint32_t handle);               // (0x199C08)
 uint32_t BTLPartCreate(nb::Formation* form, int32_t kind);  // (0x173CB0) effBTLPartCreate
 void BTLPartEnd(uint32_t part);                              // (0x173D28)
 void BTLPartDraw(uint32_t part);                             // (0x173DC8)
+void TrackPolyDelete(uint32_t poly);         // (0x1660D0) dds3TrackPolyDelete
+void BillboardDelete(uint32_t billboard);    // (0x15CF40) dds3BillboardDelete
 } // namespace eff
 
 namespace cmp {
@@ -135,6 +137,7 @@ void SetBadstatMotion2(Formation& form);
 namespace tex {
 uint32_t Load(uint32_t name);              // (0x1CB0D8) load a .TMX file into a texture
 void DeferredRelease(uint32_t texture);    // ps2TextureDeferredRelease
+void MaterialDeferredRelease(uint32_t material);   // ps2MaterialDeferredRelease (0x2B3520)
 uint32_t TmxCopy(uint32_t header);         // ps2TextureTmxCopy: a texture from a loaded TMX (tentative)
 
 // A rectangle of pixels to send to video memory (ps2TextureQueueUpload).
@@ -327,6 +330,7 @@ enum class Message : uint32_t {
     NoOneCanAct      = optionalAddr(0x00543458), // 全員行動不能!! ("no one can act!!": a lost battle)
     GameOver         = optionalAddr(0x00543468), // "game over !!"
     HitEffectLength  = optionalAddr(0x00544900), // "length = %d" (nbAddHitEffKoukaPacket)
+    NeedleListDelete = optionalAddr(0x00533c90), // "dds3NeedleModelVNCListDelete[%p] ****"
     LevelUp          = optionalAddr(0x00543478), // "level up !!"
     PressTurnStart   = optionalAddr(0x005453b8), // "nbPanelPressTurnStart" (its own name)
     PartyAlbion      = optionalAddr(0x005458c0), // "nbSetPartyFormation : DV_ALBION"
