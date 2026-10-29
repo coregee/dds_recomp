@@ -615,7 +615,10 @@ ee::Interpreter makeOriginal()
              {0x0018f7e0u, 16u}, {0x0018f7f8u, 8u}, {0x0018fa88u, 16u}, {0x0018faa0u, 8u}, {0x0018fef8u, 20u},
              {0x0018ff10u, 8u}, {0x001904e8u, 16u}, {0x001904f8u, 8u}, {0x00192420u, 16u}, {0x00192430u, 8u},
              {0x00192438u, 8u}, {0x00192440u, 44u}, {0x00192720u, 16u}, {0x00192730u, 8u}, {0x00192738u, 8u},
-             {0x00192740u, 44u}, {0x00192a20u, 16u}, {0x00192a30u, 8u}, {0x00192a38u, 8u}, {0x00192a40u, 44u}})
+             {0x00192740u, 44u}, {0x00192a20u, 16u}, {0x00192a30u, 8u}, {0x00192a38u, 8u}, {0x00192a40u, 44u},
+             {0x00176520u, 16u}, {0x00179b38u, 16u}, {0x0018a898u, 16u}, {0x0018ad18u, 16u}, {0x0018b2a8u, 16u},
+             {0x00178618u, 44u}, {0x0018bb38u, 20u}, {0x0018bb50u, 8u}, {0x0018a8a8u, 8u}, {0x0018ad28u, 8u},
+             {0x0018b2b8u, 8u}, {0x0018a358u, 8u}, {0x0018e1b8u, 12u}, {0x0018e388u, 8u}, {0x0018e6d0u, 8u}})
         e.interpret(entry, entry + size);
     e.interpret(0x00173ef0, 0x00173f40);   // effBTLSystemGetLength
     // The families' getLength (effBTLSys_*_GetLength), 8 bytes each but the

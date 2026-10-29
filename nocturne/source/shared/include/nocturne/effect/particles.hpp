@@ -21,7 +21,8 @@ struct Matrix {
 
 // Moves an effect that keeps its position at the start of its work (most).
 void setPosition(uint32_t effect, const dds3::Vector4& position);
-void setThunderPolyLowPosition(uint32_t effect, const dds3::Vector4& position);
+// The thunder effects (ThunderPoly, ThunderPolyLow) move by the change.
+void setThunderPolyPosition(uint32_t effect, const dds3::Vector4& position);
 void setThunderPolyLowColor(uint32_t effect, uint32_t color);
 void setFlashPolySphere2Color(uint32_t effect, uint32_t color);
 void setFlashPolySphere2Scale(uint32_t effect, ee::Float scale);
@@ -61,6 +62,15 @@ void setAgilaoFireColor(uint32_t effect, uint32_t color);
 void setBufuIceColor(uint32_t effect, uint32_t color);
 void setBufulaIceColor(uint32_t effect, uint32_t color);
 void setBufudyneIceColor(uint32_t effect, uint32_t color);
+void setMudoPosition(uint32_t effect, const dds3::Vector4& position);
+void setMudoScale(uint32_t effect, ee::Float scale);
+void setHama01Scale(uint32_t effect, ee::Float scale);
+void setHama02Scale(uint32_t effect, ee::Float scale);   // (and Hamaon's)
+// An effect's area (how far it spreads).
+void setSparkleSphereArea(uint32_t effect, ee::Float area);
+void setBlinkMultiBlurArea(uint32_t effect, ee::Float area);
+void setMultiBlurExpArea(uint32_t effect, ee::Float area);
+void setMultiFilterExpArea(uint32_t effect, ee::Float area);
 // The ice effects (Bufu, Bufula, Bufudyne): their scale and rotation.
 void setIceScale(uint32_t effect, ee::Float scale);
 void setIceRotation(uint32_t effect, const Matrix& rotation);

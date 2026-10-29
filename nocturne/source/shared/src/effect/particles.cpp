@@ -48,12 +48,19 @@ void place(uint32_t effect, uint32_t offset, const dds3::Vector4& position) { fi
 // effPCPBufuIceSetPosition @ 0x00192420
 // effPCPBufuraIceSetPosition @ 0x00192720
 // effPCPBufudnIceSetPosition @ 0x00192A20
+// effPCPThunderSpherePolySetPosition @ 0x00176520
+// effPCP_ThunderRadiatePolySetPosition @ 0x00179B38
+// effPCPHama01SetPosition @ 0x0018A898
+// effPCPHama02SetPosition @ 0x0018AD18
+// effPCPHamaonSetPosition @ 0x0018B2A8
 // Most effects keep their position at the start of their work.
 void setPosition(uint32_t effect, const dds3::Vector4& position) { place(effect, 0, position); }
 
-// effPCP_ThunderPolyLowSetPosition @ 0x00179118: keeps the position it was given at +0x10 and
-// moves its own (at the start) by as much.
-void setThunderPolyLowPosition(uint32_t effect, const dds3::Vector4& position)
+// effPCP_ThunderPolyLowSetPosition @ 0x00179118
+// effPCP_ThunderPolySetPosition @ 0x00178618
+// The thunder effects keep the position they were given at +0x10 and move
+// their own (at the start) by as much.
+void setThunderPolyPosition(uint32_t effect, const dds3::Vector4& position)
 {
     dds3::Vector4& given = field<dds3::Vector4>(effect, 0x10);
     const dds3::Vector4 by{position.x - given.x, position.y - given.y, position.z - given.z, position.w - given.w};
@@ -197,5 +204,30 @@ void setIceScale(uint32_t effect, ee::Float scale) { field<ee::Float>(effect, 0x
 // effPCPBufuraIceSetRotateMatrix @ 0x00192740
 // effPCPBufudnIceSetRotateMatrix @ 0x00192A40
 void setIceRotation(uint32_t effect, const Matrix& rotation) { field<Matrix>(effect, 0x10) = rotation; }
+
+// effPCPMudoSetPosition @ 0x0018BB38
+void setMudoPosition(uint32_t effect, const dds3::Vector4& position) { place(effect, 0xaf0, position); }
+
+// effPCPMudoSetScale @ 0x0018BB50
+void setMudoScale(uint32_t effect, ee::Float scale) { field<ee::Float>(effect, 0x1338) = scale; }
+
+// effPCPHama01SetScale @ 0x0018A8A8
+void setHama01Scale(uint32_t effect, ee::Float scale) { field<ee::Float>(effect, 0x18) = scale; }
+
+// effPCPHama02SetScale @ 0x0018AD28
+// effPCPHamaonSetScale @ 0x0018B2B8
+void setHama02Scale(uint32_t effect, ee::Float scale) { field<ee::Float>(effect, 0x14) = scale; }
+
+// effPCPSparkleSphereSetArea @ 0x0018A358
+void setSparkleSphereArea(uint32_t effect, ee::Float area) { field<ee::Float>(effect, 0x18) = area; }
+
+// effPCPBlinkMultiBlurSetArea @ 0x0018E1B8: the one blink effect playing (not `effect`).
+void setBlinkMultiBlurArea(uint32_t, ee::Float area) { field<ee::Float>(word(kBlinkMultiBlur), 0x1c) = area; }
+
+// effPCPMultiBlurExpSetArea @ 0x0018E388
+void setMultiBlurExpArea(uint32_t effect, ee::Float area) { field<ee::Float>(effect, 0x1c) = area; }
+
+// effPCPMultiFilterExpSetArea @ 0x0018E6D0
+void setMultiFilterExpArea(uint32_t effect, ee::Float area) { field<ee::Float>(effect, 0x34) = area; }
 
 } // namespace nocturne::eff
