@@ -126,6 +126,27 @@ cheats), turns some changes on.
   it, and the skill's divisor with it).
 - **Shops:** Hard doubles the buy price instead of tripling it.
 
+## On a console
+
+Hardtype freezes on a PS2 where PCSX2 plays it: the EE raises an address
+error for a misaligned halfword, word or doubleword access, which PCSX2
+lets through. `EE_ALIGN=1` makes the differential test's interpreter report
+each such instruction it runs. Hardtype's own:
+
+- **0x2FDD3C** (nbAiAiChk's new prologue): `sw zero,0x190(s0)` runs in the
+  jump's delay slot before `s0` holds the AI work, so it stores to nbRunAi's
+  check counter + 0x190: 0x191 on the first check, a misaligned store into
+  the kernel's low memory, before every AI unit's first action.
+- **The AI records:** 189 of the 385 records in the repacked datDevilAI
+  start 2 past a word, and nbAiAiChk (0x2867E4..EC), nbRunAiSub (0x287C10)
+  and nbRunAi (0x287D38) read their checks and actions with word loads.
+- **fclKeisyoSkillLevel's 3-byte rows** (cmbGetKeisyoSkillLevel 0x222BC0,
+  cmbGetMutationSkill 0x223580): halfword loads at odd addresses.
+- **SetCommList** (Beckon Call with a demon to summon): the halfword 4 past
+  the RNG's state word, in effect a random address.
+
+US Maniax runs none of these.
+
 ## Status
 
 Ported and proven against Hardtype's own instructions (`variant_tests.cpp`,

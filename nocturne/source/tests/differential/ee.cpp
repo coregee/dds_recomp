@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <set>
 
 #include "fake_world.h"
 
@@ -309,6 +310,20 @@ void Interpreter::step()
     const uint32_t address = static_cast<uint32_t>(s + static_cast<uint64_t>(simm));
     const uint32_t target = (pc & 0xf0000000u) | (op & 0x03ffffffu) << 2;
     const uint32_t branch = pc + 4 + static_cast<uint32_t>(simm << 2);
+    // EE_ALIGN=1: report each instruction that would raise an address error
+    // on the console (a misaligned halfword, word or doubleword access),
+    // which this interpreter, like PCSX2, lets through.
+#pragma warning(suppress : 4996)
+    static const bool alignCheck = std::getenv("EE_ALIGN") != nullptr;
+    if (alignCheck) {
+        const uint32_t opcode = op >> 26;
+        const uint32_t size = (opcode == 0x21 || opcode == 0x25 || opcode == 0x29) ? 2
+                            : (opcode == 0x23 || opcode == 0x27 || opcode == 0x2b || opcode == 0x31 || opcode == 0x39) ? 4
+                            : (opcode == 0x37 || opcode == 0x3f) ? 8 : 1;
+        static std::set<uint32_t> reported;
+        if ((address & (size - 1)) != 0 && reported.insert(pc).second)
+            std::fprintf(stderr, "EE_ALIGN: %08x %08x reads or writes %u bytes at %08x\n", pc, op, size, address);
+    }
     uint64_t* const d = rd ? &cpu.r[rd] : nullptr;
     uint64_t* const dt = rt ? &cpu.r[rt] : nullptr;
     bool skipDelaySlot = false;
