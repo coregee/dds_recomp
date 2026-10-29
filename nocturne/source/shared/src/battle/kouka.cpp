@@ -944,6 +944,46 @@ int32_t makeDamagePackets(int32_t startframe, int32_t uniqueid, Formation& form,
     return 1;
 }
 
+// nbMakeKaifukuPacket @ 0x00264010: a heal on `form` ("kaifuku": recovery).
+// On a unit's slot, type 1 shows a hit effect and type 3 (Drain Attack) a
+// glow; types 0 and 2 (a drain's user) show nothing. Then the HP and MP it
+// gains (negative: none), shown as numbers on a unit's slot, and the cure
+// of its ailment if `cures`.
+int32_t makeHealPackets(int32_t startframe, int32_t uniqueid, Formation& form, int32_t type, int32_t hp, int32_t mp,
+                        bool cures)
+{
+    constexpr int32_t kShownFrames = 0x2d;
+    constexpr uint32_t kDrainGlow = 0x8086eb9b;
+    enum : int32_t { kHpNumber = 2, kMpNumber = 3, kBothNumbers = 5 };
+    const bool unitSlot = form.formindex < 16;
+    if (unitSlot) {
+        if (type == 1) {
+            addHitEffectPacket(startframe, uniqueid, form, 2);
+        } else if (type == 3) {
+            addUnitColorPacket(startframe, uniqueid, &form, kDrainGlow, 10);
+            addUnitColorHomePacket(startframe + 10, uniqueid, &form, 10);
+        }
+    }
+    const int32_t frame = startframe + 1;
+    if (hp >= 0 && mp >= 0) {
+        if (unitSlot)
+            addNumberPacket(frame, kShownFrames, uniqueid, &form, hp, mp, kBothNumbers);
+        addHpMpPacket(startframe, uniqueid, &form, hp, 0);
+        addHpMpPacket(startframe, uniqueid, &form, mp, 1);
+    } else if (mp >= 0) {
+        if (unitSlot)
+            addNumberPacket(frame, kShownFrames, uniqueid, &form, mp, 0, kMpNumber);
+        addHpMpPacket(startframe, uniqueid, &form, mp, 1);
+    } else if (hp >= 0) {
+        if (unitSlot)
+            addNumberPacket(frame, kShownFrames, uniqueid, &form, hp, 0, kHpNumber);
+        addHpMpPacket(startframe, uniqueid, &form, hp, 0);
+    }
+    if (cures)
+        makeAilmentCurePackets(frame, uniqueid, form);
+    return 1;
+}
+
 // nbMakeDeadPacket @ 0x002641F8: a dead unit on the field leaves, unless its
 // death starts an event or it is the Demi-fiend (deadchk 1: leaves anyway).
 int32_t makeDeathPackets(int32_t startframe, int32_t uniqueid, Formation& form, int32_t deadchk)

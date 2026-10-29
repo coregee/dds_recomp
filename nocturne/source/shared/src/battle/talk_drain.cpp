@@ -61,7 +61,7 @@ int32_t drains(TalkState& n)
     panelPartyShow();
     diag::print(diag::Message::TalkDrain, n.requestdata);
     if (n.requesthpmp != 0) {
-        MakeHealPackets(0xf, uniqueid(n), n.eform.get(), 0, -1, n.requestdata, 0);
+        makeHealPackets(0xf, uniqueid(n), *n.eform, 0, -1, n.requestdata, false);
         makeDamagePackets(0x2d, uniqueid(n), *n.pform, 3, -1, n.requestdata, 0, false, false, 0, true, 0);
         n.requestdata = n.requestdata < 1 ? 100 : n.pwork->mp * 100 / n.requestdata;
         n.waitframe = 20;
@@ -70,7 +70,7 @@ int32_t drains(TalkState& n)
     const UnitWork& demon = *n.ework;
     const int32_t healed = demon.hp + n.requestdata <= demon.maxhp ? n.requestdata : demon.maxhp - demon.hp;
     addTimeListHpAt(*n.actdata, n.eformindex, healed);
-    MakeHealPackets(0, 0, n.eform.get(), 0, n.requestdata, -1, 0);
+    makeHealPackets(0, 0, *n.eform, 0, n.requestdata, -1, false);
     addHitEffectPacket(0, 0, *n.eform, 9);
     int32_t damage = n.requestdata;
     const int32_t saver = checkEndure(n.pformindex) ? skill::Endure : checkNeverYield(n.pformindex) ? skill::NeverYield : 0;

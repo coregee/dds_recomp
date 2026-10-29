@@ -743,12 +743,6 @@ uint64_t dds3KillProcess(uint64_t process, uint64_t delay)
 }
 uint64_t dds3ExistProcess(uint64_t process) { return fake_process((uint32_t)process) ? 1 : 0; }
 void dds3LinkProcess(uint64_t parent, uint64_t process) { fw_mes_log(27, (uint32_t)parent, (uint32_t)process); }
-void nbMakeKaifukuPacket(uint64_t startframe, uint64_t uniqueid, uint64_t form, uint64_t type, uint64_t hp, uint64_t mp,
-                         uint64_t badstat)
-{
-    fw_mes_log(28, (uint32_t)startframe ^ (uint32_t)type << 16, (uint32_t)uniqueid ^ (uint32_t)form);
-    fw_mes_log(29, (uint32_t)hp, (uint32_t)mp ^ (uint32_t)badstat << 16);
-}
 void nbPanelAnalyzeStart(void) { fw_mes_log(36, 0, 0); }
 /* READY's SetAction / CheckAction (not rewritten): logged. */
 uint64_t nbPanelStockSelect(uint64_t data, uint64_t sw) { fw_mes_log(41, (uint32_t)data, (uint32_t)sw); return 0; }

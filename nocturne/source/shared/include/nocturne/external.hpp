@@ -62,9 +62,6 @@ MainProcessData* GetMainProcessData();
 UnitWork* GetUnitWorkFromFormindex(int32_t formindex);   // null for an empty slot
 Party* GetPartyFromFormindex(int32_t formindex);
 UnitWork* GetUnitWorkPointer(MainProcessData& data, Party& party);
-// (0x264010) healing's numbers and effects, through the effect library
-void MakeHealPackets(int32_t startframe, int32_t uniqueid, Formation* form, int32_t type, int32_t hp, int32_t mp,
-                       uint32_t badstat);
 // (0x280518) the battle panel shows the analysed unit
 void PanelAnalyzeStart();
 // (0x280528) the battle panel stops showing the analysed unit

@@ -15,7 +15,6 @@ extern "C" {
 uint64_t scrGetIntPara(uint64_t);
 uint64_t ps2SoundPlay(uint64_t, uint64_t, uint64_t);
 void dds3LinkProcess(uint64_t, uint64_t);
-void nbMakeKaifukuPacket(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
 void nbPanelAnalyzeStart(void);
 uint64_t nbPanelStockSelect(uint64_t, uint64_t);
 void nbPanelAnalyzeEnd(void);   // legacy
@@ -386,10 +385,6 @@ ee::Interpreter makeOriginal()
     (void)none;
     e.hook(0x002c18d8, [=](ee::Cpu& c) { return ps2SoundPlay(a(c, 0), a(c, 1), a(c, 2)); });
     e.hook(0x00101af8, [=](ee::Cpu& c) { dds3LinkProcess(a(c, 0), a(c, 1)); return uint64_t{0}; });
-    e.hook(0x00264010, [=](ee::Cpu& c) {
-        nbMakeKaifukuPacket(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5), a(c, 6));
-        return uint64_t{0};
-    });
     e.hook(0x00280518, [](ee::Cpu&) { nbPanelAnalyzeStart(); return uint64_t{0}; });
     e.hook(0x0027fd18, [=](ee::Cpu& c) { return nbPanelStockSelect(a(c, 0), a(c, 1)); });
     e.hookUs(0x00280528, [](ee::Cpu&) { nbPanelAnalyzeEnd(); return uint64_t{0}; });

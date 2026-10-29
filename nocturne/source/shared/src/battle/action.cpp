@@ -690,7 +690,7 @@ int32_t updateAilment(ActionProcessData& a)
         break;
     case static_cast<uint32_t>(Ailment::Sleep):
         loseTurn();
-        nb::MakeHealPackets(10, uniqueid, a.form.get(), 0, a.work->maxhp >> 3, a.work->maxmp >> 3, 0);
+        makeHealPackets(10, uniqueid, *a.form, 0, a.work->maxhp >> 3, a.work->maxmp >> 3, false);
         break;
     case static_cast<uint32_t>(Ailment::Bind):
     case static_cast<uint32_t>(Ailment::Stone):
@@ -1480,7 +1480,7 @@ void queueHitResult(ActionProcessData& a, int32_t koukatype, int32_t nskill, int
     if (!dead) {
         if (healHp > 0 || healMp > 0 || cure != 0) {
             const int32_t hpv = healHp > 0 ? healHp : -1, mpv = healMp > 0 ? healMp : -1;
-            nb::MakeHealPackets(frame, uniqueOf(a), &formAt(a, target), 0, hpv, mpv, cure);
+            makeHealPackets(frame, uniqueOf(a), formAt(a, target), 0, hpv, mpv, cure != 0);
             if (cure != 0)
                 setAilment(target, false, cure);
             if (hpv > 0)
@@ -1496,7 +1496,7 @@ void queueHitResult(ActionProcessData& a, int32_t koukatype, int32_t nskill, int
     if ((drainHp > 0 || drainMp > 0) && ownHits) {
         drainFrame += 5;
         const int32_t hpv = drainHp > 0 ? drainHp : -1, mpv = drainMp > 0 ? drainMp : -1;
-        nb::MakeHealPackets(drainFrame + 10, uniqueOf(a), &formAt(a, sformindex), 2, hpv, mpv, 0);
+        makeHealPackets(drainFrame + 10, uniqueOf(a), formAt(a, sformindex), 2, hpv, mpv, false);
         if (hpv > 0)
             addTimeListHp(a, sformindex, hpv);
         setTimeList(a, sformindex, drainFrame, 15, 20);
@@ -2118,7 +2118,7 @@ void enterSkill(ActionProcessData& a)
         const int32_t hpShare = a.allhpdamage / drain.n, mpShare = a.allmpdamage / drain.m;
         const int32_t hp = hpShare != 0 ? hpShare : -1, mp = mpShare != 0 ? mpShare : -1;
         if (hp > 0 || mp > 0) {
-            nb::MakeHealPackets(at, uid, a.form.get(), 3, hp, mp, 0);
+            makeHealPackets(at, uid, *a.form, 3, hp, mp, false);
             if (hp > 0)
                 addTimeListHp(a, self, hp);
             const int32_t wait = (ee::Float::fromInt(20) / speed).toInt();
@@ -2134,7 +2134,7 @@ void enterSkill(ActionProcessData& a)
         const int32_t share = static_cast<int32_t>(a.work->maxhp * static_cast<uint32_t>(selfHealPercent(*a.work, dat::normalSkill(0x11e).buffAmount))) / 100;
         const int32_t hp = share != 0 ? share : -1;
         if (hp > 0) {
-            nb::MakeHealPackets(at, uid, a.form.get(), 0, hp, -1, 0);
+            makeHealPackets(at, uid, *a.form, 0, hp, -1, false);
             addTimeListHp(a, self, hp);
             const int32_t wait = (ee::Float::fromInt(20) / speed).toInt();
             setTimeList(a, self, at, wait, wait);
@@ -2147,7 +2147,7 @@ void enterSkill(ActionProcessData& a)
         const int32_t share = static_cast<int32_t>(a.work->maxmp * static_cast<uint32_t>(dat::normalSkill(0x109).mpn)) / 100;
         const int32_t mp = share != 0 ? share : -1;
         if (mp > 0) {
-            nb::MakeHealPackets(at, uid, a.form.get(), 0, -1, mp, 0);
+            makeHealPackets(at, uid, *a.form, 0, -1, mp, false);
             const int32_t wait = (ee::Float::fromInt(20) / speed).toInt();
             setTimeList(a, self, at, wait, wait);
         }

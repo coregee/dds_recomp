@@ -1266,6 +1266,7 @@ nbSetWaitMotion	ok
 evtSetUnitMotion	ok
 nbMakeDeadVisualPacket	ok
 nbMakeDamagePacket	ok
+nbMakeKaifukuPacket	ok
 evtSetWaitMotion, Speed, HokanFrame	ok
 nbCameraSetTaizi	ok
 nbAppendEnemyDevilWork	ok

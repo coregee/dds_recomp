@@ -295,7 +295,7 @@ int32_t heals(TalkState& n)
     addCandidate(n, step(32));
     closeTalkWindow(n);
     PanelSetEnabled(true);
-    MakeHealPackets(0, 0, n.pform.get(), 0, n.pwork->maxhp, -1, 0);
+    makeHealPackets(0, 0, *n.pform, 0, n.pwork->maxhp, -1, false);
     addHitEffectPacket(0, 0, *n.pform, 8);
     n.waitframe = 0;
     return 0;

@@ -173,6 +173,11 @@ int32_t makeDeathVisualPackets(int32_t startframe, int32_t uniqueid, Formation& 
 // numbers and words `animeoff` frames later if `numbers`. Returns 1.
 int32_t makeDamagePackets(int32_t startframe, int32_t uniqueid, Formation& form, int32_t type, int32_t hp, int32_t mp,
                           uint32_t bad, bool hiteff, bool dead, int32_t deadtype, bool numbers, int32_t animeoff);
+// nbMakeKaifukuPacket (0x264010): a heal's effect (type 1) or Drain Attack's
+// glow (type 3) on a unit's slot, then its HP and MP gain (negative: none)
+// and, if `cures`, its ailment's cure. Returns 1.
+int32_t makeHealPackets(int32_t startframe, int32_t uniqueid, Formation& form, int32_t type, int32_t hp, int32_t mp,
+                        bool cures);
 int32_t makePressPackets(int32_t startframe, int32_t uniqueid, ee::Float press);
 // `callerSkill`: what a version may read of its caller (Hardtype: the skill
 // SetAction_SKILL leaves in s6; the other callers never leave 0xFF there).

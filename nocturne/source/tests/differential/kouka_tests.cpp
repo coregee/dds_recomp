@@ -1932,6 +1932,22 @@ void addKoukaTests(std::vector<TestCase>& t)
                                                       deadtype, numbers != 0, animeoff));
                     }};
     });
+    // A heal: every type, HP and MP gained or not (negative), a cure or not;
+    // sometimes on a slot past the units' (no effects or numbers there).
+    script("nbMakeKaifukuPacket", [=](Gen& g) {
+        const int f = unitSlot(g);
+        Formation& form = poseWorld(g, f);
+        const int32_t s = g.range(-3, 30), id = static_cast<int32_t>(g.rng()), type = g.range(-1, 4);
+        const int32_t hp = g.chance(30) ? g.range(-3, -1) : g.range(0, 999), mp = g.chance(50) ? -1 : g.range(0, 99);
+        uint32_t cure = g.chance(60) ? 0u : g.chance(70) ? 0xfffu : static_cast<uint32_t>(g.rng());
+        if (g.chance(20)) {   // (no unit there to cure)
+            form.formindex = static_cast<int16_t>(g.range(14, 20));
+            cure = 0;
+        }
+        const uint32_t fa = formAddress(f);
+        return Pair{[=] { return origVm(0x00264010, {I(s), I(id), fa, I(type), I(hp), I(mp), cure}); },
+                    [=] { return norm(makeHealPackets(s, id, at<Formation>(fa), type, hp, mp, cure != 0)); }};
+    });
     script("evtSetWaitMotion, Speed, HokanFrame", [=](Gen& g) {
         const uint32_t unit = at<Formation>(formAddress(g.range(0, 13))).hunit;
         const int32_t motion = g.range(-2, 0x40), start = g.range(-2, 30), end = g.range(-2, 30);

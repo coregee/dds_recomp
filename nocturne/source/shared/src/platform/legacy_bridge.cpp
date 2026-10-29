@@ -93,8 +93,6 @@ uint64_t dds3KillProcess(uint64_t process, uint64_t delay);
 uint64_t dds3ExistProcess(uint64_t process);
 void dds3LinkProcess(uint64_t parent, uint64_t process);
 // No named legacy C yet (the tests fake them):
-void nbMakeKaifukuPacket(uint64_t startframe, uint64_t uniqueid, uint64_t form, uint64_t type, uint64_t hp, uint64_t mp,
-                         uint64_t badstat);   // 0x264010
 void nbPanelAnalyzeStart(void);
 uint64_t nbPanelStockSelect(uint64_t data, uint64_t sw);
 void nbPanelAnalyzeEnd(void);
@@ -298,12 +296,6 @@ void dds3::SetProcessData(uint32_t process, uint32_t data) { dds3SetProcessData(
 void dds3::KillProcess(uint32_t process, int32_t delay) { dds3KillProcess(word(process), signExtend(delay)); }
 bool dds3::ExistProcess(uint32_t process) { return dds3ExistProcess(word(process)) != 0; }
 void dds3::LinkProcess(uint32_t parent, uint32_t process) { dds3LinkProcess(word(parent), word(process)); }
-void nb::MakeHealPackets(int32_t startframe, int32_t uniqueid, Formation* form, int32_t type, int32_t hp, int32_t mp,
-                           uint32_t badstat)
-{
-    nbMakeKaifukuPacket(signExtend(startframe), signExtend(uniqueid), word(guest::addressOf(form)), signExtend(type),
-                        signExtend(hp), signExtend(mp), word(badstat));
-}
 void nb::PanelAnalyzeStart() { nbPanelAnalyzeStart(); }
 void nb::PanelAnalyzeEnd() { nbPanelAnalyzeEnd(); }
 void nb::PanelAllShow() { nbPanelAllShow(); }
