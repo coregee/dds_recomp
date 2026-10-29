@@ -11,7 +11,9 @@ namespace nocturne::fld {
 struct AreaLoadState {
     uint8_t unknown_00[4];
     int32_t currentMajor, currentMinor;   // the area being played (tentative)
-    uint8_t unknown_0c[0x78];
+    uint8_t unknown_0c[8];
+    uint32_t spellEffects;   // the field spells' effects shown (fld/spells.hpp; tentative)
+    uint8_t unknown_18[0x6c];
     int32_t loading;   // 1 while the next area's pack loads
     int32_t major;     // the area it loads (f<major>_<minor>.LB)
     int32_t minor;

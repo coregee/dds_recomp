@@ -19,6 +19,7 @@
 #include <optional>
 #include <random>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include "fake_world.h"
@@ -38,6 +39,8 @@
 #include "nocturne/battle/formation.hpp"
 #include "nocturne/battle/main_process.hpp"
 #include "nocturne/kernel/math.hpp"
+#include "nocturne/kernel/random.hpp"
+#include "nocturne/field/spells.hpp"
 #include "nocturne/result/level_up.hpp"
 #include "nocturne/battle/action.hpp"
 #include "nocturne/effect/battle_process.hpp"
@@ -1622,6 +1625,75 @@ void addCalcInstructionTests(std::vector<TestCase>& t)
         }
         at<uint32_t>(difftest::version::dataOrDie(0x0054ebb8)) = pack;
     };
+    // The field's spells: the spell bits and the area state's effect bits
+    // any value (both read back after: the area state isn't in compared RAM).
+    {
+        struct Spell { const char* name; uint32_t entry; uint64_t (*rewrite)(); };
+        static const Spell spells[] = {
+            {"fldEsutoMaStart", 0x001238a0, [] { nocturne::fld::startEstoma(); return uint64_t{0}; }},
+            {"fldEsutoMaClear", 0x00123870, [] { nocturne::fld::clearEstoma(); return uint64_t{0}; }},
+            {"fldEsutoMaChk", 0x001238d8, [] { return norm(nocturne::fld::estomaActive()); }},
+            {"fldRiberaMaStart", 0x001237d8, [] { nocturne::fld::startRiberama(); return uint64_t{0}; }},
+            {"fldRiberaMaClear", 0x001237a8, [] { nocturne::fld::clearRiberama(); return uint64_t{0}; }},
+            {"fldRiberaMaChk", 0x00123810, [] { return norm(nocturne::fld::riberamaActive()); }},
+            {"fldRifutoMaStart", 0x00123718, [] { nocturne::fld::startLiftoma(); return uint64_t{0}; }},
+            {"fldRifutoMaClear", 0x001236e8, [] { nocturne::fld::clearLiftoma(); return uint64_t{0}; }},
+            {"fldRifutoMaChk", 0x00123748, [] { return norm(nocturne::fld::liftomaActive()); }},
+            {"fldLightMaClear", 0x001234f8, [] { nocturne::fld::clearLightoma(); return uint64_t{0}; }},
+            {"fldLightMaChk", 0x001235b0, [] { return norm(nocturne::fld::lightomaState()); }},
+        };
+        for (const Spell& s : spells)
+            add(s.name, [s](Gen& g) {
+                at<uint32_t>(difftest::version::dataOrDie(0x0054ea20)) = FW_GLOBAL;
+                nocturne::dat::globalWork().fieldskills = g.chance(70) ? g.below(16) : static_cast<uint32_t>(g.rng());
+                nocturne::fld::areaLoadState().spellEffects = g.chance(70) ? g.below(16) : static_cast<uint32_t>(g.rng());
+                at<int32_t>(difftest::version::dataOrDie(0x0054eafc)) = g.chance(50) ? 0 : g.range(-2, 5);
+                auto effects = [] { return uint64_t{nocturne::fld::areaLoadState().spellEffects} << 32; };
+                const bool returns = std::string_view(s.name).ends_with("Chk");
+                return Pair{[=] {
+                                const uint64_t r = returns ? iface::origVm(s.entry, {}) : iface::origVmVoid(s.entry, {});
+                                return (r & 0xffffffffu) | effects();
+                            },
+                            [=] { const uint64_t r = s.rewrite(); return (r & 0xffffffffu) | effects(); }};
+            });
+    }
+    // The field's sequence and process flags: any flags, any word (read
+    // back after: neither is in compared RAM).
+    {
+        struct Flags { const char* name; uint32_t entry; uint32_t word; uint64_t (*rewrite)(uint32_t); };
+        static const Flags flags[] = {
+            {"fldSeqOnFlag", 0x00125990, 0x0054eb80, [](uint32_t f) { nocturne::fld::setSequenceFlags(f); return uint64_t{0}; }},
+            {"fldSeqOffFlag", 0x001259a8, 0x0054eb80, [](uint32_t f) { nocturne::fld::clearSequenceFlags(f); return uint64_t{0}; }},
+            {"fldSeqCheckFlag", 0x001259c0, 0x0054eb80, [](uint32_t f) { return norm(nocturne::fld::anySequenceFlag(f)); }},
+            {"fldProcOnFlag", 0x001259d0, 0x0054eb88, [](uint32_t f) { nocturne::fld::setProcessFlags(f); return uint64_t{0}; }},
+            {"fldProcOffFlag", 0x001259e0, 0x0054eb88, [](uint32_t f) { nocturne::fld::clearProcessFlags(f); return uint64_t{0}; }},
+            {"fldProcCheckFlag", 0x001259f8, 0x0054eb88, [](uint32_t f) { return norm(nocturne::fld::anyProcessFlag(f)); }},
+        };
+        for (const Flags& f : flags)
+            add(f.name, [f](Gen& g) {
+                const uint32_t word = difftest::version::dataOrDie(f.word);
+                at<uint32_t>(word) = static_cast<uint32_t>(g.rng());
+                const uint32_t bits = g.chance(50) ? 1u << g.below(32) : static_cast<uint32_t>(g.rng());
+                const bool returns = std::string_view(f.name).ends_with("CheckFlag");
+                return Pair{[=] {
+                                const uint64_t r = returns ? iface::origVm(f.entry, {bits}) : iface::origVmVoid(f.entry, {bits});
+                                return (r & 0xffffffffu) | uint64_t{at<uint32_t>(word)} << 32;
+                            },
+                            [=] { const uint64_t r = f.rewrite(bits); return (r & 0xffffffffu) | uint64_t{at<uint32_t>(word)} << 32; }};
+            });
+    }
+    // The RNG's seeding: a state in compared RAM, or the default one (read
+    // back after).
+    add("sdfRandomize", [](Gen& g) {
+        const uint32_t state = g.chance(30) ? 0u : FW_SCRATCH + 0x10u * g.below(8);
+        const uint32_t seed = static_cast<uint32_t>(g.rng());
+        auto defaults = [] {
+            const uint32_t* words = &at<uint32_t>(difftest::version::dataOrDie(0x00529bd8));
+            return uint64_t{words[0] ^ words[1] * 3u ^ words[2] * 5u ^ words[3] * 7u};
+        };
+        return Pair{[=] { iface::origVmVoid(0x002c0c98, {state, seed}); return defaults(); },
+                    [=] { nocturne::sdf::randomize(state, seed); return defaults(); }};
+    });
     add("FUN_00128408", [](Gen& g) {   // the area's folder
         const int32_t major = g.chance(50) ? g.pick<int32_t>({0, 199, 200, 499, 500}) : g.range(0, 999);
         return Pair{[=] { return iface::origVmVoid(0x00128408, {FW_SCRATCH, sx(major), 1}); },

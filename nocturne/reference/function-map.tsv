@@ -878,22 +878,22 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00123370	128	ps2FieldInfControllerNative_00123370	USER_DEFINED	legacy		field_inf_controller_native.c:body_00123370;field_inf_controller_native.c:ps2FieldInfControllerNative_00123370						fldChkVortex
 001233f0	188	fldLightMaIdxCalc	USER_DEFINED	legacy		field_neighbors.c:fldLightMaIdxCalc						fldLightMaIdxCalc
 001234b0	68	ps2FieldLightClearMessage	USER_DEFINED	legacy		moon_movement.c:ps2FieldLightClearMessage						fldLightMaClearMsg
-001234f8	48	fldLightMaClear	USER_DEFINED	legacy		kernel_event_neighbors.c:fldLightMaClear						fldLightMaClear
+001234f8	48	fldLightMaClear	USER_DEFINED	rewritten	shared/src/field/spells.cpp:clearLightoma	kernel_event_neighbors.c:fldLightMaClear	ok	ok	ok	ok	ok	fldLightMaClear
 00123528	128	FUN_00123528	DEFAULT	named								fldLightMaStart
-001235b0	40	fldLightMaChk	USER_DEFINED	legacy		kernel_event_neighbors.c:fldLightMaChk						fldLightMaChk
+001235b0	40	fldLightMaChk	USER_DEFINED	rewritten	shared/src/field/spells.cpp:lightomaState	kernel_event_neighbors.c:fldLightMaChk	ok	ok	ok	ok	ok	fldLightMaChk
 001235d8	200	FUN_001235d8	DEFAULT	named								fldLightMaTask
 001236a0	68	fldRifutoMaClearMsg	USER_DEFINED	legacy		field_neighbors.c:fldRifutoMaClearMsg						fldRifutoMaClearMsg
-001236e8	48	fldRifutoMaClear	USER_DEFINED	legacy		kernel_event_neighbors.c:fldRifutoMaClear						fldRifutoMaClear
-00123718	44	fldRifutoMaStart	USER_DEFINED	legacy		kernel_event_neighbors.c:fldRifutoMaStart						fldRifutoMaStart
-00123748	20	fldRifutoMaChk	USER_DEFINED	legacy		kernel_event_neighbors.c:fldRifutoMaChk						fldRifutoMaChk
+001236e8	48	fldRifutoMaClear	USER_DEFINED	rewritten	shared/src/field/spells.cpp:clearLiftoma	kernel_event_neighbors.c:fldRifutoMaClear	ok	ok	ok	ok	ok	fldRifutoMaClear
+00123718	44	fldRifutoMaStart	USER_DEFINED	rewritten	shared/src/field/spells.cpp:startLiftoma	kernel_event_neighbors.c:fldRifutoMaStart	ok	ok	ok	ok	ok	fldRifutoMaStart
+00123748	20	fldRifutoMaChk	USER_DEFINED	rewritten	shared/src/field/spells.cpp:liftomaActive	kernel_event_neighbors.c:fldRifutoMaChk	ok	ok	ok	ok	ok	fldRifutoMaChk
 00123760	68	fldRiberaMaClearMsg	USER_DEFINED	legacy		field_neighbors.c:fldRiberaMaClearMsg						fldRiberaMaClearMsg
-001237a8	48	fldRiberaMaClear	USER_DEFINED	legacy		kernel_event_neighbors.c:fldRiberaMaClear						fldRiberaMaClear
-001237d8	52	fldRiberaMaStart	USER_DEFINED	legacy		kernel_event_neighbors.c:fldRiberaMaStart						fldRiberaMaStart
-00123810	20	fldRiberaMaChk	USER_DEFINED	legacy		kernel_event_neighbors.c:fldRiberaMaChk						fldRiberaMaChk
+001237a8	48	fldRiberaMaClear	USER_DEFINED	rewritten	shared/src/field/spells.cpp:clearRiberama	kernel_event_neighbors.c:fldRiberaMaClear	ok	ok	ok	ok	ok	fldRiberaMaClear
+001237d8	52	fldRiberaMaStart	USER_DEFINED	rewritten	shared/src/field/spells.cpp:startRiberama	kernel_event_neighbors.c:fldRiberaMaStart	ok	ok	ok	ok	ok	fldRiberaMaStart
+00123810	20	fldRiberaMaChk	USER_DEFINED	rewritten	shared/src/field/spells.cpp:riberamaActive	kernel_event_neighbors.c:fldRiberaMaChk	ok	ok	ok	ok	ok	fldRiberaMaChk
 00123828	68	fldEsutoMaClearMsg	USER_DEFINED	legacy		field_neighbors.c:fldEsutoMaClearMsg						fldEsutoMaClearMsg
-00123870	48	fldEsutoMaClear	USER_DEFINED	legacy		kernel_event_neighbors.c:fldEsutoMaClear						fldEsutoMaClear
-001238a0	52	fldEsutoMaStart	USER_DEFINED	legacy		kernel_event_neighbors.c:fldEsutoMaStart						fldEsutoMaStart
-001238d8	20	fldEsutoMaChk	USER_DEFINED	legacy		kernel_event_neighbors.c:fldEsutoMaChk						fldEsutoMaChk
+00123870	48	fldEsutoMaClear	USER_DEFINED	rewritten	shared/src/field/spells.cpp:clearEstoma	kernel_event_neighbors.c:fldEsutoMaClear	ok	ok	ok	ok	ok	fldEsutoMaClear
+001238a0	52	fldEsutoMaStart	USER_DEFINED	rewritten	shared/src/field/spells.cpp:startEstoma	kernel_event_neighbors.c:fldEsutoMaStart	ok	ok	ok	ok	ok	fldEsutoMaStart
+001238d8	20	fldEsutoMaChk	USER_DEFINED	rewritten	shared/src/field/spells.cpp:estomaActive	kernel_event_neighbors.c:fldEsutoMaChk	ok	ok	ok	ok	ok	fldEsutoMaChk
 001238f0	124	fldAnahoriSelectInit	USER_DEFINED	legacy		field_neighbors.c:fldAnahoriSelectInit						fldAnahoriSelectInit
 00123970	152	fldAnahoriSelectGet	USER_DEFINED	legacy		field_neighbors.c:fldAnahoriSelectGet						fldAnahoriSelectGet
 00123a10	28	fldAnahoriSelectNext	USER_DEFINED	legacy		field_neighbors.c:fldAnahoriSelectNext						fldAnahoriSelectNext
@@ -909,12 +909,12 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00124790	208	FUN_00124790	DEFAULT	named								RetryMapLoad
 00124868	2112	FUN_00124868	DEFAULT	named								ProcSequence
 001250c0	2252	FUN_001250c0	DEFAULT	named								ProcDraw
-00125990	20	fldSeqOnFlag	USER_DEFINED	legacy		field_movement_encounter_constructor.c:body_00125990;kernel_event_neighbors.c:fldSeqOnFlag						fldAutoMapSeqSetFlag
-001259a8	24	fldSeqOffFlag	USER_DEFINED	legacy		kernel_event_neighbors.c:fldSeqOffFlag						fldAutoMapSeqClearFlag
-001259c0	16	fldSeqCheckFlag	USER_DEFINED	legacy		field_movement_encounter_constructor.c:body_001259c0;kernel_event_neighbors.c:fldSeqCheckFlag						fldAutoMapSeqTestFlag
-001259d0	16	fldProcOnFlag	USER_DEFINED	legacy		kernel_event_neighbors.c:fldProcOnFlag						fldEncountSetFlag
-001259e0	20	fldProcOffFlag	USER_DEFINED	legacy		field_movement_encounter_constructor.c:body_001259e0;kernel_event_neighbors.c:fldProcOffFlag						fldEncountClearFlag
-001259f8	16	fldProcCheckFlag	USER_DEFINED	legacy		field_movement_encounter_constructor.c:body_001259f8;kernel_event_neighbors.c:fldProcCheckFlag						fldEncountTestFlag
+00125990	20	fldSeqOnFlag	USER_DEFINED	rewritten	shared/src/field/spells.cpp:setSequenceFlags	field_movement_encounter_constructor.c:body_00125990;kernel_event_neighbors.c:fldSeqOnFlag	ok	ok	ok	ok	ok	fldAutoMapSeqSetFlag
+001259a8	24	fldSeqOffFlag	USER_DEFINED	rewritten	shared/src/field/spells.cpp:clearSequenceFlags	kernel_event_neighbors.c:fldSeqOffFlag	ok	ok	ok	ok	ok	fldAutoMapSeqClearFlag
+001259c0	16	fldSeqCheckFlag	USER_DEFINED	rewritten	shared/src/field/spells.cpp:anySequenceFlag	field_movement_encounter_constructor.c:body_001259c0;kernel_event_neighbors.c:fldSeqCheckFlag	ok	ok	ok	ok	ok	fldAutoMapSeqTestFlag
+001259d0	16	fldProcOnFlag	USER_DEFINED	rewritten	shared/src/field/spells.cpp:setProcessFlags	kernel_event_neighbors.c:fldProcOnFlag	ok	ok	ok	ok	ok	fldEncountSetFlag
+001259e0	20	fldProcOffFlag	USER_DEFINED	rewritten	shared/src/field/spells.cpp:clearProcessFlags	field_movement_encounter_constructor.c:body_001259e0;kernel_event_neighbors.c:fldProcOffFlag	ok	ok	ok	ok	ok	fldEncountClearFlag
+001259f8	16	fldProcCheckFlag	USER_DEFINED	rewritten	shared/src/field/spells.cpp:anyProcessFlag	field_movement_encounter_constructor.c:body_001259f8;kernel_event_neighbors.c:fldProcCheckFlag	ok	ok	ok	ok	ok	fldEncountTestFlag
 00125a08	272	FUN_00125a08	DEFAULT	named								fldProcTrigSequence
 00125b18	176	FUN_00125b18	DEFAULT	named								fldProcShutDown
 00125bd0	136	FUN_00125bd0	DEFAULT	named								fldProcShutDown2
@@ -2260,7 +2260,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001764d8	20	FUN_001764d8	DEFAULT	named								effPCPThunderSpherePolyCopy
 001764f0	44	ps2EffectRelease_001764f0	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_001764f0						effPCPThunderSpherePolyDelete
 00176520	16	ps2PcpType0SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_controls.c:ps2PcpType0SetPosition	ok	ok	ok	ok	ok	effPCPThunderSpherePolySetPosition
-00176530	8	ps2PcpType0SetColor	USER_DEFINED	legacy		model_memory_parts.c:ps2PcpType0SetColor						effPCPThunderSpherePolySetColor
+00176530	8	ps2PcpType0SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setThunderSpherePolyColor	model_memory_parts.c:ps2PcpType0SetColor	ok	ok	ok	ok	ok	effPCPThunderSpherePolySetColor
 00176538	28	ps2EffectPCPScale_00176538	USER_DEFINED	legacy		battle_effect_copy.c:ps2EffectPCPScale_00176538						effPCPThunderSpherePolySetScale
 00176558	8	ps2BattleAction_00176558	USER_DEFINED	legacy		battle_action_status_resources.c:ps2BattleAction_00176558						effPCPThunderSpherePolyGetParam
 00176560	568	ps2PcpInitialize_00176560	USER_DEFINED	named								effPCPThunderSphereInit
@@ -2286,7 +2286,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00178430	440	ps2PcpType1Create	USER_DEFINED	legacy		battle_action_polygon_frames.c:ps2BattleActionPcpType1Create_00178430;pcp_construction.c:ps2PcpType1Create						effPCP_ThunderPolyCreate
 001785e8	44	ps2EffectRelease_001785e8	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_001785e8						effPCP_ThunderPolyDelete
 00178618	44	ps2PcpType1SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setThunderPolyPosition	pcp_controls.c:ps2PcpType1SetPosition	ok	ok	ok	ok	ok	effPCP_ThunderPolySetPosition
-00178648	8	ps2PcpType1SetColor	USER_DEFINED	legacy		model_memory_parts.c:ps2PcpType1SetColor						effPCP_ThunderPolySetColor
+00178648	8	ps2PcpType1SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setThunderPolyColor	model_memory_parts.c:ps2PcpType1SetColor	ok	ok	ok	ok	ok	effPCP_ThunderPolySetColor
 00178650	8	FUN_00178650	DEFAULT	named								effPCP_ThunderPolyGetParam
 00178658	40	FUN_00178658	DEFAULT	named								effPCP_ThunderPolySetVCAcute
 00178680	40	FUN_00178680	DEFAULT	named								effPCP_ThunderPolySetVCAcute2
@@ -2304,7 +2304,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00179978	400	ps2PcpType2Create	USER_DEFINED	legacy		pcp_construction.c:ps2PcpType2Create						effPCP_ThunderRadiatePolyCreate
 00179b08	44	ps2EffectRelease_00179b08	USER_DEFINED	legacy		effect_leaf_release.c:ps2EffectRelease_00179b08						effPCP_ThunderRadiatePolyDelete
 00179b38	16	ps2PcpType2SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_controls.c:ps2PcpType2SetPosition	ok	ok	ok	ok	ok	effPCP_ThunderRadiatePolySetPosition
-00179b48	8	ps2PcpType2SetColor	USER_DEFINED	legacy		model_memory_parts.c:ps2PcpType2SetColor						effPCP_ThunderRadiatePolySetColor
+00179b48	8	ps2PcpType2SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setThunderRadiatePolyColor	model_memory_parts.c:ps2PcpType2SetColor	ok	ok	ok	ok	ok	effPCP_ThunderRadiatePolySetColor
 00179b50	220	ps2PcpType2InitializeRecord	USER_DEFINED	legacy		pcp_construction.c:ps2PcpType2InitializeRecord						effPCP_ThunderRadiatePolyDrawOff
 00179c30	1108	ps2EffectPcpAdvance_00179C30	USER_DEFINED	named								effPCP_ThunderRadiatePolyPartRefresh
 0017a088	252	ps2EffectPcpPolygonSlotUpdate_0017A088	USER_DEFINED	named								effPCP_ThunderRadiatePolyDraw
@@ -2570,7 +2570,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0018a748	332	ps2EffectPcpEightAttachmentUpdate_0018A748	USER_DEFINED	named								effPCPHama01Draw
 0018a898	16	ps2PcpType3SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_controls.c:ps2PcpType3SetPosition	ok	ok	ok	ok	ok	effPCPHama01SetPosition
 0018a8a8	8	ps2PcpType3SetScale	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setHama01Scale	pcp_controls.c:ps2PcpType3SetScale	ok	ok	ok	ok	ok	effPCPHama01SetScale
-0018a8b0	8	ps2PcpType3SetColor	USER_DEFINED	legacy		model_memory_parts.c:ps2PcpType3SetColor						effPCPHama01SetColor
+0018a8b0	8	ps2PcpType3SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setHama01Color	model_memory_parts.c:ps2PcpType3SetColor	ok	ok	ok	ok	ok	effPCPHama01SetColor
 0018a8b8	288	ps2PcpType4InitializePair	USER_DEFINED	legacy		pcp_construction.c:ps2PcpType4InitializePair						effPCPHama02PartInit
 0018a9d8	212	ps2PcpType4Create	USER_DEFINED	legacy		pcp_construction.c:ps2PcpType4Create						effPCPHama02Create
 0018aab0	96	ps2EffectRelease_0018aab0	USER_DEFINED	legacy		effect_recursive_release.c:ps2EffectRelease_0018aab0						effPCPHama02Delete
@@ -2578,7 +2578,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0018abb8	344	ps2EffectPcpEightHeightAttachmentUpdate_0018ABB8	USER_DEFINED	named								effPCPHama02Draw
 0018ad18	16	ps2PcpType4SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_controls.c:ps2PcpType4SetPosition	ok	ok	ok	ok	ok	effPCPHama02SetPosition
 0018ad28	8	ps2PcpType4SetScale	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setHama02Scale	pcp_controls.c:ps2PcpType4SetScale	ok	ok	ok	ok	ok	effPCPHama02SetScale
-0018ad30	8	ps2PcpType4SetColor	USER_DEFINED	legacy		model_memory_parts.c:ps2PcpType4SetColor						effPCPHama02SetColor
+0018ad30	8	ps2PcpType4SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setHama02Color	model_memory_parts.c:ps2PcpType4SetColor	ok	ok	ok	ok	ok	effPCPHama02SetColor
 0018ad38	320	ps2PcpType5InitializePart	USER_DEFINED	legacy		pcp_construction.c:ps2PcpType5InitializePart						effPCPHamaonPartInit
 0018ae80	336	ps2PcpType5Create	USER_DEFINED	legacy		pcp_construction.c:ps2PcpType5Create						effPCPHamaonCreate
 0018afd8	152	ps2EffectRelease_0018afd8	USER_DEFINED	legacy		effect_recursive_release.c:ps2EffectRelease_0018afd8						effPCPHamaonDelete
@@ -2586,7 +2586,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0018b178	300	ps2EffectPcpTwelveAttachmentUpdate_0018B178	USER_DEFINED	named								effPCPHamaonDraw
 0018b2a8	16	ps2PcpType5SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setPosition	pcp_controls.c:ps2PcpType5SetPosition	ok	ok	ok	ok	ok	effPCPHamaonSetPosition
 0018b2b8	8	ps2PcpType5SetScale	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setHama02Scale	pcp_controls.c:ps2PcpType5SetScale	ok	ok	ok	ok	ok	effPCPHamaonSetScale
-0018b2c0	8	ps2PcpType5SetColor	USER_DEFINED	legacy		model_memory_parts.c:ps2PcpType5SetColor						effPCPHamaonSetColor
+0018b2c0	8	ps2PcpType5SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setHamaonColor	model_memory_parts.c:ps2PcpType5SetColor	ok	ok	ok	ok	ok	effPCPHamaonSetColor
 0018b2c8	156	FUN_0018b2c8	DEFAULT	named								effPCPMHanma01PartInit
 0018b368	196	FUN_0018b368	DEFAULT	named								effPCPMHanma01Create
 0018b430	96	ps2EffectRelease_0018b430	USER_DEFINED	legacy		effect_recursive_release.c:ps2EffectRelease_0018b430						effPCPMHanma01Delete
@@ -2601,7 +2601,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0018b7d8	860	ps2EffectPcpSevenBillboardHistoryUpdate_0018B7D8	USER_DEFINED	named								effPCPMudoDraw
 0018bb38	20	ps2PcpType6SetPosition	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setMudoPosition	pcp_controls.c:ps2PcpType6SetPosition	ok	ok	ok	ok	ok	effPCPMudoSetPosition
 0018bb50	8	ps2PcpType6SetScale	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setMudoScale	pcp_controls.c:ps2PcpType6SetScale	ok	ok	ok	ok	ok	effPCPMudoSetScale
-0018bb58	8	ps2PcpType6SetColor	USER_DEFINED	legacy		model_memory_parts.c:ps2PcpType6SetColor						effPCPMudoSetColor
+0018bb58	8	ps2PcpType6SetColor	USER_DEFINED	rewritten	shared/src/effect/particles.cpp:setMudoColor	model_memory_parts.c:ps2PcpType6SetColor	ok	ok	ok	ok	ok	effPCPMudoSetColor
 0018bb60	112	ps2PcpSpawnOnceCreate	USER_DEFINED	legacy		pcp_spawn_once.c:ps2PcpSpawnOnceCreate						effPCPHwave01Create
 0018bbd0	52	ps2EffectRelease_0018bbd0	USER_DEFINED	legacy		effect_recursive_release.c:ps2EffectRelease_0018bbd0						effPCPHwave01Delete
 0018bc08	104	ps2PcpSpawnOnceCopy	USER_DEFINED	legacy		pcp_spawn_once.c:ps2PcpSpawnOnceCopy						effPCPHwave01Copy
@@ -8362,7 +8362,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 002c0ba8	84	sdfGetRand	USER_DEFINED	legacy		battle_panel_color_prerequisites.c:body_002c0ba8;battle_panel_renderer_prerequisites.c:body_002c0ba8;field_movement_encounter_state.c:body_002c0ba8;sdf_rand.c:sdfGetRand						dds3GetRandA
 002c0c00	96	sdfGetRandFloat	USER_DEFINED	legacy		battle_action_formula_frames.c:body_002c0c00;battle_action_formula_frames.c:ps2BattleActionFormula_002C0C00;sdf_rand.c:sdfGetRandFloat						dds3GetRandFloatA
 002c0c60	52	sdfGetRandInt	USER_DEFINED	legacy		battle_action_packet_frames.c:body_002c0c60;battle_action_packet_frames.c:ps2BattleActionPacket_002C0C60;battle_panel_renderer_existing_2.c:body_002c0c60;field_movement_encounter_state.c:body_002c0c60;sdf_rand.c:sdfGetRandInt						dds3GetRandIntA
-002c0c98	112	sdfRandomize	USER_DEFINED	legacy		kernel_event_neighbors.c:sdfRandomize						sdfRandomize
+002c0c98	112	sdfRandomize	USER_DEFINED	rewritten	shared/src/kernel/random.cpp:randomize	kernel_event_neighbors.c:sdfRandomize	ok	ok	ok	ok	ok	sdfRandomize
 002c0d08	164	FUN_002c0d08	DEFAULT	named								sdfRandomizeByTime
 002c0db0	220	FUN_002c0db0	DEFAULT	named								sdfGetCdClock
 002c0e90	152	FUN_002c0e90	DEFAULT	named								sdfSndIopAlloc

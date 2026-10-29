@@ -205,6 +205,27 @@ void setIceScale(uint32_t effect, ee::Float scale) { field<ee::Float>(effect, 0x
 // effPCPBufudnIceSetRotateMatrix @ 0x00192A40
 void setIceRotation(uint32_t effect, const Matrix& rotation) { field<Matrix>(effect, 0x10) = rotation; }
 
+// effPCPThunderSpherePolySetColor @ 0x00176530
+void setThunderSpherePolyColor(uint32_t effect, uint32_t color) { field<uint32_t>(effect, 0x50) = color; }
+
+// effPCP_ThunderPolySetColor @ 0x00178648
+void setThunderPolyColor(uint32_t effect, uint32_t color) { field<uint32_t>(effect, 0x58) = color; }
+
+// effPCP_ThunderRadiatePolySetColor @ 0x00179B48
+void setThunderRadiatePolyColor(uint32_t effect, uint32_t color) { field<uint32_t>(effect, 0x4c) = color; }
+
+// effPCPHama01SetColor @ 0x0018A8B0
+void setHama01Color(uint32_t effect, uint32_t color) { field<uint32_t>(effect, 0x10) = color; }
+
+// effPCPHama02SetColor @ 0x0018AD30
+void setHama02Color(uint32_t effect, uint32_t color) { field<uint32_t>(effect, 0x10) = color; }
+
+// effPCPHamaonSetColor @ 0x0018B2C0
+void setHamaonColor(uint32_t effect, uint32_t color) { field<uint32_t>(effect, 0x10) = color; }
+
+// effPCPMudoSetColor @ 0x0018BB58
+void setMudoColor(uint32_t effect, uint32_t color) { field<uint32_t>(effect, 0x1334) = color; }
+
 // effPCPMudoSetPosition @ 0x0018BB38
 void setMudoPosition(uint32_t effect, const dds3::Vector4& position) { place(effect, 0xaf0, position); }
 

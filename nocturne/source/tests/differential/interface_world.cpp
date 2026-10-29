@@ -618,7 +618,9 @@ ee::Interpreter makeOriginal()
              {0x00192740u, 44u}, {0x00192a20u, 16u}, {0x00192a30u, 8u}, {0x00192a38u, 8u}, {0x00192a40u, 44u},
              {0x00176520u, 16u}, {0x00179b38u, 16u}, {0x0018a898u, 16u}, {0x0018ad18u, 16u}, {0x0018b2a8u, 16u},
              {0x00178618u, 44u}, {0x0018bb38u, 20u}, {0x0018bb50u, 8u}, {0x0018a8a8u, 8u}, {0x0018ad28u, 8u},
-             {0x0018b2b8u, 8u}, {0x0018a358u, 8u}, {0x0018e1b8u, 12u}, {0x0018e388u, 8u}, {0x0018e6d0u, 8u}})
+             {0x0018b2b8u, 8u}, {0x0018a358u, 8u}, {0x0018e1b8u, 12u}, {0x0018e388u, 8u}, {0x0018e6d0u, 8u},
+             {0x00176530u, 8u}, {0x00178648u, 8u}, {0x00179b48u, 8u}, {0x0018a8b0u, 8u}, {0x0018ad30u, 8u},
+             {0x0018b2c0u, 8u}, {0x0018bb58u, 8u}})
         e.interpret(entry, entry + size);
     e.interpret(0x00173ef0, 0x00173f40);   // effBTLSystemGetLength
     // The families' getLength (effBTLSys_*_GetLength), 8 bytes each but the
@@ -665,6 +667,10 @@ ee::Interpreter makeOriginal()
     // The next area's loader (field/next_area.hpp) and the active scene.
     e.interpret(0x0010e548, 0x0010e564);   // dds3GetActiveScene
     e.interpret(0x00127368, 0x00127378);   // the area to load next
+    for (const auto& [from, to] : std::initializer_list<std::pair<uint32_t, uint32_t>>{
+             {0x001234f8, 0x00123528}, {0x001235b0, 0x001235d8}, {0x001236e8, 0x0012375c}, {0x001237a8, 0x00123824},
+             {0x00123870, 0x001238ec}, {0x00125990, 0x00125a08}, {0x002c0c98, 0x002c0d08}})
+        e.interpret(from, to);   // the field's spells and flags, the RNG's seeding
     e.interpret(0x00127510, 0x001279e8);   // its release, poll, status, readiness, the three parts and the shared pack's name
     e.interpret(0x00127b70, 0x00127bc8);   // the shared pack's release
     e.interpret(0x00128408, 0x0012846c);   // the area's folder

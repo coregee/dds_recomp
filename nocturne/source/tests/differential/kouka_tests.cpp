@@ -507,6 +507,13 @@ void addKoukaTests(std::vector<TestCase>& t)
             {"effPCPBlinkMultiBlurSetArea", 0x0018e1b8, Kind::Scale, [](uint32_t e, uint32_t v) { nocturne::eff::setBlinkMultiBlurArea(e, ee::Float::fromBits(v)); }},
             {"effPCPMultiBlurExpSetArea", 0x0018e388, Kind::Scale, [](uint32_t e, uint32_t v) { nocturne::eff::setMultiBlurExpArea(e, ee::Float::fromBits(v)); }},
             {"effPCPMultiFilterExpSetArea", 0x0018e6d0, Kind::Scale, [](uint32_t e, uint32_t v) { nocturne::eff::setMultiFilterExpArea(e, ee::Float::fromBits(v)); }},
+            {"effPCPThunderSpherePolySetColor", 0x00176530, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setThunderSpherePolyColor(e, v); }},
+            {"effPCP_ThunderPolySetColor", 0x00178648, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setThunderPolyColor(e, v); }},
+            {"effPCP_ThunderRadiatePolySetColor", 0x00179b48, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setThunderRadiatePolyColor(e, v); }},
+            {"effPCPHama01SetColor", 0x0018a8b0, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setHama01Color(e, v); }},
+            {"effPCPHama02SetColor", 0x0018ad30, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setHama02Color(e, v); }},
+            {"effPCPHamaonSetColor", 0x0018b2c0, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setHamaonColor(e, v); }},
+            {"effPCPMudoSetColor", 0x0018bb58, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setMudoColor(e, v); }},
         };
         for (const Setter& s : setters)
             add(s.name, [s](Gen& g) {
