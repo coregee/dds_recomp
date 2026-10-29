@@ -581,6 +581,7 @@ inline constexpr AddressPair kVersionAddresses[] = {
     {0x00551c58, 0x0054fbd8},
     {0x00551c78, 0x0054fbf8},
     {0x00551d80, 0x0054fd00},
+    {0x00551dd0, 0x0054fd50},
     {0x00551de8, 0x0054fd68},
     {0x00551e54, 0x0054fdd4},
     {0x00551ea0, 0x0054fe20},

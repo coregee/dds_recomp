@@ -32,6 +32,8 @@
 #include "nocturne/data/devil_ai.hpp"
 #include "nocturne/effect/boss.hpp"
 #include "nocturne/effect/cut.hpp"
+#include "nocturne/address.hpp"
+#include "nocturne/effect/particles.hpp"
 #include "nocturne/effect/system.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/event/units.hpp"
@@ -409,6 +411,108 @@ void addKoukaTests(std::vector<TestCase>& t)
             systemEffectWorld(g, 0x00779400u + part * 0x10u);
         return Pair{[=] { return origVm(0x00262480, {I(s), I(id), f, kind}); }, [=] { return R(addHitEffectPacket(s, id, at<Formation>(f), kind)); }};
     });
+    // The particle effects' setters: an effect's work and the value (a
+    // vector or matrix, a colour, a scale) any bits.
+    {
+        enum class Kind { Position, Color, Scale, Matrix };
+        struct Setter { const char* name; uint32_t entry; Kind kind; void (*rewrite)(uint32_t effect, uint32_t value); };
+        static const Setter setters[] = {
+            {"effPCPFlashPolySphere2SetPosition", 0x0017d228, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPFlashPolySphereSetPosition", 0x0017d8d8, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPFlashPolyRingSetPosition", 0x0017e290, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPFlashPolyPipeSetPosition", 0x0017eab8, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPFlashPolyRingExpSetPosition", 0x0017f3b8, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPHamaCardSpiralSetPosition", 0x00184528, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPHamaCardSphereSetPosition", 0x00185138, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPSparkleSphereSetPosition", 0x0018a340, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPMHanma01SetPosition", 0x0018b630, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPHwave01SetPosition", 0x0018bcf0, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPZiodin01SetPosition", 0x0018c180, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPZiodin02SetPosition", 0x0018c5f8, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPZiodin03SetPosition", 0x0018ca90, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPZiodin04SetPosition", 0x0018cf08, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPMZiodin01SetPosition", 0x0018d278, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPMZiodin02SetPosition", 0x0018d5e8, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPShockWave01SetPosition", 0x0018d838, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPShockWave02SetPosition", 0x0018dcd0, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPHouden01SetPosition", 0x0018df18, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPMultiBlurExpSetPosition", 0x0018e370, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPMultiFilterExpSetPosition", 0x0018e6b8, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPMultiBlurExp2SetPosition", 0x0018ea10, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPDistortionBlurExpSetPosition", 0x0018f1a0, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPMegidora01SetPosition", 0x0018f7e0, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPMegidoraon01SetPosition", 0x0018fa88, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPAgiraoFireSetPosition", 0x001904e8, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPBufuIceSetPosition", 0x00192420, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPBufuraIceSetPosition", 0x00192720, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPBufudnIceSetPosition", 0x00192a20, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCP_ThunderPolyLowSetPosition", 0x00179118, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setThunderPolyLowPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCP_ThunderPolyLowSetColor", 0x00179148, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setThunderPolyLowColor(e, v); }},
+            {"effPCPFlashPolySphere2SetColor", 0x0017d238, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setFlashPolySphere2Color(e, v); }},
+            {"effPCPFlashPolySphere2SetScale", 0x0017d240, Kind::Scale, [](uint32_t e, uint32_t v) { nocturne::eff::setFlashPolySphere2Scale(e, ee::Float::fromBits(v)); }},
+            {"effPCPFlashPolySphereSetColor", 0x0017d8e8, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setFlashPolySphereColor(e, v); }},
+            {"effPCPFlashPolyRingSetColor", 0x0017e2a0, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setFlashPolyRingColor(e, v); }},
+            {"effPCPFlashPolyPipeSetColor", 0x0017eac8, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setFlashPolyPipeColor(e, v); }},
+            {"effPCPFlashPolyRingExpSetColor", 0x0017f3c8, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setFlashPolyRingExpColor(e, v); }},
+            {"effPCPHamaCardSpiralSetColor", 0x00184538, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setHamaCardSpiralColor(e, v); }},
+            {"effPCPHamaCardSpiralSetScale", 0x00184540, Kind::Scale, [](uint32_t e, uint32_t v) { nocturne::eff::setHamaCardSpiralScale(e, ee::Float::fromBits(v)); }},
+            {"effPCPHamaCardSphereSetColor", 0x00185148, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setHamaCardSphereColor(e, v); }},
+            {"effPCPHamaCardSphereSetScale", 0x00185150, Kind::Scale, [](uint32_t e, uint32_t v) { nocturne::eff::setHamaCardSphereScale(e, ee::Float::fromBits(v)); }},
+            {"effPCPSparkleSphereSetColor", 0x0018a350, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setSparkleSphereColor(e, v); }},
+            {"effPCPMHanma01SetColor", 0x0018b648, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setMahama01Color(e, v); }},
+            {"effPCPHwave01SetColor", 0x0018bd00, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setHwave01Color(e, v); }},
+            {"effPCPZiodin01SetColor", 0x0018c198, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setZiodyne01Color(e, v); }},
+            {"effPCPZiodin02SetColor", 0x0018c610, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setZiodyne02Color(e, v); }},
+            {"effPCPZiodin03SetColor", 0x0018caa8, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setZiodyne03Color(e, v); }},
+            {"effPCPZiodin04SetColor", 0x0018cf20, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setZiodyne04Color(e, v); }},
+            {"effPCPMZiodin01SetColor", 0x0018d290, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setMaziodyne01Color(e, v); }},
+            {"effPCPMZiodin02SetColor", 0x0018d600, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setMaziodyne02Color(e, v); }},
+            {"effPCPShockWave01SetColor", 0x0018d850, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setShockWave01Color(e, v); }},
+            {"effPCPShockWave02SetColor", 0x0018dce8, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setShockWave02Color(e, v); }},
+            {"effPCPHouden01SetColor", 0x0018df30, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setDischarge01Color(e, v); }},
+            {"effPCPBlinkMultiBlurSetPosition", 0x0018e190, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setBlinkMultiBlurPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPBlinkMultiBlurSetColor", 0x0018e1a8, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setBlinkMultiBlurColor(e, v); }},
+            {"effPCPMultiBlurExpSetColor", 0x0018e380, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setMultiBlurExpColor(e, v); }},
+            {"effPCPMultiFilterExpSetColor", 0x0018e6c8, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setMultiFilterExpColor(e, v); }},
+            {"effPCPMultiBlurExp2SetColor", 0x0018ea20, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setMultiBlurExp2Color(e, v); }},
+            {"effPCPFilterExpSetColor", 0x0018ec20, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setFilterExpColor(e, v); }},
+            {"effPCPBlurExpSetColor", 0x0018ee40, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setBlurExpColor(e, v); }},
+            {"effPCPDistortionBlurExpSetColor", 0x0018f1b0, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setDistortionBlurExpColor(e, v); }},
+            {"effPCPMegidora01SetColor", 0x0018f7f8, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setMegidola01Color(e, v); }},
+            {"effPCPMegidoraon01SetColor", 0x0018faa0, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setMegidolaon01Color(e, v); }},
+            {"effPCPBreathSetPosition", 0x0018fef8, Kind::Position, [](uint32_t e, uint32_t v) { nocturne::eff::setBreathPosition(e, at<nocturne::dds3::Vector4>(v)); }},
+            {"effPCPBreathSetColor", 0x0018ff10, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setBreathColor(e, v); }},
+            {"effPCPAgiraoFireSetColor", 0x001904f8, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setAgilaoFireColor(e, v); }},
+            {"effPCPBufuIceSetColor", 0x00192430, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setBufuIceColor(e, v); }},
+            {"effPCPBufuraIceSetColor", 0x00192730, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setBufulaIceColor(e, v); }},
+            {"effPCPBufudnIceSetColor", 0x00192a30, Kind::Color, [](uint32_t e, uint32_t v) { nocturne::eff::setBufudyneIceColor(e, v); }},
+            {"effPCPBufuIceSetScale", 0x00192438, Kind::Scale, [](uint32_t e, uint32_t v) { nocturne::eff::setIceScale(e, ee::Float::fromBits(v)); }},
+            {"effPCPBufuraIceSetScale", 0x00192738, Kind::Scale, [](uint32_t e, uint32_t v) { nocturne::eff::setIceScale(e, ee::Float::fromBits(v)); }},
+            {"effPCPBufudnIceSetScale", 0x00192a38, Kind::Scale, [](uint32_t e, uint32_t v) { nocturne::eff::setIceScale(e, ee::Float::fromBits(v)); }},
+            {"effPCPBufuIceSetRotateMatrix", 0x00192440, Kind::Matrix, [](uint32_t e, uint32_t v) { nocturne::eff::setIceRotation(e, at<nocturne::eff::Matrix>(v)); }},
+            {"effPCPBufuraIceSetRotateMatrix", 0x00192740, Kind::Matrix, [](uint32_t e, uint32_t v) { nocturne::eff::setIceRotation(e, at<nocturne::eff::Matrix>(v)); }},
+            {"effPCPBufudnIceSetRotateMatrix", 0x00192a40, Kind::Matrix, [](uint32_t e, uint32_t v) { nocturne::eff::setIceRotation(e, at<nocturne::eff::Matrix>(v)); }},
+        };
+        for (const Setter& s : setters)
+            add(s.name, [s](Gen& g) {
+                constexpr uint32_t kEffect = FW_SCRATCH, kValue = FW_SCRATCH + 0x400u, kBlink = 0x00551dd0u;   // (compared RAM)
+                for (uint32_t k = 0; k < 0x80; k += 4) {
+                    at<uint32_t>(kEffect + k) = g.chance(80) ? ee::Float(static_cast<float>(g.range(-5000, 5000)) / 7.0f).bits()
+                                                            : static_cast<uint32_t>(g.rng());
+                    at<uint32_t>(kValue + k) = g.chance(80) ? ee::Float(static_cast<float>(g.range(-5000, 5000)) / 3.0f).bits()
+                                                           : static_cast<uint32_t>(g.rng());
+                }
+                at<uint32_t>(nocturne::addr(kBlink)) = kEffect;
+                const uint32_t effect = g.chance(90) ? kEffect : kEffect + 0x40u;
+                const uint32_t value = s.kind == Kind::Color || s.kind == Kind::Scale ? static_cast<uint32_t>(g.rng()) : kValue;
+                return Pair{[=] {
+                                if (s.kind == Kind::Scale)
+                                    return origVmVoid(s.entry, {effect}, {value});
+                                return origVmVoid(s.entry, {effect, value});
+                            },
+                            [=] { s.rewrite(effect, value); return uint64_t{0}; }};
+            });
+    }
     add("effBTLSystemGetLength", [](Gen& g) {
         constexpr uint32_t handle = 0x0077cf00u;
         systemEffectWorld(g, handle);

@@ -1,0 +1,68 @@
+// The battle's particle effects (original names effPCP*: the skills'
+// sparks, rings, lightning, ice ...), as far as rewritten: their setters.
+// An effect is its work in guest memory (`effect`); each keeps its
+// position, colour (0xAABBGGRR) and scale at its own offsets. Creating,
+// running and drawing them is the effect library's part. Effect names
+// follow smt3-decomp's, in English where they name a skill (Ziodin:
+// Ziodyne, Megidora: Megidola, Agirao: Agilao, Houden: discharge).
+#pragma once
+
+#include <cstdint>
+
+#include "nocturne/ee/float.hpp"
+#include "nocturne/kernel/draw.hpp"
+
+namespace nocturne::eff {
+
+// A rotation matrix (four VU0 rows).
+struct Matrix {
+    dds3::Vector4 row[4];
+};
+
+// Moves an effect that keeps its position at the start of its work (most).
+void setPosition(uint32_t effect, const dds3::Vector4& position);
+void setThunderPolyLowPosition(uint32_t effect, const dds3::Vector4& position);
+void setThunderPolyLowColor(uint32_t effect, uint32_t color);
+void setFlashPolySphere2Color(uint32_t effect, uint32_t color);
+void setFlashPolySphere2Scale(uint32_t effect, ee::Float scale);
+void setFlashPolySphereColor(uint32_t effect, uint32_t color);
+void setFlashPolyRingColor(uint32_t effect, uint32_t color);
+void setFlashPolyPipeColor(uint32_t effect, uint32_t color);
+void setFlashPolyRingExpColor(uint32_t effect, uint32_t color);
+void setHamaCardSpiralColor(uint32_t effect, uint32_t color);
+void setHamaCardSpiralScale(uint32_t effect, ee::Float scale);
+void setHamaCardSphereColor(uint32_t effect, uint32_t color);
+void setHamaCardSphereScale(uint32_t effect, ee::Float scale);
+void setSparkleSphereColor(uint32_t effect, uint32_t color);
+void setMahama01Color(uint32_t effect, uint32_t color);
+void setHwave01Color(uint32_t effect, uint32_t color);
+void setZiodyne01Color(uint32_t effect, uint32_t color);
+void setZiodyne02Color(uint32_t effect, uint32_t color);
+void setZiodyne03Color(uint32_t effect, uint32_t color);
+void setZiodyne04Color(uint32_t effect, uint32_t color);
+void setMaziodyne01Color(uint32_t effect, uint32_t color);
+void setMaziodyne02Color(uint32_t effect, uint32_t color);
+void setShockWave01Color(uint32_t effect, uint32_t color);
+void setShockWave02Color(uint32_t effect, uint32_t color);
+void setDischarge01Color(uint32_t effect, uint32_t color);
+void setBlinkMultiBlurPosition(uint32_t effect, const dds3::Vector4& position);
+void setBlinkMultiBlurColor(uint32_t effect, uint32_t color);
+void setMultiBlurExpColor(uint32_t effect, uint32_t color);
+void setMultiFilterExpColor(uint32_t effect, uint32_t color);
+void setMultiBlurExp2Color(uint32_t effect, uint32_t color);
+void setFilterExpColor(uint32_t effect, uint32_t color);
+void setBlurExpColor(uint32_t effect, uint32_t color);
+void setDistortionBlurExpColor(uint32_t effect, uint32_t color);
+void setMegidola01Color(uint32_t effect, uint32_t color);
+void setMegidolaon01Color(uint32_t effect, uint32_t color);
+void setBreathPosition(uint32_t effect, const dds3::Vector4& position);
+void setBreathColor(uint32_t effect, uint32_t color);
+void setAgilaoFireColor(uint32_t effect, uint32_t color);
+void setBufuIceColor(uint32_t effect, uint32_t color);
+void setBufulaIceColor(uint32_t effect, uint32_t color);
+void setBufudyneIceColor(uint32_t effect, uint32_t color);
+// The ice effects (Bufu, Bufula, Bufudyne): their scale and rotation.
+void setIceScale(uint32_t effect, ee::Float scale);
+void setIceRotation(uint32_t effect, const Matrix& rotation);
+
+} // namespace nocturne::eff

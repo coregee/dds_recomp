@@ -5,6 +5,7 @@
 #include <cstring>
 #include <fstream>
 #include <string>
+#include <utility>
 
 #include "ee.hpp"
 #include "nocturne/battle/help.hpp"
@@ -598,6 +599,24 @@ ee::Interpreter makeOriginal()
     e.interpret(0x0028b0b8, 0x0028b198);   // a formation set up (its delay slot one past Ghidra's size)
     e.interpret(0x0028b198, 0x0028b448);   // nbCopyFormation, nbMoveFormation, nbUpdateFormation (to its return)
     e.interpret(0x00173f40, 0x00173f48);   // effBTLSystemGetID
+    // The particle effects' setters (effPCP*Set*).
+    for (const auto& [entry, size] : std::initializer_list<std::pair<uint32_t, uint32_t>>{
+             {0x00179118u, 44u}, {0x00179148u, 8u}, {0x0017d228u, 16u}, {0x0017d238u, 8u}, {0x0017d240u, 8u},
+             {0x0017d8d8u, 16u}, {0x0017d8e8u, 8u}, {0x0017e290u, 16u}, {0x0017e2a0u, 8u}, {0x0017eab8u, 16u},
+             {0x0017eac8u, 8u}, {0x0017f3b8u, 16u}, {0x0017f3c8u, 8u}, {0x00184528u, 16u}, {0x00184538u, 8u},
+             {0x00184540u, 40u}, {0x00185138u, 16u}, {0x00185148u, 8u}, {0x00185150u, 28u}, {0x0018a340u, 16u},
+             {0x0018a350u, 8u}, {0x0018b630u, 16u}, {0x0018b648u, 8u}, {0x0018bcf0u, 16u}, {0x0018bd00u, 8u},
+             {0x0018c180u, 16u}, {0x0018c198u, 8u}, {0x0018c5f8u, 16u}, {0x0018c610u, 8u}, {0x0018ca90u, 16u},
+             {0x0018caa8u, 8u}, {0x0018cf08u, 16u}, {0x0018cf20u, 8u}, {0x0018d278u, 16u}, {0x0018d290u, 8u},
+             {0x0018d5e8u, 16u}, {0x0018d600u, 8u}, {0x0018d838u, 16u}, {0x0018d850u, 8u}, {0x0018dcd0u, 16u},
+             {0x0018dce8u, 8u}, {0x0018df18u, 16u}, {0x0018df30u, 8u}, {0x0018e190u, 20u}, {0x0018e1a8u, 12u},
+             {0x0018e370u, 16u}, {0x0018e380u, 8u}, {0x0018e6b8u, 16u}, {0x0018e6c8u, 8u}, {0x0018ea10u, 16u},
+             {0x0018ea20u, 8u}, {0x0018ec20u, 8u}, {0x0018ee40u, 8u}, {0x0018f1a0u, 16u}, {0x0018f1b0u, 8u},
+             {0x0018f7e0u, 16u}, {0x0018f7f8u, 8u}, {0x0018fa88u, 16u}, {0x0018faa0u, 8u}, {0x0018fef8u, 20u},
+             {0x0018ff10u, 8u}, {0x001904e8u, 16u}, {0x001904f8u, 8u}, {0x00192420u, 16u}, {0x00192430u, 8u},
+             {0x00192438u, 8u}, {0x00192440u, 44u}, {0x00192720u, 16u}, {0x00192730u, 8u}, {0x00192738u, 8u},
+             {0x00192740u, 44u}, {0x00192a20u, 16u}, {0x00192a30u, 8u}, {0x00192a38u, 8u}, {0x00192a40u, 44u}})
+        e.interpret(entry, entry + size);
     e.interpret(0x00173ef0, 0x00173f40);   // effBTLSystemGetLength
     // The families' getLength (effBTLSys_*_GetLength), 8 bytes each but the
     // five that ask a cut.
