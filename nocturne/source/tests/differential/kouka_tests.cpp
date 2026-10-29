@@ -250,6 +250,11 @@ struct EffectWorld {
             set(resource(b), kind);
         }
     }
+    void floats(Gen& g, uint32_t at, int32_t words)   // some floats, as any value a matrix holds
+    {
+        for (int32_t k = 0; k < words; ++k)
+            set(at + 4u * static_cast<uint32_t>(k), ee::Float(static_cast<float>(g.range(-20000, 20000)) / 997.0f).bits());
+    }
     uint32_t chain(Gen& g)   // a model's effects: a few nodes {next, kind, effect}
     {
         uint32_t next = 0;
@@ -828,6 +833,57 @@ void addKoukaTests(std::vector<TestCase>& t)
                                 return iface::origVmVoid(s.entry, {work, value});
                             },
                             [=] { s.rewrite(work, value); return uint64_t{0}; }};
+            });
+    }
+    // Rotation by kind, in the effect world with every handle of kind 2;
+    // the rotation and the matrices turned by it of real floats (the
+    // world's words would be denormals, read as 0).
+    {
+        struct Rotator {
+            const char* name;
+            uint32_t entry;
+            void (*rewrite)(uint32_t handle, uint32_t rotation);
+            void (*fix)(Gen& g, EffectWorld& w, uint32_t work);
+        };
+        static const Rotator rotators[] = {
+            {"dds3EffectSetRotateMatrix", 0x0015acb8, nocturne::eff::setEffectRotation,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; set(E, g.pick<uint32_t>({0, 1, 2, 3, 4})); (void)set; (void)half; (void)g; (void)w; (void)E; }},
+            {"dds3P2APolygonSetRotateMatrix", 0x0015d7e8, nocturne::eff::setP2APolygonRotation,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half;  (void)set; (void)half; (void)g; (void)w; (void)E; }},
+            {"dds3ParticleSetRotateMatrix", 0x00164f10, nocturne::eff::setParticleRotation,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; w.floats(g, E + 0x100, 16); (void)set; (void)half; (void)g; (void)w; (void)E; }},
+            {"dds3ParticleExpSetRotateMatrix", 0x00165590, nocturne::eff::setParticleRotation,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; w.floats(g, E + 0x100, 16); (void)set; (void)half; (void)g; (void)w; (void)E; }},
+            {"dds3SpPolySetRotateMatrix", 0x00169e90, nocturne::eff::setSpPolyRotation,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; w.floats(g, E + 0x70, 16); (void)set; (void)half; (void)g; (void)w; (void)E; }},
+            {"dds3EffectPartSetRotateMatrix", 0x00175b78, nocturne::eff::setPartRotation,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; half(E, g.pick<uint32_t>({0, 1, 2, 4, 5, 6, 7})); (void)set; (void)half; (void)g; (void)w; (void)E; }},
+            {"dds3EffectPartModelSetRotateMatrix", 0x00175eb0, nocturne::eff::setPartModelRotation,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half;  (void)set; (void)half; (void)g; (void)w; (void)E; }},
+            {"dds3EffectPCPSetRotateMatrix", 0x00176160, nocturne::eff::setParticleEffectRotation,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; set(E, g.below(36)); (void)set; (void)half; (void)g; (void)w; (void)E; }},
+            {"effMagaCylinderSetRotateMatrix", 0x001a7728, nocturne::eff::setMagatamaEffectRotation,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half;  (void)set; (void)half; (void)g; (void)w; (void)E; }},
+            {"effMagaSpiralSetRotateMatrix", 0x001a7f78, nocturne::eff::setMagatamaEffectRotation,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half;  (void)set; (void)half; (void)g; (void)w; (void)E; }},
+            {"effMagaSmokeSetRotateMatrix", 0x001a88d0, nocturne::eff::setMagatamaEffectRotation,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half;  (void)set; (void)half; (void)g; (void)w; (void)E; }},
+            {"dds3MagatuhiParSetRotateMatrix", 0x001a8d20, nocturne::eff::setMagatamaRotation,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; set(E, g.below(5)); (void)set; (void)half; (void)g; (void)w; (void)E; }},
+        };
+        for (const Rotator& r : rotators)
+            add(r.name, [r](Gen& g) {
+                EffectWorld w;
+                w.build(g);
+                w.allKind(2);
+                for (uint32_t b = 0; b < 64; ++b)   // (the polygons' and particles' matrices, reached by kind)
+                    for (const uint32_t at : {0x20u, 0x70u, 0xb0u})
+                        w.floats(g, EffectWorld::kBlocks + 0x100u * b + at, at == 0xb0u ? 4 : 16);
+                r.fix(g, w, EffectWorld::kWork);
+                const uint32_t rotation = EffectWorld::kLists + 0x400u;
+                w.floats(g, rotation, 16);
+                return Pair{[=] { iface::origVmVoid(r.entry, {EffectWorld::kWork, rotation}); return uint64_t{0}; },
+                            [=] { r.rewrite(EffectWorld::kWork, rotation); return uint64_t{0}; }};
             });
     }
     add("effBTLSystemGetLength", [](Gen& g) {

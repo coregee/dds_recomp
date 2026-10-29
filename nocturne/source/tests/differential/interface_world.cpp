@@ -627,6 +627,12 @@ ee::Interpreter makeOriginal()
              {0x001761e0u, 68u}, {0x001a7720u, 12u}, {0x001a7f70u, 12u}, {0x001a88c8u, 12u}, {0x001a8d60u, 68u},
              {0x001dfcf8u, 88u}, {0x001dd7e8u, 92u}, {0x001dd840u, 56u}})
         e.interpret(entry, entry + size);
+    // Rotation by kind (dds3*SetRotateMatrix), and the VU0 matrix product they use.
+    for (const auto& [entry, size] : std::initializer_list<std::pair<uint32_t, uint32_t>>{
+             {0x0015acb8u, 60u}, {0x0015d7e8u, 48u}, {0x00164f10u, 96u}, {0x00165590u, 24u}, {0x00169e90u, 96u},
+             {0x00175b78u, 68u}, {0x00175eb0u, 64u}, {0x00176160u, 68u}, {0x001a7728u, 44u}, {0x001a7f78u, 44u},
+             {0x001a88d0u, 44u}, {0x001a8d20u, 68u}, {0x002b6550u, 84u}})
+        e.interpret(entry, entry + size);
     // The particle effects' deletion (effPCP*Delete, dds3*Delete).
     for (const auto& [entry, size] : std::initializer_list<std::pair<uint32_t, uint32_t>>{
              {0x001764f0u, 44u}, {0x001785e8u, 44u}, {0x001790e0u, 52u}, {0x00179b08u, 44u}, {0x00182c40u, 44u},

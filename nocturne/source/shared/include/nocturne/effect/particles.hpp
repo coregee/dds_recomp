@@ -170,4 +170,15 @@ void setModelEffectColor(uint32_t model, uint32_t node, uint32_t rgba);
 void setModelEffectsColor(uint32_t model, uint32_t rgba);
 void setModelColor(uint32_t model, uint32_t rgba);
 
+// Rotation by kind (effect_matrix.cpp): `rotation` a matrix's address.
+void setEffectRotation(uint32_t effect, uint32_t rotation);
+void setP2APolygonRotation(uint32_t polygon, uint32_t rotation);
+void setParticleRotation(uint32_t particle, uint32_t rotation);
+void setSpPolyRotation(uint32_t polygon, uint32_t rotation);
+void setPartRotation(uint32_t part, uint32_t rotation);
+void setPartModelRotation(uint32_t model, uint32_t rotation);
+void setParticleEffectRotation(uint32_t handle, uint32_t rotation);
+void setMagatamaEffectRotation(uint32_t effect, uint32_t rotation);
+void setMagatamaRotation(uint32_t handle, uint32_t rotation);
+
 } // namespace nocturne::eff

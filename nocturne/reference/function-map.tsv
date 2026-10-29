@@ -1517,7 +1517,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0015ac10	56	ps2EffectPartControlNative_0015AC10	USER_DEFINED	named								dds3EffectSetScale
 0015ac48	56	FUN_0015ac48	DEFAULT	named								dds3EffectGetState
 0015ac80	56	ps2MajorEffectSetPosition	USER_DEFINED	legacy		effect_position.c:ps2MajorEffectSetPosition						dds3EffectSetPosition
-0015acb8	56	ps2EffectSetMatrix	USER_DEFINED	legacy		effect_matrix.c:ps2EffectSetMatrix						dds3EffectSetRotateMatrix
+0015acb8	56	ps2EffectSetMatrix	USER_DEFINED	rewritten	shared/src/effect/effect_matrix.cpp:setEffectRotation	effect_matrix.c:ps2EffectSetMatrix	ok	ok	ok	ok	ok	dds3EffectSetRotateMatrix
 0015acf0	56	ps2EffectSetColor	USER_DEFINED	rewritten	shared/src/effect/effect_color.cpp:setEffectRgba	model_memory_parts.c:ps2EffectSetColor	ok	ok	ok	ok	ok	dds3EffectSetRGBA
 0015ad28	60	FUN_0015ad28	DEFAULT	named								dds3EffectSetLoop
 0015ad68	56	FUN_0015ad68	DEFAULT	named								dds3EffectGetLoop
@@ -1577,7 +1577,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0015d778	52	dds3P2APolygonDelete	USER_DEFINED	legacy		magatuhi_release.c:dds3P2APolygonDelete						dds3P2APolygonDelete
 0015d7b0	24	ps2MaterialBillboardSetPosition	USER_DEFINED	legacy		effect_position.c:ps2MaterialBillboardSetPosition						dds3P2APolygonSetPosition
 0015d7c8	28	ps2EffectPartControlNative_0015D7C8	USER_DEFINED	named								dds3P2APolygonSetScale
-0015d7e8	44	ps2MaterialBillboardSetMatrix	USER_DEFINED	legacy		effect_matrix.c:ps2MaterialBillboardSetMatrix						dds3P2APolygonSetRotateMatrix
+0015d7e8	44	ps2MaterialBillboardSetMatrix	USER_DEFINED	rewritten	shared/src/effect/effect_matrix.cpp:setP2APolygonRotation	effect_matrix.c:ps2MaterialBillboardSetMatrix	ok	ok	ok	ok	ok	dds3P2APolygonSetRotateMatrix
 0015d818	24	ps2MaterialBillboardSetColor	USER_DEFINED	rewritten	shared/src/effect/effect_color.cpp:setP2APolygonRgba	model_memory_parts.c:ps2MaterialBillboardSetColor	ok	ok	ok	ok	ok	dds3P2APolygonSetRGBA
 0015d830	40	FUN_0015d830	DEFAULT	named								dds3P2APolygonSetDirection
 0015d858	180	ps2EffectPartSelectFramesNative_0015D858	USER_DEFINED	named								dds3P2APolygonGetResource
@@ -1685,7 +1685,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00164e70	136	ps2EffectPartControlNative_00164E70	USER_DEFINED	named								dds3ParticleSetScale
 00164ef8	8	FUN_00164ef8	DEFAULT	named								dds3ParticleGetState
 00164f00	16	ps2PolygonSetPosition	USER_DEFINED	legacy		effect_position.c:ps2PolygonSetPosition						dds3ParticleSetPosition
-00164f10	92	ps2ParticleSetMatrix	USER_DEFINED	legacy		effect_matrix.c:ps2ParticleSetMatrix						dds3ParticleSetRotateMatrix
+00164f10	92	ps2ParticleSetMatrix	USER_DEFINED	rewritten	shared/src/effect/effect_matrix.cpp:setParticleRotation	effect_matrix.c:ps2ParticleSetMatrix	ok	ok	ok	ok	ok	dds3ParticleSetRotateMatrix
 00164f70	8	ps2ParticleSetColor	USER_DEFINED	rewritten	shared/src/effect/effect_color.cpp:setParticleRgba	model_memory_parts.c:ps2ParticleSetColor	ok	ok	ok	ok	ok	dds3ParticleSetRGBA
 00164f78	64	FUN_00164f78	DEFAULT	named								dds3ParticleSetTypeFlag
 00164fb8	64	FUN_00164fb8	DEFAULT	named								dds3ParticleGetLoop
@@ -1697,7 +1697,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00165520	60	ps2EffectPartControlNative_00165520	USER_DEFINED	named								dds3ParticleExpSetScale
 00165560	28	FUN_00165560	DEFAULT	named								dds3ParticleExpGetState
 00165580	16	ps2PolygonAlternateSetPosition	USER_DEFINED	legacy		effect_position.c:ps2PolygonAlternateSetPosition						dds3ParticleExpSetPosition
-00165590	20	ps2ExpParticleSetMatrix	USER_DEFINED	legacy		effect_matrix.c:ps2ExpParticleSetMatrix						dds3ParticleExpSetRotateMatrix
+00165590	20	ps2ExpParticleSetMatrix	USER_DEFINED	rewritten	shared/src/effect/effect_matrix.cpp:setParticleRotation	effect_matrix.c:ps2ExpParticleSetMatrix	ok	ok	ok	ok	ok	dds3ParticleExpSetRotateMatrix
 001655a8	8	ps2ExpParticleSetColor	USER_DEFINED	rewritten	shared/src/effect/effect_color.cpp:setParticleRgba	model_memory_parts.c:ps2ExpParticleSetColor	ok	ok	ok	ok	ok	dds3ParticleExpSetRGBA
 001655b0	24	FUN_001655b0	DEFAULT	named								dds3ParticleExpSetLoop
 001655c8	28	FUN_001655c8	DEFAULT	named								dds3ParticleExpGetLoop
@@ -1780,7 +1780,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00169e38	64	ps2EffectPartControlNative_00169E38	USER_DEFINED	named								dds3SpPolySetScale
 00169e78	8	FUN_00169e78	DEFAULT	named								dds3SpPolyGetState
 00169e80	16	ps2SpecialPolygonSetPosition	USER_DEFINED	legacy		effect_position.c:ps2SpecialPolygonSetPosition						dds3SpPolySetPosition
-00169e90	92	ps2SpecialPolygonSetMatrix	USER_DEFINED	legacy		effect_matrix.c:ps2SpecialPolygonSetMatrix						dds3SpPolySetRotateMatrix
+00169e90	92	ps2SpecialPolygonSetMatrix	USER_DEFINED	rewritten	shared/src/effect/effect_matrix.cpp:setSpPolyRotation	effect_matrix.c:ps2SpecialPolygonSetMatrix	ok	ok	ok	ok	ok	dds3SpPolySetRotateMatrix
 00169ef0	8	ps2SpecialPolygonSetColor	USER_DEFINED	rewritten	shared/src/effect/effect_color.cpp:setSpPolyRgba	model_memory_parts.c:ps2SpecialPolygonSetColor	ok	ok	ok	ok	ok	dds3SpPolySetRGBA
 00169ef8	24	FUN_00169ef8	DEFAULT	named								dds3SpPolySetLoop
 00169f10	8	FUN_00169f10	DEFAULT	named								dds3SpPolyGetLoop
@@ -2223,7 +2223,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00175a88	108	dds3EffectPartCopy	USER_DEFINED	legacy		battle_action_consumer.c:body_00175a88;battle_action_consumer.c:ps2BattleActionPartCopy_00175A88;battle_effect_copy.c:dds3EffectPartCopy						dds3EffectPartCopy
 00175af8	64	ps2EffectPartSetPosition	USER_DEFINED	legacy		pcp_spawn_once.c:ps2EffectPartSetPosition						dds3EffectPartSetPosition
 00175b38	64	dds3EffectPartSetScale	USER_DEFINED	legacy		battle_action_activation.c:ps2BattleActionPartScale_00175B38;battle_effect_copy.c:dds3EffectPartSetScale						dds3EffectPartSetScale
-00175b78	64	ps2EffectPartSetMatrix	USER_DEFINED	legacy		effect_matrix.c:ps2EffectPartSetMatrix						dds3EffectPartSetRotateMatrix
+00175b78	64	ps2EffectPartSetMatrix	USER_DEFINED	rewritten	shared/src/effect/effect_matrix.cpp:setPartRotation	effect_matrix.c:ps2EffectPartSetMatrix	ok	ok	ok	ok	ok	dds3EffectPartSetRotateMatrix
 00175bb8	64	ps2EffectPartSetColor	USER_DEFINED	rewritten	shared/src/effect/effect_color.cpp:setPartColor	model_memory_parts.c:ps2EffectPartSetColor	ok	ok	ok	ok	ok	dds3EffectPartSetColor
 00175bf8	64	FUN_00175bf8	DEFAULT	named								dds3EffectPartSetDirection
 00175c38	64	FUN_00175c38	DEFAULT	named								dds3EffectPartSetArea
@@ -2237,7 +2237,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00175e10	84	ps2ModelPartClone	USER_DEFINED	legacy		battle_action_model_frames.c:body_00175e10;battle_action_model_frames.c:ps2BattleActionModel_00175E10;pcp_construction.c:ps2ModelPartClone						dds3EffectPartModelCopy
 00175e68	24	ps2ModelPartSetPosition	USER_DEFINED	legacy		pcp_spawn_once.c:ps2ModelPartSetPosition						dds3EffectPartModelSetPosition
 00175e80	44	ps2EffectPcpModelPartScale_00175E80	USER_DEFINED	named								dds3EffectPartModelSetScale
-00175eb0	60	ps2ModelPartSetMatrix	USER_DEFINED	legacy		effect_matrix.c:ps2ModelPartSetMatrix						dds3EffectPartModelSetRotateMatrix
+00175eb0	60	ps2ModelPartSetMatrix	USER_DEFINED	rewritten	shared/src/effect/effect_matrix.cpp:setPartModelRotation	effect_matrix.c:ps2ModelPartSetMatrix	ok	ok	ok	ok	ok	dds3EffectPartModelSetRotateMatrix
 00175ef0	20	ps2ModelPartSetColor	USER_DEFINED	rewritten	shared/src/effect/effect_color.cpp:setPartModelColor	model_memory_parts.c:ps2ModelPartSetColor	ok	ok	ok	ok	ok	dds3EffectPartModelSetColor
 00175f08	176	ps2PcpWrapperCreate	USER_DEFINED	legacy		battle_action_activation.c:ps2BattleActionPcpCreate_00175F08;pcp_construction.c:ps2PcpWrapperCreate						dds3EffectPCPCreate
 00175fb8	72	dds3EffectPCPDelete	USER_DEFINED	rewritten	shared/src/effect/effect_release.cpp:deleteParticleEffect	effect_recursive_release.c:dds3EffectPCPDelete	ok	ok	ok	ok	ok	dds3EffectPCPDelete
@@ -2245,7 +2245,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00176038	160	dds3EffectPCPCopy	USER_DEFINED	legacy		battle_action_consumer.c:body_00176038;battle_action_consumer.c:ps2BattleActionPcpCopy_00176038;battle_effect_copy.c:dds3EffectPCPCopy						dds3EffectPCPCopy
 001760e0	64	ps2PcpWrapperSetPosition	USER_DEFINED	rewritten	shared/src/effect/effect_color.cpp:setParticleEffectPosition	pcp_controls.c:ps2PcpWrapperSetPosition	ok	ok	ok	ok	ok	dds3EffectPCPSetPosition
 00176120	64	dds3EffectPCPSetScale	USER_DEFINED	legacy		battle_action_activation.c:ps2BattleActionPcpScale_00176120;battle_effect_copy.c:dds3EffectPCPSetScale						dds3EffectPCPSetScale
-00176160	64	ps2PcpWrapperSetMatrix	USER_DEFINED	legacy		effect_matrix.c:ps2PcpWrapperSetMatrix						dds3EffectPCPSetRotateMatrix
+00176160	64	ps2PcpWrapperSetMatrix	USER_DEFINED	rewritten	shared/src/effect/effect_matrix.cpp:setParticleEffectRotation	effect_matrix.c:ps2PcpWrapperSetMatrix	ok	ok	ok	ok	ok	dds3EffectPCPSetRotateMatrix
 001761a0	64	ps2PcpWrapperSetDirection	USER_DEFINED	rewritten	shared/src/effect/effect_color.cpp:setParticleEffectDirection	pcp_controls.c:ps2PcpWrapperSetDirection	ok	ok	ok	ok	ok	dds3EffectPCPSetDirection
 001761e0	64	ps2PcpWrapperSetColor	USER_DEFINED	rewritten	shared/src/effect/effect_color.cpp:setParticleEffectColor	model_memory_parts.c:ps2PcpWrapperSetColor	ok	ok	ok	ok	ok	dds3EffectPCPSetColor
 00176220	64	ps2PcpWrapperSetArea	USER_DEFINED	legacy		pcp_controls.c:ps2PcpWrapperSetArea						dds3EffectPCPSetArea
@@ -3127,7 +3127,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001a7450	684	ps2EffectMagatuhiOrbitUpdateAndDraw_001A7450	USER_DEFINED	named								effMagaCylinderDraw
 001a7708	20	ps2MagatuhiType2SetPosition	USER_DEFINED	legacy		effect_position.c:ps2MagatuhiType2SetPosition						effMagaCylinderSetPosition
 001a7720	8	ps2TrackType2SetColor	USER_DEFINED	rewritten	shared/src/effect/effect_color.cpp:setMagatamaCylinderRgba	model_memory_parts.c:ps2TrackType2SetColor	ok	ok	ok	ok	ok	effMagaCylinderSetRGBA
-001a7728	40	ps2TrackType2SetMatrix	USER_DEFINED	legacy		effect_matrix.c:ps2TrackType2SetMatrix						effMagaCylinderSetRotateMatrix
+001a7728	40	ps2TrackType2SetMatrix	USER_DEFINED	rewritten	shared/src/effect/effect_matrix.cpp:setMagatamaEffectRotation	effect_matrix.c:ps2TrackType2SetMatrix	ok	ok	ok	ok	ok	effMagaCylinderSetRotateMatrix
 001a7750	520	FUN_001a7750	DEFAULT	named								effMagaCylinderRandomize
 001a7958	432	ps2MagatuhiSpiralCreate	USER_DEFINED	legacy		magatuhi_creation.c:ps2MagatuhiSpiralCreate						effMagaSpiralCreate
 001a7b08	44	effMagaSpiralDelete	USER_DEFINED	legacy		magatuhi_release.c:effMagaSpiralDelete						effMagaSpiralDelete
@@ -3135,7 +3135,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001a7c90	700	ps2EffectMagatuhiExpandingOrbitUpdateAndDraw_001A7C90	USER_DEFINED	named								effMagaSpiralDraw
 001a7f58	20	ps2MagatuhiType3SetPosition	USER_DEFINED	legacy		effect_position.c:ps2MagatuhiType3SetPosition						effMagaSpiralSetPosition
 001a7f70	8	ps2TrackType3SetColor	USER_DEFINED	rewritten	shared/src/effect/effect_color.cpp:setMagatamaSpiralRgba	model_memory_parts.c:ps2TrackType3SetColor	ok	ok	ok	ok	ok	effMagaSpiralSetRGBA
-001a7f78	40	ps2TrackType3SetMatrix	USER_DEFINED	legacy		effect_matrix.c:ps2TrackType3SetMatrix						effMagaSpiralSetRotateMatrix
+001a7f78	40	ps2TrackType3SetMatrix	USER_DEFINED	rewritten	shared/src/effect/effect_matrix.cpp:setMagatamaEffectRotation	effect_matrix.c:ps2TrackType3SetMatrix	ok	ok	ok	ok	ok	effMagaSpiralSetRotateMatrix
 001a7fa0	548	FUN_001a7fa0	DEFAULT	named								effMagaSpiralRandomize
 001a81c8	488	ps2MagatuhiSmokeCreate	USER_DEFINED	legacy		magatuhi_creation.c:ps2MagatuhiSmokeCreate						effMagaSmokeCreate
 001a83b0	44	effMagaSmokeDelete	USER_DEFINED	legacy		magatuhi_release.c:effMagaSmokeDelete						effMagaSmokeDelete
@@ -3143,7 +3143,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001a85d0	724	ps2EffectMagatuhiWobbleUpdateAndDraw_001A85D0	USER_DEFINED	named								effMagaSmokeDraw
 001a88b0	20	ps2MagatuhiType4SetPosition	USER_DEFINED	legacy		effect_position.c:ps2MagatuhiType4SetPosition						effMagaSmokeSetPosition
 001a88c8	8	ps2TrackType4SetColor	USER_DEFINED	rewritten	shared/src/effect/effect_color.cpp:setMagatamaSmokeRgba	model_memory_parts.c:ps2TrackType4SetColor	ok	ok	ok	ok	ok	effMagaSmokeSetRGBA
-001a88d0	40	ps2TrackType4SetMatrix	USER_DEFINED	legacy		effect_matrix.c:ps2TrackType4SetMatrix						effMagaSmokeSetRotateMatrix
+001a88d0	40	ps2TrackType4SetMatrix	USER_DEFINED	rewritten	shared/src/effect/effect_matrix.cpp:setMagatamaEffectRotation	effect_matrix.c:ps2TrackType4SetMatrix	ok	ok	ok	ok	ok	effMagaSmokeSetRotateMatrix
 001a88f8	572	FUN_001a88f8	DEFAULT	named								effMagaSmokeRandomize
 001a8b38	152	FUN_001a8b38	DEFAULT	named								effMagaRandomize
 001a8bd0	108	dds3MagatuhiParCreate	USER_DEFINED	legacy		magatuhi_creation.c:dds3MagatuhiParCreate						dds3MagatuhiParCreate
@@ -3154,7 +3154,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001a8cd0	8	FUN_001a8cd0	DEFAULT	unknown								
 001a8cd8	8	FUN_001a8cd8	DEFAULT	named								dds3MagatuhiParIsActive
 001a8ce0	64	ps2MagatuhiWrapperSetPosition	USER_DEFINED	legacy		effect_position.c:ps2MagatuhiWrapperSetPosition						dds3MagatuhiParSetPosition
-001a8d20	64	ps2TrackBundleSetMatrix	USER_DEFINED	legacy		effect_matrix.c:ps2TrackBundleSetMatrix						dds3MagatuhiParSetRotateMatrix
+001a8d20	64	ps2TrackBundleSetMatrix	USER_DEFINED	rewritten	shared/src/effect/effect_matrix.cpp:setMagatamaRotation	effect_matrix.c:ps2TrackBundleSetMatrix	ok	ok	ok	ok	ok	dds3MagatuhiParSetRotateMatrix
 001a8d60	64	ps2TrackBundleSetColor	USER_DEFINED	rewritten	shared/src/effect/effect_color.cpp:setMagatamaRgba	model_memory_parts.c:ps2TrackBundleSetColor	ok	ok	ok	ok	ok	dds3MagatuhiParSetRGBA
 001a8da0	80	FUN_001a8da0	DEFAULT	named								dds3MagatuhiParSetByType
 001a8df8	84	FUN_001a8df8	DEFAULT	unknown								
