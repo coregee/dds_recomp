@@ -147,6 +147,18 @@ each such instruction it runs. Hardtype's own:
 
 US Maniax runs none of these.
 
+`python tools/hardtype_console_fix.py <SLUS_209.11> <output>` patches
+Hardtype 1.5.1's executable for the AI ones, in code only, so it plays as
+it does on PCSX2: the stray store becomes a nop, the record word loads
+become LWR/LWL pairs (in unused space in Hardtype's code area) and
+nbRunAiSub reads its two halfwords as halfwords. The differential suite
+passes on the patched executable with no AI access misaligned. Realigning
+the records instead would change eight bosses: Kin-Ki, Sui-Ki, Fuu-Ki,
+Aciel, Futomimi, Koumoku, Zouchou and Thor 2 have checks but no action
+tables, and their scripts call AI(), which takes the bytes after the
+record (the death script as the count, then the next devil's record) as
+the table. The fusion and Beckon Call reads stay as they are.
+
 ## Status
 
 Ported and proven against Hardtype's own instructions (`variant_tests.cpp`,
