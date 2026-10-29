@@ -151,4 +151,23 @@ void deleteBufuIce(uint32_t handle);
 void deleteBufulaIce(uint32_t handle);
 void deleteRadiateThunder(uint32_t handle);
 
+// Colours and placement by kind, a model's colour (effect_color.cpp).
+void setEffectRgba(uint32_t effect, uint32_t rgba);
+void setBillboardRgba(uint32_t billboard, uint32_t rgba);
+void setP2APolygonRgba(uint32_t polygon, uint32_t rgba);
+void setParticleRgba(uint32_t particle, uint32_t rgba);
+void setSpPolyRgba(uint32_t polygon, uint32_t rgba);
+void setPartColor(uint32_t part, uint32_t rgba);
+void setPartModelColor(uint32_t model, uint32_t rgba);
+void setParticleEffectPosition(uint32_t handle, uint32_t position);
+void setParticleEffectDirection(uint32_t handle, uint32_t direction);
+void setParticleEffectColor(uint32_t handle, uint32_t rgba);
+void setMagatamaCylinderRgba(uint32_t effect, uint32_t rgba);
+void setMagatamaSpiralRgba(uint32_t effect, uint32_t rgba);
+void setMagatamaSmokeRgba(uint32_t effect, uint32_t rgba);
+void setMagatamaRgba(uint32_t handle, uint32_t rgba);
+void setModelEffectColor(uint32_t model, uint32_t node, uint32_t rgba);
+void setModelEffectsColor(uint32_t model, uint32_t rgba);
+void setModelColor(uint32_t model, uint32_t rgba);
+
 } // namespace nocturne::eff

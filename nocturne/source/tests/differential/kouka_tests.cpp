@@ -243,6 +243,26 @@ struct EffectWorld {
         set(list + 4, small(g, 5));
         return list;
     }
+    void allKind(uint32_t kind)   // every block (and resource) of one kind
+    {
+        for (uint32_t b = 0; b < 64; ++b) {
+            set(kBlocks + 0x100u * b, kind);
+            set(resource(b), kind);
+        }
+    }
+    uint32_t chain(Gen& g)   // a model's effects: a few nodes {next, kind, effect}
+    {
+        uint32_t next = 0;
+        const uint32_t first = g.below(60);   // (distinct nodes: no loop)
+        for (int32_t k = g.range(0, 4); k > 0; --k) {
+            const uint32_t node = kLists + 0x800u + 0x10u * (first + static_cast<uint32_t>(k));
+            set(node, next);
+            half(node + 4, small(g, 2));
+            set(node + 8, block(g));
+            next = node;
+        }
+        return next;
+    }
     void build(Gen& g)
     {
         for (uint32_t b = 0; b < 64; ++b) {
@@ -742,6 +762,72 @@ void addKoukaTests(std::vector<TestCase>& t)
                 r.fix(g, w, EffectWorld::kWork);
                 return Pair{[=] { iface::origVmVoid(r.entry, {EffectWorld::kWork}); return uint64_t{0}; },
                             [=] { r.rewrite(EffectWorld::kWork); return uint64_t{0}; }};
+            });
+    }
+    // Colours and placement by kind and a model's colour, in the effect
+    // world with every handle of kind 2 (a billboard part, a polygon effect,
+    // a Magatama cylinder, a particle effect's radiating bolt).
+    {
+        struct Setter {
+            const char* name;
+            uint32_t entry;
+            void (*rewrite)(uint32_t handle, uint32_t value);
+            bool position;   // the value is a vector's address
+            bool node;       // mdlSetEffectColorSub: (model, node at +0x40, colour)
+            void (*fix)(Gen& g, EffectWorld& w, uint32_t work);
+        };
+        static const Setter setters[] = {
+            {"dds3EffectSetRGBA", 0x0015acf0, nocturne::eff::setEffectRgba, false, false,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto block = [&] { return w.block(g); }; set(E, g.pick<uint32_t>({0, 1, 2, 3, 4})); (void)set; (void)half; (void)small; (void)block; (void)E; }},
+            {"dds3BillboardSetRGBA", 0x0015d048, nocturne::eff::setBillboardRgba, false, false,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto block = [&] { return w.block(g); };  (void)set; (void)half; (void)small; (void)block; (void)E; }},
+            {"dds3P2APolygonSetRGBA", 0x0015d818, nocturne::eff::setP2APolygonRgba, false, false,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto block = [&] { return w.block(g); };  (void)set; (void)half; (void)small; (void)block; (void)E; }},
+            {"dds3ParticleSetRGBA", 0x00164f70, nocturne::eff::setParticleRgba, false, false,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto block = [&] { return w.block(g); };  (void)set; (void)half; (void)small; (void)block; (void)E; }},
+            {"dds3ParticleExpSetRGBA", 0x001655a8, nocturne::eff::setParticleRgba, false, false,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto block = [&] { return w.block(g); };  (void)set; (void)half; (void)small; (void)block; (void)E; }},
+            {"dds3SpPolySetRGBA", 0x00169ef0, nocturne::eff::setSpPolyRgba, false, false,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto block = [&] { return w.block(g); };  (void)set; (void)half; (void)small; (void)block; (void)E; }},
+            {"dds3EffectPartSetColor", 0x00175bb8, nocturne::eff::setPartColor, false, false,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto block = [&] { return w.block(g); }; half(E, g.pick<uint32_t>({0, 1, 2, 4, 5, 6, 7})); (void)set; (void)half; (void)small; (void)block; (void)E; }},
+            {"dds3EffectPartModelSetColor", 0x00175ef0, nocturne::eff::setPartModelColor, false, false,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto block = [&] { return w.block(g); }; set(E + 0x14, w.chain(g)); (void)set; (void)half; (void)small; (void)block; (void)E; }},
+            {"dds3EffectPCPSetPosition", 0x001760e0, nocturne::eff::setParticleEffectPosition, true, false,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto block = [&] { return w.block(g); }; set(E, g.below(44)); (void)set; (void)half; (void)small; (void)block; (void)E; }},
+            {"dds3EffectPCPSetDirection", 0x001761a0, nocturne::eff::setParticleEffectDirection, true, false,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto block = [&] { return w.block(g); }; set(E, g.below(44)); (void)set; (void)half; (void)small; (void)block; (void)E; }},
+            {"dds3EffectPCPSetColor", 0x001761e0, nocturne::eff::setParticleEffectColor, false, false,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto block = [&] { return w.block(g); }; set(E, g.below(44)); (void)set; (void)half; (void)small; (void)block; (void)E; }},
+            {"effMagaCylinderSetRGBA", 0x001a7720, nocturne::eff::setMagatamaCylinderRgba, false, false,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto block = [&] { return w.block(g); };  (void)set; (void)half; (void)small; (void)block; (void)E; }},
+            {"effMagaSpiralSetRGBA", 0x001a7f70, nocturne::eff::setMagatamaSpiralRgba, false, false,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto block = [&] { return w.block(g); };  (void)set; (void)half; (void)small; (void)block; (void)E; }},
+            {"effMagaSmokeSetRGBA", 0x001a88c8, nocturne::eff::setMagatamaSmokeRgba, false, false,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto block = [&] { return w.block(g); };  (void)set; (void)half; (void)small; (void)block; (void)E; }},
+            {"dds3MagatuhiParSetRGBA", 0x001a8d60, nocturne::eff::setMagatamaRgba, false, false,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto block = [&] { return w.block(g); }; set(E, g.below(5)); (void)set; (void)half; (void)small; (void)block; (void)E; }},
+            {"mdlSetEffectColorSub", 0x001dfcf8, [](uint32_t e, uint32_t v) { nocturne::eff::setModelEffectColor(e, e + 0x40u, v); }, false, true,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto block = [&] { return w.block(g); }; half(E + 0x44, small(2)); set(E + 0x48, block()); (void)set; (void)half; (void)small; (void)block; (void)E; }},
+            {"mdlSetEffectColor", 0x001dd7e8, nocturne::eff::setModelEffectsColor, false, false,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto block = [&] { return w.block(g); }; set(E + 0x14, w.chain(g)); (void)set; (void)half; (void)small; (void)block; (void)E; }},
+            {"mdlSetColor", 0x001dd840, nocturne::eff::setModelColor, false, false,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto block = [&] { return w.block(g); }; set(E + 0x14, w.chain(g)); (void)set; (void)half; (void)small; (void)block; (void)E; }},
+        };
+        for (const Setter& s : setters)
+            add(s.name, [s](Gen& g) {
+                EffectWorld w;
+                w.build(g);
+                w.allKind(2);
+                s.fix(g, w, EffectWorld::kWork);
+                const uint32_t value = s.position ? w.block(g) : static_cast<uint32_t>(g.rng());
+                const uint32_t work = EffectWorld::kWork;
+                return Pair{[=] {
+                                if (s.node)
+                                    return iface::origVmVoid(s.entry, {work, work + 0x40u, value});
+                                return iface::origVmVoid(s.entry, {work, value});
+                            },
+                            [=] { s.rewrite(work, value); return uint64_t{0}; }};
             });
     }
     add("effBTLSystemGetLength", [](Gen& g) {

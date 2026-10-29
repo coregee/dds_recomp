@@ -620,6 +620,13 @@ ee::Interpreter makeOriginal()
              {0x0018fc70u, 60u}, {0x001902c8u, 112u}, {0x00190bf0u, 332u}, {0x00192348u, 48u},
              {0x001925e8u, 56u}, {0x001928e8u, 56u}, {0x001948e0u, 184u}})
         e.interpret(entry, entry + size);
+    // Colours and placement by kind, a model's colour (dds3*SetRGBA, dds3EffectPCPSet*, mdlSetColor).
+    for (const auto& [entry, size] : std::initializer_list<std::pair<uint32_t, uint32_t>>{
+             {0x0015acf0u, 60u}, {0x0015d048u, 12u}, {0x0015d818u, 28u}, {0x00164f70u, 12u}, {0x001655a8u, 12u},
+             {0x00169ef0u, 12u}, {0x00175bb8u, 68u}, {0x00175ef0u, 24u}, {0x001760e0u, 68u}, {0x001761a0u, 68u},
+             {0x001761e0u, 68u}, {0x001a7720u, 12u}, {0x001a7f70u, 12u}, {0x001a88c8u, 12u}, {0x001a8d60u, 68u},
+             {0x001dfcf8u, 88u}, {0x001dd7e8u, 92u}, {0x001dd840u, 56u}})
+        e.interpret(entry, entry + size);
     // The particle effects' deletion (effPCP*Delete, dds3*Delete).
     for (const auto& [entry, size] : std::initializer_list<std::pair<uint32_t, uint32_t>>{
              {0x001764f0u, 44u}, {0x001785e8u, 44u}, {0x001790e0u, 52u}, {0x00179b08u, 44u}, {0x00182c40u, 44u},
