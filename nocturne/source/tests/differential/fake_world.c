@@ -840,8 +840,6 @@ uint64_t ps2BattleAction_00173CB0(uint64_t form, uint64_t kind)
     return 0x00779400u + ((uint32_t)kind & 0xff) * 0x10u;
 }
 void effBTLPartEnd(uint64_t part) { fw_mes_log(93, (uint32_t)part, 0); }
-/* effBTLSystemGetLength: the word at the handle (the fake parts above). */
-uint64_t ps2BattleAction_00173EF0(uint64_t handle) { return r32((uint32_t)handle); }
 void effBTLPartDraw(uint64_t part) { fw_mes_log(93, (uint32_t)part, 1); }
 void ps2BattlePanelSetAnalyzeUnit_00280538(uint64_t unit) { fw_mes_log(94, (uint32_t)unit, 0); }
 /* The VU0 packet makers a helper's coming and going uses (0x265130,

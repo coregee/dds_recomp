@@ -49,7 +49,6 @@ void OngyokiCloneEffect2Draw(uint32_t handle);               // (0x199C08)
 // kind's create, end and draw functions, from the table at 0x31BF00.
 uint32_t BTLPartCreate(nb::Formation* form, int32_t kind);  // (0x173CB0) effBTLPartCreate
 void BTLPartEnd(uint32_t part);                              // (0x173D28)
-uint32_t BTLSystemGetLength(uint32_t handle);                // (0x173EF0) effBTLSystemGetLength: a system effect's frames
 void BTLPartDraw(uint32_t part);                             // (0x173DC8)
 } // namespace eff
 

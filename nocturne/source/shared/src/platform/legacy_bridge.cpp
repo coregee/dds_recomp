@@ -106,7 +106,6 @@ void effPCPBossONGY2Draw(uint64_t handle);       // 0x198930
 void effPCPBossBUNSINDraw(uint64_t handle);      // 0x199600
 void effPCPBossBUNSIN2Draw(uint64_t handle);     // 0x199C08
 uint64_t ps2BattleAction_00173CB0(uint64_t form, uint64_t kind);   // effBTLPartCreate
-uint64_t ps2BattleAction_00173EF0(uint64_t handle);                // effBTLSystemGetLength
 void effBTLPartEnd(uint64_t part);               // 0x173D28: no legacy C yet
 void effBTLPartDraw(uint64_t part);              // 0x173DC8: no legacy C yet
 void ps2BattlePanelSetAnalyzeUnit_00280538(uint64_t unit);
@@ -410,7 +409,6 @@ uint32_t eff::BTLPartCreate(nb::Formation* form, int32_t kind)
     return static_cast<uint32_t>(ps2BattleAction_00173CB0(word(guest::addressOf(form)), signExtend(kind)));
 }
 void eff::BTLPartEnd(uint32_t part) { effBTLPartEnd(word(part)); }
-uint32_t eff::BTLSystemGetLength(uint32_t handle) { return static_cast<uint32_t>(ps2BattleAction_00173EF0(word(handle))); }
 void eff::BTLPartDraw(uint32_t part) { effBTLPartDraw(word(part)); }
 void evt::SetAgeOfMoon(int32_t age) { evtSetAgeOfMoon(age); }
 void guest::callEffectPlayer(uint32_t entry, uint32_t queue, uint32_t packet)

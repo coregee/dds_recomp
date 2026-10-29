@@ -92,7 +92,6 @@ void effPCPBossONGY2Draw(uint64_t);
 void effPCPBossBUNSINDraw(uint64_t);
 void effPCPBossBUNSIN2Draw(uint64_t);
 uint64_t ps2BattleAction_00173CB0(uint64_t, uint64_t);
-uint64_t ps2BattleAction_00173EF0(uint64_t);
 void effBTLPartEnd(uint64_t);
 void effBTLPartDraw(uint64_t);
 void ps2BattlePanelSetAnalyzeUnit_00280538(uint64_t);
@@ -465,7 +464,6 @@ ee::Interpreter makeOriginal()
     e.hook(0x00199600, [=](ee::Cpu& c) { effPCPBossBUNSINDraw(a(c, 0)); return uint64_t{0}; });
     e.hook(0x00199c08, [=](ee::Cpu& c) { effPCPBossBUNSIN2Draw(a(c, 0)); return uint64_t{0}; });
     e.hook(0x00173cb0, [=](ee::Cpu& c) { return ps2BattleAction_00173CB0(a(c, 0), a(c, 1)); });
-    e.hook(0x00173ef0, [=](ee::Cpu& c) { return ps2BattleAction_00173EF0(a(c, 0)); });
     e.hook(0x00173d28, [=](ee::Cpu& c) { effBTLPartEnd(a(c, 0)); return uint64_t{0}; });
     e.hook(0x00173dc8, [=](ee::Cpu& c) { effBTLPartDraw(a(c, 0)); return uint64_t{0}; });
     e.hook(0x00280538, [=](ee::Cpu& c) { ps2BattlePanelSetAnalyzeUnit_00280538(a(c, 0)); return uint64_t{0}; });
@@ -600,6 +598,15 @@ ee::Interpreter makeOriginal()
     e.interpret(0x0028b0b8, 0x0028b198);   // a formation set up (its delay slot one past Ghidra's size)
     e.interpret(0x0028b198, 0x0028b448);   // nbCopyFormation, nbMoveFormation, nbUpdateFormation (to its return)
     e.interpret(0x00173f40, 0x00173f48);   // effBTLSystemGetID
+    e.interpret(0x00173ef0, 0x00173f40);   // effBTLSystemGetLength
+    // The families' getLength (effBTLSys_*_GetLength), 8 bytes each but the
+    // five that ask a cut.
+    for (const uint32_t entry : {0x00170150u, 0x001703a8u, 0x00170590u, 0x00170778u, 0x00170960u, 0x00170c00u,
+                                 0x00170e00u, 0x00171060u, 0x00171268u, 0x001713d0u, 0x00171578u, 0x00171728u,
+                                 0x00171978u, 0x00171c40u, 0x001720f0u, 0x00172590u, 0x00172d18u, 0x001735e0u})
+        e.interpret(entry, entry + 8);
+    for (const uint32_t entry : {0x00172718u, 0x00173768u, 0x001738f8u, 0x00173a88u, 0x00173c18u})
+        e.interpret(entry, entry + 24);
     e.interpret(0x00259bd0, 0x00259c44);   // nbAddKagututiMoon
     e.interpret(0x0027c268, 0x0027c28c);   // nbPanelPressGaugeStart
     e.interpret(0x0027c340, 0x0027c350);   // nbPanelPressGaugeEncountHide

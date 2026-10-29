@@ -32,6 +32,7 @@
 #include "nocturne/data/devil_ai.hpp"
 #include "nocturne/effect/boss.hpp"
 #include "nocturne/effect/cut.hpp"
+#include "nocturne/effect/system.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/event/units.hpp"
 #include "nocturne/external.hpp"
@@ -212,6 +213,18 @@ void scriptActor(Gen& g)
 
 using Body = std::function<Pair(Gen&)>;
 
+// A system effect at `handle` (effBTLSystemHandle_t): mostly a family of the
+// table's (an empty row now and then), its effect's cut ending at any frame.
+void systemEffectWorld(Gen& g, uint32_t handle)
+{
+    constexpr uint32_t kEffects = 0x0077c000u, kCuts = 0x0077c800u;
+    const uint32_t k = g.below(0x40);
+    const uint32_t effect = kEffects + 0x10u * k, cut = kCuts + 0x20u * k;
+    at<uint32_t>(effect + 8) = cut;
+    at<nocturne::eff::BattleCut>(cut).cutEndFrame = g.chance(70) ? static_cast<uint32_t>(g.range(0, 200)) : static_cast<uint32_t>(g.rng());
+    at<nocturne::eff::SystemEffect>(handle) = {g.range(0, 29), effect, formAddress(g.range(0, 13))};
+}
+
 } // namespace
 
 void addKoukaTests(std::vector<TestCase>& t)
@@ -386,16 +399,51 @@ void addKoukaTests(std::vector<TestCase>& t)
         return Pair{[=] { return origVm(0x00262260, {I(s), I(id), f, bad}); }, [=] { return R(&addAilmentMotionPacket(s, id, F(f), bad)); }};
     });
     // A hit effect: every kind (and some past them), the slot empty or not,
-    // the effect's length any word.
+    // the effect of any family (its length any word).
     add("nbAddHitEffKoukaPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g);
         const uint32_t f = formAddress(g.range(0, 13));
         at<Formation>(f).stat ^= g.chance(20) ? 1u : 0u;
         const uint32_t kind = g.chance(85) ? static_cast<uint32_t>(g.range(0, 10)) : static_cast<uint32_t>(g.range(-1, 14));
         for (uint32_t part = 0; part < 0x1e; ++part)
-            at<uint32_t>(0x00779400u + part * 0x10u) = g.chance(70) ? static_cast<uint32_t>(g.range(0, 90)) : static_cast<uint32_t>(g.rng());
+            systemEffectWorld(g, 0x00779400u + part * 0x10u);
         return Pair{[=] { return origVm(0x00262480, {I(s), I(id), f, kind}); }, [=] { return R(addHitEffectPacket(s, id, at<Formation>(f), kind)); }};
     });
+    add("effBTLSystemGetLength", [](Gen& g) {
+        constexpr uint32_t handle = 0x0077cf00u;
+        systemEffectWorld(g, handle);
+        return Pair{[=] { return origVm(0x00173ef0, {handle}); },
+                    [=] { return norm(static_cast<int32_t>(nocturne::eff::systemEffectLength(at<nocturne::eff::SystemEffect>(handle)))); }};
+    });
+    {
+        using F = nocturne::eff::SystemFamily;
+        struct Family { const char* name; uint32_t entry; F family; };
+        static const Family families[] = {
+            {"effBTLSys_Shock_GetLength", 0x00170150, F::Shock}, {"effBTLSys_Freeze_GetLength", 0x001703a8, F::Freeze},
+            {"effBTLSys_Sleep_GetLength", 0x00170590, F::Sleep}, {"effBTLSys_Panic_GetLength", 0x00170778, F::Panic},
+            {"effBTLSys_Bind_GetLength", 0x00170960, F::Bind}, {"effBTLSys_Close_GetLength", 0x00170c00, F::Mute},
+            {"effBTLSys_Poison_GetLength", 0x00170e00, F::Poison}, {"effBTLSys_Charm_GetLength", 0x00171060, F::Charm},
+            {"effBTLSys_Paralyze_GetLength", 0x00171268, F::Stun}, {"effBTLSys_Fly_GetLength", 0x001713d0, F::Fly},
+            {"effBTLSys_Stone_GetLength", 0x00171578, F::Stone}, {"effBTLSys_Curse_GetLength", 0x00171728, F::Curse},
+            {"effBTLSys_CurseCAMP_GetLength", 0x00171978, F::CurseCamp},
+            {"effBTLSys_Stone_Dead_GetLength", 0x00171c40, F::StoneShatter},
+            {"effBTLSys_Hansya_GetLength", 0x001720f0, F::Repel}, {"effBTLSys_Kyusyuu_GetLength", 0x00172590, F::Drain},
+            {"effBTLSys_Return_GetLength", 0x00172718, F::Return}, {"effBTLSys_Attack_GetLength", 0x00172d18, F::Attack},
+            {"effBTLSys_AttackC_GetLength", 0x001735e0, F::AttackC},
+            {"effBTLSys_Encount_GetLength", 0x00173768, F::Encounter},
+            {"effBTLSys_Nego_Kaihuku_GetLength", 0x001738f8, F::TalkHeal},
+            {"effBTLSys_Nego_Kyusyu_GetLength", 0x00173a88, F::TalkDrain},
+            {"effBTLSys_Nego_Stone_GetLength", 0x00173c18, F::TalkStone},
+        };
+        for (const Family& f : families)
+            add(f.name, [f](Gen& g) {
+                constexpr uint32_t handle = 0x0077cf00u;
+                systemEffectWorld(g, handle);
+                const uint32_t effect = at<nocturne::eff::SystemEffect>(handle).effect;
+                return Pair{[=] { return origVm(f.entry, {effect}); },
+                            [=] { return norm(static_cast<int32_t>(nocturne::eff::familyLength(f.family, effect))); }};
+            });
+    }
     add("nbAddBadEffKoukaPacket", [](Gen& g) {
         const int32_t s = frame(g), id = uid(g);
         const uint32_t f = someForm(g), bad = g.chance(80) ? 1u << g.range(0, 12) : g.below(0x1000);

@@ -7,6 +7,7 @@
 #include "nocturne/battle/combatant.hpp"
 #include "nocturne/battle/event_process.hpp"
 #include "nocturne/effect/boss.hpp"
+#include "nocturne/effect/system.hpp"
 #include "nocturne/external.hpp"
 #include "nocturne/build.hpp"
 #include "nocturne/guest.hpp"
@@ -504,7 +505,7 @@ EffectPacket* addHitEffectPacket(int32_t startframe, int32_t uniqueid, Formation
     }
     const HitEffect& effect = kHitEffects[kind];
     p.data2.raw = eff::BTLPartCreate(&form, effect.part);
-    p.framelength = static_cast<int16_t>(eff::BTLSystemGetLength(p.data2.raw));
+    p.framelength = static_cast<int16_t>(eff::systemEffectLength(*guest::table<const eff::SystemEffect>(p.data2.raw)));
     diag::print(diag::Message::HitEffectLength, p.framelength);
     if (effect.sound != 0)
         addSoundPacket(startframe, uniqueid, effect.sound);

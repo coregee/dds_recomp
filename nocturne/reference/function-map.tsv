@@ -1946,7 +1946,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00170098	44	FUN_00170098	DEFAULT	named								effBTLSys_Shock_Delete2
 001700c8	24	FUN_001700c8	DEFAULT	named								effBTLSys_Shock_SetColor
 001700e0	108	FUN_001700e0	DEFAULT	named								effBTLSys_Shock_Draw
-00170150	8	FUN_00170150	DEFAULT	named								effBTLSys_Shock_GetLength
+00170150	8	FUN_00170150	DEFAULT	rewritten	shared/src/effect/system.cpp:ailmentLength		ok	ok	ok	ok	ok	effBTLSys_Shock_GetLength
 00170158	32	FUN_00170158	DEFAULT	named								effBTLSys_Shock_DataLoad
 00170178	32	FUN_00170178	DEFAULT	named								effBTLSys_Shock_DataFree
 00170198	32	FUN_00170198	DEFAULT	named								effBTLSys_Shock_PartHandleCreate
@@ -1956,7 +1956,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001702b8	44	FUN_001702b8	DEFAULT	named								effBTLSys_Freeze_Delete2
 001702e8	24	FUN_001702e8	DEFAULT	named								effBTLSys_Freeze_SetColor
 00170300	168	FUN_00170300	DEFAULT	named								effBTLSys_Freeze_Draw
-001703a8	8	FUN_001703a8	DEFAULT	named								effBTLSys_Freeze_GetLength
+001703a8	8	FUN_001703a8	DEFAULT	rewritten	shared/src/effect/system.cpp:ailmentLength		ok	ok	ok	ok	ok	effBTLSys_Freeze_GetLength
 001703b0	32	FUN_001703b0	DEFAULT	named								effBTLSys_Freeze_DataLoad
 001703d0	32	FUN_001703d0	DEFAULT	named								effBTLSys_Freeze_DataFree
 001703f0	32	FUN_001703f0	DEFAULT	named								effBTLSys_Freeze_PartHandleCreate
@@ -1966,7 +1966,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001704d8	44	FUN_001704d8	DEFAULT	named								effBTLSys_Sleep_Delete2
 00170508	24	FUN_00170508	DEFAULT	named								effBTLSys_Sleep_SetColor
 00170520	108	FUN_00170520	DEFAULT	named								effBTLSys_Sleep_Draw
-00170590	8	FUN_00170590	DEFAULT	named								effBTLSys_Sleep_GetLength
+00170590	8	FUN_00170590	DEFAULT	rewritten	shared/src/effect/system.cpp:ailmentLength		ok	ok	ok	ok	ok	effBTLSys_Sleep_GetLength
 00170598	32	FUN_00170598	DEFAULT	named								effBTLSys_Sleep_DataLoad
 001705b8	32	FUN_001705b8	DEFAULT	named								effBTLSys_Sleep_DataFree
 001705d8	32	FUN_001705d8	DEFAULT	named								effBTLSys_Sleep_PartHandleCreate
@@ -1976,7 +1976,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001706c0	44	FUN_001706c0	DEFAULT	named								effBTLSys_Panic_Delete2
 001706f0	24	FUN_001706f0	DEFAULT	named								effBTLSys_Panic_SetColor
 00170708	108	FUN_00170708	DEFAULT	named								effBTLSys_Panic_Draw
-00170778	8	FUN_00170778	DEFAULT	named								effBTLSys_Panic_GetLength
+00170778	8	FUN_00170778	DEFAULT	rewritten	shared/src/effect/system.cpp:ailmentLength		ok	ok	ok	ok	ok	effBTLSys_Panic_GetLength
 00170780	32	FUN_00170780	DEFAULT	named								effBTLSys_Panic_DataLoad
 001707a0	32	FUN_001707a0	DEFAULT	named								effBTLSys_Panic_DataFree
 001707c0	32	FUN_001707c0	DEFAULT	named								effBTLSys_Panic_PartHandleCreate
@@ -1986,7 +1986,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001708a8	44	FUN_001708a8	DEFAULT	named								effBTLSys_Bind_Delete2
 001708d8	24	FUN_001708d8	DEFAULT	named								effBTLSys_Bind_SetColor
 001708f0	108	FUN_001708f0	DEFAULT	named								effBTLSys_Bind_Draw
-00170960	8	FUN_00170960	DEFAULT	named								effBTLSys_Bind_GetLength
+00170960	8	FUN_00170960	DEFAULT	rewritten	shared/src/effect/system.cpp:ailmentLength		ok	ok	ok	ok	ok	effBTLSys_Bind_GetLength
 00170968	32	FUN_00170968	DEFAULT	named								effBTLSys_Bind_DataLoad
 00170988	32	FUN_00170988	DEFAULT	named								effBTLSys_Bind_DataFree
 001709a8	32	FUN_001709a8	DEFAULT	named								effBTLSys_Bind_PartHandleCreate
@@ -1996,7 +1996,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00170ae0	52	FUN_00170ae0	DEFAULT	named								effBTLSys_Close_Delete2
 00170b18	60	FUN_00170b18	DEFAULT	named								effBTLSys_Close_SetColor
 00170b58	164	FUN_00170b58	DEFAULT	named								effBTLSys_Close_Draw
-00170c00	8	FUN_00170c00	DEFAULT	named								effBTLSys_Close_GetLength
+00170c00	8	FUN_00170c00	DEFAULT	rewritten	shared/src/effect/system.cpp:ailmentLength		ok	ok	ok	ok	ok	effBTLSys_Close_GetLength
 00170c08	32	FUN_00170c08	DEFAULT	named								effBTLSys_Close_DataLoad
 00170c28	32	FUN_00170c28	DEFAULT	named								effBTLSys_Close_DataFree
 00170c48	32	FUN_00170c48	DEFAULT	named								effBTLSys_Close_PartHandleCreate
@@ -2006,7 +2006,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00170d48	44	FUN_00170d48	DEFAULT	named								effBTLSys_Poison_Delete2
 00170d78	24	FUN_00170d78	DEFAULT	named								effBTLSys_Poison_SetColor
 00170d90	112	FUN_00170d90	DEFAULT	named								effBTLSys_Poison_Draw
-00170e00	8	FUN_00170e00	DEFAULT	named								effBTLSys_Poison_GetLength
+00170e00	8	FUN_00170e00	DEFAULT	rewritten	shared/src/effect/system.cpp:ailmentLength		ok	ok	ok	ok	ok	effBTLSys_Poison_GetLength
 00170e08	32	FUN_00170e08	DEFAULT	named								effBTLSys_Poison_DataLoad
 00170e28	32	FUN_00170e28	DEFAULT	named								effBTLSys_Poison_DataFree
 00170e48	32	FUN_00170e48	DEFAULT	named								effBTLSys_Poison_PartHandleCreate
@@ -2016,7 +2016,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00170f68	52	FUN_00170f68	DEFAULT	named								effBTLSys_Charm_Delete2
 00170fa0	60	FUN_00170fa0	DEFAULT	named								effBTLSys_Charm_SetColor
 00170fe0	128	FUN_00170fe0	DEFAULT	named								effBTLSys_Charm_Draw
-00171060	8	FUN_00171060	DEFAULT	named								effBTLSys_Charm_GetLength
+00171060	8	FUN_00171060	DEFAULT	rewritten	shared/src/effect/system.cpp:ailmentLength		ok	ok	ok	ok	ok	effBTLSys_Charm_GetLength
 00171068	32	FUN_00171068	DEFAULT	named								effBTLSys_Charm_DataLoad
 00171088	32	FUN_00171088	DEFAULT	named								effBTLSys_Charm_DataFree
 001710a8	32	FUN_001710a8	DEFAULT	named								effBTLSys_Charm_PartHandleCreate
@@ -2026,7 +2026,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001711b0	44	FUN_001711b0	DEFAULT	named								effBTLSys_Paralyze_Delete2
 001711e0	32	FUN_001711e0	DEFAULT	named								effBTLSys_Paralyze_SetColor
 001711f8	108	FUN_001711f8	DEFAULT	named								effBTLSys_Paralyze_Draw
-00171268	8	FUN_00171268	DEFAULT	named								effBTLSys_Paralyze_GetLength
+00171268	8	FUN_00171268	DEFAULT	rewritten	shared/src/effect/system.cpp:ailmentLength		ok	ok	ok	ok	ok	effBTLSys_Paralyze_GetLength
 00171270	32	FUN_00171270	DEFAULT	named								effBTLSys_Paralyze_DataLoad
 00171290	32	FUN_00171290	DEFAULT	named								effBTLSys_Paralyze_DataFree
 001712b0	32	FUN_001712b0	DEFAULT	named								effBTLSys_Paralyze_PartHandleCreate
@@ -2036,7 +2036,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00171360	20	FUN_00171360	DEFAULT	named								effBTLSys_Fly_Delete2
 00171378	8	FUN_00171378	DEFAULT	named								effBTLSys_Fly_SetColor
 00171380	76	FUN_00171380	DEFAULT	named								effBTLSys_Fly_Draw
-001713d0	8	FUN_001713d0	DEFAULT	named								effBTLSys_Fly_GetLength
+001713d0	8	FUN_001713d0	DEFAULT	rewritten	shared/src/effect/system.cpp:ailmentLength		ok	ok	ok	ok	ok	effBTLSys_Fly_GetLength
 001713d8	32	FUN_001713d8	DEFAULT	named								effBTLSys_Fly_DataLoad
 001713f8	32	FUN_001713f8	DEFAULT	named								effBTLSys_Fly_DataFree
 00171418	32	FUN_00171418	DEFAULT	named								effBTLSys_Fly_PartHandleCreate
@@ -2046,7 +2046,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001714e8	20	FUN_001714e8	DEFAULT	named								effBTLSys_Stone_Delete2
 00171500	8	FUN_00171500	DEFAULT	named								effBTLSys_Stone_SetColor
 00171508	112	FUN_00171508	DEFAULT	named								effBTLSys_Stone_Draw
-00171578	8	FUN_00171578	DEFAULT	named								effBTLSys_Stone_GetLength
+00171578	8	FUN_00171578	DEFAULT	rewritten	shared/src/effect/system.cpp:ailmentLength		ok	ok	ok	ok	ok	effBTLSys_Stone_GetLength
 00171580	32	FUN_00171580	DEFAULT	named								effBTLSys_Stone_DataLoad
 001715a0	32	FUN_001715a0	DEFAULT	named								effBTLSys_Stone_DataFree
 001715c0	32	FUN_001715c0	DEFAULT	named								effBTLSys_Stone_PartHandleCreate
@@ -2056,7 +2056,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00171698	44	FUN_00171698	DEFAULT	named								effBTLSys_Curse_Delete2
 001716c8	24	FUN_001716c8	DEFAULT	named								effBTLSys_Curse_SetColor
 001716e0	68	FUN_001716e0	DEFAULT	named								effBTLSys_Curse_Draw
-00171728	8	FUN_00171728	DEFAULT	named								effBTLSys_Curse_GetLength
+00171728	8	FUN_00171728	DEFAULT	rewritten	shared/src/effect/system.cpp:ailmentLength		ok	ok	ok	ok	ok	effBTLSys_Curse_GetLength
 00171730	32	FUN_00171730	DEFAULT	named								effBTLSys_Curse_DataLoad
 00171750	32	FUN_00171750	DEFAULT	named								effBTLSys_Curse_DataFree
 00171770	32	FUN_00171770	DEFAULT	named								effBTLSys_Curse_PartHandleCreate
@@ -2066,7 +2066,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00171880	52	FUN_00171880	DEFAULT	named								effBTLSys_CurseCAMP_Delete2
 001718b8	60	FUN_001718b8	DEFAULT	named								effBTLSys_CurseCAMP_SetColor
 001718f8	128	FUN_001718f8	DEFAULT	named								effBTLSys_CurseCAMP_Draw
-00171978	8	FUN_00171978	DEFAULT	named								effBTLSys_CurseCAMP_GetLength
+00171978	8	FUN_00171978	DEFAULT	rewritten	shared/src/effect/system.cpp:ailmentLength		ok	ok	ok	ok	ok	effBTLSys_CurseCAMP_GetLength
 00171980	32	FUN_00171980	DEFAULT	named								effBTLSys_CurseCAMP_DataLoad
 001719a0	32	FUN_001719a0	DEFAULT	named								effBTLSys_CurseCAMP_DataFree
 001719c0	32	FUN_001719c0	DEFAULT	named								effBTLSys_CurseCAMP_PartHandleCreate
@@ -2076,7 +2076,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00171b20	60	FUN_00171b20	DEFAULT	named								effBTLSys_Stone_Dead_Delete2
 00171b60	8	FUN_00171b60	DEFAULT	named								effBTLSys_Stone_Dead_SetColor
 00171b68	212	FUN_00171b68	DEFAULT	named								effBTLSys_Stone_Dead_Draw
-00171c40	8	ps2HitEffectLength14	USER_DEFINED	legacy		battle_action_hit_length_frames.c:body_00171c40;battle_action_hit_length_frames.c:ps2BattleActionHitLength_00171C40;battle_effect_copy.c:ps2HitEffectLength14						effBTLSys_Stone_Dead_GetLength
+00171c40	8	ps2HitEffectLength14	USER_DEFINED	rewritten	shared/src/effect/system.cpp:shatterLength	battle_action_hit_length_frames.c:body_00171c40;battle_action_hit_length_frames.c:ps2BattleActionHitLength_00171C40;battle_effect_copy.c:ps2HitEffectLength14	ok	ok	ok	ok	ok	effBTLSys_Stone_Dead_GetLength
 00171c48	32	FUN_00171c48	DEFAULT	named								effBTLSys_Stone_Dead_DataLoad
 00171c68	32	FUN_00171c68	DEFAULT	named								effBTLSys_Stone_Dead_DataFree
 00171c88	32	FUN_00171c88	DEFAULT	named								effBTLSys_Stone_Dead_PartHandleCreate
@@ -2086,7 +2086,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00171de0	52	FUN_00171de0	DEFAULT	named								effBTLSys_Hansya_Delete2
 00171e18	8	FUN_00171e18	DEFAULT	named								effBTLSys_Hansya_SetColor
 00171e20	708	FUN_00171e20	DEFAULT	named								effBTLSys_Hansya_Draw
-001720f0	8	ps2HitEffectLength17	USER_DEFINED	legacy		battle_action_hit_length_frames.c:body_001720f0;battle_action_hit_length_frames.c:ps2BattleActionHitLength_001720F0;battle_effect_copy.c:ps2HitEffectLength17						effBTLSys_Hansya_GetLength
+001720f0	8	ps2HitEffectLength17	USER_DEFINED	rewritten	shared/src/effect/system.cpp:repelLength	battle_action_hit_length_frames.c:body_001720f0;battle_action_hit_length_frames.c:ps2BattleActionHitLength_001720F0;battle_effect_copy.c:ps2HitEffectLength17	ok	ok	ok	ok	ok	effBTLSys_Hansya_GetLength
 001720f8	32	FUN_001720f8	DEFAULT	named								effBTLSys_Hansya_DataLoad
 00172118	32	FUN_00172118	DEFAULT	named								effBTLSys_Hansya_DataFree
 00172138	32	FUN_00172138	DEFAULT	named								effBTLSys_Hansya_PartHandleCreate
@@ -2096,7 +2096,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00172288	68	FUN_00172288	DEFAULT	named								effBTLSys_Kyusyuu_Delete2
 001722d0	8	FUN_001722d0	DEFAULT	named								effBTLSys_Kyusyuu_SetColor
 001722d8	696	FUN_001722d8	DEFAULT	named								effBTLSys_Kyusyuu_Draw
-00172590	8	ps2HitEffectLength18	USER_DEFINED	legacy		battle_action_hit_length_frames.c:body_00172590;battle_action_hit_length_frames.c:ps2BattleActionHitLength_00172590;battle_effect_copy.c:ps2HitEffectLength18						effBTLSys_Kyusyuu_GetLength
+00172590	8	ps2HitEffectLength18	USER_DEFINED	rewritten	shared/src/effect/system.cpp:drainLength	battle_action_hit_length_frames.c:body_00172590;battle_action_hit_length_frames.c:ps2BattleActionHitLength_00172590;battle_effect_copy.c:ps2HitEffectLength18	ok	ok	ok	ok	ok	effBTLSys_Kyusyuu_GetLength
 00172598	32	FUN_00172598	DEFAULT	named								effBTLSys_Kyusyuu_DataLoad
 001725b8	32	FUN_001725b8	DEFAULT	named								effBTLSys_Kyusyuu_DataFree
 001725d8	32	FUN_001725d8	DEFAULT	named								effBTLSys_Kyusyuu_PartHandleCreate
@@ -2106,7 +2106,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001726a8	44	FUN_001726a8	DEFAULT	named								effBTLSys_Return_Delete2
 001726d8	8	FUN_001726d8	DEFAULT	named								effBTLSys_Return_SetColor
 001726e0	52	FUN_001726e0	DEFAULT	named								effBTLSys_Return_Draw
-00172718	24	ps2HitEffectLength20	USER_DEFINED	legacy		battle_action_hit_length_frames.c:body_00172718;battle_action_hit_length_frames.c:ps2BattleActionHitLength_00172718						effBTLSys_Return_GetLength
+00172718	24	ps2HitEffectLength20	USER_DEFINED	rewritten	shared/src/effect/system.cpp:cutLength	battle_action_hit_length_frames.c:body_00172718;battle_action_hit_length_frames.c:ps2BattleActionHitLength_00172718	ok	ok	ok	ok	ok	effBTLSys_Return_GetLength
 00172730	32	FUN_00172730	DEFAULT	named								effBTLSys_Return_DataLoad
 00172750	32	FUN_00172750	DEFAULT	named								effBTLSys_Return_DataFree
 00172770	32	FUN_00172770	DEFAULT	named								effBTLSys_Return_PartHandleCreate
@@ -2116,7 +2116,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001728a0	84	FUN_001728a0	DEFAULT	named								effBTLSys_Attack_Delete2
 001728f8	8	FUN_001728f8	DEFAULT	named								effBTLSys_Attack_SetColor
 00172900	1040	FUN_00172900	DEFAULT	named								effBTLSys_Attack_Draw
-00172d18	8	ps2HitEffectLength24	USER_DEFINED	legacy		battle_action_hit_length_frames.c:body_00172d18;battle_action_hit_length_frames.c:ps2BattleActionHitLength_00172D18;battle_effect_copy.c:ps2HitEffectLength24						effBTLSys_Attack_GetLength
+00172d18	8	ps2HitEffectLength24	USER_DEFINED	rewritten	shared/src/effect/system.cpp:attackLength	battle_action_hit_length_frames.c:body_00172d18;battle_action_hit_length_frames.c:ps2BattleActionHitLength_00172D18;battle_effect_copy.c:ps2HitEffectLength24	ok	ok	ok	ok	ok	effBTLSys_Attack_GetLength
 00172d20	32	FUN_00172d20	DEFAULT	named								effBTLSys_Attack_DataLoad
 00172d40	32	FUN_00172d40	DEFAULT	named								effBTLSys_Attack_DataFree
 00172d60	32	FUN_00172d60	DEFAULT	named								effBTLSys_Attack_PartHandleCreate
@@ -2126,7 +2126,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00172f10	132	FUN_00172f10	DEFAULT	named								effBTLSys_AttackC_Delete2
 00172f98	8	FUN_00172f98	DEFAULT	named								effBTLSys_AttackC_SetColor
 00172fa0	1596	FUN_00172fa0	DEFAULT	named								effBTLSys_AttackC_Draw
-001735e0	8	ps2HitEffectLength25	USER_DEFINED	legacy		battle_action_hit_length_frames.c:body_001735e0;battle_action_hit_length_frames.c:ps2BattleActionHitLength_001735E0;battle_effect_copy.c:ps2HitEffectLength25						effBTLSys_AttackC_GetLength
+001735e0	8	ps2HitEffectLength25	USER_DEFINED	rewritten	shared/src/effect/system.cpp:attackLength	battle_action_hit_length_frames.c:body_001735e0;battle_action_hit_length_frames.c:ps2BattleActionHitLength_001735E0;battle_effect_copy.c:ps2HitEffectLength25	ok	ok	ok	ok	ok	effBTLSys_AttackC_GetLength
 001735e8	32	FUN_001735e8	DEFAULT	named								effBTLSys_AttackC_DataLoad
 00173608	32	FUN_00173608	DEFAULT	named								effBTLSys_AttackC_DataFree
 00173628	32	FUN_00173628	DEFAULT	named								effBTLSys_AttackC_PartHandleCreate
@@ -2136,7 +2136,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001736f8	44	FUN_001736f8	DEFAULT	named								effBTLSys_Encount_Delete2
 00173728	52	FUN_00173728	DEFAULT	named								effBTLSys_Encount_Draw
 00173760	8	FUN_00173760	DEFAULT	named								effBTLSys_Encount_SetColor
-00173768	24	ps2HitEffectLength26	USER_DEFINED	legacy		battle_action_hit_length_frames.c:body_00173768;battle_action_hit_length_frames.c:ps2BattleActionHitLength_00173768						effBTLSys_Encount_GetLength
+00173768	24	ps2HitEffectLength26	USER_DEFINED	rewritten	shared/src/effect/system.cpp:cutLength	battle_action_hit_length_frames.c:body_00173768;battle_action_hit_length_frames.c:ps2BattleActionHitLength_00173768	ok	ok	ok	ok	ok	effBTLSys_Encount_GetLength
 00173780	32	FUN_00173780	DEFAULT	named								effBTLSys_Encount_DataLoad
 001737a0	32	FUN_001737a0	DEFAULT	named								effBTLSys_Encount_DataFree
 001737c0	32	FUN_001737c0	DEFAULT	named								effBTLSys_Encount_PartHandleCreate
@@ -2144,7 +2144,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00173800	92	ps2HitEffectCreate27	USER_DEFINED	legacy		battle_action_hit_frames.c:ps2BattleActionHitCreate27_00173800;battle_effect_copy.c:ps2HitEffectCreate27						effBTLSys_Nego_Kaihuku_Create
 00173860	44	FUN_00173860	DEFAULT	named								effBTLSys_Nego_Kaihuku_Delete
 001738c0	52	FUN_001738c0	DEFAULT	named								effBTLSys_Nego_Kaihuku_Draw
-001738f8	24	ps2HitEffectLength27	USER_DEFINED	legacy		battle_action_hit_length_frames.c:body_001738f8;battle_action_hit_length_frames.c:ps2BattleActionHitLength_001738F8						effBTLSys_Nego_Kaihuku_GetLength
+001738f8	24	ps2HitEffectLength27	USER_DEFINED	rewritten	shared/src/effect/system.cpp:cutLength	battle_action_hit_length_frames.c:body_001738f8;battle_action_hit_length_frames.c:ps2BattleActionHitLength_001738F8	ok	ok	ok	ok	ok	effBTLSys_Nego_Kaihuku_GetLength
 00173910	32	FUN_00173910	DEFAULT	named								effBTLSys_Nego_Kaihuku_DataLoad
 00173930	32	FUN_00173930	DEFAULT	named								effBTLSys_Nego_Kaihuku_DataFree
 00173950	32	FUN_00173950	DEFAULT	named								effBTLSys_Nego_Kaihuku_PartHandleCreate
@@ -2152,7 +2152,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00173990	92	ps2HitEffectCreate28	USER_DEFINED	legacy		battle_action_hit_frames.c:ps2BattleActionHitCreate28_00173990;battle_effect_copy.c:ps2HitEffectCreate28						effBTLSys_Nego_Kyusyu_Create
 001739f0	44	FUN_001739f0	DEFAULT	named								effBTLSys_Nego_Kyusyu_Delete
 00173a50	52	FUN_00173a50	DEFAULT	named								effBTLSys_Nego_Kyusyu_Draw
-00173a88	24	ps2HitEffectLength28	USER_DEFINED	legacy		battle_action_hit_length_frames.c:body_00173a88;battle_action_hit_length_frames.c:ps2BattleActionHitLength_00173A88						effBTLSys_Nego_Kyusyu_GetLength
+00173a88	24	ps2HitEffectLength28	USER_DEFINED	rewritten	shared/src/effect/system.cpp:cutLength	battle_action_hit_length_frames.c:body_00173a88;battle_action_hit_length_frames.c:ps2BattleActionHitLength_00173A88	ok	ok	ok	ok	ok	effBTLSys_Nego_Kyusyu_GetLength
 00173aa0	32	FUN_00173aa0	DEFAULT	named								effBTLSys_Nego_Kyusyu_DataLoad
 00173ac0	32	FUN_00173ac0	DEFAULT	named								effBTLSys_Nego_Kyusyu_DataFree
 00173ae0	32	FUN_00173ae0	DEFAULT	named								effBTLSys_Nego_Kyusyu_PartHandleCreate
@@ -2160,7 +2160,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00173b20	92	ps2HitEffectCreate29	USER_DEFINED	legacy		battle_action_hit_frames.c:ps2BattleActionHitCreate29_00173B20;battle_effect_copy.c:ps2HitEffectCreate29						effBTLSys_Nego_Stone_Create
 00173b80	44	FUN_00173b80	DEFAULT	named								effBTLSys_Nego_Stone_Delete
 00173be0	52	FUN_00173be0	DEFAULT	named								effBTLSys_Nego_Stone_Draw
-00173c18	24	ps2HitEffectLength29	USER_DEFINED	legacy		battle_action_hit_length_frames.c:body_00173c18;battle_action_hit_length_frames.c:ps2BattleActionHitLength_00173C18						effBTLSys_Nego_Stone_GetLength
+00173c18	24	ps2HitEffectLength29	USER_DEFINED	rewritten	shared/src/effect/system.cpp:cutLength	battle_action_hit_length_frames.c:body_00173c18;battle_action_hit_length_frames.c:ps2BattleActionHitLength_00173C18	ok	ok	ok	ok	ok	effBTLSys_Nego_Stone_GetLength
 00173c30	32	FUN_00173c30	DEFAULT	named								effBTLSys_Nego_Stone_DataLoad
 00173c50	32	FUN_00173c50	DEFAULT	named								effBTLSys_Nego_Stone_DataFree
 00173c70	32	FUN_00173c70	DEFAULT	named								effBTLSys_Nego_Stone_PartHandleCreate
@@ -2169,7 +2169,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00173d28	80	FUN_00173d28	DEFAULT	named								effBTLSystemDelete
 00173d78	80	effBTLPartDelete	USER_DEFINED	legacy		battle_action_finish.c:effBTLPartDelete						effBTLSystemDelete2
 00173dc8	292	FUN_00173dc8	DEFAULT	named								effBTLSystemDraw
-00173ef0	72	ps2BattleAction_00173EF0	USER_DEFINED	legacy		battle_action_consumer.c:body_00173ef0;battle_action_consumer.c:ps2BattleAction_00173EF0;battle_panel_renderer_remaining.c:body_00173ef0						effBTLSystemGetLength
+00173ef0	72	ps2BattleAction_00173EF0	USER_DEFINED	rewritten	shared/src/effect/system.cpp:systemEffectLength	battle_action_consumer.c:body_00173ef0;battle_action_consumer.c:ps2BattleAction_00173EF0;battle_panel_renderer_remaining.c:body_00173ef0	ok	ok	ok	ok	ok	effBTLSystemGetLength
 00173f40	8	FUN_00173f40	DEFAULT	named								effBTLSystemGetID
 00173f48	32	FUN_00173f48	DEFAULT	named								effBTLSystemGetRGBA
 00173f68	112	FUN_00173f68	DEFAULT	named								effBTLSystemCut1DataFree
