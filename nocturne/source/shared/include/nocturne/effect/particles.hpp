@@ -119,4 +119,36 @@ void deleteBufuLight(uint32_t effect);
 void deleteRingPolyExpList(uint32_t effect);
 void deleteRingPolyExp(uint32_t effect);
 
+// The effect library's deletion by kind, billboards, particles and the
+// effects holding parts (effect_release.cpp).
+void deleteEffect(uint32_t handle);
+void deletePart(uint32_t handle);
+void deleteParticleEffect(uint32_t handle);
+void releaseBillboardTexture(uint32_t handle);
+void releaseBillboardAnimation(uint32_t handle);
+void deleteNormalBillboard(uint32_t handle);
+void deleteAnimatedBillboard(uint32_t handle);
+void deleteBillboard(uint32_t handle);
+void deleteParticlePhysics(uint32_t handle);
+void deleteParticleBlur(uint32_t handle);
+void deleteModelTrackPolyList(uint32_t handle);
+void deleteParticleBasics(uint32_t handle);
+void deleteSmokeOffsetParticle(uint32_t handle);
+void deleteSphereSpiral2Particle(uint32_t handle);
+void deleteParticle(uint32_t handle);
+void deleteHamaCardSpiral(uint32_t handle);
+void deleteHamaCardSphere(uint32_t handle);
+void deleteHama01(uint32_t handle);
+void deleteHama02(uint32_t handle);
+void deleteHamaon(uint32_t handle);
+void deleteMahama01(uint32_t handle);
+void deleteMudo(uint32_t handle);
+void deleteHwave01(uint32_t handle);
+void deleteBreath(uint32_t handle);
+void deleteAgilaoFire(uint32_t handle);
+void deleteAgilaoFireball(uint32_t handle);
+void deleteBufuIce(uint32_t handle);
+void deleteBufulaIce(uint32_t handle);
+void deleteRadiateThunder(uint32_t handle);
+
 } // namespace nocturne::eff

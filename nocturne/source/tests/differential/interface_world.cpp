@@ -55,7 +55,7 @@ uint64_t ps2InterfaceLoadTexture(uint64_t);
 void ps2TextureDeferredRelease(uint64_t);
 void ps2MaterialDeferredRelease(uint64_t);
 void dds3TrackPolyDelete(uint64_t);
-void dds3BillboardDelete(uint64_t);
+void Eff_ModelTrackPolyDelete(uint64_t);
 uint64_t ps2TextureTmxCopy(uint64_t);
 uint64_t ps2ResourcePacCheckEnd(uint64_t);
 void ps2MemoryHandleDeferredRelease(uint64_t);
@@ -436,7 +436,11 @@ ee::Interpreter makeOriginal()
     e.hook(0x002ab8f0, [=](ee::Cpu& c) { ps2TextureDeferredRelease(a(c, 0)); return uint64_t{0}; });
     e.hook(0x002b3520, [=](ee::Cpu& c) { ps2MaterialDeferredRelease(a(c, 0)); return uint64_t{0}; });
     e.hook(0x001660d0, [=](ee::Cpu& c) { dds3TrackPolyDelete(a(c, 0)); return uint64_t{0}; });
-    e.hook(0x0015cf40, [=](ee::Cpu& c) { dds3BillboardDelete(a(c, 0)); return uint64_t{0}; });
+    e.hook(0x001a3118, [=](ee::Cpu& c) { Eff_ModelTrackPolyDelete(a(c, 0)); return uint64_t{0}; });
+    // Kinds' deletes not rewritten yet (the effect, part and particle tables'), logged.
+    for (const uint32_t entry : {0x0015e328u, 0x0015e978u, 0x0015efc8u, 0x0015fb70u, 0x00160150u, 0x00160860u,
+                                 0x00160f20u, 0x001614c8u, 0x00169d80u, 0x001a8c78u, 0x00175df8u, 0x0015d778u})
+        e.hook(entry, [=](ee::Cpu& c) { fw_mes_log(163, entry, static_cast<uint32_t>(a(c, 0))); return uint64_t{0}; });
     e.hook(0x001015b0, [=](ee::Cpu& c) { return dds3StartProcess(a(c, 0), a(c, 1), a(c, 2), a(c, 3), a(c, 4), a(c, 5), a(c, 6)); });
     e.hook(0x002a8af8, [=](ee::Cpu& c) { return uint64_t{ps2PoolAllocate(static_cast<int32_t>(a(c, 0)))}; });
     e.hook(0x002aa9e0, [=](ee::Cpu& c) { return ps2TextureQueueUpload(a(c, 0)); });
@@ -605,6 +609,17 @@ ee::Interpreter makeOriginal()
     e.interpret(0x0028b0b8, 0x0028b198);   // a formation set up (its delay slot one past Ghidra's size)
     e.interpret(0x0028b198, 0x0028b448);   // nbCopyFormation, nbMoveFormation, nbUpdateFormation (to its return)
     e.interpret(0x00173f40, 0x00173f48);   // effBTLSystemGetID
+    // The effect library's deletion by kind, billboards and particles (dds3*Delete, effPCP*Delete).
+    for (const auto& [entry, size] : std::initializer_list<std::pair<uint32_t, uint32_t>>{
+             {0x0015ab58u, 76u}, {0x00175a08u, 76u}, {0x00175fb8u, 76u}, {0x0015b2c8u, 92u},
+             {0x0015ccc8u, 156u}, {0x0015c280u, 48u}, {0x0015c3d0u, 48u}, {0x0015cf40u, 60u},
+             {0x0015df40u, 28u}, {0x001644f0u, 28u}, {0x001a35b0u, 104u}, {0x0015e138u, 172u},
+             {0x00163060u, 56u}, {0x00163780u, 68u}, {0x00164bd8u, 60u}, {0x00165180u, 60u},
+             {0x00183cf8u, 140u}, {0x00184950u, 140u}, {0x0018a5d8u, 124u}, {0x0018aab0u, 100u},
+             {0x0018afd8u, 156u}, {0x0018b430u, 100u}, {0x0018b708u, 56u}, {0x0018bbd0u, 56u},
+             {0x0018fc70u, 60u}, {0x001902c8u, 112u}, {0x00190bf0u, 332u}, {0x00192348u, 48u},
+             {0x001925e8u, 56u}, {0x001928e8u, 56u}, {0x001948e0u, 184u}})
+        e.interpret(entry, entry + size);
     // The particle effects' deletion (effPCP*Delete, dds3*Delete).
     for (const auto& [entry, size] : std::initializer_list<std::pair<uint32_t, uint32_t>>{
              {0x001764f0u, 44u}, {0x001785e8u, 44u}, {0x001790e0u, 52u}, {0x00179b08u, 44u}, {0x00182c40u, 44u},

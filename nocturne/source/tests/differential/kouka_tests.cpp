@@ -215,6 +215,60 @@ void scriptActor(Gen& g)
 
 using Body = std::function<Pair(Gen&)>;
 
+// The effect deletion tests' world: a pool of handles that read as any
+// kind the effect tables lead to (a part of kind 2, a billboard, or 3, an
+// effect of family 2 or 3: logged), with small counts where counts are
+// read; the work under test the same, with its own counts and kinds set.
+// (In the message fakes' pool, unused there; the blocks start on 64 KB, so
+// block 0's address reads as billboard kind 0.)
+struct EffectWorld {
+    static constexpr uint32_t kBlocks = 0x01120000u, kResources = kBlocks + 0x4000u, kLists = kBlocks + 0xa000u,
+                              kWork = kBlocks + 0x8000u;
+    static void set(uint32_t at, uint32_t value) { difftest::at<uint32_t>(at) = value; }
+    static void half(uint32_t at, uint32_t value) { difftest::at<uint16_t>(at) = static_cast<uint16_t>(value); }
+    static uint32_t resource(uint32_t b) { return kResources + 0x2000u + 0x80u * b; }
+    uint32_t small(Gen& g, int32_t most) { return static_cast<uint32_t>(g.range(0, most)); }
+    uint32_t block(Gen& g) { return kBlocks + 0x100u * g.below(64); }
+    uint32_t maybe(Gen& g) { return g.chance(30) ? 0u : block(g); }
+    uint32_t sparse(Gen& g)   // a list of handles, some empty
+    {
+        const uint32_t b = kResources + 0x100u * g.below(32);
+        for (uint32_t k = 0; k < 0x100; k += 4)
+            set(b + k, g.chance(30) ? 0u : block(g));
+        return b;
+    }
+    uint32_t trackList(Gen& g)   // a track polygon list: a few, then its memory
+    {
+        const uint32_t list = sparse(g);
+        set(list + 4, small(g, 5));
+        return list;
+    }
+    void build(Gen& g)
+    {
+        for (uint32_t b = 0; b < 64; ++b) {
+            const uint32_t at = kBlocks + 0x100u * b;
+            for (uint32_t k = 0; k < 0x100; k += 4)
+                set(at + k, block(g));
+            set(at, g.chance(50) ? 2u : 3u);   // a part of kind 2 or 3, an effect of family 2 or 3
+            set(at + 0x2c, kBlocks);           // a billboard of kind 0 (and still a handle)
+            set(at + 0x30, resource(b));       // its texture or animation
+            // A resource reads as a part too (kind 2 or 3, a handle at +4).
+            for (uint32_t k = 0; k < 0x80; k += 4)
+                set(resource(b) + k, block(g));
+            set(resource(b), g.chance(50) ? 2u : 3u);
+            set(resource(b) + 0x8, small(g, 2));
+            set(resource(b) + 0x10, small(g, 3));
+            set(resource(b) + 0x14, small(g, 2));
+            set(resource(b) + 0x18, kLists + 0x20u * b);   // an animation's textures
+            for (uint32_t k = 0; k < 0x20; k += 4)
+                set(kLists + 0x20u * b + k, resource(g.below(64)));
+        }
+        for (uint32_t k = 0; k < 0x1400; k += 4)
+            set(kWork + k, block(g));
+    }
+};
+
+
 // A system effect at `handle` (effBTLSystemHandle_t): mostly a family of the
 // table's (an empty row now and then), its effect's cut ending at any frame.
 void systemEffectWorld(Gen& g, uint32_t handle)
@@ -562,7 +616,6 @@ void addKoukaTests(std::vector<TestCase>& t)
             {"dds3NeedleModelVNCListDelete", 0x0018a070, nocturne::eff::deleteNeedleVertexList},
             {"dds3NeedleModelDelete", 0x00189b68, nocturne::eff::deleteNeedleModel},
             {"effPCPNeedleSpiralDelete", 0x001893d0, nocturne::eff::deleteNeedleSpiral},
-            {"effPCPSparkleSphereDelete", 0x0018a1d8, nocturne::eff::deleteSparkleSphere},
             {"effPCPZiodin01Delete", 0x0018c000, nocturne::eff::deleteZiodyne},
             {"effPCPZiodin02Delete", 0x0018c478, nocturne::eff::deleteZiodyne},
             {"effPCPZiodin04Delete", 0x0018cd88, nocturne::eff::deleteZiodyne},
@@ -605,6 +658,90 @@ void addKoukaTests(std::vector<TestCase>& t)
                 auto left = [] { return uint64_t{at<uint32_t>(nocturne::addr(kBlinkUsers))}; };
                 return Pair{[=] { start(); iface::origVmVoid(r.entry, {effect}); return left(); },
                             [=] { start(); r.rewrite(effect); return left(); }};
+            });
+    }
+    // The effect library's deletion by kind, billboards, particles and the
+    // effects holding parts, in their world (EffectWorld).
+    {
+        struct Release {
+            const char* name;
+            uint32_t entry;
+            void (*rewrite)(uint32_t handle);
+            void (*fix)(Gen& g, EffectWorld& w, uint32_t work);
+        };
+        static const Release releases[] = {
+            {"effPCPSparkleSphereDelete", 0x0018a1d8, nocturne::eff::deleteSparkleSphere,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; set(E + 0x1c, block()); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"dds3EffectDelete", 0x0015ab58, nocturne::eff::deleteEffect,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; set(E, g.pick<uint32_t>({2, 3, 4})); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"dds3EffectPartDelete", 0x00175a08, nocturne::eff::deletePart,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; half(E, g.pick<uint32_t>({1, 2, 3, 5})); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"dds3EffectPCPDelete", 0x00175fb8, nocturne::eff::deleteParticleEffect,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; set(E, g.pick<uint32_t>({0, 1, 2, 3, 4, 5, 7, 8, 11, 43})); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"BillboardFreeTex", 0x0015b2c8, nocturne::eff::releaseBillboardTexture,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; set(E + 8, small(2)); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"dds3BillAnimFreeP2A", 0x0015ccc8, nocturne::eff::releaseBillboardAnimation,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; set(E + 0x14, small(2)); set(E + 0x10, small(4)); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"dds3Billboard_NormalDelete", 0x0015c280, nocturne::eff::deleteNormalBillboard,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; set(E + 0x30, resource()); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"dds3Billboard_P2ADelete", 0x0015c3d0, nocturne::eff::deleteAnimatedBillboard,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; set(E + 0x30, resource()); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"dds3BillboardDelete", 0x0015cf40, nocturne::eff::deleteBillboard,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; half(E + 0x2c, small(1)); set(E + 0x30, resource()); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"dds3Particle_PhysicsDelete", 0x0015df40, nocturne::eff::deleteParticlePhysics,
+             [](Gen& g, EffectWorld& w, uint32_t E) { (void)g; (void)w; (void)E; }},
+            {"dds3Particle_BlurDelete", 0x001644f0, nocturne::eff::deleteParticleBlur,
+             [](Gen& g, EffectWorld& w, uint32_t E) { (void)g; (void)w; (void)E; }},
+            {"Eff_ModelTrackPolyListDelete", 0x001a35b0, nocturne::eff::deleteModelTrackPolyList,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; set(E + 4, small(6)); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"dds3Particle_BasicDelete", 0x0015e138, nocturne::eff::deleteParticleBasics,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; set(E + 0x44, tracks()); half(E + 0x30, small(5)); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"dds3Particle_SmokeOffsetDelete", 0x00163060, nocturne::eff::deleteSmokeOffsetParticle,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; set(E + 0x44, tracks()); half(E + 0x30, small(5)); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"dds3Particle_SphereSpiral2Delete", 0x00163780, nocturne::eff::deleteSphereSpiral2Particle,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; set(E + 0x44, tracks()); set(E + 0x174, maybe()); half(E + 0x30, small(5)); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"dds3ParticleDelete", 0x00164bd8, nocturne::eff::deleteParticle,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; half(E + 0x140, small(7)); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"dds3ParticleExpDelete", 0x00165180, nocturne::eff::deleteParticle,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; half(E + 0x140, small(7)); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"effPCPHamaCardSpiralDelete", 0x00183cf8, nocturne::eff::deleteHamaCardSpiral,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; set(E + 0x88, small(4)); set(E + 0x90, maybe()); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"effPCPHamaCardSphereDelete", 0x00184950, nocturne::eff::deleteHamaCardSphere,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; set(E + 0x78, small(4)); set(E + 0x80, maybe()); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"effPCPHama01Delete", 0x0018a5d8, nocturne::eff::deleteHama01,
+             [](Gen& g, EffectWorld& w, uint32_t E) { (void)g; (void)w; (void)E; }},
+            {"effPCPHama02Delete", 0x0018aab0, nocturne::eff::deleteHama02,
+             [](Gen& g, EffectWorld& w, uint32_t E) { (void)g; (void)w; (void)E; }},
+            {"effPCPHamaonDelete", 0x0018afd8, nocturne::eff::deleteHamaon,
+             [](Gen& g, EffectWorld& w, uint32_t E) { (void)g; (void)w; (void)E; }},
+            {"effPCPMHanma01Delete", 0x0018b430, nocturne::eff::deleteMahama01,
+             [](Gen& g, EffectWorld& w, uint32_t E) { (void)g; (void)w; (void)E; }},
+            {"effPCPMudoDelete", 0x0018b708, nocturne::eff::deleteMudo,
+             [](Gen& g, EffectWorld& w, uint32_t E) { (void)g; (void)w; (void)E; }},
+            {"effPCPHwave01Delete", 0x0018bbd0, nocturne::eff::deleteHwave01,
+             [](Gen& g, EffectWorld& w, uint32_t E) { (void)g; (void)w; (void)E; }},
+            {"effPCPBreathDelete", 0x0018fc70, nocturne::eff::deleteBreath,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; set(E + 0x74, maybe()); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"effPCPAgiraoFireDelete", 0x001902c8, nocturne::eff::deleteAgilaoFire,
+             [](Gen& g, EffectWorld& w, uint32_t E) { (void)g; (void)w; (void)E; }},
+            {"effPCPAgiFireballDelete", 0x00190bf0, nocturne::eff::deleteAgilaoFireball,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; set(E + 0x108, g.chance(30) ? block() : 0u); set(E + 0xb4, small(3)); for (uint32_t t = 0; t < 3; ++t) { set(E + 0x7c + 4 * t, small(3)); set(E + 0xfc + 4 * t, maybe()); set(E + 0xd8 + 4 * t, sparse()); } (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+            {"effPCPBufuIceDelete", 0x00192348, nocturne::eff::deleteBufuIce,
+             [](Gen& g, EffectWorld& w, uint32_t E) { (void)g; (void)w; (void)E; }},
+            {"effPCPBufuraIceDelete", 0x001925e8, nocturne::eff::deleteBufulaIce,
+             [](Gen& g, EffectWorld& w, uint32_t E) { (void)g; (void)w; (void)E; }},
+            {"effPCPBufudnIceDelete", 0x001928e8, nocturne::eff::deleteBufulaIce,
+             [](Gen& g, EffectWorld& w, uint32_t E) { (void)g; (void)w; (void)E; }},
+            {"effPCPRadiateThunderDelete", 0x001948e0, nocturne::eff::deleteRadiateThunder,
+             [](Gen& g, EffectWorld& w, uint32_t E) { auto set = EffectWorld::set; auto half = EffectWorld::half; auto small = [&](int32_t n) { return w.small(g, n); }; auto maybe = [&] { return w.maybe(g); }; auto block = [&] { return w.block(g); }; auto sparse = [&] { return w.sparse(g); }; auto tracks = [&] { return w.trackList(g); }; auto resource = [&] { return EffectWorld::resource(g.below(64)); }; set(E + 0x58, small(4)); set(E + 0x174, g.chance(70) ? sparse() : 0u); (void)set; (void)half; (void)small; (void)maybe; (void)block; (void)sparse; (void)tracks; (void)resource; }},
+        };
+        for (const Release& r : releases)
+            add(r.name, [r](Gen& g) {
+                EffectWorld w;
+                w.build(g);
+                r.fix(g, w, EffectWorld::kWork);
+                return Pair{[=] { iface::origVmVoid(r.entry, {EffectWorld::kWork}); return uint64_t{0}; },
+                            [=] { r.rewrite(EffectWorld::kWork); return uint64_t{0}; }};
             });
     }
     add("effBTLSystemGetLength", [](Gen& g) {

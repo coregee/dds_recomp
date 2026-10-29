@@ -51,7 +51,7 @@ uint32_t BTLPartCreate(nb::Formation* form, int32_t kind);  // (0x173CB0) effBTL
 void BTLPartEnd(uint32_t part);                              // (0x173D28)
 void BTLPartDraw(uint32_t part);                             // (0x173DC8)
 void TrackPolyDelete(uint32_t poly);         // (0x1660D0) dds3TrackPolyDelete
-void BillboardDelete(uint32_t billboard);    // (0x15CF40) dds3BillboardDelete
+void ModelTrackPolyDelete(uint32_t poly);    // (0x1A3118) Eff_ModelTrackPolyDelete
 } // namespace eff
 
 namespace cmp {
@@ -331,6 +331,8 @@ enum class Message : uint32_t {
     GameOver         = optionalAddr(0x00543468), // "game over !!"
     HitEffectLength  = optionalAddr(0x00544900), // "length = %d" (nbAddHitEffKoukaPacket)
     NeedleListDelete = optionalAddr(0x00533c90), // "dds3NeedleModelVNCListDelete[%p] ****"
+    BillboardFreeTexture = optionalAddr(0x00532c58),   // "BillManager Free Tex"
+    BillboardFreeAnimation = optionalAddr(0x00532d18), // "BillManager P2A Free"
     LevelUp          = optionalAddr(0x00543478), // "level up !!"
     PressTurnStart   = optionalAddr(0x005453b8), // "nbPanelPressTurnStart" (its own name)
     PartyAlbion      = optionalAddr(0x005458c0), // "nbSetPartyFormation : DV_ALBION"

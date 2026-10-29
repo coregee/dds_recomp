@@ -178,7 +178,7 @@ void deleteNeedleSpiral(uint32_t effect)
 // effPCPSparkleSphereDelete @ 0x0018A1D8
 void deleteSparkleSphere(uint32_t effect)
 {
-    BillboardDelete(word(effect + 0x1c));
+    deleteBillboard(word(effect + 0x1c));
     mem::PoolRelease(effect);
 }
 
