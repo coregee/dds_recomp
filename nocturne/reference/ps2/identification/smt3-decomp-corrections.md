@@ -21,7 +21,19 @@ candidates; these are the ones checked. To offer upstream.
 | 0x2C3718 | sdfDevLoadFileEx | sdfDevLoadFile | passes a margin of 0 and jumps to 0x2C3660 |
 | 0x20DDD8 | rcvAppAllRecover | rcvAppRecover | full HP and MP only, returns 1; HD `rcvAppRecover` returns SByte, `rcvAppAllRecover` void |
 | 0x290908 | cmpClearButtonGuide | nbCheckCampSkillError | the menu skill's error check (tested: `nbCheckCampSkillError` in source/) |
+| 0x1165B0 | dds3PathBasicControlNextStep | dds3PathBasicControlGetLight | takes a control and a resource (a1), returns nothing; HD `ControlGetLight(pControl, resource)`, `NextStep` returns uint |
+| 0x25F228 | RunNumEffectKouka | RunRotKouka | nbKoukaProcess runs it for the rotation packets (kRot, kHomeRot) |
+| 0x2C0BA8 | dds3GetRandA | sdfGetRand | the generator's state first, as sdfGetRandInt passes it |
+| 0x2C0C00 | dds3GetRandFloatA | sdfGetRandFloat | likewise |
+| 0x2C0C60 | dds3GetRandIntA | sdfGetRandInt | (state, limit): HD `sdfGetRandInt(aCB, aLimit)`; `dds3GetRandIntA` takes the limit first |
 
-The other "both" rows (the light and effect objects' control work, the path
-basics, the RNG's sdf and dds3 names, effBTLPartDelete, RunRotKouka,
-nbPanelAutoHide) are not checked yet.
+## Ours to correct
+
+| address | ours (the map's) | should be | evidence |
+|---|---|---|---|
+| 0x173D78 | effBTLPartDelete | effBTLSystemDelete2 | deletes a system effect through its family's table (0x31BF00) and frees the handle; HD `effBTLSystemDelete2(hEffBTLSys)`, while `effBTLPartDelete` takes a skill |
+
+Not settled yet: the light and effect objects' control work (0x114038,
+0x115A70: same signatures), dds3AddPathBasic and dds3AddPointBasic
+(0x116AD0: same signatures), nbPanelAutoHide and nbPanelAllHide (0x279C58:
+neither takes anything).
