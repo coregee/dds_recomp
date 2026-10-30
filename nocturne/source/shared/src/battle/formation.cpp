@@ -13,6 +13,7 @@
 #include "nocturne/external.hpp"
 #include "nocturne/guest.hpp"
 #include "nocturne/kernel/math.hpp"
+#include "nocturne/kernel/pose.hpp"
 
 namespace nocturne::nb {
 
@@ -201,7 +202,7 @@ void setFormationPosition(Formation& form, const Vec4& pos)
 {
     form.pos = pos;
     if ((form.stat & 1) && (form.stat & 2) && form.basic != 0) {
-        dds3::SetPosPoseSet(form.basic, pos);
+        dds3::setPosition(form.basic, {pos.x, pos.y, pos.z, pos.w});
         form.pos = pos;
     }
 }
@@ -218,7 +219,7 @@ void setFormationRotation(Formation& form, const Vec4& rot)
     const dds3::Vector4 pose = sdf::quaternionMultiply(turn, halfTurn);
     constexpr uint32_t kPose = addr(0x00575440);
     *guest::table<dds3::Vector4>(kPose) = pose;
-    dds3::SetRotPoseSet(form.basic, kPose);
+    dds3::setRotation(form.basic, *guest::table<const dds3::Vector4>(kPose));
     form.rot = rot;
 }
 

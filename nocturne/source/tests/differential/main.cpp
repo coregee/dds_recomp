@@ -242,7 +242,7 @@ void randomWorld(Gen& g)
     for (int f = 0; f < 16; ++f) {
         const uint32_t object = FW_MODELS + 0x20u * f, handle = FW_UNIT_HANDLES + 0x200u * f, model = handle + 0x100;
         forms[f].basic = g.chance(85) ? object : 0;
-        at<uint32_t>(object + 0x1c) = FW_MODELS + 0x440u + 0x10u * f - 0xc4;
+        at<uint32_t>(object + 0x1c) = FW_MODELS + 0x370u + 0x10u * f;   // its pose (16-aligned, as the pool gives them)
         forms[f].hunit = handle;
         at<uint32_t>(handle + 0x8c) = model;
         at<uint32_t>(handle + 0xa4) = g.chance(10) ? 0x10000u : 0;

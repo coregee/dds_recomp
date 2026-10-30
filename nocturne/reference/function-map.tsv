@@ -494,29 +494,29 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0010dab8	292	FUN_0010dab8	DEFAULT	named								dds3DebugBasic
 0010dbe0	212	dds3AddBasic	USER_DEFINED	legacy		basic_creation.c:dds3AddBasic;field_unit_lifetime_native.c:body_0010dbe0;field_unit_lifetime_native.c:ps2FieldUnitLifetimeNative_0010DBE0						dds3AllocBasic
 0010dcb8	124	dds3DeleteBasic	USER_DEFINED	legacy		basic_creation.c:dds3DeleteBasic;battle_reward_lifecycle_dependencies.c:body_0010dcb8;battle_reward_lifecycle_dependencies.c:ps2BattleRewardLifecycleDependency_0010DCB8;field_unit_lifetime_native.c:body_0010dcb8;field_unit_lifetime_native.c:ps2FieldUnitLifetimeNative_0010DCB8						dds3DeleteBasic
-0010dd38	116	dds3InitPoseSet	USER_DEFINED	legacy		basic_pose.c:dds3InitPoseSet;field_movement_encounter_constructor.c:body_0010dd38						dds3InitPoseSet
-0010ddb0	60	dds3FreePoseSet	USER_DEFINED	legacy		basic_pose.c:dds3FreePoseSet						dds3FreePoseSet
-0010ddf0	16	dds3OnPoseSetFlag	USER_DEFINED	legacy		basic_pose.c:dds3OnPoseSetFlag;field_movement_encounter_constructor.c:body_0010ddf0						dds3OnPoseSetFlag
-0010de00	20	dds3OffPoseSetFlag	USER_DEFINED	legacy		basic_pose.c:dds3OffPoseSetFlag						dds3OffPoseSetFlag
-0010de18	16	dds3CheckPoseSetFlag	USER_DEFINED	legacy		basic_pose.c:dds3CheckPoseSetFlag						dds3CheckPoseSetFlag
-0010de28	40	dds3InitPoseSetValue	USER_DEFINED	legacy		basic_pose.c:dds3InitPoseSetValue;field_movement_encounter_constructor.c:body_0010de28						dds3BackupPoseSet
-0010de50	56	dds3BackupPoseSet	USER_DEFINED	legacy		basic_pose.c:dds3BackupPoseSet;field_movement_encounter_constructor.c:body_0010de50						dds3SetRadiusPoseSet
-0010de88	12	dds3SetRadiusPoseSet	USER_DEFINED	legacy		basic_pose.c:dds3SetRadiusPoseSet						dds3GetRadiusPoseSet
-0010dea8	44	dds3SetPosPoseSet	USER_DEFINED	legacy		basic_pose.c:dds3SetPosPoseSet;field_movement_encounter_constructor.c:body_0010dea8						dds3SetPosPoseSet
-0010ded8	44	dds3SetRotPoseSet	USER_DEFINED	legacy		basic_pose.c:dds3SetRotPoseSet;field_movement_encounter_constructor.c:body_0010ded8						dds3SetRotPoseSet
-0010df08	44	dds3SetSclPoseSet	USER_DEFINED	legacy		basic_pose.c:dds3SetSclPoseSet;object_attachment_support.c:body_0010df08						dds3SetSclPoseSet
-0010df38	24	dds3GetPosPoseSetMCR	USER_DEFINED	legacy		basic_pose.c:dds3GetPosPoseSetMCR;field_movement_encounter_constructor.c:body_0010df38						dds3GetPosPoseSet
+0010dd38	116	dds3InitPoseSet	USER_DEFINED	rewritten	shared/src/kernel/pose.cpp:makePose	basic_pose.c:dds3InitPoseSet;field_movement_encounter_constructor.c:body_0010dd38	ok	ok	ok	ok	ok	dds3InitPoseSet
+0010ddb0	60	dds3FreePoseSet	USER_DEFINED	rewritten	shared/src/kernel/pose.cpp:freePose	basic_pose.c:dds3FreePoseSet	ok	ok	ok	ok	ok	dds3FreePoseSet
+0010ddf0	16	dds3OnPoseSetFlag	USER_DEFINED	rewritten	shared/src/kernel/pose.cpp:setPoseFlags	basic_pose.c:dds3OnPoseSetFlag;field_movement_encounter_constructor.c:body_0010ddf0	ok	ok	ok	ok	ok	dds3OnPoseSetFlag
+0010de00	20	dds3OffPoseSetFlag	USER_DEFINED	rewritten	shared/src/kernel/pose.cpp:clearPoseFlags	basic_pose.c:dds3OffPoseSetFlag	ok	ok	ok	ok	ok	dds3OffPoseSetFlag
+0010de18	16	dds3CheckPoseSetFlag	USER_DEFINED	rewritten	shared/src/kernel/pose.cpp:anyPoseFlag	basic_pose.c:dds3CheckPoseSetFlag	ok	ok	ok	ok	ok	dds3CheckPoseSetFlag
+0010de28	40	dds3InitPoseSetValue	USER_DEFINED	rewritten	shared/src/kernel/pose.cpp:resetPose	basic_pose.c:dds3InitPoseSetValue;field_movement_encounter_constructor.c:body_0010de28						dds3BackupPoseSet
+0010de50	56	dds3BackupPoseSet	USER_DEFINED	rewritten	shared/src/kernel/pose.cpp:savePose	basic_pose.c:dds3BackupPoseSet;field_movement_encounter_constructor.c:body_0010de50	ok	ok	ok	ok	ok	dds3SetRadiusPoseSet
+0010de88	12	dds3SetRadiusPoseSet	USER_DEFINED	rewritten	shared/src/kernel/pose.cpp:setPoseRadius	basic_pose.c:dds3SetRadiusPoseSet	ok	ok	ok	ok	ok	dds3GetRadiusPoseSet
+0010dea8	44	dds3SetPosPoseSet	USER_DEFINED	rewritten	shared/src/kernel/pose.cpp:setPosition	basic_pose.c:dds3SetPosPoseSet;field_movement_encounter_constructor.c:body_0010dea8	ok	ok	ok	ok	ok	dds3SetPosPoseSet
+0010ded8	44	dds3SetRotPoseSet	USER_DEFINED	rewritten	shared/src/kernel/pose.cpp:setRotation	basic_pose.c:dds3SetRotPoseSet;field_movement_encounter_constructor.c:body_0010ded8	ok	ok	ok	ok	ok	dds3SetRotPoseSet
+0010df08	44	dds3SetSclPoseSet	USER_DEFINED	rewritten	shared/src/kernel/pose.cpp:setScale	basic_pose.c:dds3SetSclPoseSet;object_attachment_support.c:body_0010df08	ok	ok	ok	ok	ok	dds3SetSclPoseSet
+0010df38	24	dds3GetPosPoseSetMCR	USER_DEFINED	legacy		basic_pose.c:dds3GetPosPoseSetMCR;field_movement_encounter_constructor.c:body_0010df38	ok	ok	ok	ok	ok	dds3GetPosPoseSet
 0010df50	32	dds3GetRotPoseSet	USER_DEFINED	legacy		basic_pose.c:dds3GetRotPoseSet;field_movement_encounter_constructor.c:body_0010df50						dds3GetRotPoseSet
-0010df88	56	dds3AddPosPoseSet	USER_DEFINED	legacy		basic_pose.c:dds3AddPosPoseSet						dds3GetPosPoseSetMCR
-0010dfc0	76	dds3AddRotPoseSet	USER_DEFINED	legacy		basic_pose.c:dds3AddRotPoseSet						dds3AddRotPoseSet
-0010e010	56	dds3AddSclPoseSet	USER_DEFINED	legacy		basic_pose.c:dds3AddSclPoseSet						dds3GetSclPoseSetMCR
+0010df88	56	dds3AddPosPoseSet	USER_DEFINED	rewritten	shared/src/kernel/pose.cpp:movePosition	basic_pose.c:dds3AddPosPoseSet						dds3GetPosPoseSetMCR
+0010dfc0	76	dds3AddRotPoseSet	USER_DEFINED	rewritten	shared/src/kernel/pose.cpp:addRotation	basic_pose.c:dds3AddRotPoseSet	ok	ok	ok	ok	ok	dds3AddRotPoseSet
+0010e010	56	dds3AddSclPoseSet	USER_DEFINED	rewritten	shared/src/kernel/pose.cpp:multiplyScale	basic_pose.c:dds3AddSclPoseSet	ok	ok	ok	ok	ok	dds3GetSclPoseSetMCR
 0010e048	84	ps2PoseBuildTransform	USER_DEFINED	legacy		basic_pose.c:ps2PoseBuildTransform						dds3MakeMatrix
 0010e0a0	108	dds3GetTMPoseSet	USER_DEFINED	legacy		basic_pose.c:dds3GetTMPoseSet						dds3GetTMPoseSet
 0010e110	96	FUN_0010e110	DEFAULT	named								dds3ComparePosPoseSet
 0010e170	88	FUN_0010e170	DEFAULT	named								dds3ComparePosPoseSet2
 0010e1c8	64	FUN_0010e1c8	DEFAULT	named								dds3CallBasicMainProc
 0010e208	64	FUN_0010e208	DEFAULT	named								dds3CallBasicDrawProc
-0010e248	20	dds3SerializeID	USER_DEFINED	legacy		basic_pose.c:dds3SerializeID;field_movement_encounter_constructor.c:body_0010e248						dds3AllocObjectId
+0010e248	20	dds3SerializeID	USER_DEFINED	rewritten	shared/src/kernel/pose.cpp:nextObjectId	basic_pose.c:dds3SerializeID;field_movement_encounter_constructor.c:body_0010e248	ok	ok	ok	ok	ok	dds3AllocObjectId
 0010e260	16	FUN_0010e260	DEFAULT	named								dds3SetUnitObjectId
 0010e288	108	ps2WorldBasicConstructor	USER_DEFINED	legacy		basic_creation.c:ps2WorldBasicConstructor						worldconstructor
 0010e2f8	144	ps2WorldBasicDestructor	USER_DEFINED	legacy		basic_creation.c:ps2WorldBasicDestructor						worlddestructor

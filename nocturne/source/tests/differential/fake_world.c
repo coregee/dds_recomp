@@ -880,7 +880,6 @@ uint64_t fw_unit_group_loading(uint64_t group) { fw_mes_log(138, (uint32_t)group
 /* An object's control flags and pose (dds3ObjectBase*, dds3SetPosPoseSet). */
 void dds3ObjectBaseOnFlag(uint64_t basic, uint64_t flag) { fw_mes_log(139, (uint32_t)basic, (uint32_t)flag); }
 void dds3ObjectBaseOffFlag(uint64_t basic, uint64_t flag) { fw_mes_log(142, (uint32_t)basic, (uint32_t)flag); }
-void dds3SetPosPoseSet(uint64_t basic, uint64_t pos) { fw_mes_log(143, (uint32_t)basic, rd32((uint32_t)pos) ^ rd32((uint32_t)pos + 4) ^ rd32((uint32_t)pos + 8)); }
 uint64_t fw_fade_query(void) { fw_mes_log(140, 0, 0); return fw_hash(140, rd32(FW_SCRATCH + 0xbf0), 0) & 1; }
 uint64_t fw_fade_set(uint64_t value) { fw_mes_log(141, (uint32_t)value, 0); return 0; }
 /* A memory handle's size (0x2A8FE8). */
@@ -907,7 +906,6 @@ uint64_t fw_move_packets(uint64_t entry, uint64_t startframe, uint64_t uniqueid,
     fw_mes_log(125, (uint32_t)entry ^ (uint32_t)startframe << 24, (uint32_t)uniqueid ^ (uint32_t)form ^ (uint32_t)target << 8);
     return 1;
 }
-void dds3SetRotPoseSet(uint64_t basic, uint64_t rot) { fw_mes_log(124, (uint32_t)basic, rd32((uint32_t)rot) ^ rd32((uint32_t)rot + 4) ^ rd32((uint32_t)rot + 8) ^ rd32((uint32_t)rot + 12)); }
 void nbReturnUnit(uint64_t partyindex, uint64_t arg, uint64_t dead)
 {
     fw_mes_log(96, (uint32_t)partyindex ^ (uint32_t)arg << 16, (uint32_t)dead);

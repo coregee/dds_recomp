@@ -35,6 +35,7 @@
 #include "nocturne/address.hpp"
 #include "nocturne/effect/particles.hpp"
 #include "nocturne/effect/system.hpp"
+#include "nocturne/kernel/pose.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/event/units.hpp"
 #include "nocturne/external.hpp"
@@ -884,6 +885,75 @@ void addKoukaTests(std::vector<TestCase>& t)
                 w.floats(g, rotation, 16);
                 return Pair{[=] { iface::origVmVoid(r.entry, {EffectWorld::kWork, rotation}); return uint64_t{0}; },
                             [=] { r.rewrite(EffectWorld::kWork, rotation); return uint64_t{0}; }};
+            });
+    }
+    // An object's pose: an object (FW_SCRATCH) with a pose (or none, for
+    // making and freeing one) of real floats, a vector or quaternion to
+    // apply, any flags; the object IDs' counter (static RAM: set on each
+    // side and read back).
+    {
+        enum class Arg { Object, ObjectVector, ObjectFloat, PoseFlags, Pose, None };
+        struct PoseCase { const char* name; uint32_t entry; Arg arg; uint64_t (*rewrite)(uint32_t a, uint32_t b); };
+        using namespace nocturne::dds3;
+        static const PoseCase poses[] = {
+            {"dds3InitPoseSet", 0x0010dd38, Arg::Object, [](uint32_t o, uint32_t) { return norm(makePose(o)); }},
+            {"dds3FreePoseSet", 0x0010ddb0, Arg::Object, [](uint32_t o, uint32_t) { freePose(o); return uint64_t{0}; }},
+            {"dds3OnPoseSetFlag", 0x0010ddf0, Arg::PoseFlags, [](uint32_t p, uint32_t f) { setPoseFlags(at<PoseSet>(p), f); return uint64_t{0}; }},
+            {"dds3OffPoseSetFlag", 0x0010de00, Arg::PoseFlags, [](uint32_t p, uint32_t f) { clearPoseFlags(at<PoseSet>(p), f); return uint64_t{0}; }},
+            {"dds3CheckPoseSetFlag", 0x0010de18, Arg::PoseFlags, [](uint32_t p, uint32_t f) { return norm(anyPoseFlag(at<PoseSet>(p), f)); }},
+            {"dds3BackupPoseSet", 0x0010de28, Arg::Pose, [](uint32_t p, uint32_t) { resetPose(at<PoseSet>(p)); return uint64_t{0}; }},
+            {"dds3SetRadiusPoseSet", 0x0010de50, Arg::Pose, [](uint32_t p, uint32_t) { savePose(at<PoseSet>(p)); return uint64_t{0}; }},
+            {"dds3GetRadiusPoseSet", 0x0010de88, Arg::ObjectFloat, [](uint32_t o, uint32_t r) { setPoseRadius(o, ee::Float::fromBits(r)); return uint64_t{0}; }},
+            {"dds3SetPosPoseSet", 0x0010dea8, Arg::ObjectVector, [](uint32_t o, uint32_t v) { setPosition(o, at<Vector4>(v)); return uint64_t{0}; }},
+            {"dds3SetRotPoseSet", 0x0010ded8, Arg::ObjectVector, [](uint32_t o, uint32_t v) { setRotation(o, at<Vector4>(v)); return uint64_t{0}; }},
+            {"dds3SetSclPoseSet", 0x0010df08, Arg::ObjectVector, [](uint32_t o, uint32_t v) { setScale(o, at<Vector4>(v)); return uint64_t{0}; }},
+            {"dds3GetPosPoseSetMCR", 0x0010df88, Arg::ObjectVector, [](uint32_t o, uint32_t v) { movePosition(o, at<Vector4>(v)); return uint64_t{0}; }},
+            {"dds3AddRotPoseSet", 0x0010dfc0, Arg::ObjectVector, [](uint32_t o, uint32_t v) { addRotation(o, at<Vector4>(v)); return uint64_t{0}; }},
+            {"dds3GetSclPoseSetMCR", 0x0010e010, Arg::ObjectVector, [](uint32_t o, uint32_t v) { multiplyScale(o, at<Vector4>(v)); return uint64_t{0}; }},
+            {"dds3AllocObjectId", 0x0010e248, Arg::None, [](uint32_t, uint32_t) { return norm(static_cast<int32_t>(nextObjectId())); }},
+        };
+        for (const PoseCase& c : poses)
+            add(c.name, [c](Gen& g) {
+                constexpr uint32_t kObject = FW_SCRATCH, kPose = FW_SCRATCH + 0x100u, kVector = FW_SCRATCH + 0x300u;
+                auto real = [&] { return ee::Float(static_cast<float>(g.range(-20000, 20000)) / 991.0f).bits(); };
+                for (uint32_t k = 0; k < 0xd0; k += 4)
+                    at<uint32_t>(kPose + k) = g.chance(90) ? real() : static_cast<uint32_t>(g.rng());
+                for (uint32_t k = 0; k < 16; k += 4)
+                    at<uint32_t>(kVector + k) = real();
+                at<uint32_t>(kObject + 0x1c) = (c.arg == Arg::Object && g.chance(40)) ? 0u : kPose;
+                const uint32_t object = (c.arg == Arg::Object && g.chance(10)) ? 0u : kObject;
+                const uint32_t flags = g.chance(50) ? 1u << g.below(4) : static_cast<uint32_t>(g.rng());
+                const uint32_t radius = real(), ids = static_cast<uint32_t>(g.chance(10) ? 0xffff : g.rng());
+                auto start = [=] { at<uint32_t>(nocturne::addr(0x0054e9c0u)) = ids; };   // (static RAM)
+                auto counter = [] { return uint64_t{at<uint32_t>(nocturne::addr(0x0054e9c0u))} << 32; };
+                return Pair{[=] {
+                                start();
+                                uint64_t r = 0;
+                                switch (c.arg) {
+                                case Arg::Object: r = iface::origVm(c.entry, {object}); break;
+                                case Arg::ObjectVector: iface::origVmVoid(c.entry, {kObject, kVector}); break;
+                                case Arg::ObjectFloat: iface::origVmVoid(c.entry, {kObject}, {radius}); break;
+                                case Arg::PoseFlags: r = iface::origVm(c.entry, {kPose, flags}); break;
+                                case Arg::Pose: iface::origVmVoid(c.entry, {kPose}); break;
+                                case Arg::None: r = iface::origVm(c.entry, {}); break;
+                                }
+                                if (c.entry == 0x0010ddb0 || c.entry == 0x0010ddf0 || c.entry == 0x0010de00)
+                                    r = 0;   // (void: v0 is whatever it was left)
+                                return (r & 0xffffffffu) | counter();
+                            },
+                            [=] {
+                                start();
+                                uint32_t a = kObject, b = 0;
+                                switch (c.arg) {
+                                case Arg::Object: a = object; break;
+                                case Arg::ObjectVector: b = kVector; break;
+                                case Arg::ObjectFloat: b = radius; break;
+                                case Arg::PoseFlags: a = kPose; b = flags; break;
+                                case Arg::Pose: a = kPose; break;
+                                case Arg::None: break;
+                                }
+                                return (c.rewrite(a, b) & 0xffffffffu) | counter();
+                            }};
             });
     }
     add("effBTLSystemGetLength", [](Gen& g) {
@@ -3571,7 +3641,7 @@ void addKoukaTests(std::vector<TestCase>& t)
             form.anime = static_cast<uint32_t>(g.rng()) & ~0x200u;
             const uint32_t block = FW_SCRATCH + 0x20u * static_cast<uint32_t>(f);
             form.basic = block;
-            at<uint32_t>(block + 0x1c) = FW_SCRATCH + 0x200u + 0x10u * static_cast<uint32_t>(f) - 0xc4u;
+            at<uint32_t>(block + 0x1c) = FW_SCRATCH + 0x130u + 0x10u * static_cast<uint32_t>(f);   // its pose (16-aligned)
             form.hunit = g.chance(5) ? 0 : FW_SCRATCH + 0x400u + 0x10u * static_cast<uint32_t>(f) - 0xa4u;
             if (form.hunit)
                 at<uint32_t>(form.hunit + 0xa4) = g.chance(90) ? 0 : 0x10000u;

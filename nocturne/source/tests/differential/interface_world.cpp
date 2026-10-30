@@ -113,7 +113,6 @@ void ps2BattleActionRequest_00296B88(void);
 uint64_t fw_event_pack_load(uint64_t);
 uint64_t fw_event_pack_state(uint64_t);
 uint64_t fw_basic_effect(uint64_t, uint64_t, uint64_t);
-void dds3SetRotPoseSet(uint64_t, uint64_t);
 void nbReturnUnit(uint64_t, uint64_t, uint64_t);
 void nbMoveTarget(uint64_t, uint64_t, uint32_t);
 void nbMoveHome(uint64_t, uint32_t);
@@ -159,7 +158,6 @@ uint64_t fw_load_unit_group(uint64_t, uint64_t, uint64_t);
 uint64_t fw_unit_group_loading(uint64_t);
 void dds3ObjectBaseOnFlag(uint64_t, uint64_t);
 void dds3ObjectBaseOffFlag(uint64_t, uint64_t);
-void dds3SetPosPoseSet(uint64_t, uint64_t);
 uint64_t fw_fade_query(void);
 uint64_t fw_fade_set(uint64_t);
 void ps2SoundSetBankSource(uint64_t, uint64_t);
@@ -479,7 +477,6 @@ ee::Interpreter makeOriginal()
     e.hook(0x00173dc8, [=](ee::Cpu& c) { effBTLPartDraw(a(c, 0)); return uint64_t{0}; });
     e.hook(0x00280538, [=](ee::Cpu& c) { ps2BattlePanelSetAnalyzeUnit_00280538(a(c, 0)); return uint64_t{0}; });
     e.interpret(0x0028a158, 0x0028a200);   // nbSetFormRot
-    e.hook(0x0010ded8, [=](ee::Cpu& c) { dds3SetRotPoseSet(a(c, 0), a(c, 1)); return uint64_t{0}; });
     e.interpret(0x0028f218, 0x0028f7e8);   // nbMakaProcess (the Macca window)
     e.interpret(0x001ca508, 0x001ca5dc);   // the font's short string request
     e.hook(0x002797b0, [=](ee::Cpu& c) { ps2BattlePanelSetOrderingOffset_002797B0(a(c, 0)); return uint64_t{0}; });
@@ -633,6 +630,11 @@ ee::Interpreter makeOriginal()
              {0x00175b78u, 68u}, {0x00175eb0u, 64u}, {0x00176160u, 68u}, {0x001a7728u, 44u}, {0x001a7f78u, 44u},
              {0x001a88d0u, 44u}, {0x001a8d20u, 68u}, {0x002b6550u, 84u}})
         e.interpret(entry, entry + size);
+    // An object's pose (dds3*PoseSet).
+    for (const auto& [from, to] : std::initializer_list<std::pair<uint32_t, uint32_t>>{
+             {0x0010dd38, 0x0010ddb0}, {0x0010ddb0, 0x0010de94}, {0x0010dea8, 0x0010df38}, {0x0010df88, 0x0010e048},
+             {0x0010e248, 0x0010e25c}})
+        e.interpret(from, to);
     // The particle effects' deletion (effPCP*Delete, dds3*Delete).
     for (const auto& [entry, size] : std::initializer_list<std::pair<uint32_t, uint32_t>>{
              {0x001764f0u, 44u}, {0x001785e8u, 44u}, {0x001790e0u, 52u}, {0x00179b08u, 44u}, {0x00182c40u, 44u},
@@ -764,7 +766,6 @@ ee::Interpreter makeOriginal()
     e.hook(0x0024e2e0, [=](ee::Cpu& c) { return fw_unit_group_loading(a(c, 0)); });
     e.hook(0x00110138, [=](ee::Cpu& c) { dds3ObjectBaseOnFlag(a(c, 0), a(c, 1)); return uint64_t{0}; });
     e.hook(0x00110168, [=](ee::Cpu& c) { dds3ObjectBaseOffFlag(a(c, 0), a(c, 1)); return uint64_t{0}; });
-    e.hook(0x0010dea8, [=](ee::Cpu& c) { dds3SetPosPoseSet(a(c, 0), a(c, 1)); return uint64_t{0}; });
     e.interpret(0x00289b30, 0x00289f50);   // nbFormation: the models shown and hidden
     e.interpret(0x0028a0e8, 0x0028a158);   // ... nbSetFormPos
     e.interpret(0x0028a200, 0x0028a340);   // ... nbSetFormPosRot, the resets, the distances

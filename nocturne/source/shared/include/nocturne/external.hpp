@@ -248,8 +248,6 @@ void FadeOut(int32_t r, int32_t g, int32_t b, int32_t frames);   // to the color
 void FadeIn2(int32_t frames);    // dds3FadeIn2: back from the last fade's color
 void ObjectBaseOnFlag(uint32_t basic, uint32_t flag);    // dds3ObjectBaseOnFlag: an object's control flags set
 void ObjectBaseOffFlag(uint32_t basic, uint32_t flag);   // dds3ObjectBaseOffFlag: ... cleared
-void SetPosPoseSet(uint32_t basic, const nb::Vec4& pos); // dds3SetPosPoseSet: an object placed (a copy of `pos` in guest memory)
-void SetRotPoseSet(uint32_t basic, uint32_t rot);        // dds3SetRotPoseSet: ... turned (a quaternion's address)
 void PadAct(uint32_t mode, uint8_t pow, uint32_t frame);         // dds3PadAct: the pad's vibration
 } // namespace dds3
 
