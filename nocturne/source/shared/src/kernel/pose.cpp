@@ -68,7 +68,7 @@ void clearPoseFlags(PoseSet& pose, uint32_t flags) { pose.flags &= ~flags; }
 // dds3CheckPoseSetFlag @ 0x0010DE18
 bool anyPoseFlag(const PoseSet& pose, uint32_t flags) { return (pose.flags & flags) != 0; }
 
-// dds3BackupPoseSet @ 0x0010DE28: the scale from vf0 too, (1, 1, 1, 0)
+// dds3InitPoseSetValue @ 0x0010DE28: the scale from vf0 too, (1, 1, 1, 0)
 // (its x, y, z plus w, its w times x).
 void resetPose(PoseSet& pose)
 {
@@ -77,7 +77,7 @@ void resetPose(PoseSet& pose)
     pose.scale = {kUnit.x + kUnit.w, kUnit.y + kUnit.w, kUnit.z + kUnit.w, kUnit.w * kUnit.x};
 }
 
-// dds3SetRadiusPoseSet @ 0x0010DE50
+// dds3BackupPoseSet @ 0x0010DE50
 void savePose(PoseSet& pose)
 {
     pose.savedScale = pose.scale;
@@ -85,7 +85,7 @@ void savePose(PoseSet& pose)
     pose.savedPosition = pose.position;
 }
 
-// dds3GetRadiusPoseSet @ 0x0010DE88
+// dds3SetRadiusPoseSet @ 0x0010DE88
 void setPoseRadius(uint32_t object, ee::Float radius) { poseOf(object).radius = radius; }
 
 // dds3SetPosPoseSet @ 0x0010DEA8
@@ -97,7 +97,7 @@ void setRotation(uint32_t object, const Vector4& rotation) { changed(object).rot
 // dds3SetSclPoseSet @ 0x0010DF08
 void setScale(uint32_t object, const Vector4& scale) { changed(object).scale = scale; }
 
-// dds3GetPosPoseSetMCR @ 0x0010DF88
+// dds3AddPosPoseSet @ 0x0010DF88
 void movePosition(uint32_t object, const Vector4& by)
 {
     PoseSet& pose = changed(object);
@@ -111,14 +111,14 @@ void addRotation(uint32_t object, const Vector4& rotation)
     pose.rotation = sdf::quaternionMultiply(pose.rotation, rotation);
 }
 
-// dds3GetSclPoseSetMCR @ 0x0010E010
+// dds3AddSclPoseSet @ 0x0010E010
 void multiplyScale(uint32_t object, const Vector4& by)
 {
     PoseSet& pose = changed(object);
     pose.scale = {pose.scale.x * by.x, pose.scale.y * by.y, pose.scale.z * by.z, pose.scale.w * by.w};
 }
 
-// dds3AllocObjectId @ 0x0010E248
+// dds3SerializeID @ 0x0010E248
 uint32_t nextObjectId()
 {
     word(kObjectIds) = (word(kObjectIds) + 1) & 0xffff;

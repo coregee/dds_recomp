@@ -903,16 +903,16 @@ void addKoukaTests(std::vector<TestCase>& t)
             {"dds3OnPoseSetFlag", 0x0010ddf0, Arg::PoseFlags, [](uint32_t p, uint32_t f) { setPoseFlags(at<PoseSet>(p), f); return uint64_t{0}; }},
             {"dds3OffPoseSetFlag", 0x0010de00, Arg::PoseFlags, [](uint32_t p, uint32_t f) { clearPoseFlags(at<PoseSet>(p), f); return uint64_t{0}; }},
             {"dds3CheckPoseSetFlag", 0x0010de18, Arg::PoseFlags, [](uint32_t p, uint32_t f) { return norm(anyPoseFlag(at<PoseSet>(p), f)); }},
-            {"dds3BackupPoseSet", 0x0010de28, Arg::Pose, [](uint32_t p, uint32_t) { resetPose(at<PoseSet>(p)); return uint64_t{0}; }},
-            {"dds3SetRadiusPoseSet", 0x0010de50, Arg::Pose, [](uint32_t p, uint32_t) { savePose(at<PoseSet>(p)); return uint64_t{0}; }},
-            {"dds3GetRadiusPoseSet", 0x0010de88, Arg::ObjectFloat, [](uint32_t o, uint32_t r) { setPoseRadius(o, ee::Float::fromBits(r)); return uint64_t{0}; }},
+            {"dds3InitPoseSetValue", 0x0010de28, Arg::Pose, [](uint32_t p, uint32_t) { resetPose(at<PoseSet>(p)); return uint64_t{0}; }},
+            {"dds3BackupPoseSet", 0x0010de50, Arg::Pose, [](uint32_t p, uint32_t) { savePose(at<PoseSet>(p)); return uint64_t{0}; }},
+            {"dds3SetRadiusPoseSet", 0x0010de88, Arg::ObjectFloat, [](uint32_t o, uint32_t r) { setPoseRadius(o, ee::Float::fromBits(r)); return uint64_t{0}; }},
             {"dds3SetPosPoseSet", 0x0010dea8, Arg::ObjectVector, [](uint32_t o, uint32_t v) { setPosition(o, at<Vector4>(v)); return uint64_t{0}; }},
             {"dds3SetRotPoseSet", 0x0010ded8, Arg::ObjectVector, [](uint32_t o, uint32_t v) { setRotation(o, at<Vector4>(v)); return uint64_t{0}; }},
             {"dds3SetSclPoseSet", 0x0010df08, Arg::ObjectVector, [](uint32_t o, uint32_t v) { setScale(o, at<Vector4>(v)); return uint64_t{0}; }},
-            {"dds3GetPosPoseSetMCR", 0x0010df88, Arg::ObjectVector, [](uint32_t o, uint32_t v) { movePosition(o, at<Vector4>(v)); return uint64_t{0}; }},
+            {"dds3AddPosPoseSet", 0x0010df88, Arg::ObjectVector, [](uint32_t o, uint32_t v) { movePosition(o, at<Vector4>(v)); return uint64_t{0}; }},
             {"dds3AddRotPoseSet", 0x0010dfc0, Arg::ObjectVector, [](uint32_t o, uint32_t v) { addRotation(o, at<Vector4>(v)); return uint64_t{0}; }},
-            {"dds3GetSclPoseSetMCR", 0x0010e010, Arg::ObjectVector, [](uint32_t o, uint32_t v) { multiplyScale(o, at<Vector4>(v)); return uint64_t{0}; }},
-            {"dds3AllocObjectId", 0x0010e248, Arg::None, [](uint32_t, uint32_t) { return norm(static_cast<int32_t>(nextObjectId())); }},
+            {"dds3AddSclPoseSet", 0x0010e010, Arg::ObjectVector, [](uint32_t o, uint32_t v) { multiplyScale(o, at<Vector4>(v)); return uint64_t{0}; }},
+            {"dds3SerializeID", 0x0010e248, Arg::None, [](uint32_t, uint32_t) { return norm(static_cast<int32_t>(nextObjectId())); }},
         };
         for (const PoseCase& c : poses)
             add(c.name, [c](Gen& g) {
