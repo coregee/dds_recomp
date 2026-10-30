@@ -40,6 +40,17 @@ def same(ours, theirs):
     return a == b or a.endswith(b) or b.endswith(a)
 
 
+def hd_names():
+    """Every method name the HD remaster's assemblies carry."""
+    with open(ROOT / "reference" / "hd" / "metadata" / "game-methods.tsv", encoding="utf-8") as f:
+        return {cols[3] for cols in (line.split("\t") for line in f) if len(cols) > 3}
+
+
+def verdict(ours, theirs, hd):
+    """Which of the two names the HD remaster has."""
+    return {(True, False): "ours", (False, True): "theirs", (True, True): "both"}.get((ours in hd, theirs in hd), "neither")
+
+
 def read_symbols(clone):
     """{address: (name, is_function)}: the first entry for an address wins, as
     in the file (hand-curated symbols come before the generated block)."""
@@ -80,16 +91,18 @@ def main():
             name, function = symbols[address]
             f.write(f"{address:08x}\t{name}\t{'function' if function else 'data'}\n")
     ours = our_names()
+    hd = hd_names()
     conflicts = []
     for address, (name, where) in sorted(ours.items()):
         theirs = symbols.get(address, ("", False))[0]
         if placeholder(name) or placeholder(theirs) or same(name, theirs):
             continue
-        conflicts.append(f"{address:08x}\t{name}\t{theirs}\t{where}\n")
+        conflicts.append(f"{address:08x}\t{name}\t{theirs}\t{verdict(name, theirs, hd)}\t{where}\n")
     with open(OUT / "smt3-decomp-conflicts.tsv", "w", encoding="utf-8", newline="\n") as f:
         f.write(f"# Functions both projects name, differently (smt3-decomp at {commit}). For review:\n"
-                "# neither side is always right. Ours is the rewrite's tag where there is one.\n"
-                "address\tours\tsmt3_decomp\twhere\n")
+                "# neither side is always right. Ours is the rewrite's tag where there is one. hd: which\n"
+                "# name the HD remaster's methods have (both: one side names a neighbour; check signatures).\n"
+                "address\tours\tsmt3_decomp\thd\twhere\n")
         f.writelines(conflicts)
     print(f"{len(symbols)} names ({sum(1 for _, fn in symbols.values() if fn)} functions), {len(conflicts)} conflicts")
 

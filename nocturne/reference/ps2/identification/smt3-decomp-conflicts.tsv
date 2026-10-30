@@ -1,382 +1,389 @@
 # Functions both projects name, differently (smt3-decomp at 730da54fb9d82b0db10b745db0e61d9c846dcae0). For review:
-# neither side is always right. Ours is the rewrite's tag where there is one.
-address	ours	smt3_decomp	where
-00100008	entry	_start	function-map.tsv
-001009a0	dds3StartReadyProcess	StartProcess	function-map.tsv
-001009e8	dds3StartingProcesses	StartingProcess	function-map.tsv
-00100d70	dds3KillProcessNow	KillProcess	function-map.tsv
-00100e80	dds3EndingProcesses	dds3EndingProcess	function-map.tsv
-001040a8	dds3PadAct	dds3PadVibrationSet	function-map.tsv
-00104da0	dds3RunQuake	dds3InitZClearDrawTag	function-map.tsv
-001097e8	scrPrintf	datDebugPrintf	source/shared/src/script/vm.cpp:106
-00109848	scrLinkScriptHandleList	scrLinkHandle	source/shared/src/script/vm.cpp:116
-00109888	scrUnlinkScriptHandleList	scrUnlinkHandle	source/shared/src/script/vm.cpp:134
-001098e0	scrAddScript	scrPrintProcedureStart	source/shared/src/script/vm.cpp:152
-00109b48	scrAddScript2	fldFlowParse	source/shared/src/script/vm.cpp:225
-00109c58	scrAddScript3	scrLoadScriptFile	source/shared/src/script/vm.cpp:254
-00109d10	scrInitGlobalWork	dds3GlobalWorkClearFlags	source/shared/src/script/vm.cpp:296
-00109d48	scrStartScript3	scrStartScriptByName	source/shared/src/script/vm.cpp:290
-00109de8	scrStartScript1a	scrRunScriptEx	source/shared/src/script/vm.cpp:275
-00109e50	scrReleaseScript	scrPrintProcedureEnd	source/shared/src/script/vm.cpp:305
-0010b858	SDF_ABORT1	scrCommand_KEY	source/shared/src/script/vm.cpp:834
-0010dbe0	dds3AddBasic	dds3AllocBasic	function-map.tsv
-0010de28	dds3InitPoseSetValue	dds3BackupPoseSet	function-map.tsv
-0010de50	dds3BackupPoseSet	dds3SetRadiusPoseSet	function-map.tsv
-0010de88	dds3SetRadiusPoseSet	dds3GetRadiusPoseSet	function-map.tsv
-0010df38	dds3GetPosPoseSetMCR	dds3GetPosPoseSet	function-map.tsv
-0010df88	dds3AddPosPoseSet	dds3GetPosPoseSetMCR	function-map.tsv
-0010e010	dds3AddSclPoseSet	dds3GetSclPoseSetMCR	function-map.tsv
-0010e248	dds3SerializeID	dds3AllocObjectId	function-map.tsv
-0010f6e0	dds3SceneBasicSearchNameAndTypeExact	dds3SceneBasicSearchNameAndType	function-map.tsv
-0010f970	dds3AreaBasicTypeToItemType	dds3AreaBasicTypeHasItems	function-map.tsv
-0010fa68	dds3AreaBasicReleaseItem	dds3AreaBasicGetItemArray	function-map.tsv
-0010fab8	dds3AreaBasicGetItemArray	dds3AreaBasicReleaseItem	function-map.tsv
-001101d0	dds3ObjectBaseSetControlBasicSvs	dds3ObjectBaseSetUserValue	function-map.tsv
-001125c8	dds3CameraObjectBasicGetControlWorkData	dds3GetCameraObjectBaseControlWorkData	function-map.tsv
-001125d8	dds3AddCameraObjectBasicDef	dds3AllocCameraObjectBasic	function-map.tsv
-00114038	dds3LightObjectBasicGetControlWorkData	dds3EffectObjectBasicGetControlWorkData	function-map.tsv
-00115a70	dds3EffectObjectBasicGetControlWorkData	dds3LightObjectBasicGetControlWorkData	function-map.tsv
-00116058	dds3PathGetElement	dds3PathEvalSpline	function-map.tsv
-00116210	dds3PathBasicMakeControl	dds3AllocPathBasicWorkData	function-map.tsv
-001163e0	dds3PathBasicFreeControl	dds3DeletePathControl	function-map.tsv
-001165b0	dds3PathBasicControlGetLight	dds3PathBasicControlNextStep	function-map.tsv
-00116998	dds3PathBasicControlNextStep	dds3PathBasicControlIsFinished	function-map.tsv
-00116a48	dds3PathBasicPathControlGetMode	dds3PathBasicControlGetMode	function-map.tsv
-00116a80	dds3PathBasicPause	dds3PathBasicPauseOn	function-map.tsv
-00116ad0	dds3AddPathBasic	dds3AddPointBasic	function-map.tsv
-00125990	fldSeqOnFlag	fldAutoMapSeqSetFlag	function-map.tsv
-001259a8	fldSeqOffFlag	fldAutoMapSeqClearFlag	function-map.tsv
-001259c0	fldSeqCheckFlag	fldAutoMapSeqTestFlag	function-map.tsv
-001259d0	fldProcOnFlag	fldEncountSetFlag	function-map.tsv
-001259e0	fldProcOffFlag	fldEncountClearFlag	function-map.tsv
-001259f8	fldProcCheckFlag	fldEncountTestFlag	function-map.tsv
-0015c1e8	dds3BillboardBasicInit	dds3Billboard_BasicInit	function-map.tsv
-0015c350	dds3BillboardP2ACopy	dds3Billboard_P2ACopy	function-map.tsv
-0015c940	dds3BillboardP2ASetNumber	dds3Billboard_P2ASetNumber	function-map.tsv
-0016c850	effBTLModelGetHeightBits	effBTLModelGetHeight	function-map.tsv
-0016e638	effBTLPartGetScalePtrSub	effBTLPartCalcScale	function-map.tsv
-00173d78	effBTLPartDelete	effBTLSystemDelete2	function-map.tsv
-001740b8	effBTLSystemCutDelete	effBTLSystemCut1Delete	function-map.tsv
-001748a0	effBTLBedName	effMakeBedFileName	function-map.tsv
-00175a08	dds3EffectPartDeleteO	dds3EffectPartDelete	function-map.tsv
-00188da0	dds3ScatterPolyListDelete	dds3WhirlwindPolyListDelete	function-map.tsv
-001a5280	effMagatuhiDelete	effMagaCylinderFree	function-map.tsv
-001abc88	effColorMultiply	effMagaCylinderCalcColor	function-map.tsv
-001ad330	Eve_PartialMultiBlurEditorGetParams	Eve_PartialMultiBlurGetParams	source/shared/src/effect/event.cpp:44
-001ad3e8	Eve_DistortionBlurEditorGetParams	Eve_DistortionBlurGetParams	source/shared/src/effect/event.cpp:53
-001ad4a0	Eve_RippleBlurEditorGetParams	Eve_RippleBlurGetParams	source/shared/src/effect/event.cpp:64
-001ad538	Eve_FilterEditorGetParams	Eve_FilterGetParams	source/shared/src/effect/event.cpp:73
-001ad5b0	Eve_PartialMultiFilterEditorGetParams	Eve_PartialMultiFilterGetParams	source/shared/src/effect/event.cpp:82
-001b0858	effSplInitialize2	dds3AllocSplineHandle	function-map.tsv
-001b0cd8	effSplineMakeCoefficientTable	dds3AllocSplinePoints	function-map.tsv
-001b0d70	effSplineMakeDifferential	dds3BuildSplinePoints	function-map.tsv
-001b1078	effSplineMakeCoefficient	dds3BuildSplineCoefs	function-map.tsv
-001b1148	effSplineMakeCoefficient2	dds3BuildSplineCoefsSkipDup	function-map.tsv
-001b1888	nbCameraSetEveTarget	nbCameraEventSetTarget	source/shared/src/battle/camera.cpp:64
-001c6300	frSetSpaceMetric	frSetWhiteSpaceW	function-map.tsv
-001c6858	frLoadStyle	frLoadFontData	source/shared/src/interface/font_layout_us.cpp:65
-001c6ec8	frDestroyFontRequestFade	frDestroyFontRequest	function-map.tsv
-001c7b50	frSetFontColNo	frSetFontColorNo	source/shared/src/interface/font.cpp:516
-001c7c30	frFadeOutText	frEraseEffect	function-map.tsv
-001c81d8	frDelExtDic	frDestroyExtDic	source/shared/src/interface/font.cpp:161
-001c8268	frGetChainWidth	frGetStrWidth2	function-map.tsv
-001c8480	frResetStepY	frSetMessageDefStepY	source/shared/src/interface/font.cpp:552
-001c8490	frSetStepY	frSetMessageStepY	source/shared/src/interface/font.cpp:549
-001c8ce0	frControlCodeLength	frGetTagArgCount	function-map.tsv
-001c8d28	frCopyMessageLine	frCopyTagArgs	function-map.tsv
-001c8e48	frCountMessageLines	frCalcStringHash	function-map.tsv
-001c9108	frMessageRequestPlain	MessageRequest	function-map.tsv
-001c9140	frMessageRequest	MessageRequestEx	source/shared/src/interface/font_message_us.cpp:483
-001c9188	MessageRequestEx	MessageRequestEx2	source/shared/src/interface/font_message_us.cpp:462
-001c91e0	frMessageRequestKeepSpace	MessageRequestNS	function-map.tsv
-001ca508	frStringRequest	frwGetNumFontFRQ	function-map.tsv
-001cae58	itfMiscLinkInit	itfMiscLinkInitialize	source/shared/src/interface/message.cpp:36
-001cc328	itfPnlDraw	itfPnlDrawTag	function-map.tsv
-001cd380	itfMesMngMoveMessagePanel	itfMesMngSetOffsetY1	source/shared/src/interface/message.cpp:954
-001ce510	itfMesMngGetVarLocalize	itfMesMngGetVar	source/shared/src/interface/message.cpp:461
-001ce538	BuildCharacterName	itfMesMngGetVarLocalize	source/shared/src/interface/message.cpp:1660
-001cea58	itfMesMngGetMessageWidth	itfMesMngGetWidth	source/shared/src/interface/message.cpp:1029
-001cec68	itfMesMngGetConfig	itfMesMngGetStatManager	source/shared/src/interface/message.cpp:1026
-001cf058	itfMesMngReleaseInstance	DestructFlow	source/shared/src/interface/message.cpp:390
-001cf818	MarkSelectionText	ChangeFontColor	source/shared/src/interface/message.cpp:693
-001cf960	GetMaxLineWidth	GetMessageWidth	source/shared/src/interface/message.cpp:713
-001d0ff8	CalcManagerProc	CalcMsgMng_Process	source/shared/src/interface/message.cpp:1344
-001d10a8	ExitALL	DrawMsgMng_Shutdown	source/shared/src/interface/message.cpp:434
-001df5c8	mdlEffectDupBillboard	mdlEffectDup_P2A	function-map.tsv
-001df600	mdlEffectDupGeneric	mdlEffectDup_D3P	function-map.tsv
-001e52b0	evtCommandKutiFunction	evtRunKutiMotion	function-map.tsv
-001fd3b0	cmbChkEventDevil	cmbDevilIsUnlocked	source/shared/src/fusion/accident.cpp:20
-001fd498	cmbGetPowerUpTableIndex	cmbFindEvoIndex	source/shared/src/fusion/combine.cpp:43
-001fd4e0	cmbCalcParamUpVal	cmbApplyPercent	source/shared/src/fusion/combine.cpp:52
-001fd538	cmbCalcParamPowerUp	cmbGetEvoTable	source/shared/src/fusion/combine.cpp:64
-001fd610	cmbChkIkenieExtPattern	cmbGetCombineRace	source/shared/src/fusion/rules.cpp:232
-001fd708	cmbChkMetato	cmbIsSpecialPair	source/shared/src/fusion/rules.cpp:248
-001fd730	cmbChkIkenieExtPatternDevRace	cmbFindCombineResult	source/shared/src/fusion/rules.cpp:255
-001fd878	cmbChkIkenieExtPatternDev	cmbFindUnlockedResult	source/shared/src/fusion/rules.cpp:277
-001fda08	cmbChkIkenieExtPatternBirthDevil	cmbFindBirthEntry	source/shared/src/fusion/rules.cpp:65
-001fdac0	cmbGetRankUpDownDevil	cmbFindBirthResult	source/shared/src/fusion/rules.cpp:150
-001fdca0	cmbGetRankUpDown	cmbFindRaceEntry	source/shared/src/fusion/rules.cpp:89
-001fdd18	cmbGetBirthSpirit	cmbFindPairEntry	source/shared/src/fusion/rules.cpp:79
-001fdda8	cmbGetKeisyoSkillEndIndex	cmbCountSkills	source/shared/src/fusion/inheritance.cpp:76
-001fdde8	cmbGetBirthDevilRace	cmbLookupCombine	source/shared/src/fusion/rules.cpp:102
-001fdec0	cmbGetAverageLevel	cmbCalcResultLevel	source/shared/src/fusion/rules.cpp:115
-001fdf78	cmbGetTargetDevil	cmbGetRaceCombineResult	source/shared/src/fusion/rules.cpp:133
-001fe170	cmbGetStockDevilInfo	cmbGetDevilIdAndRace	source/shared/src/fusion/combine.cpp:211
-001fe1a0	cmbChkExtPattern	cmbCheckUnlockedPair	source/shared/src/fusion/rules.cpp:42
-001fe280	cmbChkExtPatternBirthDevil	cmbEntryIsValid	source/shared/src/fusion/rules.cpp:56
-001fe2c8	cmbChkMetaOnlyDevil	cmbDevilIsSpecial	source/shared/src/fusion/accident.cpp:29
-001fe2f0	cmbChkAccident	cmbIsFullMoon	source/shared/src/fusion/accident.cpp:35
-001fe368	cmbChkAccidentType	cmbSkipRand	source/shared/src/fusion/accident.cpp:43
-001fe388	cmbGetAccidentFailDevil	cmbFindSpecialEntry	source/shared/src/fusion/accident.cpp:50
-001fe410	cmbRndGetAccidentBirthDevil	cmbBuildDevilEntry	source/shared/src/fusion/accident.cpp:63
-001fe570	cmbAddParamAccidentBirthDevil	cmbCalcUnitParam	source/shared/src/fusion/accident.cpp:87
-001fe5f0	cmbCalcNormal2	cmbCalcCombineResult	source/shared/src/fusion/rules.cpp:177
-001fe690	cmbCalcDevil2	cmbGetCombineResultEx	source/shared/src/fusion/rules.cpp:188
-001fe9e0	cmbChkIkenieIllegalDevil	cmbDevilCanBirth	source/shared/src/fusion/stock.cpp:170
-001fea20	cmbCalcIkenie	cmbMakeBirthDevil	source/shared/src/fusion/rules.cpp:298
-001fea98	cmbGetEmptyStockIndex	cmbFindStockSlot	source/shared/src/fusion/stock.cpp:69
-001fead8	cmbGetStockDevilIndex	ragUseItemOnUnit	source/shared/src/fusion/stock.cpp:78
-001feb28	cmbAddKeisyoSkillFromSkill	cmbInheritSkills	source/shared/src/fusion/combine.cpp:85
-001fec40	cmbDeleteKeisyoSkill	rstClearSkillSlot	source/shared/src/fusion/combine.cpp:107
-001fec68	cmbMoveKeisyoSkillToSkill	cmbReplaceSkill	source/shared/src/fusion/combine.cpp:114
-001fed00	cmbAddSkill	rstAddSkillToSlot	source/shared/src/fusion/growth.cpp:76
-001fedf0	cmbChkKeisyoSkillOwner	rstFindSkillSlot	source/shared/src/fusion/inheritance.cpp:91
-001fee30	cmbChkKeisyoSkillNums	cmbFindSkillSlot	source/shared/src/fusion/inheritance.cpp:100
-001ff070	cmbClearSkill	cmbClearUnitSkills	source/shared/src/fusion/growth.cpp:41
-001ff0a8	cmbClearKeisyoSkill	cmbClearSkillSlots	source/shared/src/fusion/inheritance.cpp:85
-001ff178	cmbDeleteUnitFromStockList	cmbApplyEvoUnlock	source/shared/src/fusion/stock.cpp:88
-001ff1f8	cmbAddUnitToStockList	cmbFindStockEnd	source/shared/src/fusion/stock.cpp:102
-001ff218	cmbDeleteDevilFromStock	cmbStoreBirthDevil	source/shared/src/fusion/stock.cpp:118
-001ff298	cmbAddDefaultDevilToStock	cmbAddDevilToStock	source/shared/src/fusion/stock.cpp:129
-001ff3b8	cmbCalcTotalKeisyoSkillRate	cmbApplyEvoResult	source/shared/src/fusion/inheritance.cpp:66
-001ff428	cmbRndGetKeisyoSkill	cmbPickEvoResult	source/shared/src/fusion/combine.cpp:125
-001ff4d0	cmbRndAddKeisyoSkillToSkill	cmbCalcInheritCount	source/shared/src/fusion/combine.cpp:141
-001ff648	cmbCalcCombineManin	cmbGetMoonBonus	source/shared/src/fusion/rules.cpp:318
-001ff758	cmbChkDante	cmbCheckDevilPair	source/shared/src/fusion/rules.cpp:338
-002131e0	cmbSortKeisyoSkillCallback	cmpSkillOrder	function-map.tsv
-00213230	cmbDevilSortCallback	cmbSetEvoResult	function-map.tsv
-00213350	cmbSortKeisyoSkill	sortSkillList	source/shared/src/fusion/sort.cpp:43
-002138c0	fclChkItemHearts	datGetItemSlotIndex	source/shared/src/data/magatama.cpp:74
-00216b90	fclEncycGetRatio2	fclEncycGetRatio	source/shared/src/facility/compendium.cpp:169
-00219c40	cmbRaceSortCallback	cmpRaceOrder	source/shared/src/facility/compendium.cpp:264
-00219d00	cmbLevelSortCallback	cmpLevelOrder	source/shared/src/facility/compendium.cpp:276
-0021fd98	rstAddLevel	rstAddExp	function-map.tsv
-0021ff38	rstCancelMotionReq	rstSetEvoState	function-map.tsv
-00221e70	cmbGetPlayerRaceID	datGetPlayerLNDLevel	source/shared/src/data/magatama.cpp:294
-00221ef8	cmbChkHeartsStat	datGetDevilRace	source/shared/src/data/magatama.cpp:255
-00221f20	cmbChkMasterHeartsStatNums	datGetPlayerLNDList	source/shared/src/data/magatama.cpp:261
-002220c0	cmbGetHeartsSkillNums	datGetDevilSlotIndex	source/shared/src/data/magatama.cpp:139
-00222140	cmbChkHeartsMaster	datDevilIsRegistered	source/shared/src/data/magatama.cpp:230
-00222160	cmbGetMasterHeartsNums	datCountPlayerLND	source/shared/src/data/magatama.cpp:236
-002221d0	cmbGetHeartsAfterSkillNums	datGetDevilSlotState	source/shared/src/data/magatama.cpp:161
-002221e8	cmbSetHeartsMaster	rstSetDevilRegistered	source/shared/src/data/magatama.cpp:245
-00222210	cmbGetHeartsSkillAt	rstGetHeartsSkillAt	function-map.tsv
-00222290	cmbGetHeartsAisyo	datGetDevilParam	source/shared/src/data/magatama.cpp:118
-002222c0	cmbGetHeartsDefaultParam	cmbGetHeartsParamByIndex	source/shared/src/data/magatama.cpp:85
-002224d8	cmbAddHeartsSkill	datAddHeartsSlot	source/shared/src/data/magatama.cpp:167
-00222550	cmbCreateDefaultHeartsSkill	datAddHeartsEntry	source/shared/src/data/magatama.cpp:175
-002226b8	cmbChkGetHeartsSkill	rstCheckHeartsSlot	source/shared/src/data/magatama.cpp:189
-00222788	cmbCreateDefaultSkill	cmbInitStockUnit	source/shared/src/fusion/growth.cpp:49
-002228d8	cmbChkStockDevil	cmbCheckEvoUnlocked	source/shared/src/fusion/stock.cpp:50
-00222928	cmbChkStockDevilNums	cmbCountEvoCandidates	source/shared/src/fusion/stock.cpp:59
-00222a28	cmbChkLevelUpEvent	datFindKugatatiEntry	source/shared/src/fusion/growth.cpp:91
-00222aa0	cmbGetKeisyoSkillScore	cmbCopyEvoStats	source/shared/src/fusion/inheritance.cpp:12
-00222b70	cmbGetKeisyoSkillMotion	cmbCheckEvoPair	source/shared/src/fusion/inheritance.cpp:35
-00222bb0	cmbGetKeisyoSkillLevel	cmbFindEvoEntry	source/shared/src/fusion/inheritance.cpp:141
-00222bf0	cmbCalcKeisyoSkillRate	cmbCopyEvoDevil	source/shared/src/fusion/inheritance.cpp:45
-00222cf0	cmbChkDarkDevil	cmbEvoEntryExists	source/shared/src/fusion/stock.cpp:151
-00222d38	cmbChkStockDarkDevilNums	cmbCountEvoReady	source/shared/src/fusion/stock.cpp:160
-002230a0	cmbChkEvoAttention	rstFindEvoEntryType7	source/shared/src/fusion/growth.cpp:234
-00223110	cmbChkCancelEvo	rstFindEvoEntryType5	source/shared/src/fusion/growth.cpp:246
-002231f8	cmbGetDevilEvoLevel	cmpFindKugatatiMsgEntry	source/shared/src/fusion/growth.cpp:265
-00223398	cmbChkEvoDevilLev	rstCalcEvoLevelDiff	source/shared/src/fusion/growth.cpp:282
-002234e0	cmbGetPowerUpSkill	rstFindPowerUpSkill	source/shared/src/fusion/growth.cpp:323
-00223520	cmbGetMutationSkill	rstRollPowerUpSkill	source/shared/src/fusion/growth.cpp:392
-00223628	cmpCalcLevelUpBaseExp	datCalcDevilExp	source/shared/src/fusion/growth.cpp:112
-00223668	cmbCalcLevelUpExp	datCopyDevilWorkEntry	source/shared/src/fusion/growth.cpp:121
-00223728	cmbChkLevelUpExp	datAdvanceDevilLevel	source/shared/src/fusion/growth.cpp:135
-0022cf08	cmpChkCampProcess	campCheckExitState	function-map.tsv
-00232880	cmpChkHaveNormalHeartsAll	datCountRegisteredHearts	source/shared/src/data/magatama.cpp:50
-002328c8	cmpChkHaveHearts	cmpHeartsIconIsVisible	source/shared/src/data/magatama.cpp:44
-00232920	cmpSetEquipHeartsSelectPos	cmpInitHeartsIconTable	function-map.tsv
-00232998	cmpGetHeartsFromPos	cmpGetHeartsIconId	function-map.tsv
-002329b8	cmpGetHeartsIconTypeFromPos	cmpGetHeartsIconType	function-map.tsv
-002329d8	cmpGetHeartsIconColorFromPos	cmpGetHeartsIconColor	function-map.tsv
-0023f8c8	cmpSetModelMoveMode	rstSetStatusModelReady	function-map.tsv
-0023f8e0	cmpGetStatusModelHandle	cmpGetEncycWork	function-map.tsv
-0023f8e8	cmpGetModelMinorNo	cmpGetStatusModelId	function-map.tsv
-0023fb90	cmpModelTblGetMotNo	cmpGetModelMotionId	function-map.tsv
-0023fbc0	cmpModelTblGetMotSpd	cmpGetModelScale	function-map.tsv
-0023fbf0	cmpModelTblGetPos	rstGetEvoModelParam	function-map.tsv
-0023fc40	cmpModelTblGetRot	cmpGetModelPosRot	function-map.tsv
-00240808	cmpReplaceStockGBWK	cmpRebuildStockList	function-map.tsv
-002409f0	cmpDeleteStockListGBWK	cmpRemoveStockSlot	function-map.tsv
-00240a50	cmpAddStockListGBWK	cmpCompactStockList	function-map.tsv
-00244078	affinityRate	datGetAisyoValue	function-map.tsv
-0024a060	nbResultLoad	nbResultLoadTextures	source/shared/src/battle/result.cpp:107
-0024a258	nbResultTexDel	nbResultFreeTextures	source/shared/src/battle/result.cpp:184
-0024a298	nbResultLvupAnmAdd	nbResultCountEntries	source/shared/src/battle/result.cpp:194
-0024ae70	nbResultSkip	nbResultInitTimer	source/shared/src/battle/result.cpp:155
-0024afa0	nbResultFinWaitChk	nbResultFindBestScore	source/shared/src/battle/result.cpp:207
-0024bf40	ClearStage	nbResultUpdateUnits	source/shared/src/battle/result.cpp:238
-0024c378	nbResultProcess1	nb_result_Process	source/shared/src/battle/result.cpp:260
-0024c3c8	nbResultShutdown	nb_result_Shutdown	source/shared/src/battle/result.cpp:322
-0024cf70	nbSetNegoPose	nbSetNegoWaitMotion	source/shared/src/battle/talk.cpp:528
-0024d310	nbGetMotionEndType	nbCalcUnitVisual	source/shared/src/battle/combatant.cpp:246
-0024d358	nbGetMotionEndData	nbCalcUnitVisual2	source/shared/src/battle/combatant.cpp:252
-0024dd10	nbSetUnitMove	nbRunKoukaType1	function-map.tsv
-0024de40	nbSetUnitHomeMove	nbRunKoukaType2	function-map.tsv
-0024df58	nbSetSakeMotion	nbSetSakeKoukaParam	function-map.tsv
-0024f420	UnitKyoseiDisp	nbCheckPacketState	source/shared/src/battle/action.cpp:176
-00251428	SetTarget	SetTarget_nbActionProcess	source/shared/src/battle/action_events.cpp:53
-00258de8	nbGetTargetTypeRuleArea	nbSetTargetSkill	source/shared/src/battle/targeting.cpp:178
-00259658	nbSetRenzokuEncount	nbSetMainPhase	source/shared/src/battle/calc.cpp:423
-002596d0	nbClearCommandMemeoyRenzoku	nbCountActiveUnits	source/shared/src/battle/combatant.cpp:209
-0025e3f8	MemoryCommand	MemoryCommand_nbTarSelProcess	source/shared/src/battle/target_select.cpp:225
-0025e978	nbGetKoukaPacketTypeCnt	nbCountKoukaByType	source/shared/src/battle/kouka.cpp:88
-0025e9c8	LinkKoukaPacket	nbLinkPacket	source/shared/src/battle/kouka.cpp:98
-0025ea00	UnlinkKoukaPacket	nbDelKoukaEntry	source/shared/src/battle/kouka.cpp:114
-0025ec58	nbDelUniqueIdKoukaPacket	nbDelAllUniqueIDKoukaPacket	function-map.tsv
-0025f1a8	RunMoveKouka	nbRunKoukaCase1	source/shared/src/battle/kouka_process.cpp:248
-0025f228	RunRotKouka	RunNumEffectKouka	function-map.tsv
-0025f950	RunReturnKouka	nbReturnKoukaUnit	source/shared/src/battle/kouka_process.cpp:368
-0025ffb0	RunNumEffectKouka	nbClipKoukaNum	function-map.tsv
-002601e8	RunMojiEffectKouka	nbDrawKoukaNum	function-map.tsv
-002604e8	RunHpMpKouka	nbApplyHpMp	source/shared/src/battle/kouka_process.cpp:459
-00260528	RunPressKouka	nbRunKoukaCase12	source/shared/src/battle/kouka_process.cpp:522
-00260600	RunBadStatKouka	nbApplyBadStat	source/shared/src/battle/kouka_process.cpp:467
-002623c0	nbAddSkillColorPacket	nbAddSkillColorOnPacket	function-map.tsv
-00262db0	nbAddSePacket3	nbAddSePacketLock	function-map.tsv
-0026bea0	nbGetInnenNegoID	nbFlowFindUnitEntry	source/shared/src/battle/talk.cpp:480
-0026bf00	NegoDebugDraw	nbNegoDebugPrint	function-map.tsv
-0026c0d8	NegoDebugSelectDraw	nbNegoDebugPrint2	function-map.tsv
-0026c4c0	nbNegoProcessEnd	nbNegoSetProcessData	source/shared/src/battle/talk.cpp:736
-0026eb08	ChkAisyo	nbFlowGetUnitEntry	source/shared/src/battle/talk_bargain.cpp:105
-0026ee90	nbChkNegoAisyo	nbFlowCheckUnit	source/shared/src/battle/talk_bargain.cpp:161
-0026ef18	nbChkNegoAisyo2	nbFlowCheckUnit2	source/shared/src/battle/talk_bargain.cpp:167
-002731a8	CheckSkillShinoKeiyaku	nbCheckFlowUnit	source/shared/src/battle/talk_nodeal.cpp:34
-00279c58	nbPanelAutoHide	nbPanelAllHide	function-map.tsv
-002853d8	nbAiChkMyHp	Chk_MYHP	source/shared/src/battle/ai.cpp:132
-00285438	nbAiChkMyMp	Chk_MYMP	source/shared/src/battle/ai.cpp:141
-00285470	nbAiChkFrHp	Chk_FRHP	source/shared/src/battle/ai.cpp:150
-00285668	nbAiChkFrCnt	Chk_FRCNT	source/shared/src/battle/ai.cpp:187
-002856f0	nbAiChkEnCnt	Chk_ENCNT	source/shared/src/battle/ai.cpp:196
-00285778	nbAiChkMyBad	Chk_MYBAD	source/shared/src/battle/ai.cpp:205
-002857b0	nbAiChkFrBad	Chk_FRBAD	source/shared/src/battle/ai.cpp:214
-00285890	nbAiChkEnBad	Chk_ENBAD	source/shared/src/battle/ai.cpp:220
-00285970	nbAiChkEnAllBad	Chk_ENALLBAD	source/shared/src/battle/ai.cpp:226
-00285a70	nbAiChkEnId	Chk_ENID	source/shared/src/battle/ai.cpp:245
-00285b60	nbAiChkFrId	Chk_FRID	source/shared/src/battle/ai.cpp:254
-00285c48	nbAiChkHojo	ChkAiHojo	source/shared/src/battle/ai.cpp:267
-00285d30	nbAiChkHojoMax	ChkAiHojoMax	source/shared/src/battle/ai.cpp:278
-00285ec8	nbAiChkEnHojo	Chk_ENHOJO	source/shared/src/battle/ai.cpp:289
-00285fa8	nbAiChkFrHojo	Chk_FRHOJO	source/shared/src/battle/ai.cpp:295
-00286088	nbAiChkEnHojoMax	Chk_ENHOJOMAX	source/shared/src/battle/ai.cpp:308
-00286168	nbAiChkFrHojoMax	Chk_FRHOJOMAX	source/shared/src/battle/ai.cpp:314
-00286358	nbAiChkEnLight	Chk_ENLIGHT	source/shared/src/battle/ai.cpp:338
-00286440	nbAiChkEnDark	Chk_ENDARK	source/shared/src/battle/ai.cpp:347
-00286580	nbAiChkPlv	Chk_PLV	source/shared/src/battle/ai.cpp:365
-002865b0	nbAiChkPPartyLv	Chk_PPARTYLV	source/shared/src/battle/ai.cpp:371
-002865e8	nbAiChkTurn	Chk_TURN	source/shared/src/battle/ai.cpp:377
-00286600	nbAiChkEnHamamHk	Chk_ENHAMAMHK	source/shared/src/battle/ai.cpp:383
-002866e8	nbAiChkSkillNoMp	Chk_SKILLNOMP	source/shared/src/battle/ai.cpp:391
-002867a8	nbAiAiChk	nbGetAiEntry	source/shared/src/battle/ai.cpp:989
-00286888	nbAiGetKoudou	nbPickAiAction	source/shared/src/battle/ai.cpp:475
-00286b68	nbAiSelAi	Sel_AI	source/shared/src/battle/ai.cpp:712
-00286ec0	nbAiSelLifeMin	Sel_LIFEMIN	source/shared/src/battle/ai.cpp:649
-00286f88	nbAiSelBaarLv	Sel_BAARLV	source/shared/src/battle/ai.cpp:655
-00287070	nbAiSelLvMin	Sel_LVMIN	source/shared/src/battle/ai.cpp:661
-00287138	nbAiSelBad	Sel_BAD	source/shared/src/battle/ai.cpp:667
-002871d8	nbAiSelId	Sel_ID	source/shared/src/battle/ai.cpp:673
-00287288	nbAiSelLight	Sel_LIGHT	source/shared/src/battle/ai.cpp:679
-00287338	nbAiSelDark	Sel_DARK	source/shared/src/battle/ai.cpp:685
-002873e8	nbAiSelPlayer	Sel_PLAYER	source/shared/src/battle/ai.cpp:691
-00287478	nbAiSelJoken	Sel_JOKEN	source/shared/src/battle/ai.cpp:697
-002874c8	nbAiSelRnd	Sel_RND	source/shared/src/battle/ai.cpp:706
-00288350	nbAiScriptChkJoken	AiChkJoken	source/shared/src/battle/ai_script.cpp:68
-00289040	nbDispItemName	nbDispTextById	source/shared/src/battle/help.cpp:107
-002890b0	nbDispMiscActionNameComm	nbDispActionText	source/shared/src/battle/help.cpp:113
-002894e0	DrawPanel	nbDrawHelpPanel	function-map.tsv
-00289940	InitHelpProcessData	nbAllocHelpWork	source/shared/src/battle/help.cpp:186
-0028a300	nbGetPartyDistance	nbCameraGetBossDistance	source/shared/src/battle/formation.cpp:180
-0028a310	nbGetSummonInterval	nbCameraGetSummonNear	source/shared/src/battle/formation.cpp:182
-0028a320	nbFormationGetRadiusDef	nbCameraGetSummonFar	source/shared/src/battle/formation.cpp:184
-0028b448	nbSetPlayerSummonFormation	nbClearActionFlags	source/shared/src/battle/ai.cpp:856
-0028b528	nbSetEnemySummonFormation	nbSetActionCommand	source/shared/src/battle/ai.cpp:878
-0028cfb0	nbResetEncountCount	fclClearTerminalState	source/shared/src/battle/encount.cpp:145
-0028d028	nbGetBgmCategoryInBattle	nbInitMaeTableDefault	source/shared/src/battle/encount.cpp:165
-0028d050	nbGetBgmCategoryInField	nbInitMaeTable	source/shared/src/battle/encount.cpp:172
-0028d070	GetUnitID	nbGetUnitWorkFromAction	source/shared/src/battle/sound.cpp:71
-0028d0b0	nbGetMotionSeNo	nbGetMotionTable	source/shared/src/battle/sound.cpp:74
-0028d100	GetMotionMIDI	nbLoadMotionByIndex	source/shared/src/battle/sound.cpp:83
-0028d178	nbGetMotionMIDI	nbGetUnitFromAction	source/shared/src/battle/sound.cpp:95
-0028d1a8	GetNegoMIDI	nbMakeSeId	source/shared/src/battle/sound.cpp:98
-0028d1b8	nbGetNegoMIDI	nbPlayMotionSe	source/shared/src/battle/sound.cpp:101
-0028d3a8	nbReleaseUnitSound	nbGetFormEntry	function-map.tsv
-0028d418	nbRetainUnitSound	nbSetFormEntry	function-map.tsv
-0028d4b8	nbRequestUnitSound	nbLoadMidiFile	function-map.tsv
-0028d5c0	nbUpdateSoundTable	nbCheckPackLoad	source/shared/src/battle/sound.cpp:193
-0028d6c0	nbEmptySoundEntry	nbFindFreeFormSlot	function-map.tsv
-0028d718	nbFindUnitSound	nbFindFormIndex	function-map.tsv
-0028d778	nbFreeSound1	nbFreeFormResources	source/shared/src/battle/sound.cpp:235
-0028d850	nbFreeSound	nbFreeAllFormResources	source/shared/src/battle/sound.cpp:262
-0028d8b0	nbInitSound	nbAllocMainProcessData	source/shared/src/battle/sound.cpp:272
-0028d918	nbBgmLoadChk	nbMaeCheckDone	source/shared/src/battle/sound.cpp:282
-0028d9e0	nbBgmLoad	nbSetMaeFlag	source/shared/src/battle/sound.cpp:318
-0028dd50	nbBgmNext	nbIncResultCounter	source/shared/src/battle/sound.cpp:383
-0028dd60	nbBgmPlay	nbMaeWaitStep	source/shared/src/battle/sound.cpp:386
-0028dd78	nbBgmTrans	nbRestoreBgm	source/shared/src/battle/sound.cpp:389
-0028e3c8	SetSingleTarget	nbCollectBadCurseUnits	source/shared/src/battle/bad_ai.cpp:48
-0028e470	SetGroupTarget	nbMarkBadCurseUnits	source/shared/src/battle/bad_ai.cpp:62
-0028e4b0	SetTarget	nbBadCurseApplyMove	source/shared/src/battle/bad_ai.cpp:72
-0028e560	CheckBadActionSkill	nbSkillIsInRange	source/shared/src/battle/bad_ai.cpp:91
-0028e5c8	GetBadActionSkill	nbFindBadCurseTarget	source/shared/src/battle/bad_ai.cpp:102
-0028e758	BadKaja	nbBadCurseStep3	source/shared/src/battle/bad_ai.cpp:147
-0028e818	BadKaifuku	nbBadCurseStep2	source/shared/src/battle/bad_ai.cpp:150
-0028e8d8	BadAttack	nbBadCurseStep1	source/shared/src/battle/bad_ai.cpp:153
-0028e9b8	BadMaka	nbBadCurseStep4	source/shared/src/battle/bad_ai.cpp:169
-0028eab8	BadNego	nbBadCurseStep5	source/shared/src/battle/bad_ai.cpp:188
-0028eb80	BadReturn	nbBadCurseStep6	source/shared/src/battle/bad_ai.cpp:203
-0028ec18	BadBadWait	nbBadCurseStep0	source/shared/src/battle/bad_ai.cpp:216
-0028ec90	BadDamage	nbBadCurseStep7	source/shared/src/battle/bad_ai.cpp:226
-0028ecc8	GetBadAiAction	nbGetBadCurseStep	source/shared/src/battle/bad_ai.cpp:238
-0028ed98	AddRituList	nbSetBadCurseTimer	source/shared/src/battle/bad_ai.cpp:260
-0028edc8	MakeRituList	nbInitBadCurseState	source/shared/src/battle/bad_ai.cpp:269
-0028f0a0	nbRunBadAi	nbApplyBadCurse	source/shared/src/battle/bad_ai.cpp:330
-0028f2f8	nbMakaDigit	nbPow10	function-map.tsv
-0028f348	DispMaka	nbDrawMakaNum	source/shared/src/battle/macca_window.cpp:67
-0028f600	nbMakaFade	nbMakaStep	function-map.tsv
-0028f728	InitMakaProcessData	nbAllocMakaWork	source/shared/src/battle/macca_window.cpp:145
-0028f7e8	nbStartBattleEventSound	nbGetEventEntry	source/shared/src/battle/event_process.cpp:40
-0028f840	nbStopBattleEventSound	nbFreeEventEntry	source/shared/src/battle/event_process.cpp:48
-0028f890	nbLoadBattleEventPack	nbCheckEventEntries	source/shared/src/battle/event_process.cpp:56
-0028f958	nbLoadBattleEventPackInit	nbStartEventPacks	source/shared/src/battle/event_process.cpp:73
-0028fa48	nbNextEventSeq	nbFreeEffectSlot	source/shared/src/battle/event_process.cpp:98
-00290048	CheckDeadUnit	nbFindStockSkillError	source/shared/src/battle/skill_error.cpp:52
-002900a0	CheckDeadUnit2	cmpAnyButtonGuideActive	source/shared/src/battle/skill_error.cpp:61
-002900e8	CheckMaxHp	cmpButtonGuideShowDone	source/shared/src/battle/skill_error.cpp:70
-00290138	CheckMaxMp	cmpButtonGuideHideDone	source/shared/src/battle/skill_error.cpp:79
-00290188	CheckBad	cmpFindButtonGuideByFlag	source/shared/src/battle/skill_error.cpp:88
-00290908	nbCheckCampSkillError	cmpClearButtonGuide	source/shared/src/battle/skill_error.cpp:193
-0029bae0	dds3CheckConfigBit	dds3GetGlobalConfigFlag	source/shared/src/battle/target_select.cpp:377
-002b3b20	sdfMotGenNode	sdfMotionNodeNew	function-map.tsv
-002b5fe0	sdfRotationYFloat	SetRotateMatrixY	function-map.tsv
-002b6060	sdfRotationZFloat	SetRotateMatrixZ	function-map.tsv
-002b6550	sdfMultiplyEffectVuMatrices	MultMatrixNoArg	function-map.tsv
-002c0060	sdfSinBits	sdfSin	function-map.tsv
-002c0160	sdfCosBits	sdfCos	function-map.tsv
-002c0228	sdfAtanBits	sdfAtan	function-map.tsv
-002c0ba8	sdfGetRand	dds3GetRandA	function-map.tsv
-002c0c00	sdfGetRandFloat	dds3GetRandFloatA	function-map.tsv
-002c0c60	sdfGetRandInt	dds3GetRandIntA	function-map.tsv
-002c3660	sdfDevLoadFileEx	sdfDevLoadFile	function-map.tsv
-002c3718	sdfDevLoadFile	sdfDevLoadFileEx	function-map.tsv
-002e42e8	RFU116_SetSyscall	setup	function-map.tsv
-002e4338	RFU116_SetSyscall	gcc2_compiled__15	function-map.tsv
-002e4390	RFU091	GetEntryAddress	function-map.tsv
-002e44f8	RFU116_SetSyscall	PatchIsNeeded	function-map.tsv
-002e4758	RFU116_SetSyscall	gcc2_compiled__17	function-map.tsv
-002e47b0	RFU091	GetEntryAddress_0	function-map.tsv
-002e4ba8	RFU091	GetEntryAddress_1	function-map.tsv
-002e4bb8	RFU116_SetSyscall	setup_0	function-map.tsv
-002e4cb0	RFU086_WaitEvnetFlag	_SetTLBEntry	function-map.tsv
+# neither side is always right. Ours is the rewrite's tag where there is one. hd: which
+# name the HD remaster's methods have (both: one side names a neighbour; check signatures).
+address	ours	smt3_decomp	hd	where
+00100008	entry	_start	neither	function-map.tsv
+001009a0	dds3StartReadyProcess	StartProcess	theirs	function-map.tsv
+001009e8	dds3StartingProcesses	StartingProcess	theirs	function-map.tsv
+00100d70	dds3KillProcessNow	KillProcess	theirs	function-map.tsv
+00100e80	dds3EndingProcesses	dds3EndingProcess	theirs	function-map.tsv
+001040a8	dds3PadAct	dds3PadVibrationSet	ours	function-map.tsv
+00104da0	dds3RunQuake	dds3InitZClearDrawTag	ours	function-map.tsv
+001097e8	scrPrintf	datDebugPrintf	neither	source/shared/src/script/vm.cpp:106
+00109848	scrLinkScriptHandleList	scrLinkHandle	neither	source/shared/src/script/vm.cpp:116
+00109888	scrUnlinkScriptHandleList	scrUnlinkHandle	neither	source/shared/src/script/vm.cpp:134
+001098e0	scrAddScript	scrPrintProcedureStart	neither	source/shared/src/script/vm.cpp:152
+00109b48	scrAddScript2	fldFlowParse	neither	source/shared/src/script/vm.cpp:225
+00109c58	scrAddScript3	scrLoadScriptFile	neither	source/shared/src/script/vm.cpp:254
+00109d10	scrInitGlobalWork	dds3GlobalWorkClearFlags	ours	source/shared/src/script/vm.cpp:296
+00109d48	scrStartScript3	scrStartScriptByName	ours	source/shared/src/script/vm.cpp:290
+00109de8	scrStartScript1a	scrRunScriptEx	ours	source/shared/src/script/vm.cpp:275
+00109e50	scrReleaseScript	scrPrintProcedureEnd	ours	source/shared/src/script/vm.cpp:305
+0010b858	SDF_ABORT1	scrCommand_KEY	ours	source/shared/src/script/vm.cpp:834
+0010dbe0	dds3AddBasic	dds3AllocBasic	ours	function-map.tsv
+0010de28	dds3InitPoseSetValue	dds3BackupPoseSet	both	source/shared/src/kernel/pose.cpp:71
+0010de50	dds3BackupPoseSet	dds3SetRadiusPoseSet	both	source/shared/src/kernel/pose.cpp:80
+0010de88	dds3SetRadiusPoseSet	dds3GetRadiusPoseSet	ours	source/shared/src/kernel/pose.cpp:88
+0010df38	dds3GetPosPoseSetMCR	dds3GetPosPoseSet	both	function-map.tsv
+0010df88	dds3AddPosPoseSet	dds3GetPosPoseSetMCR	both	source/shared/src/kernel/pose.cpp:100
+0010e010	dds3AddSclPoseSet	dds3GetSclPoseSetMCR	both	source/shared/src/kernel/pose.cpp:114
+0010e248	dds3SerializeID	dds3AllocObjectId	ours	source/shared/src/kernel/pose.cpp:121
+0010f6e0	dds3SceneBasicSearchNameAndTypeExact	dds3SceneBasicSearchNameAndType	theirs	function-map.tsv
+0010f970	dds3AreaBasicTypeToItemType	dds3AreaBasicTypeHasItems	neither	function-map.tsv
+0010fa68	dds3AreaBasicReleaseItem	dds3AreaBasicGetItemArray	both	function-map.tsv
+0010fab8	dds3AreaBasicGetItemArray	dds3AreaBasicReleaseItem	both	function-map.tsv
+001101d0	dds3ObjectBaseSetControlBasicSvs	dds3ObjectBaseSetUserValue	ours	function-map.tsv
+001125c8	dds3CameraObjectBasicGetControlWorkData	dds3GetCameraObjectBaseControlWorkData	ours	function-map.tsv
+001125d8	dds3AddCameraObjectBasicDef	dds3AllocCameraObjectBasic	ours	function-map.tsv
+00114038	dds3LightObjectBasicGetControlWorkData	dds3EffectObjectBasicGetControlWorkData	both	function-map.tsv
+00115a70	dds3EffectObjectBasicGetControlWorkData	dds3LightObjectBasicGetControlWorkData	both	function-map.tsv
+00116058	dds3PathGetElement	dds3PathEvalSpline	neither	function-map.tsv
+00116210	dds3PathBasicMakeControl	dds3AllocPathBasicWorkData	ours	function-map.tsv
+001163e0	dds3PathBasicFreeControl	dds3DeletePathControl	ours	function-map.tsv
+001165b0	dds3PathBasicControlGetLight	dds3PathBasicControlNextStep	both	function-map.tsv
+00116998	dds3PathBasicControlNextStep	dds3PathBasicControlIsFinished	ours	function-map.tsv
+00116a48	dds3PathBasicPathControlGetMode	dds3PathBasicControlGetMode	ours	function-map.tsv
+00116a80	dds3PathBasicPause	dds3PathBasicPauseOn	ours	function-map.tsv
+00116ad0	dds3AddPathBasic	dds3AddPointBasic	both	function-map.tsv
+00125990	fldSeqOnFlag	fldAutoMapSeqSetFlag	ours	source/shared/src/field/spells.cpp:96
+001259a8	fldSeqOffFlag	fldAutoMapSeqClearFlag	ours	source/shared/src/field/spells.cpp:99
+001259c0	fldSeqCheckFlag	fldAutoMapSeqTestFlag	ours	source/shared/src/field/spells.cpp:102
+001259d0	fldProcOnFlag	fldEncountSetFlag	ours	source/shared/src/field/spells.cpp:105
+001259e0	fldProcOffFlag	fldEncountClearFlag	ours	source/shared/src/field/spells.cpp:108
+001259f8	fldProcCheckFlag	fldEncountTestFlag	ours	source/shared/src/field/spells.cpp:111
+0015c1e8	dds3BillboardBasicInit	dds3Billboard_BasicInit	theirs	function-map.tsv
+0015c350	dds3BillboardP2ACopy	dds3Billboard_P2ACopy	theirs	function-map.tsv
+0015c940	dds3BillboardP2ASetNumber	dds3Billboard_P2ASetNumber	theirs	function-map.tsv
+0016c850	effBTLModelGetHeightBits	effBTLModelGetHeight	theirs	function-map.tsv
+0016e638	effBTLPartGetScalePtrSub	effBTLPartCalcScale	ours	function-map.tsv
+00173d78	effBTLPartDelete	effBTLSystemDelete2	both	function-map.tsv
+001740b8	effBTLSystemCutDelete	effBTLSystemCut1Delete	theirs	function-map.tsv
+001748a0	effBTLBedName	effMakeBedFileName	neither	function-map.tsv
+001a5280	effMagatuhiDelete	effMagaCylinderFree	ours	function-map.tsv
+001abc88	effColorMultiply	effMagaCylinderCalcColor	ours	function-map.tsv
+001ad330	Eve_PartialMultiBlurEditorGetParams	Eve_PartialMultiBlurGetParams	ours	source/shared/src/effect/event.cpp:44
+001ad3e8	Eve_DistortionBlurEditorGetParams	Eve_DistortionBlurGetParams	ours	source/shared/src/effect/event.cpp:53
+001ad4a0	Eve_RippleBlurEditorGetParams	Eve_RippleBlurGetParams	ours	source/shared/src/effect/event.cpp:64
+001ad538	Eve_FilterEditorGetParams	Eve_FilterGetParams	ours	source/shared/src/effect/event.cpp:73
+001ad5b0	Eve_PartialMultiFilterEditorGetParams	Eve_PartialMultiFilterGetParams	ours	source/shared/src/effect/event.cpp:82
+001b0858	effSplInitialize2	dds3AllocSplineHandle	ours	function-map.tsv
+001b0cd8	effSplineMakeCoefficientTable	dds3AllocSplinePoints	neither	function-map.tsv
+001b0d70	effSplineMakeDifferential	dds3BuildSplinePoints	neither	function-map.tsv
+001b1078	effSplineMakeCoefficient	dds3BuildSplineCoefs	neither	function-map.tsv
+001b1148	effSplineMakeCoefficient2	dds3BuildSplineCoefsSkipDup	neither	function-map.tsv
+001b1888	nbCameraSetEveTarget	nbCameraEventSetTarget	neither	source/shared/src/battle/camera.cpp:96
+001c6300	frSetSpaceMetric	frSetWhiteSpaceW	neither	function-map.tsv
+001c6858	frLoadStyle	frLoadFontData	neither	source/shared/src/interface/font_layout_us.cpp:65
+001c6ec8	frDestroyFontRequestFade	frDestroyFontRequest	neither	function-map.tsv
+001c7b50	frSetFontColNo	frSetFontColorNo	neither	source/shared/src/interface/font.cpp:516
+001c7c30	frFadeOutText	frEraseEffect	neither	function-map.tsv
+001c81d8	frDelExtDic	frDestroyExtDic	neither	source/shared/src/interface/font.cpp:161
+001c8268	frGetChainWidth	frGetStrWidth2	neither	function-map.tsv
+001c8480	frResetStepY	frSetMessageDefStepY	neither	source/shared/src/interface/font.cpp:552
+001c8490	frSetStepY	frSetMessageStepY	neither	source/shared/src/interface/font.cpp:549
+001c8ce0	frControlCodeLength	frGetTagArgCount	neither	function-map.tsv
+001c8d28	frCopyMessageLine	frCopyTagArgs	neither	function-map.tsv
+001c8e48	frCountMessageLines	frCalcStringHash	neither	function-map.tsv
+001c9108	frMessageRequestPlain	MessageRequest	neither	function-map.tsv
+001c9140	frMessageRequest	MessageRequestEx	neither	source/shared/src/interface/font_message_us.cpp:483
+001c9188	MessageRequestEx	MessageRequestEx2	neither	source/shared/src/interface/font_message_us.cpp:462
+001c91e0	frMessageRequestKeepSpace	MessageRequestNS	neither	function-map.tsv
+001ca508	frStringRequest	frwGetNumFontFRQ	neither	function-map.tsv
+001cae58	itfMiscLinkInit	itfMiscLinkInitialize	theirs	source/shared/src/interface/message.cpp:36
+001cc328	itfPnlDraw	itfPnlDrawTag	ours	function-map.tsv
+001cd380	itfMesMngMoveMessagePanel	itfMesMngSetOffsetY1	neither	source/shared/src/interface/message.cpp:954
+001ce510	itfMesMngGetVarLocalize	itfMesMngGetVar	ours	source/shared/src/interface/message.cpp:461
+001ce538	BuildCharacterName	itfMesMngGetVarLocalize	theirs	source/shared/src/interface/message.cpp:1660
+001cea58	itfMesMngGetMessageWidth	itfMesMngGetWidth	neither	source/shared/src/interface/message.cpp:1029
+001cec68	itfMesMngGetConfig	itfMesMngGetStatManager	neither	source/shared/src/interface/message.cpp:1026
+001cf058	itfMesMngReleaseInstance	DestructFlow	theirs	source/shared/src/interface/message.cpp:390
+001cf818	MarkSelectionText	ChangeFontColor	neither	source/shared/src/interface/message.cpp:693
+001cf960	GetMaxLineWidth	GetMessageWidth	neither	source/shared/src/interface/message.cpp:713
+001d0ff8	CalcManagerProc	CalcMsgMng_Process	ours	source/shared/src/interface/message.cpp:1344
+001d10a8	ExitALL	DrawMsgMng_Shutdown	ours	source/shared/src/interface/message.cpp:434
+001df5c8	mdlEffectDupBillboard	mdlEffectDup_P2A	theirs	function-map.tsv
+001df600	mdlEffectDupGeneric	mdlEffectDup_D3P	theirs	function-map.tsv
+001e52b0	evtCommandKutiFunction	evtRunKutiMotion	neither	function-map.tsv
+001fd3b0	cmbChkEventDevil	cmbDevilIsUnlocked	ours	source/shared/src/fusion/accident.cpp:20
+001fd498	cmbGetPowerUpTableIndex	cmbFindEvoIndex	ours	source/shared/src/fusion/combine.cpp:43
+001fd4e0	cmbCalcParamUpVal	cmbApplyPercent	ours	source/shared/src/fusion/combine.cpp:52
+001fd538	cmbCalcParamPowerUp	cmbGetEvoTable	ours	source/shared/src/fusion/combine.cpp:64
+001fd610	cmbChkIkenieExtPattern	cmbGetCombineRace	ours	source/shared/src/fusion/rules.cpp:232
+001fd708	cmbChkMetato	cmbIsSpecialPair	ours	source/shared/src/fusion/rules.cpp:248
+001fd730	cmbChkIkenieExtPatternDevRace	cmbFindCombineResult	ours	source/shared/src/fusion/rules.cpp:255
+001fd878	cmbChkIkenieExtPatternDev	cmbFindUnlockedResult	ours	source/shared/src/fusion/rules.cpp:277
+001fda08	cmbChkIkenieExtPatternBirthDevil	cmbFindBirthEntry	ours	source/shared/src/fusion/rules.cpp:65
+001fdac0	cmbGetRankUpDownDevil	cmbFindBirthResult	ours	source/shared/src/fusion/rules.cpp:150
+001fdca0	cmbGetRankUpDown	cmbFindRaceEntry	ours	source/shared/src/fusion/rules.cpp:89
+001fdd18	cmbGetBirthSpirit	cmbFindPairEntry	ours	source/shared/src/fusion/rules.cpp:79
+001fdda8	cmbGetKeisyoSkillEndIndex	cmbCountSkills	ours	source/shared/src/fusion/inheritance.cpp:76
+001fdde8	cmbGetBirthDevilRace	cmbLookupCombine	ours	source/shared/src/fusion/rules.cpp:102
+001fdec0	cmbGetAverageLevel	cmbCalcResultLevel	ours	source/shared/src/fusion/rules.cpp:115
+001fdf78	cmbGetTargetDevil	cmbGetRaceCombineResult	ours	source/shared/src/fusion/rules.cpp:133
+001fe170	cmbGetStockDevilInfo	cmbGetDevilIdAndRace	ours	source/shared/src/fusion/combine.cpp:211
+001fe1a0	cmbChkExtPattern	cmbCheckUnlockedPair	ours	source/shared/src/fusion/rules.cpp:42
+001fe280	cmbChkExtPatternBirthDevil	cmbEntryIsValid	ours	source/shared/src/fusion/rules.cpp:56
+001fe2c8	cmbChkMetaOnlyDevil	cmbDevilIsSpecial	ours	source/shared/src/fusion/accident.cpp:29
+001fe2f0	cmbChkAccident	cmbIsFullMoon	ours	source/shared/src/fusion/accident.cpp:35
+001fe368	cmbChkAccidentType	cmbSkipRand	ours	source/shared/src/fusion/accident.cpp:43
+001fe388	cmbGetAccidentFailDevil	cmbFindSpecialEntry	ours	source/shared/src/fusion/accident.cpp:50
+001fe410	cmbRndGetAccidentBirthDevil	cmbBuildDevilEntry	ours	source/shared/src/fusion/accident.cpp:63
+001fe570	cmbAddParamAccidentBirthDevil	cmbCalcUnitParam	ours	source/shared/src/fusion/accident.cpp:87
+001fe5f0	cmbCalcNormal2	cmbCalcCombineResult	ours	source/shared/src/fusion/rules.cpp:177
+001fe690	cmbCalcDevil2	cmbGetCombineResultEx	ours	source/shared/src/fusion/rules.cpp:188
+001fe9e0	cmbChkIkenieIllegalDevil	cmbDevilCanBirth	ours	source/shared/src/fusion/stock.cpp:170
+001fea20	cmbCalcIkenie	cmbMakeBirthDevil	ours	source/shared/src/fusion/rules.cpp:298
+001fea98	cmbGetEmptyStockIndex	cmbFindStockSlot	ours	source/shared/src/fusion/stock.cpp:69
+001fead8	cmbGetStockDevilIndex	ragUseItemOnUnit	ours	source/shared/src/fusion/stock.cpp:78
+001feb28	cmbAddKeisyoSkillFromSkill	cmbInheritSkills	ours	source/shared/src/fusion/combine.cpp:85
+001fec40	cmbDeleteKeisyoSkill	rstClearSkillSlot	ours	source/shared/src/fusion/combine.cpp:107
+001fec68	cmbMoveKeisyoSkillToSkill	cmbReplaceSkill	ours	source/shared/src/fusion/combine.cpp:114
+001fed00	cmbAddSkill	rstAddSkillToSlot	ours	source/shared/src/fusion/growth.cpp:76
+001fedf0	cmbChkKeisyoSkillOwner	rstFindSkillSlot	ours	source/shared/src/fusion/inheritance.cpp:91
+001fee30	cmbChkKeisyoSkillNums	cmbFindSkillSlot	ours	source/shared/src/fusion/inheritance.cpp:100
+001ff070	cmbClearSkill	cmbClearUnitSkills	ours	source/shared/src/fusion/growth.cpp:41
+001ff0a8	cmbClearKeisyoSkill	cmbClearSkillSlots	ours	source/shared/src/fusion/inheritance.cpp:85
+001ff178	cmbDeleteUnitFromStockList	cmbApplyEvoUnlock	ours	source/shared/src/fusion/stock.cpp:88
+001ff1f8	cmbAddUnitToStockList	cmbFindStockEnd	ours	source/shared/src/fusion/stock.cpp:102
+001ff218	cmbDeleteDevilFromStock	cmbStoreBirthDevil	ours	source/shared/src/fusion/stock.cpp:118
+001ff298	cmbAddDefaultDevilToStock	cmbAddDevilToStock	ours	source/shared/src/fusion/stock.cpp:129
+001ff3b8	cmbCalcTotalKeisyoSkillRate	cmbApplyEvoResult	ours	source/shared/src/fusion/inheritance.cpp:66
+001ff428	cmbRndGetKeisyoSkill	cmbPickEvoResult	ours	source/shared/src/fusion/combine.cpp:125
+001ff4d0	cmbRndAddKeisyoSkillToSkill	cmbCalcInheritCount	ours	source/shared/src/fusion/combine.cpp:141
+001ff648	cmbCalcCombineManin	cmbGetMoonBonus	ours	source/shared/src/fusion/rules.cpp:318
+001ff758	cmbChkDante	cmbCheckDevilPair	ours	source/shared/src/fusion/rules.cpp:338
+0020dcc0	rcvCalcPriceStatusRecover	rcvGetStatusPrice	ours	source/shared/src/facility/recovery.cpp:45
+0020dce8	rcvCalcPriceRevive	rcvGetRevivePrice	ours	source/shared/src/facility/recovery.cpp:48
+0020dd00	rcvCalcPriceDispel	rcvGetHealCost	ours	source/shared/src/facility/recovery.cpp:51
+0020dd08	rcvCalcPriceAllRecover	rcvGetPriceForUnit	ours	source/shared/src/facility/recovery.cpp:54
+0020dd50	rcvCalcPrice	rcvGetRecoverPrice	ours	source/shared/src/facility/recovery.cpp:61
+0020ddd8	rcvAppRecover	rcvAppAllRecover	both	source/shared/src/facility/recovery.cpp:73
+0020de10	rcvAppStatusRecover	rcvClearStatusBits	ours	source/shared/src/facility/recovery.cpp:81
+0020de20	rcvAppRevive	rcvReviveUnit	ours	source/shared/src/facility/recovery.cpp:84
+0020de70	rcvAppDispel	rcvClearDeadFlag	ours	source/shared/src/facility/recovery.cpp:91
+0020de80	rcvAppAllRecover	sfply_AdjustPrepEnd	ours	source/shared/src/facility/recovery.cpp:94
+0020deb0	rcvGetDevilAttr	rcvFullHeal	ours	source/shared/src/facility/recovery.cpp:102
+002131e0	cmbSortKeisyoSkillCallback	cmpSkillOrder	neither	function-map.tsv
+00213230	cmbDevilSortCallback	cmbSetEvoResult	neither	function-map.tsv
+00213350	cmbSortKeisyoSkill	sortSkillList	ours	source/shared/src/fusion/sort.cpp:43
+002138c0	fclChkItemHearts	datGetItemSlotIndex	ours	source/shared/src/data/magatama.cpp:74
+00216b90	fclEncycGetRatio2	fclEncycGetRatio	ours	source/shared/src/facility/compendium.cpp:169
+00219c40	cmbRaceSortCallback	cmpRaceOrder	neither	source/shared/src/facility/compendium.cpp:264
+00219d00	cmbLevelSortCallback	cmpLevelOrder	neither	source/shared/src/facility/compendium.cpp:276
+0021fd98	rstAddLevel	rstAddExp	ours	function-map.tsv
+0021ff38	rstCancelMotionReq	rstSetEvoState	ours	function-map.tsv
+00221e70	cmbGetPlayerRaceID	datGetPlayerLNDLevel	ours	source/shared/src/data/magatama.cpp:294
+00221ef8	cmbChkHeartsStat	datGetDevilRace	ours	source/shared/src/data/magatama.cpp:255
+00221f20	cmbChkMasterHeartsStatNums	datGetPlayerLNDList	ours	source/shared/src/data/magatama.cpp:261
+002220c0	cmbGetHeartsSkillNums	datGetDevilSlotIndex	ours	source/shared/src/data/magatama.cpp:139
+00222140	cmbChkHeartsMaster	datDevilIsRegistered	ours	source/shared/src/data/magatama.cpp:230
+00222160	cmbGetMasterHeartsNums	datCountPlayerLND	ours	source/shared/src/data/magatama.cpp:236
+002221d0	cmbGetHeartsAfterSkillNums	datGetDevilSlotState	ours	source/shared/src/data/magatama.cpp:161
+002221e8	cmbSetHeartsMaster	rstSetDevilRegistered	ours	source/shared/src/data/magatama.cpp:245
+00222210	cmbGetHeartsSkillAt	rstGetHeartsSkillAt	neither	function-map.tsv
+00222290	cmbGetHeartsAisyo	datGetDevilParam	ours	source/shared/src/data/magatama.cpp:118
+002222c0	cmbGetHeartsDefaultParam	cmbGetHeartsParamByIndex	ours	source/shared/src/data/magatama.cpp:85
+002224d8	cmbAddHeartsSkill	datAddHeartsSlot	ours	source/shared/src/data/magatama.cpp:167
+00222550	cmbCreateDefaultHeartsSkill	datAddHeartsEntry	ours	source/shared/src/data/magatama.cpp:175
+002226b8	cmbChkGetHeartsSkill	rstCheckHeartsSlot	ours	source/shared/src/data/magatama.cpp:189
+00222788	cmbCreateDefaultSkill	cmbInitStockUnit	ours	source/shared/src/fusion/growth.cpp:49
+002228d8	cmbChkStockDevil	cmbCheckEvoUnlocked	ours	source/shared/src/fusion/stock.cpp:50
+00222928	cmbChkStockDevilNums	cmbCountEvoCandidates	ours	source/shared/src/fusion/stock.cpp:59
+00222a28	cmbChkLevelUpEvent	datFindKugatatiEntry	ours	source/shared/src/fusion/growth.cpp:91
+00222aa0	cmbGetKeisyoSkillScore	cmbCopyEvoStats	ours	source/shared/src/fusion/inheritance.cpp:12
+00222b70	cmbGetKeisyoSkillMotion	cmbCheckEvoPair	ours	source/shared/src/fusion/inheritance.cpp:35
+00222bb0	cmbGetKeisyoSkillLevel	cmbFindEvoEntry	ours	source/shared/src/fusion/inheritance.cpp:141
+00222bf0	cmbCalcKeisyoSkillRate	cmbCopyEvoDevil	ours	source/shared/src/fusion/inheritance.cpp:45
+00222cf0	cmbChkDarkDevil	cmbEvoEntryExists	ours	source/shared/src/fusion/stock.cpp:151
+00222d38	cmbChkStockDarkDevilNums	cmbCountEvoReady	ours	source/shared/src/fusion/stock.cpp:160
+002230a0	cmbChkEvoAttention	rstFindEvoEntryType7	ours	source/shared/src/fusion/growth.cpp:234
+00223110	cmbChkCancelEvo	rstFindEvoEntryType5	ours	source/shared/src/fusion/growth.cpp:246
+002231f8	cmbGetDevilEvoLevel	cmpFindKugatatiMsgEntry	ours	source/shared/src/fusion/growth.cpp:265
+00223398	cmbChkEvoDevilLev	rstCalcEvoLevelDiff	ours	source/shared/src/fusion/growth.cpp:282
+002234e0	cmbGetPowerUpSkill	rstFindPowerUpSkill	ours	source/shared/src/fusion/growth.cpp:323
+00223520	cmbGetMutationSkill	rstRollPowerUpSkill	ours	source/shared/src/fusion/growth.cpp:392
+00223628	cmpCalcLevelUpBaseExp	datCalcDevilExp	ours	source/shared/src/fusion/growth.cpp:112
+00223668	cmbCalcLevelUpExp	datCopyDevilWorkEntry	ours	source/shared/src/fusion/growth.cpp:121
+00223728	cmbChkLevelUpExp	datAdvanceDevilLevel	ours	source/shared/src/fusion/growth.cpp:135
+0022cf08	cmpChkCampProcess	campCheckExitState	ours	function-map.tsv
+00232880	cmpChkHaveNormalHeartsAll	datCountRegisteredHearts	ours	source/shared/src/data/magatama.cpp:50
+002328c8	cmpChkHaveHearts	cmpHeartsIconIsVisible	ours	source/shared/src/data/magatama.cpp:44
+00232920	cmpSetEquipHeartsSelectPos	cmpInitHeartsIconTable	ours	function-map.tsv
+00232998	cmpGetHeartsFromPos	cmpGetHeartsIconId	ours	function-map.tsv
+002329b8	cmpGetHeartsIconTypeFromPos	cmpGetHeartsIconType	ours	function-map.tsv
+002329d8	cmpGetHeartsIconColorFromPos	cmpGetHeartsIconColor	ours	function-map.tsv
+0023f8c8	cmpSetModelMoveMode	rstSetStatusModelReady	ours	function-map.tsv
+0023f8e0	cmpGetStatusModelHandle	cmpGetEncycWork	ours	function-map.tsv
+0023f8e8	cmpGetModelMinorNo	cmpGetStatusModelId	ours	function-map.tsv
+0023fb90	cmpModelTblGetMotNo	cmpGetModelMotionId	ours	function-map.tsv
+0023fbc0	cmpModelTblGetMotSpd	cmpGetModelScale	ours	function-map.tsv
+0023fbf0	cmpModelTblGetPos	rstGetEvoModelParam	ours	function-map.tsv
+0023fc40	cmpModelTblGetRot	cmpGetModelPosRot	ours	function-map.tsv
+00240808	cmpReplaceStockGBWK	cmpRebuildStockList	ours	function-map.tsv
+002409f0	cmpDeleteStockListGBWK	cmpRemoveStockSlot	ours	function-map.tsv
+00240a50	cmpAddStockListGBWK	cmpCompactStockList	ours	function-map.tsv
+00244078	affinityRate	datGetAisyoValue	neither	function-map.tsv
+0024a060	nbResultLoad	nbResultLoadTextures	ours	source/shared/src/battle/result.cpp:107
+0024a258	nbResultTexDel	nbResultFreeTextures	ours	source/shared/src/battle/result.cpp:184
+0024a298	nbResultLvupAnmAdd	nbResultCountEntries	ours	source/shared/src/battle/result.cpp:194
+0024ae70	nbResultSkip	nbResultInitTimer	ours	source/shared/src/battle/result.cpp:155
+0024afa0	nbResultFinWaitChk	nbResultFindBestScore	ours	source/shared/src/battle/result.cpp:207
+0024bf40	ClearStage	nbResultUpdateUnits	ours	source/shared/src/battle/result.cpp:238
+0024c378	nbResultProcess1	nb_result_Process	ours	source/shared/src/battle/result.cpp:260
+0024c3c8	nbResultShutdown	nb_result_Shutdown	ours	source/shared/src/battle/result.cpp:322
+0024cf70	nbSetNegoPose	nbSetNegoWaitMotion	theirs	source/shared/src/battle/talk.cpp:529
+0024d310	nbGetMotionEndType	nbCalcUnitVisual	ours	source/shared/src/battle/combatant.cpp:272
+0024d358	nbGetMotionEndData	nbCalcUnitVisual2	ours	source/shared/src/battle/combatant.cpp:278
+0024dd10	nbSetUnitMove	nbRunKoukaType1	ours	function-map.tsv
+0024de40	nbSetUnitHomeMove	nbRunKoukaType2	ours	function-map.tsv
+0024df58	nbSetSakeMotion	nbSetSakeKoukaParam	neither	function-map.tsv
+0024f420	UnitKyoseiDisp	nbCheckPacketState	ours	source/shared/src/battle/action.cpp:178
+00251428	SetTarget	SetTarget_nbActionProcess	ours	source/shared/src/battle/action_events.cpp:54
+00258de8	nbGetTargetTypeRuleArea	nbSetTargetSkill	ours	source/shared/src/battle/targeting.cpp:178
+00259658	nbSetRenzokuEncount	nbSetMainPhase	ours	source/shared/src/battle/calc.cpp:423
+002596d0	nbClearCommandMemeoyRenzoku	nbCountActiveUnits	ours	source/shared/src/battle/combatant.cpp:230
+0025e3f8	MemoryCommand	MemoryCommand_nbTarSelProcess	ours	source/shared/src/battle/target_select.cpp:225
+0025e978	nbGetKoukaPacketTypeCnt	nbCountKoukaByType	ours	source/shared/src/battle/kouka.cpp:91
+0025e9c8	LinkKoukaPacket	nbLinkPacket	ours	source/shared/src/battle/kouka.cpp:101
+0025ea00	UnlinkKoukaPacket	nbDelKoukaEntry	ours	source/shared/src/battle/kouka.cpp:117
+0025ec58	nbDelUniqueIdKoukaPacket	nbDelAllUniqueIDKoukaPacket	neither	function-map.tsv
+0025f1a8	RunMoveKouka	nbRunKoukaCase1	ours	source/shared/src/battle/kouka_process.cpp:251
+0025f228	RunRotKouka	RunNumEffectKouka	both	function-map.tsv
+0025f950	RunReturnKouka	nbReturnKoukaUnit	ours	source/shared/src/battle/kouka_process.cpp:371
+0025ffb0	RunNumEffectKouka	nbClipKoukaNum	ours	function-map.tsv
+002601e8	RunMojiEffectKouka	nbDrawKoukaNum	ours	function-map.tsv
+002604e8	RunHpMpKouka	nbApplyHpMp	ours	source/shared/src/battle/kouka_process.cpp:462
+00260528	RunPressKouka	nbRunKoukaCase12	ours	source/shared/src/battle/kouka_process.cpp:525
+00260600	RunBadStatKouka	nbApplyBadStat	ours	source/shared/src/battle/kouka_process.cpp:470
+002623c0	nbAddSkillColorPacket	nbAddSkillColorOnPacket	neither	function-map.tsv
+00262db0	nbAddSePacket3	nbAddSePacketLock	neither	function-map.tsv
+0026bea0	nbGetInnenNegoID	nbFlowFindUnitEntry	ours	source/shared/src/battle/talk.cpp:481
+0026bf00	NegoDebugDraw	nbNegoDebugPrint	ours	function-map.tsv
+0026c0d8	NegoDebugSelectDraw	nbNegoDebugPrint2	ours	function-map.tsv
+0026c4c0	nbNegoProcessEnd	nbNegoSetProcessData	ours	source/shared/src/battle/talk.cpp:737
+0026eb08	ChkAisyo	nbFlowGetUnitEntry	ours	source/shared/src/battle/talk_bargain.cpp:105
+0026ee90	nbChkNegoAisyo	nbFlowCheckUnit	ours	source/shared/src/battle/talk_bargain.cpp:161
+0026ef18	nbChkNegoAisyo2	nbFlowCheckUnit2	ours	source/shared/src/battle/talk_bargain.cpp:167
+002731a8	CheckSkillShinoKeiyaku	nbCheckFlowUnit	ours	source/shared/src/battle/talk_nodeal.cpp:34
+00279c58	nbPanelAutoHide	nbPanelAllHide	both	function-map.tsv
+002853d8	nbAiChkMyHp	Chk_MYHP	theirs	source/shared/src/battle/ai.cpp:132
+00285438	nbAiChkMyMp	Chk_MYMP	theirs	source/shared/src/battle/ai.cpp:141
+00285470	nbAiChkFrHp	Chk_FRHP	theirs	source/shared/src/battle/ai.cpp:150
+00285668	nbAiChkFrCnt	Chk_FRCNT	theirs	source/shared/src/battle/ai.cpp:187
+002856f0	nbAiChkEnCnt	Chk_ENCNT	theirs	source/shared/src/battle/ai.cpp:196
+00285778	nbAiChkMyBad	Chk_MYBAD	theirs	source/shared/src/battle/ai.cpp:205
+002857b0	nbAiChkFrBad	Chk_FRBAD	theirs	source/shared/src/battle/ai.cpp:214
+00285890	nbAiChkEnBad	Chk_ENBAD	theirs	source/shared/src/battle/ai.cpp:220
+00285970	nbAiChkEnAllBad	Chk_ENALLBAD	theirs	source/shared/src/battle/ai.cpp:226
+00285a70	nbAiChkEnId	Chk_ENID	theirs	source/shared/src/battle/ai.cpp:245
+00285b60	nbAiChkFrId	Chk_FRID	theirs	source/shared/src/battle/ai.cpp:254
+00285c48	nbAiChkHojo	ChkAiHojo	theirs	source/shared/src/battle/ai.cpp:267
+00285d30	nbAiChkHojoMax	ChkAiHojoMax	theirs	source/shared/src/battle/ai.cpp:278
+00285ec8	nbAiChkEnHojo	Chk_ENHOJO	theirs	source/shared/src/battle/ai.cpp:289
+00285fa8	nbAiChkFrHojo	Chk_FRHOJO	theirs	source/shared/src/battle/ai.cpp:295
+00286088	nbAiChkEnHojoMax	Chk_ENHOJOMAX	theirs	source/shared/src/battle/ai.cpp:308
+00286168	nbAiChkFrHojoMax	Chk_FRHOJOMAX	theirs	source/shared/src/battle/ai.cpp:314
+00286358	nbAiChkEnLight	Chk_ENLIGHT	theirs	source/shared/src/battle/ai.cpp:338
+00286440	nbAiChkEnDark	Chk_ENDARK	theirs	source/shared/src/battle/ai.cpp:347
+00286580	nbAiChkPlv	Chk_PLV	theirs	source/shared/src/battle/ai.cpp:365
+002865b0	nbAiChkPPartyLv	Chk_PPARTYLV	theirs	source/shared/src/battle/ai.cpp:371
+002865e8	nbAiChkTurn	Chk_TURN	theirs	source/shared/src/battle/ai.cpp:377
+00286600	nbAiChkEnHamamHk	Chk_ENHAMAMHK	theirs	source/shared/src/battle/ai.cpp:383
+002866e8	nbAiChkSkillNoMp	Chk_SKILLNOMP	theirs	source/shared/src/battle/ai.cpp:391
+002867a8	nbAiAiChk	nbGetAiEntry	neither	source/shared/src/battle/ai.cpp:989
+00286888	nbAiGetKoudou	nbPickAiAction	neither	source/shared/src/battle/ai.cpp:475
+00286b68	nbAiSelAi	Sel_AI	theirs	source/shared/src/battle/ai.cpp:712
+00286ec0	nbAiSelLifeMin	Sel_LIFEMIN	theirs	source/shared/src/battle/ai.cpp:649
+00286f88	nbAiSelBaarLv	Sel_BAARLV	theirs	source/shared/src/battle/ai.cpp:655
+00287070	nbAiSelLvMin	Sel_LVMIN	theirs	source/shared/src/battle/ai.cpp:661
+00287138	nbAiSelBad	Sel_BAD	theirs	source/shared/src/battle/ai.cpp:667
+002871d8	nbAiSelId	Sel_ID	theirs	source/shared/src/battle/ai.cpp:673
+00287288	nbAiSelLight	Sel_LIGHT	theirs	source/shared/src/battle/ai.cpp:679
+00287338	nbAiSelDark	Sel_DARK	theirs	source/shared/src/battle/ai.cpp:685
+002873e8	nbAiSelPlayer	Sel_PLAYER	theirs	source/shared/src/battle/ai.cpp:691
+00287478	nbAiSelJoken	Sel_JOKEN	theirs	source/shared/src/battle/ai.cpp:697
+002874c8	nbAiSelRnd	Sel_RND	theirs	source/shared/src/battle/ai.cpp:706
+00288350	nbAiScriptChkJoken	AiChkJoken	theirs	source/shared/src/battle/ai_script.cpp:68
+00289040	nbDispItemName	nbDispTextById	ours	source/shared/src/battle/help.cpp:107
+002890b0	nbDispMiscActionNameComm	nbDispActionText	ours	source/shared/src/battle/help.cpp:113
+002894e0	DrawPanel	nbDrawHelpPanel	ours	function-map.tsv
+00289940	InitHelpProcessData	nbAllocHelpWork	ours	source/shared/src/battle/help.cpp:186
+0028a300	nbGetPartyDistance	nbCameraGetBossDistance	ours	source/shared/src/battle/formation.cpp:250
+0028a310	nbGetSummonInterval	nbCameraGetSummonNear	ours	source/shared/src/battle/formation.cpp:252
+0028a320	nbFormationGetRadiusDef	nbCameraGetSummonFar	ours	source/shared/src/battle/formation.cpp:254
+0028b448	nbSetPlayerSummonFormation	nbClearActionFlags	ours	source/shared/src/battle/ai.cpp:856
+0028b528	nbSetEnemySummonFormation	nbSetActionCommand	ours	source/shared/src/battle/ai.cpp:878
+0028cfb0	nbResetEncountCount	fclClearTerminalState	ours	source/shared/src/battle/encount.cpp:145
+0028d028	nbGetBgmCategoryInBattle	nbInitMaeTableDefault	ours	source/shared/src/battle/encount.cpp:165
+0028d050	nbGetBgmCategoryInField	nbInitMaeTable	ours	source/shared/src/battle/encount.cpp:172
+0028d070	GetUnitID	nbGetUnitWorkFromAction	ours	source/shared/src/battle/sound.cpp:71
+0028d0b0	nbGetMotionSeNo	nbGetMotionTable	ours	source/shared/src/battle/sound.cpp:74
+0028d100	GetMotionMIDI	nbLoadMotionByIndex	ours	source/shared/src/battle/sound.cpp:83
+0028d178	nbGetMotionMIDI	nbGetUnitFromAction	ours	source/shared/src/battle/sound.cpp:95
+0028d1a8	GetNegoMIDI	nbMakeSeId	ours	source/shared/src/battle/sound.cpp:98
+0028d1b8	nbGetNegoMIDI	nbPlayMotionSe	ours	source/shared/src/battle/sound.cpp:101
+0028d3a8	nbReleaseUnitSound	nbGetFormEntry	neither	function-map.tsv
+0028d418	nbRetainUnitSound	nbSetFormEntry	neither	function-map.tsv
+0028d4b8	nbRequestUnitSound	nbLoadMidiFile	neither	function-map.tsv
+0028d5c0	nbUpdateSoundTable	nbCheckPackLoad	ours	source/shared/src/battle/sound.cpp:193
+0028d6c0	nbEmptySoundEntry	nbFindFreeFormSlot	neither	function-map.tsv
+0028d718	nbFindUnitSound	nbFindFormIndex	neither	function-map.tsv
+0028d778	nbFreeSound1	nbFreeFormResources	ours	source/shared/src/battle/sound.cpp:235
+0028d850	nbFreeSound	nbFreeAllFormResources	ours	source/shared/src/battle/sound.cpp:262
+0028d8b0	nbInitSound	nbAllocMainProcessData	ours	source/shared/src/battle/sound.cpp:272
+0028d918	nbBgmLoadChk	nbMaeCheckDone	ours	source/shared/src/battle/sound.cpp:282
+0028d9e0	nbBgmLoad	nbSetMaeFlag	ours	source/shared/src/battle/sound.cpp:318
+0028dd50	nbBgmNext	nbIncResultCounter	ours	source/shared/src/battle/sound.cpp:383
+0028dd60	nbBgmPlay	nbMaeWaitStep	ours	source/shared/src/battle/sound.cpp:386
+0028dd78	nbBgmTrans	nbRestoreBgm	ours	source/shared/src/battle/sound.cpp:389
+0028e3c8	SetSingleTarget	nbCollectBadCurseUnits	ours	source/shared/src/battle/bad_ai.cpp:48
+0028e470	SetGroupTarget	nbMarkBadCurseUnits	ours	source/shared/src/battle/bad_ai.cpp:62
+0028e4b0	SetTarget	nbBadCurseApplyMove	ours	source/shared/src/battle/bad_ai.cpp:72
+0028e560	CheckBadActionSkill	nbSkillIsInRange	ours	source/shared/src/battle/bad_ai.cpp:91
+0028e5c8	GetBadActionSkill	nbFindBadCurseTarget	ours	source/shared/src/battle/bad_ai.cpp:102
+0028e758	BadKaja	nbBadCurseStep3	ours	source/shared/src/battle/bad_ai.cpp:147
+0028e818	BadKaifuku	nbBadCurseStep2	ours	source/shared/src/battle/bad_ai.cpp:150
+0028e8d8	BadAttack	nbBadCurseStep1	ours	source/shared/src/battle/bad_ai.cpp:153
+0028e9b8	BadMaka	nbBadCurseStep4	ours	source/shared/src/battle/bad_ai.cpp:169
+0028eab8	BadNego	nbBadCurseStep5	ours	source/shared/src/battle/bad_ai.cpp:188
+0028eb80	BadReturn	nbBadCurseStep6	ours	source/shared/src/battle/bad_ai.cpp:203
+0028ec18	BadBadWait	nbBadCurseStep0	ours	source/shared/src/battle/bad_ai.cpp:216
+0028ec90	BadDamage	nbBadCurseStep7	ours	source/shared/src/battle/bad_ai.cpp:226
+0028ecc8	GetBadAiAction	nbGetBadCurseStep	ours	source/shared/src/battle/bad_ai.cpp:238
+0028ed98	AddRituList	nbSetBadCurseTimer	ours	source/shared/src/battle/bad_ai.cpp:260
+0028edc8	MakeRituList	nbInitBadCurseState	ours	source/shared/src/battle/bad_ai.cpp:269
+0028f0a0	nbRunBadAi	nbApplyBadCurse	ours	source/shared/src/battle/bad_ai.cpp:330
+0028f2f8	nbMakaDigit	nbPow10	neither	function-map.tsv
+0028f348	DispMaka	nbDrawMakaNum	ours	source/shared/src/battle/macca_window.cpp:67
+0028f600	nbMakaFade	nbMakaStep	neither	function-map.tsv
+0028f728	InitMakaProcessData	nbAllocMakaWork	ours	source/shared/src/battle/macca_window.cpp:145
+0028f7e8	nbStartBattleEventSound	nbGetEventEntry	ours	source/shared/src/battle/event_process.cpp:41
+0028f840	nbStopBattleEventSound	nbFreeEventEntry	ours	source/shared/src/battle/event_process.cpp:49
+0028f890	nbLoadBattleEventPack	nbCheckEventEntries	ours	source/shared/src/battle/event_process.cpp:57
+0028f958	nbLoadBattleEventPackInit	nbStartEventPacks	ours	source/shared/src/battle/event_process.cpp:74
+0028fa48	nbNextEventSeq	nbFreeEffectSlot	ours	source/shared/src/battle/event_process.cpp:99
+00290048	CheckDeadUnit	nbFindStockSkillError	ours	source/shared/src/battle/skill_error.cpp:52
+002900a0	CheckDeadUnit2	cmpAnyButtonGuideActive	ours	source/shared/src/battle/skill_error.cpp:61
+002900e8	CheckMaxHp	cmpButtonGuideShowDone	ours	source/shared/src/battle/skill_error.cpp:70
+00290138	CheckMaxMp	cmpButtonGuideHideDone	ours	source/shared/src/battle/skill_error.cpp:79
+00290188	CheckBad	cmpFindButtonGuideByFlag	ours	source/shared/src/battle/skill_error.cpp:88
+00290908	nbCheckCampSkillError	cmpClearButtonGuide	both	source/shared/src/battle/skill_error.cpp:193
+0029bae0	dds3CheckConfigBit	dds3GetGlobalConfigFlag	ours	source/shared/src/battle/target_select.cpp:377
+002b3b20	sdfMotGenNode	sdfMotionNodeNew	ours	function-map.tsv
+002b5fe0	sdfRotationYFloat	SetRotateMatrixY	theirs	function-map.tsv
+002b6060	sdfRotationZFloat	SetRotateMatrixZ	theirs	function-map.tsv
+002b6550	sdfMultiplyEffectVuMatrices	MultMatrixNoArg	theirs	function-map.tsv
+002c0ba8	sdfGetRand	dds3GetRandA	both	function-map.tsv
+002c0c00	sdfGetRandFloat	dds3GetRandFloatA	both	function-map.tsv
+002c0c60	sdfGetRandInt	dds3GetRandIntA	both	function-map.tsv
+002c3660	sdfDevLoadFileEx	sdfDevLoadFile	both	function-map.tsv
+002c3718	sdfDevLoadFile	sdfDevLoadFileEx	both	function-map.tsv
+002e42e8	RFU116_SetSyscall	setup	neither	function-map.tsv
+002e4338	RFU116_SetSyscall	gcc2_compiled__15	neither	function-map.tsv
+002e4390	RFU091	GetEntryAddress	neither	function-map.tsv
+002e44f8	RFU116_SetSyscall	PatchIsNeeded	neither	function-map.tsv
+002e4758	RFU116_SetSyscall	gcc2_compiled__17	neither	function-map.tsv
+002e47b0	RFU091	GetEntryAddress_0	neither	function-map.tsv
+002e4ba8	RFU091	GetEntryAddress_1	neither	function-map.tsv
+002e4bb8	RFU116_SetSyscall	setup_0	neither	function-map.tsv
+002e4cb0	RFU086_WaitEvnetFlag	_SetTLBEntry	neither	function-map.tsv
