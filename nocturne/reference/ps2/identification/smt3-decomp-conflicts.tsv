@@ -35,8 +35,6 @@ address	ours	smt3_decomp	hd	where
 001101d0	dds3ObjectBaseSetControlBasicSvs	dds3ObjectBaseSetUserValue	ours	function-map.tsv
 001125c8	dds3CameraObjectBasicGetControlWorkData	dds3GetCameraObjectBaseControlWorkData	ours	function-map.tsv
 001125d8	dds3AddCameraObjectBasicDef	dds3AllocCameraObjectBasic	ours	function-map.tsv
-00114038	dds3LightObjectBasicGetControlWorkData	dds3EffectObjectBasicGetControlWorkData	both	function-map.tsv
-00115a70	dds3EffectObjectBasicGetControlWorkData	dds3LightObjectBasicGetControlWorkData	both	function-map.tsv
 00116058	dds3PathGetElement	dds3PathEvalSpline	neither	function-map.tsv
 00116210	dds3PathBasicMakeControl	dds3AllocPathBasicWorkData	ours	function-map.tsv
 001163e0	dds3PathBasicFreeControl	dds3DeletePathControl	ours	function-map.tsv
@@ -44,7 +42,6 @@ address	ours	smt3_decomp	hd	where
 00116998	dds3PathBasicControlNextStep	dds3PathBasicControlIsFinished	ours	function-map.tsv
 00116a48	dds3PathBasicPathControlGetMode	dds3PathBasicControlGetMode	ours	function-map.tsv
 00116a80	dds3PathBasicPause	dds3PathBasicPauseOn	ours	function-map.tsv
-00116ad0	dds3AddPathBasic	dds3AddPointBasic	both	function-map.tsv
 00125990	fldSeqOnFlag	fldAutoMapSeqSetFlag	ours	source/shared/src/field/spells.cpp:96
 001259a8	fldSeqOffFlag	fldAutoMapSeqClearFlag	ours	source/shared/src/field/spells.cpp:99
 001259c0	fldSeqCheckFlag	fldAutoMapSeqTestFlag	ours	source/shared/src/field/spells.cpp:102
@@ -56,7 +53,6 @@ address	ours	smt3_decomp	hd	where
 0015c940	dds3BillboardP2ASetNumber	dds3Billboard_P2ASetNumber	theirs	function-map.tsv
 0016c850	effBTLModelGetHeightBits	effBTLModelGetHeight	theirs	function-map.tsv
 0016e638	effBTLPartGetScalePtrSub	effBTLPartCalcScale	ours	function-map.tsv
-00173d78	effBTLPartDelete	effBTLSystemDelete2	both	function-map.tsv
 001740b8	effBTLSystemCutDelete	effBTLSystemCut1Delete	theirs	function-map.tsv
 001748a0	effBTLBedName	effMakeBedFileName	neither	function-map.tsv
 001a5280	effMagatuhiDelete	effMagaCylinderFree	ours	function-map.tsv
@@ -265,7 +261,6 @@ address	ours	smt3_decomp	hd	where
 0026ee90	nbChkNegoAisyo	nbFlowCheckUnit	ours	source/shared/src/battle/talk_bargain.cpp:161
 0026ef18	nbChkNegoAisyo2	nbFlowCheckUnit2	ours	source/shared/src/battle/talk_bargain.cpp:167
 002731a8	CheckSkillShinoKeiyaku	nbCheckFlowUnit	ours	source/shared/src/battle/talk_nodeal.cpp:34
-00279c58	nbPanelAutoHide	nbPanelAllHide	both	function-map.tsv
 002853d8	nbAiChkMyHp	Chk_MYHP	theirs	source/shared/src/battle/ai.cpp:132
 00285438	nbAiChkMyMp	Chk_MYMP	theirs	source/shared/src/battle/ai.cpp:141
 00285470	nbAiChkFrHp	Chk_FRHP	theirs	source/shared/src/battle/ai.cpp:150

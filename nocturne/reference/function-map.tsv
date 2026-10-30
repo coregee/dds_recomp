@@ -659,7 +659,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00113b40	80	FUN_00113b40	DEFAULT	named								dds3EffectObjectBasicDestructor
 00113b90	960	FUN_00113b90	DEFAULT	named								dds3EffectObjectBasicMainProcedure
 00113f58	208	FUN_00113f58	DEFAULT	named								dds3EffectObjectBasicDrawProcedure
-00114038	12	dds3LightObjectBasicGetControlWorkData	USER_DEFINED	legacy		path_control.c:dds3LightObjectBasicGetControlWorkData						dds3EffectObjectBasicGetControlWorkData
+00114038	12	dds3EffectObjectBasicGetControlWorkData	USER_DEFINED	legacy		path_control.c:dds3EffectObjectBasicGetControlWorkData						dds3EffectObjectBasicGetControlWorkData
 00114048	156	FUN_00114048	DEFAULT	named								dds3AddEffectObjectBasic
 001140e8	212	FUN_001140e8	DEFAULT	named								AddP2AEffect
 001141c0	68	FUN_001141c0	DEFAULT	named								dds3AddP2AEffectObjectBasic3
@@ -699,7 +699,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00115728	12	dds3EventObjectBasicGetControlWorkData	USER_DEFINED	legacy		path_control.c:dds3EventObjectBasicGetControlWorkData						dds3EventObjectBasicGetControlWorkData
 00115738	216	FUN_00115738	DEFAULT	named								lightconstructor
 00115810	76	FUN_00115810	DEFAULT	named								lightdestructor
-00115a70	12	dds3EffectObjectBasicGetControlWorkData	USER_DEFINED	legacy		path_control.c:dds3EffectObjectBasicGetControlWorkData						dds3LightObjectBasicGetControlWorkData
+00115a70	12	dds3LightObjectBasicGetControlWorkData	USER_DEFINED	legacy		path_control.c:dds3LightObjectBasicGetControlWorkData						dds3LightObjectBasicGetControlWorkData
 00115a80	68	FUN_00115a80	DEFAULT	named								dds3AddLightObjectBasic
 00115ac8	20	FUN_00115ac8	DEFAULT	named								dds3DeleteLightObjectBasic
 00115ae0	172	FUN_00115ae0	DEFAULT	named								dds3LinkSceneLight
@@ -738,7 +738,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00116a90	20	dds3PathBasicPauseOff	USER_DEFINED	legacy		path_evaluation.c:dds3PathBasicPauseOff						dds3PathBasicPauseOff
 00116aa8	16	dds3PathBasicLoopOn	USER_DEFINED	legacy		path_evaluation.c:dds3PathBasicLoopOn						dds3PathBasicLoopOn
 00116ab8	20	dds3PathBasicLoopOff	USER_DEFINED	legacy		path_evaluation.c:dds3PathBasicLoopOff						dds3PathBasicLoopOff
-00116ad0	80	dds3AddPathBasic	USER_DEFINED	legacy		basic_creation.c:dds3AddPathBasic						dds3AddPointBasic
+00116ad0	80	dds3AddPointBasic	USER_DEFINED	named								dds3AddPointBasic
 00116b20	8	FUN_00116b20	DEFAULT	named								dds3PointBasicGetResource
 00116b28	140	FUN_00116b28	DEFAULT	named								dds3GlobalWorkInit
 00116bb8	80	FUN_00116bb8	DEFAULT	unknown								
@@ -1811,7 +1811,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0016b0f0	1040	effBTLCutDraw	USER_DEFINED	named								effBTLCutDraw
 0016b510	120	ps2EffectPartControlNative_0016B510	USER_DEFINED	named								effBTLCutSetScale
 0016b588	316	ps2BattleAction_0016B588	USER_DEFINED	legacy		battle_action_activation.c:ps2BattleAction_0016B588						effBTLPartCreate
-0016b6c8	168	effBTLPartDelete	USER_DEFINED	named								effBTLPartDelete
+0016b6c8	168	effBTLPartDelete	USER_DEFINED	legacy		battle_action_finish.c:effBTLPartDelete						effBTLPartDelete
 0016b770	56	FUN_0016b770	DEFAULT	named								effBTLSkillInit
 0016b7a8	168	effBTLSkillStart	USER_DEFINED	named								effBTLSkillStart
 0016b850	88	effBTLSkillEnd	USER_DEFINED	named								effBTLSkillEnd
@@ -2167,7 +2167,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00173c90	32	FUN_00173c90	DEFAULT	named								effBTLSys_Nego_Stone_PartHandleDelete
 00173cb0	120	ps2BattleAction_00173CB0	USER_DEFINED	legacy		battle_action_consumer.c:body_00173cb0;battle_action_consumer.c:ps2BattleAction_00173CB0;battle_panel_renderer_remaining.c:body_00173cb0						effBTLSystemCreate
 00173d28	80	FUN_00173d28	DEFAULT	named								effBTLSystemDelete
-00173d78	80	effBTLPartDelete	USER_DEFINED	legacy		battle_action_finish.c:effBTLPartDelete						effBTLSystemDelete2
+00173d78	80	effBTLSystemDelete2	USER_DEFINED	named								effBTLSystemDelete2
 00173dc8	292	FUN_00173dc8	DEFAULT	named								effBTLSystemDraw
 00173ef0	72	ps2BattleAction_00173EF0	USER_DEFINED	rewritten	shared/src/effect/system.cpp:systemEffectLength	battle_action_consumer.c:body_00173ef0;battle_action_consumer.c:ps2BattleAction_00173EF0;battle_panel_renderer_remaining.c:body_00173ef0	ok	ok	ok	ok	ok	effBTLSystemGetLength
 00173f40	8	FUN_00173f40	DEFAULT	named								effBTLSystemGetID
@@ -2485,7 +2485,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00185608	248	FUN_00185608	DEFAULT	named								effPCPHamaCardScatterPartInit
 00185700	1356	FUN_00185700	DEFAULT	named								effPCPHamaCardScatterDraw
 00185c80	264	FUN_00185c80	DEFAULT	named								dds3ScatterPolyListCreate
-00185d88	64	ps2EffectRelease_00185d88	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteScatterPolyList	effect_leaf_release.c:ps2EffectRelease_00185d88						dds3ScatterPolyListDelete
+00185d88	64	dds3ScatterPolyListDelete	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteScatterPolyList	effect_leaf_release.c:dds3ScatterPolyListDelete;effect_leaf_release.c:ps2EffectRelease_00185d88	ok	ok	ok	ok	ok	dds3ScatterPolyListDelete
 00185dc8	464	FUN_00185dc8	DEFAULT	named								dds3ScatterPolyListDraw
 00185fa0	44	FUN_00185fa0	DEFAULT	named								dds3ScatterPolyListSetTex
 00185fd0	44	FUN_00185fd0	DEFAULT	named								dds3ScatterPolyListCopyTex
@@ -2539,7 +2539,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00188b38	8	FUN_00188b38	DEFAULT	named								effPCPWwSpherePolySetColor
 00188b40	40	FUN_00188b40	DEFAULT	named								effPCPWwSpherePolySetRotateMatrix
 00188b68	564	FUN_00188b68	DEFAULT	named								dds3WhirlwindPolyListCreate
-00188da0	72	dds3ScatterPolyListDelete	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteWhirlwindPolyList	effect_leaf_release.c:dds3ScatterPolyListDelete	ok	ok	ok	ok	ok	dds3WhirlwindPolyListDelete
+00188da0	72	dds3WhirlwindPolyListDelete	USER_DEFINED	rewritten	shared/src/effect/particle_release.cpp:deleteWhirlwindPolyList		ok	ok	ok	ok	ok	dds3WhirlwindPolyListDelete
 00188de8	588	FUN_00188de8	DEFAULT	named								dds3WhirlwindPolyListDraw
 00189038	44	FUN_00189038	DEFAULT	named								dds3WhirlwindPolyListSetTex
 00189068	44	FUN_00189068	DEFAULT	named								dds3WhirlwindPolyListCopyTex
@@ -6932,7 +6932,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00279a88	376	ps2BattlePanelDrawTexturedRect	USER_DEFINED	legacy		battle_panel_color_prerequisites.c:body_00279a88;battle_panel_owner.c:body_00279a88;battle_panel_renderer_prerequisites.c:body_00279a88;battle_panel_support.c:ps2BattlePanelDrawTexturedRect						nbPnlSprite
 00279c00	48	nbPanelBaseColorSet	USER_DEFINED	legacy		battle_panel_color_prerequisites.c:body_00279c00;battle_panel_owner.c:body_00279c00;battle_panel_renderer_prerequisites.c:body_00279c00;battle_panel_support.c:nbPanelBaseColorSet						nbPanelBaseColorSet
 00279c30	36	nbPanelAllShow	USER_DEFINED	legacy		battle_status_pairs.c:body_00279c30;battle_status_pairs_native.c:body_00279c30						nbPanelAllShow
-00279c58	44	nbPanelAutoHide	USER_DEFINED	legacy		battle_panel_analyze_dependencies.c:body_00279c58;battle_presentation.c:nbPanelAutoHide						nbPanelAllHide
+00279c58	44	nbPanelAllHide	USER_DEFINED	legacy		battle_panel_analyze_dependencies.c:body_00279c58						nbPanelAllHide
 00279c80	172	FUN_00279c80	DEFAULT	legacy		battle_panel_analyze_dependencies.c:body_00279c80						nbPanelSpriteCenteringDraw
 00279d30	236	ps2BattlePanelDrawScaledTexture_00279D30	USER_DEFINED	legacy		battle_panel_owner.c:body_00279d30;battle_panel_owner.c:ps2BattlePanelDrawScaledTexture_00279D30						nbPanelSpriteScaleDraw
 00279e20	236	ps2BattlePanelDrawScaledTextureXY_00279E20	USER_DEFINED	legacy		battle_panel_owner.c:body_00279e20;battle_panel_owner.c:ps2BattlePanelDrawScaledTextureXY_00279E20						nbPanelSpriteScaleWHDraw
@@ -6977,7 +6977,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00280538	8	ps2BattlePanelSetAnalyzeUnit_00280538	USER_DEFINED	legacy		battle_panel_analyze.c:body_00280538;battle_panel_analyze.c:ps2BattlePanelSetAnalyzeUnit_00280538						nbPanelAnalyzeDraw
 00280540	6316	nbPanelAnalyzeRun	USER_DEFINED	legacy		battle_panel_analyze.c:body_00280540;battle_panel_analyze.c:nbPanelAnalyzeRun						nbPanelAnalyzeRun
 00281e10	24	nbPanelAutoShow	USER_DEFINED	legacy		battle_panel_auto.c:body_00281e10;battle_panel_auto.c:nbPanelAutoShow;battle_status_pairs.c:body_00281e10;battle_status_pairs_native.c:body_00281e10						nbPanelAutoShow
-00281e28	8	ps2BattlePanelHideHookA	USER_DEFINED	legacy		battle_panel_auto.c:body_00281e28;battle_presentation.c:ps2BattlePanelHideHookA						nbPanelAutoHide
+00281e28	8	nbPanelAutoHide	USER_DEFINED	legacy		battle_panel_auto.c:body_00281e28;battle_presentation.c:nbPanelAutoHide						nbPanelAutoHide
 00281e30	8	nbPanelAutoCheckShow	USER_DEFINED	legacy		battle_panel_auto.c:body_00281e30;battle_panel_auto.c:nbPanelAutoCheckShow						nbPanelAutoCheckShow
 00281e38	36	nbPanelAutoInit	USER_DEFINED	legacy		battle_panel_auto.c:body_00281e38;battle_panel_auto.c:nbPanelAutoInit						nbPanelAutoInit
 00281e60	916	ps2BattlePanelDrawAutoIndicator_00281E60	USER_DEFINED	legacy		battle_panel_auto.c:body_00281e60;battle_panel_auto.c:ps2BattlePanelDrawAutoIndicator_00281E60						nbPanelAuto

@@ -39,4 +39,5 @@ candidates; these are the ones checked. To offer upstream.
 | 0x116AD0 | dds3AddPathBasic | dds3AddPointBasic | after the last path function, before dds3PointBasicGetResource (neighbours; tentative) |
 
 Every "both" row is settled: 18 of smt3-decomp's names and 6 of ours sat
-one function off. Ours are to be renamed in Ghidra and exported.
+one function off. Ours are renamed in Ghidra (with 0x185D88 and 0x188DA0, the
+scatter and whirlwind polygon lists' deletes, swapped in our map too).

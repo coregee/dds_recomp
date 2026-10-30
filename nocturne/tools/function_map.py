@@ -166,7 +166,8 @@ def rewrites():
     found, in_section = {}, set()
     tag = re.compile(r"^//\s*(?:(\w+)\s*@\s*)?0x([0-9A-Fa-f]{8})\b")
     definition = re.compile(r"^[A-Za-z_][\w:<>&\* ]*?\b(\w+)\(")
-    # (US Maniax's build: tools/sources.py)
+    # (US Maniax's build: tools/sources.py, beside this script even under python -I)
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
     import sources
     paths = [path for path, _ in sources.sources("us")]
     for path in sorted(paths):
