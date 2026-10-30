@@ -33,7 +33,7 @@ constexpr uint32_t kLinkStackFullMessage = optionalJpAddr(0x005333d8);   // "未
 
 } // namespace
 
-// itfMiscLinkInit @ 0x001CAE58
+// itfMiscLinkInitialize @ 0x001CAE58
 // Chains `count` nodes of `size` bytes into the free list, numbering them.
 void MiscLinkInit(LinkStack& stack, uint32_t nodes, int32_t count, int32_t size)
 {

@@ -526,7 +526,7 @@ void closeTable(int32_t& window)
 
 } // namespace
 
-// nbSetNegoPose @ 0x0024CF70 (no original name)
+// nbSetNegoWaitMotion @ 0x0024CF70 (no original name)
 // The demon takes its talking pose (motion 13),
 // unless asleep (8), stoned or the like (4, 0x200).
 void takeTalkPose(Formation& form)

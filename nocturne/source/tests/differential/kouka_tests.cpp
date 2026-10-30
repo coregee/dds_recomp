@@ -3031,7 +3031,7 @@ void addKoukaTests(std::vector<TestCase>& t)
         return Pair{[=] { iface::origOwn(0x0026ccf0, {FW_ACTION, I(p), I(e), I(type), I(skill)}); return uint64_t{0}; },
                     [=] { startTalk(at<ActionProcessData>(FW_ACTION), p, e, type, skill); return uint64_t{0}; }};
     });
-    talk("nbSetNegoPose", [=](Gen& g) {
+    talk("nbSetNegoWaitMotion", [=](Gen& g) {
         const int32_t f = g.range(0, 13);
         if (const uint32_t unit = at<uint32_t>(FW_FORM_UNITS + 4u * static_cast<uint32_t>(f)))   // asleep, stoned, ...
             at<UnitWork>(unit).badstat = static_cast<uint16_t>(g.chance(60) ? g.pick<int32_t>({0, 4, 8, 0x200, 0x10}) : g.below(0x10000));

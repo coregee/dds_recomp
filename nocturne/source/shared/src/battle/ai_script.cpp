@@ -65,7 +65,7 @@ int32_t checkFixed(uint32_t type)
 
 } // namespace
 
-// nbAiScriptChkJoken @ 0x00288350
+// AiChkJoken @ 0x00288350
 void checkCondition(uint32_t word)
 {
     ActionProcessData& a = act();

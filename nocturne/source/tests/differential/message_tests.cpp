@@ -214,7 +214,7 @@ TestCase commandTest(const char* name, uint32_t entry, std::function<int32_t()> 
 void addMessageTests(std::vector<TestCase>& t)
 {
     // ---- the instance list ----
-    t.push_back({"itfMiscLinkInit", [](Gen& g) {
+    t.push_back({"itfMiscLinkInitialize", [](Gen& g) {
         World w = world(g);
         int32_t count = g.range(2, nocturne::mes::kWindowSlots);
         uint64_t stack = A(&manager().list), nodes = A(manager().nodes);

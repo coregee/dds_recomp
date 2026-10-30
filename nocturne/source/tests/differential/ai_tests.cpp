@@ -198,33 +198,33 @@ void addAiTests(std::vector<TestCase>& t)
     // ---- conditions ------------------------------------------------------------------
     struct Condition { const char* name; uint64_t (*legacy)(uint64_t, uint64_t); bool (*rewrite)(nb::ActionProcessData&, int32_t); uint32_t type; };
     static const Condition kConditions[] = {
-        {"nbAiChkMyHp", nbAiChkMyHp, nb::ai::ownHpAtMost, 1},
-        {"nbAiChkMyMp", nbAiChkMyMp, nb::ai::ownMpAtMost, 24},
-        {"nbAiChkFrHp", nbAiChkFrHp, nb::ai::allyHpAtMost, 2},
+        {"Chk_MYHP", nbAiChkMyHp, nb::ai::ownHpAtMost, 1},
+        {"Chk_MYMP", nbAiChkMyMp, nb::ai::ownMpAtMost, 24},
+        {"Chk_FRHP", nbAiChkFrHp, nb::ai::allyHpAtMost, 2},
         {"nbAiChkDmgCnt", nbAiChkDmgCnt, nb::ai::damageCountAtLeast, 3},
         {"nbAiChkChkCnt", nbAiChkChkCnt, nb::ai::checkedAtLeast, 4},
-        {"nbAiChkFrCnt", nbAiChkFrCnt, nb::ai::allyCountAtMost, 5},
-        {"nbAiChkEnCnt", nbAiChkEnCnt, nb::ai::enemyCountAtMost, 6},
-        {"nbAiChkMyBad", nbAiChkMyBad, nb::ai::ownAilment, 7},
-        {"nbAiChkFrBad", nbAiChkFrBad, nb::ai::allyAilment, 8},
-        {"nbAiChkEnBad", nbAiChkEnBad, nb::ai::enemyAilment, 9},
-        {"nbAiChkEnAllBad", nbAiChkEnAllBad, nb::ai::allEnemiesAilment, 10},
-        {"nbAiChkEnId", nbAiChkEnId, nb::ai::enemyIsDevil, 11},
-        {"nbAiChkFrId", nbAiChkFrId, nb::ai::allyIsDevil, 12},
-        {"nbAiChkEnHojo", nbAiChkEnHojo, nb::ai::enemyBuff, 13},
-        {"nbAiChkFrHojo", nbAiChkFrHojo, nb::ai::allyBuff, 14},
+        {"Chk_FRCNT", nbAiChkFrCnt, nb::ai::allyCountAtMost, 5},
+        {"Chk_ENCNT", nbAiChkEnCnt, nb::ai::enemyCountAtMost, 6},
+        {"Chk_MYBAD", nbAiChkMyBad, nb::ai::ownAilment, 7},
+        {"Chk_FRBAD", nbAiChkFrBad, nb::ai::allyAilment, 8},
+        {"Chk_ENBAD", nbAiChkEnBad, nb::ai::enemyAilment, 9},
+        {"Chk_ENALLBAD", nbAiChkEnAllBad, nb::ai::allEnemiesAilment, 10},
+        {"Chk_ENID", nbAiChkEnId, nb::ai::enemyIsDevil, 11},
+        {"Chk_FRID", nbAiChkFrId, nb::ai::allyIsDevil, 12},
+        {"Chk_ENHOJO", nbAiChkEnHojo, nb::ai::enemyBuff, 13},
+        {"Chk_FRHOJO", nbAiChkFrHojo, nb::ai::allyBuff, 14},
         {"nbAiChkBa", nbAiChkBa, nb::ai::backAttack, 15},
-        {"nbAiChkEnLight", nbAiChkEnLight, nb::ai::enemyIsLight, 16},
-        {"nbAiChkEnDark", nbAiChkEnDark, nb::ai::enemyIsDark, 17},
+        {"Chk_ENLIGHT", nbAiChkEnLight, nb::ai::enemyIsLight, 16},
+        {"Chk_ENDARK", nbAiChkEnDark, nb::ai::enemyIsDark, 17},
         {"nbAiChkPow", nbAiChkPow, nb::ai::ownFocus, 18},
-        {"nbAiChkPlv", nbAiChkPlv, nb::ai::playerLevelAtLeast, 19},
-        {"nbAiChkPPartyLv", nbAiChkPPartyLv, nb::ai::partyLevelAtLeast, 20},
-        {"nbAiChkTurn", nbAiChkTurn, nb::ai::turnAtLeast, 22},
+        {"Chk_PLV", nbAiChkPlv, nb::ai::playerLevelAtLeast, 19},
+        {"Chk_PPARTYLV", nbAiChkPPartyLv, nb::ai::partyLevelAtLeast, 20},
+        {"Chk_TURN", nbAiChkTurn, nb::ai::turnAtLeast, 22},
         {"nbAiChkSensei", nbAiChkSensei, nb::ai::enemiesStruckFirst, 23},
-        {"nbAiChkEnHojoMax", nbAiChkEnHojoMax, nb::ai::enemyBuffAtLimit, 25},
-        {"nbAiChkFrHojoMax", nbAiChkFrHojoMax, nb::ai::allyBuffAtLimit, 26},
-        {"nbAiChkEnHamamHk", nbAiChkEnHamamHk, nb::ai::enemyNotImmuneToExpel, 27},
-        {"nbAiChkSkillNoMp", nbAiChkSkillNoMp, nb::ai::cannotAfford, 28},
+        {"Chk_ENHOJOMAX", nbAiChkEnHojoMax, nb::ai::enemyBuffAtLimit, 25},
+        {"Chk_FRHOJOMAX", nbAiChkFrHojoMax, nb::ai::allyBuffAtLimit, 26},
+        {"Chk_ENHAMAMHK", nbAiChkEnHamamHk, nb::ai::enemyNotImmuneToExpel, 27},
+        {"Chk_SKILLNOMP", nbAiChkSkillNoMp, nb::ai::cannotAfford, 28},
     };
     for (const Condition& c : kConditions) {
         add(c.name, [c](Gen& g) {
@@ -240,13 +240,13 @@ void addAiTests(std::vector<TestCase>& t)
             return Pair{[=] { return norm(legacy(sx(f), sx(code))); }, [=] { return norm(rewrite(f, code)); }};
         });
     };
-    buffQuery("nbAiChkHojo", nbAiChkHojo, nb::ai::hasBuff);
-    buffQuery("nbAiChkHojoMax", nbAiChkHojoMax, [](int32_t f, int32_t code) { return nb::ai::buffAtLimit(f, code, 0); });
+    buffQuery("ChkAiHojo", nbAiChkHojo, nb::ai::hasBuff);
+    buffQuery("ChkAiHojoMax", nbAiChkHojoMax, [](int32_t f, int32_t code) { return nb::ai::buffAtLimit(f, code, 0); });
     add("nbAiChkJoken", [](Gen& g) {
         uint32_t word = conditionWord(g);
         return Pair{[=] { return norm(nbAiChkJoken(kAct, word)); }, [=] { return norm(nb::ai::condition(act(), word)); }};
     });
-    add("nbAiScriptChkJoken", [](Gen& g) {   // (the condition's answer for the running script)
+    add("AiChkJoken", [](Gen& g) {   // (the condition's answer for the running script)
         uint32_t word = conditionWord(g);
         return Pair{[=] { nbAiScriptChkJoken(word); return uint64_t{0}; },
                     [=] { nb::ai::script::checkCondition(word); return uint64_t{0}; }};
@@ -1097,26 +1097,26 @@ void addAiTests(std::vector<TestCase>& t)
     // ---- choosing targets --------------------------------------------------------------
     struct Filter { const char* name; void (*legacy)(uint64_t); void (*rewrite)(nb::ActionProcessData&); };
     static const Filter kFilters[] = {
-        {"nbAiSelLifeMin", nbAiSelLifeMin, nb::ai::selectLowestHp},
-        {"nbAiSelBaarLv", nbAiSelBaarLv, nb::ai::selectLowestLevelNotFlying},
-        {"nbAiSelLvMin", nbAiSelLvMin, nb::ai::selectLowestLevel},
-        {"nbAiSelLight", nbAiSelLight, nb::ai::selectLight},
-        {"nbAiSelDark", nbAiSelDark, nb::ai::selectDark},
-        {"nbAiSelPlayer", nbAiSelPlayer, nb::ai::selectDemiFiend},
-        {"nbAiSelJoken", nbAiSelJoken, nb::ai::selectByCondition},
-        {"nbAiSelRnd", nbAiSelRnd, nb::ai::selectAll},
+        {"Sel_LIFEMIN", nbAiSelLifeMin, nb::ai::selectLowestHp},
+        {"Sel_BAARLV", nbAiSelBaarLv, nb::ai::selectLowestLevelNotFlying},
+        {"Sel_LVMIN", nbAiSelLvMin, nb::ai::selectLowestLevel},
+        {"Sel_LIGHT", nbAiSelLight, nb::ai::selectLight},
+        {"Sel_DARK", nbAiSelDark, nb::ai::selectDark},
+        {"Sel_PLAYER", nbAiSelPlayer, nb::ai::selectDemiFiend},
+        {"Sel_JOKEN", nbAiSelJoken, nb::ai::selectByCondition},
+        {"Sel_RND", nbAiSelRnd, nb::ai::selectAll},
     };
     for (const Filter& f : kFilters)
         add(f.name, [f, none](Gen&) { return Pair{none([f] { f.legacy(kAct); }), none([f] { f.rewrite(act()); })}; });
-    add("nbAiSelBad", [none](Gen& g) {
+    add("Sel_BAD", [none](Gen& g) {
         int32_t ailment = g.pick({0, 1, 4, 0x20, 0x40, 0x200, 0x800});
         return Pair{none([=] { nbAiSelBad(kAct, sx(ailment)); }), none([=] { nb::ai::selectAilment(act(), ailment); })};
     });
-    add("nbAiSelId", [none](Gen& g) {
+    add("Sel_ID", [none](Gen& g) {
         int32_t devil = g.chance(50) ? at<UnitWork>(formUnit(g.range(0, 3)) ? formUnit(g.range(0, 3)) : formUnit(4)).id : g.range(1, 383);
         return Pair{none([=] { nbAiSelId(kAct, sx(devil)); }), none([=] { nb::ai::selectDevil(act(), devil); })};
     });
-    add("nbAiSelAi", [](Gen& g) {
+    add("Sel_AI", [](Gen& g) {
         bool group = g.chance(30);
         return Pair{[=] { return norm(nbAiSelAi(kAct, 0, group ? 1 : 0)); }, [=] { return norm(nb::ai::selectBest(act(), 0, group)); }};
     });

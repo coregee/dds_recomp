@@ -129,7 +129,7 @@ bool commandSkill(const UnitWork& unit, int32_t* skill)
 // Conditions
 // ===========================================================================
 
-// nbAiChkMyHp @ 0x002853D8
+// Chk_MYHP @ 0x002853D8
 bool ownHpAtMost(ActionProcessData& act, int32_t percent)
 {
     if (static_cast<int32_t>(hpPercent(*act.work)) > percent)
@@ -138,7 +138,7 @@ bool ownHpAtMost(ActionProcessData& act, int32_t percent)
     return true;
 }
 
-// nbAiChkMyMp @ 0x00285438: MP itself, not a percentage.
+// Chk_MYMP @ 0x00285438: MP itself, not a percentage.
 bool ownMpAtMost(ActionProcessData& act, int32_t mp)
 {
     if (act.work->mp > mp)
@@ -147,7 +147,7 @@ bool ownMpAtMost(ActionProcessData& act, int32_t mp)
     return true;
 }
 
-// nbAiChkFrHp @ 0x00285470
+// Chk_FRHP @ 0x00285470
 bool allyHpAtMost(ActionProcessData& act, int32_t percent)
 {
     for (int32_t k = kAlliesBegin; k < kAlliesEnd; ++k) {
@@ -184,7 +184,7 @@ bool checkedAtLeast(ActionProcessData& act, int32_t count)
     return true;
 }
 
-// nbAiChkFrCnt @ 0x00285668
+// Chk_FRCNT @ 0x00285668
 bool allyCountAtMost(ActionProcessData& act, int32_t count)
 {
     if (mainOf(act).enemypcnt > count)
@@ -193,7 +193,7 @@ bool allyCountAtMost(ActionProcessData& act, int32_t count)
     return true;
 }
 
-// nbAiChkEnCnt @ 0x002856F0
+// Chk_ENCNT @ 0x002856F0
 bool enemyCountAtMost(ActionProcessData& act, int32_t count)
 {
     if (mainOf(act).playerpcnt > count)
@@ -202,7 +202,7 @@ bool enemyCountAtMost(ActionProcessData& act, int32_t count)
     return true;
 }
 
-// nbAiChkMyBad @ 0x00285778
+// Chk_MYBAD @ 0x00285778
 bool ownAilment(ActionProcessData& act, int32_t ailment)
 {
     if (act.work->ailment() != ailment)
@@ -211,19 +211,19 @@ bool ownAilment(ActionProcessData& act, int32_t ailment)
     return true;
 }
 
-// nbAiChkFrBad @ 0x002857B0
+// Chk_FRBAD @ 0x002857B0
 bool allyAilment(ActionProcessData& act, int32_t ailment)
 {
     return pickWhere(act, kAlliesBegin, kAlliesEnd, [&](int32_t, Party& p) { return unitOf(act, p).ailment() == ailment; });
 }
 
-// nbAiChkEnBad @ 0x00285890
+// Chk_ENBAD @ 0x00285890
 bool enemyAilment(ActionProcessData& act, int32_t ailment)
 {
     return pickWhere(act, kEnemiesBegin, kEnemiesEnd, [&](int32_t, Party& p) { return unitOf(act, p).ailment() == ailment; });
 }
 
-// nbAiChkEnAllBad @ 0x00285970: as many afflicted as the player's side
+// Chk_ENALLBAD @ 0x00285970: as many afflicted as the player's side
 // has combatants.
 bool allEnemiesAilment(ActionProcessData& act, int32_t ailment)
 {
@@ -242,7 +242,7 @@ bool allEnemiesAilment(ActionProcessData& act, int32_t ailment)
     return true;
 }
 
-// nbAiChkEnId @ 0x00285A70: not the Demi-fiend.
+// Chk_ENID @ 0x00285A70: not the Demi-fiend.
 bool enemyIsDevil(ActionProcessData& act, int32_t devil)
 {
     return pickWhere(act, kEnemiesBegin, kEnemiesEnd, [&](int32_t, Party& p) {
@@ -251,7 +251,7 @@ bool enemyIsDevil(ActionProcessData& act, int32_t devil)
     });
 }
 
-// nbAiChkFrId @ 0x00285B60: not counting the AI's own party record.
+// Chk_FRID @ 0x00285B60: not counting the AI's own party record.
 bool allyIsDevil(ActionProcessData& act, int32_t devil)
 {
     for (int32_t k = kAlliesBegin; k < kAlliesEnd; ++k) {
@@ -264,7 +264,7 @@ bool allyIsDevil(ActionProcessData& act, int32_t devil)
     return act.aiselect != 0;
 }
 
-// nbAiChkHojo @ 0x00285C48
+// ChkAiHojo @ 0x00285C48
 bool hasBuff(int32_t formindex, int32_t code)
 {
     int32_t type;
@@ -275,7 +275,7 @@ bool hasBuff(int32_t formindex, int32_t code)
     return debuff ? value < 0 : value > 0;
 }
 
-// nbAiChkHojoMax @ 0x00285D30
+// ChkAiHojoMax @ 0x00285D30
 bool buffAtLimit(int32_t formindex, int32_t code, uint32_t callerKey)
 {
     int32_t type;
@@ -286,13 +286,13 @@ bool buffAtLimit(int32_t formindex, int32_t code, uint32_t callerKey)
     return debuff ? value <= buffMin(type, callerKey) : value >= buffMax(type, callerKey);
 }
 
-// nbAiChkEnHojo @ 0x00285EC8
+// Chk_ENHOJO @ 0x00285EC8
 bool enemyBuff(ActionProcessData& act, int32_t code)
 {
     return pickWhere(act, kEnemiesBegin, kEnemiesEnd, [&](int32_t, Party& p) { return hasBuff(p.formindex, code); });
 }
 
-// nbAiChkFrHojo @ 0x00285FA8
+// Chk_FRHOJO @ 0x00285FA8
 bool allyBuff(ActionProcessData& act, int32_t code)
 {
     return pickWhere(act, kAlliesBegin, kAlliesEnd, [&](int32_t, Party& p) { return hasBuff(p.formindex, code); });
@@ -305,13 +305,13 @@ uint32_t slotKey(int32_t k) { return 128u * static_cast<uint32_t>(k) + 1; }
 
 } // namespace
 
-// nbAiChkEnHojoMax @ 0x00286088
+// Chk_ENHOJOMAX @ 0x00286088
 bool enemyBuffAtLimit(ActionProcessData& act, int32_t code)
 {
     return pickWhere(act, kEnemiesBegin, kEnemiesEnd, [&](int32_t k, Party& p) { return buffAtLimit(p.formindex, code, slotKey(k)); });
 }
 
-// nbAiChkFrHojoMax @ 0x00286168
+// Chk_FRHOJOMAX @ 0x00286168
 bool allyBuffAtLimit(ActionProcessData& act, int32_t code)
 {
     return pickWhere(act, kAlliesBegin, kAlliesEnd, [&](int32_t k, Party& p) { return buffAtLimit(p.formindex, code, slotKey(k)); });
@@ -335,7 +335,7 @@ bool enemiesStruckFirst(ActionProcessData& act, int32_t)
     return true;
 }
 
-// nbAiChkEnLight @ 0x00286358 / nbAiChkEnDark @ 0x00286440 (alignment +1 / -1)
+// Chk_ENLIGHT @ 0x00286358 / nbAiChkEnDark @ 0x00286440 (alignment +1 / -1)
 bool enemyIsLight(ActionProcessData& act, int32_t)
 {
     return pickWhere(act, kEnemiesBegin, kEnemiesEnd, [&](int32_t, Party& p) {
@@ -344,7 +344,7 @@ bool enemyIsLight(ActionProcessData& act, int32_t)
     });
 }
 
-// nbAiChkEnDark @ 0x00286440
+// Chk_ENDARK @ 0x00286440
 bool enemyIsDark(ActionProcessData& act, int32_t)
 {
     return pickWhere(act, kEnemiesBegin, kEnemiesEnd, [&](int32_t, Party& p) {
@@ -362,25 +362,25 @@ bool ownFocus(ActionProcessData& act, int32_t)
     return true;
 }
 
-// nbAiChkPlv @ 0x00286580
+// Chk_PLV @ 0x00286580
 bool playerLevelAtLeast(ActionProcessData&, int32_t level)
 {
     return dat::playerLevel() >= level;
 }
 
-// nbAiChkPPartyLv @ 0x002865B0
+// Chk_PPARTYLV @ 0x002865B0
 bool partyLevelAtLeast(ActionProcessData& act, int32_t level)
 {
     return averageCombatLevel(mainOf(act), Side::Player) >= level;
 }
 
-// nbAiChkTurn @ 0x002865E8
+// Chk_TURN @ 0x002865E8
 bool turnAtLeast(ActionProcessData& act, int32_t turn)
 {
     return mainOf(act).turn >= turn;
 }
 
-// nbAiChkEnHamamHk @ 0x00286600: no Null/Repel/Drain against Expel.
+// Chk_ENHAMAMHK @ 0x00286600: no Null/Repel/Drain against Expel.
 bool enemyNotImmuneToExpel(ActionProcessData& act, int32_t)
 {
     return pickWhere(act, kEnemiesBegin, kEnemiesEnd, [&](int32_t, Party& p) {
@@ -388,7 +388,7 @@ bool enemyNotImmuneToExpel(ActionProcessData& act, int32_t)
     });
 }
 
-// nbAiChkSkillNoMp @ 0x002866E8
+// Chk_SKILLNOMP @ 0x002866E8
 bool cannotAfford(ActionProcessData& act, int32_t skill)
 {
     if (checkSkillCost(self(act), skill) == SkillCheck::Ok)
@@ -646,55 +646,55 @@ void selectWhere(ActionProcessData& act, Test test)
 
 } // namespace
 
-// nbAiSelLifeMin @ 0x00286EC0
+// Sel_LIFEMIN @ 0x00286EC0
 void selectLowestHp(ActionProcessData& act)
 {
     selectLowest(act, false, [](const UnitWork& u) { return uint32_t{u.hp}; });
 }
 
-// nbAiSelBaarLv @ 0x00286F88
+// Sel_BAARLV @ 0x00286F88
 void selectLowestLevelNotFlying(ActionProcessData& act)
 {
     selectLowest(act, true, [](const UnitWork& u) { return uint32_t{u.level}; });
 }
 
-// nbAiSelLvMin @ 0x00287070
+// Sel_LVMIN @ 0x00287070
 void selectLowestLevel(ActionProcessData& act)
 {
     selectLowest(act, false, [](const UnitWork& u) { return uint32_t{u.level}; });
 }
 
-// nbAiSelBad @ 0x00287138
+// Sel_BAD @ 0x00287138
 void selectAilment(ActionProcessData& act, int32_t ailment)
 {
     selectWhere(act, [&](const UnitWork& u) { return u.ailment() == ailment; });
 }
 
-// nbAiSelId @ 0x002871D8
+// Sel_ID @ 0x002871D8
 void selectDevil(ActionProcessData& act, int32_t devil)
 {
     selectWhere(act, [&](const UnitWork& u) { return !u.isPlayerCharacter() && u.id == devil; });
 }
 
-// nbAiSelLight @ 0x00287288
+// Sel_LIGHT @ 0x00287288
 void selectLight(ActionProcessData& act)
 {
     selectWhere(act, [](const UnitWork& u) { return !u.isPlayerCharacter() && dat::alignment(u) == 1; });
 }
 
-// nbAiSelDark @ 0x00287338
+// Sel_DARK @ 0x00287338
 void selectDark(ActionProcessData& act)
 {
     selectWhere(act, [](const UnitWork& u) { return !u.isPlayerCharacter() && dat::alignment(u) == -1; });
 }
 
-// nbAiSelPlayer @ 0x002873E8
+// Sel_PLAYER @ 0x002873E8
 void selectDemiFiend(ActionProcessData& act)
 {
     selectWhere(act, [](const UnitWork& u) { return u.isPlayerCharacter(); });
 }
 
-// nbAiSelJoken @ 0x00287478
+// Sel_JOKEN @ 0x00287478
 void selectByCondition(ActionProcessData& act)
 {
     MainProcessData& main = mainOf(act);
@@ -703,13 +703,13 @@ void selectByCondition(ActionProcessData& act)
             markSelected(main, i);
 }
 
-// nbAiSelRnd @ 0x002874C8: everyone; the caller then picks one at random.
+// Sel_RND @ 0x002874C8: everyone; the caller then picks one at random.
 void selectAll(ActionProcessData& act)
 {
     markAllSelectable(mainOf(act));
 }
 
-// nbAiSelAi @ 0x00286B68. The best score is found among the scored slots,
+// Sel_AI @ 0x00286B68. The best score is found among the scored slots,
 // but marked by counting *all* selectable slots, so with AI level 2 a
 // skipped (immune) slot shifts the choice.
 int32_t selectBest(ActionProcessData& act, int32_t, bool group)

@@ -11,13 +11,13 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001004c8	280	FUN_001004c8	DEFAULT	named								dds3KernelMain
 001005e8	360	dds3DeleteProcessList	USER_DEFINED	legacy		battle_action_skill_worker_bootstrap_frames.c:body_001005e8;battle_reward_dependencies.c:body_001005e8;battle_reward_dependencies.c:ps2BattleRewardDependency_001005E8;battle_reward_levelup_dependencies.c:body_001005e8;battle_reward_levelup_dependencies.c:ps2BattleRewardLevelupDependency_001005E8;battle_reward_phase_dependencies.c:body_001005e8;battle_reward_phase_dependencies.c:ps2BattleRewardPhaseDependency_001005E8;field_movement_encounter_carriers.c:body_001005e8;process_lists.c:dds3DeleteProcessList						DeleteProcessList
 00100760	548	dds3AddProcessList	USER_DEFINED	legacy		battle_action_skill_worker_bootstrap_frames.c:body_00100760;battle_reward_dependencies.c:body_00100760;battle_reward_dependencies.c:ps2BattleRewardDependency_00100760;battle_reward_levelup_dependencies.c:body_00100760;battle_reward_levelup_dependencies.c:ps2BattleRewardLevelupDependency_00100760;battle_reward_phase_dependencies.c:body_00100760;battle_reward_phase_dependencies.c:ps2BattleRewardPhaseDependency_00100760;field_movement_encounter_carriers.c:body_00100760;process_lists.c:dds3AddProcessList						AddProcessList
-001009a0	72	dds3StartReadyProcess	USER_DEFINED	legacy		battle_action_skill_worker_bootstrap_frames.c:body_001009a0;battle_reward_dependencies.c:body_001009a0;battle_reward_dependencies.c:ps2BattleRewardDependency_001009A0;battle_reward_levelup_dependencies.c:body_001009a0;battle_reward_levelup_dependencies.c:ps2BattleRewardLevelupDependency_001009A0;battle_reward_phase_dependencies.c:body_001009a0;battle_reward_phase_dependencies.c:ps2BattleRewardPhaseDependency_001009A0;process_lists.c:dds3StartReadyProcess						StartProcess
-001009e8	92	dds3StartingProcesses	USER_DEFINED	legacy		battle_reward_lifecycle_dependencies.c:body_001009e8;battle_reward_lifecycle_dependencies.c:ps2BattleRewardLifecycleDependency_001009E8;process_lists.c:dds3StartingProcesses						StartingProcess
+001009a0	72	StartProcess	USER_DEFINED	legacy		battle_action_skill_worker_bootstrap_frames.c:body_001009a0;battle_reward_dependencies.c:body_001009a0;battle_reward_dependencies.c:ps2BattleRewardDependency_001009A0;battle_reward_levelup_dependencies.c:body_001009a0;battle_reward_levelup_dependencies.c:ps2BattleRewardLevelupDependency_001009A0;battle_reward_phase_dependencies.c:body_001009a0;battle_reward_phase_dependencies.c:ps2BattleRewardPhaseDependency_001009A0						StartProcess
+001009e8	92	StartingProcess	USER_DEFINED	legacy		battle_reward_lifecycle_dependencies.c:body_001009e8;battle_reward_lifecycle_dependencies.c:ps2BattleRewardLifecycleDependency_001009E8						StartingProcess
 00100a48	512	dds3RunProcess	USER_DEFINED	legacy		battle_reward_lifecycle_dependencies.c:body_00100a48;battle_reward_lifecycle_dependencies.c:ps2BattleRewardLifecycleDependency_00100A48;process_dispatch.c:dds3RunProcess						RunProcess
 00100c48	288	dds3RunningProcess	USER_DEFINED	legacy		battle_reward_lifecycle_dependencies.c:body_00100c48;battle_reward_lifecycle_dependencies.c:ps2BattleRewardLifecycleDependency_00100C48;process_dispatch.c:dds3RunningProcess						RunningProcess
-00100d70	152	dds3KillProcessNow	USER_DEFINED	legacy		battle_reward_dependencies.c:body_00100d70;battle_reward_dependencies.c:ps2BattleRewardDependency_00100D70;battle_reward_levelup_dependencies.c:body_00100d70;battle_reward_levelup_dependencies.c:ps2BattleRewardLevelupDependency_00100D70;battle_reward_lifecycle_dependencies.c:body_00100d70;battle_reward_lifecycle_dependencies.c:ps2BattleRewardLifecycleDependency_00100D70;battle_reward_phase_dependencies.c:body_00100d70;battle_reward_phase_dependencies.c:ps2BattleRewardPhaseDependency_00100D70;field_movement_encounter_carriers.c:body_00100d70;process_shutdown.c:dds3KillProcessNow						KillProcess
+00100d70	152	KillProcess	USER_DEFINED	legacy		battle_reward_dependencies.c:body_00100d70;battle_reward_dependencies.c:ps2BattleRewardDependency_00100D70;battle_reward_levelup_dependencies.c:body_00100d70;battle_reward_levelup_dependencies.c:ps2BattleRewardLevelupDependency_00100D70;battle_reward_lifecycle_dependencies.c:body_00100d70;battle_reward_lifecycle_dependencies.c:ps2BattleRewardLifecycleDependency_00100D70;battle_reward_phase_dependencies.c:body_00100d70;battle_reward_phase_dependencies.c:ps2BattleRewardPhaseDependency_00100D70;field_movement_encounter_carriers.c:body_00100d70						KillProcess
 00100e08	116	dds3EndProcess	USER_DEFINED	legacy		battle_reward_dependencies.c:body_00100e08;battle_reward_dependencies.c:ps2BattleRewardDependency_00100E08;battle_reward_levelup_dependencies.c:body_00100e08;battle_reward_levelup_dependencies.c:ps2BattleRewardLevelupDependency_00100E08;battle_reward_lifecycle_dependencies.c:body_00100e08;battle_reward_lifecycle_dependencies.c:ps2BattleRewardLifecycleDependency_00100E08;battle_reward_phase_dependencies.c:body_00100e08;battle_reward_phase_dependencies.c:ps2BattleRewardPhaseDependency_00100E08;field_movement_encounter_carriers.c:body_00100e08;process_shutdown.c:dds3EndProcess						EndProcess
-00100e80	92	dds3EndingProcesses	USER_DEFINED	legacy		battle_reward_lifecycle_dependencies.c:body_00100e80;battle_reward_lifecycle_dependencies.c:ps2BattleRewardLifecycleDependency_00100E80;process_shutdown.c:dds3EndingProcesses						dds3EndingProcess
+00100e80	92	dds3EndingProcess	USER_DEFINED	legacy		battle_reward_lifecycle_dependencies.c:body_00100e80;battle_reward_lifecycle_dependencies.c:ps2BattleRewardLifecycleDependency_00100E80						dds3EndingProcess
 00100ee0	152	FUN_00100ee0	DEFAULT	named								ChangeProcessFlagChild
 00100f78	340	FUN_00100f78	DEFAULT	named								ChangeProcessFlag
 001010d8	88	ps2FieldProcessCount_001010D8	USER_DEFINED	legacy		field_movement_encounter.c:body_001010d8;field_movement_encounter.c:ps2FieldProcessCount_001010D8						dds3GetProcessCount
@@ -567,7 +567,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0010f638	120	FUN_0010f638	DEFAULT	named								dds3SceneBasicExistBasic
 0010f6b0	24	FUN_0010f6b0	DEFAULT	named								dds3SetMapNo
 0010f6c8	24	FUN_0010f6c8	DEFAULT	named								dds3GetMapNo
-0010f6e0	176	dds3SceneBasicSearchNameAndTypeExact	USER_DEFINED	legacy		scene_lookup.c:dds3SceneBasicSearchNameAndTypeExact						dds3SceneBasicSearchNameAndType
+0010f6e0	176	dds3SceneBasicSearchNameAndType	USER_DEFINED	named								dds3SceneBasicSearchNameAndType
 0010f790	108	dds3SceneBasicSearchName	USER_DEFINED	legacy		scene_lookup.c:dds3SceneBasicSearchName						dds3SceneBasicSearchName
 0010f800	92	FUN_0010f800	DEFAULT	named								AreaBasicConstructor
 0010f860	128	FUN_0010f860	DEFAULT	named								AreaBasicDestructor
@@ -1534,18 +1534,18 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0015b8b0	1640	ps2MaterialBillboardDrawAppend	USER_DEFINED	named								dds3MultiBillboardTagLink
 0015bf20	344	ps2MaterialBillboardFlush	USER_DEFINED	named								dds3MultiBillboardPktLink
 0015c080	356	FUN_0015c080	DEFAULT	named								dds3MultiBillboardLinkOt
-0015c1e8	68	dds3BillboardBasicInit	USER_DEFINED	legacy		battle_action_creation_frames.c:ps2BattleActionCreation_0015C1E8;billboard_copy.c:dds3BillboardBasicInit						dds3Billboard_BasicInit
+0015c1e8	68	dds3Billboard_BasicInit	USER_DEFINED	legacy		battle_action_creation_frames.c:ps2BattleActionCreation_0015C1E8						dds3Billboard_BasicInit
 0015c230	76	ps2BillboardNormalAllocate	USER_DEFINED	legacy		battle_action_creation_frames.c:ps2BattleActionCreation_0015C230;billboard_copy.c:ps2BillboardNormalAllocate						dds3Billboard_NormalCreate
 0015c280	44	ps2BillNormalDelete	USER_DEFINED	rewritten	shared/src/effect/effect_release.cpp:deleteNormalBillboard	particle_release.c:ps2BillNormalDelete	ok	ok	ok	ok	ok	dds3Billboard_NormalDelete
 0015c2b0	24	ps2BillboardNormalUpdateAndDraw	USER_DEFINED	named								dds3Billboard_NormalDraw
 0015c2c8	132	ps2BillAnimationAllocate	USER_DEFINED	legacy		battle_action_texture_creation_frames.c:ps2BattleActionTexture_0015C2C8;battle_reward_levelup_texture.c:ps2BattleActionTexture_0015C2C8;battle_reward_phase_texture.c:ps2BattleActionTexture_0015C2C8;battle_reward_texture_projection.c:ps2BattleActionTexture_0015C2C8;emitter_initialization.c:ps2BillAnimationAllocate						dds3Billboard_P2ACreate
-0015c350	124	dds3BillboardP2ACopy	USER_DEFINED	legacy		battle_action_billboard_copy_frames.c:body_0015c350;battle_action_billboard_copy_frames.c:ps2BattleActionBillboardCopy_0015C350;billboard_copy.c:dds3BillboardP2ACopy						dds3Billboard_P2ACopy
+0015c350	124	dds3Billboard_P2ACopy	USER_DEFINED	legacy		battle_action_billboard_copy_frames.c:body_0015c350;battle_action_billboard_copy_frames.c:ps2BattleActionBillboardCopy_0015C350						dds3Billboard_P2ACopy
 0015c3d0	44	ps2BillAnimationDelete	USER_DEFINED	rewritten	shared/src/effect/effect_release.cpp:deleteAnimatedBillboard	particle_release.c:ps2BillAnimationDelete	ok	ok	ok	ok	ok	dds3Billboard_P2ADelete
 0015c400	456	ps2BillboardP2AAdvance	USER_DEFINED	named								dds3Billboard_P2AAnimDraw
 0015c5d0	128	ps2BillboardMultiplyPackedColour	USER_DEFINED	named								dds3Billboard_P2AColorMul
 0015c650	684	ps2BillboardP2AUpdateAndDraw	USER_DEFINED	named								dds3Billboard_P2ADraw
 0015c908	56	ps2BillboardP2ABindFrame	USER_DEFINED	legacy		battle_action_texture_creation_frames.c:ps2BattleActionTexture_0015C908;battle_reward_levelup_texture.c:ps2BattleActionTexture_0015C908;battle_reward_phase_texture.c:ps2BattleActionTexture_0015C908;battle_reward_texture_projection.c:ps2BattleActionTexture_0015C908;billboard_copy.c:ps2BillboardP2ABindFrame						dds3Billboard_P2ASetAnim
-0015c940	428	dds3BillboardP2ASetNumber	USER_DEFINED	legacy		battle_action_texture_creation_frames.c:ps2BattleActionTexture_0015C940;battle_reward_levelup_texture.c:ps2BattleActionTexture_0015C940;battle_reward_phase_texture.c:ps2BattleActionTexture_0015C940;battle_reward_texture_projection.c:ps2BattleActionTexture_0015C940;billboard_copy.c:dds3BillboardP2ASetNumber						dds3Billboard_P2ASetNumber
+0015c940	428	dds3Billboard_P2ASetNumber	USER_DEFINED	legacy		battle_action_texture_creation_frames.c:ps2BattleActionTexture_0015C940;battle_reward_levelup_texture.c:ps2BattleActionTexture_0015C940;battle_reward_phase_texture.c:ps2BattleActionTexture_0015C940;battle_reward_texture_projection.c:ps2BattleActionTexture_0015C940						dds3Billboard_P2ASetNumber
 0015caf0	464	ps2BillAnimationResourceCreate	USER_DEFINED	legacy		battle_action_texture_creation_frames.c:ps2BattleActionTexture_0015CAF0;battle_reward_levelup_texture.c:ps2BattleActionTexture_0015CAF0;battle_reward_phase_texture.c:ps2BattleActionTexture_0015CAF0;battle_reward_texture_projection.c:ps2BattleActionTexture_0015CAF0;emitter_initialization.c:ps2BillAnimationResourceCreate						dds3BillAnimLoadP2A
 0015ccc8	152	ps2BillAnimationRelease	USER_DEFINED	rewritten	shared/src/effect/effect_release.cpp:releaseBillboardAnimation	particle_release.c:ps2BillAnimationRelease	ok	ok	ok	ok	ok	dds3BillAnimFreeP2A
 0015cd68	72	FUN_0015cd68	DEFAULT	named								dds3BillboardCopyO
@@ -1851,7 +1851,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0016c6c8	60	FUN_0016c6c8	DEFAULT	named								effBTLModelGetDirection2
 0016c708	176	FUN_0016c708	DEFAULT	named								effBTLModelGetCircumference
 0016c7b8	148	FUN_0016c7b8	DEFAULT	named								effBTLModelGetCircumferencePtr
-0016c850	72	effBTLModelGetHeightBits	USER_DEFINED	legacy		battle_presentation.c:effBTLModelGetHeightBits						effBTLModelGetHeight
+0016c850	72	effBTLModelGetHeight	USER_DEFINED	named								effBTLModelGetHeight
 0016c8a8	68	FUN_0016c8a8	DEFAULT	named								effBTLModelGetMarkPosition
 0016c8f0	60	FUN_0016c8f0	DEFAULT	named								effBTLModelGetMarkPosition2
 0016c930	80	FUN_0016c930	DEFAULT	named								effBTLModelGetMarkPosition3
@@ -2175,7 +2175,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00173f68	112	FUN_00173f68	DEFAULT	named								effBTLSystemCut1DataFree
 00173fd8	196	FUN_00173fd8	DEFAULT	named								effBTLSystemCut1Create
 001740a0	20	effBTLSystemCut1Draw	USER_DEFINED	rewritten	shared/src/effect/cut.cpp:drawSystemCut		ok	ok	ok	ok	ok	effBTLSystemCut1Draw
-001740b8	124	effBTLSystemCutDelete	USER_DEFINED	named								effBTLSystemCut1Delete
+001740b8	124	effBTLSystemCut1Delete	USER_DEFINED	named								effBTLSystemCut1Delete
 00174138	8	FUN_00174138	DEFAULT	named								effBTLSystemCut1PartHandleCreate
 00174140	92	FUN_00174140	DEFAULT	named								effBTLSystemCut1PartHandleDelete
 001741a0	28	FUN_001741a0	DEFAULT	rewritten	shared/src/effect/cut.cpp:startEncounterEffect		ok	ok	ok	ok	ok	effBTLEncountStart
@@ -3658,7 +3658,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001cad00	100	FUN_001cad00	DEFAULT	named								frTestFontInit
 001cad68	32	FUN_001cad68	DEFAULT	named								test_font_Shutdown
 001cad88	196	FUN_001cad88	DEFAULT	named								test_font_1CAD88
-001cae58	96	itfMiscLinkInit	USER_DEFINED	rewritten	shared/src/interface/message.cpp:MiscLinkInit		ok	ok	ok	ok	ok	itfMiscLinkInitialize
+001cae58	96	itfMiscLinkInitialize	USER_DEFINED	rewritten	shared/src/interface/message.cpp:MiscLinkInit		ok	ok	ok	ok	ok	itfMiscLinkInitialize
 001caeb8	92	itfMiscLinkTake	USER_DEFINED	rewritten	shared/src/interface/message.cpp:MiscLinkTake	message_construction.c:itfMiscLinkTake	ok	ok	ok	ok	ok	itfMiscLinkTake
 001caf20	80	itfMiscLinkGive	USER_DEFINED	rewritten	shared/src/interface/message.cpp:MiscLinkGive	message_construction.c:itfMiscLinkGive	ok	ok	ok	ok	ok	itfMiscLinkGive
 001caf78	124	ps2PanelScaleColors	USER_DEFINED	rewritten	shared/src/interface/panel.cpp:MiscSetRatioRGB	panel_construction.c:ps2PanelScaleColors	ok	ok	ok	ok	ok	itfMiscSetRatioRGB
@@ -4095,8 +4095,8 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001df460	28	ps2ModelResourceListCreate	USER_DEFINED	legacy		battle_action_model_frames.c:body_001df460;battle_action_model_frames.c:ps2BattleActionModel_001DF460;model_bootstrap_resources.c:ps2ModelResourceListCreate						mdlEffectResrcListNew
 001df480	232	ps2ModelResourceListRelease	USER_DEFINED	legacy		battle_action_model_frames.c:body_001df480;battle_action_model_frames.c:ps2BattleActionModel_001DF480;model_bootstrap_resources.c:ps2ModelResourceListRelease						mdlEffectResrcListFree
 001df570	88	mdlCreateEffectCtrlr	USER_DEFINED	legacy		battle_action_model_frames.c:body_001df570;battle_action_model_frames.c:ps2BattleActionModel_001DF570;model_motion_creation.c:mdlCreateEffectCtrlr						mdlCreateEffectCtrlr
-001df5c8	52	mdlEffectDupBillboard	USER_DEFINED	legacy		battle_action_model_frames.c:body_001df5c8;battle_action_model_frames.c:ps2BattleActionModel_001DF5C8;billboard_copy.c:mdlEffectDupBillboard						mdlEffectDup_P2A
-001df600	52	mdlEffectDupGeneric	USER_DEFINED	legacy		battle_action_model_frames.c:body_001df600;battle_action_model_frames.c:ps2BattleActionModel_001DF600;magatuhi_creation.c:mdlEffectDupGeneric						mdlEffectDup_D3P
+001df5c8	52	mdlEffectDup_P2A	USER_DEFINED	legacy		battle_action_model_frames.c:body_001df5c8;battle_action_model_frames.c:ps2BattleActionModel_001DF5C8						mdlEffectDup_P2A
+001df600	52	mdlEffectDup_D3P	USER_DEFINED	legacy		battle_action_model_frames.c:body_001df600;battle_action_model_frames.c:ps2BattleActionModel_001DF600						mdlEffectDup_D3P
 001df638	52	mdlGetEffectResrc	USER_DEFINED	legacy		battle_action_model_frames.c:body_001df638;battle_action_model_frames.c:ps2BattleActionModel_001DF638;model_motion_creation.c:mdlGetEffectResrc						mdlGetEffectResrc
 001df670	256	ps2ModelCreateCopiedEffects	USER_DEFINED	legacy		battle_action_model_frames.c:body_001df670;battle_action_model_frames.c:ps2BattleActionModel_001DF670;model_effect_creation.c:ps2ModelCreateCopiedEffects						mdlCreateEffect_P2A_D3P
 001df770	172	mdlCreateEffect_TRACK	USER_DEFINED	legacy		battle_action_model_frames.c:body_001df770;battle_action_model_frames.c:ps2BattleActionModel_001DF770;model_effect_creation.c:mdlCreateEffect_TRACK						mdlCreateEffect_TRACK
@@ -6103,7 +6103,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0024cbb8	20	FUN_0024cbb8	DEFAULT	legacy		battle_reward_lifecycle_native.c:body_0024cbb8;battle_reward_lifecycle_native.c:ps2BattleRewardLifecycleNative_0024CBB8						nbStageFilterAlp
 0024cbe0	652	FUN_0024cbe0	DEFAULT	named								nbStageSp
 0024ce78	244	ps2BattleOutcome_0024CE78	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:posedMotion	battle_outcome.c:body_0024ce78;battle_outcome.c:ps2BattleOutcome_0024CE78	ok	ok	ok	ok	ok	GetDyingBadWaitMotion
-0024cf70	132	nbSetNegoPose	USER_DEFINED	rewritten	shared/src/battle/talk.cpp:takeTalkPose		ok	ok	ok	ok	ok	nbSetNegoWaitMotion
+0024cf70	132	nbSetNegoWaitMotion	USER_DEFINED	rewritten	shared/src/battle/talk.cpp:takeTalkPose		ok	ok	ok	ok	ok	nbSetNegoWaitMotion
 0024cff8	556	ps2BattleOutcome_0024CFF8	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:startMotion	battle_outcome.c:body_0024cff8;battle_outcome.c:ps2BattleOutcome_0024CFF8	ok	ok	ok	ok	ok	nbSetUnitMotion
 0024d238	212	ps2BattleOutcome_0024D238	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:setWaitMotion	battle_outcome.c:body_0024d238;battle_outcome.c:ps2BattleOutcome_0024D238	ok	ok	ok	ok	ok	nbSetWaitMotion
 0024d310	68	nbGetMotionEndType	USER_DEFINED	rewritten	shared/src/battle/combatant.cpp:motionEndType		ok	ok	ok	ok	ok	nbCalcUnitVisual
@@ -7011,50 +7011,50 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 002852c0	68	FUN_002852c0	DEFAULT	rewritten	shared/src/battle/debug.cpp:shutdownDebugProcess		ok	ok	ok	ok	ok	nbDebugShutdown
 00285308	92	FUN_00285308	DEFAULT	rewritten	shared/src/battle/debug.cpp:newDebugData							InitDebugProcessData
 00285368	108	FUN_00285368	DEFAULT	rewritten	shared/src/battle/debug.cpp:startDebugProcess							nbInitDebugProcess
-002853d8	96	nbAiChkMyHp	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:ownHpAtMost	battle_ai_conditions.c:nbAiChkMyHp	legacy	legacy	legacy	ok	legacy	Chk_MYHP
-00285438	56	nbAiChkMyMp	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:ownMpAtMost	battle_ai_conditions.c:nbAiChkMyMp	legacy	legacy	legacy	ok	legacy	Chk_MYMP
-00285470	264	nbAiChkFrHp	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:allyHpAtMost	battle_ai_conditions.c:nbAiChkFrHp	legacy	legacy	legacy	ok	legacy	Chk_FRHP
+002853d8	96	Chk_MYHP	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:ownHpAtMost		legacy	legacy	legacy	ok	legacy	Chk_MYHP
+00285438	56	Chk_MYMP	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:ownMpAtMost		legacy	legacy	legacy	ok	legacy	Chk_MYMP
+00285470	264	Chk_FRHP	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:allyHpAtMost		legacy	legacy	legacy	ok	legacy	Chk_FRHP
 00285578	96	nbAiChkDmgCnt	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:damageCountAtLeast	battle_ai_conditions.c:nbAiChkDmgCnt	legacy	legacy	legacy	ok	legacy	Chk_DMGCNT_285578
 002855d8	140	nbAiChkChkCnt	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:checkedAtLeast	battle_ai_conditions.c:nbAiChkChkCnt	legacy	legacy	legacy	ok	legacy	Chk_CHKCNT_2855D8
-00285668	132	nbAiChkFrCnt	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:allyCountAtMost	battle_ai_conditions.c:nbAiChkFrCnt	legacy	legacy	legacy	ok	legacy	Chk_FRCNT
-002856f0	132	nbAiChkEnCnt	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:enemyCountAtMost	battle_ai_conditions.c:nbAiChkEnCnt	legacy	legacy	legacy	ok	legacy	Chk_ENCNT
-00285778	56	nbAiChkMyBad	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:ownAilment	battle_ai_conditions.c:nbAiChkMyBad	legacy	legacy	legacy	ok	legacy	Chk_MYBAD
-002857b0	224	nbAiChkFrBad	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:allyAilment	battle_ai_conditions.c:nbAiChkFrBad	legacy	legacy	legacy	ok	legacy	Chk_FRBAD
-00285890	224	nbAiChkEnBad	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:enemyAilment	battle_ai_conditions.c:nbAiChkEnBad	legacy	legacy	legacy	ok	legacy	Chk_ENBAD
-00285970	256	nbAiChkEnAllBad	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:allEnemiesAilment	battle_ai_conditions.c:nbAiChkEnAllBad	legacy	legacy	legacy	ok	legacy	Chk_ENALLBAD
-00285a70	240	nbAiChkEnId	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:enemyIsDevil	battle_ai_conditions.c:nbAiChkEnId	legacy	legacy	legacy	ok	legacy	Chk_ENID
-00285b60	228	nbAiChkFrId	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:allyIsDevil	battle_ai_conditions.c:nbAiChkFrId	legacy	legacy	legacy	ok	legacy	Chk_FRID
-00285c48	224	nbAiChkHojo	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:hasBuff	battle_ai_conditions.c:nbAiChkHojo	legacy	legacy	legacy	ok	legacy	ChkAiHojo
-00285d30	400	nbAiChkHojoMax	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:buffAtLimit	battle_ai_conditions.c:nbAiChkHojoMax	legacy	legacy	legacy	ok	legacy	ChkAiHojoMax
-00285ec8	220	nbAiChkEnHojo	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:enemyBuff	battle_ai_conditions.c:nbAiChkEnHojo	legacy	legacy	legacy	ok	legacy	Chk_ENHOJO
-00285fa8	220	nbAiChkFrHojo	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:allyBuff	battle_ai_conditions.c:nbAiChkFrHojo	legacy	legacy	legacy	ok	legacy	Chk_FRHOJO
-00286088	220	nbAiChkEnHojoMax	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:enemyBuffAtLimit	battle_ai_conditions.c:nbAiChkEnHojoMax	legacy	legacy	legacy	ok	legacy	Chk_ENHOJOMAX
-00286168	220	nbAiChkFrHojoMax	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:allyBuffAtLimit	battle_ai_conditions.c:nbAiChkFrHojoMax	legacy	legacy	legacy	ok	legacy	Chk_FRHOJOMAX
+00285668	132	Chk_FRCNT	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:allyCountAtMost		legacy	legacy	legacy	ok	legacy	Chk_FRCNT
+002856f0	132	Chk_ENCNT	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:enemyCountAtMost		legacy	legacy	legacy	ok	legacy	Chk_ENCNT
+00285778	56	Chk_MYBAD	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:ownAilment		legacy	legacy	legacy	ok	legacy	Chk_MYBAD
+002857b0	224	Chk_FRBAD	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:allyAilment		legacy	legacy	legacy	ok	legacy	Chk_FRBAD
+00285890	224	Chk_ENBAD	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:enemyAilment		legacy	legacy	legacy	ok	legacy	Chk_ENBAD
+00285970	256	Chk_ENALLBAD	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:allEnemiesAilment		legacy	legacy	legacy	ok	legacy	Chk_ENALLBAD
+00285a70	240	Chk_ENID	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:enemyIsDevil		legacy	legacy	legacy	ok	legacy	Chk_ENID
+00285b60	228	Chk_FRID	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:allyIsDevil		legacy	legacy	legacy	ok	legacy	Chk_FRID
+00285c48	224	ChkAiHojo	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:hasBuff		legacy	legacy	legacy	ok	legacy	ChkAiHojo
+00285d30	400	ChkAiHojoMax	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:buffAtLimit		legacy	legacy	legacy	ok	legacy	ChkAiHojoMax
+00285ec8	220	Chk_ENHOJO	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:enemyBuff		legacy	legacy	legacy	ok	legacy	Chk_ENHOJO
+00285fa8	220	Chk_FRHOJO	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:allyBuff		legacy	legacy	legacy	ok	legacy	Chk_FRHOJO
+00286088	220	Chk_ENHOJOMAX	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:enemyBuffAtLimit		legacy	legacy	legacy	ok	legacy	Chk_ENHOJOMAX
+00286168	220	Chk_FRHOJOMAX	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:allyBuffAtLimit		legacy	legacy	legacy	ok	legacy	Chk_FRHOJOMAX
 00286248	132	nbAiChkBa	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:backAttack	battle_ai_conditions.c:nbAiChkBa	legacy	legacy	legacy	ok	legacy	Chk_BA_286248
 002862d0	132	nbAiChkSensei	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:enemiesStruckFirst	battle_ai_conditions.c:nbAiChkSensei	legacy	legacy	legacy	ok	legacy	Chk_POW_2862D0
-00286358	232	nbAiChkEnLight	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:enemyIsLight	battle_ai_conditions.c:nbAiChkEnLight	legacy	legacy	legacy	ok	legacy	Chk_ENLIGHT
-00286440	240	nbAiChkEnDark	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:enemyIsDark	battle_ai_conditions.c:nbAiChkEnDark	legacy	legacy	legacy	ok	legacy	Chk_ENDARK
+00286358	232	Chk_ENLIGHT	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:enemyIsLight		legacy	legacy	legacy	ok	legacy	Chk_ENLIGHT
+00286440	240	Chk_ENDARK	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:enemyIsDark		legacy	legacy	legacy	ok	legacy	Chk_ENDARK
 00286530	76	nbAiChkPow	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:ownFocus	battle_ai_conditions.c:nbAiChkPow	legacy	legacy	legacy	ok	legacy	Chk_SENSEI_286530
-00286580	44	nbAiChkPlv	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:playerLevelAtLeast	battle_ai_conditions.c:nbAiChkPlv	legacy	legacy	legacy	ok	legacy	Chk_PLV
-002865b0	52	nbAiChkPPartyLv	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:partyLevelAtLeast	battle_ai_conditions.c:nbAiChkPPartyLv	legacy	legacy	legacy	ok	legacy	Chk_PPARTYLV
-002865e8	20	nbAiChkTurn	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:turnAtLeast	battle_ai_conditions.c:nbAiChkTurn	legacy	legacy	legacy	ok	legacy	Chk_TURN
-00286600	232	nbAiChkEnHamamHk	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:enemyNotImmuneToExpel	battle_ai_conditions.c:nbAiChkEnHamamHk	legacy	legacy	legacy	ok	legacy	Chk_ENHAMAMHK
-002866e8	72	nbAiChkSkillNoMp	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:cannotAfford	battle_ai_conditions.c:nbAiChkSkillNoMp	legacy	legacy	legacy	ok	legacy	Chk_SKILLNOMP
+00286580	44	Chk_PLV	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:playerLevelAtLeast		legacy	legacy	legacy	ok	legacy	Chk_PLV
+002865b0	52	Chk_PPARTYLV	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:partyLevelAtLeast		legacy	legacy	legacy	ok	legacy	Chk_PPARTYLV
+002865e8	20	Chk_TURN	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:turnAtLeast		legacy	legacy	legacy	ok	legacy	Chk_TURN
+00286600	232	Chk_ENHAMAMHK	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:enemyNotImmuneToExpel		legacy	legacy	legacy	ok	legacy	Chk_ENHAMAMHK
+002866e8	72	Chk_SKILLNOMP	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:cannotAfford		legacy	legacy	legacy	ok	legacy	Chk_SKILLNOMP
 00286730	116	nbAiChkJoken	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:condition	battle_ai_conditions.c:nbAiChkJoken	legacy	legacy	legacy	ok	legacy	nbAiChkJoken
 002867a8	224	nbAiAiChk	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:check	battle_ai_execution.c:nbAiAiChk	ok	ok	ok	ok	ok	nbGetAiEntry
 00286888	280	nbAiGetKoudou	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:drawAction	battle_ai_execution.c:nbAiGetKoudou	ok	ok	ok	ok	ok	nbPickAiAction
 002869a0	436	nbAiSetKoudou	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:setAction	battle_ai_execution.c:nbAiSetKoudou	ok	ok	ok	ok	ok	SetKoudou
-00286b68	840	nbAiSelAi	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectBest	battle_ai_estimates.c:nbAiSelAi	legacy	legacy	legacy	ok	legacy	Sel_AI
-00286ec0	200	nbAiSelLifeMin	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectLowestHp	battle_ai_filters.c:nbAiSelLifeMin	legacy	legacy	legacy	ok	legacy	Sel_LIFEMIN
-00286f88	232	nbAiSelBaarLv	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectLowestLevelNotFlying	battle_ai_filters.c:nbAiSelBaarLv	legacy	legacy	legacy	ok	legacy	Sel_BAARLV
-00287070	200	nbAiSelLvMin	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectLowestLevel	battle_ai_filters.c:nbAiSelLvMin	legacy	legacy	legacy	ok	legacy	Sel_LVMIN
-00287138	156	nbAiSelBad	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectAilment	battle_ai_filters.c:nbAiSelBad	legacy	legacy	legacy	ok	legacy	Sel_BAD
-002871d8	172	nbAiSelId	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectDevil	battle_ai_filters.c:nbAiSelId	legacy	legacy	legacy	ok	legacy	Sel_ID
-00287288	176	nbAiSelLight	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectLight	battle_ai_filters.c:nbAiSelLight	legacy	legacy	legacy	ok	legacy	Sel_LIGHT
-00287338	176	nbAiSelDark	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectDark	battle_ai_filters.c:nbAiSelDark	legacy	legacy	legacy	ok	legacy	Sel_DARK
-002873e8	144	nbAiSelPlayer	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectDemiFiend	battle_ai_filters.c:nbAiSelPlayer	legacy	legacy	legacy	ok	legacy	Sel_PLAYER
-00287478	76	nbAiSelJoken	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectByCondition	battle_ai_filters.c:nbAiSelJoken	legacy	legacy	legacy	ok	legacy	Sel_JOKEN
-002874c8	60	nbAiSelRnd	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectAll	battle_ai_filters.c:nbAiSelRnd	legacy	legacy	legacy	ok	legacy	Sel_RND
+00286b68	840	Sel_AI	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectBest		legacy	legacy	legacy	ok	legacy	Sel_AI
+00286ec0	200	Sel_LIFEMIN	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectLowestHp		legacy	legacy	legacy	ok	legacy	Sel_LIFEMIN
+00286f88	232	Sel_BAARLV	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectLowestLevelNotFlying		legacy	legacy	legacy	ok	legacy	Sel_BAARLV
+00287070	200	Sel_LVMIN	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectLowestLevel		legacy	legacy	legacy	ok	legacy	Sel_LVMIN
+00287138	156	Sel_BAD	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectAilment		legacy	legacy	legacy	ok	legacy	Sel_BAD
+002871d8	172	Sel_ID	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectDevil		legacy	legacy	legacy	ok	legacy	Sel_ID
+00287288	176	Sel_LIGHT	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectLight		legacy	legacy	legacy	ok	legacy	Sel_LIGHT
+00287338	176	Sel_DARK	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectDark		legacy	legacy	legacy	ok	legacy	Sel_DARK
+002873e8	144	Sel_PLAYER	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectDemiFiend		legacy	legacy	legacy	ok	legacy	Sel_PLAYER
+00287478	76	Sel_JOKEN	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectByCondition		legacy	legacy	legacy	ok	legacy	Sel_JOKEN
+002874c8	60	Sel_RND	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectAll		legacy	legacy	legacy	ok	legacy	Sel_RND
 00287508	580	nbSetSingleTarget2	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectSingleTarget	battle_ai_selection.c:nbSetSingleTarget2	legacy	legacy	legacy	ok	legacy	SetSingleTarget2
 00287778	228	nbSetGroupTarget2	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:selectGroupTarget	battle_ai_selection.c:nbSetGroupTarget2	legacy	legacy	legacy	ok	legacy	SetGroupTarget2
 00287860	196	nbAiChkCost	USER_DEFINED	rewritten	shared/src/battle/ai.cpp:costBlocks	battle_ai_execution.c:nbAiChkCost	ok	ok	ok	ok	ok	ChkCost
@@ -7079,7 +7079,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00288218	104	nbCommand_AI_TAR_PLAYER	USER_DEFINED	rewritten	shared/src/battle/ai_script.cpp:targetDemiFiend	battle_script_commands.c:nbCommand_AI_TAR_PLAYER	legacy	legacy	legacy	ok	legacy	nbCommand_AI_TAR_PLAYER
 00288280	104	nbCommand_AI_TAR_RND	USER_DEFINED	rewritten	shared/src/battle/ai_script.cpp:targetAll	battle_script_commands.c:nbCommand_AI_TAR_RND	legacy	legacy	legacy	ok	legacy	nbCommand_AI_TAR_RND
 002882e8	104	nbCommand_AI_TAR_JOKEN	USER_DEFINED	rewritten	shared/src/battle/ai_script.cpp:targetByCondition	battle_script_commands.c:nbCommand_AI_TAR_JOKEN	legacy	legacy	legacy	ok	legacy	nbCommand_AI_TAR_JOKEN
-00288350	80	nbAiScriptChkJoken	USER_DEFINED	rewritten	shared/src/battle/ai_script.cpp:checkCondition	battle_ai_conditions.c:nbAiScriptChkJoken	legacy	legacy	legacy	ok	legacy	AiChkJoken
+00288350	80	AiChkJoken	USER_DEFINED	rewritten	shared/src/battle/ai_script.cpp:checkCondition		legacy	legacy	legacy	ok	legacy	AiChkJoken
 002883a8	44	nbCommand_AI_CHK_MYHP	USER_DEFINED	rewritten	shared/src/battle/ai_script.cpp:checkOwnHp	battle_ai_conditions.c:nbCommand_AI_CHK_MYHP	legacy	legacy	legacy	ok	legacy	nbCommand_AI_CHK_MYHP
 002883d8	44	nbCommand_AI_CHK_MYMP	USER_DEFINED	rewritten	shared/src/battle/ai_script.cpp:checkOwnMp	battle_ai_conditions.c:nbCommand_AI_CHK_MYMP	legacy	legacy	legacy	ok	legacy	nbCommand_AI_CHK_MYMP
 00288408	44	nbCommand_AI_CHK_FRHP	USER_DEFINED	rewritten	shared/src/battle/ai_script.cpp:checkAllyHp	battle_ai_conditions.c:nbCommand_AI_CHK_FRHP	legacy	legacy	legacy	ok	legacy	nbCommand_AI_CHK_FRHP
@@ -8148,8 +8148,8 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 002b5e78	84	ps2RigidInverseMatrix	USER_DEFINED	legacy		camera_view.c:ps2RigidInverseMatrix						ReverseMatrix
 002b5ed0	144	FUN_002b5ed0	DEFAULT	named								InversMatrix
 002b5f60	124	ps2SpecialPolygonRotationX	USER_DEFINED	named								SetRotateMatrixX
-002b5fe0	124	sdfRotationYFloat	USER_DEFINED	legacy		libm_trig.c:sdfRotationYFloat						SetRotateMatrixY
-002b6060	124	sdfRotationZFloat	USER_DEFINED	legacy		battle_action_rotation_frame.c:ps2BattleActionRotationZNative_002B6060;libm_trig.c:sdfRotationZFloat						SetRotateMatrixZ
+002b5fe0	124	SetRotateMatrixY	USER_DEFINED	named								SetRotateMatrixY
+002b6060	124	SetRotateMatrixZ	USER_DEFINED	legacy		battle_action_rotation_frame.c:ps2BattleActionRotationZNative_002B6060						SetRotateMatrixZ
 002b60e0	304	ps2ParticleBuildAxisMatrix_002B60E0	USER_DEFINED	named								StoreRotateMatrixAxis
 002b6210	44	ps2ParticleAxisMatrix_002B6210	USER_DEFINED	named								SetRotateMatrixAxis
 002b6240	124	FUN_002b6240	DEFAULT	named								SetRotateMatrixX_B
@@ -8160,7 +8160,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 002b6450	92	FUN_002b6450	DEFAULT	named								RotateMatrixY
 002b64b0	92	FUN_002b64b0	DEFAULT	named								RotateMatrixZ
 002b6510	64	ps2PcpEulerMatrixFromVector_002B6510	USER_DEFINED	named								SetRotateMatrixXYZ
-002b6550	84	sdfMultiplyEffectVuMatrices	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_002b6550;effect_matrix.c:sdfMultiplyEffectVuMatrices						MultMatrixNoArg
+002b6550	84	MultMatrixNoArg	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_002b6550						MultMatrixNoArg
 002b65a8	72	ps2ModelComposeVuMatrices	USER_DEFINED	legacy		model_pose_evaluation.c:ps2ModelComposeVuMatrices						MultMatrixRevNoArg
 002b6690	36	FUN_002b6690	DEFAULT	legacy		battle_action_skill_support_frames.c:body_002b6690;battle_action_skill_support_frames.c:ps2BattleActionSkill_002B6690						MultMatrix
 002b66b8	36	ps2ModelLoadComposeVuMatrix	USER_DEFINED	legacy		battle_action_skill_registered_frames.c:body_002b66b8;model_draw_prerequisites.c:ps2ModelLoadComposeVuMatrix						MultMatrixRev
