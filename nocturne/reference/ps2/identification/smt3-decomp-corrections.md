@@ -32,8 +32,11 @@ candidates; these are the ones checked. To offer upstream.
 | address | ours (the map's) | should be | evidence |
 |---|---|---|---|
 | 0x173D78 | effBTLPartDelete | effBTLSystemDelete2 | deletes a system effect through its family's table (0x31BF00) and frees the handle; HD `effBTLSystemDelete2(hEffBTLSys)`, while `effBTLPartDelete` takes a skill |
+| 0x279C58 | nbPanelAutoHide | nbPanelAllHide | calls three hides (0x281E28, 0x282268, 0x27C338), as nbPanelAllShow just before it calls the three shows |
+| 0x281E28 | ps2BattlePanelHideHookA | nbPanelAutoHide | one of nbPanelAllHide's three |
+| 0x114038 | dds3LightObjectBasicGetControlWorkData | dds3EffectObjectBasicGetControlWorkData | between the effect object's draw procedure and dds3AddEffectObjectBasic (neighbours) |
+| 0x115A70 | dds3EffectObjectBasicGetControlWorkData | dds3LightObjectBasicGetControlWorkData | between the light destructor and dds3AddLightObjectBasic (neighbours) |
+| 0x116AD0 | dds3AddPathBasic | dds3AddPointBasic | after the last path function, before dds3PointBasicGetResource (neighbours; tentative) |
 
-Not settled yet: the light and effect objects' control work (0x114038,
-0x115A70: same signatures), dds3AddPathBasic and dds3AddPointBasic
-(0x116AD0: same signatures), nbPanelAutoHide and nbPanelAllHide (0x279C58:
-neither takes anything).
+Every "both" row is settled: 18 of smt3-decomp's names and 6 of ours sat
+one function off. Ours are to be renamed in Ghidra and exported.
