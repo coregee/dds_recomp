@@ -3739,8 +3739,8 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001ce190	140	itfMesMngSetMesPosition	USER_DEFINED	rewritten	shared/src/interface/message.cpp:SetMesPosition		ok	ok	ok	ok	ok	itfMesMngSetMesPosition
 001ce450	48	itfMesMngMarkBitStat	USER_DEFINED	rewritten	shared/src/interface/message.cpp:MarkBitStat	message_commands.c:itfMesMngMarkBitStat	ok	ok	ok	ok	ok	itfMesMngMarkBitStat
 001ce480	48	itfMesMngClearBitStat	USER_DEFINED	rewritten	shared/src/interface/message.cpp:ClearBitStat		ok	ok	ok	ok	ok	itfMesMngClearBitStat
-001ce510	40	itfMesMngGetVarLocalize	USER_DEFINED	rewritten	shared/src/interface/message.cpp:GetVarLocalize	message_commands.c:itfMesMngGetVarLocalize	ok	ok	ok	ok	ok	itfMesMngGetVar
-001ce538	172	ps2MessageBuildCharacterName	USER_DEFINED	rewritten	shared/src/interface/message.cpp:BuildCharacterName	battle_ai_startup.c:ps2MessageBuildCharacterName;battle_panel_renderer_remaining.c:body_001ce538				ok	ok	itfMesMngGetVarLocalize
+001ce510	40	itfMesMngGetVarLocalize	USER_DEFINED	rewritten	shared/src/interface/message.cpp:GetVarLocalize		ok	ok	ok	ok	ok	itfMesMngGetVar
+001ce538	172	itfMesMngGetVarLocalize	USER_DEFINED	rewritten	shared/src/interface/message.cpp:BuildCharacterName	battle_panel_renderer_remaining.c:body_001ce538;message_commands.c:itfMesMngGetVarLocalize						itfMesMngGetVarLocalize
 001ce5e8	476	itfMesMngSetVar	USER_DEFINED	rewritten	shared/src/interface/message.cpp:SetVarFormatted	battle_ai_startup.c:itfMesMngSetVar;battle_panel_renderer_remaining.c:body_001ce5e8	ok	ok	ok	ok	ok	itfMesMngSetVar
 001ce7d8	48	itfMesMngSetVariableString	USER_DEFINED	rewritten	shared/src/interface/message.cpp:SetVarImmediate	battle_ai_startup.c:itfMesMngSetVariableString;battle_panel_renderer_remaining.c:body_001ce7d8	ok	ok	ok	ok	ok	itfMesMngSetVarImmediate
 001ce808	44	itfMesMngSetVariableBytes	USER_DEFINED	rewritten	shared/src/interface/message.cpp:SetVarImmediate2	battle_ai_startup.c:itfMesMngSetVariableBytes;battle_panel_renderer_remaining.c:body_001ce808	ok	ok	ok	ok	ok	itfMesMngSetVarImmediate2
@@ -3753,7 +3753,7 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 001ceb58	216	itfMesMngInitializeManager	USER_DEFINED	rewritten	shared/src/interface/message.cpp:InitializeManager		ok	ok	ok	ok	ok	itfMesMngInitializeManager
 001cec68	12	itfMesMngGetConfig	USER_DEFINED	rewritten	shared/src/interface/message.cpp:GetConfig		ok	ok	ok	ok	ok	itfMesMngGetStatManager
 001cec78	948	FUN_001cec78	DEFAULT	named								itfMesMngDebugProc
-001cf058	168	ps2MessageManagerReleaseInner	USER_DEFINED	rewritten	shared/src/interface/message.cpp:ReleaseInstance	script_lifetime.c:ps2MessageManagerReleaseInner	ok	ok	ok	ok	ok	DestructFlow
+001cf058	168	DestructFlow	USER_DEFINED	rewritten	shared/src/interface/message.cpp:ReleaseInstance							DestructFlow
 001cf100	72	itfMesResolveResourceAddress	USER_DEFINED	rewritten	shared/src/interface/message.cpp:ResolveResourceAddress	battle_action_skill_bridge_frames.c:body_001cf100;message_construction.c:itfMesResolveResourceAddress	ok	ok	ok	ok	ok	ResolveResourceAddress
 001cf178	20	ps2MessageGetResourceEntry	USER_DEFINED	rewritten	shared/src/interface/message.cpp:GetTypeHeader	battle_action_skill_registered_frames.c:body_001cf178;battle_panel_renderer_remaining.c:body_001cf178;message_commands.c:ps2MessageGetResourceEntry	ok	ok	ok	ok	ok	GetTypeHeader
 001cf190	20	ps2MessageGetTypeHeader2	USER_DEFINED	rewritten	shared/src/interface/message.cpp:GetTypeHeader2	message_construction.c:ps2MessageGetTypeHeader2	ok	ok	ok	ok	ok	GetTypeHeader2

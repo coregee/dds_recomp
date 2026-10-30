@@ -689,7 +689,7 @@ void addMessageTests(std::vector<TestCase>& t)
                     [=] { return norm(static_cast<int32_t>(fw_address_of(ConvertZenkakuNumber(n, &at<char>(out))))); }};
     }});
 #if NOCTURNE_US   // (US Maniax's only)
-    t.push_back({"BuildCharacterName", [](Gen& g) {
+    t.push_back({"itfMesMngGetVarLocalize", [](Gen& g) {
         World w = world(g);
         int32_t index = g.range(0, 3);
         return Pair{[=] { return origVoid(0x001ce538, {I(index)}); }, [=] { BuildCharacterName(index); return uint64_t{0}; }};

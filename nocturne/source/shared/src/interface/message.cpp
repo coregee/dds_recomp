@@ -387,7 +387,7 @@ void ReleaseAllVariable(Variable& variable)
     }
 }
 
-// itfMesMngReleaseInstance @ 0x001CF058 (no original name; perhaps the HD DestructFlow)
+// DestructFlow @ 0x001CF058 (the HD's name, as smt3-decomp has it: DestructFlow(int id))
 // Closes a window: drops everything it shows and returns its node.
 void ReleaseInstance(int32_t id)
 {
@@ -1657,7 +1657,8 @@ void FloorText(int32_t num, char* out)
 #endif
 
 #if NOCTURNE_US   // (the JP builds have none: SetCharacterName writes the names)
-// BuildCharacterName @ 0x001CE538 (no original name)
+// itfMesMngGetVarLocalize @ 0x001CE538 (tentative: smt3-decomp's, an HD name for the
+// localised builds' names; the HD's takes a window id as well)
 // Copies entered name `index` (0 the hero, 1 Yuko, 2 and 3 the classmates:
 // up to ten 2-byte characters; ASCII ones keep only their second byte) to
 // a buffer as a string.

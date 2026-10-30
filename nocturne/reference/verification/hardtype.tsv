@@ -718,7 +718,7 @@ SetVar	ok
 itfMesMngSetVarImmediate	ok
 itfMesMngSetVarImmediate2	ok
 ConvertZenkakuNumber	ok
-BuildCharacterName	ok
+itfMesMngGetVarLocalize	ok
 itfMesMngSetVar	ok
 itfMesMngSetVarScr	ok
 nbSetDevilNameMes	ok

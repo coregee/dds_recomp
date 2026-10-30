@@ -78,10 +78,8 @@ address	ours	smt3_decomp	hd	where
 001cc328	itfPnlDraw	itfPnlDrawTag	ours	function-map.tsv
 001cd380	itfMesMngMoveMessagePanel	itfMesMngSetOffsetY1	neither	source/shared/src/interface/message.cpp:954
 001ce510	itfMesMngGetVarLocalize	itfMesMngGetVar	ours	source/shared/src/interface/message.cpp:461
-001ce538	BuildCharacterName	itfMesMngGetVarLocalize	theirs	source/shared/src/interface/message.cpp:1660
 001cea58	itfMesMngGetMessageWidth	itfMesMngGetWidth	neither	source/shared/src/interface/message.cpp:1029
 001cec68	itfMesMngGetConfig	itfMesMngGetStatManager	neither	source/shared/src/interface/message.cpp:1026
-001cf058	itfMesMngReleaseInstance	DestructFlow	theirs	source/shared/src/interface/message.cpp:390
 001cf818	MarkSelectionText	ChangeFontColor	neither	source/shared/src/interface/message.cpp:693
 001cf960	GetMaxLineWidth	GetMessageWidth	neither	source/shared/src/interface/message.cpp:713
 001d0ff8	CalcManagerProc	CalcMsgMng_Process	ours	source/shared/src/interface/message.cpp:1344
