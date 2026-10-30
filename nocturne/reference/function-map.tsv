@@ -4931,18 +4931,18 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0020da88	196	FUN_0020da88	DEFAULT	named								fclRecoverProcessStart
 0020db50	64	FUN_0020db50	DEFAULT	named								fclRecoverProcessEnd
 0020db90	52	FUN_0020db90	DEFAULT	named								rcvCheckProcessStat
-0020dbf0	204	ps2RecoveryServicePriceRecover_0020DBF0	USER_DEFINED	legacy		recovery_service.c:ps2RecoveryServicePriceRecover_0020DBF0						rcvCalcPriceRecover
-0020dcc0	40	ps2RecoveryServicePriceStatusRecover_0020DCC0	USER_DEFINED	legacy		recovery_service.c:ps2RecoveryServicePriceStatusRecover_0020DCC0						rcvGetStatusPrice
-0020dce8	20	ps2RecoveryServicePriceRevive_0020DCE8	USER_DEFINED	legacy		recovery_service.c:ps2RecoveryServicePriceRevive_0020DCE8						rcvGetRevivePrice
-0020dd00	8	ps2RecoveryServicePriceDispel_0020DD00	USER_DEFINED	legacy		recovery_service.c:ps2RecoveryServicePriceDispel_0020DD00						rcvGetHealCost
-0020dd08	72	ps2RecoveryServicePriceAllRecover_0020DD08	USER_DEFINED	legacy		recovery_service.c:ps2RecoveryServicePriceAllRecover_0020DD08						rcvGetPriceForUnit
-0020dd50	120	ps2RecoveryServicePrice_0020DD50	USER_DEFINED	legacy		recovery_service.c:ps2RecoveryServicePrice_0020DD50						rcvGetRecoverPrice
-0020ddd8	56	ps2RecoveryServiceAppRecover_0020DDD8	USER_DEFINED	legacy		recovery_service.c:ps2RecoveryServiceAppRecover_0020DDD8						rcvAppAllRecover
-0020de10	16	ps2RecoveryServiceAppStatusRecover_0020DE10	USER_DEFINED	legacy		recovery_service.c:ps2RecoveryServiceAppStatusRecover_0020DE10						rcvClearStatusBits
-0020de20	76	ps2RecoveryServiceAppRevive_0020DE20	USER_DEFINED	legacy		recovery_service.c:ps2RecoveryServiceAppRevive_0020DE20						rcvReviveUnit
-0020de70	16	ps2RecoveryServiceAppDispel_0020DE70	USER_DEFINED	legacy		recovery_service.c:ps2RecoveryServiceAppDispel_0020DE70						rcvClearDeadFlag
-0020de80	48	ps2RecoveryServiceAppAllRecover_0020DE80	USER_DEFINED	legacy		recovery_service.c:ps2RecoveryServiceAppAllRecover_0020DE80						sfply_AdjustPrepEnd
-0020deb0	160	ps2RecoveryServiceGetDevilAttr_0020DEB0	USER_DEFINED	legacy		recovery_service.c:ps2RecoveryServiceGetDevilAttr_0020DEB0						rcvFullHeal
+0020dbf0	204	ps2RecoveryServicePriceRecover_0020DBF0	USER_DEFINED	rewritten	shared/src/facility/recovery.cpp:recoverPrice	recovery_service.c:ps2RecoveryServicePriceRecover_0020DBF0	ok	ok	ok	ok	ok	rcvCalcPriceRecover
+0020dcc0	40	ps2RecoveryServicePriceStatusRecover_0020DCC0	USER_DEFINED	rewritten	shared/src/facility/recovery.cpp:statusRecoverPrice	recovery_service.c:ps2RecoveryServicePriceStatusRecover_0020DCC0	ok	ok	ok	ok	ok	rcvGetStatusPrice
+0020dce8	20	ps2RecoveryServicePriceRevive_0020DCE8	USER_DEFINED	rewritten	shared/src/facility/recovery.cpp:revivePrice	recovery_service.c:ps2RecoveryServicePriceRevive_0020DCE8	ok	ok	ok	ok	ok	rcvGetRevivePrice
+0020dd00	8	ps2RecoveryServicePriceDispel_0020DD00	USER_DEFINED	rewritten	shared/src/facility/recovery.cpp:dispelPrice	recovery_service.c:ps2RecoveryServicePriceDispel_0020DD00	ok	ok	ok	ok	ok	rcvGetHealCost
+0020dd08	72	ps2RecoveryServicePriceAllRecover_0020DD08	USER_DEFINED	rewritten	shared/src/facility/recovery.cpp:allRecoverPrice	recovery_service.c:ps2RecoveryServicePriceAllRecover_0020DD08	ok	ok	ok	ok	ok	rcvGetPriceForUnit
+0020dd50	120	ps2RecoveryServicePrice_0020DD50	USER_DEFINED	rewritten	shared/src/facility/recovery.cpp:treatmentPrice	recovery_service.c:ps2RecoveryServicePrice_0020DD50	ok	ok	ok	ok	ok	rcvGetRecoverPrice
+0020ddd8	56	ps2RecoveryServiceAppRecover_0020DDD8	USER_DEFINED	rewritten	shared/src/facility/recovery.cpp:recover	recovery_service.c:ps2RecoveryServiceAppRecover_0020DDD8	ok	ok	ok	ok	ok	rcvAppAllRecover
+0020de10	16	ps2RecoveryServiceAppStatusRecover_0020DE10	USER_DEFINED	rewritten	shared/src/facility/recovery.cpp:cureStatus	recovery_service.c:ps2RecoveryServiceAppStatusRecover_0020DE10	ok	ok	ok	ok	ok	rcvClearStatusBits
+0020de20	76	ps2RecoveryServiceAppRevive_0020DE20	USER_DEFINED	rewritten	shared/src/facility/recovery.cpp:revive	recovery_service.c:ps2RecoveryServiceAppRevive_0020DE20	ok	ok	ok	ok	ok	rcvReviveUnit
+0020de70	16	ps2RecoveryServiceAppDispel_0020DE70	USER_DEFINED	rewritten	shared/src/facility/recovery.cpp:dispel	recovery_service.c:ps2RecoveryServiceAppDispel_0020DE70	ok	ok	ok	ok	ok	rcvClearDeadFlag
+0020de80	48	ps2RecoveryServiceAppAllRecover_0020DE80	USER_DEFINED	rewritten	shared/src/facility/recovery.cpp:recoverAll	recovery_service.c:ps2RecoveryServiceAppAllRecover_0020DE80	ok	ok	ok	ok	ok	sfply_AdjustPrepEnd
+0020deb0	160	ps2RecoveryServiceGetDevilAttr_0020DEB0	USER_DEFINED	rewritten	shared/src/facility/recovery.cpp:neededTreatments	recovery_service.c:ps2RecoveryServiceGetDevilAttr_0020DEB0	ok	ok	ok	ok	ok	rcvFullHeal
 0020df50	604	FUN_0020df50	DEFAULT	named								rcvCreateLocalStock
 0020e1b0	240	FUN_0020e1b0	DEFAULT	named								rcvCalc
 0020e2a8	484	FUN_0020e2a8	DEFAULT	named								rcvDrawPanelRow

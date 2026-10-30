@@ -630,6 +630,7 @@ ee::Interpreter makeOriginal()
              {0x00175b78u, 68u}, {0x00175eb0u, 64u}, {0x00176160u, 68u}, {0x001a7728u, 44u}, {0x001a7f78u, 44u},
              {0x001a88d0u, 44u}, {0x001a8d20u, 68u}, {0x002b6550u, 84u}})
         e.interpret(entry, entry + size);
+    e.interpret(0x0020dbf0, 0x0020df50);   // the recovery spring (fclRecoverCalc)
     // An object's pose (dds3*PoseSet).
     for (const auto& [from, to] : std::initializer_list<std::pair<uint32_t, uint32_t>>{
              {0x0010dd38, 0x0010ddb0}, {0x0010ddb0, 0x0010de94}, {0x0010dea8, 0x0010df38}, {0x0010df88, 0x0010e048},

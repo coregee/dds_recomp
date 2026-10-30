@@ -35,6 +35,8 @@
 #include "nocturne/address.hpp"
 #include "nocturne/effect/particles.hpp"
 #include "nocturne/effect/system.hpp"
+#include "nocturne/facility/recovery.hpp"
+#include "nocturne/data/unit.hpp"
 #include "nocturne/kernel/pose.hpp"
 #include "nocturne/data/tables.hpp"
 #include "nocturne/event/units.hpp"
@@ -986,6 +988,38 @@ void addKoukaTests(std::vector<TestCase>& t)
                 at<uint32_t>(kEmitter + 0x154) = static_cast<uint32_t>(g.chance(50) ? g.range(0, 40) : g.rng());
                 at<uint32_t>(kEmitter + 0x158) = static_cast<uint32_t>(g.rng());
                 return Pair{[=] { return origVmVoid(r.entry, {kEmitter}); }, [=] { r.rewrite(kEmitter); return uint64_t{0}; }};
+            });
+    }
+    // The recovery spring: a unit of the stock, its HP and MP anywhere up to
+    // (and past) its maximum, dead or not, its lasting ailments and curse.
+    {
+        using namespace nocturne::fcl;
+        struct Treatment { const char* name; uint32_t entry; bool returns; uint64_t (*rewrite)(UnitWork& unit, uint8_t which); };
+        static const Treatment treatments[] = {
+            {"rcvCalcPriceRecover", 0x0020dbf0, true, [](UnitWork& u, uint8_t) { return norm(recoverPrice(u)); }},
+            {"rcvCalcPriceStatusRecover", 0x0020dcc0, true, [](UnitWork& u, uint8_t) { return norm(statusRecoverPrice(u)); }},
+            {"rcvCalcPriceRevive", 0x0020dce8, true, [](UnitWork& u, uint8_t) { return norm(revivePrice(u)); }},
+            {"rcvCalcPriceDispel", 0x0020dd00, true, [](UnitWork&, uint8_t) { return norm(dispelPrice()); }},
+            {"rcvCalcPriceAllRecover", 0x0020dd08, true, [](UnitWork& u, uint8_t) { return norm(allRecoverPrice(u)); }},
+            {"rcvCalcPrice", 0x0020dd50, true, [](UnitWork& u, uint8_t w) { return norm(treatmentPrice(u, w)); }},
+            {"rcvAppRecover", 0x0020ddd8, true, [](UnitWork& u, uint8_t) { return norm(recover(u)); }},
+            {"rcvAppStatusRecover", 0x0020de10, false, [](UnitWork& u, uint8_t) { cureStatus(u); return uint64_t{0}; }},
+            {"rcvAppRevive", 0x0020de20, false, [](UnitWork& u, uint8_t) { revive(u); return uint64_t{0}; }},
+            {"rcvAppDispel", 0x0020de70, false, [](UnitWork& u, uint8_t) { dispel(u); return uint64_t{0}; }},
+            {"rcvAppAllRecover", 0x0020de80, false, [](UnitWork& u, uint8_t) { recoverAll(u); return uint64_t{0}; }},
+            {"rcvGetDevilAttr", 0x0020deb0, true, [](UnitWork& u, uint8_t) { return uint64_t{neededTreatments(u)}; }},
+        };
+        for (const Treatment& c : treatments)
+            add(c.name, [c](Gen& g) {
+                UnitWork& unit = nocturne::dat::globalWork().units[g.range(0, 15)];
+                const uint32_t most = nocturne::dat::maxHp(unit), mostMp = nocturne::dat::maxMp(unit);
+                unit.hp = static_cast<uint16_t>(g.chance(20) ? most : g.chance(10) ? g.range(0, 0xffff) : g.range(0, static_cast<int32_t>(most)));
+                unit.mp = static_cast<uint16_t>(g.chance(20) ? mostMp : g.chance(10) ? g.range(0, 0xffff) : g.range(0, static_cast<int32_t>(mostMp)));
+                unit.badstat = static_cast<uint16_t>(g.chance(60) ? g.pick<int32_t>({0, 0x20, 0x40, 0x100, 0x800, 0x8000, 0x8800, 0x160}) : g.range(0, 0xffff));
+                const uint32_t address = nocturne::guest::addressOf(&unit);
+                const uint32_t which = static_cast<uint32_t>(g.chance(80) ? g.pick<int32_t>({1, 2, 4, 7}) : static_cast<int32_t>(g.rng()));
+                return Pair{[=] { return c.returns ? origVm(c.entry, {address, which}) : origVmVoid(c.entry, {address}); },
+                            [=] { return c.rewrite(at<UnitWork>(address), static_cast<uint8_t>(which)); }};
             });
     }
     add("effBTLSystemGetLength", [](Gen& g) {
