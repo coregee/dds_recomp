@@ -181,4 +181,10 @@ void setParticleEffectRotation(uint32_t handle, uint32_t rotation);
 void setMagatamaEffectRotation(uint32_t effect, uint32_t rotation);
 void setMagatamaRotation(uint32_t handle, uint32_t rotation);
 
+// A particle emitter's buffers made ready (emitter_buffers.cpp).
+void resetParticles(uint32_t emitter);
+void resetAtomParticles(uint32_t emitter);
+void resetParticleWaves(uint32_t emitter);
+void resetRingParticleWaves(uint32_t emitter);
+
 } // namespace nocturne::eff

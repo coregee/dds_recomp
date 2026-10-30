@@ -635,6 +635,12 @@ ee::Interpreter makeOriginal()
              {0x0010dd38, 0x0010ddb0}, {0x0010ddb0, 0x0010de94}, {0x0010dea8, 0x0010df38}, {0x0010df88, 0x0010e048},
              {0x0010e248, 0x0010e25c}})
         e.interpret(from, to);
+    // A particle emitter's buffers made ready (dds3Particle_*AllBuffInit).
+    for (const auto& [entry, size] : std::initializer_list<std::pair<uint32_t, uint32_t>>{
+             {0x0015e860u, 72u}, {0x0015eeb0u, 72u}, {0x00160048u, 72u}, {0x00160748u, 72u}, {0x001613b0u, 72u},
+             {0x00162400u, 72u}, {0x00162f30u, 72u}, {0x001635a0u, 72u}, {0x00161958u, 76u},
+             {0x0015e1e8u, 116u}, {0x00160df8u, 116u}})
+        e.interpret(entry, entry + size);
     // The particle effects' deletion (effPCP*Delete, dds3*Delete).
     for (const auto& [entry, size] : std::initializer_list<std::pair<uint32_t, uint32_t>>{
              {0x001764f0u, 44u}, {0x001785e8u, 44u}, {0x001790e0u, 52u}, {0x00179b08u, 44u}, {0x00182c40u, 44u},

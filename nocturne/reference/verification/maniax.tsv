@@ -1361,6 +1361,17 @@ dds3GetPosPoseSetMCR	ok
 dds3AddRotPoseSet	ok
 dds3GetSclPoseSetMCR	ok
 dds3AllocObjectId	ok
+dds3Particle_SmokeAllBuffInit	ok
+dds3Particle_SparkAllBuffInit	ok
+dds3Particle_SphereSpiralAllBuffInit	ok
+dds3Particle_SphereSmokeAllBuffInit	ok
+dds3Particle_Spark2AllBuffInit	ok
+dds3Particle_SparkOffsetAllBuffInit	ok
+dds3Particle_SmokeOffsetAllBuffInit	ok
+dds3Particle_SphereSpiral2AllBuffInit	ok
+dds3Particle_SphereAtomAllBuffInit	ok
+dds3Particle_SpiralAllBuffInit	ok
+dds3Particle_SphereRingAllBuffInit	ok
 effBTLSystemGetLength	ok
 effBTLSys_Shock_GetLength	ok
 effBTLSys_Freeze_GetLength	ok

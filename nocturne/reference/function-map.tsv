@@ -1588,19 +1588,19 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0015df40	24	ps2ParticleBackingRelease	USER_DEFINED	rewritten	shared/src/effect/effect_release.cpp:deleteParticlePhysics	particle_release.c:ps2ParticleBackingRelease	ok	ok	ok	ok	ok	dds3Particle_PhysicsDelete
 0015df58	472	ps2ParticleBasicInitialize	USER_DEFINED	legacy		battle_action_creation_frames.c:ps2BattleActionCreation_0015DF58;emitter_initialization.c:ps2ParticleBasicInitialize						dds3Particle_BasicCreate
 0015e138	168	dds3Particle_BasicDelete	USER_DEFINED	rewritten	shared/src/effect/effect_release.cpp:deleteParticleBasics	particle_release.c:dds3Particle_BasicDelete	ok	ok	ok	ok	ok	dds3Particle_BasicDelete
-0015e1e8	112	ps2ParticleKind0Reset	USER_DEFINED	legacy		emitter_copy.c:ps2ParticleKind0Reset						dds3Particle_SpiralAllBuffInit
+0015e1e8	112	ps2ParticleKind0Reset	USER_DEFINED	rewritten	shared/src/effect/emitter_buffers.cpp:resetParticleWaves	emitter_copy.c:ps2ParticleKind0Reset	ok	ok	ok	ok	ok	dds3Particle_SpiralAllBuffInit
 0015e258	76	ps2EffectPartControlNative_0015E258	USER_DEFINED	named								dds3Particle_SpiralSetScale
 0015e2a8	124	ps2ParticleKind0Copy	USER_DEFINED	legacy		battle_action_creation_frames.c:ps2BattleActionCreation_0015E2A8						dds3Particle_SpiralCreate
 0015e328	40	ps2ParticleKind0Delete	USER_DEFINED	named								dds3Particle_SpiralDelete
 0015e350	600	ps2ParticleInitialize_0015E350	USER_DEFINED	named								dds3Particle_SpiralBuffInit
 0015e5b0	688	ps2ParticleSpiralUpdate_0015E5B0	USER_DEFINED	named								dds3Particle_SpiralDraw
-0015e860	68	ps2ParticleKind1Reset	USER_DEFINED	legacy		emitter_copy.c:ps2ParticleKind1Reset						dds3Particle_SmokeAllBuffInit
+0015e860	68	ps2ParticleKind1Reset	USER_DEFINED	rewritten	shared/src/effect/emitter_buffers.cpp:resetParticles	emitter_copy.c:ps2ParticleKind1Reset	ok	ok	ok	ok	ok	dds3Particle_SmokeAllBuffInit
 0015e8a8	76	ps2EffectPartControlNative_0015E8A8	USER_DEFINED	named								dds3Particle_SmokeSetScale
 0015e8f8	124	ps2ParticleKind1Copy	USER_DEFINED	legacy		battle_action_creation_frames.c:ps2BattleActionCreation_0015E8F8						dds3Particle_SmokeCreate
 0015e978	40	ps2ParticleKind1Delete	USER_DEFINED	named								dds3Particle_SmokeDelete
 0015e9a0	676	ps2ParticleInitialize_0015E9A0	USER_DEFINED	named								dds3Particle_SmokeBuffInit
 0015ec48	612	ps2ParticleSmokeUpdate_0015EC48	USER_DEFINED	named								dds3Particle_SmokeDraw
-0015eeb0	68	ps2ParticleKind2Reset	USER_DEFINED	legacy		emitter_copy.c:ps2ParticleKind2Reset						dds3Particle_SparkAllBuffInit
+0015eeb0	68	ps2ParticleKind2Reset	USER_DEFINED	rewritten	shared/src/effect/emitter_buffers.cpp:resetParticles	emitter_copy.c:ps2ParticleKind2Reset	ok	ok	ok	ok	ok	dds3Particle_SparkAllBuffInit
 0015eef8	76	ps2EffectPartControlNative_0015EEF8	USER_DEFINED	named								dds3Particle_SparkSetScale
 0015ef48	124	ps2ParticleKind2Copy	USER_DEFINED	legacy		battle_action_creation_frames.c:ps2BattleActionCreation_0015EF48						dds3Particle_SparkCreate
 0015efc8	40	ps2ParticleKind2Delete	USER_DEFINED	named								dds3Particle_SparkDelete
@@ -1612,31 +1612,31 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 0015fb70	40	ps2ParticleKind3Delete	USER_DEFINED	named								dds3Particle_RadiateDelete
 0015fb98	656	ps2ParticleRadiateInitializeSlot	USER_DEFINED	legacy		emitter_copy.c:ps2ParticleRadiateInitializeSlot						dds3Particle_RadiateBuffInit
 0015fe30	532	ps2ParticleRadiateUpdate_0015FE30	USER_DEFINED	named								dds3Particle_RadiateDraw
-00160048	68	ps2ParticleKind4Reset	USER_DEFINED	legacy		emitter_copy.c:ps2ParticleKind4Reset						dds3Particle_SphereSpiralAllBuffInit
+00160048	68	ps2ParticleKind4Reset	USER_DEFINED	rewritten	shared/src/effect/emitter_buffers.cpp:resetParticles	emitter_copy.c:ps2ParticleKind4Reset	ok	ok	ok	ok	ok	dds3Particle_SphereSpiralAllBuffInit
 00160090	64	ps2EffectPartControlNative_00160090	USER_DEFINED	named								dds3Particle_SphereSpiralSetScale
 001600d0	124	ps2ParticleKind4Copy	USER_DEFINED	legacy		battle_action_creation_frames.c:ps2BattleActionCreation_001600D0						dds3Particle_SphereSpiralCreate
 00160150	40	ps2ParticleKind4Delete	USER_DEFINED	named								dds3Particle_SphereSpiralDelete
 00160178	864	ps2ParticleInitialize_00160178	USER_DEFINED	named								dds3Particle_SphereSpiralBuffInit
 001604d8	624	ps2ParticleSphereSpiralUpdate_001604D8	USER_DEFINED	named								dds3Particle_SphereSpiralDraw
-00160748	68	ps2ParticleKind5Reset	USER_DEFINED	legacy		emitter_copy.c:ps2ParticleKind5Reset						dds3Particle_SphereSmokeAllBuffInit
+00160748	68	ps2ParticleKind5Reset	USER_DEFINED	rewritten	shared/src/effect/emitter_buffers.cpp:resetParticles	emitter_copy.c:ps2ParticleKind5Reset	ok	ok	ok	ok	ok	dds3Particle_SphereSmokeAllBuffInit
 00160790	76	ps2EffectPartControlNative_00160790	USER_DEFINED	named								dds3Particle_SphereSmokeSetScale
 001607e0	124	ps2ParticleKind5Copy	USER_DEFINED	legacy		battle_action_creation_frames.c:ps2BattleActionCreation_001607E0						dds3Particle_SphereSmokeCreate
 00160860	40	ps2ParticleKind5Delete	USER_DEFINED	named								dds3Particle_SphereSmokeDelete
 00160888	776	ps2ParticleInitialize_00160888	USER_DEFINED	named								dds3Particle_SphereSmokeBuffInit
 00160b90	612	ps2ParticleSphereSmokeUpdate_00160B90	USER_DEFINED	named								dds3Particle_SphereSmokeDraw
-00160df8	112	ps2ParticleKind6Reset	USER_DEFINED	legacy		emitter_copy.c:ps2ParticleKind6Reset						dds3Particle_SphereRingAllBuffInit
+00160df8	112	ps2ParticleKind6Reset	USER_DEFINED	rewritten	shared/src/effect/emitter_buffers.cpp:resetRingParticleWaves	emitter_copy.c:ps2ParticleKind6Reset	ok	ok	ok	ok	ok	dds3Particle_SphereRingAllBuffInit
 00160e68	52	ps2EffectPartControlNative_00160E68	USER_DEFINED	named								dds3Particle_SphereRingSetScale
 00160ea0	124	ps2ParticleKind6Copy	USER_DEFINED	legacy		battle_action_creation_frames.c:ps2BattleActionCreation_00160EA0						dds3Particle_SphereRingCreate
 00160f20	40	ps2ParticleKind6Delete	USER_DEFINED	named								dds3Particle_SphereRingDelete
 00160f48	488	ps2ParticleInitialize_00160F48	USER_DEFINED	named								dds3Particle_SphereRingBuffInit
 00161138	632	ps2ParticleSphereRingUpdate_00161138	USER_DEFINED	named								dds3Particle_SphereRingDraw
-001613b0	68	ps2ParticleKind7Reset	USER_DEFINED	legacy		emitter_copy.c:ps2ParticleKind7Reset						dds3Particle_Spark2AllBuffInit
+001613b0	68	ps2ParticleKind7Reset	USER_DEFINED	rewritten	shared/src/effect/emitter_buffers.cpp:resetParticles	emitter_copy.c:ps2ParticleKind7Reset	ok	ok	ok	ok	ok	dds3Particle_Spark2AllBuffInit
 001613f8	76	ps2EffectPartControlNative_001613F8	USER_DEFINED	named								dds3Particle_Spark2SetScale
 00161448	124	ps2ParticleKind7Copy	USER_DEFINED	legacy		battle_action_creation_frames.c:ps2BattleActionCreation_00161448						dds3Particle_Spark2Create
 001614c8	40	ps2ParticleKind7Delete	USER_DEFINED	named								dds3Particle_Spark2Delete
 001614f0	596	ps2ParticleInitialize_001614F0	USER_DEFINED	named								dds3Particle_Spark2BuffInit
 00161748	524	ps2ParticleSpark2Update_00161748	USER_DEFINED	named								dds3Particle_Spark2Draw
-00161958	72	ps2ParticleKind8Reset	USER_DEFINED	legacy		emitter_copy.c:ps2ParticleKind8Reset						dds3Particle_SphereAtomAllBuffInit
+00161958	72	ps2ParticleKind8Reset	USER_DEFINED	rewritten	shared/src/effect/emitter_buffers.cpp:resetAtomParticles	emitter_copy.c:ps2ParticleKind8Reset	ok	ok	ok	ok	ok	dds3Particle_SphereAtomAllBuffInit
 001619a0	76	ps2EffectPartControlNative_001619A0	USER_DEFINED	named								dds3Particle_SphereAtomSetScale
 001619f0	124	ps2ParticleKind8Copy	USER_DEFINED	legacy		battle_action_creation_frames.c:ps2BattleActionCreation_001619F0						dds3Particle_SphereAtomCreate
 00161a70	40	ps2ParticleKind8Delete	USER_DEFINED	named								dds3Particle_SphereAtomDelete
@@ -1648,19 +1648,19 @@ address	size	name	name_source	status	rewrite	legacy	maniax	vanilla	chronicle	us	
 00162248	40	ps2ParticleKind9Delete	USER_DEFINED	named								
 00162270	252	ps2ParticleInitialize_00162270	USER_DEFINED	named								
 00162370	144	ps2ParticleSingleSlotUpdate_00162370	USER_DEFINED	named								dds3Particle_SpiralBlendColor
-00162400	68	ps2ParticleKind10Reset	USER_DEFINED	legacy		emitter_copy.c:ps2ParticleKind10Reset						dds3Particle_SparkOffsetAllBuffInit
+00162400	68	ps2ParticleKind10Reset	USER_DEFINED	rewritten	shared/src/effect/emitter_buffers.cpp:resetParticles	emitter_copy.c:ps2ParticleKind10Reset	ok	ok	ok	ok	ok	dds3Particle_SparkOffsetAllBuffInit
 00162448	76	ps2EffectPartControlNative_00162448	USER_DEFINED	named								dds3Particle_SparkOffsetSetScale
 00162498	124	ps2ParticleKind10Copy	USER_DEFINED	legacy		battle_action_creation_frames.c:ps2BattleActionCreation_00162498						dds3Particle_SparkOffsetCreate
 00162518	40	ps2ParticleKind10Delete	USER_DEFINED	named								dds3Particle_SparkOffsetDelete
 00162540	1912	ps2ParticleInitialize_00162540	USER_DEFINED	named								dds3Particle_SparkOffsetBuffInit
 00162cd0	604	ps2ParticleSparkOffsetUpdate_00162CD0	USER_DEFINED	named								dds3Particle_SparkOffsetDraw
-00162f30	68	ps2ParticleKind11Reset	USER_DEFINED	legacy		emitter_copy.c:ps2ParticleKind11Reset						dds3Particle_SmokeOffsetAllBuffInit
+00162f30	68	ps2ParticleKind11Reset	USER_DEFINED	rewritten	shared/src/effect/emitter_buffers.cpp:resetParticles	emitter_copy.c:ps2ParticleKind11Reset	ok	ok	ok	ok	ok	dds3Particle_SmokeOffsetAllBuffInit
 00162f78	76	ps2EffectPartControlNative_00162F78	USER_DEFINED	named								dds3Particle_SmokeOffsetSetScale
 00162fc8	152	ps2ParticleKind11Copy	USER_DEFINED	legacy		battle_action_creation_frames.c:ps2BattleActionCreation_00162FC8;emitter_copy.c:ps2ParticleKind11Copy						dds3Particle_SmokeOffsetCreate
 00163060	52	ps2ParticleKind11Delete	USER_DEFINED	rewritten	shared/src/effect/effect_release.cpp:deleteSmokeOffsetParticle	particle_release.c:ps2ParticleKind11Delete	ok	ok	ok	ok	ok	dds3Particle_SmokeOffsetDelete
 00163098	656	ps2ParticleInitialize_00163098	USER_DEFINED	named								dds3Particle_SmokeOffsetBuffInit
 00163328	628	ps2ParticleSmokeOffsetUpdate_00163328	USER_DEFINED	named								dds3Particle_SmokeOffsetDraw
-001635a0	68	ps2ParticleKind12Reset	USER_DEFINED	legacy		emitter_copy.c:ps2ParticleKind12Reset						dds3Particle_SphereSpiral2AllBuffInit
+001635a0	68	ps2ParticleKind12Reset	USER_DEFINED	rewritten	shared/src/effect/emitter_buffers.cpp:resetParticles	emitter_copy.c:ps2ParticleKind12Reset	ok	ok	ok	ok	ok	dds3Particle_SphereSpiral2AllBuffInit
 001635e8	64	ps2EffectPartControlNative_001635E8	USER_DEFINED	named								dds3Particle_SphereSpiral2SetScale
 00163628	340	ps2ParticleKind12Copy	USER_DEFINED	legacy		battle_action_creation_frames.c:ps2BattleActionCreation_00163628;emitter_copy.c:ps2ParticleKind12Copy						dds3Particle_SphereSpiral2Create
 00163780	64	ps2ParticleKind12Delete	USER_DEFINED	rewritten	shared/src/effect/effect_release.cpp:deleteSphereSpiral2Particle	particle_release.c:ps2ParticleKind12Delete	ok	ok	ok	ok	ok	dds3Particle_SphereSpiral2Delete

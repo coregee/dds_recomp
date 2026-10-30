@@ -956,6 +956,38 @@ void addKoukaTests(std::vector<TestCase>& t)
                             }};
             });
     }
+    // A particle emitter's buffers made ready: a few slots (0x40 bytes),
+    // waves of any size (0 traps) and step, any size.
+    {
+        struct Reset { const char* name; uint32_t entry; void (*rewrite)(uint32_t emitter); };
+        static const Reset resets[] = {
+            {"dds3Particle_SmokeAllBuffInit", 0x0015e860, nocturne::eff::resetParticles},
+            {"dds3Particle_SparkAllBuffInit", 0x0015eeb0, nocturne::eff::resetParticles},
+            {"dds3Particle_SphereSpiralAllBuffInit", 0x00160048, nocturne::eff::resetParticles},
+            {"dds3Particle_SphereSmokeAllBuffInit", 0x00160748, nocturne::eff::resetParticles},
+            {"dds3Particle_Spark2AllBuffInit", 0x001613b0, nocturne::eff::resetParticles},
+            {"dds3Particle_SparkOffsetAllBuffInit", 0x00162400, nocturne::eff::resetParticles},
+            {"dds3Particle_SmokeOffsetAllBuffInit", 0x00162f30, nocturne::eff::resetParticles},
+            {"dds3Particle_SphereSpiral2AllBuffInit", 0x001635a0, nocturne::eff::resetParticles},
+            {"dds3Particle_SphereAtomAllBuffInit", 0x00161958, nocturne::eff::resetAtomParticles},
+            {"dds3Particle_SpiralAllBuffInit", 0x0015e1e8, nocturne::eff::resetParticleWaves},
+            {"dds3Particle_SphereRingAllBuffInit", 0x00160df8, nocturne::eff::resetRingParticleWaves},
+        };
+        for (const Reset& r : resets)
+            add(r.name, [r](Gen& g) {
+                constexpr uint32_t kEmitter = FW_SCRATCH, kPhysics = FW_SCRATCH + 0x200u, kSlots = FW_SCRATCH + 0x300u;
+                for (uint32_t k = 0; k < 0x200; k += 4)
+                    at<uint32_t>(kSlots + k) = static_cast<uint32_t>(g.rng());
+                at<uint32_t>(kEmitter + 0xf8) = kPhysics;
+                at<uint32_t>(kPhysics + 4) = kSlots;
+                at<uint32_t>(kEmitter + 0x20) = static_cast<uint32_t>(g.range(0, 8));
+                for (const uint32_t group : {0x15cu, 0x160u})
+                    at<uint32_t>(kEmitter + group) = static_cast<uint32_t>(g.chance(5) ? 0 : g.range(1, 4));
+                at<uint32_t>(kEmitter + 0x154) = static_cast<uint32_t>(g.chance(50) ? g.range(0, 40) : g.rng());
+                at<uint32_t>(kEmitter + 0x158) = static_cast<uint32_t>(g.rng());
+                return Pair{[=] { return origVmVoid(r.entry, {kEmitter}); }, [=] { r.rewrite(kEmitter); return uint64_t{0}; }};
+            });
+    }
     add("effBTLSystemGetLength", [](Gen& g) {
         constexpr uint32_t handle = 0x0077cf00u;
         systemEffectWorld(g, handle);
